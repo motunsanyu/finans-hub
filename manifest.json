@@ -1,0 +1,18 @@
+{
+  "name": "Finans TR Hub",
+  "short_name": "Finans TR",
+  "description": "Profesyonel Varlık, Bilanço ve Taksit Yönetimi",
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b0e11",
+  "theme_color": "#fcd535",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Siyah premium arkaplan -->
+  <rect width="512" height="512" rx="112" fill="#0b0e11"/>
+  <rect width="512" height="512" rx="112" fill="none" stroke="#222" stroke-width="6"/>
+  <!-- Keskin Binance Sarısı Geometrik 'F' Harfi -->
+  <path d="M190 140 h150 v45 h-100 v60 h80 v45 h-80 v100 h-50 z" fill="#fcd535"/>
+  <!-- Premium detay (üst nokta) -->
+  <circle cx="360" cy="162" r="16" fill="#fcd535"/>
+</svg>
