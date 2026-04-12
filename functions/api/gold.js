@@ -1,61 +1,35 @@
 export async function onRequest(context) {
-  // We specify TWO sources to increase success rate
-  const sources = [
-    "https://www.altinkaynakkuyumculuk.com/Altin/Kur/Guncel",
-    "https://www.altinkaynak.com/altin/kur/guncel"
-  ];
+  // Ultra-stable JSON endpoint from static.altinkaynak.com
+  const url = "https://static.altinkaynak.com/public/Gold";
   
-  let html = "";
-  let errorMsg = "";
-
-  for (let url of sources) {
-      try {
-        const response = await fetch(url, {
-          headers: {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-            "Cache-Control": "no-cache"
-          },
-          redirect: "follow"
-        });
-        
-        if (response.ok) {
-            html = await response.text();
-            if (html.length > 1000) break; // Success
-        } else {
-            errorMsg += ` Source ${url} returned ${response.status}. `;
-        }
-      } catch (e) {
-        errorMsg += ` Source ${url} error: ${e.message}. `;
-      }
-  }
-
-  if (!html) {
-      return new Response(JSON.stringify({ error: "ALL SOURCES BLOCKED: " + errorMsg }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" }
-      });
-  }
-
   try {
-    const perakendeSplit = html.split('Perakende Altın');
-    const targetHtml = perakendeSplit.length > 1 ? perakendeSplit[1] : html;
-
-    const results = {};
-    const regex = /<div class="pair"[^>]*?>\s*(.*?)\s*<\/div>.*?<div class="value ">([\d.,]+)<\/div>.*?<div class="value ">([\d.,]+)<\/div>/gs;
-    
-    let match;
-    while ((match = regex.exec(targetHtml)) !== null) {
-      const name = match[1].replace(/<[^>]*>?/gm, '').trim();
-      const buy = match[2].trim();
-      const sell = match[3].trim();
-      if (name && buy && sell) {
-        results[name] = { buy, sell };
+    const response = await fetch(url, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept": "application/json"
       }
+    });
+    
+    if (!response.ok) throw new Error("Static API access failed: " + response.status);
+    
+    // Expecting JSON data directly
+    const data = await response.json();
+    
+    // Altinkaynak Static JSON usually returns an array of objects
+    // Finding keys: Gram Altın, 22 Ayar, Çeyrek etc.
+    const results = {};
+    if (Array.isArray(data)) {
+        data.forEach(item => {
+            const name = item.Description || item.Name || "";
+            results[name] = { 
+                buy: (item.Buy || item.Alis || "0").toString().replace('.', ','), 
+                sell: (item.Sell || item.Satis || "0").toString().replace('.', ',')
+            };
+        });
     }
 
     const output = {
-      gram24: results["24 Ayar Has"] || results["Has Toptan"] || results["Has Altın"] || results["Gram Altın"] || {buy:"--", sell:"--"},
+      gram24: results["Gram Altın"] || results["Has Toptan"] || {buy:"--", sell:"--"},
       bilezik22: results["22 Ayar Bilezik"] || {buy:"--", sell:"--"},
       ceyrek: results["Çeyrek Altın"] || {buy:"--", sell:"--"},
       ata: results["Cumhuriyet Altını"] || results["Ata Cumhuriyet"] || {buy:"--", sell:"--"},
@@ -68,7 +42,7 @@ export async function onRequest(context) {
     });
 
   } catch (error) {
-    return new Response(JSON.stringify({ error: "Parsing error: " + error.message }), {
+    return new Response(JSON.stringify({ error: "Static API Error: " + error.message }), {
       status: 200,
       headers: { "Content-Type": "application/json" }
     });
