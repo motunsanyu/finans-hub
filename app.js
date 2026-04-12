@@ -177,56 +177,6 @@ const STORAGE_KEYS = {
 
       // Günlük Güncelleme Kontrolü (Günde 1 kez dünkü borcu kaydet)
       const today = new Date().toLocaleDateString("tr-TR");
-  // ═════════════════════════ ALTIN DETAYLARI ═════════════════════════
-  window.openGoldDetails = function() {
-    document.getElementById("goldModal").style.display = "flex";
-    fetchGoldDetails();
-  };
-  window.closeGoldDetails = function() {
-    document.getElementById("goldModal").style.display = "none";
-  };
-  async function fetchGoldDetails() {
-    const list = document.getElementById("goldDetailsContent");
-    try {
-        const res = await fetch("https://api.genelpara.com/json/?list=altin&symbol=all");
-        if(!res.ok) throw new Error();
-        const data = await res.json();
-        
-        // GenelPara Map: GA=Gram, C=Çeyrek, 22=22 Ayar Bilezik
-        const items = [
-            { label: "Gram Altın (24 Ayar)", buy: data.GA.alis, sell: data.GA.satis, chg: data.GA.degisim },
-            { label: "22 Ayar Bilezik", buy: data["22"].alis, sell: data["22"].satis, chg: data["22"].degisim },
-            { label: "Çeyrek Altın", buy: data.C.alis, sell: data.C.satis, chg: data.C.degisim },
-            { label: "Cumhuriyet Altını", buy: data.L.alis, sell: data.L.satis, chg: data.L.degisim },
-            { label: "Ons Altın (USD)", buy: data.XAUUSD.alis, sell: data.XAUUSD.satis, chg: data.XAUUSD.degisim }
-        ];
-
-        list.innerHTML = items.map(item => {
-            const isUp = item.chg?.includes("+") || parseFloat(item.chg) > 0;
-            return `
-              <div class="gold-item" style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.05);">
-                <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                  <span style="font-weight:700; font-size:13px; color:var(--text-primary);">${item.label}</span>
-                  <span style="color:${isUp?'var(--up)':'var(--down)'}; font-size:11px; font-weight:800;">${item.chg}%</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; font-family:'Space Grotesk', monospace;">
-                   <div style="flex:1;">
-                      <div style="font-size:9px; color:var(--text-secondary); text-transform:uppercase;">Alış</div>
-                      <div style="font-size:14px; font-weight:700;">₺${item.buy}</div>
-                   </div>
-                   <div style="flex:1; text-align:right;">
-                      <div style="font-size:9px; color:var(--text-secondary); text-transform:uppercase;">Satış</div>
-                      <div style="font-size:14px; font-weight:700; color:var(--brand);">₺${item.sell}</div>
-                   </div>
-                </div>
-              </div>
-            `;
-        }).join("");
-    } catch(e) {
-        list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--down);">Veriler şu an alınamıyor...</div>`;
-    }
-  }
-
       const lastUpdate = localStorage.getItem(STORAGE_KEYS.lastDailyUpdate);
       if (lastUpdate !== today && totalTRY > 0) {
           localStorage.setItem(STORAGE_KEYS.yesterdayDebt, totalTRY);
