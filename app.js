@@ -1154,11 +1154,13 @@ const STORAGE_KEYS = {
         ];
         renderGoldItems(items, false);
     } catch(e) {
-        console.warn("API failed, using live Binance simulation:", e);
-        runGoldSimulation();
+        console.warn("Cloudflare API failed:", e);
+        // Hata mesajını geçici olarak ekranda göster (Debug için)
+        const debugMsg = e.message.includes("ALL SOURCES BLOCKED") ? "⚠️ Kaynak Site Engelledi (Bot Engel)" : e.message;
+        runGoldSimulation(debugMsg);
     }
 
-    function runGoldSimulation() {
+    function runGoldSimulation(errorNote = "") {
         const snap = state.financeSnapshot;
         const gram24_spot = snap.goldTry?.price || 0;
         if (gram24_spot <= 0) {
@@ -1172,10 +1174,10 @@ const STORAGE_KEYS = {
             { label: "Cumhuriyet Altını",  sell: formatNumber(gram24_spot * 6.95),  buy: formatNumber(gram24_spot * 6.75) },
             { label: "Ons Altın (USD)",    sell: formatNumber((gram24_spot * 31.10) / (snap.usdTry?.price || 1)), buy: "--" }
         ];
-        renderGoldItems(items, true);
+        renderGoldItems(items, true, errorNote);
     }
 
-    function renderGoldItems(items, isSim) {
+    function renderGoldItems(items, isSim, errorNote = "") {
         list.innerHTML = items.map(item => `
           <div class="gold-item" style="padding:14px; border-bottom:1px solid rgba(255,255,255,0.05);">
             <div style="display:flex; justify-content:space-between; margin-bottom:6px;">

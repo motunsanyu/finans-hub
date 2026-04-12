@@ -1,26 +1,47 @@
 export async function onRequest(context) {
-  const url = "https://www.altinkaynakkuyumculuk.com/Altin/Kur/Guncel";
+  // We specify TWO sources to increase success rate
+  const sources = [
+    "https://www.altinkaynakkuyumculuk.com/Altin/Kur/Guncel",
+    "https://www.altinkaynak.com/altin/kur/guncel"
+  ];
   
-  try {
-    const response = await fetch(url, {
-      headers: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
-        "Accept-Language": "tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7",
-        "Referer": "https://www.google.com/"
+  let html = "";
+  let errorMsg = "";
+
+  for (let url of sources) {
+      try {
+        const response = await fetch(url, {
+          headers: {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Cache-Control": "no-cache"
+          },
+          redirect: "follow"
+        });
+        
+        if (response.ok) {
+            html = await response.text();
+            if (html.length > 1000) break; // Success
+        } else {
+            errorMsg += ` Source ${url} returned ${response.status}. `;
+        }
+      } catch (e) {
+        errorMsg += ` Source ${url} error: ${e.message}. `;
       }
-    });
-    
-    if (!response.ok) throw new Error("Connection failed: " + response.status);
-    
-    let html = await response.text();
-    
-    // Perakende Altın bölümünü izole et (Toptan kısmını atlamış oluruz)
+  }
+
+  if (!html) {
+      return new Response(JSON.stringify({ error: "ALL SOURCES BLOCKED: " + errorMsg }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" }
+      });
+  }
+
+  try {
     const perakendeSplit = html.split('Perakende Altın');
     const targetHtml = perakendeSplit.length > 1 ? perakendeSplit[1] : html;
 
     const results = {};
-    // Altinkaynak specific pattern parsing
     const regex = /<div class="pair"[^>]*?>\s*(.*?)\s*<\/div>.*?<div class="value ">([\d.,]+)<\/div>.*?<div class="value ">([\d.,]+)<\/div>/gs;
     
     let match;
@@ -33,9 +54,8 @@ export async function onRequest(context) {
       }
     }
 
-    // Map to specific categories requested by user
     const output = {
-      gram24: results["24 Ayar Has"] || results["Has Altın"] || results["Gram Altın"] || {buy:"--", sell:"--"},
+      gram24: results["24 Ayar Has"] || results["Has Toptan"] || results["Has Altın"] || results["Gram Altın"] || {buy:"--", sell:"--"},
       bilezik22: results["22 Ayar Bilezik"] || {buy:"--", sell:"--"},
       ceyrek: results["Çeyrek Altın"] || {buy:"--", sell:"--"},
       ata: results["Cumhuriyet Altını"] || results["Ata Cumhuriyet"] || {buy:"--", sell:"--"},
@@ -44,15 +64,11 @@ export async function onRequest(context) {
     };
 
     return new Response(JSON.stringify(output), {
-      headers: { 
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Cache-Control": "no-cache"
-      }
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
     });
 
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ error: "Parsing error: " + error.message }), {
       status: 200,
       headers: { "Content-Type": "application/json" }
     });
