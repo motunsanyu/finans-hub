@@ -1115,14 +1115,15 @@ const STORAGE_KEYS = {
   function formatDateShortYY(d) { if(!d) return "-"; const date = new Date(d); return String(date.getDate()).padStart(2, '0') + "." + String(date.getMonth() + 1).padStart(2, '0') + "." + String(date.getFullYear()).slice(-2); }
   function setText(i, v) { const e = document.getElementById(i); if (e) e.textContent = v; }
 
-  function setText(i, v) { const e = document.getElementById(i); if (e) e.textContent = v; }
-
   // ═════════════════════════ ALTIN DETAYLARI ═════════════════════════
   window.openGoldDetails = function() {
+    console.log("Gold details opening...");
     const modal = document.getElementById("goldModal");
     if(modal) {
         modal.style.display = "flex";
         fetchGoldDetails();
+    } else {
+        console.error("Gold modal not found in DOM");
     }
   };
   window.closeGoldDetails = function() {
@@ -1136,9 +1137,12 @@ const STORAGE_KEYS = {
     list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-secondary);">Veriler bulut üzerinden (Cloudflare) çekiliyor...</div>`;
 
     try {
+        console.log("Fetching from /api/gold...");
         const res = await fetch("/api/gold");
-        if(!res.ok) throw new Error("API hatası");
+        if(!res.ok) throw new Error("Cloudflare API error: " + res.status);
         const data = await res.json();
+        console.log("Data received:", data);
+        
         if (data.error) throw new Error(data.error);
 
         const items = [
@@ -1150,7 +1154,7 @@ const STORAGE_KEYS = {
         ];
         renderGoldItems(items, false);
     } catch(e) {
-        console.warn("API failed, using live simulation:", e);
+        console.warn("API failed, using live Binance simulation:", e);
         runGoldSimulation();
     }
 
@@ -1158,7 +1162,7 @@ const STORAGE_KEYS = {
         const snap = state.financeSnapshot;
         const gram24_spot = snap.goldTry?.price || 0;
         if (gram24_spot <= 0) {
-            list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--down);">Hata: Veriler henüz hazır değil.</div>`;
+            list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--down);">Hata: Canlı veriler henüz yüklenmedi.</div>`;
             return;
         }
         const items = [
@@ -1190,7 +1194,7 @@ const STORAGE_KEYS = {
             </div>
           </div>
         `).join("");
-        const source = isSim ? "Binance Analiz" : "Altınkaynak / Sunucu";
+        const source = isSim ? "Binance Analiz" : "Altınkaynak / Bulut";
         list.innerHTML += `<div style="font-size:11px; font-weight:700; color:var(--brand); text-align:center; margin-top:16px; padding:8px; background:rgba(252,213,53,0.03); border-radius:8px;">📡 Veri Kaynağı: ${source}</div>`;
     }
   }
