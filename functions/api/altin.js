@@ -1,17 +1,25 @@
 export async function onRequest(context) {
   try {
-    // Truncgil API v4 - Stable Financial Data Source
-    const res = await fetch('https://finans.truncgil.com/v4/today.json', {
-      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' }
+    // Attempt to fetch with a very clean header
+    const response = await fetch('https://finans.truncgil.com/v4/today.json', {
+      headers: { 
+        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
+        'Accept': 'application/json'
+      },
+      cf: { cacheTtl: 60 } // Cache for 60 seconds at edge
     });
     
-    if (!res.ok) throw new Error("Kaynak sunucu yanıt vermedi: " + res.status);
+    if (!response.ok) {
+        return new Response(JSON.stringify({ error: `Kaynak Sitede Hata: ${response.status}` }), {
+            headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        });
+    }
     
-    const data = await res.json();
+    const data = await response.json();
 
-    const result = {
+    const output = {
       kaynak: 'Truncgil Finans',
-      guncelleme: new Date().toLocaleString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+      guncelleme: new Date().toLocaleTimeString('tr-TR'),
       veriler: {
         gram_altin:     { alis: data['gram-altin']?.Buying,  satis: data['gram-altin']?.Selling,  degisim: data['gram-altin']?.Change },
         ceyrek_altin:   { alis: data['ceyrek-altin']?.Buying, satis: data['ceyrek-altin']?.Selling, degisim: data['ceyrek-altin']?.Change },
@@ -23,17 +31,16 @@ export async function onRequest(context) {
       }
     };
 
-    return new Response(JSON.stringify(result), {
+    return new Response(JSON.stringify(output), {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
-        'Cache-Control': 'no-cache'
+        'Cache-Control': 'max-age=60'
       }
     });
   } catch (e) {
-    return new Response(JSON.stringify({ error: e.message }), { 
-      status: 200, // Return 200 so app.js can show the message gracefully
-      headers: { 'Content-Type': 'application/json' }
+    return new Response(JSON.stringify({ error: "İletişim Hattı Kesildi: " + e.message }), {
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
     });
   }
 }

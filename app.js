@@ -1148,6 +1148,15 @@ const STORAGE_KEYS = {
 
     try {
       const res = await fetch('/api/altin?t=' + Date.now());
+      
+      // JSON kontrolü (iOS pattern hatasını önlemek için)
+      const contentType = res.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+          const text = await res.text();
+          console.error("Beklenmeyen Yanıt:", text);
+          throw new Error("Sunucudan gecersiz veri geldi. Lutfen az sonra tekrar deneyin.");
+      }
+
       const data = await res.json();
       if (data.error || data.hata) throw new Error(data.error || data.hata);
 
@@ -1172,7 +1181,13 @@ const STORAGE_KEYS = {
       load.style.display = 'none';
       wrap.style.display = 'block';
     } catch (err) {
-      load.innerHTML = `<div style="color:var(--down); font-weight:700; font-size:12px;">⚠️ Hata: ${err.message}</div>`;
+      console.warn("Hata Yakalandi:", err.message);
+      load.innerHTML = `<div style="color:var(--down); font-weight:700; padding:20px; text-align:center;">
+        <div style="font-size:30px; margin-bottom:12px;">📡</div>
+        <div style="font-size:13px;">Veri Bağlantısı Kesildi</div>
+        <div style="font-size:10px; opacity:0.6; margin-top:8px;">${err.message}</div>
+        <button onclick="altinVerisiYukle()" style="margin-top:16px; background:var(--brand); border:none; padding:8px 16px; border-radius:8px; font-weight:800; font-size:11px;">TEKRAR DENE</button>
+      </div>`;
     }
   }
 
