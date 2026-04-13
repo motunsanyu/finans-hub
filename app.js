@@ -1174,44 +1174,7 @@ const STORAGE_KEYS = {
     }
   }
 
-  // ═════════════════════════ PIN GÜVENLİK SİSTEMİ ═════════════════════════
-  let currentPin = "";
-  const CORRECT_PIN = "1923"; // Burayı kullanıcıya göre değiştirebiliriz
-
-  window.appendPin = function(val) {
-      if(currentPin.length < 4) {
-          currentPin += val;
-          updatePinDots();
-          if(currentPin.length === 4) {
-              setTimeout(verifyPin, 200);
-          }
-      }
-  };
-  window.clearPin = function() {
-      currentPin = "";
-      updatePinDots();
-  };
-  function updatePinDots() {
-      const dots = document.querySelectorAll('.pin-dot');
-      dots.forEach((dot, i) => {
-          if(i < currentPin.length) dot.classList.add('active');
-          else dot.classList.remove('active');
-      });
-  }
-  function verifyPin() {
-      if(currentPin === CORRECT_PIN) {
-          document.getElementById("pinScreen").style.display = "none";
-          init();
-      } else {
-          currentPin = "";
-          updatePinDots();
-          const screen = document.querySelector('.pin-container');
-          screen.style.animation = "shake 0.3s ease";
-          setTimeout(() => screen.style.animation = "", 300);
-      }
-  }
-
   document.addEventListener("DOMContentLoaded", () => {
-      // PIN ekranını göster
-      document.getElementById("pinScreen").style.display = "flex";
+    const pinScreen = document.getElementById("pinScreen");
+    if (pinScreen) pinScreen.style.display = "flex";
   });
