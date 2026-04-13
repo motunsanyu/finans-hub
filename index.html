@@ -509,38 +509,8 @@
           <div style="background:rgba(14,203,129,0.1); border:1px solid rgba(14,203,129,0.3); padding:4px 10px; border-radius:6px; font-size:10px; font-weight:800; color:var(--up);">● CANLI</div>
         </div>
 
-        <!-- TradingView Ticker Tape — 60+ Hisse Kaydırmalı Bant -->
-        <div class="tradingview-widget-container" style="margin-bottom:0;">
-          <div class="tradingview-widget-container__widget"></div>
-          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-          {
-            "symbols": [
-              {"proName":"BIST:XU100","title":"BIST 100"},
-              {"proName":"BIST:XU030","title":"BIST 30"},
-              {"proName":"BIST:THYAO","title":"THY"},
-              {"proName":"BIST:GARAN","title":"Garanti"},
-              {"proName":"BIST:AKBNK","title":"Akbank"},
-              {"proName":"BIST:EREGL","title":"Ereğli"},
-              {"proName":"BIST:KCHOL","title":"Koç Holding"},
-              {"proName":"BIST:SAHOL","title":"Sabancı"},
-              {"proName":"BIST:SISE","title":"Şişe Cam"},
-              {"proName":"BIST:TCELL","title":"Turkcell"},
-              {"proName":"BIST:BIMAS","title":"BİM"},
-              {"proName":"BIST:ASELS","title":"ASELSAN"},
-              {"proName":"BIST:YKBNK","title":"Yapı Kredi"}
-            ],
-            "showSymbolLogo": true,
-            "isTransparent": false,
-            "displayMode": "compact",
-            "colorTheme": "dark",
-            "backgroundColor": "#0b0e11",
-            "locale": "tr"
-          }
-          </script>
-        </div>
-
         <!-- TradingView Market Overview — 5 Sektör Sekmesi -->
-        <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container" style="height:650px; background:#0b0e11; border-radius:12px; overflow:hidden;">
           <div class="tradingview-widget-container__widget"></div>
           <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
           {
@@ -554,7 +524,7 @@
             "showSymbolLogo": true,
             "showFloatingTooltip": false,
             "width": "100%",
-            "height": "100%",
+            "height": "650",
             "tabs": [
               {
                 "title": "🏆 BİST 100",
@@ -566,12 +536,12 @@
                   {"s":"BIST:AKBNK","d":"Akbank"},
                   {"s":"BIST:EREGL","d":"Ereğli Demir Çelik"},
                   {"s":"BIST:KCHOL","d":"Koç Holding"},
-                  {"s":"BIST:SISE","d":"Şişe Cam"},
                   {"s":"BIST:ASELS","d":"ASELSAN"},
                   {"s":"BIST:YKBNK","d":"Yapı Kredi"},
-                  {"s":"BIST:ISCTR","d":"İş Bankası C"},
+                  {"s":"BIST:TCELL","d":"Turkcell"},
                   {"s":"BIST:TUPRS","d":"Tüpraş"},
-                  {"s":"BIST:FROTO","d":"Ford Otosan"}
+                  {"s":"BIST:FROTO","d":"Ford Otosan"},
+                  {"s":"BIST:SISE","d":"Şişe Cam"}
                 ]
               },
               {
@@ -583,7 +553,6 @@
                   {"s":"BIST:ISCTR","d":"İş Bankası C"},
                   {"s":"BIST:VAKBN","d":"Vakıfbank"},
                   {"s":"BIST:HALKB","d":"Halkbank"},
-                  {"s":"BIST:TSKB","d":"TSKB"},
                   {"s":"BIST:ALBRK","d":"Albaraka Türk"}
                 ]
               },
@@ -591,13 +560,12 @@
                 "title": "🛡️ Savunma & Tek.",
                 "symbols": [
                   {"s":"BIST:ASELS","d":"ASELSAN"},
-                  {"s":"BIST:LOGO","d":"Logo Yazılım"},
                   {"s":"BIST:TCELL","d":"Turkcell"},
                   {"s":"BIST:TTKOM","d":"Türk Telekom"},
+                  {"s":"BIST:LOGO","d":"Logo Yazılım"},
                   {"s":"BIST:ARCLK","d":"Arçelik"},
                   {"s":"BIST:VESTL","d":"Vestel"},
-                  {"s":"BIST:FROTO","d":"Ford Otosan"},
-                  {"s":"BIST:TAVHL","d":"TAV Havalimanları"}
+                  {"s":"BIST:FROTO","d":"Ford Otosan"}
                 ]
               },
               {
@@ -605,12 +573,11 @@
                 "symbols": [
                   {"s":"BIST:TUPRS","d":"Tüpraş"},
                   {"s":"BIST:PETKM","d":"Petkim"},
-                  {"s":"BIST:KOZAL","d":"Koza Altın"},
                   {"s":"BIST:EREGL","d":"Ereğli Demir"},
                   {"s":"BIST:AKSEN","d":"Aksa Enerji"},
                   {"s":"BIST:ENKAI","d":"Enka İnşaat"},
                   {"s":"BIST:SASA","d":"SASA Polyester"},
-                  {"s":"BIST:KONTR","d":"Kontrolmatik"}
+                  {"s":"BIST:KOZAL","d":"Koza Altın"}
                 ]
               },
               {
@@ -619,16 +586,15 @@
                   {"s":"BIST:BIMAS","d":"BİM Mağazaları"},
                   {"s":"BIST:MGROS","d":"Migros"},
                   {"s":"BIST:SOKM","d":"Şok Marketler"},
-                  {"s":"BIST:MAVI","d":"Mavi Giyim"},
                   {"s":"BIST:ULKER","d":"Ülker Bisküvi"},
-                  {"s":"BIST:CCOLA","d":"Coca-Cola İçcek"},
-                  {"s":"BIST:DOAS","d":"Doğuş Otomotiv"},
+                  {"s":"BIST:CCOLA","d":"Coca-Cola"},
                   {"s":"BIST:KCHOL","d":"Koç Holding"}
                 ]
               }
             ]
           }
           </script>
+        </div>
         </div>
 
         <div style="padding:12px 16px; text-align:center; color:var(--text-secondary); font-size:10px; font-weight:600; border-top:1px solid var(--line);">
