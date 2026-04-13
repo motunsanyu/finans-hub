@@ -497,17 +497,223 @@
         <p id="ligTimestamp" style="color:var(--text-secondary); font-size:11px; text-align:center; padding:8px 16px 24px;"></p>
       </section>
 
+      <!-- ═════════════════════════ BİST SEKMESİ ═════════════════════════ -->
+      <section id="bist" class="tab-page">
+
+        <!-- Başlık -->
+        <div style="padding:16px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--line);">
+          <div>
+            <div style="font-size:18px; font-weight:800; color:var(--text-primary);">📈 BİST Hisse Senetleri</div>
+            <div style="font-size:11px; color:var(--text-secondary); margin-top:2px; font-weight:600;">Canlı veriler • TradingView</div>
+          </div>
+          <div style="background:rgba(14,203,129,0.1); border:1px solid rgba(14,203,129,0.3); padding:4px 10px; border-radius:6px; font-size:10px; font-weight:800; color:var(--up);">● CANLI</div>
+        </div>
+
+        <!-- TradingView Ticker Tape — 60+ Hisse Kaydırmalı Bant -->
+        <div class="tradingview-widget-container" style="margin-bottom:0;">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+          {
+            "symbols": [
+              {"proName":"BIST:XU100","title":"BIST 100"},
+              {"proName":"BIST:XU030","title":"BIST 30"},
+              {"proName":"BIST:THYAO","title":"THY"},
+              {"proName":"BIST:GARAN","title":"Garanti"},
+              {"proName":"BIST:AKBNK","title":"Akbank"},
+              {"proName":"BIST:EREGL","title":"Ereğli"},
+              {"proName":"BIST:KCHOL","title":"Koç Holding"},
+              {"proName":"BIST:SAHOL","title":"Sabancı"},
+              {"proName":"BIST:SISE","title":"Şişe Cam"},
+              {"proName":"BIST:TCELL","title":"Turkcell"},
+              {"proName":"BIST:BIMAS","title":"BİM"},
+              {"proName":"BIST:ASELS","title":"ASELSAN"},
+              {"proName":"BIST:YKBNK","title":"Yapı Kredi"},
+              {"proName":"BIST:TUPRS","title":"Tüpraş"},
+              {"proName":"BIST:FROTO","title":"Ford Otosan"},
+              {"proName":"BIST:TOASO","title":"Tofaş"},
+              {"proName":"BIST:ARCLK","title":"Arçelik"},
+              {"proName":"BIST:PGSUS","title":"Pegasus"},
+              {"proName":"BIST:PETKM","title":"Petkim"},
+              {"proName":"BIST:EKGYO","title":"Emlak GYO"},
+              {"proName":"BIST:KOZAL","title":"Koza Altın"},
+              {"proName":"BIST:ISCTR","title":"İş Bankası"},
+              {"proName":"BIST:VAKBN","title":"Vakıfbank"},
+              {"proName":"BIST:HALKB","title":"Halkbank"},
+              {"proName":"BIST:TAVHL","title":"TAV Hav."},
+              {"proName":"BIST:MGROS","title":"Migros"},
+              {"proName":"BIST:OTKAR","title":"Otokar"},
+              {"proName":"BIST:LOGO","title":"Logo"},
+              {"proName":"BIST:SOKM","title":"Şok Market"},
+              {"proName":"BIST:VESTL","title":"Vestel"},
+              {"proName":"BIST:TTKOM","title":"Türk Telekom"},
+              {"proName":"BIST:AKSEN","title":"Aksa Enerji"},
+              {"proName":"BIST:ENKAI","title":"Enka"},
+              {"proName":"BIST:TKFEN","title":"Tekfen"},
+              {"proName":"BIST:MAVI","title":"Mavi"},
+              {"proName":"BIST:DOHOL","title":"Doğan Holding"},
+              {"proName":"BIST:ULKER","title":"Ülker"},
+              {"proName":"BIST:CCOLA","title":"Coca-Cola İçcek"},
+              {"proName":"BIST:TRGYO","title":"Torunlar GYO"},
+              {"proName":"BIST:SASA","title":"SASA Polyester"}
+            ],
+            "showSymbolLogo": false,
+            "isTransparent": true,
+            "displayMode": "compact",
+            "colorTheme": "dark",
+            "locale": "tr"
+          }
+          </script>
+        </div>
+
+        <!-- TradingView Market Overview — 5 Sektör Sekmesi -->
+        <div class="tradingview-widget-container">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
+          {
+            "colorTheme": "dark",
+            "dateRange": "1D",
+            "showChart": true,
+            "locale": "tr",
+            "largeChartUrl": "",
+            "isTransparent": true,
+            "showSymbolLogo": true,
+            "showFloatingTooltip": false,
+            "width": "100%",
+            "height": "700",
+            "tabs": [
+              {
+                "title": "🏆 BİST 100",
+                "symbols": [
+                  {"s":"BIST:XU100","d":"BIST 100 Endeks"},
+                  {"s":"BIST:XU030","d":"BIST 30 Endeks"},
+                  {"s":"BIST:THYAO","d":"Türk Hava Yolları"},
+                  {"s":"BIST:GARAN","d":"Garanti Bankası"},
+                  {"s":"BIST:AKBNK","d":"Akbank"},
+                  {"s":"BIST:EREGL","d":"Ereğli Demir Çelik"},
+                  {"s":"BIST:KCHOL","d":"Koç Holding"},
+                  {"s":"BIST:SAHOL","d":"Sabancı Holding"},
+                  {"s":"BIST:SISE","d":"Şişe Cam"},
+                  {"s":"BIST:TCELL","d":"Turkcell"},
+                  {"s":"BIST:BIMAS","d":"BİM Mağazaları"},
+                  {"s":"BIST:ASELS","d":"ASELSAN"},
+                  {"s":"BIST:YKBNK","d":"Yapı Kredi"},
+                  {"s":"BIST:ISCTR","d":"İş Bankası C"},
+                  {"s":"BIST:TUPRS","d":"Tüpraş"},
+                  {"s":"BIST:FROTO","d":"Ford Otosan"},
+                  {"s":"BIST:TOASO","d":"Tofaş"},
+                  {"s":"BIST:ARCLK","d":"Arçelik"},
+                  {"s":"BIST:PGSUS","d":"Pegasus Hava Yolları"},
+                  {"s":"BIST:PETKM","d":"Petkim"},
+                  {"s":"BIST:EKGYO","d":"Emlak Konut GYO"},
+                  {"s":"BIST:KOZAL","d":"Koza Altın"},
+                  {"s":"BIST:DOHOL","d":"Doğan Holding"},
+                  {"s":"BIST:MGROS","d":"Migros"},
+                  {"s":"BIST:TAVHL","d":"TAV Havalimanları"},
+                  {"s":"BIST:OTKAR","d":"Otokar"},
+                  {"s":"BIST:LOGO","d":"Logo Yazılım"},
+                  {"s":"BIST:SOKM","d":"Şok Marketler"},
+                  {"s":"BIST:ENKAI","d":"Enka İnşaat"},
+                  {"s":"BIST:TKFEN","d":"Tekfen Holding"}
+                ],
+                "originalTitle": "BİST 100"
+              },
+              {
+                "title": "🏦 Bankacılık",
+                "symbols": [
+                  {"s":"BIST:AKBNK","d":"Akbank"},
+                  {"s":"BIST:GARAN","d":"Garanti Bankası"},
+                  {"s":"BIST:YKBNK","d":"Yapı Kredi"},
+                  {"s":"BIST:ISCTR","d":"İş Bankası C"},
+                  {"s":"BIST:VAKBN","d":"Vakıfbank"},
+                  {"s":"BIST:HALKB","d":"Halkbank"},
+                  {"s":"BIST:TSKB","d":"TSKB"},
+                  {"s":"BIST:ALBRK","d":"Albaraka Türk"},
+                  {"s":"BIST:QNBFB","d":"QNB Finansbank"},
+                  {"s":"BIST:SKBNK","d":"Şekerbank"},
+                  {"s":"BIST:BNTAS","d":"Bantas"},
+                  {"s":"BIST:KTLEV","d":"Katılım Emeklilik"}
+                ],
+                "originalTitle": "Bankacılık"
+              },
+              {
+                "title": "🛡️ Savunma & Tek.",
+                "symbols": [
+                  {"s":"BIST:ASELS","d":"ASELSAN"},
+                  {"s":"BIST:LOGO","d":"Logo Yazılım"},
+                  {"s":"BIST:TCELL","d":"Turkcell"},
+                  {"s":"BIST:TTKOM","d":"Türk Telekom"},
+                  {"s":"BIST:ARCLK","d":"Arçelik"},
+                  {"s":"BIST:VESTL","d":"Vestel"},
+                  {"s":"BIST:FROTO","d":"Ford Otosan"},
+                  {"s":"BIST:TOASO","d":"Tofaş"},
+                  {"s":"BIST:OTKAR","d":"Otokar"},
+                  {"s":"BIST:THYAO","d":"Türk Hava Yolları"},
+                  {"s":"BIST:PGSUS","d":"Pegasus"},
+                  {"s":"BIST:TAVHL","d":"TAV Havalimanları"}
+                ],
+                "originalTitle": "Savunma & Teknoloji"
+              },
+              {
+                "title": "⚡ Enerji & Sanayi",
+                "symbols": [
+                  {"s":"BIST:TUPRS","d":"Tüpraş"},
+                  {"s":"BIST:PETKM","d":"Petkim"},
+                  {"s":"BIST:KOZAL","d":"Koza Altın"},
+                  {"s":"BIST:EREGL","d":"Ereğli Demir"},
+                  {"s":"BIST:AKSEN","d":"Aksa Enerji"},
+                  {"s":"BIST:ODAS","d":"Odaş Elektrik"},
+                  {"s":"BIST:ENKAI","d":"Enka İnşaat"},
+                  {"s":"BIST:TKFEN","d":"Tekfen Holding"},
+                  {"s":"BIST:AYGAZ","d":"Aygaz"},
+                  {"s":"BIST:SASA","d":"SASA Polyester"},
+                  {"s":"BIST:GUBRF","d":"Gübre Fabrikaları"},
+                  {"s":"BIST:KONTR","d":"Kontrolmatik"},
+                  {"s":"BIST:BRISA","d":"Brisa"}
+                ],
+                "originalTitle": "Enerji & Sanayi"
+              },
+              {
+                "title": "🛒 Perakende & Gıda",
+                "symbols": [
+                  {"s":"BIST:BIMAS","d":"BİM Mağazaları"},
+                  {"s":"BIST:MGROS","d":"Migros"},
+                  {"s":"BIST:SOKM","d":"Şok Marketler"},
+                  {"s":"BIST:MAVI","d":"Mavi Giyim"},
+                  {"s":"BIST:ULKER","d":"Ülker Bisküvi"},
+                  {"s":"BIST:CCOLA","d":"Coca-Cola İçcek"},
+                  {"s":"BIST:AEFES","d":"Anadolu Efes"},
+                  {"s":"BIST:DOAS","d":"Doğuş Otomotiv"},
+                  {"s":"BIST:EKGYO","d":"Emlak Konut GYO"},
+                  {"s":"BIST:TRGYO","d":"Torunlar GYO"},
+                  {"s":"BIST:KCHOL","d":"Koç Holding"},
+                  {"s":"BIST:SAHOL","d":"Sabancı Holding"},
+                  {"s":"BIST:DOHOL","d":"Doğan Holding"}
+                ],
+                "originalTitle": "Perakende & Gıda"
+              }
+            ]
+          }
+          </script>
+        </div>
+
+        <div style="padding:12px 16px; text-align:center; color:var(--text-secondary); font-size:10px; font-weight:600; border-top:1px solid var(--line);">
+          📊 Veriler TradingView tarafından sağlanmaktadır • Anlık BIST piyasa verileri
+        </div>
+
+      </section>
+
 
     </main>
 
     <!-- ═════════════════════════ ALT NAVİGASYON ═════════════════════════ -->
     <nav class="bottom-nav">
-      <button class="tab-btn active" data-tab="home"><div class="nav-icon">🏠</div><span>Piyasa</span></button>
-      <button class="tab-btn" data-tab="vault"><div class="nav-icon">🏦</div><span>Kasa</span></button>
-      <button class="tab-btn" data-tab="fuel"><div class="nav-icon">⛽</div><span>Yakıt</span></button>
-      <button class="tab-btn" data-tab="school"><div class="nav-icon">💳</div><span>Taksit</span></button>
-      <button class="tab-btn" data-tab="days"><div class="nav-icon">⏱️</div><span>Zaman</span></button>
-      <button class="tab-btn" data-tab="superlig"><div class="nav-icon">⚽</div><span>Lig</span></button>
+      <button class="tab-btn active" data-tab="home" style="min-width:60px;"><div class="nav-icon">🏠</div><span>Piyasa</span></button>
+      <button class="tab-btn" data-tab="vault" style="min-width:60px;"><div class="nav-icon">🏦</div><span>Kasa</span></button>
+      <button class="tab-btn" data-tab="bist" style="min-width:60px;"><div class="nav-icon">📈</div><span>BİST</span></button>
+      <button class="tab-btn" data-tab="fuel" style="min-width:60px;"><div class="nav-icon">⛽</div><span>Yakıt</span></button>
+      <button class="tab-btn" data-tab="school" style="min-width:60px;"><div class="nav-icon">💳</div><span>Taksit</span></button>
+      <button class="tab-btn" data-tab="days" style="min-width:60px;"><div class="nav-icon">⏱️</div><span>Zaman</span></button>
+      <button class="tab-btn" data-tab="superlig" style="min-width:60px;"><div class="nav-icon">⚽</div><span>Lig</span></button>
     </nav>
 
 
