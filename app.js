@@ -1169,8 +1169,7 @@ const STORAGE_KEYS = {
             </div>
           </div>
         `).join("");
-        const source = isSim ? "Binance Analiz" : "Altınkaynak / Bulut";
-        list.innerHTML += `<div style="font-size:11px; font-weight:700; color:var(--brand); text-align:center; margin-top:16px; padding:8px; background:rgba(252,213,53,0.03); border-radius:8px;">📡 Veri Kaynağı: ${source}</div>`;
+        list.innerHTML += `<div style="font-size:11px; font-weight:700; color:var(--brand); text-align:center; margin-top:16px; padding:8px; background:rgba(252,213,53,0.03); border-radius:8px;">📡 Veri Kaynağı: Altınkaynak / Bulut</div>`;
     }
   }
 
