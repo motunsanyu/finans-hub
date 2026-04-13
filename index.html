@@ -157,7 +157,7 @@
             <div class="m-right"><div class="pill neutral" id="xrpUsdChg">--</div></div>
           </div>
 
-          <div class="market-row" onclick="openGoldDetails()">
+          <div class="market-row" onclick="xauAc()" style="cursor:pointer;" title="Detaylı altın borsası için tıkla">
             <div class="m-left">
               <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/pax.png" class="market-icon">
               <div class="m-symbol">XAU<span class="m-pair">/TRY (Gr)</span></div>
@@ -511,17 +511,46 @@
     </nav>
 
 
-  <!-- ════ALTIN DETAY MODAL════ -->
-  <div id="goldModal" class="modal-overlay" style="display:none; z-index:2000;">
-    <div class="modal-content" style="max-width:360px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h2 style="font-size:18px;">Canlı Altın Borsası</h2>
-        <button onclick="closeGoldDetails()" style="background:transparent; border:none; color:var(--text-secondary); font-size:28px;">&times;</button>
+  <!-- 🥇 Canlı Altın Borsası Modal (Research Integrated) -->
+  <div id="altinModal" class="modal-overlay" style="display:none; z-index:9999; font-family:'Manrope', sans-serif;">
+    <div style="background:var(--bg-primary); margin:20px auto; max-width:480px; width:92%; border-radius:20px; padding:24px; color:var(--text-primary); border:1px solid rgba(252,213,53,0.3); box-shadow:0 25px 50px rgba(0,0,0,0.8); position:relative;">
+      
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+        <div>
+          <h2 style="margin:0; color:var(--brand); font-size:20px; font-weight:800; letter-spacing:-0.5px;">🥇 Canlı Altın Borsası</h2>
+          <div id="altinGuncelleme" style="color:var(--text-secondary); font-size:11px; margin-top:4px; font-weight:600;">Son güncelleme: --</div>
+        </div>
+        <button onclick="document.getElementById('altinModal').style.display='none'" 
+                style="background:rgba(255,255,255,0.05); border:none; color:var(--text-primary); width:36px; height:36px; border-radius:10px; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center;">✕</button>
       </div>
-      <div id="goldDetailsContent">
-        <div style="text-align:center; padding:20px;">Veriler yükleniyor...</div>
+
+      <div id="altinYukleniyor" style="text-align:center; padding:40px 0; color:var(--text-secondary);">
+        <div style="font-size:24px; margin-bottom:12px;">⏳</div>
+        <div style="font-size:13px; font-weight:600;">Piyasa verileri okunuyor...</div>
       </div>
-      <div style="margin-top:20px; font-size:11px; color:var(--text-secondary); text-align:center;">Kaynak: Altınkaynak / GenelPara</div>
+
+      <div id="altinTabloWrap" style="display:none;">
+        <div style="overflow-x:auto;">
+          <table style="width:100%; border-collapse:separate; border-spacing:0 8px; font-size:13px;">
+            <thead>
+              <tr style="color:var(--text-secondary); font-size:11px; text-transform:uppercase; letter-spacing:1px; font-weight:800;">
+                <th style="padding:0 8px; text-align:left;">Tür</th>
+                <th style="padding:0 8px; text-align:right;">Alış (₺)</th>
+                <th style="padding:0 8px; text-align:right;">Satış (₺)</th>
+              </tr>
+            </thead>
+            <tbody id="altinTbody"></tbody>
+          </table>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.05);">
+          <div style="color:var(--text-secondary); font-size:10px; font-weight:600;">Kaynak: Truncgil • 🔥 60sn</div>
+          <button onclick="altinVerisiYukle()" 
+                  style="background:var(--brand); color:#000; border:none; padding:8px 16px; border-radius:8px; font-weight:800; cursor:pointer; font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            🔄 Yenile
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 

@@ -1115,97 +1115,74 @@ const STORAGE_KEYS = {
   function formatDateShortYY(d) { if(!d) return "-"; const date = new Date(d); return String(date.getDate()).padStart(2, '0') + "." + String(date.getMonth() + 1).padStart(2, '0') + "." + String(date.getFullYear()).slice(-2); }
   function setText(i, v) { const e = document.getElementById(i); if (e) e.textContent = v; }
 
-  // ═════════════════════════ ALTIN DETAYLARI ═════════════════════════
-  window.openGoldDetails = function() {
-    console.log("Gold details opening...");
-    const modal = document.getElementById("goldModal");
+  // ═════════════════════════ CANLI ALTIN BORSASI (Research Integrated) ═════════════════════════
+  const ALTIN_TURLERI = [
+    { key: 'gram_altin',     ad: '📊 Gram Altın (24 Ayar)' },
+    { key: 'bilezik_22',     ad: '💛 22 Ayar Bilezik' },
+    { key: 'ceyrek_altin',   ad: '🪙 Çeyrek Altın' },
+    { key: 'yarim_altin',    ad: '🥈 Yarım Altın' },
+    { key: 'tam_altin',      ad: '🏅 Tam Altın' },
+    { key: 'ata_cumhuriyet', ad: '🎖️ Ata/Cumhuriyet' },
+    { key: 'altin_ons',      ad: '🌍 Altın (ONS/$)' },
+  ];
+
+  window.xauAc = function() {
+    const modal = document.getElementById('altinModal');
     if(modal) {
-        modal.style.display = "flex";
-        fetchGoldDetails();
-    } else {
-        console.error("Gold modal not found in DOM");
+        modal.style.display = 'flex';
+        altinVerisiYukle();
+        // Otomatik yenileme kur
+        if(window._altinInterval) clearInterval(window._altinInterval);
+        window._altinInterval = setInterval(altinVerisiYukle, 60000);
     }
   };
-  window.closeGoldDetails = function() {
-    const modal = document.getElementById("goldModal");
-    if(modal) modal.style.display = "none";
-  };
-  async function fetchGoldDetails() {
-    const list = document.getElementById("goldDetailsContent");
-    if(!list) return;
 
-    list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-secondary);">Gerçek Altınkaynak verileri Cloudflare üzerinden çekiliyor...</div>`;
+  async function altinVerisiYukle() {
+    const wrap = document.getElementById('altinTabloWrap');
+    const load = document.getElementById('altinYukleniyor');
+    const tbody = document.getElementById('altinTbody');
+    if(!wrap || !load || !tbody) return;
+
+    load.style.display = 'block';
+    wrap.style.display = 'none';
 
     try {
-        let res = await fetch("/gold?t=" + Date.now());
-        if(res.status === 404) res = await fetch("/.netlify/functions/gold?t=" + Date.now());
-        
-        let data;
-        if (res.status === 404) {
-             console.warn("Serverless functions not found (404). Switching to direct proxy bailout...");
-             const target = encodeURIComponent("https://static.altinkaynak.com/public/Gold");
-             const proxyRes = await fetch(`https://api.allorigins.win/get?url=${target}`);
-             if (!proxyRes.ok) throw new Error("Tüm yollar denendi ama veri alınamadı.");
-             const wrapper = await proxyRes.json();
-             const rawData = JSON.parse(wrapper.contents);
-             
-             // Client-side mapping for Altinkaynak JSON
-             const results = {};
-             if (Array.isArray(rawData)) {
-                 rawData.forEach(item => {
-                     const name = item.Description || item.Name || "";
-                     results[name] = { 
-                         buy: (item.Buy || item.Alis || "0").toString().replace('.', ','), 
-                         sell: (item.Sell || item.Satis || "0").toString().replace('.', ',')
-                     };
-                 });
-             }
-             data = {
-                 gram24: results["Gram Altın"] || results["24 Ayar Has"] || {buy:"--", sell:"--"},
-                 bilezik22: results["22 Ayar Bilezik"] || {buy:"--", sell:"--"},
-                 ceyrek: results["Çeyrek Altın"] || {buy:"--", sell:"--"},
-                 ata: results["Cumhuriyet Altını"] || {buy:"--", sell:"--"},
-                 ons: results["Ons Altın"] || {buy:"0", sell:"0"}
-             };
-        } else {
-             if (!res.ok) throw new Error("Bağlantı Hatası: " + res.status);
-             data = await res.json();
-        }
-        
-        if (data.error) throw new Error(data.error);
+      const res = await fetch('/api/altin?t=' + Date.now());
+      const data = await res.json();
+      if (data.error || data.hata) throw new Error(data.error || data.hata);
 
-        const items = [
-            { label: "Gram Altın (24 Ayar)", sell: data.gram24.sell, buy: data.gram24.buy },
-            { label: "22 Ayar Bilezik",     sell: data.bilezik22.sell, buy: data.bilezik22.buy },
-            { label: "Çeyrek Altın",      sell: data.ceyrek.sell, buy: data.ceyrek.buy },
-            { label: "Ata Cumhuriyet",    sell: data.ata.sell, buy: data.ata.buy },
-            { label: "Ons Altın (USD)",    sell: data.ons?.sell || "--", buy: data.ons?.buy || "--" }
-        ];
+      tbody.innerHTML = '';
+      ALTIN_TURLERI.forEach((tur, i) => {
+        const v = data.veriler[tur.key];
+        if (!v) return;
 
-        list.innerHTML = items.map(item => `
-          <div class="gold-item" style="padding:14px; border-bottom:1px solid rgba(255,255,255,0.05);">
-            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-              <span style="font-weight:700; font-size:14px; color:var(--text-primary);">${item.label}</span>
-              <span style="color:var(--brand); font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:1px;">CANLI</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-family:'Space Grotesk', monospace;">
-               <div style="flex:1;">
-                  <div style="font-size:10px; color:var(--text-secondary); text-transform:uppercase; font-weight:700;">Alış</div>
-                  <div style="font-size:16px; font-weight:700;">₺${item.buy}</div>
-               </div>
-               <div style="flex:1; text-align:right;">
-                  <div style="font-size:10px; color:var(--text-secondary); text-transform:uppercase; font-weight:700;">Satış</div>
-                  <div style="font-size:16px; font-weight:800; color:var(--brand);">₺${item.sell}</div>
-               </div>
-            </div>
-          </div>
-        `).join("");
-        list.innerHTML += `<div style="font-size:11px; font-weight:700; color:var(--brand); text-align:center; margin-top:16px; padding:8px; background:rgba(252,213,53,0.03); border-radius:8px;">📡 Veri Kaynağı: Altınkaynak / Bulut</div>`;
-    } catch(e) {
-        console.warn("API Hatası:", e);
-        list.innerHTML = `<div style="text-align:center; padding:30px; color:var(--down); font-size:11px;">⚠️ Veri Alınamadı<br>${e.message}</div>`;
+        const tr = document.createElement('tr');
+        tr.style.cssText = `background: ${i % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent'}; border-bottom:1px solid rgba(255,255,255,0.03);`;
+        tr.innerHTML = `
+          <td style="padding:14px 8px; font-weight:700; color:var(--text-primary); font-size:13px;">${tur.ad}</td>
+          <td style="padding:14px 8px; text-align:right; color:var(--up); font-family:'Space Grotesk', monospace; font-weight:700;">${v.alis || '--'} ₺</td>
+          <td style="padding:14px 8px; text-align:right; color:var(--brand); font-family:'Space Grotesk', monospace; font-weight:800; font-size:14px;">${v.satis || '--'} ₺</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const timeEl = document.getElementById('altinGuncelleme');
+      if(timeEl) timeEl.textContent = `Son güncelleme: ${data.guncelleme}`;
+      
+      load.style.display = 'none';
+      wrap.style.display = 'block';
+    } catch (err) {
+      load.innerHTML = `<div style="color:var(--down); font-weight:700; font-size:12px;">⚠️ Hata: ${err.message}</div>`;
     }
   }
+
+  // Modal dışı tıklama
+  document.getElementById('altinModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      this.style.display = 'none';
+      if(window._altinInterval) clearInterval(window._altinInterval);
+    }
+  });
 
   document.addEventListener("DOMContentLoaded", () => {
     const pinScreen = document.getElementById("pinScreen");
