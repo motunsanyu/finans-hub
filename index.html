@@ -18,15 +18,22 @@
 
   <!-- ════ŞİFRE EKRANI / APP LOCK════ -->
   <div id="pinScreen">
-    <div style="text-align:center; margin-bottom: 24px;">
-      <div class="logo-box" style="display:inline-block; margin-bottom:16px; font-size:18px;">FINANS TR</div>
-      <h2 id="pinTitle" style="font-size:16px; color:var(--text-secondary);">Şifrenizi Girin</h2>
+    <!-- Açılış Animasyonu Katmanı -->
+    <div id="splashLayer">
+      <div class="splash-logo">FINANS TR</div>
     </div>
-    <div class="pin-dots">
-      <div class="pin-dot" id="dot1"></div>
-      <div class="pin-dot" id="dot2"></div>
-      <div class="pin-dot" id="dot3"></div>
-      <div class="pin-dot" id="dot4"></div>
+
+    <div id="pinContent" style="transition: opacity 0.4s ease;">
+      <div style="text-align:center; margin-bottom: 24px;">
+        <div class="logo-box" style="display:inline-block; margin-bottom:16px; font-size:18px;">FINANS TR</div>
+        <h2 id="pinTitle" style="font-size:16px; color:var(--text-secondary);">Şifrenizi Girin</h2>
+      </div>
+      <div class="pin-dots">
+        <div class="pin-dot" id="dot1"></div>
+        <div class="pin-dot" id="dot2"></div>
+        <div class="pin-dot" id="dot3"></div>
+        <div class="pin-dot" id="dot4"></div>
+      </div>
     </div>
     <div class="keypad">
       <button class="key-btn" onclick="pressPin(1)">1</button>

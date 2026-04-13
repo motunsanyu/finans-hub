@@ -128,7 +128,38 @@ const STORAGE_KEYS = {
       else if (pinStage === "setup2") { if(enteredPin === tempSetupPin) { localStorage.setItem(STORAGE_KEYS.appPin, enteredPin); alert("Güvenlik Şifresi Kaydedildi!"); unlockApp(); } else { alert("Şifreler Eşleşmedi. Baştan Alınıyor."); enteredPin = ""; tempSetupPin = ""; updatePinDots(); pinStage = "setup1"; pinTitle.textContent = "Uygulama İçin Yeni Şifre (PIN) Belirleyin"; } } 
       else if (pinStage === "login") { if(enteredPin === SAVED_PIN) unlockApp(); else { alert("Hatalı Şifre!"); enteredPin = ""; updatePinDots(); } }
   }
-  function unlockApp() { pinScreen.style.display = "none"; appShell.style.display = "block"; init(); }
+  function unlockApp() {
+      const pinContent = document.getElementById("pinContent");
+      const splashLayer = document.getElementById("splashLayer");
+      const splashLogo = splashLayer.querySelector(".splash-logo");
+      const keypad = document.querySelector(".keypad");
+      
+      // 1. PIN UI'yı temizle
+      if(pinContent) pinContent.style.opacity = "0";
+      if(keypad) keypad.style.opacity = "0";
+      
+      // 2. Splash Ekranını Başlat
+      setTimeout(() => {
+          splashLayer.style.display = "flex";
+          splashLogo.classList.add("anim-logo-in");
+          
+          // Arka planda uygulamayı hazırla (Kullanıcı animasyonu izlerken biz yükleyelim)
+          appShell.style.opacity = "0";
+          appShell.style.display = "block";
+          init();
+          
+          // 3. Final: Ana Sayfaya Geçiş
+          setTimeout(() => {
+              pinScreen.classList.add("fade-out");
+              appShell.style.transition = "opacity 0.8s ease";
+              appShell.style.opacity = "1";
+              
+              setTimeout(() => {
+                  pinScreen.style.display = "none";
+              }, 500);
+          }, 1200); // Animasyon süresi (1.2sn)
+      }, 300);
+  }
   
   // ═════════════════════════ SIDEBAR VE TOPLAM BORÇ ═════════════════════════
   function bindSidebar() {
