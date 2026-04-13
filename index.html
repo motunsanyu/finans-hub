@@ -497,67 +497,21 @@
         <p id="ligTimestamp" style="color:var(--text-secondary); font-size:11px; text-align:center; padding:8px 16px 24px;"></p>
       </section>
 
-      <!-- ═════════════════════════ BİST SEKMESİ ═════════════════════════ -->
-      <section id="bist" class="tab-page">
-
-        <!-- Başlık -->
-        <div style="padding:16px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--line);">
-          <div>
-            <div style="font-size:18px; font-weight:800; color:var(--text-primary);">📈 BİST Hisse Senetleri</div>
-            <div style="font-size:11px; color:var(--text-secondary); margin-top:2px; font-weight:600;">Canlı veriler • TradingView</div>
-          </div>
-          <div style="background:rgba(14,203,129,0.1); border:1px solid rgba(14,203,129,0.3); padding:4px 10px; border-radius:6px; font-size:10px; font-weight:800; color:var(--up);">● CANLI</div>
-        </div>
-
-        <!-- BİST Piyasa İzleme Listesi (Arama Özellikli) -->
-        <div style="height:700px; background:#0b0e11; border-radius:12px; overflow:hidden; border:1px solid var(--line); margin-top:8px;">
-          <div class="tradingview-widget-container">
-            <div class="tradingview-widget-container__widget"></div>
-            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
-            {
-              "width": "100%",
-              "height": "700",
-              "symbolsGroups": [
-                {
-                  "name": "🏆 BİST 100",
-                  "originalName": "Indices",
-                  "symbols": [
-                    { "name": "BIST:XU100", "displayName": "BIST 100" },
-                    { "name": "BIST:XU030", "displayName": "BIST 30" },
-                    { "name": "BIST:THYAO", "displayName": "Türk Hava Yolları" },
-                    { "name": "BIST:GARAN", "displayName": "Garanti" },
-                    { "name": "BIST:AKBNK", "displayName": "Akbank" },
-                    { "name": "BIST:EREGL", "displayName": "Ereğli Demir" },
-                    { "name": "BIST:ASELS", "displayName": "Aselsan" },
-                    { "name": "BIST:TCELL", "displayName": "Turkcell" }
-                  ]
-                }
-              ],
-              "showSymbolLogo": true,
-              "colorTheme": "dark",
-              "isTransparent": false,
-              "locale": "tr",
-              "backgroundColor": "#0b0e11"
-            }
-            </script>
-          </div>
-        </div>
-        
-        <div style="padding:12px 16px; text-align:center; color:var(--text-secondary); font-size:10px; font-weight:600; border-top:1px solid var(--line);">
-          📊 Borsa İstanbul • Canlı Piyasa Verileri
-        </div>
-
-      </section>
-
-
     </main>
 
     <!-- ═════════════════════════ ALT NAVİGASYON ═════════════════════════ -->
     <nav class="bottom-nav">
-      <button class="tab-btn active" data-tab="home"><div class="nav-icon">🏠</div><span>Piyasa</span></button>
+      <!-- Sol Taraf (2 İkon) -->
       <button class="tab-btn" data-tab="vault"><div class="nav-icon">🏦</div><span>Kasa</span></button>
-      <button class="tab-btn" data-tab="bist"><div class="nav-icon">📈</div><span>BİST</span></button>
       <button class="tab-btn" data-tab="fuel"><div class="nav-icon">⛽</div><span>Yakıt</span></button>
+      
+      <!-- Ana Sayfa (Merkez) -->
+      <button class="tab-btn active main-btn" data-tab="home">
+        <div class="nav-icon main-icon">🏠</div>
+        <span>Piyasa</span>
+      </button>
+      
+      <!-- Sağ Taraf (3 İkon) -->
       <button class="tab-btn" data-tab="school"><div class="nav-icon">💳</div><span>Taksit</span></button>
       <button class="tab-btn" data-tab="days"><div class="nav-icon">⏱️</div><span>Zaman</span></button>
       <button class="tab-btn" data-tab="superlig"><div class="nav-icon">⚽</div><span>Lig</span></button>
