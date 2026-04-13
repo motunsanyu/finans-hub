@@ -434,20 +434,11 @@
           </div>
         </div>
 
-        <!-- ZONE LEGEND -->
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; padding:12px 16px; background:var(--bg-secondary); border-bottom:1px solid var(--line);">
-          <div style="display:flex; align-items:center; gap:8px; font-size:10px; color:var(--text-secondary);">
-            <div style="width:12px; height:4px; border-radius:10px; background:var(--up);"></div> Şampiyonlar Ligi
-          </div>
-          <div style="display:flex; align-items:center; gap:8px; font-size:10px; color:var(--text-secondary);">
-            <div style="width:12px; height:4px; border-radius:10px; background:var(--brand);"></div> Avrupa Ligi
-          </div>
-          <div style="display:flex; align-items:center; gap:8px; font-size:10px; color:var(--text-secondary);">
-            <div style="width:12px; height:4px; border-radius:10px; background:var(--text-secondary);"></div> Konferans Ligi
-          </div>
-          <div style="display:flex; align-items:center; gap:8px; font-size:10px; color:var(--text-secondary);">
-            <div style="width:12px; height:4px; border-radius:10px; background:var(--down);"></div> Küme Düşme
-          </div>
+        <!-- ROUND INFO (New) -->
+        <div id="ligRoundBar" class="round-info-bar" style="display:none;">
+          <span id="ligRoundText">--. Hafta</span>
+          <div class="round-sep"></div>
+          <span id="ligRemainingText">Kalan: -- Hafta</span>
         </div>
 
         <div style="padding:16px;">
@@ -473,6 +464,22 @@
             <div style="text-align:center; padding:48px 16px; color:var(--text-secondary);">
               <div style="font-size:32px; margin-bottom:12px;">⏳</div>
               <div style="font-size:14px; font-weight:700;">Puan tablosu yükleniyor...</div>
+            </div>
+          </div>
+
+          <!-- BOTTOM LEGEND (Moved here) -->
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; padding:20px 12px; border-top:1px solid var(--line); margin-top:16px;">
+            <div style="display:flex; align-items:center; gap:8px; font-size:10px; color:var(--text-secondary);">
+              <div style="width:12px; height:4px; border-radius:10px; background:var(--up);"></div> Şampiyonlar Ligi
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; font-size:10px; color:var(--text-secondary);">
+              <div style="width:12px; height:4px; border-radius:10px; background:var(--brand);"></div> Avrupa Ligi
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; font-size:10px; color:var(--text-secondary);">
+              <div style="width:12px; height:4px; border-radius:10px; background:var(--text-secondary);"></div> Konferans Ligi
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; font-size:10px; color:var(--text-secondary);">
+              <div style="width:12px; height:4px; border-radius:10px; background:var(--down);"></div> Küme Düşme
             </div>
           </div>
         </div>

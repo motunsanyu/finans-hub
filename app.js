@@ -1098,6 +1098,27 @@ const STORAGE_KEYS = {
       setText("ligTimestamp", `Son güncelleme: ${now}`);
       setText("ligMeta", "Trendyol Süper Lig 2025-26");
 
+      // ── 3. HAFTA BİLGİSİ (Round Info Bar) ──
+      try {
+        const roundRes = await fetch("https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard");
+        if (roundRes.ok) {
+          const roundData = await roundRes.json();
+          const weekNum = roundData?.week?.number || roundData?.season?.type?.week?.number || 0;
+          if (weekNum > 0) {
+            const TOTAL_WEEKS = 34;
+            const remaining = Math.max(0, TOTAL_WEEKS - weekNum);
+            const roundBar = document.getElementById("ligRoundBar");
+            const roundText = document.getElementById("ligRoundText");
+            const remainText = document.getElementById("ligRemainingText");
+            if (roundBar && roundText && remainText) {
+              roundText.textContent = `${weekNum}. Hafta`;
+              remainText.textContent = `Kalan: ${remaining} Hafta`;
+              roundBar.style.display = "flex";
+            }
+          }
+        }
+      } catch(e) { /* Round bilgisi opsiyonel, hata kritik değil */ }
+
     } catch (err) {
       console.warn("ESPN API hatası:", err.message);
       showLigError();
