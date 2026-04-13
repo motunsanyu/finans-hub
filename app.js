@@ -1186,8 +1186,23 @@ const STORAGE_KEYS = {
         tbody.appendChild(tr);
       });
 
-      // Güncelleme zamanı
-      const upd = d.Update_Date ? new Date(d.Update_Date.replace(' ', 'T') + ':00').toLocaleTimeString('tr-TR', {hour:'2-digit',minute:'2-digit'}) : new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+      // Güncelleme zamanı (Robusta Date Parsing)
+      let upd = '';
+      if (d.Update_Date) {
+        // GG-AA-YYYY SS:DD formatını parsela
+        try {
+          const parts = d.Update_Date.split(' ');
+          const dateParts = parts[0].split('.'); // Nokta veya tire gelirse diye
+          const timeParts = parts[1].split(':');
+          // Sadece saati göster (Kullanıcı için en özeti bu)
+          upd = timeParts[0] + ':' + timeParts[1];
+        } catch(e) { 
+          upd = new Date().toLocaleTimeString('tr-TR', {hour:'2-digit',minute:'2-digit'}); 
+        }
+      } else {
+        upd = new Date().toLocaleTimeString('tr-TR', {hour:'2-digit',minute:'2-digit'});
+      }
+      
       const timeEl = document.getElementById('altinGuncelleme');
       if(timeEl) timeEl.textContent = `Son güncelleme: ${upd}`;
 
