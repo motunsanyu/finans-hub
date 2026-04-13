@@ -1143,50 +1143,63 @@ const STORAGE_KEYS = {
     const tbody = document.getElementById('altinTbody');
     if(!wrap || !load || !tbody) return;
 
+    load.innerHTML = '<div style="font-size:24px; margin-bottom:12px;">⏳</div><div style="font-size:13px; font-weight:600;">Piyasa verileri okunuyor...</div>';
     load.style.display = 'block';
     wrap.style.display = 'none';
 
     try {
-      const res = await fetch('/api/altin?t=' + Date.now());
-      
-      // JSON kontrolü (iOS pattern hatasını önlemek için)
-      const contentType = res.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-          const text = await res.text();
-          console.error("Beklenmeyen Yanıt:", text);
-          throw new Error("Sunucudan gecersiz veri geldi. Lutfen az sonra tekrar deneyin.");
-      }
+      // Truncgil CORS açık — doğrudan çek, Worker gerekmez
+      const res = await fetch('https://finans.truncgil.com/v4/today.json');
+      if (!res.ok) throw new Error("Bağlantı hatası: " + res.status);
+      const d = await res.json();
 
-      const data = await res.json();
-      if (data.error || data.hata) throw new Error(data.error || data.hata);
+      // Gerçek API anahtarlarını map et (kontrol edildi: 2026-04-13)
+      const rows = [
+        { ad: '📊 Gram Altın (24 Ayar)', alis: d.GRA?.Buying,     satis: d.GRA?.Selling,     degisim: d.GRA?.Change },
+        { ad: '💛 22 Ayar Bilezik',      alis: d.YIA?.Buying,     satis: d.YIA?.Selling,     degisim: d.YIA?.Change },
+        { ad: '🪙 Çeyrek Altın',         alis: d.CEYREKALTIN?.Buying, satis: d.CEYREKALTIN?.Selling, degisim: d.CEYREKALTIN?.Change },
+        { ad: '🥈 Yarım Altın',          alis: d.YARIMALTIN?.Buying,  satis: d.YARIMALTIN?.Selling,  degisim: d.YARIMALTIN?.Change },
+        { ad: '🏅 Tam Altın',            alis: d.TAMALTIN?.Buying,    satis: d.TAMALTIN?.Selling,    degisim: d.TAMALTIN?.Change },
+        { ad: '🎖️ Cumhuriyet Altını',    alis: d.CUMHURIYETALTINI?.Buying, satis: d.CUMHURIYETALTINI?.Selling, degisim: d.CUMHURIYETALTINI?.Change },
+        { ad: '⭐ Ata Altın',            alis: d.ATAALTIN?.Buying,    satis: d.ATAALTIN?.Selling,    degisim: d.ATAALTIN?.Change },
+      ];
+
+      const fmt = (v) => v ? Number(v).toLocaleString('tr-TR', {minimumFractionDigits:2, maximumFractionDigits:2}) : '--';
+      const fmtChg = (c) => {
+        if (c === undefined || c === null) return '';
+        const n = Number(c);
+        const color = n > 0 ? 'var(--up)' : n < 0 ? 'var(--down)' : 'var(--text-secondary)';
+        const arrow = n > 0 ? '▲' : n < 0 ? '▼' : '—';
+        return `<span style="color:${color}; font-size:11px; font-weight:700;">${arrow} %${Math.abs(n).toFixed(2)}</span>`;
+      };
 
       tbody.innerHTML = '';
-      ALTIN_TURLERI.forEach((tur, i) => {
-        const v = data.veriler[tur.key];
-        if (!v) return;
-
+      rows.forEach((r, i) => {
         const tr = document.createElement('tr');
-        tr.style.cssText = `background: ${i % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent'}; border-bottom:1px solid rgba(255,255,255,0.03);`;
+        tr.style.cssText = `background:${i%2===0 ? 'rgba(255,255,255,0.02)' : 'transparent'}; border-bottom:1px solid rgba(255,255,255,0.03);`;
         tr.innerHTML = `
-          <td style="padding:14px 8px; font-weight:700; color:var(--text-primary); font-size:13px;">${tur.ad}</td>
-          <td style="padding:14px 8px; text-align:right; color:var(--up); font-family:'Space Grotesk', monospace; font-weight:700;">${v.alis || '--'} ₺</td>
-          <td style="padding:14px 8px; text-align:right; color:var(--brand); font-family:'Space Grotesk', monospace; font-weight:800; font-size:14px;">${v.satis || '--'} ₺</td>
+          <td style="padding:12px 8px; font-weight:700; color:var(--text-primary); font-size:12px;">${r.ad}</td>
+          <td style="padding:12px 8px; text-align:right; color:var(--up); font-family:'Space Grotesk',monospace; font-size:12px; font-weight:700;">${fmt(r.alis)}</td>
+          <td style="padding:12px 8px; text-align:right; font-family:'Space Grotesk',monospace; font-size:13px; font-weight:800; color:var(--brand);">${fmt(r.satis)}</td>
+          <td style="padding:8px 4px; text-align:right;">${fmtChg(r.degisim)}</td>
         `;
         tbody.appendChild(tr);
       });
 
+      // Güncelleme zamanı
+      const upd = d.Update_Date ? new Date(d.Update_Date.replace(' ', 'T') + ':00').toLocaleTimeString('tr-TR', {hour:'2-digit',minute:'2-digit'}) : new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
       const timeEl = document.getElementById('altinGuncelleme');
-      if(timeEl) timeEl.textContent = `Son güncelleme: ${data.guncelleme}`;
-      
+      if(timeEl) timeEl.textContent = `Son güncelleme: ${upd}`;
+
       load.style.display = 'none';
       wrap.style.display = 'block';
     } catch (err) {
-      console.warn("Hata Yakalandi:", err.message);
+      console.warn("Altın veri hatası:", err.message);
       load.innerHTML = `<div style="color:var(--down); font-weight:700; padding:20px; text-align:center;">
         <div style="font-size:30px; margin-bottom:12px;">📡</div>
         <div style="font-size:13px;">Veri Bağlantısı Kesildi</div>
         <div style="font-size:10px; opacity:0.6; margin-top:8px;">${err.message}</div>
-        <button onclick="altinVerisiYukle()" style="margin-top:16px; background:var(--brand); border:none; padding:8px 16px; border-radius:8px; font-weight:800; font-size:11px;">TEKRAR DENE</button>
+        <button onclick="altinVerisiYukle()" style="margin-top:16px; background:var(--brand); color:#000; border:none; padding:8px 16px; border-radius:8px; font-weight:800; font-size:11px; cursor:pointer;">🔄 TEKRAR DENE</button>
       </div>`;
     }
   }
