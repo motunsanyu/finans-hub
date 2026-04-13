@@ -493,33 +493,67 @@ const STORAGE_KEYS = {
   function bindSchoolInstallments() {
       const unevenToggle = document.getElementById("schoolUnevenToggle");
       const unevenWrap = document.getElementById("schoolUnevenWrap");
-      if(unevenToggle) { unevenToggle.addEventListener("change", (e) => { unevenWrap.style.display = e.target.checked ? "flex" : "none"; document.getElementById("unevenNo").required = e.target.checked; document.getElementById("unevenAmount").required = e.target.checked; }); }
+      if(unevenToggle) { 
+        unevenToggle.addEventListener("change", (e) => { 
+          unevenWrap.style.display = e.target.checked ? "flex" : "none"; 
+          // Required alanları toggle et (bug fix)
+          document.getElementById("unevenNo").required = e.target.checked; 
+          document.getElementById("unevenAmount").required = e.target.checked; 
+          // Checkbox kapatılınca alanları temizle
+          if(!e.target.checked) {
+            document.getElementById("unevenNo").value = '';
+            document.getElementById("unevenAmount").value = '';
+          }
+        }); 
+      }
   
       const f = document.getElementById("newSchoolForm");
       if(f) {
           f.addEventListener("submit", (e) => {
               e.preventDefault(); 
-              const n = document.getElementById("schoolChildName").value; 
+              const n = document.getElementById("schoolChildName").value.trim(); 
               const d = parseVal(document.getElementById("schoolTotalDebt").value); 
               const ct = Number(document.getElementById("schoolInstCount").value); 
               const fd = document.getElementById("schoolFirstDate").value;
               
-              const hasUneven = unevenToggle.checked; let uNo = 0, uAmt = 0;
-              if(hasUneven) {
-                  uNo = Number(document.getElementById("unevenNo").value); uAmt = parseVal(document.getElementById("unevenAmount").value);
-                  if (uNo < 1 || uNo > ct) return alert(`Farklı miktar tanımladığınız taksit numarası 1 ile ${ct} (Vade Sayısı) aralığında olmalıdır!`);
-                  if (uAmt >= d) return alert(`Farklı taksidin tutarı (₺${uAmt}), toplam borcunuza (₺${d}) eşit veya daha fazla olamaz!`);
-              }
-              if (!n || d<=0 || ct <= 1 || !fd) return alert("Hatalı giriş! Vade birden büyük olmalıdır.");
+              if (!n || d<=0 || ct <= 1 || !fd) return alert("Hatalı giriş! Tüm alanları doldurun ve vade birden büyük olmalıdır.");
+
+              const hasUneven = unevenToggle.checked; 
+              let unevenNos = []; // Birden fazla farklı taksit desteği (5/6/7)
+              let uAmt = 0;
               
-              let am = d / ct; if (hasUneven) { am = (d - uAmt) / (ct - 1); }
-              let [y, m, day] = fd.split('-').map(Number); let todayMidnight = new Date(); todayMidnight.setHours(0,0,0,0);
-              const newPlan = { id: crypto.randomUUID(), name: n, records: [] };
+              if(hasUneven) {
+                  const uNoRaw = document.getElementById("unevenNo").value.trim();
+                  uAmt = parseVal(document.getElementById("unevenAmount").value);
+                  
+                  if(!uNoRaw || uAmt <= 0) return alert("Farklı taksit numarası ve tutarı girilmelidir!");
+                  
+                  // 5/6/7 veya sadece 5 formatini destekle
+                  unevenNos = uNoRaw.split('/').map(s => Number(s.trim())).filter(n => n > 0);
+                  
+                  for(const num of unevenNos) {
+                    if (num < 1 || num > ct) return alert(`Farklı taksit numarası (${num}) 1 ile ${ct} arasında olmalıdır!`);
+                  }
+                  
+                  const totalUneven = uAmt * unevenNos.length;
+                  if (totalUneven >= d) return alert(`Farklı taksitlerin toplamı (₺${totalUneven}), toplam borca (₺${d}) eşit veya fazla olamaz!`);
+              }
+              
+              // Normal taksit tutarını hesapla
+              const normalCount = ct - unevenNos.length;
+              const totalUnevenAmount = uAmt * unevenNos.length;
+              const am = normalCount > 0 ? (d - totalUnevenAmount) / normalCount : d / ct;
+              
+              let [y, m, day] = fd.split('-').map(Number); 
+              let todayMidnight = new Date(); todayMidnight.setHours(0,0,0,0);
+              const newPlan = { id: crypto.randomUUID(), name: n, totalDebt: d, records: [] };
               
               for(let i=0; i<ct; i++) {
-                  let iD = new Date(y, m-1+i, 1); iD.setDate(Math.min(day, new Date(iD.getFullYear(), iD.getMonth()+1, 0).getDate()));
-                  let oy=iD.getFullYear(), om=String(iD.getMonth()+1).padStart(2,'0'), od=String(iD.getDate()).padStart(2,'0'); let isPast = iD.getTime() < todayMidnight.getTime();
-                  let thisAm = am; if (hasUneven && (i+1) === uNo) thisAm = uAmt;
+                  let iD = new Date(y, m-1+i, 1); 
+                  iD.setDate(Math.min(day, new Date(iD.getFullYear(), iD.getMonth()+1, 0).getDate()));
+                  let oy=iD.getFullYear(), om=String(iD.getMonth()+1).padStart(2,'0'), od=String(iD.getDate()).padStart(2,'0'); 
+                  let isPast = iD.getTime() < todayMidnight.getTime();
+                  let thisAm = unevenNos.includes(i+1) ? uAmt : am;
                   newPlan.records.push({ id: crypto.randomUUID(), no: i+1, dueDate: `${oy}-${om}-${od}`, amount: thisAm, paid: isPast });
               }
               
@@ -542,8 +576,26 @@ const STORAGE_KEYS = {
   
   function renderSchool() {
     let grandDebt = 0; let maxInst = 0; const container = document.getElementById("schoolPlansContainer"); if (!container) return; container.innerHTML = "";
+    // OTOMATİK TEMİZLİK: Tüm taksitleri ödenmiş ve son vade geçmiş planları sil
+    const todayMs = new Date().setHours(0,0,0,0);
+    const beforeCount = state.school.length;
+    state.school = state.school.filter(plan => {
+      const allPaid = plan.records.every(r => r.paid);
+      if (!allPaid) return true;
+      const lastDue = Math.max(...plan.records.map(r => new Date(r.dueDate).getTime()));
+      const dayAfterLast = lastDue + 86400000;
+      return todayMs < dayAfterLast;
+    });
+    if (state.school.length !== beforeCount) writeStorage(STORAGE_KEYS.school, state.school);
+    
     state.school.forEach(plan => {
-      const unpaidRows = plan.records.filter(r=>!r.paid); const childDebt = unpaidRows.reduce((a,r)=>a+Number(r.amount),0); grandDebt += childDebt; maxInst = Math.max(maxInst, unpaidRows.length);
+      const unpaidRows = plan.records.filter(r=>!r.paid); 
+      const childDebt = unpaidRows.reduce((a,r)=>a+Number(r.amount),0); 
+      const totalDebt = plan.totalDebt || plan.records.reduce((a,r)=>a+Number(r.amount),0);
+      const paidCount = plan.records.filter(r=>r.paid).length;
+      const progressPct = plan.records.length > 0 ? Math.round((paidCount / plan.records.length) * 100) : 0;
+      grandDebt += childDebt; 
+      maxInst = Math.max(maxInst, unpaidRows.length);
       const article = document.createElement("details"); article.className = "panel"; article.style.marginBottom = "24px"; article.style.padding = "0"; article.style.overflow = "hidden"; article.style.border = "1px solid var(--line)";
       
       let tbodyHtml = "";
@@ -552,11 +604,13 @@ const STORAGE_KEYS = {
             <td style="color:var(--text-secondary);">${r.no}</td>
             <td><span style="font-size:12px; color:var(--text-secondary);">Vade: ${formatDateShortYY(r.dueDate)}</span><br><b>${formatCurrency(r.amount)}</b></td>
             <td style="text-align:center;">${r.paid ? `<button class="badge paid btn-toggle-school" data-plan-id="${plan.id}" data-rec-id="${r.id}">ÖDENDİ</button>` : `<button class="badge unpaid btn-toggle-school" data-plan-id="${plan.id}" data-rec-id="${r.id}">BEKLİYOR</button>`}</td>
-        </tr>`;
+          </tr>`;
       });
   
       article.innerHTML = `<summary style="padding:16px; cursor:pointer; list-style:none; outline:none; display:block;">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;"><h3 style="font-size:16px; margin-right:8px; word-break:break-word;">${plan.name}</h3><div style="text-align:right;"><div style="font-size:11px; color:var(--text-secondary); margin-bottom:2px;">Kalan Bakiye</div><div style="color:var(--text-primary); font-size:17px; font-weight:800; font-family:'Space Grotesk', monospace;">${formatCurrency(childDebt)}</div></div></div><div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--text-secondary); border-top:1px solid rgba(255,255,255,0.05); padding-top:12px;"><span>Kalan: <strong style="color:var(--text-primary)">${unpaidRows.length} Taksit</strong></span><span style="color:var(--brand); display:flex; align-items:center; gap:4px; font-weight:800;">Liste / Yönet 🔽</span></div></summary>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;"><h3 style="font-size:16px; margin-right:8px; word-break:break-word;">${plan.name}</h3><div style="text-align:right;"><div style="font-size:10px; color:var(--text-secondary); margin-bottom:2px;">Toplam: <span style="color:var(--brand)">${formatCurrency(totalDebt)}</span></div><div style="font-size:10px; color:var(--text-secondary); margin-bottom:4px;">Kalan Borç</div><div style="color:var(--text-primary); font-size:17px; font-weight:800; font-family:'Space Grotesk', monospace;">${formatCurrency(childDebt)}</div></div></div>
+            <div style="height:4px; background:rgba(255,255,255,0.05); border-radius:2px; margin-bottom:10px; overflow:hidden;"><div style="height:100%; width:${progressPct}%; background:var(--up); border-radius:2px; transition:width 0.5s;"></div></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--text-secondary); border-top:1px solid rgba(255,255,255,0.05); padding-top:10px;"><span>Kalan: <strong style="color:var(--text-primary)">${unpaidRows.length} Taksit</strong></span><span style="color:var(--brand); display:flex; align-items:center; gap:4px; font-weight:800;">Liste / Yönet 🔽</span></div></summary>
         <div style="border-top:1px solid var(--line); background: var(--bg-hover);"><div style="padding:12px 16px; display:flex; justify-content:space-between; align-items:center;"><span style="font-size:12px; color:var(--text-secondary);">Taksit Listesi</span><button class="btn danger-btn delete-plan-btn" data-id="${plan.id}" style="padding:4px 10px; font-size:11px;">Tüm Planı Sil</button></div><div class="table-wrap" style="margin:0; border:none; border-radius:0;"><table class="school-table" style="background:var(--bg-primary);"><thead><tr><th>No</th><th>Tutar</th><th style="text-align:center;">Durum</th></tr></thead><tbody>${tbodyHtml}</tbody></table></div></div>`;
       container.appendChild(article);
     });
