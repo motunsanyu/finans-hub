@@ -1170,6 +1170,9 @@ const STORAGE_KEYS = {
           </div>
         `).join("");
         list.innerHTML += `<div style="font-size:11px; font-weight:700; color:var(--brand); text-align:center; margin-top:16px; padding:8px; background:rgba(252,213,53,0.03); border-radius:8px;">📡 Veri Kaynağı: Altınkaynak / Bulut</div>`;
+    } catch(e) {
+        console.warn("API Hatası:", e);
+        list.innerHTML = `<div style="text-align:center; padding:30px; color:var(--down); font-size:11px;">⚠️ Veri Alınamadı<br>${e.message}</div>`;
     }
   }
 
