@@ -445,7 +445,8 @@
         <div style="padding:16px;">
           <div class="detail-tabs" style="margin-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.05);">
             <button id="btnLigStanding" class="detail-tab-btn active" onclick="switchLigMainTab('standing')">Puan Durumu</button>
-            <button id="btnLigLive" class="detail-tab-btn" onclick="switchLigMainTab('live')">Canlı Maçlar</button>
+            <button id="btnLigWeek" class="detail-tab-btn" onclick="switchLigMainTab('week')">Haftalık Maçlar</button>
+            <button id="btnLigLive" class="detail-tab-btn" onclick="switchLigMainTab('live')">Canlı Skor</button>
           </div>
         </div>
 
@@ -468,29 +469,15 @@
           </div>
         </div>
 
-        <div id="ligLiveSection" style="display:none; padding:0 8px;">
-          <div id="ligLiveList">
-            <div style="text-align:center; padding:24px; color:var(--text-secondary); font-size:13px;">Canlı veri aranıyor...</div>
+        <div id="ligWeekSection" style="display:none; padding:0 8px;">
+          <div id="ligWeekList">
+            <div style="text-align:center; padding:24px; color:var(--text-secondary); font-size:13px;">Haftalık program yükleniyor...</div>
           </div>
         </div>
 
-        <!-- GENEL MAÇLAR VE FİKSTÜR -->
-        <div style="padding:16px;">
-          <div class="detail-tabs" style="margin-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.05);">
-            <button id="btnPastMatches" class="detail-tab-btn active" onclick="switchLigMatches('past')">Sonuçlar</button>
-            <button id="btnFutureMatches" class="detail-tab-btn" onclick="switchLigMatches('future')">Fikstür</button>
-          </div>
-
-          <div id="ligPastSection">
-            <div id="ligRecentMatches">
-              <div style="text-align:center; padding:24px; color:var(--text-secondary); font-size:13px;">Yükleniyor...</div>
-            </div>
-          </div>
-
-          <div id="ligFutureSection" style="display:none;">
-            <div id="ligUpcomingMatches">
-              <div style="text-align:center; padding:24px; color:var(--text-secondary); font-size:13px;">Yükleniyor...</div>
-            </div>
+        <div id="ligLiveSection" style="display:none; padding:0 8px;">
+          <div id="ligLiveList">
+            <div style="text-align:center; padding:24px; color:var(--text-secondary); font-size:13px;">Canlı veri aranıyor...</div>
           </div>
         </div>
 

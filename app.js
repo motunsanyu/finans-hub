@@ -668,7 +668,7 @@ const STORAGE_KEYS = {
   }
 
   window.switchLigMainTab = function(tab) {
-    const tabs = ['standing', 'live'];
+    const tabs = ['standing', 'week', 'live'];
     tabs.forEach(t => {
       const btn = document.getElementById("btnLig" + t.charAt(0).toUpperCase() + t.slice(1));
       const sec = document.getElementById("lig" + t.charAt(0).toUpperCase() + t.slice(1) + "Section");
@@ -676,7 +676,70 @@ const STORAGE_KEYS = {
       if (sec) sec.style.display = (t === tab ? "block" : "none");
     });
     if (tab === 'live') fetchLeagueLiveMatches();
+    if (tab === 'week') fetchWeeklyMatches();
   };
+
+  async function fetchWeeklyMatches() {
+    const list = document.getElementById("ligWeekList");
+    if(!list) return;
+    list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary); font-size:13px;">Haftalık program okunuyor...</div>`;
+    try {
+      const res = await fetch("https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard");
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      const events = data?.events || [];
+      if (events.length === 0) {
+        list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary);">Bu hafta veri bulunamadı.</div>`;
+        return;
+      }
+      list.innerHTML = renderFullMatchCards(events);
+    } catch (e) { list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--down);">Bağlantı hatası.</div>`; }
+  }
+
+  function renderFullMatchCards(events) {
+    return events.map(ev => {
+      const comp = ev.competitions?.[0];
+      const home = comp?.competitors?.find(c => c.homeAway === "home");
+      const away = comp?.competitors?.find(c => c.homeAway === "away");
+      const status = ev.status?.type?.name;
+      const isFinal = (status === "STATUS_FINAL" || status === "STATUS_FULL_TIME");
+      const isLive = status === "STATUS_IN_PROGRESS";
+      const startTime = new Date(ev.date).toLocaleTimeString("tr-TR", {hour:'2-digit', minute:'2-digit'});
+      const dayName = new Date(ev.date).toLocaleDateString("tr-TR", {weekday: 'short'});
+
+      return `
+        <div class="match-card" style="margin-bottom:8px; background:var(--bg-secondary); border:1px solid rgba(255,255,255,0.03); border-radius:12px; padding:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="flex:1; display:flex; flex-direction:column; align-items:flex-end; gap:4px; text-align:right;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:12px; font-weight:700;">${home?.team?.displayName}</span>
+                <img src="${home?.team?.logo || ''}" style="width:20px; height:20px; object-fit:contain;" />
+              </div>
+            </div>
+            
+            <div style="width:70px; text-align:center;">
+              ${isFinal || isLive ? `
+                <div style="font-size:16px; font-weight:800; font-family:'Space Grotesk'; color:${isLive?'var(--up)':'#fff'}">
+                  ${home.score} - ${away.score}
+                </div>
+                ${isLive ? `<div style="font-size:8px; color:var(--up); font-weight:800;">CANLI</div>` : `<div style="font-size:8px; color:var(--text-secondary);">BİTTİ</div>`}
+              ` : `
+                <div style="font-size:12px; font-weight:800; color:var(--brand);">${startTime}</div>
+                <div style="font-size:8px; color:var(--text-secondary); text-transform:uppercase;">${dayName}</div>
+              `}
+            </div>
+
+            <div style="flex:1; display:flex; flex-direction:column; align-items:flex-start; gap:4px; text-align:left;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <img src="${away?.team?.logo || ''}" style="width:20px; height:20px; object-fit:contain;" />
+                <span style="font-size:12px; font-weight:700;">${away?.team?.displayName}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
 
   async function fetchLeagueLiveMatches() {
     const list = document.getElementById("ligLiveList");
@@ -694,7 +757,6 @@ const STORAGE_KEYS = {
           <div style="text-align:center; padding:60px 24px; color:var(--text-secondary);">
             <div style="position:relative; display:inline-block; margin-bottom:24px;">
               <img src="./trndyl.jpg" style="width:200px; border-radius:12px; box-shadow:0 15px 35px rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.05);">
-              <div style="position:absolute; bottom:-10px; right:-10px; background:var(--brand); color:#000; font-size:10px; font-weight:800; padding:4px 10px; border-radius:4px; letter-spacing:1px;">PROFESYONEL</div>
             </div>
             <div style="font-size:18px; font-weight:800; color:var(--text-primary); margin-bottom:10px; letter-spacing:-0.5px;">Trendyol Süper Lig Canlı</div>
             <div style="font-size:13px; line-height:1.7; max-width:280px; margin:0 auto; opacity:0.6; font-weight:500;">Şu an aktif bir müsabaka bulunmamaktadır. Tüm canlı skorlar ve maç detayları başladığı anda burada olacaktır.</div>
@@ -1050,36 +1112,7 @@ const STORAGE_KEYS = {
     if (o) o.classList.remove("open");
   };
 
-  // Geçmiş maçları ayrı endpoint'ten çek (scoreboard boş dönerse)
-  async function fetchPastMatches() {
-    try {
-      const res = await fetch(
-        "https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=20250101-20251231&limit=10"
-      );
-      if (!res.ok) return;
-      const data = await res.json();
-      const events = (data?.events || [])
-        .filter(ev => ev.status?.type?.name === "STATUS_FINAL")
-        .slice(0, 8)
-        .map(ev => {
-          const comps = ev.competitions?.[0];
-          const home = comps?.competitors?.find(c => c.homeAway === "home");
-          const away = comps?.competitors?.find(c => c.homeAway === "away");
-          let dateStr = "";
-          try { dateStr = new Date(ev.date).toLocaleDateString("tr-TR", { day:"2-digit", month:"2-digit" }); } catch(e) {}
-          return {
-            home: home?.team?.displayName || "?",
-            away: away?.team?.displayName || "?",
-            hScore: home?.score !== undefined ? parseInt(home.score) : null,
-            aScore: away?.score !== undefined ? parseInt(away.score) : null,
-            date: dateStr,
-          };
-        });
-      renderRecentMatches(events);
-    } catch(e) {
-      console.warn("Geçmiş maç çekme hatası:", e);
-    }
-  }
+
 
   function showLigError() {
     const container = document.getElementById("ligTableBody");
