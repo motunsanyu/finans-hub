@@ -741,6 +741,83 @@ const STORAGE_KEYS = {
     }).join("");
   }
 
+  async function fetchWeeklyMatches() {
+    const list = document.getElementById("ligWeekList");
+    if(!list) return;
+    list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary); font-size:13px;">Haftalık program okunuyor...</div>`;
+    try {
+      const res = await fetch("https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard");
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      const events = data?.events || [];
+      const weekNum = data?.week?.number || "";
+      
+      if (events.length === 0) {
+        list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary);">Bu hafta veri bulunamadı.</div>`;
+        return;
+      }
+
+      // Hafta Başlığı
+      let html = weekNum ? `<div style="padding:10px 16px; background:rgba(252,213,53,0.1); border:1px solid rgba(252,213,53,0.2); border-radius:8px; margin-bottom:16px; color:var(--brand); font-weight:800; font-size:14px; text-align:center; letter-spacing:1px;">🏆 TRENDYOL SÜPER LİG ${weekNum}. HAFTA</div>` : '';
+      
+      html += renderFullMatchCards(events);
+      list.innerHTML = html;
+    } catch (e) { list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--down);">Bağlantı hatası.</div>`; }
+  }
+
+  function renderFullMatchCards(events) {
+    // Tarihe göre sırala
+    const sorted = [...events].sort((a,b) => new Date(a.date) - new Date(b.date));
+
+    return sorted.map(ev => {
+      const comp = ev.competitions?.[0];
+      const home = comp?.competitors?.find(c => c.homeAway === "home");
+      const away = comp?.competitors?.find(c => c.homeAway === "away");
+      const status = ev.status?.type?.name;
+      const isFinal = (status === "STATUS_FINAL" || status === "STATUS_FULL_TIME");
+      const isLive = status === "STATUS_IN_PROGRESS";
+      const d = new Date(ev.date);
+      const startTime = d.toLocaleTimeString("tr-TR", {hour:'2-digit', minute:'2-digit'});
+      const dateStr = d.toLocaleDateString("tr-TR", {day:'2-digit', month:'2-digit'});
+      const dayName = d.toLocaleDateString("tr-TR", {weekday: 'short'});
+
+      return `
+        <div style="display:flex; align-items:center; padding:12px 8px; border-bottom:1px solid rgba(255,255,255,0.05); background:${isLive?'rgba(14,203,129,0.03)':'transparent'};">
+          <!-- Tarih/Saat -->
+          <div style="width:55px; font-size:10px; color:var(--text-secondary); line-height:1.2;">
+            <div style="font-weight:700; color:var(--text-primary);">${dateStr}</div>
+            <div>${dayName} ${startTime}</div>
+          </div>
+
+          <!-- Maç Bloğu -->
+          <div style="flex:1; display:flex; align-items:center; justify-content:space-between; padding:0 10px;">
+            <div style="flex:1; text-align:right; font-size:12px; font-weight:700; color:${home.winner?'var(--up)':'#fff'}">
+               ${shortName(home?.team?.displayName)}
+            </div>
+            
+            <div style="width:60px; text-align:center; background:rgba(255,255,255,0.05); border-radius:4px; margin:0 8px; padding:4px 0;">
+              ${isFinal || isLive ? `
+                <div style="font-size:14px; font-weight:900; color:${isLive?'var(--up)':'#fff'}">${home.score} - ${away.score}</div>
+                ${isLive ? `<div style="font-size:8px; color:var(--up); font-weight:800; animation: pulse 1.5s infinite;">CANLI</div>` : ''}
+              ` : `
+                <div style="font-size:11px; font-weight:800; color:var(--brand);">VS</div>
+              `}
+            </div>
+
+            <div style="flex:1; text-align:left; font-size:12px; font-weight:700; color:${away.winner?'var(--up)':'#fff'}">
+               ${shortName(away?.team?.displayName)}
+            </div>
+          </div>
+          
+          <!-- Detay Butonu (Görsel tamamlama) -->
+          <div style="color:var(--text-secondary); font-size:10px; opacity:0.3;">
+             <span style="font-size:14px;">›</span>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
   async function fetchLeagueLiveMatches() {
     const list = document.getElementById("ligLiveList");
     list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary);">Canlı maçlar taranıyor...</div>`;
