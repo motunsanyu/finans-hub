@@ -1134,14 +1134,12 @@ const STORAGE_KEYS = {
     const list = document.getElementById("goldDetailsContent");
     if(!list) return;
 
-    list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-secondary);">Veriler bulut üzerinden (Cloudflare) çekiliyor...</div>`;
+    list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-secondary);">Gerçek Altınkaynak verileri Cloudflare üzerinden çekiliyor...</div>`;
 
     try {
-        console.log("Fetching from /api/gold...");
         const res = await fetch("/api/gold");
-        if(!res.ok) throw new Error("Cloudflare API error: " + res.status);
+        if(!res.ok) throw new Error("Bağlantı Hatası: " + res.status);
         const data = await res.json();
-        console.log("Data received:", data);
         
         if (data.error) throw new Error(data.error);
 
@@ -1152,32 +1150,7 @@ const STORAGE_KEYS = {
             { label: "Ata Cumhuriyet",    sell: data.ata.sell, buy: data.ata.buy },
             { label: "Ons Altın (USD)",    sell: data.ons?.sell || "--", buy: data.ons?.buy || "--" }
         ];
-        renderGoldItems(items, false);
-    } catch(e) {
-        console.warn("Cloudflare API failed:", e);
-        // Hata mesajını geçici olarak ekranda göster (Debug için)
-        const debugMsg = e.message.includes("ALL SOURCES BLOCKED") ? "⚠️ Kaynak Site Engelledi (Bot Engel)" : e.message;
-        runGoldSimulation(debugMsg);
-    }
 
-    function runGoldSimulation(errorNote = "") {
-        const snap = state.financeSnapshot;
-        const gram24_spot = snap.goldTry?.price || 0;
-        if (gram24_spot <= 0) {
-            list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--down);">Hata: Canlı veriler henüz yüklenmedi.</div>`;
-            return;
-        }
-        const items = [
-            { label: "Gram Altın (24 Ayar)", sell: formatNumber(gram24_spot * 1.015), buy: formatNumber(gram24_spot * 0.995) },
-            { label: "22 Ayar Bilezik",     sell: formatNumber(gram24_spot * 0.963), buy: formatNumber(gram24_spot * 0.916 * 0.97) },
-            { label: "Çeyrek Altın",      sell: formatNumber(gram24_spot * 1.688), buy: formatNumber(gram24_spot * 1.62) },
-            { label: "Cumhuriyet Altını",  sell: formatNumber(gram24_spot * 6.95),  buy: formatNumber(gram24_spot * 6.75) },
-            { label: "Ons Altın (USD)",    sell: formatNumber((gram24_spot * 31.10) / (snap.usdTry?.price || 1)), buy: "--" }
-        ];
-        renderGoldItems(items, true, errorNote);
-    }
-
-    function renderGoldItems(items, isSim, errorNote = "") {
         list.innerHTML = items.map(item => `
           <div class="gold-item" style="padding:14px; border-bottom:1px solid rgba(255,255,255,0.05);">
             <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
