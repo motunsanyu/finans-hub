@@ -1099,25 +1099,35 @@ const STORAGE_KEYS = {
       setText("ligMeta", "Trendyol Süper Lig 2025-26");
 
       // ── 3. HAFTA BİLGİSİ (Round Info Bar) ──
+      // ESPN bazen week.number vermeyebilir, o zaman puan tablosundan hesapla
+      const TOTAL_WEEKS = 34;
+      let weekNum = 0;
+
+      // Önce scoreboard'dan dene
       try {
         const roundRes = await fetch("https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard");
         if (roundRes.ok) {
           const roundData = await roundRes.json();
-          const weekNum = roundData?.week?.number || roundData?.season?.type?.week?.number || 0;
-          if (weekNum > 0) {
-            const TOTAL_WEEKS = 34;
-            const remaining = Math.max(0, TOTAL_WEEKS - weekNum);
-            const roundBar = document.getElementById("ligRoundBar");
-            const roundText = document.getElementById("ligRoundText");
-            const remainText = document.getElementById("ligRemainingText");
-            if (roundBar && roundText && remainText) {
-              roundText.textContent = `${weekNum}. Hafta`;
-              remainText.textContent = `Kalan: ${remaining} Hafta`;
-              roundBar.style.display = "flex";
-            }
-          }
+          weekNum = roundData?.week?.number || roundData?.season?.type?.week?.number || 0;
         }
-      } catch(e) { /* Round bilgisi opsiyonel, hata kritik değil */ }
+      } catch(e) {}
+
+      // ESPN hafta vermezse, puan tablosundaki oynanan maç sayısından hesapla
+      if (weekNum === 0 && rows.length > 0) {
+        weekNum = Math.max(...rows.map(r => r.gp));
+      }
+
+      if (weekNum > 0) {
+        const remaining = Math.max(0, TOTAL_WEEKS - weekNum);
+        const roundBar = document.getElementById("ligRoundBar");
+        const roundText = document.getElementById("ligRoundText");
+        const remainText = document.getElementById("ligRemainingText");
+        if (roundBar && roundText && remainText) {
+          roundText.textContent = `${weekNum}. Hafta`;
+          remainText.textContent = `${remaining} Hafta Kaldı`;
+          roundBar.style.display = "flex";
+        }
+      }
 
     } catch (err) {
       console.warn("ESPN API hatası:", err.message);
