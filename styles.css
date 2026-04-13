@@ -222,49 +222,22 @@
   .bottom-nav {
     position: fixed; bottom: 0; left: 0; right: 0; 
     display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    justify-content: space-around;
+    align-items: center;
     background: var(--bg-secondary); border-top: 1px solid var(--line);
     padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); z-index: 1000;
   }
   .tab-btn {
     background: transparent; border: none; color: var(--text-secondary);
-    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
     gap: 4px; cursor: pointer; 
-    flex: 1; min-width: 0; padding: 4px 0;
+    flex: 1; min-width: 0; padding: 6px 0;
     transition: all 0.2s ease;
   }
   .tab-btn.active { color: var(--brand); font-weight: 700; }
-  
-  /* ANA BUTON (PİYASA) ÖZEL STİLİ */
-  .main-btn {
-    position: relative;
-    top: -12px;
-    z-index: 1001;
-  }
-  .main-icon {
-    font-size: 28px !important;
-    background: var(--brand);
-    color: #000 !important;
-    width: 52px;
-    height: 52px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(243, 186, 47, 0.4);
-    margin-bottom: 4px;
-    transition: transform 0.2s ease;
-  }
-  .main-btn span {
-    font-size: 9px !important;
-    font-weight: 800;
-    text-transform: uppercase;
-    color: var(--brand);
-  }
-  .main-btn:active .main-icon { transform: scale(0.9); }
   .tab-btn span { font-size: 8px; font-weight: 600; white-space: nowrap; }
   .nav-icon { font-size: 18px; line-height: 1; transition: 0.2s; }
+  .tab-btn.active .nav-icon { transform: scale(1.1); }
   .tab-btn.active { color: var(--brand); }
   .tab-btn.active .nav-icon { filter: none; opacity: 1; transform: translateY(-1px); }
 
