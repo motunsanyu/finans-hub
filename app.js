@@ -1137,7 +1137,7 @@ const STORAGE_KEYS = {
     list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-secondary);">Gerçek Altınkaynak verileri Cloudflare üzerinden çekiliyor...</div>`;
 
     try {
-        const res = await fetch("/api/gold");
+        const res = await fetch("/api/gold?t=" + Date.now());
         if(!res.ok) throw new Error("Bağlantı Hatası: " + res.status);
         const data = await res.json();
         
