@@ -1138,11 +1138,39 @@ const STORAGE_KEYS = {
 
     try {
         let res = await fetch("/gold?t=" + Date.now());
-        if(res.status === 404) {
-             res = await fetch("/.netlify/functions/gold?t=" + Date.now());
+        if(res.status === 404) res = await fetch("/.netlify/functions/gold?t=" + Date.now());
+        
+        let data;
+        if (res.status === 404) {
+             console.warn("Serverless functions not found (404). Switching to direct proxy bailout...");
+             const target = encodeURIComponent("https://static.altinkaynak.com/public/Gold");
+             const proxyRes = await fetch(`https://api.allorigins.win/get?url=${target}`);
+             if (!proxyRes.ok) throw new Error("Tüm yollar denendi ama veri alınamadı.");
+             const wrapper = await proxyRes.json();
+             const rawData = JSON.parse(wrapper.contents);
+             
+             // Client-side mapping for Altinkaynak JSON
+             const results = {};
+             if (Array.isArray(rawData)) {
+                 rawData.forEach(item => {
+                     const name = item.Description || item.Name || "";
+                     results[name] = { 
+                         buy: (item.Buy || item.Alis || "0").toString().replace('.', ','), 
+                         sell: (item.Sell || item.Satis || "0").toString().replace('.', ',')
+                     };
+                 });
+             }
+             data = {
+                 gram24: results["Gram Altın"] || results["24 Ayar Has"] || {buy:"--", sell:"--"},
+                 bilezik22: results["22 Ayar Bilezik"] || {buy:"--", sell:"--"},
+                 ceyrek: results["Çeyrek Altın"] || {buy:"--", sell:"--"},
+                 ata: results["Cumhuriyet Altını"] || {buy:"--", sell:"--"},
+                 ons: results["Ons Altın"] || {buy:"0", sell:"0"}
+             };
+        } else {
+             if (!res.ok) throw new Error("Bağlantı Hatası: " + res.status);
+             data = await res.json();
         }
-        if(!res.ok) throw new Error("Bağlantı Hatası: " + res.status);
-        const data = await res.json();
         
         if (data.error) throw new Error(data.error);
 
