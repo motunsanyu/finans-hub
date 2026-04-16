@@ -483,8 +483,16 @@ const STORAGE_KEYS = {
       else if (r.days > 0 && r.days <= 3) color = "#ff9800";
       else if (r.days > 3 && r.days <= 5) color = "var(--up)";
       
-      const c = document.createElement("div"); c.className = "panel"; c.style.display="flex"; c.style.justifyContent="space-between"; c.style.alignItems="center"; c.style.marginBottom="12px"; c.style.borderLeft = `4px solid ${color}`;
-      c.innerHTML = `<div><div style="font-size:15px; font-weight:800; color:var(--text-primary);">${r.title}</div><div style="font-size:12px; color:var(--text-secondary);">Hedef: ${formatDate(r.end)}</div></div><div style="text-align:right;"><div style="color:${color}; font-size:16px; font-weight:800;">${daysText}</div><button class="badge unpaid btn-del-day" data-id="${r.id}" style="margin-top:4px;">Sil</button></div>`;
+      // İlerleme hesaplama: Kaydedildiği günden hedefe kadar ne kadar yol alındı
+      const createdDate = r.created ? new Date(r.created).setHours(0,0,0,0) : todayMillis;
+      const totalSpan = Math.max(1, Math.round((new Date(r.end).setHours(0,0,0,0) - createdDate) / 86400000));
+      const elapsed = totalSpan - Math.max(0, r.days);
+      const progressPct = isPast ? 100 : Math.min(100, Math.round((elapsed / totalSpan) * 100));
+      const barColor = isPast ? 'var(--down)' : r.days <= 3 ? '#ff9800' : r.days <= 5 ? 'var(--up)' : 'var(--brand)';
+      
+      const c = document.createElement("div"); c.className = "panel"; c.style.marginBottom="12px"; c.style.padding="16px"; c.style.borderLeft = `4px solid ${color}`;
+      c.innerHTML = `<div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;"><div><div style="font-size:15px; font-weight:800; color:var(--text-primary);">${r.title}</div><div style="font-size:12px; color:var(--text-secondary);">Hedef: ${formatDate(r.end)}</div></div><div style="text-align:right;"><div style="color:${color}; font-size:16px; font-weight:800;">${daysText}</div><button class="badge unpaid btn-del-day" data-id="${r.id}" style="margin-top:4px;">Sil</button></div></div>
+      <div style="height:4px; background:rgba(255,255,255,0.05); border-radius:2px; overflow:hidden;"><div style="height:100%; width:${progressPct}%; background:${barColor}; border-radius:2px; transition:width 0.5s;"></div></div>`;
       container.appendChild(c);
     });
   }
@@ -579,6 +587,21 @@ const STORAGE_KEYS = {
     // OTOMATİK TEMİZLİK: Tüm taksitleri ödenmiş ve son vade geçmiş planları sil
     const todayMs = new Date().setHours(0,0,0,0);
     const beforeCount = state.school.length;
+    
+    let stateChanged = false;
+    state.school.forEach(plan => {
+      plan.records.forEach(r => {
+         if (!r.paid) {
+            const dueDateObj = new Date(r.dueDate);
+            dueDateObj.setHours(0,0,0,0);
+            if (dueDateObj.getTime() < todayMs) {
+               r.paid = true;
+               stateChanged = true;
+            }
+         }
+      });
+    });
+
     state.school = state.school.filter(plan => {
       const allPaid = plan.records.every(r => r.paid);
       if (!allPaid) return true;
@@ -586,7 +609,7 @@ const STORAGE_KEYS = {
       const dayAfterLast = lastDue + 86400000;
       return todayMs < dayAfterLast;
     });
-    if (state.school.length !== beforeCount) writeStorage(STORAGE_KEYS.school, state.school);
+    if (stateChanged || state.school.length !== beforeCount) writeStorage(STORAGE_KEYS.school, state.school);
     
     state.school.forEach(plan => {
       const unpaidRows = plan.records.filter(r=>!r.paid); 
@@ -1375,14 +1398,14 @@ const STORAGE_KEYS = {
     const modal = document.getElementById('altinModal');
     if(modal) {
         modal.style.display = 'flex';
-        altinVerisiYukle();
+        window.altinVerisiYukle();
         // Otomatik yenileme kur
         if(window._altinInterval) clearInterval(window._altinInterval);
-        window._altinInterval = setInterval(altinVerisiYukle, 60000);
+        window._altinInterval = setInterval(window.altinVerisiYukle, 60000);
     }
   };
 
-  async function altinVerisiYukle() {
+  window.altinVerisiYukle = async function() {
     const wrap = document.getElementById('altinTabloWrap');
     const load = document.getElementById('altinYukleniyor');
     const tbody = document.getElementById('altinTbody');
@@ -1394,7 +1417,7 @@ const STORAGE_KEYS = {
 
     try {
       // Truncgil CORS açık — doğrudan çek, Worker gerekmez
-      const res = await fetch('https://finans.truncgil.com/v4/today.json');
+      const res = await fetch('https://finans.truncgil.com/v4/today.json?v=' + Date.now());
       if (!res.ok) throw new Error("Bağlantı hatası: " + res.status);
       const d = await res.json();
 
