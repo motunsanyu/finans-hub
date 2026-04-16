@@ -1411,31 +1411,47 @@ const STORAGE_KEYS = {
     const tbody = document.getElementById('altinTbody');
     if(!wrap || !load || !tbody) return;
 
-    load.innerHTML = '<div style="font-size:24px; margin-bottom:12px;">⏳</div><div style="font-size:13px; font-weight:600;">Piyasa verileri okunuyor...</div>';
+    load.innerHTML = '<div style="font-size:32px; margin-bottom:16px; animation: pulse 1.5s infinite;">⏳</div><div style="font-size:15px; font-weight:600;">Piyasa verileri okunuyor...</div>';
     load.style.display = 'block';
     wrap.style.display = 'none';
 
     try {
-      // Truncgil CORS açık — doğrudan çek, Worker gerekmez
-      const res = await fetch('https://finans.truncgil.com/v4/today.json?v=' + Date.now());
+      // Cloudflare Worker API'ye istek at
+      const res = await fetch('/api/altin?v=' + Date.now());
       if (!res.ok) throw new Error("Bağlantı hatası: " + res.status);
       const d = await res.json();
+      
+      if(d.error) throw new Error(d.error);
 
-      // Gerçek API anahtarlarını map et (kontrol edildi: 2026-04-13)
+      // Veriler Cloudflare worker formatında geliyor
+      const v = d.veriler;
       const rows = [
-        { ad: '📊 Gram Altın (24 Ayar)', alis: d.GRA?.Buying,     satis: d.GRA?.Selling,     degisim: d.GRA?.Change },
-        { ad: '💛 22 Ayar Bilezik',      alis: d.YIA?.Buying,     satis: d.YIA?.Selling,     degisim: d.YIA?.Change },
-        { ad: '🪙 Çeyrek Altın',         alis: d.CEYREKALTIN?.Buying, satis: d.CEYREKALTIN?.Selling, degisim: d.CEYREKALTIN?.Change },
-        { ad: '🥈 Yarım Altın',          alis: d.YARIMALTIN?.Buying,  satis: d.YARIMALTIN?.Selling,  degisim: d.YARIMALTIN?.Change },
-        { ad: '🏅 Tam Altın',            alis: d.TAMALTIN?.Buying,    satis: d.TAMALTIN?.Selling,    degisim: d.TAMALTIN?.Change },
-        { ad: '🎖️ Cumhuriyet Altını',    alis: d.CUMHURIYETALTINI?.Buying, satis: d.CUMHURIYETALTINI?.Selling, degisim: d.CUMHURIYETALTINI?.Change },
-        { ad: '⭐ Ata Altın',            alis: d.ATAALTIN?.Buying,    satis: d.ATAALTIN?.Selling,    degisim: d.ATAALTIN?.Change },
+        { ad: '📊 Gram Altın (24 Ayar)', alis: v.gram_altin?.alis,     satis: v.gram_altin?.satis,     degisim: v.gram_altin?.degisim },
+        { ad: '💛 22 Ayar Bilezik',      alis: v.bilezik_22?.alis,     satis: v.bilezik_22?.satis,     degisim: v.bilezik_22?.degisim },
+        { ad: '🪙 Çeyrek Altın',         alis: v.ceyrek_altin?.alis, satis: v.ceyrek_altin?.satis, degisim: v.ceyrek_altin?.degisim },
+        { ad: '🥈 Yarım Altın',          alis: v.yarim_altin?.alis,  satis: v.yarim_altin?.satis,  degisim: v.yarim_altin?.degisim },
+        { ad: '🏅 Tam Altın',            alis: v.tam_altin?.alis,    satis: v.tam_altin?.satis,    degisim: v.tam_altin?.degisim },
+        { ad: '🎖️ Ata/Cumhuriyet',    alis: v.ata_cumhuriyet?.alis, satis: v.ata_cumhuriyet?.satis, degisim: v.ata_cumhuriyet?.degisim },
+        { ad: '🌍 Altın (ONS/$)',            alis: v.altin_ons?.alis,    satis: v.altin_ons?.satis,    degisim: v.altin_ons?.degisim },
       ];
 
-      const fmt = (v) => v ? Number(v).toLocaleString('tr-TR', {minimumFractionDigits:2, maximumFractionDigits:2}) : '--';
+      const parseTL = (val) => {
+        if (!val) return null;
+        if(typeof val === 'number') return val;
+        let v = val.toString().replace(/[^0-9,-]/g, '').replace(',', '.');
+        return Number(v);
+      };
+
+      const fmt = (val) => {
+        const num = parseTL(val);
+        return num ? num.toLocaleString('tr-TR', {minimumFractionDigits:2, maximumFractionDigits:2}) : '--';
+      };
+
       const fmtChg = (c) => {
-        if (c === undefined || c === null) return '';
-        const n = Number(c);
+        if (!c) return '';
+        let str = String(c).replace('%', '').replace(',', '.').trim();
+        const n = Number(str);
+        if (isNaN(n)) return '';
         const color = n > 0 ? 'var(--up)' : n < 0 ? 'var(--down)' : 'var(--text-secondary)';
         const arrow = n > 0 ? '▲' : n < 0 ? '▼' : '—';
         return `<span style="color:${color}; font-size:11px; font-weight:700;">${arrow} %${Math.abs(n).toFixed(2)}</span>`;
@@ -1454,22 +1470,8 @@ const STORAGE_KEYS = {
         tbody.appendChild(tr);
       });
 
-      // Güncelleme zamanı (Robusta Date Parsing)
-      let upd = '';
-      if (d.Update_Date) {
-        // GG-AA-YYYY SS:DD formatını parsela
-        try {
-          const parts = d.Update_Date.split(' ');
-          const dateParts = parts[0].split('.'); // Nokta veya tire gelirse diye
-          const timeParts = parts[1].split(':');
-          // Sadece saati göster (Kullanıcı için en özeti bu)
-          upd = timeParts[0] + ':' + timeParts[1];
-        } catch(e) { 
-          upd = new Date().toLocaleTimeString('tr-TR', {hour:'2-digit',minute:'2-digit'}); 
-        }
-      } else {
-        upd = new Date().toLocaleTimeString('tr-TR', {hour:'2-digit',minute:'2-digit'});
-      }
+      // Güncelleme zamanı - Sunucudan geleni kullan veya lokali bas
+      const upd = d.guncelleme || new Date().toLocaleTimeString('tr-TR', {hour:'2-digit',minute:'2-digit'});
       
       const timeEl = document.getElementById('altinGuncelleme');
       if(timeEl) timeEl.textContent = `Son güncelleme: ${upd}`;
