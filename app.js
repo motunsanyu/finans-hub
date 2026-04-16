@@ -485,20 +485,23 @@ const STORAGE_KEYS = {
       
       // İlerleme hesaplama: Kaydedildiği günden hedefe kadar ne kadar yol alındı
       let createdDate = r.created ? new Date(r.created).setHours(0,0,0,0) : null;
-      const targetMillis = new Date(r.end).setHours(0,0,0,0);
-      if (!createdDate) {
-          // Eski kayıtlarda barın boş görünmemesi için varsayılan 14 günlük toplam süre varsayımı
-          createdDate = targetMillis - (14 * 86400000); 
+      let targetMillis = new Date(r.end).setHours(0,0,0,0);
+      if (isNaN(targetMillis)) targetMillis = todayMillis + (r.days * 86400000); // Fallback for invalid dates
+      
+      if (!createdDate || isNaN(createdDate)) {
+          // Eski kayıtlarda barın boş görünmemesi için hedef sürenin en az iki katı eski olduğunu varsay
+          createdDate = targetMillis - (Math.max(14, r.days * 2) * 86400000); 
       }
       
       const totalSpan = Math.max(1, Math.round((targetMillis - createdDate) / 86400000));
       const elapsed = totalSpan - Math.max(0, r.days);
-      const progressPct = isPast ? 100 : Math.min(100, Math.max(0, Math.round((elapsed / totalSpan) * 100)));
-      const barColor = isPast ? 'var(--down)' : r.days <= 3 ? '#ff9800' : r.days <= 5 ? 'var(--up)' : 'var(--brand)';
+      const rawPct = isPast ? 100 : Math.min(100, Math.max(0, Math.round((elapsed / totalSpan) * 100)));
+      const displayPct = Math.max(5, rawPct); // En az %5 dolu görünsün
+      const barColorValue = isPast ? '#ff3b3b' : r.days <= 3 ? '#ff9800' : r.days <= 5 ? '#00e676' : '#fcd535';
       
       const c = document.createElement("div"); c.className = "panel"; c.style.marginBottom="12px"; c.style.padding="16px"; c.style.borderLeft = `4px solid ${color}`;
-      c.innerHTML = `<div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;"><div><div style="font-size:15px; font-weight:800; color:var(--text-primary);">${r.title}</div><div style="font-size:12px; color:var(--text-secondary);">Hedef: ${formatDate(r.end)}</div></div><div style="text-align:right;"><div style="color:${color}; font-size:16px; font-weight:800;">${daysText}</div><button class="badge unpaid btn-del-day" data-id="${r.id}" style="margin-top:4px;">Sil</button></div></div>
-      <div style="height:4px; background:rgba(255,255,255,0.05); border-radius:2px; overflow:hidden;"><div style="height:100%; width:${progressPct}%; background:${barColor}; border-radius:2px; transition:width 0.5s;"></div></div>`;
+      c.innerHTML = `<div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;"><div><div style="font-size:15px; font-weight:800; color:var(--text-primary);">${r.title}</div><div style="font-size:12px; color:var(--text-secondary);">Hedef: ${formatDate(r.end)}</div></div><div style="text-align:right;"><div style="color:${color}; font-size:16px; font-weight:800;">${daysText}</div><button class="badge unpaid btn-del-day" data-id="${r.id}" style="margin-top:4px;">Sil</button></div></div>
+      <div style="height:6px; background:rgba(255,255,255,0.1); border-radius:3px; overflow:hidden;"><div style="height:100%; width:${displayPct}%; background:${barColorValue}; border-radius:3px; transition:width 0.5s ease-in-out;"></div></div>`;
       container.appendChild(c);
     });
   }
@@ -1422,14 +1425,23 @@ const STORAGE_KEYS = {
     wrap.style.display = 'none';
 
     try {
-      // Cloudflare Worker API'ye istek at
-      const res = await fetch('/api/altin?v=' + Date.now());
-      if (!res.ok) throw new Error("Bağlantı hatası: " + res.status);
-      const d = await res.json();
-      
-      if(d.error) throw new Error(d.error);
+      let d;
+      try {
+        // Öncelikli olarak Netlify/Cloudflare (netlify.toml) proxy route'unu dene
+        const res = await fetch('/api/altin?v=' + Date.now());
+        if (!res.ok) throw new Error("Proxy route not mapped (404)");
+        d = await res.json();
+        if(d.error) throw new Error(d.error);
+      } catch(proxyErr) {
+        // Eğer sayfa local çalıştırılmışsa Fallback CORS Proxy kullanarak doğrudan Altınkaynak API'ye git
+        console.warn("Local proxy başarısız, genel proxy deneniyor...");
+        const fallbackRes = await fetch('https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent('https://static.altinkaynak.com/public/Gold'));
+        if(!fallbackRes.ok) throw new Error("Genel Proxy Bağlantı Hatası");
+        const rawJson = await fallbackRes.json();
+        d = { veriler: rawJson };
+      }
 
-      // Veriler Cloudflare worker üzerinden ham Altınkaynak dizisi olarak geliyor
+      // Veriler ham Altınkaynak dizisi olarak geliyor
       const v = d.veriler || [];
       const findK = (kod) => v.find(x => x.Kod === kod) || {};
 
