@@ -446,7 +446,7 @@ const STORAGE_KEYS = {
       e.preventDefault();
       const en = document.getElementById("endDate").value, ti = document.getElementById("daysTitle").value;
       if (!en || !ti) return;
-      state.dayRecords.push({ id: crypto.randomUUID(), title:ti, end:en });
+      state.dayRecords.push({ id: crypto.randomUUID(), title:ti, end:en, created: Date.now() });
       writeStorage(STORAGE_KEYS.days, state.dayRecords); renderDayCards(); document.getElementById("daysForm").reset();
       const det = document.getElementById("newDayDetails"); if(det) det.removeAttribute("open");
     });
@@ -484,10 +484,16 @@ const STORAGE_KEYS = {
       else if (r.days > 3 && r.days <= 5) color = "var(--up)";
       
       // İlerleme hesaplama: Kaydedildiği günden hedefe kadar ne kadar yol alındı
-      const createdDate = r.created ? new Date(r.created).setHours(0,0,0,0) : todayMillis;
-      const totalSpan = Math.max(1, Math.round((new Date(r.end).setHours(0,0,0,0) - createdDate) / 86400000));
+      let createdDate = r.created ? new Date(r.created).setHours(0,0,0,0) : null;
+      const targetMillis = new Date(r.end).setHours(0,0,0,0);
+      if (!createdDate) {
+          // Eski kayıtlarda barın boş görünmemesi için varsayılan 14 günlük toplam süre varsayımı
+          createdDate = targetMillis - (14 * 86400000); 
+      }
+      
+      const totalSpan = Math.max(1, Math.round((targetMillis - createdDate) / 86400000));
       const elapsed = totalSpan - Math.max(0, r.days);
-      const progressPct = isPast ? 100 : Math.min(100, Math.round((elapsed / totalSpan) * 100));
+      const progressPct = isPast ? 100 : Math.min(100, Math.max(0, Math.round((elapsed / totalSpan) * 100)));
       const barColor = isPast ? 'var(--down)' : r.days <= 3 ? '#ff9800' : r.days <= 5 ? 'var(--up)' : 'var(--brand)';
       
       const c = document.createElement("div"); c.className = "panel"; c.style.marginBottom="12px"; c.style.padding="16px"; c.style.borderLeft = `4px solid ${color}`;
@@ -1423,39 +1429,22 @@ const STORAGE_KEYS = {
       
       if(d.error) throw new Error(d.error);
 
-      // Veriler Cloudflare worker formatında geliyor
-      const v = d.veriler;
+      // Veriler Cloudflare worker üzerinden ham Altınkaynak dizisi olarak geliyor
+      const v = d.veriler || [];
+      const findK = (kod) => v.find(x => x.Kod === kod) || {};
+
       const rows = [
-        { ad: '📊 Gram Altın (24 Ayar)', alis: v.gram_altin?.alis,     satis: v.gram_altin?.satis,     degisim: v.gram_altin?.degisim },
-        { ad: '💛 22 Ayar Bilezik',      alis: v.bilezik_22?.alis,     satis: v.bilezik_22?.satis,     degisim: v.bilezik_22?.degisim },
-        { ad: '🪙 Çeyrek Altın',         alis: v.ceyrek_altin?.alis, satis: v.ceyrek_altin?.satis, degisim: v.ceyrek_altin?.degisim },
-        { ad: '🥈 Yarım Altın',          alis: v.yarim_altin?.alis,  satis: v.yarim_altin?.satis,  degisim: v.yarim_altin?.degisim },
-        { ad: '🏅 Tam Altın',            alis: v.tam_altin?.alis,    satis: v.tam_altin?.satis,    degisim: v.tam_altin?.degisim },
-        { ad: '🎖️ Ata/Cumhuriyet',    alis: v.ata_cumhuriyet?.alis, satis: v.ata_cumhuriyet?.satis, degisim: v.ata_cumhuriyet?.degisim },
-        { ad: '🌍 Altın (ONS/$)',            alis: v.altin_ons?.alis,    satis: v.altin_ons?.satis,    degisim: v.altin_ons?.degisim },
+        { ad: '📊 Gram Altın (24 Ayar)', alis: findK('GA').Alis,     satis: findK('GA').Satis,     degisim: null },
+        { ad: '💛 22 Ayar Bilezik',      alis: findK('B').Alis,     satis: findK('B').Satis,     degisim: null },
+        { ad: '🪙 Çeyrek Altın',         alis: findK('C').Alis, satis: findK('C').Satis, degisim: null },
+        { ad: '🥈 Yarım Altın',          alis: findK('Y').Alis,  satis: findK('Y').Satis,  degisim: null },
+        { ad: '🏅 Tam Altın',            alis: findK('T').Alis,    satis: findK('T').Satis,    degisim: null },
+        { ad: '🎖️ Ata/Cumhuriyet',    alis: findK('A').Alis, satis: findK('A').Satis, degisim: null },
+        { ad: '🌍 Altın (ONS/$)',            alis: findK('XAUUSD').Alis,    satis: findK('XAUUSD').Satis,    degisim: null },
       ];
 
-      const parseTL = (val) => {
-        if (!val) return null;
-        if(typeof val === 'number') return val;
-        let v = val.toString().replace(/[^0-9,-]/g, '').replace(',', '.');
-        return Number(v);
-      };
-
-      const fmt = (val) => {
-        const num = parseTL(val);
-        return num ? num.toLocaleString('tr-TR', {minimumFractionDigits:2, maximumFractionDigits:2}) : '--';
-      };
-
-      const fmtChg = (c) => {
-        if (!c) return '';
-        let str = String(c).replace('%', '').replace(',', '.').trim();
-        const n = Number(str);
-        if (isNaN(n)) return '';
-        const color = n > 0 ? 'var(--up)' : n < 0 ? 'var(--down)' : 'var(--text-secondary)';
-        const arrow = n > 0 ? '▲' : n < 0 ? '▼' : '—';
-        return `<span style="color:${color}; font-size:11px; font-weight:700;">${arrow} %${Math.abs(n).toFixed(2)}</span>`;
-      };
+      const fmt = (val) => val ? val : '--';
+      const fmtChg = () => '';
 
       tbody.innerHTML = '';
       rows.forEach((r, i) => {
