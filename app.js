@@ -1427,14 +1427,14 @@ const STORAGE_KEYS = {
     try {
       let d;
       try {
-        // Öncelikli olarak Netlify/Cloudflare (netlify.toml) proxy route'unu dene
+        // Öncelikli olarak doğrudan Cloudflare Pages API Route (functions/api/altin.js) çağrılıyor
         const res = await fetch('/api/altin?v=' + Date.now());
-        if (!res.ok) throw new Error("Proxy route not mapped (404)");
+        if (!res.ok) throw new Error("Cloudflare CF Route not responding (404)");
         d = await res.json();
         if(d.error) throw new Error(d.error);
       } catch(proxyErr) {
-        // Eğer sayfa local çalıştırılmışsa Fallback CORS Proxy kullanarak doğrudan Altınkaynak API'ye git
-        console.warn("Local proxy başarısız, genel proxy deneniyor...");
+        // Eğer sayfa local çalıştırılmışsa veya Worker yayına girmediyse Fallback CORS Proxy kullanarak doğrudan Altınkaynak API'ye git
+        console.warn("Cloudflare worker başarısız, genel proxy deneniyor...");
         const fallbackRes = await fetch('https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent('https://static.altinkaynak.com/public/Gold'));
         if(!fallbackRes.ok) throw new Error("Genel Proxy Bağlantı Hatası");
         const rawJson = await fallbackRes.json();
@@ -1454,6 +1454,9 @@ const STORAGE_KEYS = {
         { ad: '🎖️ Ata/Cumhuriyet',    alis: findK('A').Alis, satis: findK('A').Satis, degisim: null },
         { ad: '🌍 Altın (ONS/$)',            alis: findK('XAUUSD').Alis,    satis: findK('XAUUSD').Satis,    degisim: null },
       ];
+
+      window.altinDataRows = rows;
+      if (window.calcGold) window.calcGold(); // Güncel veriler yüklendiğinde otomatik hesapla
 
       const fmt = (val) => val ? val : '--';
       const fmtChg = () => '';
@@ -1489,6 +1492,44 @@ const STORAGE_KEYS = {
       </div>`;
     }
   }
+
+  // Altın Hesap Makinesi Logiği
+  window.calcGold = function() {
+    if(!window.altinDataRows) return;
+    const t = document.getElementById("calcGoldType") ? document.getElementById("calcGoldType").value : null;
+    const amtInput = document.getElementById("calcGoldAmount");
+    const amt = amtInput ? parseFloat(amtInput.value) || 0 : 0;
+    
+    if(!t) return;
+
+    const typeMap = {
+      'GA': '📊 Gram Altın (24 Ayar)',
+      'B': '💛 22 Ayar Bilezik',
+      'C': '🪙 Çeyrek Altın',
+      'Y': '🥈 Yarım Altın',
+      'T': '🏅 Tam Altın',
+      'A': '🎖️ Ata/Cumhuriyet'
+    };
+    
+    const targetAd = typeMap[t];
+    const row = window.altinDataRows.find(r => r.ad === targetAd);
+    if(row) {
+      // String değerini alıp noktayı(binlik) atıp virgülden sonrasını nokta yapıyporuz (e.g. 15.545,85 -> 15545.85)
+      const parseStr = (str) => {
+          if (!str) return 0;
+          let s = String(str).replace(/\./g, "").replace(",", ".");
+          return Number(s);
+      };
+      
+      const a = row.alis ? parseStr(row.alis) * amt : 0;
+      const s = row.satis ? parseStr(row.satis) * amt : 0;
+      
+      const bEl = document.getElementById("calcGoldBuy");
+      const sEl = document.getElementById("calcGoldSell");
+      if(bEl) bEl.textContent = (a > 0 ? a.toLocaleString('tr-TR', {minimumFractionDigits:2, maximumFractionDigits:2}) : "0,00") + " ₺";
+      if(sEl) sEl.textContent = (s > 0 ? s.toLocaleString('tr-TR', {minimumFractionDigits:2, maximumFractionDigits:2}) : "0,00") + " ₺";
+    }
+  };
 
   // Modal dışı tıklama
   document.getElementById('altinModal').addEventListener('click', function(e) {

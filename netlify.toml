@@ -1,8 +1,0 @@
-[functions]
-  directory = "netlify/functions"
-
-[[redirects]]
-  from = "/api/altin"
-  to = "https://static.altinkaynak.com/public/Gold"
-  status = 200
-  force = true
