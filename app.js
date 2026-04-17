@@ -813,50 +813,7 @@ const STORAGE_KEYS = {
     } catch (e) { list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--down);">Bağlantı hatası.</div>`; }
   }
 
-  function renderFullMatchCards(events) {
-    return events.map(ev => {
-      const comp = ev.competitions?.[0];
-      const home = comp?.competitors?.find(c => c.homeAway === "home");
-      const away = comp?.competitors?.find(c => c.homeAway === "away");
-      const status = ev.status?.type?.name;
-      const isFinal = (status === "STATUS_FINAL" || status === "STATUS_FULL_TIME");
-      const isLive = status === "STATUS_IN_PROGRESS";
-      const startTime = new Date(ev.date).toLocaleTimeString("tr-TR", {hour:'2-digit', minute:'2-digit'});
-      const dayName = new Date(ev.date).toLocaleDateString("tr-TR", {weekday: 'short'});
 
-      return `
-        <div class="match-card" style="margin-bottom:8px; background:var(--bg-secondary); border:1px solid rgba(255,255,255,0.03); border-radius:12px; padding:12px;">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div style="flex:1; display:flex; flex-direction:column; align-items:flex-end; gap:4px; text-align:right;">
-              <div style="display:flex; align-items:center; gap:8px;">
-                <span style="font-size:12px; font-weight:700;">${home?.team?.displayName}</span>
-                <img src="${home?.team?.logo || ''}" style="width:20px; height:20px; object-fit:contain;" />
-              </div>
-            </div>
-            
-            <div style="width:70px; text-align:center;">
-              ${isFinal || isLive ? `
-                <div style="font-size:16px; font-weight:800; font-family:'Space Grotesk'; color:${isLive?'var(--up)':'#fff'}">
-                  ${home.score} - ${away.score}
-                </div>
-                ${isLive ? `<div style="font-size:8px; color:var(--up); font-weight:800;">CANLI</div>` : `<div style="font-size:8px; color:var(--text-secondary);">BİTTİ</div>`}
-              ` : `
-                <div style="font-size:12px; font-weight:800; color:var(--brand);">${startTime}</div>
-                <div style="font-size:8px; color:var(--text-secondary); text-transform:uppercase;">${dayName}</div>
-              `}
-            </div>
-
-            <div style="flex:1; display:flex; flex-direction:column; align-items:flex-start; gap:4px; text-align:left;">
-              <div style="display:flex; align-items:center; gap:8px;">
-                <img src="${away?.team?.logo || ''}" style="width:20px; height:20px; object-fit:contain;" />
-                <span style="font-size:12px; font-weight:700;">${away?.team?.displayName}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    }).join("");
-  }
 
   async function fetchWeeklyMatches() {
     const list = document.getElementById("ligWeekList");
@@ -900,55 +857,184 @@ const STORAGE_KEYS = {
   }
 
   function renderFullMatchCards(events) {
-    // ESPN'den gelenleri tarihe göre diz (Önce Cuma, Sonra Pzt)
     const sorted = [...events].sort((a,b) => new Date(a.date) - new Date(b.date));
+    const logoUrl = (id) => id ? `https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/${id}.png&w=64&h=64` : "";
 
-    return sorted.map(ev => {
+    return sorted.map((ev, idx) => {
       const comp = ev.competitions?.[0];
       const home = comp?.competitors?.find(c => c.homeAway === "home");
       const away = comp?.competitors?.find(c => c.homeAway === "away");
-      const status = ev.status?.type?.name;
-      const state = ev.status?.type?.state; // pre, in, post
-      const isFinal = (state === "post");
-      const isLive = (state === "in");
-      
+      const state    = ev.status?.type?.state;
+      const isFinal  = (state === "post");
+      const isLive   = (state === "in");
+      const clock    = ev.status?.displayClock || "";
+      const homeLogo = logoUrl(home?.team?.id);
+      const awayLogo = logoUrl(away?.team?.id);
+      const homeId   = String(home?.team?.id || home?.id || "");
+      const awayId   = String(away?.team?.id || away?.id || "");
+
       const d = new Date(ev.date);
-      const startTime = d.toLocaleTimeString("tr-TR", {hour:'2-digit', minute:'2-digit'});
-      const dateStr = d.toLocaleDateString("tr-TR", {day:'2-digit', month:'2-digit'});
-      const dayName = d.toLocaleDateString("tr-TR", {weekday: 'short'});
+      const startTime = d.toLocaleTimeString("tr-TR", {hour:"2-digit", minute:"2-digit"});
+      const dateStr   = d.toLocaleDateString("tr-TR", {day:"2-digit", month:"2-digit"});
+      const dayStr    = d.toLocaleDateString("tr-TR", {weekday:"short"}).toUpperCase();
+
+      const hWin = isFinal && parseInt(home?.score) > parseInt(away?.score);
+      const aWin = isFinal && parseInt(away?.score) > parseInt(home?.score);
+      const borderStyle = isLive
+        ? "border-left:3px solid var(--down);"
+        : isFinal ? "border-left:3px solid rgba(255,255,255,0.06);" : "";
+
+      // ── Parse: Goller ──
+      const details = comp?.details || [];
+      const goals = details
+        .filter(d => d.type?.text === "Goal" || d.scoringPlay)
+        .map(d => ({
+          player: d.athletesInvolved?.[0]?.shortName || d.athletesInvolved?.[0]?.displayName || "Gol",
+          min:    d.clock?.displayValue || "",
+          teamId: String(d.team?.id),
+          og:     !!(d.type?.text?.toLowerCase().includes("own"))
+        }));
+
+      // ── Parse: Kartlar (substitution hariç) ──
+      const cards = details
+        .filter(d => {
+          const t  = (d.type?.text || "").toLowerCase();
+          if (t.includes("substitut") || t === "sub in" || t === "sub out") return false;
+          return d.yellowCard || d.redCard || t.includes("yellow card") || t.includes("red card");
+        })
+        .map(d => {
+          const t  = (d.type?.text || "").toLowerCase();
+          const isRed = d.redCard || d.type?.id === "95" || d.type?.id === "96" || t.includes("red card");
+          return {
+            player: d.athletesInvolved?.[0]?.shortName || d.athletesInvolved?.[0]?.displayName || "",
+            min:    d.clock?.displayValue || "",
+            teamId: String(d.team?.id),
+            type:   isRed ? "red" : "yellow"
+          };
+        });
+
+      // ── Parse: Değişiklikler ──
+      const subs = details
+        .filter(d => {
+          const t  = (d.type?.text || "").toLowerCase();
+          const id = String(d.type?.id || "");
+          return t.includes("substitut") || t === "sub in" || t === "sub out" || id === "92";
+        })
+        .map(d => ({
+          out:    d.athletesInvolved?.[0]?.shortName || d.athletesInvolved?.[0]?.displayName || "",
+          inn:    d.athletesInvolved?.[1]?.shortName || d.athletesInvolved?.[1]?.displayName || "",
+          min:    d.clock?.displayValue || "",
+          teamId: String(d.team?.id)
+        }));
+
+      const homeGoals = goals.filter(g => g.teamId === homeId);
+      const awayGoals = goals.filter(g => g.teamId === awayId);
+      const homeCards = cards.filter(c => c.teamId === homeId);
+      const awayCards = cards.filter(c => c.teamId === awayId);
+      const homeSubs  = subs.filter(s => s.teamId === homeId);
+      const awaySubs  = subs.filter(s => s.teamId === awayId);
+
+      const hasDetail = (isFinal || isLive) && (goals.length > 0 || cards.length > 0 || subs.length > 0);
+      const detailId  = `match-detail-${idx}`;
+
+      // ── Olay satırı render ──
+      const renderSide = (goalArr, cardArr, subsArr, align) => {
+        const isRight = align === "right";
+        const items = [];
+        goalArr.forEach(g => items.push({ min: g.min, kind: "goal", og: g.og, player: g.player }));
+        cardArr.forEach(c => items.push({ min: c.min, kind: "card", ctype: c.type, player: c.player }));
+        subsArr.forEach(s => items.push({ min: s.min, kind: "sub", out: s.out, inn: s.inn }));
+        items.sort((a,b) => (parseInt(a.min)||0) - (parseInt(b.min)||0));
+
+        if (items.length === 0) {
+          return `<div style="font-size:10px;color:rgba(255,255,255,0.12);font-style:italic;${isRight?' text-align:right':''}">—</div>`;
+        }
+
+        return items.map(item => {
+          let icon, color, label;
+          if (item.kind === "goal") {
+            icon  = item.og ? "⚽↩" : "⚽";
+            color = "#eaecef";
+            label = item.player;
+          } else if (item.kind === "card") {
+            icon  = item.ctype === "red" ? "🟥" : "🟨";
+            color = item.ctype === "red" ? "#f6465d" : "#fcd535";
+            label = item.player;
+          } else {
+            icon  = "🔄";
+            color = "#848e9c";
+            label = item.out ? `${item.out} → ${item.inn}` : item.inn;
+          }
+          const minStr = item.min
+            ? `<span style="font-family:'Space Grotesk',monospace;font-size:10px;font-weight:700;color:${color};opacity:.85;">${item.min}'</span>`
+            : "";
+          if (isRight) {
+            return `<div style="display:flex;align-items:center;justify-content:flex-end;gap:5px;margin-bottom:5px;">
+              <span style="font-size:11px;color:#848e9c;white-space:nowrap;">${label}</span>
+              ${minStr}
+              <span style="font-size:13px;line-height:1;">${icon}</span>
+            </div>`;
+          } else {
+            return `<div style="display:flex;align-items:center;gap:5px;margin-bottom:5px;">
+              <span style="font-size:13px;line-height:1;">${icon}</span>
+              ${minStr}
+              <span style="font-size:11px;color:#848e9c;white-space:nowrap;">${label}</span>
+            </div>`;
+          }
+        }).join("");
+      };
+
+      const detailPanel = hasDetail ? `
+        <div id="${detailId}" style="display:none;padding:12px 14px 14px;border-top:1px dashed rgba(255,255,255,0.06);background:rgba(0,0,0,0.15);">
+          <div style="display:grid;grid-template-columns:1fr 1px 1fr;gap:0;">
+            <div style="padding-right:10px;">${renderSide(homeGoals, homeCards, homeSubs, "left")}</div>
+            <div style="background:rgba(255,255,255,0.05);"></div>
+            <div style="padding-left:10px;">${renderSide(awayGoals, awayCards, awaySubs, "right")}</div>
+          </div>
+        </div>` : "";
+
+      const cursorStyle = hasDetail ? "cursor:pointer;" : "";
+      const clickAttr = hasDetail
+        ? `onclick="(function(){var el=document.getElementById('${detailId}');el.style.display=el.style.display==='none'?'block':'none';})()"`
+        : "";
+
+      // ── Kart HTML ──
+      const scoreBox = (isFinal || isLive)
+        ? `<div style="font-size:15px;font-weight:900;font-family:'Space Grotesk',monospace;color:${isLive?"var(--down)":"var(--text-primary)"};letter-spacing:1px;white-space:nowrap;">${home?.score ?? 0} – ${away?.score ?? 0}</div>
+           ${isLive
+             ? `<div style="font-size:8px;color:var(--down);font-weight:900;animation:pulse 1.2s infinite;margin-top:2px;">● ${clock}</div>`
+             : `<div style="font-size:8px;color:var(--text-secondary);margin-top:2px;font-weight:700;">MS</div>`
+           }`
+        : `<div style="font-size:11px;font-weight:800;color:var(--brand);letter-spacing:1px;">VS</div>`;
 
       return `
-        <div style="display:flex; align-items:center; padding:12px 10px; border-bottom:1px solid rgba(255,255,255,0.03); background:${isLive?'rgba(14,203,129,0.04)':'transparent'};">
-          <!-- Sol Kolon: Tarih/Saat -->
-          <div style="width:65px; font-size:10px; color:var(--text-secondary); border-right:1px solid rgba(252,213,53,0.1); margin-right:8px;">
-            <div style="font-weight:800; color:var(--text-primary);">${dateStr}</div>
-            <div style="font-size:9px; opacity:0.8;">${dayName} ${startTime}</div>
-          </div>
+        <div style="border-bottom:1px solid rgba(255,255,255,0.04);background:${isLive?"rgba(246,70,93,0.03)":"transparent"};${borderStyle}border-radius:0;">
+          <div ${clickAttr} style="display:grid;grid-template-columns:52px 1fr 68px 1fr${hasDetail?" 14px":""};align-items:center;padding:10px 12px;gap:0;${cursorStyle}">
 
-          <!-- Orta Kolon: Maç Çekişmesi -->
-          <div style="flex:1; display:flex; align-items:center; justify-content:space-between; padding:0 4px;">
-            <div style="flex:1; text-align:right; font-size:12px; font-weight:700; color:${home.winner?'var(--up)':'#fff'}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-               ${shortName(home?.team?.displayName)}
-            </div>
-            
-            <div style="width:55px; text-align:center; background:rgba(255,255,255,0.04); border-radius:6px; margin:0 12px; padding:6px 0; border:1px solid rgba(255,255,255,0.02);">
-              ${isFinal || isLive ? `
-                <div style="font-size:15px; font-weight:900; font-family:'Space Grotesk'; color:${isLive?'var(--up)':'#fff'}">${home.score} - ${away.score}</div>
-                ${isLive ? `<div style="font-size:8px; color:var(--up); font-weight:900; letter-spacing:1px; animation: pulse 1s infinite;">CANLI</div>` : ''}
-              ` : `
-                <div style="font-size:11px; font-weight:800; color:var(--brand); letter-spacing:1px;">vs</div>
-              `}
+            <div style="font-size:10px;text-align:center;padding-right:8px;border-right:1px solid rgba(255,255,255,0.05);">
+              <div style="font-weight:800;color:var(--text-primary);font-size:11px;">${dateStr}</div>
+              <div style="color:var(--text-secondary);margin-top:2px;font-size:9px;">${dayStr}</div>
+              <div style="color:var(--text-secondary);font-size:9px;">${startTime}</div>
             </div>
 
-            <div style="flex:1; text-align:left; font-size:12px; font-weight:700; color:${away.winner?'var(--up)':'#fff'}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-               ${shortName(away?.team?.displayName)}
+            <div style="display:flex;align-items:center;justify-content:flex-end;gap:6px;padding:0 8px;min-width:0;overflow:hidden;">
+              <span style="font-size:11px;font-weight:${hWin?800:600};color:${hWin?"var(--up)":isLive?"var(--text-primary)":"var(--text-secondary)"};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${shortName(home?.team?.displayName)}</span>
+              <img src="${homeLogo}" onerror="this.style.visibility='hidden'" style="width:24px;height:24px;object-fit:contain;flex-shrink:0;">
             </div>
+
+            <div style="text-align:center;background:rgba(255,255,255,0.04);border-radius:8px;padding:7px 4px;border:1px solid rgba(255,255,255,0.04);flex-shrink:0;">
+              ${scoreBox}
+            </div>
+
+            <div style="display:flex;align-items:center;justify-content:flex-start;gap:6px;padding:0 8px;min-width:0;overflow:hidden;">
+              <img src="${awayLogo}" onerror="this.style.visibility='hidden'" style="width:24px;height:24px;object-fit:contain;flex-shrink:0;">
+              <span style="font-size:11px;font-weight:${aWin?800:600};color:${aWin?"var(--up)":isLive?"var(--text-primary)":"var(--text-secondary)"};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${shortName(away?.team?.displayName)}</span>
+            </div>
+
+            ${hasDetail ? `<div style="text-align:right;color:var(--text-secondary);font-size:12px;opacity:0.5;">▾</div>` : ""}
+
           </div>
-          
-          <!-- Sağ Kolon: Durum İkonu -->
-          <div style="width:10px; text-align:right; opacity:0.2;">
-             <span style="font-size:14px; font-weight:700;">›</span>
-          </div>
+          ${detailPanel}
         </div>
       `;
     }).join("");
@@ -975,28 +1061,69 @@ const STORAGE_KEYS = {
             <div style="font-size:13px; line-height:1.7; max-width:280px; margin:0 auto; opacity:0.6; font-weight:500;">Şu an aktif bir müsabaka bulunmamaktadır. Tüm canlı skorlar ve maç detayları başladığı anda burada olacaktır.</div>
           </div>`;
       } else {
-        list.innerHTML = liveEvents.map(ev => `
-          <div class="schedule-row" style="border-left: 3px solid var(--down);">
-            <div class="schedule-info">
-              <div class="sch-team">
-                <img src="${ev.homeLogo}" class="sch-logo" onerror="this.src='icon.svg'">
-                <div class="sch-name">${ev.home}</div>
-              </div>
-              <div class="sch-center">
-                <div class="sch-score-box live">${ev.hScore} - ${ev.aScore}</div>
-                <div class="sch-meta clr-down">LIVE!</div>
-              </div>
-              <div class="sch-team">
-                <img src="${ev.awayLogo}" class="sch-logo" onerror="this.src='icon.svg'">
-                <div class="sch-name">${ev.away}</div>
-              </div>
-            </div>
-            ${renderGoals(ev.goals)}
-          </div>
-        `).join("");
+        list.innerHTML = liveEvents.map(ev => renderLiveMatchCard(ev)).join("");
       }
     } catch (e) { list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--down);">Canlı veriler alınamadı.</div>`; }
   }
+
+  function renderLiveMatchCard(ev) {
+    const clock = ev.clock || "";
+    const homeGoals = (ev.goals || []).filter(g => g.teamId === ev.homeId);
+    const awayGoals = (ev.goals || []).filter(g => g.teamId === ev.awayId);
+
+    const goalRow = (g) => `
+      <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:var(--text-secondary); margin-bottom:3px;">
+        <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--brand); flex-shrink:0;"></span>
+        <span style="font-family:'Space Grotesk',monospace; font-size:10px; font-weight:700; color:var(--brand);">${g.min}</span>
+        <span>${g.player}</span>
+      </div>`;
+
+    return `
+      <div style="margin:8px 12px; background:var(--bg-secondary); border:1px solid rgba(246,70,93,0.25); border-left:3px solid var(--down); border-radius:14px; padding:16px 14px 14px; position:relative;">
+
+        <!-- Üst satır: takımlar + skor -->
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+
+          <!-- Ev sahibi -->
+          <div style="display:flex; flex-direction:column; align-items:center; gap:6px; width:82px;">
+            <img src="${ev.homeLogo}" onerror="this.style.visibility='hidden'" style="width:40px; height:40px; object-fit:contain;">
+            <span style="font-size:11px; font-weight:700; color:var(--text-primary); text-align:center; line-height:1.3;">${ev.home}</span>
+          </div>
+
+          <!-- Skor merkez -->
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1;">
+            <div style="background:var(--bg-primary); border:1px solid rgba(246,70,93,0.3); border-radius:10px; padding:8px 18px; font-size:26px; font-weight:900; font-family:'Space Grotesk',monospace; color:var(--down); letter-spacing:4px; line-height:1;">${ev.hScore} – ${ev.aScore}</div>
+            <div style="font-size:9px; font-weight:900; background:var(--down); color:#fff; padding:2px 8px; border-radius:4px; letter-spacing:.06em; animation:blink 1.2s infinite;">LIVE</div>
+            <div style="font-size:11px; font-weight:800; color:var(--down); font-family:'Space Grotesk',monospace;">${clock ? clock+"'" : ""}</div>
+          </div>
+
+          <!-- Deplasman -->
+          <div style="display:flex; flex-direction:column; align-items:center; gap:6px; width:82px;">
+            <img src="${ev.awayLogo}" onerror="this.style.visibility='hidden'" style="width:40px; height:40px; object-fit:contain;">
+            <span style="font-size:11px; font-weight:700; color:var(--text-primary); text-align:center; line-height:1.3;">${ev.away}</span>
+          </div>
+        </div>
+
+        <!-- Goller -->
+        ${(ev.goals && ev.goals.length > 0) ? `
+        <div style="margin-top:12px; padding-top:10px; border-top:1px dashed rgba(255,255,255,0.06); display:grid; grid-template-columns:1fr 1px 1fr; gap:0; align-items:start;">
+          <div style="padding-right:10px;">
+            ${homeGoals.length > 0 ? homeGoals.map(goalRow).join("") : `<div style="font-size:10px; color:rgba(255,255,255,0.1); font-style:italic;">—</div>`}
+          </div>
+          <div style="background:rgba(255,255,255,0.05); align-self:stretch;"></div>
+          <div style="padding-left:10px; display:flex; flex-direction:column; align-items:flex-end;">
+            ${awayGoals.length > 0 ? awayGoals.map(g => `
+              <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:var(--text-secondary); margin-bottom:3px; flex-direction:row-reverse; text-align:right;">
+                <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--brand); flex-shrink:0;"></span>
+                <span style="font-family:'Space Grotesk',monospace; font-size:10px; font-weight:700; color:var(--brand);">${g.min}</span>
+                <span>${g.player}</span>
+              </div>`).join("") : `<div style="font-size:10px; color:rgba(255,255,255,0.1); font-style:italic; text-align:right;">—</div>`}
+          </div>
+        </div>` : ""}
+      </div>
+    `;
+  }
+
 
 
   function renderRecentMatches(events) {
@@ -1059,23 +1186,43 @@ const STORAGE_KEYS = {
     const state = ev.status?.type?.state; // pre, in, post
     const logoUrl = (id) => id ? `https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/${id}.png&w=40&h=40` : "";
     
-    // GOL ATANLAR (Scorers)
-    const goalsList = (comps?.details || [])
+    // GOL, SARI/KIRMIZI KART PARSE
+    const details = comps?.details || [];
+    const goalsList = details
       .filter(d => d.type?.text === "Goal" || d.scoringPlay)
       .map(d => ({
          player: d.athletesInvolved?.[0]?.shortName || d.athletesInvolved?.[0]?.displayName || "Gol",
-         min: d.clock?.displayValue || "",
-         teamId: String(d.team?.id)
+         min:    d.clock?.displayValue || "",
+         teamId: String(d.team?.id),
+         type:   "goal",
+         og:     !!(d.type?.text?.toLowerCase().includes("own"))
       }));
+
+    const cardsList = details
+      .filter(d => {
+        const t = (d.type?.text || "").toLowerCase();
+        if (t.includes("substitut") || t === "sub in" || t === "sub out") return false;
+        return d.yellowCard || d.redCard || t.includes("yellow") || t.includes("red") || t.includes("kart");
+      })
+      .map(d => {
+        const t = (d.type?.text || "").toLowerCase();
+        const isRed = d.redCard || d.type?.id === "95" || d.type?.id === "96" || t.includes("red");
+        return {
+          player: d.athletesInvolved?.[0]?.shortName || d.athletesInvolved?.[0]?.displayName || "",
+          min:    d.clock?.displayValue || "",
+          teamId: String(d.team?.id),
+          type:   isRed ? "red" : "yellow"
+        };
+      });
 
     return {
       id:       ev.id,
       home:     home?.team?.displayName || "?",
-      homeId:   String(home?.id || ""),
-      homeLogo: logoUrl(home?.id),
+      homeId:   String(home?.team?.id || home?.id || ""),
+      homeLogo: logoUrl(home?.team?.id || home?.id),
       away:     away?.team?.displayName || "?",
-      awayId:   String(away?.id || ""),
-      awayLogo: logoUrl(away?.id),
+      awayId:   String(away?.team?.id || away?.id || ""),
+      awayLogo: logoUrl(away?.team?.id || away?.id),
       hScore:   (home?.score !== undefined && state !== "pre") ? parseInt(home.score) : null,
       aScore:   (away?.score !== undefined && state !== "pre") ? parseInt(away.score) : null,
       date:     dateStr,
@@ -1083,7 +1230,9 @@ const STORAGE_KEYS = {
       isLive:   state === "in",
       isFinal:  state === "post",
       league:   ev.season?.displayName || "Turkish Super Lig",
-      goals:    goalsList
+      clock:    ev.status?.displayClock || "",
+      goals:    goalsList,
+      cards:    cardsList
     };
   }
 

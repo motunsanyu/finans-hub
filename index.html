@@ -11,7 +11,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Space+Grotesk:wght@500;700;800&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body ontouchstart="">
@@ -58,9 +58,15 @@
       <div class="logo-area">
         <div class="logo-box">FINANS TR</div>
       </div>
-      <button id="menuBtn" style="background:transparent; border:none; text-align:right; cursor:pointer;">
-        <span style="font-size:26px; color:var(--text-primary);">☰</span>
-      </button>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <button id="themeToggleBtn" onclick="toggleTheme()" title="Tema Değiştir">
+          <span id="themeIcon">✦</span>
+          <span id="themeLabel">KLASİK</span>
+        </button>
+        <button id="menuBtn" style="background:transparent; border:none; text-align:right; cursor:pointer;">
+          <span style="font-size:26px; color:var(--text-primary);">☰</span>
+        </button>
+      </div>
     </header>
 
     <!-- ════YAN MENÜ (BORÇ GİRİŞİ)════ -->
@@ -596,6 +602,36 @@
       </div>
     </div>
   </div>
+
+  <!-- ══ TEMA SİSTEMİ ══ -->
+  <script>
+    // Tema uygulama fonksiyonu — istediğin yerden çağırabilirsin:
+    // setTheme('modern')  veya  setTheme('klasik')
+    function setTheme(name) {
+      document.body.setAttribute('data-theme', name);
+      localStorage.setItem('finans-theme', name);
+      const icon  = document.getElementById('themeIcon');
+      const label = document.getElementById('themeLabel');
+      if (name === 'modern') {
+        if (icon)  icon.textContent  = '◈';
+        if (label) label.textContent = 'MODERN';   // aktif tema: MODERN
+      } else {
+        if (icon)  icon.textContent  = '✦';
+        if (label) label.textContent = 'KLASİK';   // aktif tema: KLASİK
+      }
+    }
+
+    function toggleTheme() {
+      const current = document.body.getAttribute('data-theme') || 'klasik';
+      setTheme(current === 'klasik' ? 'modern' : 'klasik');
+    }
+
+    // Sayfa açılışında kaydedilen temayı uygula
+    (function () {
+      const saved = localStorage.getItem('finans-theme') || 'klasik';
+      setTheme(saved);
+    })();
+  </script>
 
   <script src="app.js"></script>
 </body>

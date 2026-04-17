@@ -1,24 +1,334 @@
-/* BINANCE TR KONSEPT: DEEP DARK UI & APP LOCK */
-:root {
-    --bg-primary: #0b0e11;
+/* ══════════════════════════════════════════
+   TEMA SİSTEMİ — data-theme="klasik" | "modern"
+   Varsayılan: klasik (Binance tarzı)
+   Kullanım: document.body.setAttribute('data-theme', 'modern')
+             document.body.setAttribute('data-theme', 'klasik')
+   ══════════════════════════════════════════ */
+
+/* ── KLASİK TEMA (Binance tarzı, varsayılan) ── */
+:root,
+[data-theme="klasik"] {
+    --bg-primary:   #0b0e11;
     --bg-secondary: #181a20;
-    --bg-hover: #2b3139;
-    --line: #2b3139;
+    --bg-hover:     #2b3139;
+    --line:         #2b3139;
     --text-primary: #eaecef;
     --text-secondary: #848e9c;
-    --text-dark: #000000;
-    
-    --brand: #fcd535;
-    --brand-hover: #f0c722;
-    --up: #0ecb81;
-    --down: #f6465d;
-    
+    --text-dark:    #000000;
+
+    --brand:        #fcd535;
+    --brand-hover:  #f0c722;
+    --up:           #0ecb81;
+    --down:         #f6465d;
+
     --radius-lg: 16px;
     --radius-md: 8px;
     --radius-sm: 4px;
-    
+
     color-scheme: dark;
-  }
+
+    /* Modern temada kullanılmayan ama mevcut kodun beklediği değişkenler */
+    --card-bg:      #181a20;
+    --card-border:  #2b3139;
+}
+
+/* ── MODERN TEMA (Syne + Space Mono, limon yeşili vurgu) ── */
+[data-theme="modern"] {
+    --bg-primary:   #0a0c10;
+    --bg-secondary: #111318;
+    --bg-hover:     #181b22;
+    --line:         rgba(255,255,255,0.07);
+    --text-primary: #e8eaf0;
+    --text-secondary: #5a5f72;
+    --text-dark:    #000000;
+
+    --brand:        #c8ff57;
+    --brand-hover:  #b4f03a;
+    --up:           #3dffa0;
+    --down:         #ff4d6a;
+
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+
+    color-scheme: dark;
+
+    --card-bg:      #111318;
+    --card-border:  rgba(255,255,255,0.07);
+}
+
+/* Modern temaya özgü font & ek stiller */
+[data-theme="modern"] body,
+[data-theme="modern"] {
+    font-family: 'Syne', 'Manrope', sans-serif;
+}
+[data-theme="modern"] .logo-box {
+    background: transparent;
+    color: var(--brand);
+    border: none;
+    letter-spacing: 0.18em;
+    font-size: 13px;
+    text-transform: uppercase;
+    padding: 4px 0;
+}
+[data-theme="modern"] .topbar {
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-primary);
+}
+
+/* HERO / WIDGET */
+[data-theme="modern"] .total-debt-widget {
+    background: linear-gradient(135deg, #141820 0%, #0e1117 60%, #0a0d12 100%);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    margin: 16px;
+    padding: 24px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+}
+[data-theme="modern"] .total-debt-widget::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(200,255,87,.07) 0%, transparent 70%);
+    pointer-events: none;
+}
+[data-theme="modern"] .widget-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+}
+[data-theme="modern"] .debt-try {
+    font-family: 'Space Mono', monospace;
+    font-size: 36px;
+    letter-spacing: -.02em;
+}
+[data-theme="modern"] .debt-usd {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+}
+
+/* MARKETS HEADER — modern temada gizle (grid kartlar kendi başlığını taşır) */
+[data-theme="modern"] .markets-header {
+    display: none;
+}
+
+/* financeGrid → 2 kolonlu kart grid */
+[data-theme="modern"] #financeGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 4px 12px 16px;
+}
+
+/* Her market-row → kart */
+[data-theme="modern"] .market-row {
+    display: flex;
+    flex-direction: column;
+    padding: 14px;
+    border-radius: 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    margin: 0;
+    cursor: pointer;
+    transition: transform .18s, border-color .18s, box-shadow .18s;
+    position: relative;
+    overflow: hidden;
+    min-height: 110px;
+}
+[data-theme="modern"] .market-row:active {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(0,0,0,.4);
+}
+
+/* BTC satırı geniş (span 2) */
+[data-theme="modern"] .market-row:has(#btcUsd) {
+    grid-column: span 2;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    min-height: auto;
+}
+
+/* m-left → kart üst kısmı: ikon + değişim yan yana */
+[data-theme="modern"] .m-left {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 10px;
+    flex: none;
+    gap: 0;
+}
+[data-theme="modern"] .market-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: var(--bg-hover);
+    padding: 4px;
+}
+
+/* m-symbol → kart isim */
+[data-theme="modern"] .m-symbol {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-top: 6px;
+    width: 100%;
+}
+[data-theme="modern"] .m-pair {
+    color: var(--text-secondary);
+    font-size: 11px;
+}
+
+/* m-middle → büyük fiyat */
+[data-theme="modern"] .m-middle {
+    font-family: 'Space Mono', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -.02em;
+    text-align: left;
+    margin: 0;
+    margin-top: 4px;
+    width: 100%;
+}
+
+/* m-right → değişim pill — kart sağ üst köşesine taşı */
+[data-theme="modern"] .m-right {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: auto;
+}
+[data-theme="modern"] .pill {
+    border-radius: 7px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 8px;
+    width: auto;
+    text-align: center;
+}
+[data-theme="modern"] .pill.up,
+[data-theme="modern"] .pill.neutral {
+    background: rgba(61,255,160,0.12);
+    color: var(--up);
+}
+[data-theme="modern"] .pill.down {
+    background: rgba(255,77,106,0.12);
+    color: var(--down);
+}
+
+/* sparkline — kart altında */
+[data-theme="modern"] .market-row::after {
+    content: '';
+    display: block;
+    height: 28px;
+    margin-top: 10px;
+    opacity: .5;
+    background: linear-gradient(90deg,
+        transparent 0%, rgba(61,255,160,.15) 50%, transparent 100%);
+    border-radius: 4px;
+}
+
+/* BTC wide kart içinde m-left/m-middle düzeni */
+[data-theme="modern"] .market-row:has(#btcUsd) .m-left {
+    flex-direction: column;
+    width: auto;
+    margin-bottom: 0;
+    gap: 8px;
+}
+[data-theme="modern"] .market-row:has(#btcUsd) .m-middle {
+    width: auto;
+    font-size: 22px;
+}
+[data-theme="modern"] .market-row:has(#btcUsd) .m-right {
+    position: static;
+}
+[data-theme="modern"] .market-row:has(#btcUsd)::after {
+    display: none;
+}
+
+/* SECTION HEADER */
+[data-theme="modern"] #financeGrid + p,
+[data-theme="modern"] #financeMeta {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+}
+
+/* BOTTOM NAV */
+[data-theme="modern"] .bottom-nav {
+    background: rgba(10,12,16,0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+[data-theme="modern"] .tab-btn span {
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+/* PANEL / FORM */
+[data-theme="modern"] .panel {
+    background: var(--bg-secondary);
+    border: 1px solid var(--line);
+}
+[data-theme="modern"] input {
+    background: var(--bg-hover);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+}
+
+/* PIN EKRANI */
+[data-theme="modern"] .key-btn:active {
+    background: var(--brand) !important;
+    box-shadow: 0 4px 16px rgba(200,255,87,0.35) !important;
+}
+[data-theme="modern"] .pin-dot.filled {
+    background: var(--brand);
+    border-color: var(--brand);
+    box-shadow: 0 0 10px var(--brand);
+}
+[data-theme="modern"] .sidebar {
+    background: var(--bg-secondary);
+    border-left: 1px solid var(--line);
+}
+
+/* ── TEMA DEĞİŞTİRME BUTONU ── */
+#themeToggleBtn {
+    position: relative;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text-secondary);
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.06em;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+#themeToggleBtn:active {
+    transform: scale(0.95);
+}
+[data-theme="klasik"] #themeToggleBtn {
+    border-color: rgba(252,213,53,0.3);
+    color: var(--brand);
+}
+[data-theme="modern"] #themeToggleBtn {
+    border-color: rgba(200,255,87,0.3);
+    color: var(--brand);
+}
   
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { min-height: 100%; }
@@ -492,3 +802,56 @@
   }
   
   .gold-item:last-child { border-bottom: none !important; }
+
+/* ══════════════════════════════════════════
+   LİG SEKMESİ — MODERN TEMADA DA KLASİK KALSIN
+   Modern tema aktifken #superlig ve ligLive/ligWeek
+   bölümlerini klasik renk/font değerleriyle kilitle
+   ══════════════════════════════════════════ */
+[data-theme="modern"] #superlig,
+[data-theme="modern"] #ligLiveList,
+[data-theme="modern"] #ligWeekList,
+[data-theme="modern"] #ligTimestamp,
+[data-theme="modern"] .team-detail-overlay {
+  --bg-primary:    #0b0e11;
+  --bg-secondary:  #181a20;
+  --bg-hover:      #2b3139;
+  --line:          #2b3139;
+  --text-primary:  #eaecef;
+  --text-secondary:#848e9c;
+  --brand:         #fcd535;
+  --up:            #0ecb81;
+  --down:          #f6465d;
+  --card-bg:       #181a20;
+  --card-border:   #2b3139;
+  font-family: 'Manrope', sans-serif;
+}
+
+/* market-row grid dönüşümünü Lig içinde iptal et */
+[data-theme="modern"] #superlig .market-row,
+[data-theme="modern"] #ligLiveList .market-row,
+[data-theme="modern"] #ligWeekList .market-row {
+  display: flex;
+  flex-direction: row;
+  grid-column: unset;
+  border-radius: 0;
+  margin: 0;
+  min-height: unset;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #2b3139;
+}
+
+/* Lig içinde pill'lerin modern override'ını kapat */
+[data-theme="modern"] #superlig .pill,
+[data-theme="modern"] #superlig .sch-score-box {
+  font-family: 'Space Grotesk', monospace;
+}
+
+/* Lig içindeki tab butonları da klasik renk alsın */
+[data-theme="modern"] #superlig .detail-tab-btn.active {
+  color: #fcd535;
+}
+[data-theme="modern"] #superlig .detail-tab-btn.active::after {
+  background: #fcd535;
+}
