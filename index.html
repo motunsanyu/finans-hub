@@ -605,32 +605,30 @@
 
   <!-- ══ TEMA SİSTEMİ ══ -->
   <script>
-    // Tema uygulama fonksiyonu — istediğin yerden çağırabilirsin:
-    // setTheme('modern')  veya  setTheme('klasik')
-    function setTheme(name) {
-      document.body.setAttribute('data-theme', name);
-      localStorage.setItem('finans-theme', name);
+    function applyThemeScope() {
+      const saved = localStorage.getItem('finans-theme') || 'klasik';
+      const homeTab = document.getElementById('home');
+      const isHome = homeTab && homeTab.classList.contains('active');
+      document.body.setAttribute('data-theme', (saved === 'modern' && isHome) ? 'modern' : 'klasik');
+      
       const icon  = document.getElementById('themeIcon');
       const label = document.getElementById('themeLabel');
-      if (name === 'modern') {
+      if (saved === 'modern') {
         if (icon)  icon.textContent  = '◈';
-        if (label) label.textContent = 'MODERN';   // aktif tema: MODERN
+        if (label) label.textContent = 'MODERN';
       } else {
         if (icon)  icon.textContent  = '✦';
-        if (label) label.textContent = 'KLASİK';   // aktif tema: KLASİK
+        if (label) label.textContent = 'KLASİK';
       }
     }
 
-    function toggleTheme() {
-      const current = document.body.getAttribute('data-theme') || 'klasik';
-      setTheme(current === 'klasik' ? 'modern' : 'klasik');
-    }
-
-    // Sayfa açılışında kaydedilen temayı uygula
-    (function () {
+    window.toggleTheme = function() {
       const saved = localStorage.getItem('finans-theme') || 'klasik';
-      setTheme(saved);
-    })();
+      localStorage.setItem('finans-theme', saved === 'klasik' ? 'modern' : 'klasik');
+      applyThemeScope();
+    };
+
+    (function () { applyThemeScope(); })();
   </script>
 
   <script src="app.js"></script>

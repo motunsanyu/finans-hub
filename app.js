@@ -112,7 +112,13 @@ const STORAGE_KEYS = {
 
   function bindTabs() {
     const buttons = document.querySelectorAll(".tab-btn"); const pages = document.querySelectorAll(".tab-page");
-    buttons.forEach((btn) => { btn.addEventListener("click", () => { buttons.forEach((x) => x.classList.toggle("active", x === btn)); pages.forEach((page) => page.classList.toggle("active", page.id === btn.dataset.tab)); }); });
+    buttons.forEach((btn) => { 
+      btn.addEventListener("click", () => { 
+        buttons.forEach((x) => x.classList.toggle("active", x === btn)); 
+        pages.forEach((page) => page.classList.toggle("active", page.id === btn.dataset.tab)); 
+        if (typeof applyThemeScope === 'function') applyThemeScope();
+      }); 
+    });
   }
   
   // ═════════════════════════ APP LOCK / PIN ═════════════════════════

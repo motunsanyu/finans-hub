@@ -153,76 +153,78 @@
     min-height: auto;
 }
 
-/* m-left → kart üst kısmı: ikon + değişim yan yana */
+/* m-left → kart üst kısmı: ikon + başlık yan yana */
 [data-theme="modern"] .m-left {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    justify-content: flex-start;
+    align-items: center;
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     flex: none;
-    gap: 0;
+    gap: 10px;
 }
 [data-theme="modern"] .market-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 10px;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
     background: var(--bg-hover);
-    padding: 4px;
+    padding: 3px;
 }
 
 /* m-symbol → kart isim */
 [data-theme="modern"] .m-symbol {
     font-family: 'Space Mono', monospace;
     font-size: 11px;
-    font-weight: 400;
+    font-weight: 700;
     color: var(--text-secondary);
-    letter-spacing: .08em;
+    letter-spacing: .05em;
     text-transform: uppercase;
-    margin-top: 6px;
-    width: 100%;
+    margin-top: 0;
+    width: auto;
 }
 [data-theme="modern"] .m-pair {
     color: var(--text-secondary);
-    font-size: 11px;
+    font-size: 10px;
+    opacity: 0.6;
 }
 
 /* m-middle → büyük fiyat */
 [data-theme="modern"] .m-middle {
     font-family: 'Space Mono', monospace;
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--text);
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-primary);
     letter-spacing: -.02em;
     text-align: left;
     margin: 0;
-    margin-top: 4px;
     width: 100%;
 }
 
-/* m-right → değişim pill — kart sağ üst köşesine taşı */
+/* m-right → değişim pill — fiyatın hemen altında */
 [data-theme="modern"] .m-right {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    width: auto;
+    position: static;
+    margin-top: 6px;
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
 }
 [data-theme="modern"] .pill {
-    border-radius: 7px;
+    border-radius: 6px;
     font-family: 'Space Mono', monospace;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
     padding: 4px 8px;
+    display: inline-block;
     width: auto;
     text-align: center;
 }
 [data-theme="modern"] .pill.up,
 [data-theme="modern"] .pill.neutral {
-    background: rgba(61,255,160,0.12);
+    background: rgba(61,255,160,0.1);
     color: var(--up);
 }
 [data-theme="modern"] .pill.down {
-    background: rgba(255,77,106,0.12);
+    background: rgba(255,77,106,0.1);
     color: var(--down);
 }
 
@@ -230,24 +232,29 @@
 [data-theme="modern"] .market-row::after {
     content: '';
     display: block;
-    height: 28px;
-    margin-top: 10px;
-    opacity: .5;
-    background: linear-gradient(90deg,
-        transparent 0%, rgba(61,255,160,.15) 50%, transparent 100%);
+    height: 16px;
+    margin-top: 12px;
+    opacity: 0.6;
+    background: linear-gradient(90deg, rgba(61,255,160,.1) 0%, rgba(61,255,160,.02) 100%);
     border-radius: 4px;
 }
 
-/* BTC wide kart içinde m-left/m-middle düzeni */
-[data-theme="modern"] .market-row:has(#btcUsd) .m-left {
+/* BTC wide kart vizual iyileştirme */
+[data-theme="modern"] .market-row:has(#btcUsd) {
+    grid-column: span 2;
     flex-direction: column;
-    width: auto;
-    margin-bottom: 0;
-    gap: 8px;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+[data-theme="modern"] .market-row:has(#btcUsd) .m-left {
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 12px;
+    gap: 10px;
 }
 [data-theme="modern"] .market-row:has(#btcUsd) .m-middle {
-    width: auto;
-    font-size: 22px;
+    width: 100%;
+    font-size: 26px;
 }
 [data-theme="modern"] .market-row:has(#btcUsd) .m-right {
     position: static;
@@ -255,7 +262,6 @@
 [data-theme="modern"] .market-row:has(#btcUsd)::after {
     display: none;
 }
-
 /* SECTION HEADER */
 [data-theme="modern"] #financeGrid + p,
 [data-theme="modern"] #financeMeta {
