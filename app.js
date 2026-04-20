@@ -229,7 +229,10 @@ const STORAGE_KEYS = {
   
   // ═════════════════════════ PİYASALAR API ═════════════════════════
   async function refreshFinanceData() {
-    const meta = document.getElementById("financeMeta"); const nextSnapshot = { ...state.financeSnapshot, updatedAt: Date.now() };
+    const meta = document.getElementById("financeMeta"); 
+    const nextSnapshot = { ...state.financeSnapshot, updatedAt: Date.now() };
+    
+    // 1. Kripto Paralar (Binance Hala En Sağlıklısı)
     try {
         const bRes = await fetch("https://api.binance.com/api/v3/ticker/24hr");
         if (bRes.ok) {
@@ -238,42 +241,63 @@ const STORAGE_KEYS = {
             if(p['ETHUSDT']) { nextSnapshot.ethUsd = { price: p['ETHUSDT'].p, change: p['ETHUSDT'].c }; }
             if(p['BNBUSDT']) { nextSnapshot.bnbUsd = { price: p['BNBUSDT'].p, change: p['BNBUSDT'].c }; }
             if(p['XRPUSDT']) { nextSnapshot.xrpUsd = { price: p['XRPUSDT'].p, change: p['XRPUSDT'].c }; }
-            if(p['USDTTRY']) { nextSnapshot.usdTry = { price: p['USDTTRY'].p, change: p['USDTTRY'].c }; }
-            if(p['EURUSDT'] && p['USDTTRY']) { nextSnapshot.eurTry = { price: p['EURUSDT'].p * p['USDTTRY'].p, change: p['EURUSDT'].c }; }
-            if(p['EURTRY']) nextSnapshot.eurTry = { price: p['EURTRY'].p, change: p['EURTRY'].c };
-            if(p['PAXGUSDT'] && p['USDTTRY']) { const gramTry = (p['PAXGUSDT'].p * p['USDTTRY'].p) / 31.1034768; nextSnapshot.goldTry = { price: gramTry, change: p['PAXGUSDT'].c }; }
         }
     } catch(e) { console.warn("Binance Hatasi", e); }
-    if (!nextSnapshot.goldTry) { try { const tRes = await fetch("https://finans.truncgil.com/v3/today.json"); if(tRes.ok) { const t = await tRes.json(); if(t['gram-altin']) { nextSnapshot.goldTry = { price: parseFlexibleNumber(t['gram-altin'].Selling), change: parseFlexibleNumber(t['gram-altin'].Change) }; } } } catch(e) { } }
+
+    // 2. DOVIZ.COM MERKEZİ VERİ ÇEKME (USD, EUR, ALTIN, GÜMÜŞ, BRENT, BIST)
+    try {
+        const dUrl = "https://www.doviz.com";
+        const dProxy = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(dUrl)}`;
+        const dRes = await fetch(dProxy);
+        if (dRes.ok) {
+            const html = await dRes.text();
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            
+            const parseDoviz = (key) => {
+                const s = doc.querySelector(`[data-socket-key="${key}"][data-socket-attr="s"]`)?.textContent.trim();
+                const c = doc.querySelector(`[data-socket-key="${key}"][data-socket-attr="c"]`)?.textContent.trim();
+                if (!s) return null;
+                return { price: parseFlexibleNumber(s), change: parseFlexibleNumber(c) };
+            };
+
+            const usd = parseDoviz("USD"); if(usd) nextSnapshot.usdTry = usd;
+            const eur = parseDoviz("EUR"); if(eur) nextSnapshot.eurTry = eur;
+            const gold = parseDoviz("gram-altin"); if(gold) nextSnapshot.goldTry = gold;
+            const silver = parseDoviz("gumus"); if(silver) nextSnapshot.silverTry = silver;
+            const brent = parseDoviz("BRENT"); if(brent) nextSnapshot.brent = brent;
+            const bist = parseDoviz("XU100"); if(bist) nextSnapshot.bist = bist;
+        }
+    } catch(e) { console.warn("Doviz Central Error", e); }
+
     state.financeSnapshot = nextSnapshot; writeStorage(STORAGE_KEYS.financeSnapshot, nextSnapshot);
-    paintFinanceRow("usdTry", nextSnapshot.usdTry, 4); paintFinanceRow("eurTry", nextSnapshot.eurTry, 4); paintFinanceRow("btcUsd", nextSnapshot.btcUsd, 2, "$"); paintFinanceRow("ethUsd", nextSnapshot.ethUsd, 2, "$"); paintFinanceRow("bnbUsd", nextSnapshot.bnbUsd, 2, "$"); paintFinanceRow("xrpUsd", nextSnapshot.xrpUsd, 4, "$"); paintFinanceRow("goldTry", nextSnapshot.goldTry, 2);
+    
+    // UI Güncelleme
+    paintFinanceRow("usdTry", nextSnapshot.usdTry, 4); 
+    paintFinanceRow("eurTry", nextSnapshot.eurTry, 4); 
+    paintFinanceRow("btcUsd", nextSnapshot.btcUsd, 2, "$"); 
+    paintFinanceRow("ethUsd", nextSnapshot.ethUsd, 2, "$"); 
+    paintFinanceRow("bnbUsd", nextSnapshot.bnbUsd, 2, "$"); 
+    paintFinanceRow("xrpUsd", nextSnapshot.xrpUsd, 4, "$"); 
+    paintFinanceRow("goldTry", nextSnapshot.goldTry, 2);
+    paintFinanceRow("silverTry", nextSnapshot.silverTry, 2);
+    
+    // Brent ve BIST Manuel UI (Pill sınıfı Doviz.com'dan geliyor)
+    updateExtraRow("brent", nextSnapshot.brent, "$");
+    updateExtraRow("bist", nextSnapshot.bist, "");
+
     calcTotalDebt(); 
-    fetchBrentPrice();
     const dateStr = new Date(nextSnapshot.updatedAt).toLocaleDateString("tr-TR"); const timeStr = new Date(nextSnapshot.updatedAt).toLocaleTimeString("tr-TR", {hour: '2-digit', minute:'2-digit'}); meta.innerHTML = `Son Güncelleme : ${dateStr} - ${timeStr}`;
   }
 
-  // ═════════════════════════ BRENT PETROL API ═════════════════════════
-  async function fetchBrentPrice() {
-    const pEl = document.getElementById('brentPrice');
-    const cEl = document.getElementById('brentChg');
-    if(!pEl) return;
-    const targetUrl = "https://www.doviz.com/emtia/brent-petrol";
-    const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`;
-    try {
-        const res = await fetch(proxyUrl); if(!res.ok) return;
-        const html = await res.text();
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-        const price = doc.querySelector('.stock-detail .value')?.textContent.trim() || "--";
-        const change = doc.querySelector('.stock-detail .change')?.textContent.trim() || "--";
-        pEl.textContent = price.includes('$') ? price : '$' + price;
-        if (cEl) {
-            cEl.textContent = change;
-            const h = html.toLowerCase();
-            const isUp = change.includes('+') || h.includes('color-up') || h.includes('up-arrow');
-            const isDown = change.includes('-') || h.includes('color-down') || h.includes('down-arrow');
-            cEl.className = `pill ${isUp ? 'up' : isDown ? 'down' : 'neutral'}`;
-        }
-    } catch(e) { console.warn("Brent Fetch", e); }
+  function updateExtraRow(id, obj, prefix) {
+      if(!obj) return;
+      const pEl = document.getElementById(id + 'Price');
+      const cEl = document.getElementById(id + 'Chg');
+      if(pEl) pEl.textContent = prefix + formatNumber(obj.price, 2);
+      if(cEl) {
+          cEl.textContent = (obj.change > 0 ? "+" : "") + obj.change.toFixed(2) + "%";
+          cEl.className = `pill ${obj.change > 0 ? "up" : obj.change < 0 ? "down" : "neutral"}`;
+      }
   }
   function parseFlexibleNumber(input) { if(!input) return Number.NaN; const raw = String(input).trim().replace(/\s/g, "").replace("%",""); if (!raw) return Number.NaN; if (/^-?\d{1,3}(\.\d{3})*(,\d+)?$/.test(raw)) return Number(raw.replace(/\./g, "").replace(",", ".")); return Number(raw.replace(",", ".").replace(/[^0-9.-]/g, "")); }
   function paintFinanceRow(id, obj, decimals, prefix="") {
