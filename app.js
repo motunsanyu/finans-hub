@@ -1833,20 +1833,20 @@ const STORAGE_KEYS = {
     const meta  = document.getElementById('fuelPriceMeta');
     if (!cards) return;
 
+    // Yükleniyor durumu
     cards.innerHTML = `
       <div class="fuel-price-card benzin"><div class="fpc-icon">⛽</div><div class="fpc-label">Benzin 95</div><div class="fpc-price anim-pulse">●●</div></div>
       <div class="fuel-price-card motorin"><div class="fpc-icon">🚛</div><div class="fpc-label">Motorin</div><div class="fpc-price anim-pulse">●●</div></div>
       <div class="fuel-price-card lpg"><div class="fpc-icon">💨</div><div class="fpc-label">LPG</div><div class="fpc-price anim-pulse">●●</div></div>`;
 
     const cityEl = document.getElementById('fuelCitySelect');
-    const city  = cityEl ? cityEl.value : 'istanbul';
-    const cityId = CITY_IDS[city] || 34;
+    const cityId = CITY_IDS[cityEl ? cityEl.value : 'istanbul'] || 34;
 
-    // API deneme listesi (Daha güvenilir proxy'ler)
+    // API deneme listesi (Sırasıyla en sağlam proxy ve API'ler)
     const ENDPOINTS = [
-      `https://akaryakit-fiyatlari.vercel.app/api/opet/${cityId}`,
-      `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://akaryakit-fiyatlari.vercel.app/api/opet/${cityId}`)}`,
+      `https://api.allorigins.win/get?url=${encodeURIComponent(`https://akaryakit-fiyatlari.vercel.app/api/opet/${cityId}`)}`,
       `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(`https://akaryakit-fiyatlari.vercel.app/api/opet/${cityId}`)}`,
+      `https://akaryakit-fiyatlari.vercel.app/api/opet/${cityId}`
     ];
 
     let data = null;
@@ -1875,7 +1875,7 @@ const STORAGE_KEYS = {
       return;
     }
 
-    // Farklı API formatı ayrıştır
+    // Veri Ayrıştırma (Genişletilmiş Format Desteği)
     let benzin = null, motorin = null, lpg = null;
     const parse = v => v ? parseFloat(String(v).replace(',', '.')) : null;
 
@@ -1888,11 +1888,20 @@ const STORAGE_KEYS = {
         const t = (item.type || item.name || item.fuelType || '').toLowerCase();
         const p = parse(item.price || item.fiyat);
         if (t.includes('95') || t.includes('benzin') || t.includes('gasoline')) benzin = p;
-        else if (t.includes('motor') || t.includes('diesel')) motorin = p;
-        else if (t.includes('lpg') || t.includes('autogas')) lpg = p;
+        else if (t.includes('motor') || t.includes('diesel') || t.includes('dizel')) motorin = p;
+        else if (t.includes('lpg') || t.includes('otogaz') || t.includes('autogas')) lpg = p;
       });
-    } else if (data.prices || data.data || data.fuel) {
-      const arr = data.prices || data.data || data.fuel || [];
+    }
+
+    // Kartları Doldur (Tema Korunarak)
+    cards.innerHTML = `
+      <div class="fuel-price-card benzin"><div class="fpc-icon">⛽</div><div class="fpc-label">Benzin 95</div><div class="fpc-price">${benzin ? benzin.toFixed(2) : '--'}</div></div>
+      <div class="fuel-price-card motorin"><div class="fpc-icon">🚛</div><div class="fpc-label">Motorin</div><div class="fpc-price">${motorin ? motorin.toFixed(2) : '--'}</div></div>
+      <div class="fuel-price-card lpg"><div class="fpc-icon">💨</div><div class="fpc-label">LPG</div><div class="fpc-price">${lpg ? lpg.toFixed(2) : '--'}</div></div>`;
+    
+    const now = new Date().toLocaleTimeString("tr-TR", {hour:'2-digit', minute:'2-digit'});
+    if(meta) meta.textContent = `Güncellendi: ${now} (OPET)`;
+  };
       arr.forEach(item => {
         const t = (item.type || item.name || '').toLowerCase();
         const p = parse(item.price || item.fiyat);
