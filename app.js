@@ -59,6 +59,9 @@ const STORAGE_KEYS = {
     refreshFinanceData();
     renderFuelSummary(); renderFuelTable(); renderDayCards(); renderSchool(); renderVault();
     
+    // Yakıt fiyatlarını uygulama başında yükle
+    setTimeout(() => { if (typeof fetchFuelPrices === 'function') fetchFuelPrices(); }, 1200);
+    
     fireAlarmBanner();
   }
   
@@ -798,26 +801,29 @@ const STORAGE_KEYS = {
       if (btn) btn.classList.toggle("active", t === tab);
       if (sec) sec.style.display = (t === tab ? "block" : "none");
     });
-    if (tab === 'live') fetchLeagueLiveMatches();
+    // Canlı Skor: otomatik yenileme yönetimi
+    if (tab === 'live') {
+      fetchLeagueLiveMatches(); // hemen yüklre
+      const info = document.getElementById('liveRefreshInfo');
+      if (info) info.style.display = 'flex';
+      if (!window._liveMatchInterval) {
+        window._liveMatchInterval = setInterval(() => {
+          fetchLeagueLiveMatches();
+          const ts = new Date().toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'});
+          const upd = document.getElementById('liveLastUpdate');
+          if (upd) upd.textContent = `Son güncelleme: ${ts} (otomatik)`;
+        }, 60000);
+      }
+    } else {
+      if (window._liveMatchInterval) {
+        clearInterval(window._liveMatchInterval);
+        window._liveMatchInterval = null;
+      }
+      const info = document.getElementById('liveRefreshInfo');
+      if (info) info.style.display = 'none';
+    }
     if (tab === 'week') fetchWeeklyMatches();
   };
-
-  async function fetchWeeklyMatches() {
-    const list = document.getElementById("ligWeekList");
-    if(!list) return;
-    list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary); font-size:13px;">Haftalık program okunuyor...</div>`;
-    try {
-      const res = await fetch("https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard");
-      if (!res.ok) throw new Error();
-      const data = await res.json();
-      const events = data?.events || [];
-      if (events.length === 0) {
-        list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary);">Bu hafta veri bulunamadı.</div>`;
-        return;
-      }
-      list.innerHTML = renderFullMatchCards(events);
-    } catch (e) { list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--down);">Bağlantı hatası.</div>`; }
-  }
 
 
 
@@ -1001,7 +1007,7 @@ const STORAGE_KEYS = {
 
       const cursorStyle = hasDetail ? "cursor:pointer;" : "";
       const clickAttr = hasDetail
-        ? `onclick="(function(){var el=document.getElementById('${detailId}');el.style.display=el.style.display==='none'?'block':'none';})()"`
+        ? `onclick="toggleMatchDetail('${detailId}')"`
         : "";
 
       // ── Kart HTML ──
@@ -1048,14 +1054,14 @@ const STORAGE_KEYS = {
 
   async function fetchLeagueLiveMatches() {
     const list = document.getElementById("ligLiveList");
+    if (!list) return;
     list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary);">Canlı maçlar taranıyor...</div>`;
     try {
       const res = await fetch("https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard");
       if (!res.ok) throw new Error();
       const data = await res.json();
-      const liveEvents = (data?.events || [])
-        .filter(ev => ev.status?.type?.state === "in")
-        .map(ev => normalizeMatch(ev));
+      const allEvents = data?.events || [];
+      const liveEvents = allEvents.filter(ev => ev.status?.type?.state === "in");
       
       if (liveEvents.length === 0) {
         list.innerHTML = `
@@ -1064,11 +1070,14 @@ const STORAGE_KEYS = {
               <img src="./trndyl.jpg" style="width:200px; border-radius:12px; box-shadow:0 15px 35px rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.05);">
             </div>
             <div style="font-size:18px; font-weight:800; color:var(--text-primary); margin-bottom:10px; letter-spacing:-0.5px;">Trendyol Süper Lig Canlı</div>
-            <div style="font-size:13px; line-height:1.7; max-width:280px; margin:0 auto; opacity:0.6; font-weight:500;">Şu an aktif bir müsabaka bulunmamaktadır. Tüm canlı skorlar ve maç detayları başladığı anda burada olacaktır.</div>
+            <div style="font-size:13px; line-height:1.7; max-width:280px; margin:0 auto; opacity:0.6; font-weight:500;">&#350;u an aktif bir müsabaka bulunmamaktadır. Canlı skorlar başladığı anda burada olacak.</div>
           </div>`;
       } else {
-        list.innerHTML = liveEvents.map(ev => renderLiveMatchCard(ev)).join("");
+        list.innerHTML = renderFullMatchCards(liveEvents);
       }
+      const ts = new Date().toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'});
+      const upd = document.getElementById('liveLastUpdate');
+      if (upd) upd.textContent = `Son güncelleme: ${ts} (her 60sn)`;
     } catch (e) { list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--down);">Canlı veriler alınamadı.</div>`; }
   }
 
@@ -1694,7 +1703,227 @@ const STORAGE_KEYS = {
     }
   });
 
+  // ══════════════════════════════════════════
+  // YARDIMCI GÖRSEL FONKSİYONLAR
+  // ══════════════════════════════════════════
+  window.toggleMatchDetail = function(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const isNone = el.style.display === 'none';
+    
+    // Diğerlerini kapat (Opsiyonel: Akordiyon efekti)
+    // document.querySelectorAll('[id^="match-detail-"]').forEach(d => d.style.display = 'none');
+    
+    el.style.display = isNone ? 'block' : 'none';
+    
+    // Smooth scroll (Eğer açılıyorsa)
+    if (isNone) {
+      setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+    }
+  };
+
   document.addEventListener("DOMContentLoaded", () => {
     const pinScreen = document.getElementById("pinScreen");
     if (pinScreen) pinScreen.style.display = "flex";
   });
+
+  // ══════════════════════════════════════════
+  // MARKET SUB-TABS (Piyasa / Coinler)
+  // ══════════════════════════════════════════
+  window.switchMarketTab = function(tab) {
+    const piyasa  = document.getElementById('piyasaSection');
+    const coinler = document.getElementById('coinlerSection');
+    const btnP    = document.getElementById('btnMarketPiyasa');
+    const btnC    = document.getElementById('btnMarketCoinler');
+    if (!piyasa || !coinler) return;
+    if (tab === 'coins') {
+      piyasa.style.display  = 'none';
+      coinler.style.display = 'block';
+      btnP?.classList.remove('active');
+      btnC?.classList.add('active');
+      fetchCoinPrices();
+    } else {
+      piyasa.style.display  = 'block';
+      coinler.style.display = 'none';
+      btnP?.classList.add('active');
+      btnC?.classList.remove('active');
+    }
+  };
+
+  // ══════════════════════════════════════════
+  // COİNLERFİYATLARI (Binance API)
+  // ══════════════════════════════════════════
+  const COIN_LIST = [
+    { sym: 'SOLUSDT',    name: 'Solana',    base: 'SOL'    },
+    { sym: 'DOGEUSDT',   name: 'Dogecoin',  base: 'DOGE'   },
+    { sym: 'AVAXUSDT',   name: 'Avalanche', base: 'AVAX'   },
+    { sym: 'DEXEUSDT',   name: 'DeXe',      base: 'DEXE',   logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5916.png' },
+    { sym: 'SUIUSDT',    name: 'Sui',       base: 'SUI',    logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/20947.png' },
+    { sym: 'PEPEUSDT',   name: 'Pepe',      base: 'PEPE',   logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/24478.png' },
+    { sym: 'LINKUSDT',   name: 'Chainlink', base: 'LINK'   },
+    { sym: 'RENDERUSDT', name: 'Render',    base: 'RENDER', logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5632.png' },
+    { sym: 'JUPUSDT',    name: 'Jupiter',   base: 'JUP',    logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/29210.png' },
+    { sym: 'WIFUSDT',    name: 'dogwifhat', base: 'WIF',    logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/28752.png' },
+  ];
+
+  async function fetchCoinPrices() {
+    const container = document.getElementById('coinlerList');
+    const meta      = document.getElementById('coinlerMeta');
+    if (!container) return;
+    container.innerHTML = `<div style="text-align:center;padding:32px;color:var(--text-secondary);">Yükleniyor...</div>`;
+    try {
+      const symbols = COIN_LIST.map(c => `"${c.sym}"`).join(',');
+      const res = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbols=[${symbols}]`);
+      if (!res.ok) throw new Error();
+      const tickers = await res.json();
+      const map = {};
+      tickers.forEach(t => { map[t.symbol] = t; });
+
+      const iconBase = 'https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color';
+
+      container.innerHTML = COIN_LIST.map(coin => {
+        const d = map[coin.sym];
+        if (!d) return '';
+        const price  = parseFloat(d.lastPrice);
+        const chg    = parseFloat(d.priceChangePercent);
+        const isUp   = chg >= 0;
+        const pillCls = isUp ? 'up' : 'down';
+        const priceStr = price < 0.0001 ? price.toFixed(8)
+                        : price < 0.01  ? price.toFixed(6)
+                        : price < 1     ? price.toFixed(4)
+                        : price < 10    ? price.toFixed(3)
+                                        : price.toFixed(2);
+        
+        // Eğer coin objesinde logo varsa onu kullan, yoksa standart base ikonunu dene
+        const iconSrc = coin.logo || `${iconBase}/${coin.base.toLowerCase()}.png`;
+
+        return `<div class="coin-row">
+          <div class="m-left">
+            <img src="${iconSrc}" class="market-icon" style="border-radius:50%;" onerror="this.style.display='none';this.nextSibling.style.display='flex'">
+            <div class="coin-letter-icon" style="display:none; width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.05); align-items:center; justify-content:center; font-size:12px; font-weight:800; color:var(--text-secondary);">${coin.base[0]}</div>
+            <div>
+              <div class="m-symbol">${coin.base}<span class="m-pair">/USDT</span></div>
+              <div style="font-size:10px;color:var(--text-secondary);margin-top:2px;">${coin.name}</div>
+            </div>
+          </div>
+          <div class="m-middle" style="font-size:14px;">${priceStr}</div>
+          <div class="m-right">
+            <div class="pill ${pillCls}" style="font-size:12px;">${isUp ? '+' : ''}${chg.toFixed(2)}%</div>
+          </div>
+        </div>`;
+      }).join('');
+
+      if (meta) {
+        const now = new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+        meta.textContent = `Binance • ${now} • 24s değişim`;
+      }
+    } catch(e) {
+      container.innerHTML = `<div style="text-align:center;padding:32px;color:var(--down);">Bağlantı hatası. <button onclick="fetchCoinPrices()" style="color:var(--brand);background:none;border:none;font-weight:800;cursor:pointer;">Tekrar dene</button></div>`;
+    }
+  }
+
+  // ══════════════════════════════════════════
+  // YAKIT FİYATLARI (akaryakit-fiyatlari API)
+  // ══════════════════════════════════════════
+  // Şehir ID map (OPET şube kodları)
+  const CITY_IDS = { istanbul: 34, ankara: 6, izmir: 35, bursa: 16, antalya: 7 };
+
+  window.fetchFuelPrices = async function() {
+    const cards = document.getElementById('fuelPriceCards');
+    const meta  = document.getElementById('fuelPriceMeta');
+    if (!cards) return;
+
+    cards.innerHTML = `
+      <div class="fuel-price-card benzin"><div class="fpc-icon">⛽</div><div class="fpc-label">Benzin 95</div><div class="fpc-price anim-pulse">●●</div></div>
+      <div class="fuel-price-card motorin"><div class="fpc-icon">🚛</div><div class="fpc-label">Motorin</div><div class="fpc-price anim-pulse">●●</div></div>
+      <div class="fuel-price-card lpg"><div class="fpc-icon">💨</div><div class="fpc-label">LPG</div><div class="fpc-price anim-pulse">●●</div></div>`;
+
+    const cityEl = document.getElementById('fuelCitySelect');
+    const city  = cityEl ? cityEl.value : 'istanbul';
+    const cityId = CITY_IDS[city] || 34;
+
+    // API deneme listesi (Daha güvenilir proxy'ler)
+    const ENDPOINTS = [
+      `https://akaryakit-fiyatlari.vercel.app/api/opet/${cityId}`,
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://akaryakit-fiyatlari.vercel.app/api/opet/${cityId}`)}`,
+      `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(`https://akaryakit-fiyatlari.vercel.app/api/opet/${cityId}`)}`,
+    ];
+
+    let data = null;
+    for (const url of ENDPOINTS) {
+      try {
+        const ctrl = new AbortController();
+        const tid  = setTimeout(() => ctrl.abort(), 8000);
+        const res  = await fetch(url, { signal: ctrl.signal });
+        clearTimeout(tid);
+        
+        if (res.ok) { 
+            let result = await res.json();
+            // AllOrigins içeriği result.contents içinde string olarak döndürür
+            if (url.includes('allorigins') && result.contents) {
+                data = JSON.parse(result.contents);
+            } else {
+                data = result;
+            }
+            if (data) break; 
+        }
+      } catch (err) { console.warn("Fuel Fetch Error:", url, err); }
+    }
+
+    if (!data) {
+      cards.innerHTML = `<div style="grid-column:span 3;text-align:center;padding:16px;color:var(--text-secondary);font-size:12px;">Yakıt verileri alınamadı. <button onclick="fetchFuelPrices()" style="color:var(--brand);background:none;border:none;font-weight:800;cursor:pointer;">Tekrar dene</button></div>`;
+      return;
+    }
+
+    // Farklı API formatı ayrıştır
+    let benzin = null, motorin = null, lpg = null;
+    const parse = v => v ? parseFloat(String(v).replace(',', '.')) : null;
+
+    if (data.benzin || data.Benzin || data['95']) {
+      benzin  = parse(data.benzin || data.Benzin || data['95']);
+      motorin = parse(data.motorin || data.Motorin || data.diesel);
+      lpg     = parse(data.lpg || data.LPG || data.autogas);
+    } else if (Array.isArray(data)) {
+      data.forEach(item => {
+        const t = (item.type || item.name || item.fuelType || '').toLowerCase();
+        const p = parse(item.price || item.fiyat);
+        if (t.includes('95') || t.includes('benzin') || t.includes('gasoline')) benzin = p;
+        else if (t.includes('motor') || t.includes('diesel')) motorin = p;
+        else if (t.includes('lpg') || t.includes('autogas')) lpg = p;
+      });
+    } else if (data.prices || data.data || data.fuel) {
+      const arr = data.prices || data.data || data.fuel || [];
+      arr.forEach(item => {
+        const t = (item.type || item.name || '').toLowerCase();
+        const p = parse(item.price || item.fiyat);
+        if (t.includes('95') || t.includes('benzin')) benzin = p;
+        else if (t.includes('motor') || t.includes('diesel')) motorin = p;
+        else if (t.includes('lpg')) lpg = p;
+      });
+    }
+
+    const fmt = p => p ? p.toFixed(2).replace('.', ',') + ' ₺' : '--';
+    cards.innerHTML = `
+      <div class="fuel-price-card benzin">
+        <div class="fpc-icon">⛽</div>
+        <div class="fpc-label">Benzin 95</div>
+        <div class="fpc-price">${fmt(benzin)}</div>
+      </div>
+      <div class="fuel-price-card motorin">
+        <div class="fpc-icon">🚛</div>
+        <div class="fpc-label">Motorin</div>
+        <div class="fpc-price">${fmt(motorin)}</div>
+      </div>
+      <div class="fuel-price-card lpg">
+        <div class="fpc-icon">💨</div>
+        <div class="fpc-label">LPG</div>
+        <div class="fpc-price">${fmt(lpg)}</div>
+      </div>`;
+
+    if (meta) {
+      const now = new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+      const cityName = cityEl ? cityEl.options[cityEl.selectedIndex].text : 'İstanbul';
+      meta.textContent = `OPET • ${cityName} • ${now}`;
+    }
+  };
+

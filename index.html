@@ -86,7 +86,7 @@
         <label>BTC Pozisyonu (₺) <input type="number" id="debtBTC" step="0.0001" value="0" /></label>
         <label>TRY Pozisyonu (₺) <input type="number" id="debtTRY" step="0.01" value="0" /></label>
         
-        <button id="saveDebtsBtn" class="btn primary" style="margin-top:24px;">Kaydet & Hesapla</button>
+        <button id="saveDebtsBtn" class="btn primary" style="margin-top:24px;">Kaydet &amp; Hesapla</button>
       </div>
     </div>
 
@@ -108,84 +108,96 @@
           <div class="debt-try" id="totalDebtDisplay">₺0.00</div>
           <div class="debt-usd">≈ <span id="totalDebtUsdDisplay">$0.00</span></div>
         </div>
-        
-        <!-- Piyasalar Listesi -->
-        <div class="markets-header">
-          <div style="flex:1;">İsim</div>
-          <div style="flex:1; text-align:right; padding-right:16px;">Son Fiyat</div>
-          <div style="width:80px; text-align:right;">Değişim</div>
+
+        <!-- Piyasa / Coinler Alt Sekmeleri -->
+        <div class="market-sub-tabs">
+          <button class="market-sub-btn active" id="btnMarketPiyasa" onclick="switchMarketTab('market')">Piyasa</button>
+          <button class="market-sub-btn" id="btnMarketCoinler" onclick="switchMarketTab('coins')">Coinler</button>
         </div>
-        
-        <div id="financeGrid">
-          <div class="market-row">
-            <div class="m-left">
-              <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/usd.png" class="market-icon" onerror="this.src='https://flagcdn.com/w80/us.png'">
-              <div class="m-symbol">USD<span class="m-pair">/TRY</span></div>
-            </div>
-            <div class="m-middle" id="usdTry">--</div>
-            <div class="m-right"><div class="pill neutral" id="usdTryChg">--</div></div>
-          </div>
 
-          <div class="market-row">
-            <div class="m-left">
-              <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/eur.png" class="market-icon" onerror="this.src='https://flagcdn.com/w80/eu.png'">
-              <div class="m-symbol">EUR<span class="m-pair">/TRY</span></div>
-            </div>
-            <div class="m-middle" id="eurTry">--</div>
-            <div class="m-right"><div class="pill neutral" id="eurTryChg">--</div></div>
+        <!-- PIYASA BOLUMU -->
+        <div id="piyasaSection">
+          <div class="markets-header">
+            <div style="flex:1;">İsim</div>
+            <div style="flex:1; text-align:right; padding-right:16px;">Son Fiyat</div>
+            <div style="width:80px; text-align:right;">Değişim</div>
           </div>
-
-          <div class="market-row">
-            <div class="m-left">
-              <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/btc.png" class="market-icon">
-              <div class="m-symbol">BTC<span class="m-pair">/USD</span></div>
+          <div id="financeGrid">
+            <div class="market-row">
+              <div class="m-left">
+                <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/usd.png" class="market-icon" onerror="this.src='https://flagcdn.com/w80/us.png'">
+                <div class="m-symbol">USD<span class="m-pair">/TRY</span></div>
+              </div>
+              <div class="m-middle" id="usdTry">--</div>
+              <div class="m-right"><div class="pill neutral" id="usdTryChg">--</div></div>
             </div>
-            <div class="m-middle" id="btcUsd">--</div>
-            <div class="m-right"><div class="pill neutral" id="btcUsdChg">--</div></div>
+            <div class="market-row">
+              <div class="m-left">
+                <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/eur.png" class="market-icon" onerror="this.src='https://flagcdn.com/w80/eu.png'">
+                <div class="m-symbol">EUR<span class="m-pair">/TRY</span></div>
+              </div>
+              <div class="m-middle" id="eurTry">--</div>
+              <div class="m-right"><div class="pill neutral" id="eurTryChg">--</div></div>
+            </div>
+            <div class="market-row">
+              <div class="m-left">
+                <img src="https://static.okx.com/cdn/oksupport/asset/currency/icon/btc.png" class="market-icon" onerror="this.src='https://bin.bnbstatic.com/static/assets/logos/BTC.png'">
+                <div class="m-symbol">BTC<span class="m-pair">/USD</span></div>
+              </div>
+              <div class="m-middle" id="btcUsd">--</div>
+              <div class="m-right"><div class="pill neutral" id="btcUsdChg">--</div></div>
+            </div>
+            <div class="market-row">
+              <div class="m-left">
+                <img src="https://static.okx.com/cdn/oksupport/asset/currency/icon/eth.png" class="market-icon" onerror="this.src='https://bin.bnbstatic.com/static/assets/logos/ETH.png'">
+                <div class="m-symbol">ETH<span class="m-pair">/USD</span></div>
+              </div>
+              <div class="m-middle" id="ethUsd">--</div>
+              <div class="m-right"><div class="pill neutral" id="ethUsdChg">--</div></div>
+            </div>
+            <div class="market-row">
+              <div class="m-left">
+                <img src="https://static.okx.com/cdn/oksupport/asset/currency/icon/bnb.png" class="market-icon" onerror="this.src='https://bin.bnbstatic.com/static/assets/logos/BNB.png'">
+                <div class="m-symbol">BNB<span class="m-pair">/USD</span></div>
+              </div>
+              <div class="m-middle" id="bnbUsd">--</div>
+              <div class="m-right"><div class="pill neutral" id="bnbUsdChg">--</div></div>
+            </div>
+            <div class="market-row">
+              <div class="m-left">
+                <img src="https://static.okx.com/cdn/oksupport/asset/currency/icon/xrp.png" class="market-icon" onerror="this.src='https://bin.bnbstatic.com/static/assets/logos/XRP.png'">
+                <div class="m-symbol">XRP<span class="m-pair">/USD</span></div>
+              </div>
+              <div class="m-middle" id="xrpUsd">--</div>
+              <div class="m-right"><div class="pill neutral" id="xrpUsdChg">--</div></div>
+            </div>
+            <div class="market-row" onclick="xauAc()" style="cursor:pointer;" title="Detaylı altın borsası için tıkla">
+              <div class="m-left">
+                <img src="https://static.okx.com/cdn/oksupport/asset/currency/icon/paxg.png" class="market-icon" onerror="this.src='https://bin.bnbstatic.com/static/assets/logos/PAXG.png'">
+                <div class="m-symbol">XAU<span class="m-pair">/TRY (Gr)</span></div>
+              </div>
+              <div class="m-middle" id="goldTry">--</div>
+              <div class="m-right"><div class="pill neutral" id="goldTryChg">--</div></div>
+            </div>
           </div>
-
-          <div class="market-row">
-            <div class="m-left">
-              <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/eth.png" class="market-icon">
-              <div class="m-symbol">ETH<span class="m-pair">/USD</span></div>
-            </div>
-            <div class="m-middle" id="ethUsd">--</div>
-            <div class="m-right"><div class="pill neutral" id="ethUsdChg">--</div></div>
-          </div>
-
-          <div class="market-row">
-            <div class="m-left">
-              <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/bnb.png" class="market-icon">
-              <div class="m-symbol">BNB<span class="m-pair">/USD</span></div>
-            </div>
-            <div class="m-middle" id="bnbUsd">--</div>
-            <div class="m-right"><div class="pill neutral" id="bnbUsdChg">--</div></div>
-          </div>
-
-          <div class="market-row">
-            <div class="m-left">
-              <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/xrp.png" class="market-icon">
-              <div class="m-symbol">XRP<span class="m-pair">/USD</span></div>
-            </div>
-            <div class="m-middle" id="xrpUsd">--</div>
-            <div class="m-right"><div class="pill neutral" id="xrpUsdChg">--</div></div>
-          </div>
-
-          <div class="market-row" onclick="xauAc()" style="cursor:pointer;" title="Detaylı altın borsası için tıkla">
-            <div class="m-left">
-              <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/pax.png" class="market-icon">
-              <div class="m-symbol">XAU<span class="m-pair">/TRY (Gr)</span></div>
-            </div>
-            <div class="m-middle" id="goldTry">--</div>
-            <div class="m-right"><div class="pill neutral" id="goldTryChg">--</div></div>
+          <p id="financeMeta" style="color:var(--text-secondary); font-size:11px; text-align:center; padding:16px 0;"></p>
+          <div style="padding:32px 16px; text-align:center; opacity:0.3; border-top:1px solid rgba(255,255,255,0.03);">
+            <div style="font-size:12px; font-weight:800; color:var(--text-primary); letter-spacing:1px; text-transform:uppercase;">Powered by ®muzaf</div>
+            <div style="font-size:10px; color:var(--text-secondary); margin-top:4px;">muzaf@hotmail.com</div>
           </div>
         </div>
-        <p id="financeMeta" style="color:var(--text-secondary); font-size:11px; text-align:center; padding:16px 0;"></p>
 
-        <!-- POWERED BY ®muzaf (Home Page Only) -->
-        <div style="padding:40px 16px; text-align:center; opacity:0.3; margin-top:20px; border-top:1px solid rgba(255,255,255,0.03);">
-          <div style="font-size:12px; font-weight:800; color:var(--text-primary); letter-spacing:1px; text-transform:uppercase;">Powered by ®muzaf</div>
-          <div style="font-size:10px; color:var(--text-secondary); margin-top:4px;">muzaf@hotmail.com</div>
+        <!-- COİNLER BOLUMU -->
+        <div id="coinlerSection" style="display:none;">
+          <div class="markets-header">
+            <div style="flex:1;">Coin</div>
+            <div style="flex:1; text-align:right; padding-right:16px;">Fiyat (USDT)</div>
+            <div style="width:80px; text-align:right;">24s %</div>
+          </div>
+          <div id="coinlerList">
+            <div style="text-align:center; padding:40px 16px; color:var(--text-secondary); font-size:13px;">Yükleniyor...</div>
+          </div>
+          <p id="coinlerMeta" style="color:var(--text-secondary); font-size:11px; text-align:center; padding:8px 16px 16px;"></p>
         </div>
       </section>
 
@@ -262,6 +274,35 @@
 
       <!-- ═════════════════════════ YAKIT SEKMESİ ═════════════════════════ -->
       <section id="fuel" class="tab-page">
+        <!-- ⛽ GÜNCEL YAKIT FİYATLARI -->
+        <div class="fuel-price-widget" id="fuelPriceWidget">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <div style="font-size:12px; font-weight:800; color:var(--up); display:flex; align-items:center; gap:6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="15" y2="22"/><line x1="4" y1="9" x2="14" y2="9"/><path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18"/><path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 4 0V9.83a2 2 0 0 0-.59-1.42L18 5"/></svg>
+              Yakıt Fiyatları
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <select id="fuelCitySelect" class="fuel-city-select" onchange="fetchFuelPrices()">
+                <option value="istanbul" selected>İstanbul</option>
+                <option value="ankara">Ankara</option>
+                <option value="izmir">İzmir</option>
+                <option value="bursa">Bursa</option>
+                <option value="antalya">Antalya</option>
+              </select>
+              <button class="refresh-badge" onclick="fetchFuelPrices()">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg>
+                <span>Yenile</span>
+              </button>
+            </div>
+          </div>
+          <div class="fuel-price-cards-grid" id="fuelPriceCards">
+            <div class="fuel-price-card benzin"><div class="fpc-icon">⛽</div><div class="fpc-label">Benzin 95</div><div class="fpc-price anim-pulse">●●</div></div>
+            <div class="fuel-price-card motorin"><div class="fpc-icon">🚛</div><div class="fpc-label">Motorin</div><div class="fpc-price anim-pulse">●●</div></div>
+            <div class="fuel-price-card lpg"><div class="fpc-icon">💨</div><div class="fpc-label">LPG</div><div class="fpc-price anim-pulse">●●</div></div>
+          </div>
+          <div id="fuelPriceMeta" style="font-size:10px; color:var(--text-secondary); text-align:center; margin-top:8px;"></div>
+        </div>
+
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; background:var(--bg-secondary); padding:16px; border-radius:16px; margin-bottom: 24px;">
           <div><span style="font-size:12px; color:var(--text-secondary);">Toplam Harcama</span><div style="color:var(--brand); font-weight:800; font-size:16px;" id="sumAmount">0</div></div>
           <div><span style="font-size:12px; color:var(--text-secondary);">Toplam Gidilen</span><div style="color:var(--brand); font-weight:800; font-size:16px;" id="sumKm">0</div></div>
@@ -325,7 +366,7 @@
       <section id="days" class="tab-page">
         <details class="panel" style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin-bottom:24px; border:1px dashed var(--line); cursor: pointer;" id="newDayDetails">
             <summary style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
-               <span style="display:flex; align-items:center; gap:8px;"><span style="font-size:18px;">⏱️</span> Hedef & Geri Sayım Ekle</span>
+               <span style="display:flex; align-items:center; gap:8px;"><span style="font-size:18px;">⏱️</span> Hedef &amp; Geri Sayım Ekle</span>
                <span style="font-size:12px; color:var(--brand)">Genişlet 🔽</span>
             </summary>
             <form id="daysForm" class="form-panel" style="margin-top:20px; padding-top:16px; border-top:1px solid var(--line); cursor: default;" onclick="event.stopPropagation()">
@@ -403,7 +444,7 @@
           </div>
         </div>
 
-        <!-- TEAM DETAIL OVERLAY (New Enhancement) -->
+        <!-- TEAM DETAIL OVERLAY -->
         <div id="teamDetailOverlay" class="team-detail-overlay">
           <div class="team-detail-content">
             <div class="team-detail-header">
@@ -440,15 +481,15 @@
           </div>
         </div>
 
-        <!-- ROUND INFO (New) -->
+        <!-- ROUND INFO BAR -->
         <div id="ligRoundBar" class="round-info-bar" style="display:none;">
           <span id="ligRoundText">--. Hafta</span>
           <div class="round-sep"></div>
           <span id="ligRemainingText">Kalan: -- Hafta</span>
         </div>
 
-        <div style="padding:16px;">
-          <div class="detail-tabs" style="margin-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.05);">
+        <div style="padding:0 16px 0;">
+          <div class="detail-tabs lig-tabs">
             <button id="btnLigStanding" class="detail-tab-btn active" onclick="switchLigMainTab('standing')">Puan Durumu</button>
             <button id="btnLigWeek" class="detail-tab-btn" onclick="switchLigMainTab('week')">Haftalık Maçlar</button>
             <button id="btnLigLive" class="detail-tab-btn" onclick="switchLigMainTab('live')">Canlı Skor</button>
@@ -473,7 +514,7 @@
             </div>
           </div>
 
-          <!-- BOTTOM LEGEND (Centered) -->
+          <!-- BOTTOM LEGEND -->
           <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:16px; padding:20px 12px; border-top:1px solid var(--line); margin-top:16px;">
             <div style="display:flex; align-items:center; gap:6px; font-size:10px; color:var(--text-secondary);">
               <div style="width:10px; height:4px; border-radius:10px; background:var(--up);"></div> Şampiyonlar Ligi
@@ -497,6 +538,10 @@
         </div>
 
         <div id="ligLiveSection" style="display:none; padding:0 8px;">
+          <div class="live-refresh-info" id="liveRefreshInfo" style="display:none;">
+            <div class="live-dot-anim"></div>
+            <span id="liveLastUpdate">Otomatik yenileniyor (60sn)</span>
+          </div>
           <div id="ligLiveList">
             <div style="text-align:center; padding:24px; color:var(--text-secondary); font-size:13px;">Canlı veri aranıyor...</div>
           </div>
@@ -509,12 +554,30 @@
 
     <!-- ═════════════════════════ ALT NAVİGASYON ═════════════════════════ -->
     <nav class="bottom-nav">
-      <button class="tab-btn active" data-tab="home"><div class="nav-icon">🏠</div><span>Piyasa</span></button>
-      <button class="tab-btn" data-tab="vault"><div class="nav-icon">🏦</div><span>Kasa</span></button>
-      <button class="tab-btn" data-tab="fuel"><div class="nav-icon">⛽</div><span>Yakıt</span></button>
-      <button class="tab-btn" data-tab="school"><div class="nav-icon">💳</div><span>Taksit</span></button>
-      <button class="tab-btn" data-tab="days"><div class="nav-icon">⏱️</div><span>Zaman</span></button>
-      <button class="tab-btn" data-tab="superlig"><div class="nav-icon">⚽</div><span>Lig</span></button>
+      <button class="tab-btn active" data-tab="home">
+        <div class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <span>Piyasa</span>
+      </button>
+      <button class="tab-btn" data-tab="vault">
+        <div class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><circle cx="12" cy="10" r="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <span>Kasa</span>
+      </button>
+      <button class="tab-btn" data-tab="fuel">
+        <div class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="15" y2="22"/><line x1="4" y1="9" x2="14" y2="9"/><path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18"/><path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 4 0V9.83a2 2 0 0 0-.59-1.42L18 5"/></svg></div>
+        <span>Yakıt</span>
+      </button>
+      <button class="tab-btn" data-tab="school">
+        <div class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+        <span>Taksit</span>
+      </button>
+      <button class="tab-btn" data-tab="days">
+        <div class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <span>Zaman</span>
+      </button>
+      <button class="tab-btn" data-tab="superlig">
+        <div class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg></div>
+        <span>Lig</span>
+      </button>
     </nav>
 
 
