@@ -248,7 +248,32 @@ const STORAGE_KEYS = {
     state.financeSnapshot = nextSnapshot; writeStorage(STORAGE_KEYS.financeSnapshot, nextSnapshot);
     paintFinanceRow("usdTry", nextSnapshot.usdTry, 4); paintFinanceRow("eurTry", nextSnapshot.eurTry, 4); paintFinanceRow("btcUsd", nextSnapshot.btcUsd, 2, "$"); paintFinanceRow("ethUsd", nextSnapshot.ethUsd, 2, "$"); paintFinanceRow("bnbUsd", nextSnapshot.bnbUsd, 2, "$"); paintFinanceRow("xrpUsd", nextSnapshot.xrpUsd, 4, "$"); paintFinanceRow("goldTry", nextSnapshot.goldTry, 2);
     calcTotalDebt(); 
+    fetchBrentPrice();
     const dateStr = new Date(nextSnapshot.updatedAt).toLocaleDateString("tr-TR"); const timeStr = new Date(nextSnapshot.updatedAt).toLocaleTimeString("tr-TR", {hour: '2-digit', minute:'2-digit'}); meta.innerHTML = `Son Güncelleme : ${dateStr} - ${timeStr}`;
+  }
+
+  // ═════════════════════════ BRENT PETROL API ═════════════════════════
+  async function fetchBrentPrice() {
+    const pEl = document.getElementById('brentPrice');
+    const cEl = document.getElementById('brentChg');
+    if(!pEl) return;
+    const targetUrl = "https://www.doviz.com/emtia/brent-petrol";
+    const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`;
+    try {
+        const res = await fetch(proxyUrl); if(!res.ok) return;
+        const html = await res.text();
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const price = doc.querySelector('.stock-detail .value')?.textContent.trim() || "--";
+        const change = doc.querySelector('.stock-detail .change')?.textContent.trim() || "--";
+        pEl.textContent = price.includes('$') ? price : '$' + price;
+        if (cEl) {
+            cEl.textContent = change;
+            const h = html.toLowerCase();
+            const isUp = change.includes('+') || h.includes('color-up') || h.includes('up-arrow');
+            const isDown = change.includes('-') || h.includes('color-down') || h.includes('down-arrow');
+            cEl.className = `pill ${isUp ? 'up' : isDown ? 'down' : 'neutral'}`;
+        }
+    } catch(e) { console.warn("Brent Fetch", e); }
   }
   function parseFlexibleNumber(input) { if(!input) return Number.NaN; const raw = String(input).trim().replace(/\s/g, "").replace("%",""); if (!raw) return Number.NaN; if (/^-?\d{1,3}(\.\d{3})*(,\d+)?$/.test(raw)) return Number(raw.replace(/\./g, "").replace(",", ".")); return Number(raw.replace(",", ".").replace(/[^0-9.-]/g, "")); }
   function paintFinanceRow(id, obj, decimals, prefix="") {
