@@ -1752,7 +1752,6 @@ const STORAGE_KEYS = {
 
   // ══════════════════════════════════════════
   // COİNLERFİYATLARI (Binance API)
-  // ══════════════════════════════════════════
   const COIN_LIST = [
     { sym: 'SOLUSDT',    name: 'Solana',    base: 'SOL'    },
     { sym: 'DOGEUSDT',   name: 'Dogecoin',  base: 'DOGE'   },
@@ -1833,73 +1832,64 @@ const STORAGE_KEYS = {
     const meta  = document.getElementById('fuelPriceMeta');
     if (!cards) return;
 
-    // Yükleniyor durumu
     cards.innerHTML = `
       <div class="fuel-price-card benzin"><div class="fpc-icon">⛽</div><div class="fpc-label">Benzin 95</div><div class="fpc-price anim-pulse">●●</div></div>
       <div class="fuel-price-card motorin"><div class="fpc-icon">🚛</div><div class="fpc-label">Motorin</div><div class="fpc-price anim-pulse">●●</div></div>
       <div class="fuel-price-card lpg"><div class="fpc-icon">💨</div><div class="fpc-label">LPG</div><div class="fpc-price anim-pulse">●●</div></div>`;
 
     const cityEl = document.getElementById('fuelCitySelect');
-    const cityId = CITY_IDS[cityEl ? cityEl.value : 'istanbul'] || 34;
+    const firmEl = document.getElementById('fuelFirmSelect');
+    const cityKey = cityEl ? cityEl.value : 'istanbul';
+    const firmKey = firmEl ? firmEl.value : 'opet';
 
-    // API deneme listesi (Sırasıyla en sağlam proxy ve API'ler)
-    const ENDPOINTS = [
-      `https://api.allorigins.win/get?url=${encodeURIComponent(`https://akaryakit-fiyatlari.vercel.app/api/opet/${cityId}`)}`,
-      `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(`https://akaryakit-fiyatlari.vercel.app/api/opet/${cityId}`)}`,
-      `https://akaryakit-fiyatlari.vercel.app/api/opet/${cityId}`
-    ];
+    // Doviz.com URL (Daha kararlı veri kaynağı)
+    const targetUrl = `https://www.doviz.com/akaryakit-fiyatlari/${cityKey}`;
+    // Hızlı ve kararlı proxy: Codetabs
+    const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`;
 
-    let data = null;
-    for (const url of ENDPOINTS) {
-      try {
-        const ctrl = new AbortController();
-        const tid  = setTimeout(() => ctrl.abort(), 8000);
-        const res  = await fetch(url, { signal: ctrl.signal });
-        clearTimeout(tid);
+    try {
+        const response = await fetch(proxyUrl);
+        if (!response.ok) throw new Error('Proxy Hatası.');
         
-        if (res.ok) { 
-            let result = await res.json();
-            // AllOrigins içeriği result.contents içinde string olarak döndürür
-            if (url.includes('allorigins') && result.contents) {
-                data = JSON.parse(result.contents);
-            } else {
-                data = result;
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const rows = Array.from(doc.querySelectorAll('table tr'));
+
+        const labels = {
+            'opet': 'opet',
+            'petrol-ofisi': 'ofisi',
+            'shell': 'shell',
+            'bp': 'bp',
+            'total': 'total',
+            'aytemiz': 'aytemiz'
+        };
+        const search = labels[firmKey] || 'opet';
+
+        let r = rows.find(tr => tr.textContent.toLowerCase().includes(search));
+        if (!r && rows.length > 1) r = rows[1]; // Fallback to first general row
+
+        let benzin = "0.00", motorin = "0.00", lpg = "0.00";
+        if (r) {
+            const tds = r.querySelectorAll('td');
+            if (tds.length >= 4) {
+                benzin  = tds[1].textContent.replace('₺', '').trim();
+                motorin = tds[2].textContent.replace('₺', '').trim();
+                lpg     = tds[3].textContent.replace('₺', '').trim();
             }
-            if (data) break; 
         }
-      } catch (err) { console.warn("Fuel Fetch Error:", url, err); }
+
+        cards.innerHTML = `
+          <div class="fuel-price-card benzin"><div class="fpc-icon">⛽</div><div class="fpc-label">Benzin 95</div><div class="fpc-price">${benzin}</div></div>
+          <div class="fuel-price-card motorin"><div class="fpc-icon">🚛</div><div class="fpc-label">Motorin</div><div class="fpc-price">${motorin}</div></div>
+          <div class="fuel-price-card lpg"><div class="fpc-icon">💨</div><div class="fpc-label">LPG</div><div class="fpc-price">${lpg}</div></div>`;
+        
+        const now = new Date().toLocaleTimeString("tr-TR", {hour:'2-digit', minute:'2-digit'});
+        if(meta) meta.textContent = `${cityKey.toUpperCase()} • ${firmKey.toUpperCase()} • ${now}`;
+
+    } catch (error) {
+        console.error("Yakit:", error);
+        cards.innerHTML = `<div style="grid-column:span 3;text-align:center;padding:16px;color:var(--text-secondary);font-size:12px;">Yükleme Başarısız. <button onclick="fetchFuelPrices()" style="color:var(--brand);background:none;border:none;font-weight:800;cursor:pointer;">Tekrar Dene</button></div>`;
     }
-
-    if (!data) {
-      cards.innerHTML = `<div style="grid-column:span 3;text-align:center;padding:16px;color:var(--text-secondary);font-size:12px;">Yakıt verileri alınamadı. <button onclick="fetchFuelPrices()" style="color:var(--brand);background:none;border:none;font-weight:800;cursor:pointer;">Tekrar dene</button></div>`;
-      return;
-    }
-
-    // Veri Ayrıştırma (Genişletilmiş Format Desteği)
-    let benzin = null, motorin = null, lpg = null;
-    const parse = v => v ? parseFloat(String(v).replace(',', '.')) : null;
-
-    if (data.benzin || data.Benzin || data['95']) {
-      benzin  = parse(data.benzin || data.Benzin || data['95']);
-      motorin = parse(data.motorin || data.Motorin || data.diesel);
-      lpg     = parse(data.lpg || data.LPG || data.autogas);
-    } else if (Array.isArray(data)) {
-      data.forEach(item => {
-        const t = (item.type || item.name || item.fuelType || '').toLowerCase();
-        const p = parse(item.price || item.fiyat);
-        if (t.includes('95') || t.includes('benzin') || t.includes('gasoline')) benzin = p;
-        else if (t.includes('motor') || t.includes('diesel') || t.includes('dizel')) motorin = p;
-        else if (t.includes('lpg') || t.includes('otogaz') || t.includes('autogas')) lpg = p;
-      });
-    }
-
-    // Kartları Doldur (Tema Korunarak)
-    cards.innerHTML = `
-      <div class="fuel-price-card benzin"><div class="fpc-icon">⛽</div><div class="fpc-label">Benzin 95</div><div class="fpc-price">${benzin ? benzin.toFixed(2) : '--'}</div></div>
-      <div class="fuel-price-card motorin"><div class="fpc-icon">🚛</div><div class="fpc-label">Motorin</div><div class="fpc-price">${motorin ? motorin.toFixed(2) : '--'}</div></div>
-      <div class="fuel-price-card lpg"><div class="fpc-icon">💨</div><div class="fpc-label">LPG</div><div class="fpc-price">${lpg ? lpg.toFixed(2) : '--'}</div></div>`;
-    
-    const now = new Date().toLocaleTimeString("tr-TR", {hour:'2-digit', minute:'2-digit'});
-    if(meta) meta.textContent = `Güncellendi: ${now} (OPET)`;
   };
 

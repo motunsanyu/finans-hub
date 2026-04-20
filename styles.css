@@ -568,25 +568,28 @@
   }
   .sidebar.open { right: 0; }
   
-  /* ALT MENÜ */
+  /* ALT MENÜ - KESİN YATAY */
   .bottom-nav {
-    position: fixed; bottom: 0; left: 0; right: 0; height: 58px;
+    position: fixed; bottom: 0; left: 0; right: 0; 
+    height: calc(58px + env(safe-area-inset-bottom));
     background: var(--bg-secondary); border-top: 1px solid var(--line);
-    display: flex; justify-content: space-around; align-items: center;
+    display: flex; justify-content: center; align-items: center;
     padding-bottom: env(safe-area-inset-bottom); z-index: 1000;
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   }
   .tab-btn {
     background: transparent; border: none; color: var(--text-secondary);
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 4px; cursor: pointer; flex: 1; min-width: 0; padding: 4px 0;
-    transition: color 0.15s ease;
+    gap: 4px; cursor: pointer; flex: 1; max-width: 60px; /* İkonlar arası yakınlık */
+    transition: all 0.2s ease; padding: 6px 0;
   }
-  .tab-btn span { font-size: 10px; font-weight: 500; white-space: nowrap; }
+  .tab-btn span { font-size: 9px; font-weight: 700; white-space: nowrap; }
   .nav-icon { font-size: 20px; line-height: 1; display: flex; align-items: center; justify-content: center; }
-  .nav-icon svg { stroke: var(--text-secondary); transition: stroke 0.15s; }
-  .tab-btn.active { color: var(--text-primary); }
+  .nav-icon svg { stroke: var(--text-secondary); stroke-width: 2; transition: stroke 0.2s; }
+  
+  .tab-btn.active { color: var(--brand); }
   .tab-btn.active .nav-icon svg { stroke: var(--brand); stroke-width: 2.5; }
-  .tab-btn.active span { color: var(--text-primary); font-weight: 700; }
+  .tab-btn.active span { color: var(--brand); font-weight: 800; }
 
   /* ═══════════════════════════════════════════
      GENEL SEKME STİLLERİ (LİG, MARKET VS.)
