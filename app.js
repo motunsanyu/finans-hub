@@ -1902,37 +1902,4 @@ const STORAGE_KEYS = {
     const now = new Date().toLocaleTimeString("tr-TR", {hour:'2-digit', minute:'2-digit'});
     if(meta) meta.textContent = `Güncellendi: ${now} (OPET)`;
   };
-      arr.forEach(item => {
-        const t = (item.type || item.name || '').toLowerCase();
-        const p = parse(item.price || item.fiyat);
-        if (t.includes('95') || t.includes('benzin')) benzin = p;
-        else if (t.includes('motor') || t.includes('diesel')) motorin = p;
-        else if (t.includes('lpg')) lpg = p;
-      });
-    }
-
-    const fmt = p => p ? p.toFixed(2).replace('.', ',') + ' ₺' : '--';
-    cards.innerHTML = `
-      <div class="fuel-price-card benzin">
-        <div class="fpc-icon">⛽</div>
-        <div class="fpc-label">Benzin 95</div>
-        <div class="fpc-price">${fmt(benzin)}</div>
-      </div>
-      <div class="fuel-price-card motorin">
-        <div class="fpc-icon">🚛</div>
-        <div class="fpc-label">Motorin</div>
-        <div class="fpc-price">${fmt(motorin)}</div>
-      </div>
-      <div class="fuel-price-card lpg">
-        <div class="fpc-icon">💨</div>
-        <div class="fpc-label">LPG</div>
-        <div class="fpc-price">${fmt(lpg)}</div>
-      </div>`;
-
-    if (meta) {
-      const now = new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
-      const cityName = cityEl ? cityEl.options[cityEl.selectedIndex].text : 'İstanbul';
-      meta.textContent = `OPET • ${cityName} • ${now}`;
-    }
-  };
 
