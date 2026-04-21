@@ -1314,6 +1314,37 @@ const STORAGE_KEYS = {
     `;
   }
 
+  function renderTeamDetailGoals(ev) {
+    const goals = ev.goals || [];
+    if (goals.length === 0) return "";
+
+    const homeGoals = goals.filter(g => g.teamId === ev.homeId);
+    const awayGoals = goals.filter(g => g.teamId === ev.awayId);
+
+    const goalRow = (g, isRight) => `
+      <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px; justify-content:${isRight ? "flex-end" : "flex-start"}; text-align:${isRight ? "right" : "left"}; flex-direction:${isRight ? "row-reverse" : "row"};">
+        <span class="sch-goal-icon">⚽</span>
+        <span><b>${g.min}</b> ${g.player}</span>
+      </div>
+    `;
+
+    const emptySide = (isRight) => `
+      <div style="font-size:10px; color:rgba(255,255,255,0.12); font-style:italic; text-align:${isRight ? "right" : "left"};">—</div>
+    `;
+
+    return `
+      <div class="sch-goals" style="display:grid; grid-template-columns:1fr 1px 1fr; gap:0; align-items:start;">
+        <div style="padding-right:10px;">
+          ${homeGoals.length > 0 ? homeGoals.map(g => goalRow(g, false)).join("") : emptySide(false)}
+        </div>
+        <div style="background:rgba(255,255,255,0.05); align-self:stretch;"></div>
+        <div style="padding-left:10px;">
+          ${awayGoals.length > 0 ? awayGoals.map(g => goalRow(g, true)).join("") : emptySide(true)}
+        </div>
+      </div>
+    `;
+  }
+
   window.switchLigMatches = function(type) {
     document.getElementById("btnPastMatches").classList.toggle("active", type === 'past');
     document.getElementById("btnFutureMatches").classList.toggle("active", type === 'future');
@@ -1518,7 +1549,7 @@ const STORAGE_KEYS = {
                   <div class="sch-name">${ev.away}</div>
                 </div>
               </div>
-              ${renderGoals(ev.goals)}
+              ${renderTeamDetailGoals(ev)}
               <div class="sch-league">${ev.league}</div>
             </div>
           `;
@@ -1941,4 +1972,3 @@ const STORAGE_KEYS = {
         cards.innerHTML = `<div style="grid-column:span 3;text-align:center;padding:16px;color:var(--text-secondary);font-size:12px;">Yükleme Başarısız. <button onclick="fetchFuelPrices()" style="color:var(--brand);background:none;border:none;font-weight:800;cursor:pointer;">Tekrar Dene</button></div>`;
     }
   };
-
