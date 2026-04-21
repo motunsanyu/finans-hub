@@ -1338,7 +1338,7 @@ const STORAGE_KEYS = {
           ${homeGoals.length > 0 ? homeGoals.map(g => goalRow(g, false)).join("") : emptySide(false)}
         </div>
         <div style="background:rgba(255,255,255,0.05); align-self:stretch;"></div>
-        <div style="padding-left:10px;">
+        <div style="padding-left:10px; display:flex; flex-direction:column; align-items:flex-end;">
           ${awayGoals.length > 0 ? awayGoals.map(g => goalRow(g, true)).join("") : emptySide(true)}
         </div>
       </div>
