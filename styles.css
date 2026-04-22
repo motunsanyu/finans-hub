@@ -1046,3 +1046,79 @@
   flex-shrink: 0;
 }
 
+/* fixture-styles.css içeriğini buraya yapıştırın */
+
+/* ══════════════════════════════════════════
+   FİKSTÜR NAVİGASYON STİLLERİ
+══════════════════════════════════════════ */
+.fixture-week-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  margin: 12px 0 16px;
+  border: 1px solid var(--line);
+}
+
+.fixture-nav-btn {
+  background: var(--bg-hover);
+  border: 1px solid var(--line);
+  color: var(--text-primary);
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.fixture-nav-btn:active {
+  transform: scale(0.95);
+  background: var(--brand);
+}
+
+.fixture-nav-btn:active svg {
+  stroke: var(--text-dark);
+}
+
+.fixture-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.fixture-nav-btn:disabled:active {
+  transform: none;
+  background: var(--bg-hover);
+}
+
+.fixture-nav-btn svg {
+  stroke: var(--text-primary);
+  transition: stroke 0.2s;
+}
+
+.fixture-week-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  text-align: center;
+}
+
+.fixture-week-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--brand);
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: -0.3px;
+}
+
+.fixture-week-date {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}

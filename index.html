@@ -535,6 +535,7 @@
             <button id="btnLigStanding" class="detail-tab-btn active" onclick="switchLigMainTab('standing')">Puan Durumu</button>
             <button id="btnLigWeek" class="detail-tab-btn" onclick="switchLigMainTab('week')">Haftalık Maçlar</button>
             <button id="btnLigLive" class="detail-tab-btn" onclick="switchLigMainTab('live')">Canlı Skor</button>
+            <button id="btnLigFixture" class="detail-tab-btn" onclick="switchLigMainTab('fixture')">Fikstür</button>
           </div>
         </div>
 
@@ -586,6 +587,28 @@
           </div>
           <div id="ligLiveList">
             <div style="text-align:center; padding:24px; color:var(--text-secondary); font-size:13px;">Canlı veri aranıyor...</div>
+          </div>
+        </div>
+
+        <!-- YENİ: FİKSTÜR SEKMESİ -->
+        <div id="ligFixtureSection" style="display:none; padding:0 8px;">
+          <!-- Hafta Seçici -->
+          <div class="fixture-week-nav">
+            <button id="fixturePrevBtn" class="fixture-nav-btn" onclick="changeFixtureWeek(-1)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div class="fixture-week-info">
+              <span id="fixtureWeekTitle" class="fixture-week-title">-- . Hafta</span>
+              <span id="fixtureWeekDate" class="fixture-week-date">--</span>
+            </div>
+            <button id="fixtureNextBtn" class="fixture-nav-btn" onclick="changeFixtureWeek(1)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+
+          <!-- Maç Listesi -->
+          <div id="fixtureMatchList">
+            <div style="text-align:center; padding:40px 16px; color:var(--text-secondary); font-size:13px;">Fikstür yükleniyor...</div>
           </div>
         </div>
 

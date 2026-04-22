@@ -843,7 +843,7 @@ const STORAGE_KEYS = {
   }
 
   window.switchLigMainTab = function(tab) {
-    const tabs = ['standing', 'week', 'live'];
+    const tabs = ['standing', 'week', 'live', 'fixture'];
     tabs.forEach(t => {
       const btn = document.getElementById("btnLig" + t.charAt(0).toUpperCase() + t.slice(1));
       const sec = document.getElementById("lig" + t.charAt(0).toUpperCase() + t.slice(1) + "Section");
@@ -872,6 +872,7 @@ const STORAGE_KEYS = {
       if (info) info.style.display = 'none';
     }
     if (tab === 'week') fetchWeeklyMatches();
+    if (tab === 'fixture') fetchLeagueFixtureByWeek();
   };
 
 
@@ -1352,15 +1353,154 @@ const STORAGE_KEYS = {
     document.getElementById("ligFutureSection").style.display = type === 'future' ? 'block' : 'none';
   };
 
+  function getCurrentSuperLigSeasonStartYear() {
+    const now = new Date();
+    const month = now.getMonth() + 1;
+    return month >= 7 ? now.getFullYear() : now.getFullYear() - 1;
+  }
+
+  function formatSeasonLabel(startYear) {
+    return `${startYear}-${String(startYear + 1).slice(-2)}`;
+  }
+
+  function getSelectedSeasonStartYear() {
+    const el = document.getElementById("ligSeasonSelect");
+    if (!el || el.value === "auto") return getCurrentSuperLigSeasonStartYear();
+    const value = parseInt(el.value, 10);
+    return Number.isFinite(value) ? value : getCurrentSuperLigSeasonStartYear();
+  }
+
+  function populateLigSeasonOptions() {
+    const el = document.getElementById("ligSeasonSelect");
+    if (!el) return;
+    const current = getCurrentSuperLigSeasonStartYear();
+    const years = [current - 1, current];
+    el.innerHTML = [`<option value="auto">Otomatik</option>`]
+      .concat(years.map(year => `<option value="${year}">${formatSeasonLabel(year)}</option>`))
+      .join("");
+  }
+
+  function getSeasonDateRange(startYear) {
+    const start = new Date(Date.UTC(startYear, 6, 1));
+    const end = new Date(Date.UTC(startYear + 1, 5, 30));
+    return { start, end };
+  }
+
+  function toScoreboardDate(date) {
+    return date.toISOString().slice(0, 10).replace(/-/g, "");
+  }
+
+  function buildSeasonMonthRanges(startYear) {
+    const ranges = [];
+    const { start, end } = getSeasonDateRange(startYear);
+    const cursor = new Date(start);
+
+    while (cursor <= end) {
+      const monthStart = new Date(cursor);
+      const monthEnd = new Date(Date.UTC(cursor.getUTCFullYear(), cursor.getUTCMonth() + 1, 0));
+      if (monthEnd > end) monthEnd.setTime(end.getTime());
+      ranges.push(`${toScoreboardDate(monthStart)}-${toScoreboardDate(monthEnd)}`);
+      cursor.setUTCMonth(cursor.getUTCMonth() + 1, 1);
+    }
+    return ranges;
+  }
+
+  async function fetchSeasonScoreboardEvents(startYear) {
+    const ranges = buildSeasonMonthRanges(startYear);
+    const payloads = await Promise.all(
+      ranges.map(range =>
+        fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=${range}&limit=100`)
+          .then(res => res.ok ? res.json() : null)
+          .catch(() => null)
+      )
+    );
+
+    const events = payloads.flatMap(data => data?.events || []);
+    return Array.from(new Map(events.map(ev => [String(ev.id || ev.uid || ev.date || Math.random()), ev])).values());
+  }
+
+  async function getCachedSeasonScoreboardEvents(startYear) {
+    window._ligSeasonEventsCache = window._ligSeasonEventsCache || {};
+    if (!window._ligSeasonEventsCache[startYear]) {
+      window._ligSeasonEventsCache[startYear] = await fetchSeasonScoreboardEvents(startYear);
+    }
+    return window._ligSeasonEventsCache[startYear];
+  }
+
+  function getEventWeekNumber(ev) {
+    const candidates = [
+      ev?.week?.number,
+      ev?.season?.type?.week?.number,
+      ev?.competitions?.[0]?.week?.number
+    ];
+    const week = candidates.map(v => parseInt(v, 10)).find(Number.isFinite);
+    return Number.isFinite(week) && week > 0 ? week : null;
+  }
+
+  function groupEventsByWeek(events) {
+    const grouped = new Map();
+    [...events]
+      .sort((a, b) => new Date(a.date) - new Date(b.date))
+      .forEach(ev => {
+        const week = getEventWeekNumber(ev);
+        if (!week) return;
+        if (!grouped.has(week)) grouped.set(week, []);
+        grouped.get(week).push(ev);
+      });
+    return grouped;
+  }
+
+  async function fetchLeagueFixtureByWeek(forceWeek) {
+    const list = document.getElementById("ligFixtureList");
+    const select = document.getElementById("ligFixtureWeekSelect");
+    if (!list || !select) return;
+
+    list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary); font-size:13px;">Fikstür yükleniyor...</div>`;
+
+    try {
+      const selectedSeason = getSelectedSeasonStartYear();
+      const seasonLabel = formatSeasonLabel(selectedSeason);
+      const allEvents = await getCachedSeasonScoreboardEvents(selectedSeason);
+      const grouped = groupEventsByWeek(allEvents);
+      const weeks = Array.from(grouped.keys()).sort((a, b) => a - b);
+
+      if (weeks.length === 0) {
+        select.innerHTML = `<option value="">Hafta bulunamadı</option>`;
+        list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary); font-size:13px;">Bu sezon için hafta bilgisi bulunamadı.</div>`;
+        return;
+      }
+
+      const defaultWeek = (selectedSeason === getCurrentSuperLigSeasonStartYear() && weeks.includes(window._ligCurrentWeek))
+        ? window._ligCurrentWeek
+        : weeks[0];
+
+      const activeWeek = Number.isFinite(parseInt(forceWeek, 10))
+        ? parseInt(forceWeek, 10)
+        : (weeks.includes(parseInt(select.value, 10)) ? parseInt(select.value, 10) : defaultWeek);
+
+      select.innerHTML = weeks.map(week => `<option value="${week}">${week}. Hafta</option>`).join("");
+      select.value = String(activeWeek);
+
+      const events = grouped.get(activeWeek) || [];
+      const header = `<div style="padding:10px 16px; background:rgba(252,213,53,0.1); border-left:4px solid var(--brand); border-radius:4px; margin:0 8px 12px; color:var(--brand); font-weight:800; font-size:13px; text-align:left;">TRENDYOL SÜPER LİG ${seasonLabel} - ${activeWeek}. HAFTA</div>`;
+      list.innerHTML = header + renderFullMatchCards(events);
+    } catch (e) {
+      list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--down);">Fikstür verisi alınamadı.</div>`;
+    }
+  }
+
   // ESPN gizli JSON API'den puan tablosu çek
   // site.api.espn.com — CORS açık, kayıt yok, ücretsiz
   async function fetchSuperLigData() {
     setText("ligMeta", "Yükleniyor...");
 
     try {
+      const selectedSeason = getSelectedSeasonStartYear();
+      const seasonLabel = formatSeasonLabel(selectedSeason);
+
       // ── 1. PUAN TABLOSU ──
       const sRes = await fetch(
-        "https://site.api.espn.com/apis/v2/sports/soccer/tur.1/standings?season=2025"
+        `https://site.api.espn.com/apis/v2/sports/soccer/tur.1/standings?season=${selectedSeason}`
       );
       if (!sRes.ok) throw new Error("standings_http_" + sRes.status);
 
@@ -1394,39 +1534,35 @@ const STORAGE_KEYS = {
       }).sort((a, b) => a.rank - b.rank);
 
       renderLigTable(rows, rows.length);
-      setText("ligSezon", "2025-26");
+      setText("ligSezon", seasonLabel);
 
       // ── 2. MAÇLAR (SONUÇLAR VE FİKSTÜR) ──
-      const nowScore = new Date();
-      const endScore = new Date(); endScore.setDate(nowScore.getDate() + 30);
-      const ds = nowScore.toISOString().split('T')[0].replace(/-/g,'');
-      const de = endScore.toISOString().split('T')[0].replace(/-/g,'');
+      const allEvents = await getCachedSeasonScoreboardEvents(selectedSeason);
+      if (allEvents.length > 0) {
+        const normalizedEvents = allEvents
+          .map(ev => normalizeMatch(ev))
+          .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-      const mRes = await fetch(
-        `https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=${ds}-${de}&limit=100`
-      );
-      if (mRes.ok) {
-        const mData = await mRes.json();
-        const allEvents = mData?.events || [];
-        
-        // Biten Maçlar (Results)
-        const pastEvents = allEvents
-          .filter(ev => ev.status?.type?.state === "post")
+        const pastEvents = normalizedEvents
+          .filter(ev => ev.isFinal)
+          .slice(-10)
+          .reverse();
+        const futureEvents = normalizedEvents
+          .filter(ev => !ev.isFinal)
           .slice(0, 10)
-          .map(ev => normalizeMatch(ev));
-        renderRecentMatches(pastEvents);
 
-        // Gelecek Maçlar (Fixture)
-        const futureEvents = allEvents
-          .filter(ev => ev.status?.type?.state === "pre" || ev.status?.type?.state === "in")
-          .slice(0, 15)
-          .map(ev => normalizeMatch(ev));
+        renderRecentMatches(pastEvents);
         renderGeneralFixture(futureEvents);
       }
 
       const now = new Date().toLocaleString("tr-TR", { day:"2-digit", month:"2-digit", hour:"2-digit", minute:"2-digit" });
       setText("ligTimestamp", `Son güncelleme: ${now}`);
-      setText("ligMeta", "Trendyol Süper Lig 2025-26");
+      setText("ligMeta", `Trendyol Süper Lig ${seasonLabel}`);
+
+      const activeFixtureTab = document.getElementById("btnLigFixture")?.classList.contains("active");
+      if (activeFixtureTab) {
+        fetchLeagueFixtureByWeek();
+      }
 
       // ── 3. HAFTA BİLGİSİ (Round Info Bar) ──
       // ESPN bazen week.number vermeyebilir, o zaman puan tablosundan hesapla
@@ -1434,13 +1570,16 @@ const STORAGE_KEYS = {
       let weekNum = 0;
 
       // Önce scoreboard'dan dene
-      try {
-        const roundRes = await fetch("https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard");
-        if (roundRes.ok) {
+      if (selectedSeason === getCurrentSuperLigSeasonStartYear()) {
+        try {
+          const roundRes = await fetch("https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard");
+          if (roundRes.ok) {
           const roundData = await roundRes.json();
           weekNum = roundData?.week?.number || roundData?.season?.type?.week?.number || 0;
+          window._ligCurrentWeek = weekNum;
         }
       } catch(e) {}
+      }
 
       // ESPN hafta vermezse, puan tablosundaki oynanan maç sayısından hesapla
       if (weekNum === 0 && rows.length > 0) {
@@ -1457,6 +1596,9 @@ const STORAGE_KEYS = {
           remainText.textContent = `${remaining} Hafta Kaldı`;
           roundBar.style.display = "flex";
         }
+      } else {
+        const roundBar = document.getElementById("ligRoundBar");
+        if (roundBar) roundBar.style.display = "none";
       }
 
     } catch (err) {
@@ -1619,8 +1761,20 @@ const STORAGE_KEYS = {
   // Bağla + ilk yükleme
   function bindSuperLig() {
     const btn = document.getElementById("ligRefreshBtn");
+    const seasonSelect = document.getElementById("ligSeasonSelect");
+    const fixtureWeekSelect = document.getElementById("ligFixtureWeekSelect");
+    populateLigSeasonOptions();
     if (btn) {
       btn.addEventListener("click", fetchSuperLigData);
+    }
+    if (seasonSelect) {
+      seasonSelect.addEventListener("change", () => {
+        window._ligSeasonEventsCache = {};
+        fetchSuperLigData();
+      });
+    }
+    if (fixtureWeekSelect) {
+      fixtureWeekSelect.addEventListener("change", (e) => fetchLeagueFixtureByWeek(e.target.value));
     }
     fetchSuperLigData();
   }
@@ -1972,3 +2126,172 @@ const STORAGE_KEYS = {
         cards.innerHTML = `<div style="grid-column:span 3;text-align:center;padding:16px;color:var(--text-secondary);font-size:12px;">Yükleme Başarısız. <button onclick="fetchFuelPrices()" style="color:var(--brand);background:none;border:none;font-weight:800;cursor:pointer;">Tekrar Dene</button></div>`;
     }
   };
+// fixture-addon.js içeriğini buraya yapıştırın
+// ══════════════════════════════════════════════════════════════════════
+// FİKSTÜR SİSTEMİ - MACKOLIK TARZI HAFTALIK GEÇİŞ
+// ══════════════════════════════════════════════════════════════════════
+
+let fixtureData = {
+  allWeeks: [],
+  currentWeekIndex: 0,
+  totalWeeks: 34
+};
+
+// Sekmeler arası geçiş - fixture eklendi
+window.switchLigMainTab = function(tab) {
+  const tabs = ['standing', 'week', 'live', 'fixture'];
+  tabs.forEach(t => {
+    const btn = document.getElementById("btnLig" + t.charAt(0).toUpperCase() + t.slice(1));
+    const sec = document.getElementById("lig" + t.charAt(0).toUpperCase() + t.slice(1) + "Section");
+    if (btn) btn.classList.toggle("active", t === tab);
+    if (sec) sec.style.display = (t === tab ? "block" : "none");
+  });
+  
+  // Canlı Skor: otomatik yenileme yönetimi
+  if (tab === 'live') {
+    fetchLeagueLiveMatches();
+    const info = document.getElementById('liveRefreshInfo');
+    if (info) info.style.display = 'flex';
+    if (!window._liveMatchInterval) {
+      window._liveMatchInterval = setInterval(() => {
+        fetchLeagueLiveMatches();
+        const ts = new Date().toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'});
+        const upd = document.getElementById('liveLastUpdate');
+        if (upd) upd.textContent = `Son güncelleme: ${ts} (otomatik)`;
+      }, 60000);
+    }
+  } else {
+    if (window._liveMatchInterval) {
+      clearInterval(window._liveMatchInterval);
+      window._liveMatchInterval = null;
+    }
+    const info = document.getElementById('liveRefreshInfo');
+    if (info) info.style.display = 'none';
+  }
+  
+  if (tab === 'week') fetchWeeklyMatches();
+  if (tab === 'fixture') loadFullFixture();
+};
+
+// Tam fikstürü yükle
+async function loadFullFixture() {
+  const list = document.getElementById("fixtureMatchList");
+  if (!list) return;
+  
+  list.innerHTML = `<div style="text-align:center; padding:32px; color:var(--text-secondary);">
+    <div style="font-size:28px; margin-bottom:12px; animation:pulse 1.5s infinite;">⚽</div>
+    <div style="font-size:14px; font-weight:700;">Sezon fikstürü hazırlanıyor...</div>
+  </div>`;
+
+  try {
+    // Tüm sezon verilerini çek (geçmiş + gelecek)
+    const startDate = new Date('2024-08-01'); // Sezon başlangıcı
+    const endDate = new Date('2025-06-30');   // Sezon bitişi
+    
+    const ds = startDate.toISOString().split('T')[0].replace(/-/g,'');
+    const de = endDate.toISOString().split('T')[0].replace(/-/g,'');
+    
+    const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=${ds}-${de}&limit=500`);
+    if (!res.ok) throw new Error();
+    
+    const data = await res.json();
+    const allEvents = data?.events || [];
+    
+    // Haftalara göre grupla
+    const weekMap = {};
+    allEvents.forEach(ev => {
+      const weekNum = ev.week?.number || ev.season?.type?.week?.number || 0;
+      if (weekNum > 0) {
+        if (!weekMap[weekNum]) weekMap[weekNum] = [];
+        weekMap[weekNum].push(ev);
+      }
+    });
+    
+    // Hafta listesini oluştur
+    fixtureData.allWeeks = [];
+    for (let w = 1; w <= fixtureData.totalWeeks; w++) {
+      if (weekMap[w]) {
+        const sorted = weekMap[w].sort((a,b) => new Date(a.date) - new Date(b.date));
+        fixtureData.allWeeks.push({
+          weekNumber: w,
+          matches: sorted
+        });
+      } else {
+        fixtureData.allWeeks.push({
+          weekNumber: w,
+          matches: []
+        });
+      }
+    }
+    
+    // Şu anki haftayı bul
+    const currentWeek = data?.week?.number || 1;
+    fixtureData.currentWeekIndex = Math.max(0, Math.min(currentWeek - 1, fixtureData.allWeeks.length - 1));
+    
+    renderFixtureWeek();
+    
+  } catch (e) {
+    list.innerHTML = `<div style="text-align:center; padding:32px; color:var(--down);">
+      <div style="font-size:24px; margin-bottom:12px;">📡</div>
+      <div style="font-size:13px; font-weight:700;">Fikstür verileri yüklenemedi</div>
+      <button onclick="loadFullFixture()" style="margin-top:16px; background:var(--brand); color:#000; border:none; padding:8px 16px; border-radius:8px; font-weight:800; cursor:pointer;">Tekrar Dene</button>
+    </div>`;
+  }
+}
+
+// Hafta değiştir
+window.changeFixtureWeek = function(direction) {
+  const newIndex = fixtureData.currentWeekIndex + direction;
+  if (newIndex >= 0 && newIndex < fixtureData.allWeeks.length) {
+    fixtureData.currentWeekIndex = newIndex;
+    renderFixtureWeek();
+  }
+};
+
+// Haftayı render et
+function renderFixtureWeek() {
+  const weekData = fixtureData.allWeeks[fixtureData.currentWeekIndex];
+  if (!weekData) return;
+  
+  const weekNum = weekData.weekNumber;
+  const matches = weekData.matches;
+  
+  // Başlığı güncelle
+  const titleEl = document.getElementById('fixtureWeekTitle');
+  const dateEl = document.getElementById('fixtureWeekDate');
+  if (titleEl) titleEl.textContent = `${weekNum}. Hafta`;
+  
+  // Tarih aralığını hesapla
+  if (matches.length > 0) {
+    const firstDate = new Date(matches[0].date);
+    const lastDate = new Date(matches[matches.length - 1].date);
+    const dateStr = firstDate.toLocaleDateString('tr-TR', {day:'2-digit', month:'long'}) + 
+                   (firstDate.getMonth() !== lastDate.getMonth() ? 
+                     ' - ' + lastDate.toLocaleDateString('tr-TR', {day:'2-digit', month:'long'}) : '');
+    if (dateEl) dateEl.textContent = dateStr;
+  } else {
+    if (dateEl) dateEl.textContent = 'Maç programı henüz açıklanmadı';
+  }
+  
+  // Butonları güncelle
+  const prevBtn = document.getElementById('fixturePrevBtn');
+  const nextBtn = document.getElementById('fixtureNextBtn');
+  if (prevBtn) prevBtn.disabled = fixtureData.currentWeekIndex === 0;
+  if (nextBtn) nextBtn.disabled = fixtureData.currentWeekIndex === fixtureData.allWeeks.length - 1;
+  
+  // Maçları render et
+  const list = document.getElementById('fixtureMatchList');
+  if (!list) return;
+  
+  if (matches.length === 0) {
+    list.innerHTML = `<div style="text-align:center; padding:48px 16px; color:var(--text-secondary);">
+      <div style="font-size:32px; margin-bottom:12px;">📅</div>
+      <div style="font-size:14px; font-weight:700;">Bu hafta için maç programı bulunmuyor</div>
+    </div>`;
+    return;
+  }
+  
+  list.innerHTML = renderFullMatchCards(matches);
+}
+
+// renderFullMatchCards fonksiyonu zaten app.js'de var, kullanacağız
