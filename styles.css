@@ -1046,3 +1046,8 @@
   flex-shrink: 0;
 }
 
+#fixturePrevBtn:disabled, #fixtureNextBtn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    filter: grayscale(1);
+}

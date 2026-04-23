@@ -18,7 +18,8 @@ const STORAGE_KEYS = {
     vaultRecords: readStorage(STORAGE_KEYS.vault, []),
     yesterdayDebt: Number(localStorage.getItem(STORAGE_KEYS.yesterdayDebt)) || 0
   };
-  
+  let currentLigWeek = 1; // Mevcut lig haftasını tutacak global değişken
+
   const _rawSchool = readStorage(STORAGE_KEYS.school, []);
   if (!Array.isArray(_rawSchool)) {
        state.school = [];
@@ -842,80 +843,35 @@ const STORAGE_KEYS = {
     }
   }
 
-  window.switchLigMainTab = function(tab) {
+window.switchLigMainTab = function(tab) {
     const tabs = ['standing', 'week', 'live'];
     tabs.forEach(t => {
-      const btn = document.getElementById("btnLig" + t.charAt(0).toUpperCase() + t.slice(1));
-      const sec = document.getElementById("lig" + t.charAt(0).toUpperCase() + t.slice(1) + "Section");
-      if (btn) btn.classList.toggle("active", t === tab);
-      if (sec) sec.style.display = (t === tab ? "block" : "none");
+        const btn = document.getElementById("btnLig" + t.charAt(0).toUpperCase() + t.slice(1));
+        const sec = document.getElementById("lig" + t.charAt(0).toUpperCase() + t.slice(1) + "Section");
+        if (btn) btn.classList.toggle("active", t === tab);
+        if (sec) sec.style.display = (t === tab ? "block" : "none");
     });
-    // Canlı Skor: otomatik yenileme yönetimi
+    
+    // Canlı Skor yönetimi
     if (tab === 'live') {
-      fetchLeagueLiveMatches(); // hemen yüklre
-      const info = document.getElementById('liveRefreshInfo');
-      if (info) info.style.display = 'flex';
-      if (!window._liveMatchInterval) {
-        window._liveMatchInterval = setInterval(() => {
-          fetchLeagueLiveMatches();
-          const ts = new Date().toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'});
-          const upd = document.getElementById('liveLastUpdate');
-          if (upd) upd.textContent = `Son güncelleme: ${ts} (otomatik)`;
-        }, 60000);
-      }
+        fetchLeagueLiveMatches();
+        // ... (diğer live kodları)
     } else {
-      if (window._liveMatchInterval) {
-        clearInterval(window._liveMatchInterval);
-        window._liveMatchInterval = null;
-      }
-      const info = document.getElementById('liveRefreshInfo');
-      if (info) info.style.display = 'none';
+        if (window._liveMatchInterval) {
+            clearInterval(window._liveMatchInterval);
+            window._liveMatchInterval = null;
+        }
     }
-    if (tab === 'week') fetchWeeklyMatches();
-  };
-
-
-
-  async function fetchWeeklyMatches() {
-    const list = document.getElementById("ligWeekList");
-    if(!list) return;
-    list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary); font-size:13px;">Haftalık bülten hazırlanıyor...</div>`;
-    try {
-      // ── AKILLI HAFTA ARALIĞI HESAPLAMA (Cuma - Salı) ──
-      const now = new Date();
-      const currentDay = now.getDay(); // 0:Paz, 1:Pzt ...
-      
-      const friday = new Date(now);
-      // Bu hafta içindeysek (Pzt-Sal) geçen Cuma'ya git, (Cum-Pzr) bu Cuma'ya git
-      const diffToFriday = (currentDay === 0) ? -2 : (currentDay >= 1 && currentDay <= 3) ? (currentDay * -1 - 2) : (5 - currentDay);
-      friday.setDate(now.getDate() + diffToFriday);
-      
-      const tuesday = new Date(friday);
-      tuesday.setDate(friday.getDate() + 5); // Cuma'dan başlayıp 5 gün sonrasına (Salı) kadar
-
-      const ds = friday.toISOString().split('T')[0].replace(/-/g,'');
-      const de = tuesday.toISOString().split('T')[0].replace(/-/g,'');
-
-      const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=${ds}-${de}&limit=50`);
-      if (!res.ok) throw new Error();
-      const data = await res.json();
-      const events = data?.events || [];
-      const weekNum = data?.week?.number || "";
-      
-      if (events.length === 0) {
-        list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary);">Bu hafta için kayıtlı müsabaka yok.</div>`;
-        return;
-      }
-
-      // Hafta Başlığı
-      let html = weekNum ? `<div style="padding:10px 16px; background:rgba(252,213,53,0.1); border-left:4px solid var(--brand); border-radius:4px; margin-bottom:12px; color:var(--brand); font-weight:800; font-size:13px; text-align:left;">TRENDYOL SÜPER LİG ${weekNum}. HAFTA FİKSTÜRÜ</div>` : '';
-      
-      html += renderFullMatchCards(events);
-      list.innerHTML = html;
-    } catch (e) { 
-      list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--down);">Haftalık veri bağlantısı kurulamadı.</div>`; 
+    
+    // ▼▼▼ HAFTALIK MAÇLAR ÇAĞRISI (BURASI ÖNEMLİ) ▼▼▼
+    if (tab === 'week') {
+        console.log("Haftalık Maçlar sekmesi açıldı, veri çekiliyor...");
+        fetchWeeklyMatches();
     }
-  }
+};
+
+
+
 
   function renderFullMatchCards(events) {
     const sorted = [...events].sort((a,b) => new Date(a.date) - new Date(b.date));
@@ -1116,9 +1072,20 @@ const STORAGE_KEYS = {
         list.innerHTML = `
           <div style="text-align:center; padding:60px 24px; color:var(--text-secondary);">
             <div style="position:relative; display:inline-block; margin-bottom:24px;">
-              <img src="./trndyl.jpg" style="width:200px; border-radius:12px; box-shadow:0 15px 35px rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.05);">
+              <svg width="200" height="120" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" style="border-radius:12px; box-shadow:0 15px 35px rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.05); background:#121318;">
+                <rect x="10" y="10" width="180" height="100" rx="4" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2" />
+                <line x1="100" y1="10" x2="100" y2="110" stroke="rgba(255,255,255,0.05)" stroke-width="2" />
+                <circle cx="100" cy="60" r="20" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2" />
+                <rect x="10" y="30" width="24" height="60" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2" />
+                <rect x="166" y="30" width="24" height="60" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2" />
+                <circle cx="100" cy="60" r="4" fill="var(--brand)" />
+                <circle cx="100" cy="60" r="6" fill="var(--brand)" opacity="0.3">
+                  <animate attributeName="r" values="6; 20; 6" dur="2s" repeatCount="indefinite" />
+                  <animate attributeName="opacity" values="0.5; 0; 0.5" dur="2s" repeatCount="indefinite" />
+                </circle>
+              </svg>
             </div>
-            <div style="font-size:18px; font-weight:800; color:var(--text-primary); margin-bottom:10px; letter-spacing:-0.5px;">Trendyol Süper Lig Canlı</div>
+            <div style="font-size:18px; font-weight:800; color:var(--text-primary); margin-bottom:10px; letter-spacing:-0.5px;">Türkiye Süper Ligi</div>
             <div style="font-size:13px; line-height:1.7; max-width:280px; margin:0 auto; opacity:0.6; font-weight:500;">&#350;u an aktif bir müsabaka bulunmamaktadır. Canlı skorlar başladığı anda burada olacak.</div>
           </div>`;
       } else {
@@ -1358,6 +1325,142 @@ const STORAGE_KEYS = {
     return month >= 7 ? now.getFullYear() : now.getFullYear() - 1;
   }
 
+
+// ═════════════════════════════════════════════════════════════════
+// HAFTALIK MAÇLAR NAVİGASYON (TEMİZ KOD)
+// ═════════════════════════════════════════════════════════════════
+
+let weeklyFixtureData = { allWeeks: [], currentWeekIndex: 0, totalWeeks: 38, isLoading: false };
+
+window.changeWeeklyWeek = function(direction) {
+    const newIndex = weeklyFixtureData.currentWeekIndex + direction;
+    if (newIndex >= 0 && newIndex < weeklyFixtureData.allWeeks.length) {
+        weeklyFixtureData.currentWeekIndex = newIndex;
+        renderWeeklyWeek();
+    }
+};
+
+async function fetchWeeklyMatches() {
+    const weekList = document.getElementById("ligWeekList");
+    if (!weekList) return;
+    
+    if (weeklyFixtureData.allWeeks.length > 0 && !weeklyFixtureData.isLoading) {
+        renderWeeklyWeek();
+        return;
+    }
+
+    weeklyFixtureData.isLoading = true;
+    weekList.innerHTML = `<div style="text-align:center; padding:32px; color:var(--text-secondary);">📡<br>Fikstür yükleniyor...</div>`;
+
+    try {
+        const startYear = getCurrentSuperLigSeasonStartYear();
+        const startDate = new Date(startYear, 7, 1);
+        const endDate = new Date(startYear + 1, 4, 31);
+        const ds = startDate.toISOString().split('T')[0].replace(/-/g,'');
+        const de = endDate.toISOString().split('T')[0].replace(/-/g,'');
+
+        // ESPN API CORS destekler, proxy'ye gerek yok
+        const apiUrl = `https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=${ds}-${de}&limit=500`;
+        const res = await fetch(apiUrl);
+        if (!res.ok) throw new Error("API Hatası");
+        
+        const data = await res.json();
+        const allEvents = data?.events || [];
+
+        const weekMap = {};
+        // Önce tarihe göre sırala ki gruplama kronolojik olsun
+        allEvents.sort((a,b) => new Date(a.date) - new Date(b.date));
+
+        let manualWeek = 1;
+        let matchCount = 0;
+
+        allEvents.forEach(ev => {
+            let weekNum = ev.week?.number || (ev.season?.type?.week?.number);
+            
+            if (!weekNum) {
+                // ESPN week bilgisi dönmediyse maçları 9'arlı gruplara böl (18 takım = haftada 9 maç)
+                weekNum = manualWeek;
+                matchCount++;
+                if (matchCount >= 9) {
+                    manualWeek++;
+                    matchCount = 0;
+                }
+            }
+
+            if (weekNum > 0) {
+                if (!weekMap[weekNum]) weekMap[weekNum] = [];
+                weekMap[weekNum].push(ev);
+            }
+        });
+
+        weeklyFixtureData.allWeeks = [];
+        for (let w = 1; w <= weeklyFixtureData.totalWeeks; w++) {
+            const matches = weekMap[w] ? weekMap[w] : [];
+            weeklyFixtureData.allWeeks.push({ weekNumber: w, matches: matches });
+        }
+
+        let targetWeek = currentLigWeek;
+        if (targetWeek === 1 && data?.week?.number && data.week.number > 1) {
+            targetWeek = data.week.number;
+        }
+
+        weeklyFixtureData.currentWeekIndex = Math.max(0, Math.min(targetWeek - 1, weeklyFixtureData.allWeeks.length - 1));
+        
+        renderWeeklyWeek();
+    } catch (e) {
+        console.error("Fikstür Hatası:", e);
+        weekList.innerHTML = `<div style="text-align:center; padding:24px; color:var(--down);">
+            Veri çekilemedi. 
+            <button onclick="fetchWeeklyMatches()" style="color:var(--brand);background:none;border:none;font-weight:800;cursor:pointer;margin-top:8px;">
+                🔄 Tekrar Dene
+            </button>
+        </div>`;
+    } finally {
+        weeklyFixtureData.isLoading = false;
+    }
+}
+
+
+function renderWeeklyWeek() {
+    const weekData = weeklyFixtureData.allWeeks[weeklyFixtureData.currentWeekIndex];
+    if (!weekData) return;
+    
+    const weekNum = weekData.weekNumber;
+    const matches = weekData.matches;
+
+    const titleEl = document.getElementById('fixtureWeekTitle');
+    const dateEl = document.getElementById('fixtureWeekDate');
+    if (titleEl) titleEl.textContent = `${weekNum}. Hafta`;
+    if (dateEl) {
+        if (matches.length > 0) {
+            const d = new Date(matches[0].date);
+            dateEl.textContent = d.toLocaleDateString('tr-TR', { day:'numeric', month:'long', year:'numeric' });
+        } else {
+            dateEl.textContent = "Program açıklanmadı";
+        }
+    }
+
+    const prevBtn = document.getElementById('fixturePrevBtn');
+    const nextBtn = document.getElementById('fixtureNextBtn');
+    if (prevBtn) prevBtn.disabled = weeklyFixtureData.currentWeekIndex === 0;
+    if (nextBtn) nextBtn.disabled = weeklyFixtureData.currentWeekIndex >= weeklyFixtureData.allWeeks.length - 1;
+
+    const weekList = document.getElementById("ligWeekList");
+    if (matches.length > 0) {
+        weekList.innerHTML = renderFullMatchCards(matches);
+    } else {
+        weekList.innerHTML = `<div style="text-align:center; padding:48px 16px; color:var(--text-secondary);">📅<br>Bu hafta için maç programı açıklanmamış.</div>`;
+    }
+}
+// ═════════════════════════════════════════════════════════════════
+// HAFTALIK MAÇLAR SONU
+// ═════════════════════════════════════════════════════════════════
+
+
+
+
+
+
   function formatSeasonLabel(startYear) {
     return `${startYear}-${String(startYear + 1).slice(-2)}`;
   }
@@ -1486,7 +1589,7 @@ const STORAGE_KEYS = {
 
       const now = new Date().toLocaleString("tr-TR", { day:"2-digit", month:"2-digit", hour:"2-digit", minute:"2-digit" });
       setText("ligTimestamp", `Son güncelleme: ${now}`);
-      setText("ligMeta", `Trendyol Süper Lig ${seasonLabel}`);
+      setText("ligMeta", `Türkiye Süper Ligi ${seasonLabel}`);
 
       // ── 3. HAFTA BİLGİSİ (Round Info Bar) ──
       // ESPN bazen week.number vermeyebilir, o zaman puan tablosundan hesapla
@@ -1518,6 +1621,7 @@ const STORAGE_KEYS = {
           roundText.textContent = `${weekNum}. Hafta`;
           remainText.textContent = `${remaining} Hafta Kaldı`;
           roundBar.style.display = "flex";
+          currentLigWeek = weekNum; 
         }
       } else {
         const roundBar = document.getElementById("ligRoundBar");
@@ -1680,6 +1784,8 @@ const STORAGE_KEYS = {
     if (rm) rm.innerHTML = "";
     setText("ligMeta", "Veri alınamadı");
   }
+
+
 
   // Bağla + ilk yükleme
   function bindSuperLig() {
