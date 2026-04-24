@@ -1330,7 +1330,7 @@ window.switchLigMainTab = function(tab) {
 // HAFTALIK MAÇLAR NAVİGASYON (TEMİZ KOD)
 // ═════════════════════════════════════════════════════════════════
 
-let weeklyFixtureData = { allWeeks: [], currentWeekIndex: 0, totalWeeks: 38, isLoading: false };
+let weeklyFixtureData = { allWeeks: [], currentWeekIndex: 0, totalWeeks: 34, isLoading: false };
 
 window.changeWeeklyWeek = function(direction) {
     const newIndex = weeklyFixtureData.currentWeekIndex + direction;
@@ -1399,7 +1399,36 @@ async function fetchWeeklyMatches() {
             weeklyFixtureData.allWeeks.push({ weekNumber: w, matches: matches });
         }
 
-        let targetWeek = currentLigWeek;
+        // Bugüne göre en son başlayan veya bugün başlayan haftayı bul
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        
+        let calculatedWeek = currentLigWeek;
+        
+        for (let w = 1; w <= weeklyFixtureData.totalWeeks; w++) {
+            const matches = weekMap[w];
+            if (matches && matches.length > 0) {
+                const firstMatchDate = new Date(matches[0].date);
+                firstMatchDate.setHours(0,0,0,0);
+                if (today.getTime() >= firstMatchDate.getTime()) {
+                    calculatedWeek = w;
+                }
+            }
+        }
+
+        let targetWeek = calculatedWeek;
+        if (targetWeek !== currentLigWeek && targetWeek > 0) {
+             currentLigWeek = targetWeek;
+             // Üst menüdeki "X. Hafta, Y Hafta Kaldı" barını da senkronize et
+             const roundText = document.getElementById("ligRoundText");
+             const remainText = document.getElementById("ligRemainingText");
+             if (roundText && remainText) {
+                 const remaining = Math.max(0, weeklyFixtureData.totalWeeks - targetWeek);
+                 roundText.textContent = `${targetWeek}. Hafta`;
+                 remainText.textContent = `${remaining} Hafta Kaldı`;
+             }
+        }
+
         if (targetWeek === 1 && data?.week?.number && data.week.number > 1) {
             targetWeek = data.week.number;
         }
@@ -1592,22 +1621,52 @@ function renderWeeklyWeek() {
       setText("ligMeta", `Türkiye Süper Ligi ${seasonLabel}`);
 
       // ── 3. HAFTA BİLGİSİ (Round Info Bar) ──
-      // ESPN bazen week.number vermeyebilir, o zaman puan tablosundan hesapla
       const TOTAL_WEEKS = 34;
       let weekNum = 0;
 
-      // Önce scoreboard'dan dene
-      if (selectedSeason === getCurrentSuperLigSeasonStartYear()) {
-        try {
-          const roundRes = await fetch("https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard");
-          if (roundRes.ok) {
-            const roundData = await roundRes.json();
-            weekNum = roundData?.week?.number || roundData?.season?.type?.week?.number || 0;
+      // allEvents üzerinden güncel haftayı hesapla (Bugünün tarihini içeren veya geçen en son hafta)
+      if (allEvents && allEvents.length > 0) {
+          const weekMap = {};
+          let manualWeek = 1;
+          let matchCount = 0;
+          
+          const sortedEvents = [...allEvents].sort((a,b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+          
+          sortedEvents.forEach(ev => {
+              let wNum = ev.week?.number || ev.season?.type?.week?.number;
+              if (!wNum) {
+                  wNum = manualWeek;
+                  matchCount++;
+                  if (matchCount >= 9) {
+                      manualWeek++;
+                      matchCount = 0;
+                  }
+              }
+              if (wNum > 0) {
+                  if (!weekMap[wNum]) weekMap[wNum] = [];
+                  weekMap[wNum].push(ev);
+              }
+          });
+
+          const today = new Date();
+          today.setHours(0,0,0,0);
+          
+          let calculatedWeek = 0;
+          for (let w = 1; w <= TOTAL_WEEKS; w++) {
+              if (weekMap[w] && weekMap[w].length > 0) {
+                  const firstMatchDate = new Date(weekMap[w][0].date);
+                  firstMatchDate.setHours(0,0,0,0);
+                  if (today.getTime() >= firstMatchDate.getTime()) {
+                      calculatedWeek = w;
+                  }
+              }
           }
-        } catch(e) {}
+          if (calculatedWeek > 0) {
+              weekNum = calculatedWeek;
+          }
       }
 
-      // ESPN hafta vermezse, puan tablosundaki oynanan maç sayısından hesapla
+      // Fallback
       if (weekNum === 0 && rows.length > 0) {
         weekNum = Math.max(...rows.map(r => r.gp));
       }
