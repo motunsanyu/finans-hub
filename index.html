@@ -103,7 +103,13 @@
                 <span id="trendValue"></span>
               </span>
             </span>
-            <button id="refreshFinanceBtn" class="refresh-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg><span>YENİLE</span></button>
+            <div style="display:flex; flex-direction:column; align-items:flex-end;">
+              <button id="refreshFinanceBtn" class="refresh-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg><span>YENİLE</span></button>
+              <div id="homeDateDisplay" style="text-align:center; margin-top:6px; line-height:1.2; padding-right:2px;">
+                 <div id="homeDateOnly" style="font-size:10px; color:var(--text-secondary); font-weight:700;"></div>
+                 <div id="homeDayOnly" style="font-size:11px; color:var(--text-primary); font-weight:800; text-transform:capitalize;"></div>
+              </div>
+            </div>
           </div>
           <div class="debt-try" id="totalDebtDisplay">₺0.00</div>
           <div class="debt-usd">≈ <span id="totalDebtUsdDisplay">$0.00</span></div>
@@ -139,6 +145,14 @@
               <div class="m-middle" id="eurTry">--</div>
               <div class="m-right"><div class="pill neutral" id="eurTryChg">--</div></div>
             </div>
+            <div class="market-row" onclick="xauAc()" style="cursor:pointer;" title="Detaylı altın borsası için tıkla">
+              <div class="m-left">
+                <img src="https://static.okx.com/cdn/oksupport/asset/currency/icon/paxg.png" class="market-icon" onerror="this.src='https://bin.bnbstatic.com/static/assets/logos/PAXG.png'">
+                <div class="m-symbol">XAU<span class="m-pair">/TRY (Gr)</span></div>
+              </div>
+              <div class="m-middle" id="goldTry">--</div>
+              <div class="m-right"><div class="pill neutral" id="goldTryChg">--</div></div>
+            </div>
             <div class="market-row">
               <div class="m-left">
                 <img src="https://static.okx.com/cdn/oksupport/asset/currency/icon/btc.png" class="market-icon" onerror="this.src='https://bin.bnbstatic.com/static/assets/logos/BTC.png'">
@@ -170,14 +184,6 @@
               </div>
               <div class="m-middle" id="xrpUsd">--</div>
               <div class="m-right"><div class="pill neutral" id="xrpUsdChg">--</div></div>
-            </div>
-            <div class="market-row" onclick="xauAc()" style="cursor:pointer;" title="Detaylı altın borsası için tıkla">
-              <div class="m-left">
-                <img src="https://static.okx.com/cdn/oksupport/asset/currency/icon/paxg.png" class="market-icon" onerror="this.src='https://bin.bnbstatic.com/static/assets/logos/PAXG.png'">
-                <div class="m-symbol">XAU<span class="m-pair">/TRY (Gr)</span></div>
-              </div>
-              <div class="m-middle" id="goldTry">--</div>
-              <div class="m-right"><div class="pill neutral" id="goldTryChg">--</div></div>
             </div>
             <!-- BRENT PETROL -->
             <div class="market-row">

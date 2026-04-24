@@ -64,6 +64,12 @@ const STORAGE_KEYS = {
     setTimeout(() => { if (typeof fetchFuelPrices === 'function') fetchFuelPrices(); }, 1200);
     
     fireAlarmBanner();
+
+    const now = new Date();
+    const hd = document.getElementById("homeDateOnly");
+    const hdy = document.getElementById("homeDayOnly");
+    if(hd) hd.textContent = now.toLocaleDateString("tr-TR", { day: '2-digit', month: '2-digit', year: 'numeric' });
+    if(hdy) hdy.textContent = now.toLocaleDateString("tr-TR", { weekday: 'long' });
   }
   
   // ═════════════════════════ NUMARA MASKELEME ═════════════════════════
