@@ -1712,8 +1712,108 @@ function renderWeeklyWeek() {
     // Maçları ve Kadroyu eş zamanlı çek
     fetchTeamSchedule(team.id);
     fetchTeamSquad(team.id);
+    fetchTeamLineup(team.id);
     checkTeamLiveStatus(team.name);
   };
+
+  async function fetchTeamLineup(teamId) {
+    const list = document.getElementById("teamLineupList");
+    if(!list) return;
+    list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-secondary);">İlk 11 aranıyor...</div>`;
+    
+    try {
+      const teamName = document.getElementById("teamDetailName").textContent;
+      const clean = (s) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ı/g, 'i').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c');
+      const sName = clean(teamName);
+
+      const nowD = new Date();
+      const start = new Date(); start.setDate(nowD.getDate() - 30);
+      const end = new Date(); end.setDate(nowD.getDate() + 2);
+      const ds = start.toISOString().split('T')[0].replace(/-/g,'');
+      const de = end.toISOString().split('T')[0].replace(/-/g,'');
+      
+      const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=${ds}-${de}&limit=100`);
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      
+      let targetEvent = null;
+      const teamEvents = (data?.events || []).filter(ev => {
+          const comps = ev.competitions?.[0];
+          const hasId = comps?.competitors?.some(c => String(c.id) === String(teamId));
+          const hasName = clean(ev.name).includes(sName);
+          return hasId || hasName;
+      });
+      teamEvents.sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime()); 
+      
+      const now = new Date().getTime();
+      targetEvent = teamEvents.find(ev => new Date(ev.date).getTime() <= now + 7200000); 
+      
+      if(!targetEvent) {
+         list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-secondary);">Yakın tarihli maç bulunamadı.</div>`;
+         return;
+      }
+      
+      const summaryRes = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/summary?event=${targetEvent.id}`);
+      if (!summaryRes.ok) throw new Error();
+      const summaryData = await summaryRes.json();
+      
+      const rosters = summaryData.rosters || [];
+      const teamRoster = rosters.find(r => String(r.team?.id) === String(teamId));
+      
+      if(!teamRoster || !teamRoster.roster) {
+          list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-secondary);">Bu maç için kadro verisi henüz açıklanmamış.</div>`;
+          return;
+      }
+      
+      const starters = teamRoster.roster.filter(p => p.starter);
+      const subs = teamRoster.roster.filter(p => !p.starter);
+      
+      const renderPlayer = (p) => `
+        <div style="display:flex; justify-content:space-between; padding:10px 8px; border-bottom:1px solid rgba(255,255,255,0.03); align-items:center;">
+          <div style="display:flex; gap:12px; align-items:center;">
+             <span style="width:26px; text-align:center; font-size:12px; font-weight:800; color:var(--brand); background:rgba(252,213,53,0.1); padding:4px; border-radius:6px; font-family:'Space Grotesk', sans-serif;">${p.jersey || '-'}</span>
+             <span style="font-weight:700; color:var(--text-primary); font-size:14px;">${p.athlete?.displayName || 'Bilinmiyor'}</span>
+          </div>
+          <span style="font-size:11px; color:var(--text-secondary); font-weight:600; padding:2px 6px; background:rgba(255,255,255,0.05); border-radius:4px;">${p.position?.abbreviation || ''}</span>
+        </div>
+      `;
+      
+      const evObj = normalizeMatch(targetEvent);
+      const isL = evObj.isLive;
+      const isF = evObj.isFinal;
+      const scoreStr = (evObj.hScore !== null && evObj.aScore !== null) ? `${evObj.hScore} - ${evObj.aScore}` : "vs";
+      const metaStr = isL ? "CANLI" : (isF ? "MS" : evObj.dateFull.split(" ")[1]);
+      
+      const formation = teamRoster.formation ? `Diziliş: ${teamRoster.formation}` : '';
+      
+      list.innerHTML = `
+        <div style="padding:16px; background:rgba(255,255,255,0.02); border-radius:12px; margin-bottom:16px; border:1px solid rgba(255,255,255,0.05);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <div style="display:flex; flex:1; align-items:center; justify-content:flex-end; gap:8px;">
+              <span style="font-weight:700; font-size:13px; color:var(--text-primary); text-align:right;">${evObj.home}</span>
+              <img src="${evObj.homeLogo}" style="width:28px; height:28px; object-fit:contain;" onerror="this.src='icon.svg'">
+            </div>
+            <div style="padding:6px 12px; background:rgba(0,0,0,0.3); border-radius:8px; text-align:center; margin:0 12px; min-width:60px;">
+              <div style="font-weight:800; font-size:16px; font-family:'Space Grotesk', monospace; color:var(--text-primary);">${scoreStr}</div>
+              <div style="font-size:10px; color:var(--text-secondary); margin-top:2px; font-weight:800;">${metaStr}</div>
+            </div>
+            <div style="display:flex; flex:1; align-items:center; justify-content:flex-start; gap:8px;">
+              <img src="${evObj.awayLogo}" style="width:28px; height:28px; object-fit:contain;" onerror="this.src='icon.svg'">
+              <span style="font-weight:700; font-size:13px; color:var(--text-primary); text-align:left;">${evObj.away}</span>
+            </div>
+          </div>
+          ${formation ? `<div style="text-align:center; font-size:11px; color:var(--text-secondary); font-weight:600; padding-top:8px; border-top:1px solid rgba(255,255,255,0.05);">${formation}</div>` : ''}
+        </div>
+        <div style="padding:8px; font-size:13px; font-weight:800; color:var(--brand); text-transform:uppercase; border-bottom:1px solid rgba(252,213,53,0.2); margin-bottom:4px;">İlk 11</div>
+        ${starters.length > 0 ? starters.map(renderPlayer).join("") : '<div style="font-size:12px; color:var(--text-secondary); padding:8px;">Veri yok</div>'}
+        <div style="padding:8px; font-size:13px; font-weight:800; color:var(--text-secondary); text-transform:uppercase; border-bottom:1px solid rgba(255,255,255,0.1); margin-top:16px; margin-bottom:4px;">Yedekler</div>
+        ${subs.length > 0 ? subs.map(renderPlayer).join("") : '<div style="font-size:12px; color:var(--text-secondary); padding:8px;">Veri yok</div>'}
+      `;
+      
+    } catch(e) {
+      list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--down);">Diziliş yüklenemedi.</div>`;
+    }
+  }
 
   window.switchDetailTab = function(tab) {
     document.querySelectorAll('.detail-tab-btn').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes(tab)));

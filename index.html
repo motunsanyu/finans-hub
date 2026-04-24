@@ -510,6 +510,7 @@
             <div class="detail-tabs">
               <button class="detail-tab-btn active" onclick="switchDetailTab('schedule')">Maçlar</button>
               <button class="detail-tab-btn" onclick="switchDetailTab('squad')">Kadro</button>
+              <button class="detail-tab-btn" onclick="switchDetailTab('lineup')">Takım</button>
             </div>
 
             <div id="detailTabSchedule" class="detail-tab-content active">
@@ -520,6 +521,12 @@
 
             <div id="detailTabSquad" class="detail-tab-content">
               <div id="teamSquadList" class="squad-list">
+                <div style="text-align:center; padding:20px; color:var(--text-secondary);">Yükleniyor...</div>
+              </div>
+            </div>
+
+            <div id="detailTabLineup" class="detail-tab-content">
+              <div id="teamLineupList" class="squad-list">
                 <div style="text-align:center; padding:20px; color:var(--text-secondary);">Yükleniyor...</div>
               </div>
             </div>
