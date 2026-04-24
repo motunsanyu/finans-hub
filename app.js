@@ -1873,13 +1873,13 @@ function renderWeeklyWeek() {
 
   // ═════════════════════════ CANLI ALTIN BORSASI (Research Integrated) ═════════════════════════
   const ALTIN_TURLERI = [
-    { key: 'gram_altin',     ad: '📊 Gram Altın (24 Ayar)' },
-    { key: 'bilezik_22',     ad: '💛 22 Ayar Bilezik' },
-    { key: 'ceyrek_altin',   ad: '🪙 Çeyrek Altın' },
-    { key: 'yarim_altin',    ad: '🥈 Yarım Altın' },
-    { key: 'tam_altin',      ad: '🏅 Tam Altın' },
-    { key: 'ata_cumhuriyet', ad: '🎖️ Ata/Cumhuriyet' },
-    { key: 'altin_ons',      ad: '🌍 Altın (ONS/$)' },
+    { key: 'gram_altin',     ad: 'Gram Altın (24 Ayar)' },
+    { key: 'bilezik_22',     ad: '22 Ayar Bilezik' },
+    { key: 'ceyrek_altin',   ad: 'Çeyrek Altın' },
+    { key: 'yarim_altin',    ad: 'Yarım Altın' },
+    { key: 'tam_altin',      ad: 'Tam Altın' },
+    { key: 'ata_cumhuriyet', ad: 'Ata/Cumhuriyet' },
+    { key: 'altin_ons',      ad: 'Altın (ONS/$)' },
   ];
 
   window.xauAc = function() {
@@ -1887,6 +1887,7 @@ function renderWeeklyWeek() {
     if(modal) {
         modal.style.display = 'flex';
         window.altinVerisiYukle();
+        if(window.renderGoldSaved) window.renderGoldSaved();
         // Otomatik yenileme kur
         if(window._altinInterval) clearInterval(window._altinInterval);
         window._altinInterval = setInterval(window.altinVerisiYukle, 60000);
@@ -1925,13 +1926,13 @@ function renderWeeklyWeek() {
       const findK = (kod) => v.find(x => x.Kod === kod) || {};
 
       const rows = [
-        { ad: '📊 Gram Altın (24 Ayar)', alis: findK('GA').Alis,     satis: findK('GA').Satis,     degisim: null },
-        { ad: '💛 22 Ayar Bilezik',      alis: findK('B').Alis,     satis: findK('B').Satis,     degisim: null },
-        { ad: '🪙 Çeyrek Altın',         alis: findK('C').Alis, satis: findK('C').Satis, degisim: null },
-        { ad: '🥈 Yarım Altın',          alis: findK('Y').Alis,  satis: findK('Y').Satis,  degisim: null },
-        { ad: '🏅 Tam Altın',            alis: findK('T').Alis,    satis: findK('T').Satis,    degisim: null },
-        { ad: '🎖️ Ata/Cumhuriyet',    alis: findK('A').Alis, satis: findK('A').Satis, degisim: null },
-        { ad: '🌍 Altın (ONS/$)',            alis: findK('XAUUSD').Alis,    satis: findK('XAUUSD').Satis,    degisim: null },
+        { ad: 'Gram Altın (24 Ayar)', alis: findK('GA').Alis,     satis: findK('GA').Satis,     degisim: null },
+        { ad: '22 Ayar Bilezik',      alis: findK('B').Alis,     satis: findK('B').Satis,     degisim: null },
+        { ad: 'Çeyrek Altın',         alis: findK('C').Alis, satis: findK('C').Satis, degisim: null },
+        { ad: 'Yarım Altın',          alis: findK('Y').Alis,  satis: findK('Y').Satis,  degisim: null },
+        { ad: 'Tam Altın',            alis: findK('T').Alis,    satis: findK('T').Satis,    degisim: null },
+        { ad: 'Ata/Cumhuriyet',    alis: findK('A').Alis, satis: findK('A').Satis, degisim: null },
+        { ad: 'Altın (ONS/$)',            alis: findK('XAUUSD').Alis,    satis: findK('XAUUSD').Satis,    degisim: null },
       ];
 
       window.altinDataRows = rows;
@@ -1946,9 +1947,8 @@ function renderWeeklyWeek() {
         tr.style.cssText = `background:${i%2===0 ? 'rgba(255,255,255,0.02)' : 'transparent'}; border-bottom:1px solid rgba(255,255,255,0.03);`;
         tr.innerHTML = `
           <td style="padding:12px 8px; font-weight:700; color:var(--text-primary); font-size:12px;">${r.ad}</td>
-          <td style="padding:12px 8px; text-align:right; color:var(--up); font-family:'Space Grotesk',monospace; font-size:12px; font-weight:700;">${fmt(r.alis)}</td>
+          <td style="padding:12px 8px; text-align:right; color:var(--text-primary); font-family:'Space Grotesk',monospace; font-size:12px; font-weight:700;">${fmt(r.alis)}</td>
           <td style="padding:12px 8px; text-align:right; font-family:'Space Grotesk',monospace; font-size:13px; font-weight:800; color:var(--brand);">${fmt(r.satis)}</td>
-          <td style="padding:8px 4px; text-align:right;">${fmtChg(r.degisim)}</td>
         `;
         tbody.appendChild(tr);
       });
@@ -1973,6 +1973,81 @@ function renderWeeklyWeek() {
   }
 
   // Altın Hesap Makinesi Logiği
+  let goldSavedRecords = readStorage("financeApp.goldSaved", []);
+
+  window.renderGoldSaved = function() {
+      const list = document.getElementById("goldSavedList");
+      if(!list) return;
+      list.innerHTML = "";
+      if(goldSavedRecords.length === 0) {
+          list.innerHTML = `<div style="text-align:center; color:var(--text-secondary); font-size:11px; padding:8px;">Kayıt bulunmuyor.</div>`;
+          return;
+      }
+      goldSavedRecords.forEach((r, idx) => {
+          list.innerHTML += `
+            <div style="background:var(--bg-secondary); padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-size:12px; font-weight:700; color:var(--text-primary);">${r.amount} gr ${r.type}</div>
+                <div style="font-size:10px; color:var(--text-secondary); margin-top:4px;">Kur: ${r.rate} ₺ • ${r.date}</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:14px; font-weight:800; color:var(--brand);">${r.total} ₺</div>
+                <button onclick="window.deleteGoldSaved(${idx})" style="background:none; border:none; color:var(--down); font-size:11px; font-weight:800; cursor:pointer; margin-top:6px;">SİL</button>
+              </div>
+            </div>
+          `;
+      });
+  };
+
+  window.deleteGoldSaved = function(idx) {
+      goldSavedRecords.splice(idx, 1);
+      writeStorage("financeApp.goldSaved", goldSavedRecords);
+      window.renderGoldSaved();
+  };
+
+  window.saveGoldCalculation = function() {
+    const t = document.getElementById("calcGoldType") ? document.getElementById("calcGoldType").value : null;
+    const amtInput = document.getElementById("calcGoldAmount");
+    const amt = amtInput ? parseFloat(amtInput.value) || 0 : 0;
+    
+    if(!t || amt <= 0) return;
+
+    const typeMap = {
+      'GA': 'Gram Altın (24 Ayar)',
+      'B': '22 Ayar Bilezik',
+      'C': 'Çeyrek Altın',
+      'Y': 'Yarım Altın',
+      'T': 'Tam Altın',
+      'A': 'Ata/Cumhuriyet'
+    };
+    
+    const targetAd = typeMap[t];
+    const row = window.altinDataRows.find(r => r.ad === targetAd);
+    if(row) {
+      const parseStr = (str) => {
+          if (!str) return 0;
+          let s = String(str).replace(/\./g, "").replace(",", ".");
+          return Number(s);
+      };
+      const sRate = parseStr(row.satis);
+      const total = sRate * amt;
+      
+      if(total > 0) {
+          const d = new Date();
+          const dateStr = d.toLocaleDateString('tr-TR') + " " + d.toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'});
+          goldSavedRecords.unshift({
+              type: targetAd,
+              amount: amt,
+              rate: sRate.toLocaleString('tr-TR', {minimumFractionDigits:2}),
+              total: total.toLocaleString('tr-TR', {minimumFractionDigits:2}),
+              date: dateStr
+          });
+          writeStorage("financeApp.goldSaved", goldSavedRecords);
+          window.renderGoldSaved();
+      }
+    }
+  };
+
   window.calcGold = function() {
     if(!window.altinDataRows) return;
     const t = document.getElementById("calcGoldType") ? document.getElementById("calcGoldType").value : null;
@@ -1982,12 +2057,12 @@ function renderWeeklyWeek() {
     if(!t) return;
 
     const typeMap = {
-      'GA': '📊 Gram Altın (24 Ayar)',
-      'B': '💛 22 Ayar Bilezik',
-      'C': '🪙 Çeyrek Altın',
-      'Y': '🥈 Yarım Altın',
-      'T': '🏅 Tam Altın',
-      'A': '🎖️ Ata/Cumhuriyet'
+      'GA': 'Gram Altın (24 Ayar)',
+      'B': '22 Ayar Bilezik',
+      'C': 'Çeyrek Altın',
+      'Y': 'Yarım Altın',
+      'T': 'Tam Altın',
+      'A': 'Ata/Cumhuriyet'
     };
     
     const targetAd = typeMap[t];

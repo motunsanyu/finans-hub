@@ -665,7 +665,6 @@
                 <th style="padding:0 8px; text-align:left;">Tür</th>
                 <th style="padding:0 8px; text-align:right;">Alış (₺)</th>
                 <th style="padding:0 8px; text-align:right;">Satış (₺)</th>
-                <th style="padding:0 8px; text-align:right;">%</th>
               </tr>
             </thead>
             <tbody id="altinTbody"></tbody>
@@ -685,12 +684,12 @@
               <div style="flex:1;">
                 <label style="font-size:11px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; display:block;">Altın Türü</label>
                 <select id="calcGoldType" class="input-modern" onchange="window.calcGold()" style="padding:10px; font-size:14px; background:var(--bg-secondary);">
-                  <option value="GA">📊 Gram Altın</option>
-                  <option value="B">💛 22 Ayar Bilezik</option>
-                  <option value="C">🪙 Çeyrek Altın</option>
-                  <option value="Y">🥈 Yarım Altın</option>
-                  <option value="T">🏅 Tam Altın</option>
-                  <option value="A">🎖️ Ata/Cumhuriyet</option>
+                  <option value="GA">Gram Altın</option>
+                  <option value="B">22 Ayar Bilezik</option>
+                  <option value="C">Çeyrek Altın</option>
+                  <option value="Y">Yarım Altın</option>
+                  <option value="T">Tam Altın</option>
+                  <option value="A">Ata/Cumhuriyet</option>
                 </select>
               </div>
               <div style="width:100px;">
@@ -709,15 +708,21 @@
                 <div id="calcGoldSell" style="color:var(--up); font-size:18px; font-weight:800; letter-spacing:-0.5px;">0,00 ₺</div>
               </div>
             </div>
+            
+            <button onclick="window.saveGoldCalculation()" style="width:100%; margin-top:16px; background:var(--brand); color:#000; font-family:'Space Grotesk', sans-serif; font-weight:800; border:none; padding:12px; border-radius:8px; cursor:pointer;">
+              Hesaplamayı Kaydet
+            </button>
+            <div id="goldSavedList" style="margin-top:16px; display:flex; flex-direction:column; gap:8px;"></div>
+            
             <div style="font-size:10px; color:var(--text-secondary); margin-top:8px; text-align:center;">Hesaplamalar gösterge niteliğindedir. Alım satım aralığı makas içerebilir.</div>
           </div>
         </details>
 
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.05);">
-          <div style="color:var(--text-secondary); font-size:10px; font-weight:600;">Kaynak: Truncgil • 🔥 60sn</div>
+          <div style="color:var(--text-secondary); font-size:11px; font-weight:600;">Canlı Piyasa • Otomatik Yenileme (60sn)</div>
           <button onclick="altinVerisiYukle()" 
-                  style="background:var(--brand); color:#000; border:none; padding:8px 16px; border-radius:8px; font-weight:800; cursor:pointer; font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
-            🔄 Yenile
+                  style="background:transparent; color:var(--brand); border:1px solid rgba(252,213,53,0.3); padding:8px 16px; border-radius:8px; font-weight:700; cursor:pointer; font-size:12px;">
+            YENİLE
           </button>
         </div>
       </div>
