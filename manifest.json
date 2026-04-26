@@ -16,8 +16,3 @@
     }
   ]
 }
-{
-  "permissions": [
-    "https://site.api.espn.com/*"
-  ]
-}

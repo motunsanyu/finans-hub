@@ -64,55 +64,8 @@ const STORAGE_KEYS = {
     setTimeout(() => { if (typeof fetchFuelPrices === 'function') fetchFuelPrices(); }, 1200);
     
     fireAlarmBanner();
-    initPullToRefresh();
-    function initPullToRefresh() {
-  const ptr = document.getElementById('ptrIndicator');
-  const ptrText = document.getElementById('ptrText');
-  let startY = 0, pulling = false, distance = 0;
-  const threshold = 80;
-
-  document.addEventListener('pointerdown', e => {
-    if (window.scrollY === 0) {
-      startY = e.clientY;
-      pulling = true;
-      ptr.style.transition = 'none';
-    }
-  });
-
-  document.addEventListener('pointermove', e => {
-    if (!pulling) return;
-    distance = e.clientY - startY;
-    if (distance > 0) {
-      e.preventDefault();
-      const pull = Math.min(distance * 0.4, threshold + 30);
-      ptr.style.transform = `translateY(${pull - 60}px)`;
-      ptrText.textContent = distance > threshold ? 'Bırakınca yenilenecek' : 'Yenilemek için çekin';
-    }
-  });
-
-  document.addEventListener('pointerup', () => {
-    if (!pulling) return;
-    pulling = false;
-    if (distance > threshold) {
-      ptr.classList.add('loading');
-      ptrText.textContent = 'Yenileniyor...';
-      ptr.style.transform = 'translateY(0)';
-      refreshFinanceData();
-      if (typeof fetchFuelPrices === 'function') fetchFuelPrices();
-      setTimeout(() => {
-        ptr.classList.remove('loading');
-        ptr.style.transition = 'transform 0.3s ease';
-        ptr.style.transform = 'translateY(-100%)';
-        ptrText.textContent = 'Yenilemek için çekin';
-      }, 1000);
-    } else {
-      ptr.style.transition = 'transform 0.3s ease';
-      ptr.style.transform = 'translateY(-100%)';
-      ptrText.textContent = 'Yenilemek için çekin';
-    }
-    distance = 0;
-  });
-}
+    
+   
     const now = new Date();
     const hd = document.getElementById("homeDateOnly");
     const hdy = document.getElementById("homeDayOnly");
@@ -897,7 +850,7 @@ const STORAGE_KEYS = {
     }
   }
 
-window.switchLigMainTab = function(tab) {
+  window.switchLigMainTab = function(tab) {
     const tabs = ['standing', 'week', 'live'];
     tabs.forEach(t => {
         const btn = document.getElementById("btnLig" + t.charAt(0).toUpperCase() + t.slice(1));
@@ -906,24 +859,19 @@ window.switchLigMainTab = function(tab) {
         if (sec) sec.style.display = (t === tab ? "block" : "none");
     });
     
-    // Her sekme değişiminde eski intervali temizle
     if (window._liveMatchInterval) {
         clearInterval(window._liveMatchInterval);
         window._liveMatchInterval = null;
     }
 
-    // Canlı Skor sekmesi
     if (tab === 'live') {
-        fetchLeagueLiveMatches(); // ilk yükleme
-        // 60 saniyede bir otomatik yenile
+        fetchLeagueLiveMatches();
         window._liveMatchInterval = setInterval(() => {
             fetchLeagueLiveMatches();
-        }, 60000);
+        }, 30000);  // 30 saniye
     }
     
-    // Haftalık Maçlar sekmesi
     if (tab === 'week') {
-        // Veri zaten yüklendiyse tekrar fetch yapma, sadece render et
         if (weeklyFixtureData.allWeeks.length > 0 && !weeklyFixtureData.isLoading) {
             renderWeeklyWeek();
         } else {
@@ -933,9 +881,7 @@ window.switchLigMainTab = function(tab) {
 };
 
 
-
-
-  function renderFullMatchCards(events) {
+ function renderFullMatchCards(events) {
     const sorted = [...events].sort((a,b) => new Date(a.date) - new Date(b.date));
     const logoUrl = (id) => id ? `https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/${id}.png&w=64&h=64` : "";
 
@@ -945,10 +891,12 @@ window.switchLigMainTab = function(tab) {
       const away = comp?.competitors?.find(c => c.homeAway === "away");
       const state    = ev.status?.type?.state;
       const isFinal  = (state === "post");
-      const isLive      = (state === "in");
-      const isHalftime  = ev.status?.type?.shortDetail === "HT" ||
-                          ev.status?.type?.description?.toLowerCase().includes("half");
-      const isActive    = isLive || isHalftime;
+      const isLive   = (state === "in");
+      // Hibrit devre arası kontrolü
+      const isHalftime = (ev.status?.type?.id === "23") ||
+                         (ev.status?.type?.shortDetail === "HT") ||
+                         (ev.status?.type?.description?.toLowerCase().includes("half"));
+      const isActive  = isLive || isHalftime;
       const clock    = ev.status?.displayClock || "";
       const homeLogo = logoUrl(home?.team?.id);
       const awayLogo = logoUrl(away?.team?.id);
@@ -962,9 +910,15 @@ window.switchLigMainTab = function(tab) {
 
       const hWin = isFinal && parseInt(home?.score) > parseInt(away?.score);
       const aWin = isFinal && parseInt(away?.score) > parseInt(home?.score);
-      const borderStyle = isActive
-        ? "border-left:3px solid var(--down);"
-        : isFinal ? "border-left:3px solid rgba(255,255,255,0.06);" : "";
+      
+      // Renk belirleme
+      let borderColor = "transparent";
+      let statusColor = "var(--text-secondary)";
+      if (isLive) { borderColor = "var(--up)"; statusColor = "var(--up)"; }
+      else if (isHalftime) { borderColor = "var(--down)"; statusColor = "var(--brand)"; }
+      else if (isFinal) { borderColor = "var(--down)"; statusColor = "var(--text-secondary)"; }
+
+      
 
       // ── Parse: Goller ──
       const details = comp?.details || [];
@@ -977,7 +931,7 @@ window.switchLigMainTab = function(tab) {
           og:     !!(d.type?.text?.toLowerCase().includes("own"))
         }));
 
-      // ── Parse: Kartlar (substitution hariç) ──
+      // ── Parse: Kartlar ──
       const cards = details
         .filter(d => {
           const t  = (d.type?.text || "").toLowerCase();
@@ -1016,10 +970,9 @@ window.switchLigMainTab = function(tab) {
       const homeSubs  = subs.filter(s => s.teamId === homeId);
       const awaySubs  = subs.filter(s => s.teamId === awayId);
 
-      const hasDetail = (isFinal || isLive) && (goals.length > 0 || cards.length > 0 || subs.length > 0);
+      const hasDetail = (isFinal || isActive) && (goals.length > 0 || cards.length > 0 || subs.length > 0);
       const detailId  = `match-detail-${ev.id}`;
 
-      // ── Olay satırı render ──
       const renderSide = (goalArr, cardArr, subsArr, align) => {
         const isRight = align === "right";
         const items = [];
@@ -1067,30 +1020,37 @@ window.switchLigMainTab = function(tab) {
       };
 
       const detailPanel = hasDetail ? `
-        <div id="${detailId}" style="display:none;padding:12px 14px 14px;border-top:1px dashed rgba(255,255,255,0.06);background:rgba(0,0,0,0.15);">
+        <details id="${detailId}" style="padding:12px 14px 14px;border-top:1px dashed rgba(255,255,255,0.06);background:rgba(0,0,0,0.15);">
+          <summary style="display:none;"></summary>
           <div style="display:grid;grid-template-columns:1fr 1px 1fr;gap:0;">
             <div style="padding-right:10px;">${renderSide(homeGoals, homeCards, homeSubs, "left")}</div>
             <div style="background:rgba(255,255,255,0.05);"></div>
             <div style="padding-left:10px;">${renderSide(awayGoals, awayCards, awaySubs, "right")}</div>
           </div>
-        </div>` : "";
+        </details>` : "";
 
       const cursorStyle = hasDetail ? "cursor:pointer;" : "";
       const clickAttr = hasDetail
-        ? `onclick="toggleMatchDetail('${detailId}')"`
+        ? `onclick="document.getElementById('${detailId}').open = !document.getElementById('${detailId}').open"`
         : "";
 
-      // ── Kart HTML ──
-      const scoreBox = (isFinal || isLive)
-        ? `<div style="font-size:15px;font-weight:900;font-family:'Space Grotesk',monospace;color:${isActive?"var(--down)":"var(--text-primary)"};letter-spacing:1px;white-space:nowrap;">${home?.score ?? 0} – ${away?.score ?? 0}</div>
-           ${isActive 
-             ? `<div style="font-size:8px;color:var(--down);font-weight:900;animation:pulse 1.2s infinite;margin-top:2px;">● ${isHalftime ? "DEVRE ARASI" : clock}</div>`
-             : `<div style="font-size:8px;color:var(--text-secondary);margin-top:2px;font-weight:700;">MS</div>`
+      // ── Skor kutusu ──
+      const scoreBox = (isFinal || isActive)
+        ? `<div style="font-size:15px;font-weight:900;font-family:'Space Grotesk',monospace;color:${statusColor};letter-spacing:1px;white-space:nowrap;">${home?.score ?? 0} – ${away?.score ?? 0}</div>
+           ${isLive
+             ? `<div style="font-size:8px;color:var(--up);font-weight:900;animation:pulse 1.2s infinite;margin-top:2px;">● ${clock}</div>`
+             : isHalftime
+               ? `<div style="font-size:8px;color:var(--brand);font-weight:900;margin-top:2px;">DEVRE ARASI</div>`
+               : `<div style="font-size:8px;color:var(--text-secondary);margin-top:2px;font-weight:700;">MS</div>`
            }`
         : `<div style="font-size:11px;font-weight:800;color:var(--brand);letter-spacing:1px;">VS</div>`;
 
       return `
-        <div style="border-bottom:1px solid rgba(255,255,255,0.04);background:${isActive?"rgba(246,70,93,0.03)":"transparent"};${borderStyle}border-radius:0;">
+        <div class="${isActive ? 'match-card-active' : ''}" 
+         style="--active-border: ${borderColor}; 
+                border-bottom:1px solid rgba(255,255,255,0.04);
+                background:${isActive ? "rgba(14,203,129,0.03)" : isFinal ? "rgba(246,70,93,0.03)" : "transparent"};
+                border-radius:0;">
           <div ${clickAttr} style="display:grid;grid-template-columns:52px 1fr 68px 1fr${hasDetail?" 14px":""};align-items:center;padding:10px 12px;gap:0;${cursorStyle}">
 
             <div style="font-size:10px;text-align:center;padding-right:8px;border-right:1px solid rgba(255,255,255,0.05);">
@@ -1100,7 +1060,7 @@ window.switchLigMainTab = function(tab) {
             </div>
 
             <div style="display:flex;align-items:center;justify-content:flex-end;gap:6px;padding:0 8px;min-width:0;overflow:hidden;">
-              <span style="font-size:11px;font-weight:${hWin?800:600};color:${hWin?"var(--up)":isLive?"var(--text-primary)":"var(--text-secondary)"};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${shortName(home?.team?.displayName)}</span>
+              <span style="font-size:11px;font-weight:${hWin?800:600};color:${hWin?"var(--up)":isActive?"var(--text-primary)":"var(--text-secondary)"};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${shortName(home?.team?.displayName)}</span>
               <img src="${homeLogo}" onerror="this.style.visibility='hidden'" style="width:24px;height:24px;object-fit:contain;flex-shrink:0;">
             </div>
 
@@ -1110,7 +1070,7 @@ window.switchLigMainTab = function(tab) {
 
             <div style="display:flex;align-items:center;justify-content:flex-start;gap:6px;padding:0 8px;min-width:0;overflow:hidden;">
               <img src="${awayLogo}" onerror="this.style.visibility='hidden'" style="width:24px;height:24px;object-fit:contain;flex-shrink:0;">
-              <span style="font-size:11px;font-weight:${aWin?800:600};color:${aWin?"var(--up)":isLive?"var(--text-primary)":"var(--text-secondary)"};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${shortName(away?.team?.displayName)}</span>
+              <span style="font-size:11px;font-weight:${aWin?800:600};color:${aWin?"var(--up)":isActive?"var(--text-primary)":"var(--text-secondary)"};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${shortName(away?.team?.displayName)}</span>
             </div>
 
             ${hasDetail ? `<div style="text-align:right;color:var(--text-secondary);font-size:12px;opacity:0.5;">▾</div>` : ""}
@@ -1120,7 +1080,7 @@ window.switchLigMainTab = function(tab) {
         </div>
       `;
     }).join("");
-  }
+}
 
   async function fetchLeagueLiveMatches() {
     const list = document.getElementById("ligLiveList");
@@ -1133,8 +1093,10 @@ window.switchLigMainTab = function(tab) {
       const allEvents = data?.events || [];
       const liveEvents = allEvents.filter(ev => {
           const state = ev.status?.type?.state;
-          const isHalftime = ev.status?.type?.shortDetail === "HT" ||
-              ev.status?.type?.description?.toLowerCase().includes("half");
+          // Hibrit devre arası kontrolü
+          const isHalftime = (ev.status?.type?.id === "23") ||
+                             (ev.status?.type?.shortDetail === "HT") ||
+                             (ev.status?.type?.description?.toLowerCase().includes("half"));
           return state === "in" || isHalftime;
       });
       
@@ -1209,9 +1171,9 @@ window.switchLigMainTab = function(tab) {
       }
       const ts = new Date().toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'});
       const upd = document.getElementById('liveLastUpdate');
-      if (upd) upd.textContent = `Son güncelleme: ${ts} (her 60sn)`;
+      if (upd) upd.textContent = `Son güncelleme: ${ts} (her 30sn)`;
     } catch (e) { list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--down);">Canlı veriler alınamadı.</div>`; }
-  }
+}
 
   function renderLiveMatchCard(ev) {
     const clock = ev.clock || "";
@@ -1457,6 +1419,7 @@ window.changeWeeklyWeek = function(direction) {
 };
 
 async function fetchWeeklyMatches() {
+   console.log('📅 Haftalık maç verisi fetchWeeklyMatches() çağrıldı – Yeni veri çekilecek');
     const weekList = document.getElementById("ligWeekList");
     if (!weekList) return;
     
@@ -1469,6 +1432,7 @@ async function fetchWeeklyMatches() {
     weekList.innerHTML = `<div style="text-align:center; padding:32px; color:var(--text-secondary);">📡<br>Fikstür yükleniyor...</div>`;
 
     try {
+        console.log('⏳ Fikstür API isteği gönderiliyor...');
         const startYear = getCurrentSuperLigSeasonStartYear();
         const startDate = new Date(startYear, 7, 1);
         const endDate = new Date(startYear + 1, 4, 31);
@@ -1478,6 +1442,7 @@ async function fetchWeeklyMatches() {
         // ESPN API CORS destekler, proxy'ye gerek yok
         const apiUrl = `https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=${ds}-${de}&limit=500`;
         const res = await fetch(apiUrl);
+        console.log('✅ Fikstür API cevabı alındı, maçlar gruplandırılıyor...');
         if (!res.ok) throw new Error("API Hatası");
         
         const data = await res.json();
@@ -1554,6 +1519,7 @@ async function fetchWeeklyMatches() {
         renderWeeklyWeek();
     } catch (e) {
         console.error("Fikstür Hatası:", e);
+        console.log('❌ Fikstür çekme hatası:', e.message);
         weekList.innerHTML = `<div style="text-align:center; padding:24px; color:var(--down);">
             Veri çekilemedi. 
             <button onclick="fetchWeeklyMatches()" style="color:var(--brand);background:none;border:none;font-weight:800;cursor:pointer;margin-top:8px;">
@@ -2087,17 +2053,6 @@ function renderWeeklyWeek() {
   function formatDateShortYY(d) { if(!d) return "-"; const date = new Date(d); return String(date.getDate()).padStart(2, '0') + "." + String(date.getMonth() + 1).padStart(2, '0') + "." + String(date.getFullYear()).slice(-2); }
   function setText(i, v) { const e = document.getElementById(i); if (e) e.textContent = v; }
 
-  // ═════════════════════════ CANLI ALTIN BORSASI (Research Integrated) ═════════════════════════
-  const ALTIN_TURLERI = [
-    { key: 'gram_altin',     ad: 'Gram Altın (24 Ayar)' },
-    { key: 'bilezik_22',     ad: '22 Ayar Bilezik' },
-    { key: 'ceyrek_altin',   ad: 'Çeyrek Altın' },
-    { key: 'yarim_altin',    ad: 'Yarım Altın' },
-    { key: 'tam_altin',      ad: 'Tam Altın' },
-    { key: 'ata_cumhuriyet', ad: 'Ata/Cumhuriyet' },
-    { key: 'altin_ons',      ad: 'Altın (ONS/$)' },
-  ];
-
   window.xauAc = function() {
     const modal = document.getElementById('altinModal');
     if(modal) {
@@ -2313,19 +2268,13 @@ function renderWeeklyWeek() {
   // YARDIMCI GÖRSEL FONKSİYONLAR
   // ══════════════════════════════════════════
   window.toggleMatchDetail = function(id) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const isNone = el.style.display === 'none';
-    
-    // Diğerlerini kapat (Opsiyonel: Akordiyon efekti)
-    // document.querySelectorAll('[id^="match-detail-"]').forEach(d => d.style.display = 'none');
-    
-    el.style.display = isNone ? 'block' : 'none';
-    
-    // Smooth scroll (Eğer açılıyorsa)
-    if (isNone) {
-      setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
-    }
+      const el = document.getElementById(id);
+      if (!el) return;
+      const isNone = el.style.display === 'none';
+      el.style.display = isNone ? 'block' : 'none';
+      if (isNone) {
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+      }
   };
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -2435,9 +2384,6 @@ function renderWeeklyWeek() {
   // ══════════════════════════════════════════
   // YAKIT FİYATLARI (akaryakit-fiyatlari API)
   // ══════════════════════════════════════════
-  // Şehir ID map (OPET şube kodları)
-  const CITY_IDS = { istanbul: 34, ankara: 6, izmir: 35, bursa: 16, antalya: 7 };
-
   window.fetchFuelPrices = async function() {
     const cards = document.getElementById('fuelPriceCards');
     const meta  = document.getElementById('fuelPriceMeta');

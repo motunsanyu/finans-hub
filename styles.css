@@ -1032,6 +1032,7 @@
 .live-refresh-info {
   display: flex;
   align-items: center;
+  justify-content: center;  /* ← bu satır eklendi */
   gap: 6px;
   font-size: 10px;
   color: var(--text-secondary);
@@ -1060,40 +1061,15 @@
   }
 }
 
-/* Pull-to-Refresh Göstergesi */
-.ptr-indicator {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  background: var(--bg-secondary);
-  z-index: 9999;
-  transform: translateY(-100%);
-  transition: transform 0.3s ease;
-  pointer-events: none;
+/* Canlı / Devre Arası maçlar için yanıp sönen dış kenar */
+.match-card-active {
+    border-left: 3px solid var(--active-border);
+    animation: borderPulse 1.2s infinite alternate;
 }
-.ptr-indicator.active {
-  transform: translateY(0);
+
+@keyframes borderPulse {
+    from { border-left-color: var(--active-border); }
+    to   { border-left-color: var(--brand); }  /* sarıya geçiş */
 }
-.ptr-spinner {
-  width: 20px; height: 20px;
-  border: 2px solid var(--text-secondary);
-  border-top-color: var(--brand);
-  border-radius: 50%;
-  animation: ptr-spin 0.6s linear infinite;
-  display: none;
-}
-.ptr-indicator.loading .ptr-spinner {
-  display: block;
-}
-.ptr-indicator span {
-  font-size: 12px;
-  color: var(--text-secondary);
-  font-weight: 600;
-}
-@keyframes ptr-spin {
-  to { transform: rotate(360deg); }
-}
+
+details[id^="match-detail-"] { cursor: pointer; }
