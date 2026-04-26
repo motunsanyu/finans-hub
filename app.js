@@ -1108,18 +1108,21 @@ window.switchLigMainTab = function(tab) {
       const homeLogo = home?.team?.id ? `https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/${home.team.id}.png&w=64&h=64` : '';
       const awayLogo = away?.team?.id ? `https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/${away.team.id}.png&w=64&h=64` : '';
       return `
-        <div style="display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.03); border-radius:12px; padding:12px; margin:0 16px 8px; border:1px solid rgba(255,255,255,0.05);">
-          <div style="display:flex; align-items:center; gap:10px; flex:1; justify-content:flex-end;">
-            <span style="font-size:13px; font-weight:700; color:var(--text-primary);">${shortName(home?.team?.displayName)}</span>
-            <img src="${homeLogo}" style="width:32px; height:32px; object-fit:contain;" onerror="this.style.display='none'">
+        <div style="display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.03); border-radius:12px; padding:10px 8px; margin:0 8px 8px; border:1px solid rgba(255,255,255,0.05);">
+          <!-- Ev sahibi (sağa hizalı) -->
+          <div style="display:flex; align-items:center; gap:6px; flex:1; justify-content:flex-end; min-width:0;">
+            <span style="font-size:12px; font-weight:700; color:var(--text-primary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:80px;">${shortName(home?.team?.displayName)}</span>
+            <img src="${homeLogo}" style="width:24px; height:24px; object-fit:contain; flex-shrink:0;" onerror="this.style.display='none'">
           </div>
-          <div style="text-align:center; margin:0 16px;">
+          <!-- VS + Saat (ortada, sabit genişlik) -->
+          <div style="text-align:center; margin:0 8px; flex-shrink:0; min-width:40px;">
             <div style="font-size:11px; color:var(--brand); font-weight:800;">VS</div>
             <div style="font-size:10px; color:var(--text-secondary);">${time}</div>
           </div>
-          <div style="display:flex; align-items:center; gap:10px; flex:1;">
-            <img src="${awayLogo}" style="width:32px; height:32px; object-fit:contain;" onerror="this.style.display='none'">
-            <span style="font-size:13px; font-weight:700; color:var(--text-primary);">${shortName(away?.team?.displayName)}</span>
+          <!-- Deplasman (sola hizalı) -->
+          <div style="display:flex; align-items:center; gap:6px; flex:1; justify-content:flex-start; min-width:0;">
+            <img src="${awayLogo}" style="width:24px; height:24px; object-fit:contain; flex-shrink:0;" onerror="this.style.display='none'">
+            <span style="font-size:12px; font-weight:700; color:var(--text-primary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:80px;">${shortName(away?.team?.displayName)}</span>
           </div>
         </div>`;
     }).join('');
