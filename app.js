@@ -64,7 +64,55 @@ const STORAGE_KEYS = {
     setTimeout(() => { if (typeof fetchFuelPrices === 'function') fetchFuelPrices(); }, 1200);
     
     fireAlarmBanner();
+    function initPullToRefresh() {
+      const ptrIndicator = document.getElementById('ptrIndicator');
+      const ptrText = document.getElementById('ptrText');
+      let startY = 0;
+      let pullDistance = 0;
+      let isPulling = false;
+      const threshold = 80; // yenileme için gereken mesafe (px)
 
+      document.addEventListener('touchstart', e => {
+        if (window.scrollY === 0) {
+          startY = e.touches[0].clientY;
+          isPulling = true;
+          ptrIndicator.style.transition = 'none';
+        }
+      }, { passive: true });
+
+      document.addEventListener('touchmove', e => {
+        if (!isPulling) return;
+        pullDistance = e.touches[0].clientY - startY;
+        if (pullDistance > 0) {
+          e.preventDefault(); // sayfanın kaymasını engelle
+          const translateY = Math.min(pullDistance * 0.5, threshold + 20); // yaylı his için 0.5 kat, max değer
+          ptrIndicator.style.transform = `translateY(${translateY}px)`;
+          ptrText.textContent = pullDistance > threshold ? 'Bırakınca yenilenecek' : 'Yenilemek için çekin';
+        }
+      }, { passive: false });
+
+      document.addEventListener('touchend', () => {
+        if (!isPulling) return;
+        isPulling = false;
+        if (pullDistance > threshold) {
+          // Yenileme işlemi
+          refreshFinanceData();
+          if (typeof fetchFuelPrices === 'function') fetchFuelPrices();
+          ptrText.textContent = 'Yenileniyor...';
+          ptrIndicator.style.transform = 'translateY(50px)'; // yükleme göstergesi
+          setTimeout(() => {
+            ptrIndicator.style.transition = 'transform 0.3s ease';
+            ptrIndicator.style.transform = 'translateY(-100%)';
+            ptrText.textContent = 'Yenilemek için çekin';
+          }, 600);
+        } else {
+          ptrIndicator.style.transition = 'transform 0.3s ease';
+          ptrIndicator.style.transform = 'translateY(-100%)';
+          ptrText.textContent = 'Yenilemek için çekin';
+        }
+        pullDistance = 0;
+      });
+    }
     const now = new Date();
     const hd = document.getElementById("homeDateOnly");
     const hdy = document.getElementById("homeDayOnly");
