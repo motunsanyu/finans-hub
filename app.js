@@ -64,55 +64,55 @@ const STORAGE_KEYS = {
     setTimeout(() => { if (typeof fetchFuelPrices === 'function') fetchFuelPrices(); }, 1200);
     
     fireAlarmBanner();
+    initPullToRefresh();
     function initPullToRefresh() {
-      const ptrIndicator = document.getElementById('ptrIndicator');
-      const ptrText = document.getElementById('ptrText');
-      let startY = 0;
-      let pullDistance = 0;
-      let isPulling = false;
-      const threshold = 80; // yenileme için gereken mesafe (px)
+  const ptr = document.getElementById('ptrIndicator');
+  const ptrText = document.getElementById('ptrText');
+  let startY = 0, pulling = false, distance = 0;
+  const threshold = 80;
 
-      document.addEventListener('touchstart', e => {
-        if (window.scrollY === 0) {
-          startY = e.touches[0].clientY;
-          isPulling = true;
-          ptrIndicator.style.transition = 'none';
-        }
-      }, { passive: true });
-
-      document.addEventListener('touchmove', e => {
-        if (!isPulling) return;
-        pullDistance = e.touches[0].clientY - startY;
-        if (pullDistance > 0) {
-          e.preventDefault(); // sayfanın kaymasını engelle
-          const translateY = Math.min(pullDistance * 0.5, threshold + 20); // yaylı his için 0.5 kat, max değer
-          ptrIndicator.style.transform = `translateY(${translateY}px)`;
-          ptrText.textContent = pullDistance > threshold ? 'Bırakınca yenilenecek' : 'Yenilemek için çekin';
-        }
-      }, { passive: false });
-
-      document.addEventListener('touchend', () => {
-        if (!isPulling) return;
-        isPulling = false;
-        if (pullDistance > threshold) {
-          // Yenileme işlemi
-          refreshFinanceData();
-          if (typeof fetchFuelPrices === 'function') fetchFuelPrices();
-          ptrText.textContent = 'Yenileniyor...';
-          ptrIndicator.style.transform = 'translateY(50px)'; // yükleme göstergesi
-          setTimeout(() => {
-            ptrIndicator.style.transition = 'transform 0.3s ease';
-            ptrIndicator.style.transform = 'translateY(-100%)';
-            ptrText.textContent = 'Yenilemek için çekin';
-          }, 600);
-        } else {
-          ptrIndicator.style.transition = 'transform 0.3s ease';
-          ptrIndicator.style.transform = 'translateY(-100%)';
-          ptrText.textContent = 'Yenilemek için çekin';
-        }
-        pullDistance = 0;
-      });
+  document.addEventListener('pointerdown', e => {
+    if (window.scrollY === 0) {
+      startY = e.clientY;
+      pulling = true;
+      ptr.style.transition = 'none';
     }
+  });
+
+  document.addEventListener('pointermove', e => {
+    if (!pulling) return;
+    distance = e.clientY - startY;
+    if (distance > 0) {
+      e.preventDefault();
+      const pull = Math.min(distance * 0.4, threshold + 30);
+      ptr.style.transform = `translateY(${pull - 60}px)`;
+      ptrText.textContent = distance > threshold ? 'Bırakınca yenilenecek' : 'Yenilemek için çekin';
+    }
+  });
+
+  document.addEventListener('pointerup', () => {
+    if (!pulling) return;
+    pulling = false;
+    if (distance > threshold) {
+      ptr.classList.add('loading');
+      ptrText.textContent = 'Yenileniyor...';
+      ptr.style.transform = 'translateY(0)';
+      refreshFinanceData();
+      if (typeof fetchFuelPrices === 'function') fetchFuelPrices();
+      setTimeout(() => {
+        ptr.classList.remove('loading');
+        ptr.style.transition = 'transform 0.3s ease';
+        ptr.style.transform = 'translateY(-100%)';
+        ptrText.textContent = 'Yenilemek için çekin';
+      }, 1000);
+    } else {
+      ptr.style.transition = 'transform 0.3s ease';
+      ptr.style.transform = 'translateY(-100%)';
+      ptrText.textContent = 'Yenilemek için çekin';
+    }
+    distance = 0;
+  });
+}
     const now = new Date();
     const hd = document.getElementById("homeDateOnly");
     const hdy = document.getElementById("homeDayOnly");

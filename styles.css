@@ -1063,37 +1063,37 @@
 /* Pull-to-Refresh Göstergesi */
 .ptr-indicator {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+  top: 0; left: 0; right: 0;
   height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 12px;
   background: var(--bg-secondary);
   z-index: 9999;
   transform: translateY(-100%);
   transition: transform 0.3s ease;
-  will-change: transform;
-  pointer-events: none; /* tıklamayı engellemesin */
+  pointer-events: none;
 }
-
+.ptr-indicator.active {
+  transform: translateY(0);
+}
+.ptr-spinner {
+  width: 20px; height: 20px;
+  border: 2px solid var(--text-secondary);
+  border-top-color: var(--brand);
+  border-radius: 50%;
+  animation: ptr-spin 0.6s linear infinite;
+  display: none;
+}
+.ptr-indicator.loading .ptr-spinner {
+  display: block;
+}
 .ptr-indicator span {
   font-size: 12px;
   color: var(--text-secondary);
   font-weight: 600;
 }
-
-.ptr-spinner {
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--text-secondary);
-  border-top: 2px solid var(--brand);
-  border-radius: 50%;
-  animation: ptr-spin 0.8s linear infinite;
-}
-
 @keyframes ptr-spin {
   to { transform: rotate(360deg); }
 }
