@@ -858,21 +858,29 @@ window.switchLigMainTab = function(tab) {
         if (sec) sec.style.display = (t === tab ? "block" : "none");
     });
     
-    // Canlı Skor yönetimi
+    // Her sekme değişiminde eski intervali temizle
+    if (window._liveMatchInterval) {
+        clearInterval(window._liveMatchInterval);
+        window._liveMatchInterval = null;
+    }
+
+    // Canlı Skor sekmesi
     if (tab === 'live') {
-        fetchLeagueLiveMatches();
-        // ... (diğer live kodları)
-    } else {
-        if (window._liveMatchInterval) {
-            clearInterval(window._liveMatchInterval);
-            window._liveMatchInterval = null;
-        }
+        fetchLeagueLiveMatches(); // ilk yükleme
+        // 60 saniyede bir otomatik yenile
+        window._liveMatchInterval = setInterval(() => {
+            fetchLeagueLiveMatches();
+        }, 60000);
     }
     
-    // ▼▼▼ HAFTALIK MAÇLAR ÇAĞRISI (BURASI ÖNEMLİ) ▼▼▼
+    // Haftalık Maçlar sekmesi
     if (tab === 'week') {
-        console.log("Haftalık Maçlar sekmesi açıldı, veri çekiliyor...");
-        fetchWeeklyMatches();
+        // Veri zaten yüklendiyse tekrar fetch yapma, sadece render et
+        if (weeklyFixtureData.allWeeks.length > 0 && !weeklyFixtureData.isLoading) {
+            renderWeeklyWeek();
+        } else {
+            fetchWeeklyMatches();
+        }
     }
 };
 
@@ -889,7 +897,10 @@ window.switchLigMainTab = function(tab) {
       const away = comp?.competitors?.find(c => c.homeAway === "away");
       const state    = ev.status?.type?.state;
       const isFinal  = (state === "post");
-      const isLive   = (state === "in");
+      const isLive      = (state === "in");
+      const isHalftime  = ev.status?.type?.shortDetail === "HT" ||
+                          ev.status?.type?.description?.toLowerCase().includes("half");
+      const isActive    = isLive || isHalftime;
       const clock    = ev.status?.displayClock || "";
       const homeLogo = logoUrl(home?.team?.id);
       const awayLogo = logoUrl(away?.team?.id);
@@ -903,7 +914,7 @@ window.switchLigMainTab = function(tab) {
 
       const hWin = isFinal && parseInt(home?.score) > parseInt(away?.score);
       const aWin = isFinal && parseInt(away?.score) > parseInt(home?.score);
-      const borderStyle = isLive
+      const borderStyle = isActive
         ? "border-left:3px solid var(--down);"
         : isFinal ? "border-left:3px solid rgba(255,255,255,0.06);" : "";
 
@@ -958,7 +969,7 @@ window.switchLigMainTab = function(tab) {
       const awaySubs  = subs.filter(s => s.teamId === awayId);
 
       const hasDetail = (isFinal || isLive) && (goals.length > 0 || cards.length > 0 || subs.length > 0);
-      const detailId  = `match-detail-${idx}`;
+      const detailId  = `match-detail-${ev.id}`;
 
       // ── Olay satırı render ──
       const renderSide = (goalArr, cardArr, subsArr, align) => {
@@ -1023,15 +1034,15 @@ window.switchLigMainTab = function(tab) {
 
       // ── Kart HTML ──
       const scoreBox = (isFinal || isLive)
-        ? `<div style="font-size:15px;font-weight:900;font-family:'Space Grotesk',monospace;color:${isLive?"var(--down)":"var(--text-primary)"};letter-spacing:1px;white-space:nowrap;">${home?.score ?? 0} – ${away?.score ?? 0}</div>
-           ${isLive
-             ? `<div style="font-size:8px;color:var(--down);font-weight:900;animation:pulse 1.2s infinite;margin-top:2px;">● ${clock}</div>`
+        ? `<div style="font-size:15px;font-weight:900;font-family:'Space Grotesk',monospace;color:${isActive?"var(--down)":"var(--text-primary)"};letter-spacing:1px;white-space:nowrap;">${home?.score ?? 0} – ${away?.score ?? 0}</div>
+           ${isActive 
+             ? `<div style="font-size:8px;color:var(--down);font-weight:900;animation:pulse 1.2s infinite;margin-top:2px;">● ${isHalftime ? "DEVRE ARASI" : clock}</div>`
              : `<div style="font-size:8px;color:var(--text-secondary);margin-top:2px;font-weight:700;">MS</div>`
            }`
         : `<div style="font-size:11px;font-weight:800;color:var(--brand);letter-spacing:1px;">VS</div>`;
 
       return `
-        <div style="border-bottom:1px solid rgba(255,255,255,0.04);background:${isLive?"rgba(246,70,93,0.03)":"transparent"};${borderStyle}border-radius:0;">
+        <div style="border-bottom:1px solid rgba(255,255,255,0.04);background:${isActive?"rgba(246,70,93,0.03)":"transparent"};${borderStyle}border-radius:0;">
           <div ${clickAttr} style="display:grid;grid-template-columns:52px 1fr 68px 1fr${hasDetail?" 14px":""};align-items:center;padding:10px 12px;gap:0;${cursorStyle}">
 
             <div style="font-size:10px;text-align:center;padding-right:8px;border-right:1px solid rgba(255,255,255,0.05);">
@@ -1072,29 +1083,77 @@ window.switchLigMainTab = function(tab) {
       if (!res.ok) throw new Error();
       const data = await res.json();
       const allEvents = data?.events || [];
-      const liveEvents = allEvents.filter(ev => ev.status?.type?.state === "in");
+      const liveEvents = allEvents.filter(ev => {
+          const state = ev.status?.type?.state;
+          const isHalftime = ev.status?.type?.shortDetail === "HT" ||
+              ev.status?.type?.description?.toLowerCase().includes("half");
+          return state === "in" || isHalftime;
+      });
       
       if (liveEvents.length === 0) {
-        list.innerHTML = `
-          <div style="text-align:center; padding:60px 24px; color:var(--text-secondary);">
-            <div style="position:relative; display:inline-block; margin-bottom:24px;">
-              <svg width="200" height="120" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" style="border-radius:12px; box-shadow:0 15px 35px rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.05); background:#121318;">
-                <rect x="10" y="10" width="180" height="100" rx="4" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2" />
-                <line x1="100" y1="10" x2="100" y2="110" stroke="rgba(255,255,255,0.05)" stroke-width="2" />
-                <circle cx="100" cy="60" r="20" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2" />
-                <rect x="10" y="30" width="24" height="60" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2" />
-                <rect x="166" y="30" width="24" height="60" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2" />
-                <circle cx="100" cy="60" r="4" fill="var(--brand)" />
-                <circle cx="100" cy="60" r="6" fill="var(--brand)" opacity="0.3">
-                  <animate attributeName="r" values="6; 20; 6" dur="2s" repeatCount="indefinite" />
-                  <animate attributeName="opacity" values="0.5; 0; 0.5" dur="2s" repeatCount="indefinite" />
-                </circle>
-              </svg>
-            </div>
-            <div style="font-size:18px; font-weight:800; color:var(--text-primary); margin-bottom:10px; letter-spacing:-0.5px;">Türkiye Süper Ligi</div>
-            <div style="font-size:13px; line-height:1.7; max-width:280px; margin:0 auto; opacity:0.6; font-weight:500;">&#350;u an aktif bir müsabaka bulunmamaktadır. Canlı skorlar başladığı anda burada olacak.</div>
-          </div>`;
-      } else {
+  // Bugünün maçlarını filtrele
+  const todayStr = new Date().toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const todayMatches = allEvents.filter(ev => {
+    const matchDate = new Date(ev.date).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    return matchDate === todayStr && ev.status?.type?.state === 'pre';
+  });
+
+  let upcomingHTML = '';
+  if (todayMatches.length > 0) {
+    const matchCards = todayMatches.map(ev => {
+      const comp = ev.competitions?.[0];
+      const home = comp?.competitors?.find(c => c.homeAway === 'home');
+      const away = comp?.competitors?.find(c => c.homeAway === 'away');
+      const time = new Date(ev.date).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+      const homeLogo = home?.team?.id ? `https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/${home.team.id}.png&w=64&h=64` : '';
+      const awayLogo = away?.team?.id ? `https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/${away.team.id}.png&w=64&h=64` : '';
+      return `
+        <div style="display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.03); border-radius:12px; padding:12px; margin:0 16px 8px; border:1px solid rgba(255,255,255,0.05);">
+          <div style="display:flex; align-items:center; gap:10px; flex:1; justify-content:flex-end;">
+            <span style="font-size:13px; font-weight:700; color:var(--text-primary);">${shortName(home?.team?.displayName)}</span>
+            <img src="${homeLogo}" style="width:32px; height:32px; object-fit:contain;" onerror="this.style.display='none'">
+          </div>
+          <div style="text-align:center; margin:0 16px;">
+            <div style="font-size:11px; color:var(--brand); font-weight:800;">VS</div>
+            <div style="font-size:10px; color:var(--text-secondary);">${time}</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; flex:1;">
+            <img src="${awayLogo}" style="width:32px; height:32px; object-fit:contain;" onerror="this.style.display='none'">
+            <span style="font-size:13px; font-weight:700; color:var(--text-primary);">${shortName(away?.team?.displayName)}</span>
+          </div>
+        </div>`;
+    }).join('');
+    upcomingHTML = `
+    <div style="text-align:center; padding:0 8px; margin-top:24px;">
+      <div style="font-size:15px; font-weight:800; color:var(--brand); margin-bottom:4px;">
+        Bugünün Maçları
+      </div>
+      <div style="font-size:11px; color:var(--text-secondary); margin-bottom:16px;">
+        ${todayStr}
+      </div>
+      ${matchCards}
+    </div>`;
+  }
+
+  list.innerHTML = `
+    <div style="text-align:center; padding:40px 24px; color:var(--text-secondary);">
+      <svg width="200" height="120" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" style="border-radius:12px; box-shadow:0 15px 35px rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.05); background:#1e3b2f; margin-bottom:16px;">
+        <rect x="10" y="10" width="180" height="100" rx="4" fill="#2e5a3b" stroke="#3d7a4f" stroke-width="2" />
+        <line x1="100" y1="10" x2="100" y2="110" stroke="#3d7a4f" stroke-width="2" />
+        <circle cx="100" cy="60" r="20" fill="none" stroke="#3d7a4f" stroke-width="2" />
+        <rect x="10" y="30" width="24" height="60" fill="none" stroke="#3d7a4f" stroke-width="2" />
+        <rect x="166" y="30" width="24" height="60" fill="none" stroke="#3d7a4f" stroke-width="2" />
+        <circle cx="100" cy="60" r="4" fill="var(--brand)" />
+        <circle cx="100" cy="60" r="6" fill="var(--brand)" opacity="0.3">
+          <animate attributeName="r" values="6; 20; 6" dur="2s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.5; 0; 0.5" dur="2s" repeatCount="indefinite" />
+        </circle>
+      </svg>
+      <div style="font-size:16px; font-weight:800; color:var(--text-primary); margin-bottom:8px;">Türkiye Süper Ligi</div>
+      <div style="font-size:13px; opacity:0.6;">Şu an aktif bir müsabaka bulunmamaktadır.</div>
+      ${upcomingHTML}
+    </div>`;
+} else {
         list.innerHTML = renderFullMatchCards(liveEvents);
       }
       const ts = new Date().toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'});
@@ -2232,6 +2291,7 @@ function renderWeeklyWeek() {
     const btnP    = document.getElementById('btnMarketPiyasa');
     const btnC    = document.getElementById('btnMarketCoinler');
     if (!piyasa || !coinler) return;
+
     if (tab === 'coins') {
       piyasa.style.display  = 'none';
       coinler.style.display = 'block';
@@ -2244,7 +2304,7 @@ function renderWeeklyWeek() {
       btnP?.classList.add('active');
       btnC?.classList.remove('active');
     }
-  };
+};
 
   // ══════════════════════════════════════════
   // COİNLERFİYATLARI (Binance API)
@@ -2268,9 +2328,13 @@ function renderWeeklyWeek() {
     container.innerHTML = `<div style="text-align:center;padding:32px;color:var(--text-secondary);">Yükleniyor...</div>`;
     try {
       const symbols = COIN_LIST.map(c => `"${c.sym}"`).join(',');
+      console.log('🔍 Binance isteği gönderiliyor...');
       const res = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbols=[${symbols}]`);
-      if (!res.ok) throw new Error();
+      console.log('📡 Binance yanıt durumu:', res.status, res.statusText);
+      if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
       const tickers = await res.json();
+      console.log('✅ Tickers alındı, adet:', tickers.length);
+      
       const map = {};
       tickers.forEach(t => { map[t.symbol] = t; });
 
@@ -2289,10 +2353,9 @@ function renderWeeklyWeek() {
                         : price < 10    ? price.toFixed(3)
                                         : price.toFixed(2);
         
-        // Eğer coin objesinde logo varsa onu kullan, yoksa standart base ikonunu dene
         const iconSrc = coin.logo || `${iconBase}/${coin.base.toLowerCase()}.png`;
 
-        return `<div class="coin-row">
+        return `<div class="coin-row" style="display:flex; height:auto; min-height:60px;">
           <div class="m-left">
             <img src="${iconSrc}" class="market-icon" style="border-radius:50%;" onerror="this.style.display='none';this.nextSibling.style.display='flex'">
             <div class="coin-letter-icon" style="display:none; width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.05); align-items:center; justify-content:center; font-size:12px; font-weight:800; color:var(--text-secondary);">${coin.base[0]}</div>
@@ -2307,15 +2370,16 @@ function renderWeeklyWeek() {
           </div>
         </div>`;
       }).join('');
-
+      
       if (meta) {
         const now = new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
         meta.textContent = `Binance • ${now} • 24s değişim`;
       }
     } catch(e) {
-      container.innerHTML = `<div style="text-align:center;padding:32px;color:var(--down);">Bağlantı hatası. <button onclick="fetchCoinPrices()" style="color:var(--brand);background:none;border:none;font-weight:800;cursor:pointer;">Tekrar dene</button></div>`;
+      console.error('❌ Coin fetch hatası:', e.message);
+      container.innerHTML = `<div style="text-align:center;padding:32px;color:var(--down);">Bağlantı hatası: ${e.message}. <button onclick="fetchCoinPrices()" style="color:var(--brand);background:none;border:none;font-weight:800;cursor:pointer;">Tekrar dene</button></div>`;
     }
-  }
+}
 
   // ══════════════════════════════════════════
   // YAKIT FİYATLARI (akaryakit-fiyatlari API)
