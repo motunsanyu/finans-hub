@@ -325,13 +325,17 @@
         </details>
       </section>
 
-      <!-- ⛽ GÜNCEL YAKIT FİYATLARI -->
+      <!-- ═════════════════════════ YAKIT SEKMESİ ═════════════════════════ -->
+      <section id="fuel" class="tab-page">
+       <!-- ⛽ GÜNCEL YAKIT FİYATLARI -->
 <div class="fuel-price-widget" id="fuelPriceWidget">
-  <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px; margin-bottom:4px;">
+  <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:4px;">
+    <!-- Başlık – mobilde tek satırda kalır -->
     <div style="font-size:12px; font-weight:800; color:var(--up); display:flex; align-items:center; gap:6px; white-space:nowrap;">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="15" y2="22"/><line x1="4" y1="9" x2="14" y2="9"/><path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18"/><path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 4 0V9.83a2 2 0 0 0-.59-1.42L18 5"/></svg>
       Yakıt Fiyatları
     </div>
+    <!-- Seçimler ve buton – mobilde sağa yaslı kalır -->
     <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; justify-content:flex-end;">
       <select id="fuelCitySelect" class="fuel-city-select" onchange="fetchFuelPrices()" style="width: 80px;">
         <option value="konya" selected>KONYA</option>
@@ -362,6 +366,7 @@
   </div>
   <div id="fuelPriceMeta" style="font-size:10px; color:var(--text-secondary); text-align:center; margin-top:8px;"></div>
 </div>
+
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; background:var(--bg-secondary); padding:16px; border-radius:16px; margin-bottom: 24px;">
           <div><span style="font-size:12px; color:var(--text-secondary);">Toplam Harcama</span><div style="color:var(--brand); font-weight:800; font-size:16px;" id="sumAmount">0</div></div>
           <div><span style="font-size:12px; color:var(--text-secondary);">Toplam Gidilen</span><div style="color:var(--brand); font-weight:800; font-size:16px;" id="sumKm">0</div></div>
