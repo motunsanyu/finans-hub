@@ -1053,4 +1053,9 @@
     filter: grayscale(1);
 }
 
-
+@media (max-width: 480px) {
+  #fuelPriceWidget .fuel-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
