@@ -850,7 +850,11 @@ function renderLigTable(entries, total) {
   }
 }
 
+// Global: Şu an hangi lig alt sekmesindeyiz
+window._currentLigSubTab = 'standing';
+
 window.switchLigMainTab = function (tab) {
+  window._currentLigSubTab = tab;
   const tabs = ['standing', 'week', 'live'];
   tabs.forEach(t => {
     const btn = document.getElementById("btnLig" + t.charAt(0).toUpperCase() + t.slice(1));
@@ -859,6 +863,7 @@ window.switchLigMainTab = function (tab) {
     if (sec) sec.style.display = (t === tab ? "block" : "none");
   });
 
+  // Önceki intervali temizle
   if (window._liveMatchInterval) {
     clearInterval(window._liveMatchInterval);
     window._liveMatchInterval = null;
@@ -868,18 +873,20 @@ window.switchLigMainTab = function (tab) {
     fetchLeagueLiveMatches();
     window._liveMatchInterval = setInterval(() => {
       fetchLeagueLiveMatches();
-    }, 30000);  // 30 saniye
+    }, 30000);
   }
 
   if (tab === 'week') {
-    if (weeklyFixtureData.allWeeks.length > 0 && !weeklyFixtureData.isLoading) {
-      renderWeeklyWeek();
-    } else {
-      fetchWeeklyMatches();
-    }
+    fetchWeeklyMatches();
+    window._liveMatchInterval = setInterval(() => {
+      refreshWeeklyScores();
+    }, 30000);
   }
 };
 
+
+// Açık olan maç detaylarını global state olarak tutalım
+window.openMatchDetails = window.openMatchDetails || {};
 
 function renderFullMatchCards(events) {
   const sorted = [...events].sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -892,10 +899,14 @@ function renderFullMatchCards(events) {
     const state = ev.status?.type?.state;
     const isFinal = (state === "post");
     const isLive = (state === "in");
-    // Hibrit devre arası kontrolü
-    const isHalftime = (ev.status?.type?.id === "23") ||
-      (ev.status?.type?.shortDetail === "HT") ||
-      (ev.status?.type?.description?.toLowerCase().includes("half"));
+    // Hibrit devre arası kontrolü (genişletilmiş)
+    const statusType = ev.status?.type || {};
+    const isHalftime = (statusType.id === "23") ||
+      (statusType.shortDetail === "HT") ||
+      (statusType.description || "").toLowerCase().includes("half") ||
+      (statusType.name || "").toLowerCase().includes("half") ||
+      (ev.status?.detail || "").toLowerCase().includes("half") ||
+      (ev.status?.displayClock || "").toLowerCase().includes("ht");
     const isActive = isLive || isHalftime;
     const clock = ev.status?.displayClock || "";
     const homeLogo = logoUrl(home?.team?.id);
@@ -971,7 +982,12 @@ function renderFullMatchCards(events) {
     const awaySubs = subs.filter(s => s.teamId === awayId);
 
     const hasDetail = (isFinal || isActive) && (goals.length > 0 || cards.length > 0 || subs.length > 0);
-    const detailId = `match-detail-${ev.id}`;
+    // Hangi sayfada render olduğumuzu global değişkenden al
+    const currentTab = window._currentLigSubTab || 'live';
+    // Her sekme için tamamen ayrı ID ve state
+    const detailId = `mdetail-${currentTab}-${ev.id}`;
+    if (!window.openMatchDetails[currentTab]) window.openMatchDetails[currentTab] = {};
+    const isDetailOpen = window.openMatchDetails[currentTab][ev.id] || false;
 
     const renderSide = (goalArr, cardArr, subsArr, align) => {
       const isRight = align === "right";
@@ -1020,7 +1036,7 @@ function renderFullMatchCards(events) {
     };
 
     const detailPanel = hasDetail ? `
-         <details id="${detailId}" style="padding:12px 14px 14px;border-top:1px dashed rgba(255,255,255,0.06);background:rgba(0,0,0,0.15);">
+         <details id="${detailId}" ${isDetailOpen ? 'open' : ''} style="padding:12px 14px 14px;border-top:1px dashed rgba(255,255,255,0.06);background:rgba(0,0,0,0.15);">
            <summary style="position:absolute;opacity:0;width:0;height:0;overflow:hidden;"></summary>
            <div style="display:grid;grid-template-columns:1fr 1px 1fr;gap:0;">
              <div style="padding-right:10px;">${renderSide(homeGoals, homeCards, homeSubs, "left")}</div>
@@ -1031,7 +1047,7 @@ function renderFullMatchCards(events) {
 
     const cursorStyle = hasDetail ? "cursor:pointer;" : "";
     const clickAttr = hasDetail
-      ? `onclick="document.getElementById('${detailId}').open = !document.getElementById('${detailId}').open"`
+      ? `onmousedown="event.stopPropagation(); var st = window._currentLigSubTab||'live'; if(!window.openMatchDetails[st]) window.openMatchDetails[st]={}; window.openMatchDetails[st]['${ev.id}'] = !window.openMatchDetails[st]['${ev.id}']; var el=document.getElementById('mdetail-'+st+'-${ev.id}'); if(el)el.open=window.openMatchDetails[st]['${ev.id}'];"`
       : "";
 
     // ── Skor kutusu ──
@@ -1093,10 +1109,14 @@ async function fetchLeagueLiveMatches() {
     const allEvents = data?.events || [];
     const liveEvents = allEvents.filter(ev => {
       const state = ev.status?.type?.state;
-      // Hibrit devre arası kontrolü
-      const isHalftime = (ev.status?.type?.id === "23") ||
-        (ev.status?.type?.shortDetail === "HT") ||
-        (ev.status?.type?.description?.toLowerCase().includes("half"));
+      // Hibrit devre arası kontrolü (genişletilmiş)
+      const statusType = ev.status?.type || {};
+      const isHalftime = (statusType.id === "23") ||
+        (statusType.shortDetail === "HT") ||
+        (statusType.description || "").toLowerCase().includes("half") ||
+        (statusType.name || "").toLowerCase().includes("half") ||
+        (ev.status?.detail || "").toLowerCase().includes("half") ||
+        (ev.status?.displayClock || "").toLowerCase().includes("ht");
       return state === "in" || isHalftime;
     });
 
@@ -1202,7 +1222,7 @@ function renderLiveMatchCard(ev) {
           <!-- Skor merkez -->
           <div style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1;">
             <div style="background:var(--bg-primary); border:1px solid rgba(246,70,93,0.3); border-radius:10px; padding:8px 18px; font-size:26px; font-weight:900; font-family:'Space Grotesk',monospace; color:var(--down); letter-spacing:4px; line-height:1;">${ev.hScore} – ${ev.aScore}</div>
-            <div style="font-size:9px; font-weight:900; background:var(--down); color:#fff; padding:2px 8px; border-radius:4px; letter-spacing:.06em; animation:blink 1.2s infinite;">LIVE</div>
+            <div style="font-size:9px; font-weight:900; background:var(--up); color:#000; padding:2px 8px; border-radius:4px; letter-spacing:.06em; animation:blink 1.2s infinite;">LIVE</div>
             <div style="font-size:11px; font-weight:800; color:var(--down); font-family:'Space Grotesk',monospace;">${clock ? clock + "'" : ""}</div>
           </div>
 
@@ -1423,10 +1443,8 @@ async function fetchWeeklyMatches() {
   const weekList = document.getElementById("ligWeekList");
   if (!weekList) return;
 
-  if (weeklyFixtureData.allWeeks.length > 0 && !weeklyFixtureData.isLoading) {
-    renderWeeklyWeek();
-    return;
-  }
+  // Haftalık sayfaya her geldiğimizde taze verileri çek
+  // Cache kullanma, canlı maç skorları güncel olmalı
 
   weeklyFixtureData.isLoading = true;
   weekList.innerHTML = `<div style="text-align:center; padding:32px; color:var(--text-secondary);">📡<br>Fikstür yükleniyor...</div>`;
@@ -1563,13 +1581,41 @@ function renderWeeklyWeek() {
     weekList.innerHTML = `<div style="text-align:center; padding:48px 16px; color:var(--text-secondary);">📅<br>Bu hafta için maç programı açıklanmamış.</div>`;
   }
 }
+// Haftalık sayfada iken sadece mevcut haftanın skorlarını günceller
+// (tüm sezonu tekrar çekmez, hafif ve hızlı)
+async function refreshWeeklyScores() {
+  const weekData = weeklyFixtureData.allWeeks[weeklyFixtureData.currentWeekIndex];
+  if (!weekData || !weekData.matches || weekData.matches.length === 0) return;
+
+  try {
+    const res = await fetch("https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard");
+    if (!res.ok) return;
+    const data = await res.json();
+    const liveEvents = data?.events || [];
+
+    // Güncel event'leri ID'ye göre eşleştir
+    const liveMap = {};
+    liveEvents.forEach(ev => { liveMap[ev.id] = ev; });
+
+    let updated = false;
+    weekData.matches.forEach((match, idx) => {
+      if (liveMap[match.id]) {
+        weekData.matches[idx] = liveMap[match.id];
+        updated = true;
+      }
+    });
+
+    if (updated) {
+      renderWeeklyWeek();
+    }
+  } catch (e) {
+    // Sessiz hata - bir sonraki intervale bırak
+  }
+}
+
 // ═════════════════════════════════════════════════════════════════
 // HAFTALIK MAÇLAR SONU
 // ═════════════════════════════════════════════════════════════════
-
-
-
-
 
 
 function formatSeasonLabel(startYear) {
@@ -1850,15 +1896,32 @@ async function fetchTeamLineup(teamId) {
     const starters = teamRoster.roster.filter(p => p.starter);
     const subs = teamRoster.roster.filter(p => !p.starter);
 
-    const renderPlayer = (p) => `
-        <div style="display:flex; justify-content:space-between; padding:10px 8px; border-bottom:1px solid rgba(255,255,255,0.03); align-items:center;">
+    // Pozisyona göre arka plan rengi
+    const posColors = {
+      'GK': 'rgba(255,215,0,0.08)', // Kaleci - altın
+      'DF': 'rgba(30,144,255,0.08)', // Defans - mavi
+      'DEF': 'rgba(30,144,255,0.08)',
+      'MF': 'rgba(50,205,50,0.08)', // Orta saha - yeşil
+      'MID': 'rgba(50,205,50,0.08)',
+      'FW': 'rgba(220,20,60,0.08)', // Forvet - kırmızı
+      'FWD': 'rgba(220,20,60,0.08)',
+      'ST': 'rgba(220,20,60,0.08)',
+    };
+    const getPosBg = (pos) => posColors[pos] || 'rgba(255,255,255,0.02)';
+
+    const renderPlayer = (p) => {
+      const pos = p.position?.abbreviation || '';
+      const posBg = getPosBg(pos);
+      return `
+        <div style="display:flex; justify-content:space-between; padding:10px 8px; border-bottom:1px solid rgba(255,255,255,0.03); align-items:center; background:${posBg};">
           <div style="display:flex; gap:12px; align-items:center;">
              <span style="width:26px; text-align:center; font-size:12px; font-weight:800; color:var(--brand); background:rgba(252,213,53,0.1); padding:4px; border-radius:6px; font-family:'Space Grotesk', sans-serif;">${p.jersey || '-'}</span>
              <span style="font-weight:700; color:var(--text-primary); font-size:14px;">${p.athlete?.displayName || 'Bilinmiyor'}</span>
           </div>
-          <span style="font-size:11px; color:var(--text-secondary); font-weight:600; padding:2px 6px; background:rgba(255,255,255,0.05); border-radius:4px;">${p.position?.abbreviation || ''}</span>
+          <span style="font-size:11px; color:var(--text-secondary); font-weight:600; padding:2px 6px; background:rgba(255,255,255,0.05); border-radius:4px;">${pos}</span>
         </div>
       `;
+    };
 
     const evObj = normalizeMatch(targetEvent);
     const isL = evObj.isLive;
@@ -1950,8 +2013,8 @@ async function fetchTeamSchedule(teamId) {
                 </div>
                 
                 <div class="sch-center">
-                  <div class="sch-score-box ${isL ? 'live' : ''}">${scoreStr}</div>
-                  <div class="sch-meta ${isL ? 'clr-down' : ''}">${dateStr} ${metaStr}</div>
+                  <div class="sch-score-box ${isL ? 'live' : ''}" style="${isL ? 'border:2px solid rgba(14,203,129,0.6); box-shadow:0 0 12px rgba(14,203,129,0.2);' : ''}">${scoreStr}</div>
+                  <div class="sch-meta ${isL ? 'clr-up' : ''}" style="${isL ? 'font-weight:900;' : ''}">${dateStr} ${metaStr}</div>
                 </div>
 
                 <div class="sch-team">
@@ -1975,17 +2038,51 @@ async function fetchTeamSquad(teamId) {
     const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/teams/${teamId}/roster`);
     if (!res.ok) throw new Error();
     const data = await res.json();
-    // Pozisyonlara göre grupla (Kaleci, Defans, Orta Saha, Forvet)
     const athletes = data?.athletes || [];
     if (athletes.length === 0) { list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-secondary);">Kadro verisi yok.</div>`; return; }
 
-    list.innerHTML = athletes.map(a => `
-        <div class="squad-item">
-          <span class="squad-pos">${a.position?.abbreviation || '??'}</span>
-          <span class="squad-name">${a.displayName}</span>
-          <span class="squad-num">${a.jersey || '-'}</span>
-        </div>
-      `).join("");
+    // Pozisyon renkleri
+    const posColors = {
+      'GK': 'rgba(255,215,0,0.08)',
+      'DF': 'rgba(30,144,255,0.08)',
+      'DEF': 'rgba(30,144,255,0.08)',
+      'MF': 'rgba(50,205,50,0.08)',
+      'MID': 'rgba(50,205,50,0.08)',
+      'FW': 'rgba(220,20,60,0.08)',
+      'FWD': 'rgba(220,20,60,0.08)',
+      'ST': 'rgba(220,20,60,0.08)',
+    };
+
+    // Grupla: Kaleci → Defans → Orta Saha → Forvet
+    const order = { 'GK': 1, 'DF': 2, 'DEF': 2, 'MF': 3, 'MID': 3, 'FW': 4, 'FWD': 4, 'ST': 4 };
+    athletes.sort((a, b) => {
+      const oa = order[a.position?.abbreviation] || 99;
+      const ob = order[b.position?.abbreviation] || 99;
+      return oa - ob;
+    });
+
+    let currentGroup = '';
+    let html = '';
+
+    athletes.forEach(a => {
+      const pos = a.position?.abbreviation || '??';
+      const groupLabel = pos === 'GK' ? 'Kaleciler' : (pos.startsWith('D') || pos === 'DEF') ? 'Defans' : (pos.startsWith('M') || pos === 'MID') ? 'Orta Saha' : (pos.startsWith('F') || pos === 'ST') ? 'Forvet' : 'Diğer';
+      const posBg = posColors[pos] || 'rgba(255,255,255,0.02)';
+
+      if (groupLabel !== currentGroup) {
+        currentGroup = groupLabel;
+        html += `<div style="padding:8px; font-size:12px; font-weight:800; color:var(--brand); text-transform:uppercase; border-bottom:1px solid rgba(252,213,53,0.15); margin-top:8px;">${groupLabel}</div>`;
+      }
+
+      html += `
+        <div class="squad-item" style="background:${posBg}; padding:8px; border-bottom:1px solid rgba(255,255,255,0.03); display:flex; justify-content:space-between; align-items:center;">
+          <span class="squad-pos" style="font-size:11px; color:var(--text-secondary); font-weight:600; padding:2px 6px; background:rgba(255,255,255,0.05); border-radius:4px;">${pos}</span>
+          <span class="squad-name" style="font-weight:700; color:var(--text-primary); font-size:13px;">${a.displayName}</span>
+          <span class="squad-num" style="font-size:12px; font-weight:800; color:var(--brand); background:rgba(252,213,53,0.1); padding:4px 8px; border-radius:6px; min-width:24px; text-align:center;">${a.jersey || '-'}</span>
+        </div>`;
+    });
+
+    list.innerHTML = html;
   } catch (e) { list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--down);">Kadro yüklenemedi.</div>`; }
 }
 
@@ -2010,8 +2107,6 @@ window.closeTeamDetail = function () {
   if (o) o.classList.remove("open");
 };
 
-
-
 function showLigError() {
   const container = document.getElementById("ligTableBody");
   if (container) {
@@ -2025,9 +2120,6 @@ function showLigError() {
   if (rm) rm.innerHTML = "";
   setText("ligMeta", "Veri alınamadı");
 }
-
-
-
 // Bağla + ilk yükleme
 function bindSuperLig() {
   const btn = document.getElementById("ligRefreshBtn");
@@ -2256,11 +2348,16 @@ window.calcGold = function () {
   }
 };
 
-// Modal dışı tıklama
-document.getElementById('altinModal').addEventListener('click', function (e) {
-  if (e.target === this) {
-    this.style.display = 'none';
-    if (window._altinInterval) clearInterval(window._altinInterval);
+// Modal dışı tıklama (DOM hazır olunca bağla)
+document.addEventListener("DOMContentLoaded", () => {
+  const altinModal = document.getElementById('altinModal');
+  if (altinModal) {
+    altinModal.addEventListener('click', function (e) {
+      if (e.target === this) {
+        this.style.display = 'none';
+        if (window._altinInterval) clearInterval(window._altinInterval);
+      }
+    });
   }
 });
 
