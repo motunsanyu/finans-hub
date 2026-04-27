@@ -2481,6 +2481,9 @@ async function fetchCoinPrices() {
 // ══════════════════════════════════════════
 // YAKIT FİYATLARI (akaryakit-fiyatlari API)
 // ══════════════════════════════════════════
+// Global: son çekilen yakıt fiyatları (formdan çağırmak için)
+window._lastFuelPrices = { benzin: null, motorin: null, lpg: null, timestamp: null };
+
 window.fetchFuelPrices = async function () {
   const cards = document.getElementById('fuelPriceCards');
   const meta = document.getElementById('fuelPriceMeta');
@@ -2533,6 +2536,26 @@ window.fetchFuelPrices = async function () {
       }
     }
 
+    // Global cache'e kaydet
+    window._lastFuelPrices = {
+      benzin: parseFloat(benzin.replace(',', '.')) || null,
+      motorin: parseFloat(motorin.replace(',', '.')) || null,
+      lpg: parseFloat(lpg.replace(',', '.')) || null,
+      timestamp: Date.now()
+    };
+
+    // Eğer formda yakıt tipi seçiliyse otomatik doldur
+    const fuelType = document.getElementById('fuelTypeSelect')?.value;
+    const priceInput = document.getElementById('fuelPrice');
+    if (fuelType && priceInput) {
+      const priceMap = { benzin: window._lastFuelPrices.benzin, motorin: window._lastFuelPrices.motorin, lpg: window._lastFuelPrices.lpg };
+      if (priceMap[fuelType]) {
+        priceInput.value = priceMap[fuelType].toFixed(2);
+        const hint = document.getElementById('fuelPriceHint');
+        if (hint) hint.textContent = `✅ ${fuelType === 'benzin' ? 'Benzin 95' : fuelType === 'motorin' ? 'Motorin' : 'LPG'} fiyatı otomatik dolduruldu (${cityKey.toUpperCase()} - ${firmKey.toUpperCase()})`;
+      }
+    }
+
     cards.innerHTML = `
           <div class="fuel-price-card benzin"><div class="fpc-icon">⛽</div><div class="fpc-label">Benzin 95</div><div class="fpc-price">${benzin}</div></div>
           <div class="fuel-price-card motorin"><div class="fpc-icon">🚛</div><div class="fpc-label">Motorin</div><div class="fpc-price">${motorin}</div></div>
@@ -2544,5 +2567,26 @@ window.fetchFuelPrices = async function () {
   } catch (error) {
     console.error("Yakit:", error);
     cards.innerHTML = `<div style="grid-column:span 3;text-align:center;padding:16px;color:var(--text-secondary);font-size:12px;">Yükleme Başarısız. <button onclick="fetchFuelPrices()" style="color:var(--brand);background:none;border:none;font-weight:800;cursor:pointer;">Tekrar Dene</button></div>`;
+  }
+};
+
+// "Güncel Fiyatı Çek" butonu - formdaki yakıt tipine göre fiyatı doldurur
+window.fillFuelPriceFromWidget = function () {
+  const fuelType = document.getElementById('fuelTypeSelect')?.value || 'benzin';
+  const prices = window._lastFuelPrices || {};
+  const priceMap = { benzin: prices.benzin, motorin: prices.motorin, lpg: prices.lpg };
+  const price = priceMap[fuelType];
+  const priceInput = document.getElementById('fuelPrice');
+  const hint = document.getElementById('fuelPriceHint');
+
+  if (price && priceInput) {
+    priceInput.value = price.toFixed(2);
+    if (hint) hint.textContent = `✅ ${fuelType === 'benzin' ? 'Benzin 95' : fuelType === 'motorin' ? 'Motorin' : 'LPG'} fiyatı dolduruldu`;
+  } else {
+    // Fiyatlar henüz çekilmemişse otomatik çek
+    if (hint) hint.textContent = '⏳ Fiyatlar çekiliyor, lütfen bekleyin...';
+    fetchFuelPrices().then(() => {
+      // fetchFuelPrices içinde otomatik dolum zaten yapılıyor
+    });
   }
 };

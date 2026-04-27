@@ -1,21 +1,25 @@
 <!doctype html>
 <html lang="tr">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Finans Hub</title>
-  
+
   <link rel="apple-touch-icon" href="icon.svg">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
   <link rel="manifest" href="manifest.json">
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Space+Grotesk:wght@500;700;800&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Space+Grotesk:wght@500;700;800&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body ontouchstart="">
-  
+
 
   <!-- ════ŞİFRE EKRANI / APP LOCK════ -->
   <div id="pinScreen">
@@ -54,7 +58,7 @@
   </div>
 
   <div class="app-shell" id="appShell">
-    
+
     <header class="topbar">
       <div class="logo-area">
         <div class="logo-box">FINANS TR</div>
@@ -75,10 +79,12 @@
     <div class="sidebar" id="sidebar">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
         <h2 style="font-size:18px;">Açık Pozisyonlar</h2>
-        <button id="closeSidebarBtn" style="background:transparent; border:none; font-size:28px; color:var(--text-secondary); cursor:pointer;">&times;</button>
+        <button id="closeSidebarBtn"
+          style="background:transparent; border:none; font-size:28px; color:var(--text-secondary); cursor:pointer;">&times;</button>
       </div>
       <p style="font-size:12px; color:var(--text-secondary); margin-bottom:16px;">
-        Mevcut açık pozisyonlarınızı (borç/varlık) eksi yazar iseniz borç, artı yazar iseniz varlık olarak anlık bilançonuza yansır.
+        Mevcut açık pozisyonlarınızı (borç/varlık) eksi yazar iseniz borç, artı yazar iseniz varlık olarak anlık
+        bilançonuza yansır.
       </p>
       <div class="form-panel" style="overflow-y:auto; padding-bottom:50px;">
         <label>USD Pozisyonu ($) <input type="number" id="debtUSD" step="0.01" value="0" /></label>
@@ -86,7 +92,7 @@
         <label>Gram Altın Pozisyonu (g) <input type="number" id="debtGold" step="0.01" value="0" /></label>
         <label>BTC Pozisyonu (₺) <input type="number" id="debtBTC" step="0.0001" value="0" /></label>
         <label>TRY Pozisyonu (₺) <input type="number" id="debtTRY" step="0.01" value="0" /></label>
-        
+
         <button id="saveDebtsBtn" class="btn primary" style="margin-top:24px;">Kaydet &amp; Hesapla</button>
       </div>
     </div>
@@ -98,25 +104,30 @@
         <div class="total-debt-widget">
           <div class="widget-label">
             <span style="display:flex; align-items:center; gap:8px;">
-              Açık Pozisyon Toplamı 
-              <span id="debtTrend" style="display:none; align-items:center; gap:2px; font-size:11px; font-weight:800; padding:2px 6px; border-radius:4px; background:rgba(255,255,255,0.03);">
+              Açık Pozisyon Toplamı
+              <span id="debtTrend"
+                style="display:none; align-items:center; gap:2px; font-size:11px; font-weight:800; padding:2px 6px; border-radius:4px; background:rgba(255,255,255,0.03);">
                 <span id="trendArrow"></span>
                 <span id="trendValue"></span>
               </span>
             </span>
             <div style="display:flex; flex-direction:column; align-items:flex-end;">
-              <button id="refreshFinanceBtn" class="refresh-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg><span>YENİLE</span></button>
-              
+              <button id="refreshFinanceBtn" class="refresh-badge"><svg width="14" height="14" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3" />
+                </svg><span>YENİLE</span></button>
+
             </div>
           </div>
           <div class="debt-try" id="totalDebtDisplay">₺0.00</div>
           <div class="debt-usd" style="display:flex; justify-content:space-between; align-items:baseline;">
-    <span>≈ <span id="totalDebtUsdDisplay">$0.00</span></span>
-    <div id="homeDateDisplay" style="text-align:right; line-height:1.2;">
-        <div id="homeDateOnly" style="font-size:10px; color:var(--text-secondary); font-weight:700;"></div>
-        <div id="homeDayOnly" style="font-size:11px; color:var(--text-primary); font-weight:800; text-transform:capitalize;"></div>
-    </div>
-</div>
+            <span>≈ <span id="totalDebtUsdDisplay">$0.00</span></span>
+            <div id="homeDateDisplay" style="text-align:right; line-height:1.2;">
+              <div id="homeDateOnly" style="font-size:10px; color:var(--text-secondary); font-weight:700;"></div>
+              <div id="homeDayOnly"
+                style="font-size:11px; color:var(--text-primary); font-weight:800; text-transform:capitalize;"></div>
+            </div>
+          </div>
         </div>
 
         <!-- Piyasa / Coinler Alt Sekmeleri -->
@@ -135,108 +146,145 @@
           <div id="financeGrid">
             <div class="market-row">
               <div class="m-left">
-                <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/usd.png" class="market-icon" onerror="this.src='https://flagcdn.com/w80/us.png'">
+                <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/usd.png"
+                  class="market-icon" onerror="this.src='https://flagcdn.com/w80/us.png'">
                 <div class="m-symbol">USD<span class="m-pair">/TRY</span></div>
               </div>
               <div class="m-middle" id="usdTry">--</div>
-              <div class="m-right"><div class="pill neutral" id="usdTryChg">--</div></div>
+              <div class="m-right">
+                <div class="pill neutral" id="usdTryChg">--</div>
+              </div>
             </div>
             <div class="market-row">
               <div class="m-left">
-                <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/eur.png" class="market-icon" onerror="this.src='https://flagcdn.com/w80/eu.png'">
+                <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/eur.png"
+                  class="market-icon" onerror="this.src='https://flagcdn.com/w80/eu.png'">
                 <div class="m-symbol">EUR<span class="m-pair">/TRY</span></div>
               </div>
               <div class="m-middle" id="eurTry">--</div>
-              <div class="m-right"><div class="pill neutral" id="eurTryChg">--</div></div>
+              <div class="m-right">
+                <div class="pill neutral" id="eurTryChg">--</div>
+              </div>
             </div>
             <div class="market-row" onclick="xauAc()" style="cursor:pointer;" title="Detaylı altın borsası için tıkla">
               <div class="m-left">
-                <img src="https://static.okx.com/cdn/oksupport/asset/currency/icon/paxg.png" class="market-icon" onerror="this.src='https://bin.bnbstatic.com/static/assets/logos/PAXG.png'">
+                <img src="https://static.okx.com/cdn/oksupport/asset/currency/icon/paxg.png" class="market-icon"
+                  onerror="this.src='https://bin.bnbstatic.com/static/assets/logos/PAXG.png'">
                 <div class="m-symbol">XAU<span class="m-pair">/TRY (Gr)</span></div>
               </div>
               <div class="m-middle" id="goldTry">--</div>
-              <div class="m-right"><div class="pill neutral" id="goldTryChg">--</div></div>
+              <div class="m-right">
+                <div class="pill neutral" id="goldTryChg">--</div>
+              </div>
             </div>
             <div class="market-row">
               <div class="m-left">
-                <img src="https://static.okx.com/cdn/oksupport/asset/currency/icon/btc.png" class="market-icon" onerror="this.src='https://bin.bnbstatic.com/static/assets/logos/BTC.png'">
+                <img src="https://static.okx.com/cdn/oksupport/asset/currency/icon/btc.png" class="market-icon"
+                  onerror="this.src='https://bin.bnbstatic.com/static/assets/logos/BTC.png'">
                 <div class="m-symbol">BTC<span class="m-pair">/USD</span></div>
               </div>
               <div class="m-middle" id="btcUsd">--</div>
-              <div class="m-right"><div class="pill neutral" id="btcUsdChg">--</div></div>
+              <div class="m-right">
+                <div class="pill neutral" id="btcUsdChg">--</div>
+              </div>
             </div>
             <div class="market-row">
               <div class="m-left">
-                <img src="https://static.okx.com/cdn/oksupport/asset/currency/icon/eth.png" class="market-icon" onerror="this.src='https://bin.bnbstatic.com/static/assets/logos/ETH.png'">
+                <img src="https://static.okx.com/cdn/oksupport/asset/currency/icon/eth.png" class="market-icon"
+                  onerror="this.src='https://bin.bnbstatic.com/static/assets/logos/ETH.png'">
                 <div class="m-symbol">ETH<span class="m-pair">/USD</span></div>
               </div>
               <div class="m-middle" id="ethUsd">--</div>
-              <div class="m-right"><div class="pill neutral" id="ethUsdChg">--</div></div>
+              <div class="m-right">
+                <div class="pill neutral" id="ethUsdChg">--</div>
+              </div>
             </div>
             <div class="market-row">
               <div class="m-left">
-                <img src="https://static.okx.com/cdn/oksupport/asset/currency/icon/bnb.png" class="market-icon" onerror="this.src='https://bin.bnbstatic.com/static/assets/logos/BNB.png'">
+                <img src="https://static.okx.com/cdn/oksupport/asset/currency/icon/bnb.png" class="market-icon"
+                  onerror="this.src='https://bin.bnbstatic.com/static/assets/logos/BNB.png'">
                 <div class="m-symbol">BNB<span class="m-pair">/USD</span></div>
               </div>
               <div class="m-middle" id="bnbUsd">--</div>
-              <div class="m-right"><div class="pill neutral" id="bnbUsdChg">--</div></div>
+              <div class="m-right">
+                <div class="pill neutral" id="bnbUsdChg">--</div>
+              </div>
             </div>
             <div class="market-row">
               <div class="m-left">
-                <img src="https://static.okx.com/cdn/oksupport/asset/currency/icon/xrp.png" class="market-icon" onerror="this.src='https://bin.bnbstatic.com/static/assets/logos/XRP.png'">
+                <img src="https://static.okx.com/cdn/oksupport/asset/currency/icon/xrp.png" class="market-icon"
+                  onerror="this.src='https://bin.bnbstatic.com/static/assets/logos/XRP.png'">
                 <div class="m-symbol">XRP<span class="m-pair">/USD</span></div>
               </div>
               <div class="m-middle" id="xrpUsd">--</div>
-              <div class="m-right"><div class="pill neutral" id="xrpUsdChg">--</div></div>
+              <div class="m-right">
+                <div class="pill neutral" id="xrpUsdChg">--</div>
+              </div>
             </div>
             <!-- BRENT PETROL -->
             <div class="market-row">
               <div class="m-left">
-                <div class="market-icon" style="background:#000; border-radius:50%; display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,0.1); width:24px; height:24px;">
-                   <span style="color:#fff; font-size:10px; font-weight:900;">B</span>
+                <div class="market-icon"
+                  style="background:#000; border-radius:50%; display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,0.1); width:24px; height:24px;">
+                  <span style="color:#fff; font-size:10px; font-weight:900;">B</span>
                 </div>
                 <div class="m-symbol">BRENT<span class="m-pair">/OIL</span></div>
               </div>
               <div class="m-middle" id="brentPrice">--</div>
-              <div class="m-right"><div class="pill neutral" id="brentChg">--</div></div>
+              <div class="m-right">
+                <div class="pill neutral" id="brentChg">--</div>
+              </div>
             </div>
             <!-- BIST 100 -->
             <div class="market-row">
               <div class="m-left">
-                <div class="market-icon" style="background:#000; border-radius:50%; display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,0.1); width:24px; height:24px;">
-                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                <div class="market-icon"
+                  style="background:#000; border-radius:50%; display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,0.1); width:24px; height:24px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                    <polyline points="17 6 23 6 23 12" />
+                  </svg>
                 </div>
                 <div class="m-symbol">BIST100<span class="m-pair">/XU100</span></div>
               </div>
               <div class="m-middle" id="bistPrice">--</div>
-              <div class="m-right"><div class="pill neutral" id="bistChg">--</div></div>
+              <div class="m-right">
+                <div class="pill neutral" id="bistChg">--</div>
+              </div>
             </div>
-           <!-- GRAM GÜMÜŞ SATIRI -->
-          <div class="market-row">
-            <div class="m-left">
-              <!-- Gümüş İkonu (SVG) -->
-              <svg class="market-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="silverGradient" x1="4" y1="4" x2="28" y2="28" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#F2F4F7"/>
-                    <stop offset="0.4" stop-color="#C0C8D4"/>
-                    <stop offset="1" stop-color="#8A94A1"/>
-                  </linearGradient>
-                </defs>
-                <!-- Arka plan: Metalik kenarlı yuvarlak -->
-                <circle cx="16" cy="16" r="14" fill="url(#silverGradient)" stroke="#6B7280" stroke-width="1.5"/>
-                <!-- Gümüşün kimyasal sembolü -->
-                <text x="16" y="21" text-anchor="middle" fill="#1F2937" font-size="13" font-weight="900" font-family="'Space Grotesk', 'Manrope', sans-serif">Ag</text>
-              </svg>
-              <div class="m-symbol">SILVER<span class="m-pair">/TRY (Gr)</span></div>
+            <!-- GRAM GÜMÜŞ SATIRI -->
+            <div class="market-row">
+              <div class="m-left">
+                <!-- Gümüş İkonu (SVG) -->
+                <svg class="market-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="silverGradient" x1="4" y1="4" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#F2F4F7" />
+                      <stop offset="0.4" stop-color="#C0C8D4" />
+                      <stop offset="1" stop-color="#8A94A1" />
+                    </linearGradient>
+                  </defs>
+                  <!-- Arka plan: Metalik kenarlı yuvarlak -->
+                  <circle cx="16" cy="16" r="14" fill="url(#silverGradient)" stroke="#6B7280" stroke-width="1.5" />
+                  <!-- Gümüşün kimyasal sembolü -->
+                  <text x="16" y="21" text-anchor="middle" fill="#1F2937" font-size="13" font-weight="900"
+                    font-family="'Space Grotesk', 'Manrope', sans-serif">Ag</text>
+                </svg>
+                <div class="m-symbol">SILVER<span class="m-pair">/TRY (Gr)</span></div>
+              </div>
+              <div class="m-middle" id="silverTry">--</div>
+              <div class="m-right">
+                <div class="pill neutral" id="silverTryChg">--</div>
+              </div>
             </div>
-            <div class="m-middle" id="silverTry">--</div>
-            <div class="m-right"><div class="pill neutral" id="silverTryChg">--</div></div>
-          </div>
-                    </div> <!-- financeGrid kapanışı -->
-          <p id="financeMeta" style="color:var(--text-secondary); font-size:11px; text-align:center; padding:16px 0;"></p>
+          </div> <!-- financeGrid kapanışı -->
+          <p id="financeMeta" style="color:var(--text-secondary); font-size:11px; text-align:center; padding:16px 0;">
+          </p>
           <div style="padding:32px 16px; text-align:center; opacity:0.3; border-top:1px solid rgba(255,255,255,0.03);">
-            <div style="font-size:12px; font-weight:800; color:var(--text-primary); letter-spacing:1px; text-transform:uppercase;">Powered by ®muzaf</div>
+            <div
+              style="font-size:12px; font-weight:800; color:var(--text-primary); letter-spacing:1px; text-transform:uppercase;">
+              Powered by ®muzaf</div>
             <div style="font-size:10px; color:var(--text-secondary); margin-top:4px;">muzaf@hotmail.com</div>
           </div>
         </div> <!-- piyasaSection kapanışı -->
@@ -248,197 +296,339 @@
             <div style="width:80px; text-align:right;">24s %</div>
           </div>
           <div id="coinlerList">
-            <div style="text-align:center; padding:40px 16px; color:var(--text-secondary); font-size:13px;">Yükleniyor...</div>
+            <div style="text-align:center; padding:40px 16px; color:var(--text-secondary); font-size:13px;">
+              Yükleniyor...</div>
           </div>
-          <p id="coinlerMeta" style="color:var(--text-secondary); font-size:11px; text-align:center; padding:8px 16px 16px;"></p>
+          <p id="coinlerMeta"
+            style="color:var(--text-secondary); font-size:11px; text-align:center; padding:8px 16px 16px;"></p>
         </div>
       </section> <!-- home kapanışı -->
-      
+
 
       <!-- ═════════════════════════ KASA SEKMESİ ═════════════════════════ -->
       <section id="vault" class="tab-page">
         <!-- GLOBAL PANEL -->
-        <div class="total-debt-widget" style="margin-bottom:24px; border-radius:12px; padding:20px; border:1px solid rgba(252,213,53,0.2); background: linear-gradient(135deg, rgba(252,213,53,0.1) 0%, rgba(11,14,17,0) 100%);">
+        <div class="total-debt-widget"
+          style="margin-bottom:24px; border-radius:12px; padding:20px; border:1px solid rgba(252,213,53,0.2); background: linear-gradient(135deg, rgba(252,213,53,0.1) 0%, rgba(11,14,17,0) 100%);">
           <div class="widget-label">
             <span>Aylık Kasa Bilanço Dengesi (Gelir/Gider)</span>
           </div>
-          <div class="debt-try" id="vaultNetBalance" style="color:var(--brand); font-size:36px; margin-top:8px;">₺0</div>
-          
-          <div style="display:flex; justify-content:space-between; margin-top:24px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.05);">
+          <div class="debt-try" id="vaultNetBalance" style="color:var(--brand); font-size:36px; margin-top:8px;">₺0
+          </div>
+
+          <div
+            style="display:flex; justify-content:space-between; margin-top:24px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.05);">
             <div>
               <div style="font-size:11px; color:var(--text-secondary); margin-bottom:4px;">Açık Piyasalar Bakiye</div>
-              <div id="vaultGlobalDebt" style="font-size:15px; font-weight:800; font-family:'Space Grotesk', monospace; color:var(--text-primary)">₺0</div>
+              <div id="vaultGlobalDebt"
+                style="font-size:15px; font-weight:800; font-family:'Space Grotesk', monospace; color:var(--text-primary)">
+                ₺0</div>
             </div>
             <div style="text-align:right;">
               <div style="font-size:11px; color:var(--text-secondary); margin-bottom:4px;">Kapalı Taksitler Yükü</div>
-              <div id="vaultInstDebt" style="font-size:15px; font-weight:800; font-family:'Space Grotesk', monospace; color:var(--down)">₺0</div>
+              <div id="vaultInstDebt"
+                style="font-size:15px; font-weight:800; font-family:'Space Grotesk', monospace; color:var(--down)">₺0
+              </div>
             </div>
           </div>
         </div>
 
         <!-- FORM (COLLAPSED) -->
-        <details class="panel" style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin-bottom:24px; border:1px dashed var(--line); cursor: pointer;" id="newVaultDetails">
-            <summary style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
-               <span style="display:flex; align-items:center; gap:8px;"><span style="font-size:18px;">💰</span> Kasa Hareketi İşle </span>
-               <span style="font-size:12px; color:var(--brand)">Genişlet 🔽</span>
-            </summary>
-            
-            <form id="vaultForm" class="form-panel" style="margin-top:20px; padding-top:16px; border-top:1px solid var(--line); cursor: default;" onclick="event.stopPropagation()">
-              
-              <!-- SMART SCHOOL SELECTOR -->
-              <label style="color:var(--brand); margin-bottom:8px;">Akıllı Taksit Seçici (Tarih ve Tutarı Çeker)
-                 <select id="vaultSmartSelect" style="width:100%; padding:14px; background:rgba(252, 213, 53, 0.05); color:var(--text-primary); border:1px solid rgba(252, 213, 53, 0.3); border-radius:8px; font-size:14px; outline:none; -webkit-appearance:none; font-family:inherit; font-weight:800;">
-                     <option value="">-- El İle Kendim Gireceğim --</option>
-                 </select>
+        <details class="panel"
+          style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin-bottom:24px; border:1px dashed var(--line); cursor: pointer;"
+          id="newVaultDetails">
+          <summary
+            style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
+            <span style="display:flex; align-items:center; gap:8px;"><span style="font-size:18px;">💰</span> Kasa
+              Hareketi İşle </span>
+            <span style="font-size:12px; color:var(--brand)">Genişlet 🔽</span>
+          </summary>
+
+          <form id="vaultForm" class="form-panel"
+            style="margin-top:20px; padding-top:16px; border-top:1px solid var(--line); cursor: default;"
+            onclick="event.stopPropagation()">
+
+            <!-- SMART SCHOOL SELECTOR -->
+            <label style="color:var(--brand); margin-bottom:8px;">Akıllı Taksit Seçici (Tarih ve Tutarı Çeker)
+              <select id="vaultSmartSelect"
+                style="width:100%; padding:14px; background:rgba(252, 213, 53, 0.05); color:var(--text-primary); border:1px solid rgba(252, 213, 53, 0.3); border-radius:8px; font-size:14px; outline:none; -webkit-appearance:none; font-family:inherit; font-weight:800;">
+                <option value="">-- El İle Kendim Gireceğim --</option>
+              </select>
+            </label>
+
+            <div style="display:flex; gap:16px;">
+              <label style="flex:1;">İşlem Yönü
+                <select id="vaultType"
+                  style="width:100%; padding:14px; background:var(--bg-primary); color:var(--text-primary); border:1px solid var(--line); border-radius:8px; font-size:14px; outline:none; -webkit-appearance:none; font-family:inherit; font-weight:700;">
+                  <option value="income">Gelir Ekle (+)</option>
+                  <option value="expense">Gider Ekle (-)</option>
+                </select>
               </label>
+              <label style="flex:1;">Tarih
+                <input type="date" id="vaultDate" required />
+              </label>
+            </div>
 
-              <div style="display:flex; gap:16px;">
-                 <label style="flex:1;">İşlem Yönü
-                    <select id="vaultType" style="width:100%; padding:14px; background:var(--bg-primary); color:var(--text-primary); border:1px solid var(--line); border-radius:8px; font-size:14px; outline:none; -webkit-appearance:none; font-family:inherit; font-weight:700;">
-                        <option value="income">Gelir Ekle (+)</option>
-                        <option value="expense">Gider Ekle (-)</option>
-                    </select>
-                 </label>
-                 <label style="flex:1;">Tarih
-                    <input type="date" id="vaultDate" required />
-                 </label>
-              </div>
+            <label>İşlem Adı / Kategori <input type="text" id="vaultTitle" placeholder="Örn: Maaş, Kira, Fatura vs."
+                required /></label>
+            <label>Tutar (TRY) <input type="text" id="vaultAmountInput" class="num-mask" placeholder="Örn: 10.000"
+                inputmode="numeric" required /></label>
 
-              <label>İşlem Adı / Kategori <input type="text" id="vaultTitle" placeholder="Örn: Maaş, Kira, Fatura vs." required /></label>
-              <label>Tutar (TRY) <input type="text" id="vaultAmountInput" class="num-mask" placeholder="Örn: 10.000" inputmode="numeric" required /></label>
-
-              <button type="submit" class="btn primary" style="margin-top:8px;">Kasaya İşle</button>
-            </form>
+            <button type="submit" class="btn primary" style="margin-top:8px;">Kasaya İşle</button>
+          </form>
         </details>
 
         <!-- KASA LİSTESİ (GRUPLANDIRILMIŞ) -->
         <details class="panel" style="padding:0; overflow:hidden;" open>
-            <summary style="padding:16px; font-weight:800; border-bottom:1px solid rgba(255,255,255,0.05); list-style:none; outline:none; display:flex; justify-content:space-between; cursor:pointer;">
-                <span>Geçmiş Kasa Kayıtları (Aylık)</span><span style="font-size:10px; color:var(--brand);">GÖSTER/GİZLE</span>
-            </summary>
-            
-            <div style="padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
-               <span style="font-size:12px; color:var(--text-secondary);">Klasörlenmiş Arşiv</span>
-               <button type="button" id="clearAllVaultBtn" class="btn danger-btn" style="padding:4px 8px; font-size:11px;">Tümünü Temizle</button>
-            </div>
+          <summary
+            style="padding:16px; font-weight:800; border-bottom:1px solid rgba(255,255,255,0.05); list-style:none; outline:none; display:flex; justify-content:space-between; cursor:pointer;">
+            <span>Geçmiş Kasa Kayıtları (Aylık)</span><span
+              style="font-size:10px; color:var(--brand);">GÖSTER/GİZLE</span>
+          </summary>
 
-            <div id="vaultListContainer" style="padding:16px;"></div>
+          <div style="padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:12px; color:var(--text-secondary);">Klasörlenmiş Arşiv</span>
+            <button type="button" id="clearAllVaultBtn" class="btn danger-btn"
+              style="padding:4px 8px; font-size:11px;">Tümünü Temizle</button>
+          </div>
+
+          <div id="vaultListContainer" style="padding:16px;"></div>
         </details>
       </section>
 
       <!-- ═════════════════════════ YAKIT SEKMESİ ═════════════════════════ -->
       <section id="fuel" class="tab-page">
-       <!-- ⛽ GÜNCEL YAKIT FİYATLARI -->
-<div class="fuel-price-widget" id="fuelPriceWidget">
-  <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:4px;">
-    <!-- Başlık – mobilde tek satırda kalır -->
-    <div style="font-size:12px; font-weight:800; color:var(--up); display:flex; align-items:center; gap:6px; white-space:nowrap;">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="15" y2="22"/><line x1="4" y1="9" x2="14" y2="9"/><path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18"/><path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 4 0V9.83a2 2 0 0 0-.59-1.42L18 5"/></svg>
-      Yakıt Fiyatları
-    </div>
-    <!-- Seçimler ve buton – mobilde sağa yaslı kalır -->
-    <div class="fuel-controls" style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; justify-content:flex-end;">
-      <select id="fuelCitySelect" class="fuel-city-select" onchange="fetchFuelPrices()" style="width: 80px;">
-        <option value="konya" selected>KONYA</option>
-        <option value="istanbul-avrupa">İST</option>
-        <option value="ankara">ANK</option>
-        <option value="izmir">İZM</option>
-        <option value="bursa">BUR</option>
-        <option value="antalya">ANT</option>
-      </select>
-      <select id="fuelFirmSelect" class="fuel-city-select" onchange="fetchFuelPrices()" style="width: 90px; border-color: rgba(255,255,255,0.1);">
-        <option value="opet" selected>OPET</option>
-        <option value="petrol-ofisi">P.Ofisi</option>
-        <option value="shell">Shell</option>
-        <option value="bp">BP</option>
-        <option value="total">Total</option>
-        <option value="aytemiz">Aytemiz</option>
-      </select>
-      <button class="refresh-badge" onclick="fetchFuelPrices()" style="margin-left:auto;">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg>
-        <span>Yenile</span>
-      </button>
-    </div>
-  </div>
-  <div class="fuel-price-cards-grid" id="fuelPriceCards">
-    <div class="fuel-price-card benzin"><div class="fpc-icon">⛽</div><div class="fpc-label">Benzin 95</div><div class="fpc-price anim-pulse">●●</div></div>
-    <div class="fuel-price-card motorin"><div class="fpc-icon">🚛</div><div class="fpc-label">Motorin</div><div class="fpc-price anim-pulse">●●</div></div>
-    <div class="fuel-price-card lpg"><div class="fpc-icon">💨</div><div class="fpc-label">LPG</div><div class="fpc-price anim-pulse">●●</div></div>
-  </div>
-  <div id="fuelPriceMeta" style="font-size:10px; color:var(--text-secondary); text-align:center; margin-top:8px;"></div>
-</div>
-
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; background:var(--bg-secondary); padding:16px; border-radius:16px; margin-bottom: 24px;">
-          <div><span style="font-size:12px; color:var(--text-secondary);">Toplam Harcama</span><div style="color:var(--brand); font-weight:800; font-size:16px;" id="sumAmount">0</div></div>
-          <div><span style="font-size:12px; color:var(--text-secondary);">Toplam Gidilen</span><div style="color:var(--brand); font-weight:800; font-size:16px;" id="sumKm">0</div></div>
-          <div><span style="font-size:12px; color:var(--text-secondary);">Toplam Hacim</span><div style="color:var(--brand); font-weight:800; font-size:16px;" id="sumLiters">0</div></div>
-          <div><span style="font-size:12px; color:var(--text-secondary);">100 KM Tüketim</span><div style="color:var(--brand); font-weight:800; font-size:16px;" id="avgLt100">0</div></div>
-          <div style="grid-column: span 2; border-top:1px solid rgba(255,255,255,0.05); padding-top:12px;"><span style="font-size:12px; color:var(--text-secondary);">Aracınızın 100 KM Maliyeti</span><div style="color:var(--brand); font-weight:800; font-size:18px;" id="avgCost100">0</div></div>
+        <!-- ⛽ GÜNCEL YAKIT FİYATLARI -->
+        <div class="fuel-price-widget" id="fuelPriceWidget">
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:4px;">
+            <!-- Başlık – mobilde tek satırda kalır -->
+            <div
+              style="font-size:12px; font-weight:800; color:var(--up); display:flex; align-items:center; gap:6px; white-space:nowrap;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="22" x2="15" y2="22" />
+                <line x1="4" y1="9" x2="14" y2="9" />
+                <path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18" />
+                <path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 4 0V9.83a2 2 0 0 0-.59-1.42L18 5" />
+              </svg>
+              Yakıt Fiyatları
+            </div>
+            <!-- Seçimler ve buton – mobilde sağa yaslı kalır -->
+            <div class="fuel-controls"
+              style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; justify-content:flex-end;">
+              <select id="fuelCitySelect" class="fuel-city-select" onchange="fetchFuelPrices()" style="width: 80px;">
+                <option value="konya" selected>KONYA</option>
+                <option value="istanbul-avrupa">İST</option>
+                <option value="ankara">ANK</option>
+                <option value="izmir">İZM</option>
+                <option value="bursa">BUR</option>
+                <option value="antalya">ANT</option>
+              </select>
+              <select id="fuelFirmSelect" class="fuel-city-select" onchange="fetchFuelPrices()"
+                style="width: 90px; border-color: rgba(255,255,255,0.1);">
+                <option value="opet" selected>OPET</option>
+                <option value="petrol-ofisi">P.Ofisi</option>
+                <option value="shell">Shell</option>
+                <option value="bp">BP</option>
+                <option value="total">Total</option>
+                <option value="aytemiz">Aytemiz</option>
+              </select>
+              <button class="refresh-badge" onclick="fetchFuelPrices()" style="margin-left:auto;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3" />
+                </svg>
+                <span>Yenile</span>
+              </button>
+            </div>
+          </div>
+          <div class="fuel-price-cards-grid" id="fuelPriceCards">
+            <div class="fuel-price-card benzin">
+              <div class="fpc-icon">⛽</div>
+              <div class="fpc-label">Benzin 95</div>
+              <div class="fpc-price anim-pulse">●●</div>
+            </div>
+            <div class="fuel-price-card motorin">
+              <div class="fpc-icon">🚛</div>
+              <div class="fpc-label">Motorin</div>
+              <div class="fpc-price anim-pulse">●●</div>
+            </div>
+            <div class="fuel-price-card lpg">
+              <div class="fpc-icon">💨</div>
+              <div class="fpc-label">LPG</div>
+              <div class="fpc-price anim-pulse">●●</div>
+            </div>
+          </div>
+          <div id="fuelPriceMeta"
+            style="font-size:10px; color:var(--text-secondary); text-align:center; margin-top:8px;"></div>
         </div>
 
-        <details class="panel" style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin-bottom:24px; border:1px solid rgba(14,203,129,0.3); cursor: pointer;" id="travelSimDetails">
-            <summary style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
-               <span style="display:flex; align-items:center; gap:8px; color:var(--up);"><span style="font-size:18px;">📍</span> Yolculuk Bütçe Simülatörü</span>
-               <span style="font-size:12px; color:var(--up)">Genişlet 🔽</span>
-            </summary>
-            <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--line); cursor: default;" onclick="event.stopPropagation()">
-               <label class="form-panel">Gidilecek Mesafe (KM)
-                  <input type="number" id="simKm" min="1" placeholder="Örn: 450" style="margin-top:6px;" />
-               </label>
-               <label style="display:flex; align-items:center; gap:12px; cursor:pointer; margin-top:16px;">
-                  <input type="checkbox" id="simReturn" style="width:24px; height:24px;" />
-                  <span style="font-size:14px;">Dönüşü de hesaba kat (Mesafe x2)</span>
-               </label>
-               <div style="margin-top:20px; background:var(--bg-primary); padding:16px; border-radius:12px; text-align:center;">
-                  <span style="font-size:12px; color:var(--text-secondary);">Tahmini Toplam Yakıt Bütçesi</span>
-                  <div style="color:var(--brand); font-size:32px; font-weight:900; margin-top:4px;" id="simResult">₺0</div>
-               </div>
+        <!-- PRO WIDGET: Yakıt Özet Paneli -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px;">
+          <!-- Toplam Harcama -->
+          <div
+            style="background:linear-gradient(135deg, rgba(252,213,53,0.12) 0%, rgba(11,14,17,0) 100%); border:1px solid rgba(252,213,53,0.18); border-radius:14px; padding:14px; text-align:center;">
+            <div
+              style="font-size:10px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">
+              💰 Toplam Harcama</div>
+            <div style="font-size:22px; font-weight:900; font-family:'Space Grotesk',monospace; color:var(--brand);"
+              id="sumAmount">0</div>
+          </div>
+          <!-- Toplam KM -->
+          <div
+            style="background:linear-gradient(135deg, rgba(14,203,129,0.08) 0%, rgba(11,14,17,0) 100%); border:1px solid rgba(14,203,129,0.14); border-radius:14px; padding:14px; text-align:center;">
+            <div
+              style="font-size:10px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">
+              🛣️ Toplam Mesafe</div>
+            <div style="font-size:22px; font-weight:900; font-family:'Space Grotesk',monospace; color:var(--up);"
+              id="sumKm">0</div>
+          </div>
+          <!-- Toplam Litre -->
+          <div
+            style="background:linear-gradient(135deg, rgba(30,144,255,0.08) 0%, rgba(11,14,17,0) 100%); border:1px solid rgba(30,144,255,0.14); border-radius:14px; padding:14px; text-align:center;">
+            <div
+              style="font-size:10px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">
+              ⛽ Toplam Hacim</div>
+            <div style="font-size:22px; font-weight:900; font-family:'Space Grotesk',monospace; color:#4da6ff;"
+              id="sumLiters">0</div>
+          </div>
+          <!-- 100 KM Tüketim -->
+          <div
+            style="background:linear-gradient(135deg, rgba(246,70,93,0.06) 0%, rgba(11,14,17,0) 100%); border:1px solid rgba(246,70,93,0.12); border-radius:14px; padding:14px; text-align:center;">
+            <div
+              style="font-size:10px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">
+              📊 100 KM Tüketim</div>
+            <div style="font-size:22px; font-weight:900; font-family:'Space Grotesk',monospace; color:var(--down);"
+              id="avgLt100">0</div>
+          </div>
+          <!-- 100 KM Maliyet - Tam genişlik -->
+          <div
+            style="grid-column:span 2; background:linear-gradient(135deg, rgba(252,213,53,0.18) 0%, rgba(14,203,129,0.1) 100%); border:1px solid rgba(252,213,53,0.25); border-radius:14px; padding:16px; text-align:center;">
+            <div
+              style="font-size:10px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">
+              💸 100 KM Ortalama Maliyet</div>
+            <div
+              style="font-size:28px; font-weight:900; font-family:'Space Grotesk',monospace; background:linear-gradient(90deg, var(--brand), var(--up)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;"
+              id="avgCost100">₺0</div>
+          </div>
+        </div>
+
+        <details class="panel"
+          style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin-bottom:24px; border:1px solid rgba(14,203,129,0.3); cursor: pointer;"
+          id="travelSimDetails">
+          <summary
+            style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
+            <span style="display:flex; align-items:center; gap:8px; color:var(--up);"><span
+                style="font-size:18px;">📍</span> Yolculuk Bütçe Simülatörü</span>
+            <span style="font-size:12px; color:var(--up)">Genişlet 🔽</span>
+          </summary>
+          <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--line); cursor: default;"
+            onclick="event.stopPropagation()">
+            <label class="form-panel">Gidilecek Mesafe (KM)
+              <input type="number" id="simKm" min="1" placeholder="Örn: 450" style="margin-top:6px;" />
+            </label>
+            <label style="display:flex; align-items:center; gap:12px; cursor:pointer; margin-top:16px;">
+              <input type="checkbox" id="simReturn" style="width:24px; height:24px;" />
+              <span style="font-size:14px;">Dönüşü de hesaba kat (Mesafe x2)</span>
+            </label>
+            <div
+              style="margin-top:20px; background:var(--bg-primary); padding:16px; border-radius:12px; text-align:center;">
+              <span style="font-size:12px; color:var(--text-secondary);">Tahmini Toplam Yakıt Bütçesi</span>
+              <div style="color:var(--brand); font-size:32px; font-weight:900; margin-top:4px;" id="simResult">₺0</div>
             </div>
+          </div>
         </details>
 
-        <details class="panel" style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin-bottom:24px; border:1px dashed var(--line); cursor: pointer;" id="newFuelDetails">
-            <summary style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
-               <span style="display:flex; align-items:center; gap:8px;"><span style="font-size:18px;">⛽</span> Yeni Yakıt Fişi İşle</span>
-               <span style="font-size:12px; color:var(--brand)">Genişlet 🔽</span>
-            </summary>
-            <form id="fuelForm" class="form-panel" style="margin-top:20px; padding-top:16px; border-top:1px solid var(--line); cursor: default;" onclick="event.stopPropagation()">
-              <label>İşlem Tarihi <input type="date" id="fuelDate" required /></label>
-              <label>Fiş Tutarı (TRY) <input type="number" id="fuelAmount" min="0" step="0.01" placeholder="Örn: 1500" required /></label>
-              <label>Alınan Yol (KM) <input type="number" id="fuelKm" min="0.1" step="0.1" placeholder="Örn: 500" required /></label>
-              <label>Litre Fiyatı (TRY/L) <input type="number" id="fuelPrice" min="0" step="0.01" placeholder="Örn: 45.60" required /></label>
-              <button type="submit" class="btn primary" style="margin-top:8px;">Harcamayı Bilançoya Ekle</button>
-            </form>
+        <details class="panel"
+          style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin-bottom:24px; border:1px dashed var(--line); cursor: pointer;"
+          id="newFuelDetails">
+          <summary
+            style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
+            <span style="display:flex; align-items:center; gap:8px;"><span style="font-size:18px;">⛽</span> Yeni Yakıt
+              Fişi İşle</span>
+            <span style="font-size:12px; color:var(--brand)">Genişlet 🔽</span>
+          </summary>
+          <form id="fuelForm" class="form-panel"
+            style="margin-top:20px; padding-top:16px; border-top:1px solid var(--line); cursor: default;"
+            onclick="event.stopPropagation()">
+            <label>İşlem Tarihi <input type="date" id="fuelDate" required /></label>
+            <!-- Yakıt Tipi Seçimi -->
+            <label>Yakıt Tipi
+              <select id="fuelTypeSelect"
+                style="width:100%; padding:14px; background:var(--bg-primary); color:var(--text-primary); border:1px solid var(--line); border-radius:8px; font-size:14px; outline:none; font-family:inherit; font-weight:700;">
+                <option value="benzin" selected>⛽ Benzin 95</option>
+                <option value="motorin">🚛 Motorin</option>
+                <option value="lpg">💨 LPG</option>
+              </select>
+            </label>
+            <label>Fiş Tutarı (TRY) <input type="number" id="fuelAmount" min="0" step="0.01" placeholder="Örn: 1500"
+                required /></label>
+            <label>Alınan Yol (KM) <input type="number" id="fuelKm" min="0.1" step="0.1" placeholder="Örn: 500"
+                required /></label>
+            <label>Litre Fiyatı (TRY/L)
+              <div style="display:flex; gap:8px; align-items:center;">
+                <input type="number" id="fuelPrice" min="0" step="0.01" placeholder="Örn: 45.60" required
+                  style="flex:1;" />
+                <button type="button" id="fuelPriceFetchBtn" onclick="fillFuelPriceFromWidget()"
+                  style="background:var(--brand); color:#000; border:none; padding:10px 14px; border-radius:8px; font-weight:800; font-size:11px; cursor:pointer; white-space:nowrap;">📡
+                  Güncel Fiyatı Çek</button>
+              </div>
+              <span id="fuelPriceHint"
+                style="font-size:9px; color:var(--text-secondary); margin-top:4px; display:block;">Yukarıdaki
+                şehir/firma/yakıt tipine göre otomatik dolar</span>
+            </label>
+            <button type="submit" class="btn primary" style="margin-top:8px;">Harcamayı Bilançoya Ekle</button>
+          </form>
         </details>
 
         <details class="panel" style="padding:0; overflow:hidden;" open>
-            <summary style="padding:16px; font-weight:800; border-bottom:1px solid rgba(255,255,255,0.05); list-style:none; outline:none; display:flex; justify-content:space-between; cursor:pointer;">
-                <span>Yakıt İşlem Arşivi</span><span style="font-size:10px; color:var(--brand);">GÖSTER/GİZLE</span>
-            </summary>
-            <div style="padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
-               <span style="font-size:12px; color:var(--text-secondary);">Tam Liste</span>
-               <button type="button" id="clearAllFuelBtn" class="btn danger-btn" style="padding:4px 8px; font-size:11px;">Tümünü Temizle</button>
-            </div>
-            <div class="table-wrap" style="border:none; border-radius:0; margin:0;">
-              <table id="fuelTable">
-                <thead><tr><th style="font-size:10px;">Tarih</th><th style="font-size:10px;">Tutar</th><th style="font-size:10px;">KM</th><th style="font-size:10px;">₺/L</th><th style="font-size:10px;">1KM</th><th style="width:20px;"></th></tr></thead>
-                <tbody></tbody>
-              </table>
-            </div>
+          <summary
+            style="padding:16px; font-weight:800; border-bottom:1px solid rgba(255,255,255,0.05); list-style:none; outline:none; display:flex; justify-content:space-between; cursor:pointer;">
+            <span>Yakıt İşlem Arşivi</span><span style="font-size:10px; color:var(--brand);">GÖSTER/GİZLE</span>
+          </summary>
+          <div style="padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:12px; color:var(--text-secondary);">Tam Liste</span>
+            <button type="button" id="clearAllFuelBtn" class="btn danger-btn"
+              style="padding:4px 8px; font-size:11px;">Tümünü Temizle</button>
+          </div>
+          <div class="table-wrap" style="border:none; border-radius:0; margin:0;">
+            <table id="fuelTable">
+              <thead>
+                <tr>
+                  <th style="font-size:10px;">Tarih</th>
+                  <th style="font-size:10px;">Tutar</th>
+                  <th style="font-size:10px;">KM</th>
+                  <th style="font-size:10px;">₺/L</th>
+                  <th style="font-size:10px;">1KM</th>
+                  <th style="width:20px;"></th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
         </details>
       </section>
 
       <!-- ═════════════════════════ GÜN ═════════════════════════ -->
       <section id="days" class="tab-page">
-        <details class="panel" style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin-bottom:24px; border:1px dashed var(--line); cursor: pointer;" id="newDayDetails">
-            <summary style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
-               <span style="display:flex; align-items:center; gap:8px;"><span style="font-size:18px;">⏱️</span> Hedef &amp; Geri Sayım Ekle</span>
-               <span style="font-size:12px; color:var(--brand)">Genişlet 🔽</span>
-            </summary>
-            <form id="daysForm" class="form-panel" style="margin-top:20px; padding-top:16px; border-top:1px solid var(--line); cursor: default;" onclick="event.stopPropagation()">
-              <label>Hedef / Etkinlik <input type="text" id="daysTitle" placeholder="Örn: Ev Kredisi Bitişi" required /></label>
-              <label>Hedef Tarih <input type="date" id="endDate" required /></label>
-              <button type="submit" class="btn primary" style="margin-top:8px;">Geri Sayım Başlat</button>
-            </form>
+        <details class="panel"
+          style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin-bottom:24px; border:1px dashed var(--line); cursor: pointer;"
+          id="newDayDetails">
+          <summary
+            style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
+            <span style="display:flex; align-items:center; gap:8px;"><span style="font-size:18px;">⏱️</span> Hedef &amp;
+              Geri Sayım Ekle</span>
+            <span style="font-size:12px; color:var(--brand)">Genişlet 🔽</span>
+          </summary>
+          <form id="daysForm" class="form-panel"
+            style="margin-top:20px; padding-top:16px; border-top:1px solid var(--line); cursor: default;"
+            onclick="event.stopPropagation()">
+            <label>Hedef / Etkinlik <input type="text" id="daysTitle" placeholder="Örn: Ev Kredisi Bitişi"
+                required /></label>
+            <label>Hedef Tarih <input type="date" id="endDate" required /></label>
+            <button type="submit" class="btn primary" style="margin-top:8px;">Geri Sayım Başlat</button>
+          </form>
         </details>
         <div id="daysCards"></div>
       </section>
@@ -448,36 +638,50 @@
         <div class="total-debt-widget" style="margin-bottom:16px;">
           <div class="widget-label">
             <span>Genel Taksitler Toplam Bakiyesi</span>
-            <span style="color:var(--text-secondary); font-size:12px;">Aktif Maks. Taksit: <strong id="grandSchoolInstallment" style="color:var(--text-primary);">0</strong></span>
+            <span style="color:var(--text-secondary); font-size:12px;">Aktif Maks. Taksit: <strong
+                id="grandSchoolInstallment" style="color:var(--text-primary);">0</strong></span>
           </div>
           <div class="debt-try" id="grandSchoolDebt">₺0</div>
         </div>
 
         <div style="padding: 0 16px;">
-          <details class="panel" style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin-bottom:24px; border:1px dashed var(--brand); cursor: pointer;" id="newSchoolDetails">
-            <summary style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
-               <span style="display:flex; align-items:center; gap:8px;"><span style="font-size:18px;">➕</span> Yeni Taksit Planı Ekle</span>
-               <span style="font-size:12px; color:var(--brand)">Genişlet 🔽</span>
+          <details class="panel"
+            style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin-bottom:24px; border:1px dashed var(--brand); cursor: pointer;"
+            id="newSchoolDetails">
+            <summary
+              style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
+              <span style="display:flex; align-items:center; gap:8px;"><span style="font-size:18px;">➕</span> Yeni
+                Taksit Planı Ekle</span>
+              <span style="font-size:12px; color:var(--brand)">Genişlet 🔽</span>
             </summary>
-            <form id="newSchoolForm" class="form-panel" style="margin-top:20px; padding-top:16px; border-top:1px solid var(--line); cursor: default;" onclick="event.stopPropagation()">
-              <label>Profil / Borç Adı <input type="text" id="schoolChildName" placeholder="Örn: Ev Kredisi, Yüzme Kursu vs." required /></label>
-              <label>Toplam Borç (TL) <input type="text" id="schoolTotalDebt" class="num-mask" placeholder="Örn: 100.000" inputmode="numeric" required /></label>
+            <form id="newSchoolForm" class="form-panel"
+              style="margin-top:20px; padding-top:16px; border-top:1px solid var(--line); cursor: default;"
+              onclick="event.stopPropagation()">
+              <label>Profil / Borç Adı <input type="text" id="schoolChildName"
+                  placeholder="Örn: Ev Kredisi, Yüzme Kursu vs." required /></label>
+              <label>Toplam Borç (TL) <input type="text" id="schoolTotalDebt" class="num-mask"
+                  placeholder="Örn: 100.000" inputmode="numeric" required /></label>
               <label>Vade (Ay Sayısı) <input type="number" id="schoolInstCount" min="2" step="1" required /></label>
               <label>İlk Vade Tarihi <input type="date" id="schoolFirstDate" required /></label>
-              
-              <label style="flex-direction:row; align-items:center; cursor:pointer; gap:12px; border:1px solid var(--line); padding:12px; border-radius:8px; margin-top:8px;">
-                <input type="checkbox" id="schoolUnevenToggle" style="width:20px; height:20px; flex-shrink:0; cursor:pointer;" />
-                <span style="font-size:14px; color:var(--text-primary);">Son veya Ara Taksit Tutarı Diğerlerinden Farklı Mı?</span>
+
+              <label
+                style="flex-direction:row; align-items:center; cursor:pointer; gap:12px; border:1px solid var(--line); padding:12px; border-radius:8px; margin-top:8px;">
+                <input type="checkbox" id="schoolUnevenToggle"
+                  style="width:20px; height:20px; flex-shrink:0; cursor:pointer;" />
+                <span style="font-size:14px; color:var(--text-primary);">Son veya Ara Taksit Tutarı Diğerlerinden Farklı
+                  Mı?</span>
               </label>
-              
-              <div id="schoolUnevenWrap" style="display:none; gap:16px; flex-direction:column; padding:16px; background:rgba(252, 213, 53, 0.05); border-radius:8px; border:1px solid rgba(252, 213, 53, 0.2); margin-top:0;">
-                 <label style="color:var(--brand);">Hangi Taksidin Miktarı Farklı?
-                    <input type="text" id="unevenNo" placeholder="Örn: 12 veya 5/6/7 (Birden fazla)" />
-                 </label>
-                 <label style="color:var(--brand);">Bu Taksidin Tutarı Ne Kadar? (TL)
-                    <input type="text" class="num-mask" inputmode="numeric" id="unevenAmount" placeholder="Örn: 20.000" />
-                 </label>
-                 <p style="font-size:11px; color:var(--text-secondary); margin:0;">Belirttiği miktar sonrası artan borç diğer aylara eşit bölünür.</p>
+
+              <div id="schoolUnevenWrap"
+                style="display:none; gap:16px; flex-direction:column; padding:16px; background:rgba(252, 213, 53, 0.05); border-radius:8px; border:1px solid rgba(252, 213, 53, 0.2); margin-top:0;">
+                <label style="color:var(--brand);">Hangi Taksidin Miktarı Farklı?
+                  <input type="text" id="unevenNo" placeholder="Örn: 12 veya 5/6/7 (Birden fazla)" />
+                </label>
+                <label style="color:var(--brand);">Bu Taksidin Tutarı Ne Kadar? (TL)
+                  <input type="text" class="num-mask" inputmode="numeric" id="unevenAmount" placeholder="Örn: 20.000" />
+                </label>
+                <p style="font-size:11px; color:var(--text-secondary); margin:0;">Belirttiği miktar sonrası artan borç
+                  diğer aylara eşit bölünür.</p>
               </div>
 
               <button type="submit" class="btn primary" style="margin-top:8px;">Planı Kaydet</button>
@@ -495,21 +699,29 @@
         <div class="total-debt-widget" style="padding:20px 16px 16px;">
           <div class="widget-label">
             <span>🏆 Türkiye Süper Ligi</span>
-            <button id="ligRefreshBtn" class="refresh-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg><span>YENİLE</span></button>
+            <button id="ligRefreshBtn" class="refresh-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3" />
+              </svg><span>YENİLE</span></button>
           </div>
-            <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:12px; margin-top:8px;">
-              <div>
-                <div id="ligSezon" style="font-size:20px; font-weight:800; font-family:'Space Grotesk', sans-serif; color:var(--text-primary);">2025-26</div>
-                <div id="ligMeta" style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Veriler yükleniyor...</div>
-              </div>
-              <div style="text-align:right;">
-                <select id="ligSeasonSelect" style="margin-bottom:8px; padding:6px 10px; border-radius:10px; border:1px solid rgba(255,255,255,0.08); background:var(--bg-secondary); color:var(--text-primary); font-size:12px; font-weight:700;">
-                  <option value="auto">Otomatik</option>
-                </select>
-                <div style="font-size:11px; color:var(--text-secondary);">Lider</div>
-                <div id="ligLeader" style="font-size:15px; font-weight:800; color:var(--brand); font-family:'Space Grotesk';">--</div>
-              </div>
+          <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:12px; margin-top:8px;">
+            <div>
+              <div id="ligSezon"
+                style="font-size:20px; font-weight:800; font-family:'Space Grotesk', sans-serif; color:var(--text-primary);">
+                2025-26</div>
+              <div id="ligMeta" style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Veriler
+                yükleniyor...</div>
             </div>
+            <div style="text-align:right;">
+              <select id="ligSeasonSelect"
+                style="margin-bottom:8px; padding:6px 10px; border-radius:10px; border:1px solid rgba(255,255,255,0.08); background:var(--bg-secondary); color:var(--text-primary); font-size:12px; font-weight:700;">
+                <option value="auto">Otomatik</option>
+              </select>
+              <div style="font-size:11px; color:var(--text-secondary);">Lider</div>
+              <div id="ligLeader"
+                style="font-size:15px; font-weight:800; color:var(--brand); font-family:'Space Grotesk';">--</div>
+            </div>
+          </div>
         </div>
 
         <!-- TEAM DETAIL OVERLAY -->
@@ -523,11 +735,14 @@
               </div>
               <button onclick="closeTeamDetail()" class="close-btn">&times;</button>
             </div>
-            
+
             <div class="team-stats-box">
-              <div class="stat-item"><span class="stat-label">Puan</span><span id="teamStatPts" class="stat-val">--</span></div>
-              <div class="stat-item"><span class="stat-label">Sıra</span><span id="teamStatRank" class="stat-val">--</span></div>
-              <div class="stat-item"><span class="stat-label">G/B/M</span><span id="teamStatGBM" class="stat-val">--</span></div>
+              <div class="stat-item"><span class="stat-label">Puan</span><span id="teamStatPts"
+                  class="stat-val">--</span></div>
+              <div class="stat-item"><span class="stat-label">Sıra</span><span id="teamStatRank"
+                  class="stat-val">--</span></div>
+              <div class="stat-item"><span class="stat-label">G/B/M</span><span id="teamStatGBM"
+                  class="stat-val">--</span></div>
             </div>
 
             <div class="detail-tabs">
@@ -565,7 +780,8 @@
 
         <div style="padding:0 16px 0;">
           <div class="detail-tabs lig-tabs">
-            <button id="btnLigStanding" class="detail-tab-btn active" onclick="switchLigMainTab('standing')">Puan Durumu</button>
+            <button id="btnLigStanding" class="detail-tab-btn active" onclick="switchLigMainTab('standing')">Puan
+              Durumu</button>
             <button id="btnLigWeek" class="detail-tab-btn" onclick="switchLigMainTab('week')">Haftalık Maçlar</button>
             <button id="btnLigLive" class="detail-tab-btn" onclick="switchLigMainTab('live')">Canlı Skor</button>
           </div>
@@ -590,7 +806,8 @@
           </div>
 
           <!-- BOTTOM LEGEND -->
-          <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:16px; padding:20px 12px; border-top:1px solid var(--line); margin-top:16px;">
+          <div
+            style="display:flex; flex-wrap:wrap; justify-content:center; gap:16px; padding:20px 12px; border-top:1px solid var(--line); margin-top:16px;">
             <div style="display:flex; align-items:center; gap:6px; font-size:10px; color:var(--text-secondary);">
               <div style="width:10px; height:4px; border-radius:10px; background:var(--up);"></div> Şampiyonlar Ligi
             </div>
@@ -598,7 +815,8 @@
               <div style="width:10px; height:4px; border-radius:10px; background:var(--brand);"></div> Avrupa Ligi
             </div>
             <div style="display:flex; align-items:center; gap:6px; font-size:10px; color:var(--text-secondary);">
-              <div style="width:10px; height:4px; border-radius:10px; background:var(--text-secondary);"></div> Konferans Ligi
+              <div style="width:10px; height:4px; border-radius:10px; background:var(--text-secondary);"></div>
+              Konferans Ligi
             </div>
             <div style="display:flex; align-items:center; gap:6px; font-size:10px; color:var(--text-secondary);">
               <div style="width:10px; height:4px; border-radius:10px; background:var(--down);"></div> Küme Düşme
@@ -606,21 +824,26 @@
           </div>
         </div>
 
-                <!-- BU KISMI ESKİ ligWeekSection İLE DEĞİŞTİR -->
+        <!-- BU KISMI ESKİ ligWeekSection İLE DEĞİŞTİR -->
         <div id="ligWeekSection" style="display:none; padding:0 8px;">
           <!-- HAFTA NAVİGASYON BARı -->
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:var(--bg-secondary); border-radius:12px; margin-bottom:12px; border:1px solid var(--line);">
-            <button id="fixturePrevBtn" onclick="changeWeeklyWeek(-1)" class="btn ghost" style="padding:6px 12px; font-size:12px; width:auto;"> ‹ Geri</button>
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:var(--bg-secondary); border-radius:12px; margin-bottom:12px; border:1px solid var(--line);">
+            <button id="fixturePrevBtn" onclick="changeWeeklyWeek(-1)" class="btn ghost"
+              style="padding:6px 12px; font-size:12px; width:auto;"> ‹ Geri</button>
             <div style="text-align:center;">
-              <span id="fixtureWeekTitle" style="font-weight:800; color:var(--brand); font-size:14px;">Yükleniyor...</span>
+              <span id="fixtureWeekTitle"
+                style="font-weight:800; color:var(--brand); font-size:14px;">Yükleniyor...</span>
               <div id="fixtureWeekDate" style="font-size:10px; color:var(--text-secondary);">--.--.----</div>
             </div>
-            <button id="fixtureNextBtn" onclick="changeWeeklyWeek(1)" class="btn ghost" style="padding:6px 12px; font-size:12px; width:auto;">İleri › </button>
+            <button id="fixtureNextBtn" onclick="changeWeeklyWeek(1)" class="btn ghost"
+              style="padding:6px 12px; font-size:12px; width:auto;">İleri › </button>
           </div>
 
           <!-- MAÇLAR LİSTESİ -->
           <div id="ligWeekList">
-            <div style="text-align:center; padding:24px; color:var(--text-secondary); font-size:13px;">Haftalık program yükleniyor...</div>
+            <div style="text-align:center; padding:24px; color:var(--text-secondary); font-size:13px;">Haftalık program
+              yükleniyor...</div>
           </div>
         </div>
 
@@ -629,164 +852,224 @@
         <div id="ligLiveSection" style="display:none; padding:0 8px;">
           <div class="live-refresh-info" id="liveRefreshInfo">
             <div class="live-dot-anim"></div>
-            <span id="liveLastUpdate"style="display:block; text-align:center;" >>Otomatik yenileniyor (30sn)</span>
+            <span id="liveLastUpdate" style="display:block; text-align:center;">>Otomatik yenileniyor (30sn)</span>
           </div>
           <div id="ligLiveList">
-            <div style="text-align:center; padding:24px; color:var(--text-secondary); font-size:13px;">Canlı veri aranıyor...</div>
+            <div style="text-align:center; padding:24px; color:var(--text-secondary); font-size:13px;">Canlı veri
+              aranıyor...</div>
           </div>
         </div>
 
-        <p id="ligTimestamp" style="color:var(--text-secondary); font-size:11px; text-align:center; padding:8px 16px 24px;"></p>
+        <p id="ligTimestamp"
+          style="color:var(--text-secondary); font-size:11px; text-align:center; padding:8px 16px 24px;"></p>
       </section>
 
     </main>
 
     <nav class="bottom-nav">
       <button class="tab-btn active" data-tab="home">
-        <div class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg></div>
         <span>Piyasa</span>
       </button>
       <button class="tab-btn" data-tab="vault">
-        <div class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><circle cx="12" cy="10" r="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" />
+            <circle cx="12" cy="10" r="2" />
+            <line x1="8" y1="21" x2="16" y2="21" />
+            <line x1="12" y1="17" x2="12" y2="21" />
+          </svg></div>
         <span>Kasa</span>
       </button>
       <button class="tab-btn" data-tab="fuel">
-        <div class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="15" y2="22"/><line x1="4" y1="9" x2="14" y2="9"/><path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18"/><path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 4 0V9.83a2 2 0 0 0-.59-1.42L18 5"/></svg></div>
+        <div class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="22" x2="15" y2="22" />
+            <line x1="4" y1="9" x2="14" y2="9" />
+            <path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18" />
+            <path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 4 0V9.83a2 2 0 0 0-.59-1.42L18 5" />
+          </svg></div>
         <span>Yakıt</span>
       </button>
       <button class="tab-btn" data-tab="school">
-        <div class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+        <div class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+            <line x1="1" y1="10" x2="23" y2="10" />
+          </svg></div>
         <span>Taksit</span>
       </button>
       <button class="tab-btn" data-tab="days">
-        <div class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg></div>
         <span>Zaman</span>
       </button>
       <button class="tab-btn" data-tab="superlig">
-        <div class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg></div>
+        <div class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+            <path d="M2 12h20" />
+          </svg></div>
         <span>Lig</span>
       </button>
     </nav>
 
 
-  <!-- 🥇 Canlı Altın Borsası Modal (Research Integrated) -->
-  <div id="altinModal" class="modal-overlay" style="display:none; z-index:9999; font-family:'Space Grotesk', sans-serif;">
-    <div style="background:var(--bg-primary); width:100%; height:100%; position:fixed; top:0; left:0; overflow-y:auto; padding-bottom:40px; color:var(--text-primary);">
-      
-      <div style="display:flex; justify-content:space-between; align-items:center; padding:20px; background:var(--bg-secondary); border-bottom:1px solid rgba(255,255,255,0.05); position:sticky; top:0; z-index:10;">
-        <div>
-          <h2 style="margin:0; color:var(--brand); font-size:20px; font-weight:800; letter-spacing:-0.5px;">Piyasa Detayı</h2>
-          <div id="altinGuncelleme" style="color:var(--text-secondary); font-size:11px; margin-top:4px; font-weight:600;">Son güncelleme: --</div>
-        </div>
-        <button onclick="document.getElementById('altinModal').style.display='none'" 
-                style="background:rgba(255,255,255,0.05); border:none; color:var(--text-primary); width:36px; height:36px; border-radius:10px; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center;">✕</button>
-      </div>
+    <!-- 🥇 Canlı Altın Borsası Modal (Research Integrated) -->
+    <div id="altinModal" class="modal-overlay"
+      style="display:none; z-index:9999; font-family:'Space Grotesk', sans-serif;">
+      <div
+        style="background:var(--bg-primary); width:100%; height:100%; position:fixed; top:0; left:0; overflow-y:auto; padding-bottom:40px; color:var(--text-primary);">
 
-      <div id="altinYukleniyor" style="text-align:center; padding:60px 0; color:var(--text-secondary);">
-        <div style="font-size:32px; margin-bottom:16px; animation: pulse 1.5s infinite;">⏳</div>
-        <div style="font-size:15px; font-weight:600;">Piyasa verileri okunuyor...</div>
-      </div>
-
-      <div id="altinTabloWrap" style="display:none; padding:16px;">
-        <div style="overflow-x:auto;">
-          <table style="width:100%; border-collapse:separate; border-spacing:0 8px; font-size:13px;">
-            <thead>
-              <tr style="color:var(--text-secondary); font-size:11px; text-transform:uppercase; letter-spacing:1px; font-weight:800;">
-                <th style="padding:0 8px; text-align:left;">Tür</th>
-                <th style="padding:0 8px; text-align:right;">Alış (₺)</th>
-                <th style="padding:0 8px; text-align:right;">Satış (₺)</th>
-              </tr>
-            </thead>
-            <tbody id="altinTbody"></tbody>
-          </table>
-        </div>
-
-        <!-- 🧮 ALTIN HESAP MAKİNESİ (Akerdeon) -->
-        <details class="panel" style="margin-top:24px; padding:0; overflow:hidden;">
-          <summary style="padding:16px; font-weight:800; color:var(--text-primary); cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; user-select:none;">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span style="font-size:20px;">🧮</span> Altın Hesap Makinesi
+        <div
+          style="display:flex; justify-content:space-between; align-items:center; padding:20px; background:var(--bg-secondary); border-bottom:1px solid rgba(255,255,255,0.05); position:sticky; top:0; z-index:10;">
+          <div>
+            <h2 style="margin:0; color:var(--brand); font-size:20px; font-weight:800; letter-spacing:-0.5px;">Piyasa
+              Detayı</h2>
+            <div id="altinGuncelleme"
+              style="color:var(--text-secondary); font-size:11px; margin-top:4px; font-weight:600;">Son güncelleme: --
             </div>
-            <span style="font-size:12px; color:var(--brand); background:rgba(252,213,53,0.1); padding:4px 10px; border-radius:10px;">Genişlet ▼</span>
-          </summary>
-          <div style="padding:16px; border-top:1px solid rgba(255,255,255,0.05); background:rgba(0,0,0,0.15);">
-            <div style="display:flex; gap:12px; margin-bottom:16px;">
-              <div style="flex:1;">
-                <label style="font-size:11px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; display:block;">Altın Türü</label>
-                <select id="calcGoldType" class="input-modern" onchange="window.calcGold()" style="padding:10px; font-size:14px; background:var(--bg-secondary);">
-                  <option value="GA">Gram Altın</option>
-                  <option value="B">22 Ayar Bilezik</option>
-                  <option value="C">Çeyrek Altın</option>
-                  <option value="Y">Yarım Altın</option>
-                  <option value="T">Tam Altın</option>
-                  <option value="A">Ata/Cumhuriyet</option>
-                </select>
-              </div>
-              <div style="width:100px;">
-                <label style="font-size:11px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; display:block;">Adet / Gr</label>
-                <input type="number" id="calcGoldAmount" class="input-modern" value="1" min="0.01" step="0.01" oninput="window.calcGold()" style="padding:10px; font-size:14px; text-align:center; background:var(--bg-secondary);">
-              </div>
-            </div>
-            
-            <div style="display:flex; justify-content:space-between; gap:12px; background:var(--bg-primary); padding:16px; border-radius:12px; border:1px solid rgba(255,255,255,0.05); box-shadow:inset 0 4px 10px rgba(0,0,0,0.2);">
-              <div>
-                <div style="font-size:11px; color:var(--text-secondary); font-weight:800; text-transform:uppercase; margin-bottom:6px;">Sen Satarken (Alış)</div>
-                <div id="calcGoldBuy" style="color:var(--brand); font-size:18px; font-weight:800; letter-spacing:-0.5px;">0,00 ₺</div>
-              </div>
-              <div style="text-align:right;">
-                <div style="font-size:11px; color:var(--text-secondary); font-weight:800; text-transform:uppercase; margin-bottom:6px;">Sen Alırken (Satış)</div>
-                <div id="calcGoldSell" style="color:var(--up); font-size:18px; font-weight:800; letter-spacing:-0.5px;">0,00 ₺</div>
-              </div>
-            </div>
-            
-            <button onclick="window.saveGoldCalculation()" style="width:100%; margin-top:16px; background:var(--brand); color:#000; font-family:'Space Grotesk', sans-serif; font-weight:800; border:none; padding:12px; border-radius:8px; cursor:pointer;">
-              Hesaplamayı Kaydet
-            </button>
-            <div id="goldSavedList" style="margin-top:16px; display:flex; flex-direction:column; gap:8px;"></div>
-            
-            <div style="font-size:10px; color:var(--text-secondary); margin-top:8px; text-align:center;">Hesaplamalar gösterge niteliğindedir. Alım satım aralığı makas içerebilir.</div>
           </div>
-        </details>
+          <button onclick="document.getElementById('altinModal').style.display='none'"
+            style="background:rgba(255,255,255,0.05); border:none; color:var(--text-primary); width:36px; height:36px; border-radius:10px; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center;">✕</button>
+        </div>
 
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.05);">
-          <div style="color:var(--text-secondary); font-size:11px; font-weight:600;">Canlı Piyasa • Otomatik Yenileme (60sn)</div>
-          <button onclick="altinVerisiYukle()" 
-                  style="background:transparent; color:var(--brand); border:1px solid rgba(252,213,53,0.3); padding:8px 16px; border-radius:8px; font-weight:700; cursor:pointer; font-size:12px;">
-            YENİLE
-          </button>
+        <div id="altinYukleniyor" style="text-align:center; padding:60px 0; color:var(--text-secondary);">
+          <div style="font-size:32px; margin-bottom:16px; animation: pulse 1.5s infinite;">⏳</div>
+          <div style="font-size:15px; font-weight:600;">Piyasa verileri okunuyor...</div>
+        </div>
+
+        <div id="altinTabloWrap" style="display:none; padding:16px;">
+          <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:separate; border-spacing:0 8px; font-size:13px;">
+              <thead>
+                <tr
+                  style="color:var(--text-secondary); font-size:11px; text-transform:uppercase; letter-spacing:1px; font-weight:800;">
+                  <th style="padding:0 8px; text-align:left;">Tür</th>
+                  <th style="padding:0 8px; text-align:right;">Alış (₺)</th>
+                  <th style="padding:0 8px; text-align:right;">Satış (₺)</th>
+                </tr>
+              </thead>
+              <tbody id="altinTbody"></tbody>
+            </table>
+          </div>
+
+          <!-- 🧮 ALTIN HESAP MAKİNESİ (Akerdeon) -->
+          <details class="panel" style="margin-top:24px; padding:0; overflow:hidden;">
+            <summary
+              style="padding:16px; font-weight:800; color:var(--text-primary); cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; user-select:none;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:20px;">🧮</span> Altın Hesap Makinesi
+              </div>
+              <span
+                style="font-size:12px; color:var(--brand); background:rgba(252,213,53,0.1); padding:4px 10px; border-radius:10px;">Genişlet
+                ▼</span>
+            </summary>
+            <div style="padding:16px; border-top:1px solid rgba(255,255,255,0.05); background:rgba(0,0,0,0.15);">
+              <div style="display:flex; gap:12px; margin-bottom:16px;">
+                <div style="flex:1;">
+                  <label
+                    style="font-size:11px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; display:block;">Altın
+                    Türü</label>
+                  <select id="calcGoldType" class="input-modern" onchange="window.calcGold()"
+                    style="padding:10px; font-size:14px; background:var(--bg-secondary);">
+                    <option value="GA">Gram Altın</option>
+                    <option value="B">22 Ayar Bilezik</option>
+                    <option value="C">Çeyrek Altın</option>
+                    <option value="Y">Yarım Altın</option>
+                    <option value="T">Tam Altın</option>
+                    <option value="A">Ata/Cumhuriyet</option>
+                  </select>
+                </div>
+                <div style="width:100px;">
+                  <label
+                    style="font-size:11px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; display:block;">Adet
+                    / Gr</label>
+                  <input type="number" id="calcGoldAmount" class="input-modern" value="1" min="0.01" step="0.01"
+                    oninput="window.calcGold()"
+                    style="padding:10px; font-size:14px; text-align:center; background:var(--bg-secondary);">
+                </div>
+              </div>
+
+              <div
+                style="display:flex; justify-content:space-between; gap:12px; background:var(--bg-primary); padding:16px; border-radius:12px; border:1px solid rgba(255,255,255,0.05); box-shadow:inset 0 4px 10px rgba(0,0,0,0.2);">
+                <div>
+                  <div
+                    style="font-size:11px; color:var(--text-secondary); font-weight:800; text-transform:uppercase; margin-bottom:6px;">
+                    Sen Satarken (Alış)</div>
+                  <div id="calcGoldBuy"
+                    style="color:var(--brand); font-size:18px; font-weight:800; letter-spacing:-0.5px;">0,00 ₺</div>
+                </div>
+                <div style="text-align:right;">
+                  <div
+                    style="font-size:11px; color:var(--text-secondary); font-weight:800; text-transform:uppercase; margin-bottom:6px;">
+                    Sen Alırken (Satış)</div>
+                  <div id="calcGoldSell"
+                    style="color:var(--up); font-size:18px; font-weight:800; letter-spacing:-0.5px;">0,00 ₺</div>
+                </div>
+              </div>
+
+              <button onclick="window.saveGoldCalculation()"
+                style="width:100%; margin-top:16px; background:var(--brand); color:#000; font-family:'Space Grotesk', sans-serif; font-weight:800; border:none; padding:12px; border-radius:8px; cursor:pointer;">
+                Hesaplamayı Kaydet
+              </button>
+              <div id="goldSavedList" style="margin-top:16px; display:flex; flex-direction:column; gap:8px;"></div>
+
+              <div style="font-size:10px; color:var(--text-secondary); margin-top:8px; text-align:center;">Hesaplamalar
+                gösterge niteliğindedir. Alım satım aralığı makas içerebilir.</div>
+            </div>
+          </details>
+
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.05);">
+            <div style="color:var(--text-secondary); font-size:11px; font-weight:600;">Canlı Piyasa • Otomatik Yenileme
+              (60sn)</div>
+            <button onclick="altinVerisiYukle()"
+              style="background:transparent; color:var(--brand); border:1px solid rgba(252,213,53,0.3); padding:8px 16px; border-radius:8px; font-weight:700; cursor:pointer; font-size:12px;">
+              YENİLE
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- ══ TEMA SİSTEMİ ══ -->
-  <script>
-    function applyThemeScope() {
-      const saved = localStorage.getItem('finans-theme') || 'klasik';
-      const homeTab = document.getElementById('home');
-      const isHome = homeTab && homeTab.classList.contains('active');
-      document.body.setAttribute('data-theme', (saved === 'modern' && isHome) ? 'modern' : 'klasik');
-      
-      const icon  = document.getElementById('themeIcon');
-      const label = document.getElementById('themeLabel');
-      if (saved === 'modern') {
-        if (icon)  icon.textContent  = '◈';
-        if (label) label.textContent = 'MODERN';
-      } else {
-        if (icon)  icon.textContent  = '✦';
-        if (label) label.textContent = 'KLASİK';
+    <!-- ══ TEMA SİSTEMİ ══ -->
+    <script>
+      function applyThemeScope() {
+        const saved = localStorage.getItem('finans-theme') || 'klasik';
+        const homeTab = document.getElementById('home');
+        const isHome = homeTab && homeTab.classList.contains('active');
+        document.body.setAttribute('data-theme', (saved === 'modern' && isHome) ? 'modern' : 'klasik');
+
+        const icon = document.getElementById('themeIcon');
+        const label = document.getElementById('themeLabel');
+        if (saved === 'modern') {
+          if (icon) icon.textContent = '◈';
+          if (label) label.textContent = 'MODERN';
+        } else {
+          if (icon) icon.textContent = '✦';
+          if (label) label.textContent = 'KLASİK';
+        }
       }
-    }
 
-    window.toggleTheme = function() {
-      const saved = localStorage.getItem('finans-theme') || 'klasik';
-      localStorage.setItem('finans-theme', saved === 'klasik' ? 'modern' : 'klasik');
-      applyThemeScope();
-    };
+      window.toggleTheme = function () {
+        const saved = localStorage.getItem('finans-theme') || 'klasik';
+        localStorage.setItem('finans-theme', saved === 'klasik' ? 'modern' : 'klasik');
+        applyThemeScope();
+      };
 
-    (function () { applyThemeScope(); })();
-  </script>
+      (function () { applyThemeScope(); })();
+    </script>
 
-  <script src="app.js"></script>
+    <script src="app.js"></script>
 </body>
+
 </html>
