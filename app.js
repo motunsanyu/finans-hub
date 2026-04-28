@@ -2789,6 +2789,8 @@ window.switchMarketTab = function (tab) {
     coinler.style.display = 'none';
     btnP?.classList.add('active');
     btnC?.classList.remove('active');
+    // Sayfanın başına yumuşak kaydır
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 };
 
