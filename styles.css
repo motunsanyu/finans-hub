@@ -1188,3 +1188,8 @@ details[id^="match-detail-"] { cursor: pointer; }
   border-color: var(--brand);
   box-shadow: 0 4px 12px rgba(252, 213, 53, 0.2);
 }
+
+/* Buton içindeki ikon ve metinlerin tıklamayı yutmasını engelle */
+.tab-btn *, .market-sub-btn *, .nav-route-btn * {
+  pointer-events: none;
+}

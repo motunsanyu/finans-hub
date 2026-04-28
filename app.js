@@ -527,7 +527,7 @@ function fillNavFuelCost() {
 // Haritayı başlat
 function initNavMap() {
   if (navMap) return;
-  
+
   // Türkiye'nin coğrafi sınırları (Güney-Batı ve Kuzey-Doğu)
   const turkeyBounds = L.latLngBounds(
     [36.0, 26.0], // En batı ve güney noktası
@@ -613,11 +613,11 @@ async function useMyLocation() {
 
       // Haritada göster
       if (navMarkers[0]) navMap.removeLayer(navMarkers[0]);
-      
+
       const m = L.marker([lat, lng], {
         icon: L.divIcon({ className: 'custom-marker', html: '🔵', iconSize: [25, 25] })
       }).bindPopup("Konumunuz alınıyor...").addTo(navMap);
-      
+
       navMarkers[0] = m;
       navMap.setView([lat, lng], 15);
 
@@ -628,14 +628,14 @@ async function useMyLocation() {
         const data = await res.json();
         const address = data.display_name || "Adres bulunamadı";
         navUserLocation.name = address;
-        
+
         m.setPopupContent(`📍 <b>Konumunuz:</b><br>${address}`).openPopup();
         document.getElementById("navAddressText").textContent = address;
       } catch (err) {
         console.warn("Adres alınamadı:", err);
         m.setPopupContent(`📍 <b>Konumunuz:</b><br>${lat.toFixed(4)}, ${lng.toFixed(4)}`).openPopup();
       }
-      
+
       btn.innerHTML = originalText;
       btn.disabled = false;
     },
@@ -680,12 +680,12 @@ async function calculateAndShowNavRoute() {
   const originDist = document.getElementById("originDistrictNav");
   const destDist = document.getElementById("destDistrictNav");
   const costInput = document.getElementById("navFuelCostPerKm");
-  
+
   const dOpt = destDist.options[destDist.selectedIndex];
   const fuelCost = parseFloat(costInput.value) || 0;
 
   if (!dOpt) return alert("Lütfen varış noktasını seçin.");
-  
+
   let start;
   if (navUserLocation) {
     start = navUserLocation;
@@ -711,10 +711,10 @@ async function calculateAndShowNavRoute() {
       // Önceki rotaları temizle
       navRouteLayers.forEach(l => navMap.removeLayer(l));
       navRouteLayers = [];
-      
+
       // Rotaları mesafeye göre sırala (En Kısa -> En Uzun)
       navActiveRoutes = data.routes.sort((a, b) => a.distance - b.distance);
-      
+
       // Marker temizliği (Konum marker'ı hariç)
       navMarkers.forEach((m, idx) => { if (idx > 0 || !navUserLocation) navMap.removeLayer(m); });
       if (!navUserLocation) navMarkers = []; else navMarkers = [navMarkers[0]];
@@ -728,10 +728,10 @@ async function calculateAndShowNavRoute() {
         const durationMin = Math.round(route.duration / 60);
 
         const rLayer = L.geoJSON(route.geometry, {
-          style: { 
-            color: colors[idx] || '#848e9c', 
-            weight: idx === 0 ? 6 : 4, 
-            opacity: idx === 0 ? 0.9 : 0.4 
+          style: {
+            color: colors[idx] || '#848e9c',
+            weight: idx === 0 ? 6 : 4,
+            opacity: idx === 0 ? 0.9 : 0.4
           }
         }).addTo(navMap);
 
@@ -759,7 +759,7 @@ async function calculateAndShowNavRoute() {
         }).bindPopup("Başlangıç: " + start.name).addTo(navMap);
         navMarkers.push(m1);
       }
-      
+
       const m2 = L.marker([end.lat, end.lng], {
         icon: L.divIcon({ className: 'custom-marker', html: '🏁', iconSize: [25, 25] })
       }).bindPopup("Varış: " + end.name).addTo(navMap);
@@ -778,10 +778,10 @@ async function calculateAndShowNavRoute() {
           btn.type = "button";
           btn.className = "nav-route-btn";
           btn.id = `navRouteBtn_${idx}`;
-          
+
           const label = idx === 0 ? "⭐ Önerilen" : `🔄 Alternatif ${idx + 1}`;
           btn.innerHTML = `<span style="font-size:11px;">${label}</span><br><b style="font-size:13px;">${(route.distance / 1000).toFixed(1)} km</b>`;
-          
+
           btn.onclick = () => selectNavRoute(idx);
           buttonsWrap.appendChild(btn);
         });
@@ -812,23 +812,23 @@ async function calculateAndShowNavRoute() {
 }
 
 // Seçilen rotayı vurgulama fonksiyonu
-window.selectNavRoute = function(index) {
+window.selectNavRoute = function (index) {
   navCurrentSelectedIndex = index;
   const route = navActiveRoutes[index];
   if (!route) return;
 
   const fuelCost = parseFloat(document.getElementById("navFuelCostPerKm").value) || 0;
   const isRoundTrip = document.getElementById("navRoundTrip").checked;
-  
+
   let distKm = route.distance / 1000;
   if (isRoundTrip) distKm *= 2;
-  
+
   const totalCost = distKm * fuelCost;
 
   // Sonuç panelini güncelle
   document.getElementById("navDistanceResult").textContent = distKm.toFixed(1) + " km";
   document.getElementById("navCostResult").textContent = formatCurrency(totalCost);
-  
+
   // Gidiş dönüş görsel vurgusu
   const resBox = document.getElementById("navResultBox");
   if (isRoundTrip) {
@@ -863,7 +863,7 @@ window.selectNavRoute = function(index) {
 };
 
 // Checkbox değişince maliyeti tazele
-window.updateNavCalculation = function() {
+window.updateNavCalculation = function () {
   selectNavRoute(navCurrentSelectedIndex);
 };
 
@@ -2981,3 +2981,46 @@ window.fillFuelPriceFromWidget = function () {
     });
   }
 };
+
+// 🚀 TÜM ALT MENÜ BUTONLARINA (Kasa, Yakıt, Taksit, Zaman, Lig, Piyasa) SCROLL-TO-TOP
+function bindScrollToTopToAllTabButtons() {
+    // Sadece henüz bu özellik eklenmemiş (.tab-btn) butonlarını seç
+    const buttons = document.querySelectorAll('.tab-btn:not([data-scroll-added])');
+    
+    buttons.forEach(btn => {
+        btn.setAttribute('data-scroll-added', 'true');
+        
+        btn.addEventListener('click', () => {
+            // Sekme değişiminin (DOM güncellemesinin) tamamlanması için kısa bir süre bekle
+            setTimeout(() => {
+                const scrollOpts = { top: 0, behavior: 'smooth' };
+                
+                // 1. Standart Kaydırma Alanları
+                window.scrollTo(scrollOpts);
+                document.documentElement.scrollTo(scrollOpts);
+                document.body.scrollTo(scrollOpts);
+                
+                // 2. Aktif Sekme İçeriği (Eğer sayfa içi kaydırma varsa)
+                const activePage = document.querySelector('.tab-page.active');
+                if (activePage) {
+                    activePage.scrollTo(scrollOpts);
+                }
+                
+                console.log(`📜 Sayfa Başına Kaydırıldı: ${btn.textContent.trim()}`);
+            }, 50); 
+        });
+    });
+}
+
+// İlk yüklemede çalıştır
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindScrollToTopToAllTabButtons);
+} else {
+    bindScrollToTopToAllTabButtons();
+}
+
+// Dinamik olarak eklenen veya yenilenen butonları izle
+const globalScrollObserver = new MutationObserver(() => {
+    bindScrollToTopToAllTabButtons();
+});
+globalScrollObserver.observe(document.body, { childList: true, subtree: true });
