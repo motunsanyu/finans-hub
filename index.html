@@ -625,14 +625,32 @@
         <div id="fuelNavSection" style="display:none; padding:16px;">
           <div class="panel" style="margin-bottom:16px; border:1px solid var(--line);">
             <div class="form-panel" style="gap:12px;">
-              <div style="display:flex; gap:10px;">
-                <label style="flex:1;">🚩 Nereden (İl)
-                  <select id="originCityNav" class="input-modern" style="padding:10px; font-size:13px;"></select>
-                </label>
-                <label style="flex:1;">📍 İlçe
-                  <select id="originDistrictNav" class="input-modern" style="padding:10px; font-size:13px;"></select>
-                </label>
+              <!-- Konum Kullanma Butonu -->
+              <div style="display:flex; gap:8px;">
+                <button id="useMyLocationBtn" type="button" class="btn" style="flex:1; background:var(--bg-primary); border:1px solid var(--line); color:var(--text-primary); font-size:11px; padding:10px; display:flex; align-items:center; justify-content:center; gap:6px; font-weight:700;">
+                  <span style="font-size:14px;">📍</span> Konumumu Kullan
+                </button>
+                <button id="clearLocationBtn" type="button" class="btn" style="display:none; background:var(--down); color:#fff; padding:10px; border-radius:8px; font-size:11px; font-weight:700;">
+                  Temizle
+                </button>
               </div>
+
+              <div id="originSelectWrap">
+                <div style="display:flex; gap:10px;">
+                  <label style="flex:1;">🚩 Nereden (İl)
+                    <select id="originCityNav" class="input-modern" style="padding:10px; font-size:13px;"></select>
+                  </label>
+                  <label style="flex:1;">📍 İlçe
+                    <select id="originDistrictNav" class="input-modern" style="padding:10px; font-size:13px;"></select>
+                  </label>
+                </div>
+              </div>
+              
+              <!-- Konum Bilgi Rozeti (Sadece konum aktifken görünür) -->
+              <div id="activeLocationBadge" style="display:none; background:rgba(14,203,129,0.1); border:1px solid var(--up); padding:10px; border-radius:8px; color:var(--up); font-size:11px; font-weight:700; align-items:center; gap:8px; line-height:1.4;">
+                <span style="font-size:14px;">📍</span> <span id="navAddressText">Mevcut Konumunuz Başlangıç Olarak Ayarlandı</span>
+              </div>
+
               <div style="display:flex; gap:10px;">
                 <label style="flex:1;">🏁 Nereye (İl)
                   <select id="destCityNav" class="input-modern" style="padding:10px; font-size:13px;"></select>
@@ -645,7 +663,7 @@
                 <input type="number" id="navFuelCostPerKm" step="0.01" value="2.5" placeholder="Örn: 2.80"
                   class="input-modern" style="padding:10px;" />
               </label>
-              <button id="calculateNavBtn" class="btn primary" style="padding:12px;">🔄 Rotayı Hesapla</button>
+              <button id="calculateNavBtn" class="btn primary" style="padding:12px; background:rgba(252,213,53,0.8); color:#000; border:none; font-weight:800;">Rotayı Hesapla</button>
             </div>
           </div>
 
@@ -665,8 +683,15 @@
                   style="font-size:20px; font-weight:900; font-family:'Space Grotesk'; color:var(--brand);">-- TL</div>
               </div>
             </div>
-            <div style="font-size:10px; color:var(--text-secondary); margin-top:8px; border-top:1px solid var(--line); padding-top:6px;">* OSRM gerçek yol verisidir.</div>
+            <div style="font-size:10px; color:var(--text-secondary); margin-top:8px; border-top:1px solid var(--line); padding-top:6px; display:flex; align-items:center; justify-content:space-between;">
+              <label class="nav-checkbox-label" style="display:flex; align-items:center; gap:8px; cursor:pointer; color:var(--text-primary); font-weight:700;">
+                <input type="checkbox" id="navRoundTrip" onchange="updateNavCalculation()"> 🔄 Gidiş-Dönüş Hesapla
+              </label>
+            </div>
           </div>
+
+          <!-- Dinamik Rota Seçim Butonları -->
+          <div id="navRouteButtonsWrap" style="display:none; margin-bottom:16px; gap:8px; flex-wrap:wrap;"></div>
 
           <!-- Harita Container -->
           <div id="navMap"

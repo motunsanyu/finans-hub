@@ -23,8 +23,11 @@ let currentLigWeek = 1; // Mevcut lig haftasını tutacak global değişken
 // 🗺️ Navigasyon (Rota) Modülü Global Değişkenleri
 let navCitiesData = null;
 let navMap = null;
-let navRouteLayer = null;
+let navRouteLayers = []; // Çoklu rota katmanları
 let navMarkers = [];
+let navUserLocation = null; // Geolocation koordinatları
+let navActiveRoutes = []; // Mevcut rota verileri
+let navCurrentSelectedIndex = 0; // Şu an seçili olan rota
 
 const _rawSchool = readStorage(STORAGE_KEYS.school, []);
 if (!Array.isArray(_rawSchool)) {
@@ -524,8 +527,17 @@ function fillNavFuelCost() {
 // Haritayı başlat
 function initNavMap() {
   if (navMap) return;
-  navMap = L.map('navMap').setView([39.0, 35.0], 6);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  
+  // Türkiye'nin coğrafi sınırları (Güney-Batı ve Kuzey-Doğu)
+  const turkeyBounds = L.latLngBounds(
+    [36.0, 26.0], // En batı ve güney noktası
+    [42.0, 45.0]  // En doğu ve kuzey noktası
+  );
+
+  navMap = L.map('navMap').fitBounds(turkeyBounds);
+
+  // "Flu Gri" (Muted Light) Harita Stili - CartoDB Positron
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; OpenStreetMap &copy; CartoDB',
     subdomains: 'abcd',
     maxZoom: 19
@@ -566,6 +578,87 @@ function populateNavCitySelects() {
   }
 
   document.getElementById("calculateNavBtn").onclick = calculateAndShowNavRoute;
+  document.getElementById("useMyLocationBtn").onclick = useMyLocation;
+  document.getElementById("clearLocationBtn").onclick = clearUserLocation;
+}
+
+// 📍 Konum Takibi
+async function useMyLocation() {
+  if (!navigator.geolocation) return alert("Tarayıcınız konum özelliğini desteklemiyor.");
+  if (!navMap) initNavMap();
+
+  const btn = document.getElementById("useMyLocationBtn");
+  const originalText = btn.innerHTML;
+  btn.innerHTML = "⌛ Konum Alınıyor...";
+  btn.disabled = true;
+
+  navigator.geolocation.getCurrentPosition(
+    async (position) => {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+
+      if (isNaN(lat) || isNaN(lng)) {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        return alert("Geçersiz koordinat alındı.");
+      }
+
+      navUserLocation = { lat, lng, name: "Mevcut Konum" };
+
+      // UI Güncelle
+      document.getElementById("originSelectWrap").style.display = "none";
+      document.getElementById("activeLocationBadge").style.display = "flex";
+      document.getElementById("clearLocationBtn").style.display = "block";
+      btn.style.display = "none";
+
+      // Haritada göster
+      if (navMarkers[0]) navMap.removeLayer(navMarkers[0]);
+      
+      const m = L.marker([lat, lng], {
+        icon: L.divIcon({ className: 'custom-marker', html: '🔵', iconSize: [25, 25] })
+      }).bindPopup("Konumunuz alınıyor...").addTo(navMap);
+      
+      navMarkers[0] = m;
+      navMap.setView([lat, lng], 15);
+
+      // Adres bilgisini al (Reverse Geocoding)
+      try {
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=tr`);
+        if (!res.ok) throw new Error("API Hatası");
+        const data = await res.json();
+        const address = data.display_name || "Adres bulunamadı";
+        navUserLocation.name = address;
+        
+        m.setPopupContent(`📍 <b>Konumunuz:</b><br>${address}`).openPopup();
+        document.getElementById("navAddressText").textContent = address;
+      } catch (err) {
+        console.warn("Adres alınamadı:", err);
+        m.setPopupContent(`📍 <b>Konumunuz:</b><br>${lat.toFixed(4)}, ${lng.toFixed(4)}`).openPopup();
+      }
+      
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+    },
+    (err) => {
+      let msg = "Konum alınamadı: ";
+      if (err.code === 1) msg += "İzin reddedildi.";
+      else if (err.code === 2) msg += "Sinyal yok.";
+      else msg += err.message;
+      alert(msg);
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+    },
+    { enableHighAccuracy: true, timeout: 10000 }
+  );
+}
+
+function clearUserLocation() {
+  navUserLocation = null;
+  document.getElementById("originSelectWrap").style.display = "block";
+  document.getElementById("activeLocationBadge").style.display = "none";
+  document.getElementById("clearLocationBtn").style.display = "none";
+  document.getElementById("useMyLocationBtn").style.display = "flex";
+  if (navMarkers[0]) navMap.removeLayer(navMarkers[0]);
 }
 
 function updateNavDistricts(type, cityId) {
@@ -588,13 +681,20 @@ async function calculateAndShowNavRoute() {
   const destDist = document.getElementById("destDistrictNav");
   const costInput = document.getElementById("navFuelCostPerKm");
   
-  const oOpt = originDist.options[originDist.selectedIndex];
   const dOpt = destDist.options[destDist.selectedIndex];
   const fuelCost = parseFloat(costInput.value) || 0;
 
-  if (!oOpt || !dOpt) return alert("Lütfen başlangıç ve varış noktalarını seçin.");
+  if (!dOpt) return alert("Lütfen varış noktasını seçin.");
   
-  const start = { lat: parseFloat(oOpt.dataset.lat), lng: parseFloat(oOpt.dataset.lng), name: oOpt.text };
+  let start;
+  if (navUserLocation) {
+    start = navUserLocation;
+  } else {
+    const oOpt = originDist.options[originDist.selectedIndex];
+    if (!oOpt) return alert("Lütfen başlangıç noktasını seçin.");
+    start = { lat: parseFloat(oOpt.dataset.lat), lng: parseFloat(oOpt.dataset.lng), name: oOpt.text };
+  }
+
   const end = { lat: parseFloat(dOpt.dataset.lat), lng: parseFloat(dOpt.dataset.lng), name: dOpt.text };
 
   const btn = document.getElementById("calculateNavBtn");
@@ -602,51 +702,170 @@ async function calculateAndShowNavRoute() {
   btn.disabled = true;
 
   try {
-    const url = `https://router.project-osrm.org/route/v1/driving/${start.lng},${start.lat};${end.lng},${end.lat}?overview=full&geometries=geojson`;
+    // Alternatif rotaları da iste
+    const url = `https://router.project-osrm.org/route/v1/driving/${start.lng},${start.lat};${end.lng},${end.lat}?overview=full&geometries=geojson&alternatives=true`;
     const res = await fetch(url);
     const data = await res.json();
 
     if (data.code === 'Ok' && data.routes.length > 0) {
-      const route = data.routes[0];
-      const distKm = route.distance / 1000;
-      const totalCost = distKm * fuelCost;
+      // Önceki rotaları temizle
+      navRouteLayers.forEach(l => navMap.removeLayer(l));
+      navRouteLayers = [];
+      
+      // Rotaları mesafeye göre sırala (En Kısa -> En Uzun)
+      navActiveRoutes = data.routes.sort((a, b) => a.distance - b.distance);
+      
+      // Marker temizliği (Konum marker'ı hariç)
+      navMarkers.forEach((m, idx) => { if (idx > 0 || !navUserLocation) navMap.removeLayer(m); });
+      if (!navUserLocation) navMarkers = []; else navMarkers = [navMarkers[0]];
 
-      // Sonuçları göster
-      const resBox = document.getElementById("navResultBox");
-      resBox.style.display = "block";
-      document.getElementById("navDistanceResult").textContent = distKm.toFixed(1) + " km";
-      document.getElementById("navCostResult").textContent = formatCurrency(totalCost);
+      const colors = ['var(--brand)', '#e67e22', '#2ecc71']; // Ana, Alternatif 1, Alternatif 2
+      const allBounds = L.latLngBounds();
 
-      // Haritayı güncelle
-      if (navRouteLayer) navMap.removeLayer(navRouteLayer);
-      navMarkers.forEach(m => navMap.removeLayer(m));
-      navMarkers = [];
+      navActiveRoutes.slice(0, 3).forEach((route, idx) => {
+        const distKm = route.distance / 1000;
+        const totalCost = distKm * fuelCost;
+        const durationMin = Math.round(route.duration / 60);
 
-      navRouteLayer = L.geoJSON(route.geometry, {
-        style: { color: 'var(--brand)', weight: 5, opacity: 0.8 }
-      }).addTo(navMap);
+        const rLayer = L.geoJSON(route.geometry, {
+          style: { 
+            color: colors[idx] || '#848e9c', 
+            weight: idx === 0 ? 6 : 4, 
+            opacity: idx === 0 ? 0.9 : 0.4 
+          }
+        }).addTo(navMap);
 
-      const m1 = L.marker([start.lat, start.lng], {
-        icon: L.divIcon({ className: 'custom-marker', html: '🚩', iconSize: [25, 25] })
-      }).bindPopup("Başlangıç: " + start.name).addTo(navMap);
+        // Popup içeriği
+        const popupContent = `
+          <div style="font-family:'Manrope',sans-serif; min-width:140px;">
+            <b style="color:${colors[idx]}; font-size:14px;">Rota ${idx + 1} ${idx === 0 ? '(En Hızlı)' : ''}</b><br>
+            <div style="margin-top:5px; font-size:12px;">
+              📏 <b>${distKm.toFixed(1)} KM</b><br>
+              ⏱️ <b>${durationMin} Dakika</b><br>
+              💰 <b style="color:var(--brand)">${formatCurrency(totalCost)}</b>
+            </div>
+            <button onclick="selectNavRoute(${idx})" style="margin-top:10px; width:100%; padding:6px; background:var(--brand); color:#000; border:none; border-radius:4px; font-weight:800; cursor:pointer;">Bu Rotayı Seç</button>
+          </div>
+        `;
+        rLayer.bindPopup(popupContent);
+        navRouteLayers.push(rLayer);
+        allBounds.extend(rLayer.getBounds());
+      });
+
+      // Markerlar
+      if (!navUserLocation) {
+        const m1 = L.marker([start.lat, start.lng], {
+          icon: L.divIcon({ className: 'custom-marker', html: '🚩', iconSize: [25, 25] })
+        }).bindPopup("Başlangıç: " + start.name).addTo(navMap);
+        navMarkers.push(m1);
+      }
       
       const m2 = L.marker([end.lat, end.lng], {
         icon: L.divIcon({ className: 'custom-marker', html: '🏁', iconSize: [25, 25] })
       }).bindPopup("Varış: " + end.name).addTo(navMap);
+      navMarkers.push(m2);
 
-      navMarkers.push(m1, m2);
-      navMap.fitBounds(navRouteLayer.getBounds(), { padding: [40, 40] });
+      // İlk rotayı varsayılan seç
+      selectNavRoute(0);
+
+      // Rota seçim butonlarını oluştur
+      const buttonsWrap = document.getElementById("navRouteButtonsWrap");
+      buttonsWrap.innerHTML = "";
+      if (navActiveRoutes.length > 1) {
+        buttonsWrap.style.display = "flex";
+        navActiveRoutes.slice(0, 3).forEach((route, idx) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "nav-route-btn";
+          btn.id = `navRouteBtn_${idx}`;
+          
+          const label = idx === 0 ? "⭐ Önerilen" : `🔄 Alternatif ${idx + 1}`;
+          btn.innerHTML = `<span style="font-size:11px;">${label}</span><br><b style="font-size:13px;">${(route.distance / 1000).toFixed(1)} km</b>`;
+          
+          btn.onclick = () => selectNavRoute(idx);
+          buttonsWrap.appendChild(btn);
+        });
+      } else {
+        buttonsWrap.style.display = "none";
+      }
+
+      // Haritayı sığdır
+      if (allBounds.isValid()) {
+        navMap.fitBounds(allBounds, { padding: [50, 50] });
+      }
+
+      document.getElementById("navResultBox").style.display = "block";
+      const infoMsg = navActiveRoutes.length > 1 ? `✅ ${navActiveRoutes.length} farklı rota bulundu. Rotalara tıklayarak seçim yapabilirsiniz.` : "✅ En uygun rota çizildi.";
+      document.getElementById("activeLocationBadge").innerHTML = `<span>🗺️</span> ${infoMsg}`;
+      document.getElementById("activeLocationBadge").style.display = "flex";
+
     } else {
       alert("Rota bulunamadı.");
     }
   } catch (err) {
     console.error(err);
-    alert("OSRM bağlantı hatası!");
+    alert("Rota hesaplanırken bir hata oluştu.");
   } finally {
-    btn.textContent = "🔄 Rotayı Hesapla";
+    btn.textContent = "Rotayı Hesapla";
     btn.disabled = false;
   }
 }
+
+// Seçilen rotayı vurgulama fonksiyonu
+window.selectNavRoute = function(index) {
+  navCurrentSelectedIndex = index;
+  const route = navActiveRoutes[index];
+  if (!route) return;
+
+  const fuelCost = parseFloat(document.getElementById("navFuelCostPerKm").value) || 0;
+  const isRoundTrip = document.getElementById("navRoundTrip").checked;
+  
+  let distKm = route.distance / 1000;
+  if (isRoundTrip) distKm *= 2;
+  
+  const totalCost = distKm * fuelCost;
+
+  // Sonuç panelini güncelle
+  document.getElementById("navDistanceResult").textContent = distKm.toFixed(1) + " km";
+  document.getElementById("navCostResult").textContent = formatCurrency(totalCost);
+  
+  // Gidiş dönüş görsel vurgusu
+  const resBox = document.getElementById("navResultBox");
+  if (isRoundTrip) {
+    resBox.style.borderLeftColor = "var(--up)";
+    resBox.style.background = "linear-gradient(90deg, rgba(14,203,129,0.1), var(--bg-secondary))";
+  } else {
+    resBox.style.borderLeftColor = "var(--brand)";
+    resBox.style.background = "var(--bg-secondary)";
+  }
+
+  // Haritadaki çizgileri güncelle
+  navRouteLayers.forEach((layer, idx) => {
+    if (idx === index) {
+      layer.setStyle({ weight: 7, opacity: 1 });
+      layer.bringToFront();
+    } else {
+      layer.setStyle({ weight: 4, opacity: 0.25 });
+    }
+  });
+
+  // Buton stillerini güncelle
+  for (let i = 0; i < 3; i++) {
+    const b = document.getElementById(`navRouteBtn_${i}`);
+    if (b) {
+      if (i === index) b.classList.add("active");
+      else b.classList.remove("active");
+    }
+  }
+
+  // Popup'ları kapat
+  navMap.closePopup();
+};
+
+// Checkbox değişince maliyeti tazele
+window.updateNavCalculation = function() {
+  selectNavRoute(navCurrentSelectedIndex);
+};
 
 function renderFuelTable() {
   const tbody = document.querySelector("#fuelTable tbody"); if (!tbody) return; tbody.innerHTML = "";

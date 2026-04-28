@@ -1120,3 +1120,71 @@
 }
 
 details[id^="match-detail-"] { cursor: pointer; }
+
+/* 🗺️ Navigasyon Özel Checkbox Tasarımı */
+.nav-checkbox-label input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--bg-primary);
+  border: 2px solid var(--line);
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+
+.nav-checkbox-label input:checked {
+  background-color: var(--up);
+  border-color: var(--up);
+}
+
+.nav-checkbox-label input:checked::after {
+  content: "✓";
+  position: absolute;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.nav-checkbox-label input:hover {
+  border-color: var(--brand);
+}
+
+.nav-checkbox-label:active input {
+  transform: scale(0.9);
+}
+
+/* 🗺️ Navigasyon Rota Seçim Butonları */
+.nav-route-btn {
+  flex: 1;
+  min-width: 100px;
+  padding: 10px 8px;
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+  color: var(--text-secondary);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  text-align: center;
+  line-height: 1.4;
+}
+
+.nav-route-btn:hover {
+  border-color: var(--brand);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.nav-route-btn.active {
+  background: linear-gradient(135deg, var(--brand) 0%, #f0b90b 100%);
+  color: #000;
+  border-color: var(--brand);
+  box-shadow: 0 4px 12px rgba(252, 213, 53, 0.2);
+}
