@@ -83,8 +83,8 @@ function init() {
 
   // 🔄 Finans verilerini 30 saniyede bir otomatik yenile
   setInterval(() => {
-      console.log("🔄 Finans verileri 30 saniyede bir yenileniyor...");
-      refreshFinanceData();
+    console.log("🔄 Finans verileri 30 saniyede bir yenileniyor...");
+    refreshFinanceData();
   }, 30000);
 }
 
@@ -2234,8 +2234,15 @@ window.openTeamDetail = async function (team) {
 
   o.classList.add("open");
 
-  // Verileri eş zamanlı çek
-  fetchTeamSchedule(team.id); 
+  // ✅ Maç kartını ayrıca çek ve oluştur
+  try {
+    const lastMatch = await getLastMatchForTeam(team.id);
+    if (lastMatch) {
+      await updateLastMatchCardFromEvent(lastMatch, team.id, "4-2-3-1");
+    }
+  } catch (e) { console.warn("Maç kartı yüklenemedi", e); }
+
+  fetchTeamSchedule(team.id);
   fetchTeamSquad(team.id);
   fetchTeamLineup(team.id);
   checkTeamLiveStatus(team.name);
@@ -2293,18 +2300,48 @@ async function fetchTeamLineup(teamId) {
     const starters = teamRoster.roster.filter(p => p.starter);
     const subs = teamRoster.roster.filter(p => !p.starter);
 
-    // ⚽ MODERN SAHA (Koordinat Tabanlı)
+    // ⚽ SAHAYI OLUŞTUR (Yeşil saha)
     const activeTeamName = document.getElementById("teamDetailName")?.textContent || "Takım";
-    renderModernPitch(teamRoster.formation || '4-4-2', starters, activeTeamName);
+    const formation = teamRoster.formation || '4-4-2';
+    renderModernPitch(formation, starters, activeTeamName);
 
-    // Pozisyona göre arka plan rengi
+    // 📝 Maç kartındaki diziliş bilgisini güncelle
+    const formationText = document.getElementById("teamFormationText");
+    if (formationText) formationText.textContent = `Diziliş: ${formation}`;
+
+    // 📌 SIRALAMA DÜZELTME: Maç kartını en üste al (zaten varsa, yoksa eklenmeyecek)
+    setTimeout(() => {
+      const container = document.getElementById("detailTabLineup");
+      const matchCard = document.getElementById("teamLastMatchCard");
+      const pitch = document.getElementById("teamFormationContainer");
+      const lineupList = document.getElementById("teamLineupList");
+
+      if (container && matchCard && pitch && lineupList) {
+        // Maç kartını zaten varsa en üste taşı
+        if (matchCard.parentNode !== container) {
+          matchCard.remove();
+          container.insertBefore(matchCard, container.firstChild);
+        } else if (container.children[0] !== matchCard) {
+          container.insertBefore(matchCard, container.firstChild);
+        }
+        // Sahayı karttan sonraya al
+        if (container.children[1] !== pitch && pitch.parentNode === container) {
+          container.insertBefore(pitch, lineupList);
+        }
+        console.log("✅ Sıralama düzeltildi: kart üstte, saha altta");
+      } else {
+        console.warn("Elementler bulunamadı", { container, matchCard, pitch, lineupList });
+      }
+    }, 200);
+
+    // Pozisyon renkleri (ilk 11 ve yedekler için)
     const posColors = {
-      'GK': 'rgba(255,215,0,0.08)', // Kaleci - altın
-      'DF': 'rgba(30,144,255,0.08)', // Defans - mavi
+      'GK': 'rgba(255,215,0,0.08)',
+      'DF': 'rgba(30,144,255,0.08)',
       'DEF': 'rgba(30,144,255,0.08)',
-      'MF': 'rgba(50,205,50,0.08)', // Orta saha - yeşil
+      'MF': 'rgba(50,205,50,0.08)',
       'MID': 'rgba(50,205,50,0.08)',
-      'FW': 'rgba(220,20,60,0.08)', // Forvet - kırmızı
+      'FW': 'rgba(220,20,60,0.08)',
       'FWD': 'rgba(220,20,60,0.08)',
       'ST': 'rgba(220,20,60,0.08)',
     };
@@ -2324,242 +2361,262 @@ async function fetchTeamLineup(teamId) {
       `;
     };
 
-    const evObj = normalizeMatch(targetEvent);
-    const isL = evObj.isLive;
-    const isF = evObj.isFinal;
-    const scoreStr = (evObj.hScore !== null && evObj.aScore !== null) ? `${evObj.hScore} - ${evObj.aScore}` : "vs";
-    const metaStr = isL ? "CANLI" : (isF ? "MS" : evObj.dateFull.split(" ")[1]);
-
-    const formation = teamRoster.formation ? `Diziliş: ${teamRoster.formation}` : '';
-
+    // 🧾 LİSTE (sadece ilk 11 ve yedekler, MAÇ KARTI YOK)
     list.innerHTML = `
-        <div id="teamLastMatchCard" style="padding:16px; background:rgba(255,255,255,0.02); border-radius:12px; margin-bottom:16px; border:1px solid rgba(255,255,255,0.05);">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <div style="display:flex; flex:1; align-items:center; justify-content:flex-end; gap:8px;">
-              <span style="font-weight:700; font-size:13px; color:var(--text-primary); text-align:right;">${evObj.home}</span>
-              <img src="${evObj.homeLogo}" style="width:28px; height:28px; object-fit:contain;" onerror="this.src='icon.svg'">
-            </div>
-            <div style="padding:6px 12px; background:rgba(0,0,0,0.3); border-radius:8px; text-align:center; margin:0 12px; min-width:60px;">
-              <div style="font-weight:800; font-size:16px; font-family:'Space Grotesk', monospace; color:var(--text-primary);">${scoreStr}</div>
-              <div style="font-size:10px; color:var(--text-secondary); margin-top:2px; font-weight:800;">${metaStr}</div>
-            </div>
-            <div style="display:flex; flex:1; align-items:center; justify-content:flex-start; gap:8px;">
-              <img src="${evObj.awayLogo}" style="width:28px; height:28px; object-fit:contain;" onerror="this.src='icon.svg'">
-              <span style="font-weight:700; font-size:13px; color:var(--text-primary); text-align:left;">${evObj.away}</span>
-            </div>
-          </div>
-          ${formation ? `<div style="text-align:center; font-size:11px; color:var(--text-secondary); font-weight:600; padding-top:8px; border-top:1px solid rgba(255,255,255,0.05);">${formation}</div>` : ''}
-        </div>
-        <div style="padding:8px; font-size:13px; font-weight:800; color:var(--brand); text-transform:uppercase; border-bottom:1px solid rgba(252,213,53,0.2); margin-bottom:4px;">İlk 11</div>
-        ${starters.length > 0 ? starters.map(renderPlayer).join("") : '<div style="font-size:12px; color:var(--text-secondary); padding:8px;">Veri yok</div>'}
-        <div style="padding:8px; font-size:13px; font-weight:800; color:var(--text-secondary); text-transform:uppercase; border-bottom:1px solid rgba(255,255,255,0.1); margin-top:16px; margin-bottom:4px;">Yedekler</div>
-        ${subs.length > 0 ? subs.map(renderPlayer).join("") : '<div style="font-size:12px; color:var(--text-secondary); padding:8px;">Veri yok</div>'}
-      `;
-
-      // 🔄 MAÇ KARTINI ÜSTE TAŞI (Garantör Versiyon)
-      setTimeout(() => {
-          const container = document.getElementById("detailTabLineup");
-          const matchCard = document.getElementById("teamLastMatchCard");
-          const pitch = document.getElementById("teamFormationContainer");
-          const lineupList = document.getElementById("teamLineupList");
-          
-          if (container && matchCard && pitch && lineupList) {
-              // Maç kartını nerede olduğuna bakmaksızın container'ın en başına taşı
-              if (matchCard.parentNode !== container) {
-                  matchCard.remove();
-                  container.insertBefore(matchCard, container.firstChild);
-              } else if (container.children[0] !== matchCard) {
-                  container.insertBefore(matchCard, container.firstChild);
-              }
-              
-              // Sağlama: pitch, karttan sonra mı?
-              if (container.children[1] !== pitch && pitch.parentNode === container) {
-                  container.insertBefore(pitch, lineupList);
-              }
-              console.log("✅ Sıralama düzeltildi: kart üstte, saha altta");
-          } else {
-              console.warn("Elementler bulunamadı", {container, matchCard, pitch, lineupList});
-          }
-      }, 200);
+      <div style="padding:8px; font-size:13px; font-weight:800; color:var(--brand); text-transform:uppercase; border-bottom:1px solid rgba(252,213,53,0.2); margin-bottom:4px;">İlk 11</div>
+      ${starters.length > 0 ? starters.map(renderPlayer).join("") : '<div style="font-size:12px; color:var(--text-secondary); padding:8px;">Veri yok</div>'}
+      <div style="padding:8px; font-size:13px; font-weight:800; color:var(--text-secondary); text-transform:uppercase; border-bottom:1px solid rgba(255,255,255,0.1); margin-top:16px; margin-bottom:4px;">Yedekler</div>
+      ${subs.length > 0 ? subs.map(renderPlayer).join("") : '<div style="font-size:12px; color:var(--text-secondary); padding:8px;">Veri yok</div>'}
+    `;
 
   } catch (e) {
-    list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--down);">Diziliş yüklenemedi.</div>`;
+    console.error(e);
+    list.innerHTML = `<div style="text-align:center; padding:15px; color:var(--down);">Diziliş yüklenemedi.</div>`;
   }
 }
 
 // ========= TAKIM RENK VE LOGO EŞLEME =========
 function getTeamColorsAndLogo(teamName) {
-    const normalized = (teamName || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ı/g, 'i').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c');
-    let primary = "#003366", secondary = "#fbca03", logo = "";
-    
-    if (normalized.includes("galatasaray")) {
-        primary = "#a32638"; secondary = "#f9a51a";
-        logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/347.png&h=80&w=80";
-    } else if (normalized.includes("fenerbahce")) {
-        primary = "#003366"; secondary = "#fbca03";
-        logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/358.png&h=80&w=80";
-    } else if (normalized.includes("besiktas")) {
-        primary = "#111111"; secondary = "#e0e0e0";
-        logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/359.png&h=80&w=80";
-    } else if (normalized.includes("trabzonspor")) {
-        primary = "#7a1a1a"; secondary = "#2c5aa6";
-        logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/361.png&h=80&w=80";
-    } else if (normalized.includes("basaksehir")) {
-        primary = "#004d99"; secondary = "#ff6b00";
-        logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2969.png&h=80&w=80";
-    } else if (normalized.includes("goztepe")) {
-        primary = "#f57c00"; secondary = "#ffffff";
-        logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2975.png&h=80&w=80";
-    } else if (normalized.includes("konyaspor")) {
-        primary = "#2e7d32"; secondary = "#ffffff";
-        logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2976.png&h=80&w=80";
-    }
-    
-    return { primary, secondary, logo };
+  const normalized = (teamName || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ı/g, 'i').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c');
+  let primary = "#003366", secondary = "#fbca03", logo = "";
+
+  if (normalized.includes("galatasaray")) {
+    primary = "#a32638"; secondary = "#f9a51a";
+    logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/347.png&h=80&w=80";
+  } else if (normalized.includes("fenerbahce")) {
+    primary = "#003366"; secondary = "#fbca03";
+    logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/358.png&h=80&w=80";
+  } else if (normalized.includes("besiktas")) {
+    primary = "#111111"; secondary = "#e0e0e0";
+    logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/359.png&h=80&w=80";
+  } else if (normalized.includes("trabzonspor")) {
+    primary = "#7a1a1a"; secondary = "#2c5aa6";
+    logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/361.png&h=80&w=80";
+  } else if (normalized.includes("basaksehir")) {
+    primary = "#004d99"; secondary = "#ff6b00";
+    logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2969.png&h=80&w=80";
+  } else if (normalized.includes("goztepe")) {
+    primary = "#f57c00"; secondary = "#ffffff";
+    logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2975.png&h=80&w=80";
+  } else if (normalized.includes("konyaspor")) {
+    primary = "#2e7d32"; secondary = "#ffffff";
+    logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2976.png&h=80&w=80";
+  }
+
+  return { primary, secondary, logo };
+}
+
+// ✅ Takımın son maçını bulur
+async function getLastMatchForTeam(teamId) {
+  try {
+    const now = new Date();
+    const start = new Date(); start.setDate(now.getDate() - 45);
+    const end = new Date(); end.setDate(now.getDate() + 2);
+    const ds = start.toISOString().split('T')[0].replace(/-/g, '');
+    const de = end.toISOString().split('T')[0].replace(/-/g, '');
+    const url = `https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=${ds}-${de}&limit=50`;
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error();
+    const data = await resp.json();
+    const events = data.events || [];
+    const teamMatches = events.filter(ev => {
+      const comps = ev.competitions?.[0];
+      return comps?.competitors?.some(c => String(c.team.id) === String(teamId));
+    });
+    const finished = teamMatches.filter(ev => ev.status?.type?.state === "post");
+    if (finished.length === 0) return null;
+    return finished.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+  } catch (e) {
+    console.error("getLastMatchForTeam hatası:", e);
+    return null;
+  }
+}
+
+// ✅ Maç kartını render eder
+async function updateLastMatchCardFromEvent(ev, teamId, defaultFormation = "4-4-2") {
+  const container = document.getElementById("detailTabLineup");
+  if (!container) return;
+
+  // Mevcut kartı temizle
+  const oldCard = document.getElementById("teamLastMatchCard");
+  if (oldCard) oldCard.remove();
+
+  const evObj = normalizeMatch(ev);
+  const isL = evObj.isLive;
+  const isF = evObj.isFinal;
+  const scoreStr = (evObj.hScore !== null && evObj.aScore !== null) ? `${evObj.hScore} - ${evObj.aScore}` : "vs";
+  const metaStr = isL ? "CANLI" : (isF ? "MS" : evObj.dateFull.split(" ")[1]);
+
+  const card = document.createElement("div");
+  card.id = "teamLastMatchCard";
+  card.style.cssText = "padding:16px; background:rgba(255,255,255,0.02); border-radius:12px; margin-bottom:16px; border:1px solid rgba(255,255,255,0.05);";
+
+  card.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <div style="display:flex; flex:1; align-items:center; justify-content:flex-end; gap:8px;">
+                <span style="font-weight:700; font-size:13px; color:var(--text-primary); text-align:right;">${evObj.home}</span>
+                <img src="${evObj.homeLogo}" style="width:28px; height:28px; object-fit:contain;" onerror="this.src='icon.svg'">
+            </div>
+            <div style="padding:6px 12px; background:rgba(0,0,0,0.3); border-radius:8px; text-align:center; margin:0 12px; min-width:60px;">
+                <div style="font-weight:800; font-size:16px; font-family:'Space Grotesk', monospace; color:var(--text-primary);">${scoreStr}</div>
+                <div style="font-size:10px; color:var(--text-secondary); margin-top:2px; font-weight:800;">${metaStr}</div>
+            </div>
+            <div style="display:flex; flex:1; align-items:center; justify-content:flex-start; gap:8px;">
+                <img src="${evObj.awayLogo}" style="width:28px; height:28px; object-fit:contain;" onerror="this.src='icon.svg'">
+                <span style="font-weight:700; font-size:13px; color:var(--text-primary); text-align:left;">${evObj.away}</span>
+            </div>
+        </div>
+        <div style="border-top:1px solid rgba(255,255,255,0.05); padding-top:12px; margin-top:6px; text-align:center; display:flex; flex-direction:column; gap:6px;">
+            <div style="font-size:11px; color:var(--text-secondary); font-weight:600; opacity:0.8;">📅 ${evObj.dateFull}</div>
+            <div id="teamFormationText" style="font-size:12px; color:rgba(255,255,255,0.5); font-weight:800; text-transform:uppercase; letter-spacing:0.8px;">Diziliş: ${defaultFormation}</div>
+        </div>
+    `;
+
+  container.insertBefore(card, container.firstChild);
 }
 
 // ⚽ SON MAÇ BİLGİSİNİ ÇEK (ESPN API)
 async function fetchLastMatch(teamId) {
-    try {
-        const now = new Date();
-        const start = new Date(); start.setDate(now.getDate() - 45);
-        const end = new Date(); end.setDate(now.getDate() + 1);
-        const ds = start.toISOString().split('T')[0].replace(/-/g, '');
-        const de = end.toISOString().split('T')[0].replace(/-/g, '');
-        const url = `https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=${ds}-${de}&limit=50`;
-        const resp = await fetch(url);
-        if (!resp.ok) throw new Error();
-        const data = await resp.json();
-        const events = data.events || [];
-        
-        const teamMatches = events.filter(ev => {
-            const comps = ev.competitions?.[0];
-            const competitors = comps?.competitors || [];
-            const hasTeam = competitors.some(c => String(c.id) === String(teamId));
-            const isPost = ev.status?.type?.state === "post";
-            return hasTeam && isPost;
-        });
-        
-        if (teamMatches.length === 0) return null;
-        
-        teamMatches.sort((a,b) => new Date(b.date) - new Date(a.date));
-        const last = teamMatches[0];
-        const comp = last.competitions[0];
-        const home = comp.competitors.find(c => c.homeAway === "home");
-        const away = comp.competitors.find(c => c.homeAway === "away");
-        const homeScore = parseInt(home.score);
-        const awayScore = parseInt(away.score);
-        const isHome = (String(home.team.id) === String(teamId));
-        
-        let resultText = "";
-        let resultClass = "";
-        if (isHome) {
-            if (homeScore > awayScore) { resultText = "Galibiyet"; resultClass = "win"; }
-            else if (homeScore < awayScore) { resultText = "Mağlubiyet"; resultClass = "loss"; }
-            else { resultText = "Beraberlik"; resultClass = "draw"; }
-        } else {
-            if (awayScore > homeScore) { resultText = "Galibiyet"; resultClass = "win"; }
-            else if (awayScore < homeScore) { resultText = "Mağlubiyet"; resultClass = "loss"; }
-            else { resultText = "Beraberlik"; resultClass = "draw"; }
-        }
-        
-        const opponent = isHome ? away.team.displayName : home.team.displayName;
-        const matchDate = new Date(last.date).toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" });
-        
-        return {
-            opponent,
-            score: `${homeScore} - ${awayScore}`,
-            result: resultText,
-            resultClass,
-            date: matchDate
-        };
-    } catch (err) {
-        return null;
+  try {
+    const now = new Date();
+    const start = new Date(); start.setDate(now.getDate() - 45);
+    const end = new Date(); end.setDate(now.getDate() + 1);
+    const ds = start.toISOString().split('T')[0].replace(/-/g, '');
+    const de = end.toISOString().split('T')[0].replace(/-/g, '');
+    const url = `https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=${ds}-${de}&limit=50`;
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error();
+    const data = await resp.json();
+    const events = data.events || [];
+
+    const teamMatches = events.filter(ev => {
+      const comps = ev.competitions?.[0];
+      const competitors = comps?.competitors || [];
+      const hasTeam = competitors.some(c => String(c.id) === String(teamId));
+      const isPost = ev.status?.type?.state === "post";
+      return hasTeam && isPost;
+    });
+
+    if (teamMatches.length === 0) return null;
+
+    teamMatches.sort((a, b) => new Date(b.date) - new Date(a.date));
+    const last = teamMatches[0];
+    const comp = last.competitions[0];
+    const home = comp.competitors.find(c => c.homeAway === "home");
+    const away = comp.competitors.find(c => c.homeAway === "away");
+    const homeScore = parseInt(home.score);
+    const awayScore = parseInt(away.score);
+    const isHome = (String(home.team.id) === String(teamId));
+
+    let resultText = "";
+    let resultClass = "";
+    if (isHome) {
+      if (homeScore > awayScore) { resultText = "Galibiyet"; resultClass = "win"; }
+      else if (homeScore < awayScore) { resultText = "Mağlubiyet"; resultClass = "loss"; }
+      else { resultText = "Beraberlik"; resultClass = "draw"; }
+    } else {
+      if (awayScore > homeScore) { resultText = "Galibiyet"; resultClass = "win"; }
+      else if (awayScore < homeScore) { resultText = "Mağlubiyet"; resultClass = "loss"; }
+      else { resultText = "Beraberlik"; resultClass = "draw"; }
     }
+
+    const opponent = isHome ? away.team.displayName : home.team.displayName;
+    const matchDate = new Date(last.date).toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" });
+
+    return {
+      opponent,
+      score: `${homeScore} - ${awayScore}`,
+      result: resultText,
+      resultClass,
+      date: matchDate
+    };
+  } catch (err) {
+    return null;
+  }
 }
 
 // ⚽ YENİ - KOORDİNAT TABANLI SAHA YERLEŞTİRME
 function renderModernPitch(formation, starters, teamName) {
-    const container = document.getElementById("teamFormationContainer");
-    if (!container) return;
+  const container = document.getElementById("teamFormationContainer");
+  if (!container) return;
 
-    const teamStyle = getTeamColorsAndLogo(teamName);
-    document.documentElement.style.setProperty('--club-primary', teamStyle.primary);
-    document.documentElement.style.setProperty('--club-secondary', teamStyle.secondary);
+  const teamStyle = getTeamColorsAndLogo(teamName);
+  document.documentElement.style.setProperty('--club-primary', teamStyle.primary);
+  document.documentElement.style.setProperty('--club-secondary', teamStyle.secondary);
 
-    const positionMap = {
-        "4-4-2": {
-            "GK": [{ x: 50, y: 92 }],
-            "DF": [{ x: 15, y: 74 }, { x: 38, y: 74 }, { x: 62, y: 74 }, { x: 85, y: 74 }],
-            "MF": [{ x: 15, y: 54 }, { x: 38, y: 54 }, { x: 62, y: 54 }, { x: 85, y: 54 }],
-            "FW": [{ x: 35, y: 24 }, { x: 65, y: 24 }]
-        },
-        "4-2-3-1": {
-            "GK": [{ x: 50, y: 92 }],
-            "DF": [{ x: 15, y: 76 }, { x: 38, y: 76 }, { x: 62, y: 76 }, { x: 85, y: 76 }],
-            "DM": [{ x: 35, y: 58 }, { x: 65, y: 58 }],
-            "AM": [{ x: 20, y: 40 }, { x: 50, y: 40 }, { x: 80, y: 40 }],
-            "FW": [{ x: 50, y: 18 }]
-        },
-        "4-3-3": {
-            "GK": [{ x: 50, y: 92 }],
-            "DF": [{ x: 15, y: 74 }, { x: 38, y: 74 }, { x: 62, y: 74 }, { x: 85, y: 74 }],
-            "MF": [{ x: 25, y: 52 }, { x: 50, y: 52 }, { x: 75, y: 52 }],
-            "FW": [{ x: 20, y: 28 }, { x: 50, y: 24 }, { x: 80, y: 28 }]
-        },
-        "3-5-2": {
-            "GK": [{ x: 50, y: 92 }],
-            "DF": [{ x: 25, y: 76 }, { x: 50, y: 76 }, { x: 75, y: 76 }],
-            "MF": [{ x: 10, y: 52 }, { x: 30, y: 52 }, { x: 50, y: 52 }, { x: 70, y: 52 }, { x: 90, y: 52 }],
-            "FW": [{ x: 35, y: 26 }, { x: 65, y: 26 }]
-        }
-    };
+  const positionMap = {
+    "4-4-2": {
+      "GK": [{ x: 50, y: 92 }],
+      "DF": [{ x: 15, y: 74 }, { x: 38, y: 74 }, { x: 62, y: 74 }, { x: 85, y: 74 }],
+      "MF": [{ x: 15, y: 54 }, { x: 38, y: 54 }, { x: 62, y: 54 }, { x: 85, y: 54 }],
+      "FW": [{ x: 35, y: 24 }, { x: 65, y: 24 }]
+    },
+    "4-2-3-1": {
+      "GK": [{ x: 50, y: 92 }],
+      "DF": [{ x: 15, y: 76 }, { x: 38, y: 76 }, { x: 62, y: 76 }, { x: 85, y: 76 }],
+      "DM": [{ x: 35, y: 58 }, { x: 65, y: 58 }],
+      "AM": [{ x: 20, y: 40 }, { x: 50, y: 40 }, { x: 80, y: 40 }],
+      "FW": [{ x: 50, y: 18 }]
+    },
+    "4-3-3": {
+      "GK": [{ x: 50, y: 92 }],
+      "DF": [{ x: 15, y: 74 }, { x: 38, y: 74 }, { x: 62, y: 74 }, { x: 85, y: 74 }],
+      "MF": [{ x: 25, y: 52 }, { x: 50, y: 52 }, { x: 75, y: 52 }],
+      "FW": [{ x: 20, y: 28 }, { x: 50, y: 24 }, { x: 80, y: 28 }]
+    },
+    "3-5-2": {
+      "GK": [{ x: 50, y: 92 }],
+      "DF": [{ x: 25, y: 76 }, { x: 50, y: 76 }, { x: 75, y: 76 }],
+      "MF": [{ x: 10, y: 52 }, { x: 30, y: 52 }, { x: 50, y: 52 }, { x: 70, y: 52 }, { x: 90, y: 52 }],
+      "FW": [{ x: 35, y: 26 }, { x: 65, y: 26 }]
+    }
+  };
 
-    let posConfig = positionMap[formation] || positionMap["4-4-2"];
-    let available = [...starters];
-    
-    // Pozisyon gruplarını doldur
-    let gk = available.find(p => p.position?.abbreviation === 'GK') || available[0];
-    let others = available.filter(p => p !== gk);
-    
-    let defenders = others.splice(0, formation.startsWith('3') ? 3 : 4);
-    let midfielders = others.splice(0, others.length - (formation.endsWith('1') || formation.endsWith('2') ? (formation.endsWith('1') ? 1 : 2) : 3));
-    let forwards = others;
+  let posConfig = positionMap[formation] || positionMap["4-4-2"];
+  let available = [...starters];
 
-    let playersHtml = "";
+  // Pozisyon gruplarını doldur
+  let gk = available.find(p => p.position?.abbreviation === 'GK') || available[0];
+  let others = available.filter(p => p !== gk);
 
-    // Render Kaleci
-    if (gk) {
-        playersHtml += `<div class="player goalkeeper" style="top:92%; left:50%;">
+  let defenders = others.splice(0, formation.startsWith('3') ? 3 : 4);
+  let midfielders = others.splice(0, others.length - (formation.endsWith('1') || formation.endsWith('2') ? (formation.endsWith('1') ? 1 : 2) : 3));
+  let forwards = others;
+
+  let playersHtml = "";
+
+  // Render Kaleci
+  if (gk) {
+    playersHtml += `<div class="player goalkeeper" style="top:92%; left:50%;">
             <div class="player-icon"><div class="jersey-number">${gk.jersey || "1"}</div></div>
-            <div class="player-name">${gk.athlete?.displayName?.substring(0,14) || "Kaleci"}</div>
+            <div class="player-name">${gk.athlete?.displayName?.substring(0, 14) || "Kaleci"}</div>
         </div>`;
-    }
+  }
 
-    // Render Diğerleri (Gelişmiş koordinat ataması)
-    const renderGroup = (group, posList) => {
-        group.forEach((p, i) => {
-            if (posList && posList[i]) {
-                playersHtml += `<div class="player" style="top:${posList[i].y}%; left:${posList[i].x}%;">
+  // Render Diğerleri (Gelişmiş koordinat ataması)
+  const renderGroup = (group, posList) => {
+    group.forEach((p, i) => {
+      if (posList && posList[i]) {
+        playersHtml += `<div class="player" style="top:${posList[i].y}%; left:${posList[i].x}%;">
                     <div class="player-icon"><div class="jersey-number">${p.jersey || "?"}</div></div>
-                    <div class="player-name">${p.athlete?.displayName?.substring(0,14) || "Oyuncu"}</div>
+                    <div class="player-name">${p.athlete?.displayName?.substring(0, 14) || "Oyuncu"}</div>
                 </div>`;
-            }
-        });
-    };
+      }
+    });
+  };
 
-    renderGroup(defenders, posConfig.DF);
-    if (formation === '4-2-3-1') {
-        renderGroup(midfielders.slice(0,2), posConfig.DM);
-        renderGroup(midfielders.slice(2), posConfig.AM);
-    } else {
-        renderGroup(midfielders, posConfig.MF);
-    }
-    renderGroup(forwards, posConfig.FW);
+  renderGroup(defenders, posConfig.DF);
+  if (formation === '4-2-3-1') {
+    renderGroup(midfielders.slice(0, 2), posConfig.DM);
+    renderGroup(midfielders.slice(2), posConfig.AM);
+  } else {
+    renderGroup(midfielders, posConfig.MF);
+  }
+  renderGroup(forwards, posConfig.FW);
 
-    const logoHtml = teamStyle.logo ? `<img src="${teamStyle.logo}" class="team-logo-on-pitch" onerror="this.style.display='none'">` : '';
+  const logoHtml = teamStyle.logo ? `<img src="${teamStyle.logo}" class="team-logo-on-pitch" onerror="this.style.display='none'">` : '';
 
-    container.innerHTML = `
+  container.innerHTML = `
         <div class="pitch-container">
             <div class="pitch-line center-line"></div>
             <div class="pitch-line center-circle"></div>
@@ -3222,43 +3279,43 @@ window.fillFuelPriceFromWidget = function () {
 
 // 🚀 TÜM ALT MENÜ BUTONLARINA (Kasa, Yakıt, Taksit, Zaman, Lig, Piyasa) SCROLL-TO-TOP
 function bindScrollToTopToAllTabButtons() {
-    // Sadece henüz bu özellik eklenmemiş (.tab-btn) butonlarını seç
-    const buttons = document.querySelectorAll('.tab-btn:not([data-scroll-added])');
-    
-    buttons.forEach(btn => {
-        btn.setAttribute('data-scroll-added', 'true');
-        
-        btn.addEventListener('click', () => {
-            // Sekme değişiminin (DOM güncellemesinin) tamamlanması için kısa bir süre bekle
-            setTimeout(() => {
-                const scrollOpts = { top: 0, behavior: 'smooth' };
-                
-                // 1. Standart Kaydırma Alanları
-                window.scrollTo(scrollOpts);
-                document.documentElement.scrollTo(scrollOpts);
-                document.body.scrollTo(scrollOpts);
-                
-                // 2. Aktif Sekme İçeriği (Eğer sayfa içi kaydırma varsa)
-                const activePage = document.querySelector('.tab-page.active');
-                if (activePage) {
-                    activePage.scrollTo(scrollOpts);
-                }
-                
-                console.log(`📜 Sayfa Başına Kaydırıldı: ${btn.textContent.trim()}`);
-            }, 50); 
-        });
+  // Sadece henüz bu özellik eklenmemiş (.tab-btn) butonlarını seç
+  const buttons = document.querySelectorAll('.tab-btn:not([data-scroll-added])');
+
+  buttons.forEach(btn => {
+    btn.setAttribute('data-scroll-added', 'true');
+
+    btn.addEventListener('click', () => {
+      // Sekme değişiminin (DOM güncellemesinin) tamamlanması için kısa bir süre bekle
+      setTimeout(() => {
+        const scrollOpts = { top: 0, behavior: 'smooth' };
+
+        // 1. Standart Kaydırma Alanları
+        window.scrollTo(scrollOpts);
+        document.documentElement.scrollTo(scrollOpts);
+        document.body.scrollTo(scrollOpts);
+
+        // 2. Aktif Sekme İçeriği (Eğer sayfa içi kaydırma varsa)
+        const activePage = document.querySelector('.tab-page.active');
+        if (activePage) {
+          activePage.scrollTo(scrollOpts);
+        }
+
+        console.log(`📜 Sayfa Başına Kaydırıldı: ${btn.textContent.trim()}`);
+      }, 50);
     });
+  });
 }
 
 // İlk yüklemede çalıştır
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bindScrollToTopToAllTabButtons);
+  document.addEventListener('DOMContentLoaded', bindScrollToTopToAllTabButtons);
 } else {
-    bindScrollToTopToAllTabButtons();
+  bindScrollToTopToAllTabButtons();
 }
 
 // Dinamik olarak eklenen veya yenilenen butonları izle
 const globalScrollObserver = new MutationObserver(() => {
-    bindScrollToTopToAllTabButtons();
+  bindScrollToTopToAllTabButtons();
 });
 globalScrollObserver.observe(document.body, { childList: true, subtree: true });

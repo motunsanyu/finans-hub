@@ -124,11 +124,30 @@
 }
 
 /* MARKETS HEADER â€” modern temada gizle (grid kartlar kendi baÅŸlÄ±ÄŸÄ±nÄ± taÅŸÄ±r) */
+/* MARKETS HEADER — modern temada gizle (grid kartlar kendi başlığını taşır) */
 [data-theme="modern"] .markets-header {
   display: none;
 }
 
-/* financeGrid & coinlerList â†’ Kesin Liste GÃ¶rÃ¼nÃ¼mÃ¼ */
+/* financeGrid & coinlerList → Kesin Liste Görünümü */
+[data-theme="modern"] #financeGrid,
+[data-theme="modern"] #detailTabLineup {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+#teamLastMatchCard {
+    order: 1 !important;
+}
+
+#teamFormationContainer {
+    order: 2 !important;
+}
+
+#teamLineupList {
+    order: 3 !important;
+}
+
 [data-theme="modern"] #financeGrid,
 [data-theme="modern"] #coinlerList {
   display: flex;
@@ -2241,3 +2260,8 @@ details[id^="match-detail-"] {
     right: 6px;
   }
 }
+/* Takim Detay Siralama */
+#detailTabLineup { display: flex !important; flex-direction: column !important; }
+#teamLastMatchCard { order: 1 !important; }
+#teamFormationContainer { order: 2 !important; }
+#teamLineupList { order: 3 !important; }
