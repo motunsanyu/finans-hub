@@ -80,6 +80,12 @@ function init() {
   const hdy = document.getElementById("homeDayOnly");
   if (hd) hd.textContent = now.toLocaleDateString("tr-TR", { day: '2-digit', month: '2-digit', year: 'numeric' });
   if (hdy) hdy.textContent = now.toLocaleDateString("tr-TR", { weekday: 'long' });
+
+  // 🔄 Finans verilerini 30 saniyede bir otomatik yenile
+  setInterval(() => {
+      console.log("🔄 Finans verileri 30 saniyede bir yenileniyor...");
+      refreshFinanceData();
+  }, 30000);
 }
 
 // ═════════════════════════ NUMARA MASKELEME ═════════════════════════
@@ -246,6 +252,7 @@ function calcTotalDebt() {
 
 // ═════════════════════════ PİYASALAR API ═════════════════════════
 async function refreshFinanceData() {
+  console.log("💰 Finans verileri çekiliyor (doviz.com + Binance)...");
   const meta = document.getElementById("financeMeta");
   const nextSnapshot = { ...state.financeSnapshot, updatedAt: Date.now() };
 
@@ -304,6 +311,7 @@ async function refreshFinanceData() {
 
   calcTotalDebt();
   const dateStr = new Date(nextSnapshot.updatedAt).toLocaleDateString("tr-TR"); const timeStr = new Date(nextSnapshot.updatedAt).toLocaleTimeString("tr-TR", { hour: '2-digit', minute: '2-digit' }); meta.innerHTML = `Son Güncelleme : ${dateStr} - ${timeStr}`;
+  console.log("✅ Finans verileri başarıyla güncellendi.");
 }
 
 function updateExtraRow(id, obj, prefix) {
@@ -2221,13 +2229,13 @@ window.openTeamDetail = async function (team) {
   document.getElementById("teamStatRank").textContent = team.rank + ".";
   document.getElementById("teamStatGBM").textContent = `${team.wins}/${team.ties}/${team.loss}`;
 
-  // Varsayılan sekmeyi sıfırla
+  // Varsayılan sekmeyi ayarla
   switchDetailTab('schedule');
 
   o.classList.add("open");
 
-  // Maçları ve Kadroyu eş zamanlı çek
-  fetchTeamSchedule(team.id);
+  // Verileri eş zamanlı çek
+  fetchTeamSchedule(team.id); 
   fetchTeamSquad(team.id);
   fetchTeamLineup(team.id);
   checkTeamLiveStatus(team.name);
@@ -2285,6 +2293,10 @@ async function fetchTeamLineup(teamId) {
     const starters = teamRoster.roster.filter(p => p.starter);
     const subs = teamRoster.roster.filter(p => !p.starter);
 
+    // ⚽ MODERN SAHA (Koordinat Tabanlı)
+    const activeTeamName = document.getElementById("teamDetailName")?.textContent || "Takım";
+    renderModernPitch(teamRoster.formation || '4-4-2', starters, activeTeamName);
+
     // Pozisyona göre arka plan rengi
     const posColors = {
       'GK': 'rgba(255,215,0,0.08)', // Kaleci - altın
@@ -2321,7 +2333,7 @@ async function fetchTeamLineup(teamId) {
     const formation = teamRoster.formation ? `Diziliş: ${teamRoster.formation}` : '';
 
     list.innerHTML = `
-        <div style="padding:16px; background:rgba(255,255,255,0.02); border-radius:12px; margin-bottom:16px; border:1px solid rgba(255,255,255,0.05);">
+        <div id="teamLastMatchCard" style="padding:16px; background:rgba(255,255,255,0.02); border-radius:12px; margin-bottom:16px; border:1px solid rgba(255,255,255,0.05);">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
             <div style="display:flex; flex:1; align-items:center; justify-content:flex-end; gap:8px;">
               <span style="font-weight:700; font-size:13px; color:var(--text-primary); text-align:right;">${evObj.home}</span>
@@ -2344,8 +2356,234 @@ async function fetchTeamLineup(teamId) {
         ${subs.length > 0 ? subs.map(renderPlayer).join("") : '<div style="font-size:12px; color:var(--text-secondary); padding:8px;">Veri yok</div>'}
       `;
 
+      // 🔄 MAÇ KARTINI ÜSTE TAŞI (Garantör Versiyon)
+      setTimeout(() => {
+          const container = document.getElementById("detailTabLineup");
+          const matchCard = document.getElementById("teamLastMatchCard");
+          const pitch = document.getElementById("teamFormationContainer");
+          const lineupList = document.getElementById("teamLineupList");
+          
+          if (container && matchCard && pitch && lineupList) {
+              // Maç kartını nerede olduğuna bakmaksızın container'ın en başına taşı
+              if (matchCard.parentNode !== container) {
+                  matchCard.remove();
+                  container.insertBefore(matchCard, container.firstChild);
+              } else if (container.children[0] !== matchCard) {
+                  container.insertBefore(matchCard, container.firstChild);
+              }
+              
+              // Sağlama: pitch, karttan sonra mı?
+              if (container.children[1] !== pitch && pitch.parentNode === container) {
+                  container.insertBefore(pitch, lineupList);
+              }
+              console.log("✅ Sıralama düzeltildi: kart üstte, saha altta");
+          } else {
+              console.warn("Elementler bulunamadı", {container, matchCard, pitch, lineupList});
+          }
+      }, 200);
+
   } catch (e) {
     list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--down);">Diziliş yüklenemedi.</div>`;
+  }
+}
+
+// ========= TAKIM RENK VE LOGO EŞLEME =========
+function getTeamColorsAndLogo(teamName) {
+    const normalized = (teamName || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ı/g, 'i').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c');
+    let primary = "#003366", secondary = "#fbca03", logo = "";
+    
+    if (normalized.includes("galatasaray")) {
+        primary = "#a32638"; secondary = "#f9a51a";
+        logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/347.png&h=80&w=80";
+    } else if (normalized.includes("fenerbahce")) {
+        primary = "#003366"; secondary = "#fbca03";
+        logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/358.png&h=80&w=80";
+    } else if (normalized.includes("besiktas")) {
+        primary = "#111111"; secondary = "#e0e0e0";
+        logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/359.png&h=80&w=80";
+    } else if (normalized.includes("trabzonspor")) {
+        primary = "#7a1a1a"; secondary = "#2c5aa6";
+        logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/361.png&h=80&w=80";
+    } else if (normalized.includes("basaksehir")) {
+        primary = "#004d99"; secondary = "#ff6b00";
+        logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2969.png&h=80&w=80";
+    } else if (normalized.includes("goztepe")) {
+        primary = "#f57c00"; secondary = "#ffffff";
+        logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2975.png&h=80&w=80";
+    } else if (normalized.includes("konyaspor")) {
+        primary = "#2e7d32"; secondary = "#ffffff";
+        logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2976.png&h=80&w=80";
+    }
+    
+    return { primary, secondary, logo };
+}
+
+// ⚽ SON MAÇ BİLGİSİNİ ÇEK (ESPN API)
+async function fetchLastMatch(teamId) {
+    try {
+        const now = new Date();
+        const start = new Date(); start.setDate(now.getDate() - 45);
+        const end = new Date(); end.setDate(now.getDate() + 1);
+        const ds = start.toISOString().split('T')[0].replace(/-/g, '');
+        const de = end.toISOString().split('T')[0].replace(/-/g, '');
+        const url = `https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=${ds}-${de}&limit=50`;
+        const resp = await fetch(url);
+        if (!resp.ok) throw new Error();
+        const data = await resp.json();
+        const events = data.events || [];
+        
+        const teamMatches = events.filter(ev => {
+            const comps = ev.competitions?.[0];
+            const competitors = comps?.competitors || [];
+            const hasTeam = competitors.some(c => String(c.id) === String(teamId));
+            const isPost = ev.status?.type?.state === "post";
+            return hasTeam && isPost;
+        });
+        
+        if (teamMatches.length === 0) return null;
+        
+        teamMatches.sort((a,b) => new Date(b.date) - new Date(a.date));
+        const last = teamMatches[0];
+        const comp = last.competitions[0];
+        const home = comp.competitors.find(c => c.homeAway === "home");
+        const away = comp.competitors.find(c => c.homeAway === "away");
+        const homeScore = parseInt(home.score);
+        const awayScore = parseInt(away.score);
+        const isHome = (String(home.team.id) === String(teamId));
+        
+        let resultText = "";
+        let resultClass = "";
+        if (isHome) {
+            if (homeScore > awayScore) { resultText = "Galibiyet"; resultClass = "win"; }
+            else if (homeScore < awayScore) { resultText = "Mağlubiyet"; resultClass = "loss"; }
+            else { resultText = "Beraberlik"; resultClass = "draw"; }
+        } else {
+            if (awayScore > homeScore) { resultText = "Galibiyet"; resultClass = "win"; }
+            else if (awayScore < homeScore) { resultText = "Mağlubiyet"; resultClass = "loss"; }
+            else { resultText = "Beraberlik"; resultClass = "draw"; }
+        }
+        
+        const opponent = isHome ? away.team.displayName : home.team.displayName;
+        const matchDate = new Date(last.date).toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" });
+        
+        return {
+            opponent,
+            score: `${homeScore} - ${awayScore}`,
+            result: resultText,
+            resultClass,
+            date: matchDate
+        };
+    } catch (err) {
+        return null;
+    }
+}
+
+// ⚽ YENİ - KOORDİNAT TABANLI SAHA YERLEŞTİRME
+function renderModernPitch(formation, starters, teamName) {
+    const container = document.getElementById("teamFormationContainer");
+    if (!container) return;
+
+    const teamStyle = getTeamColorsAndLogo(teamName);
+    document.documentElement.style.setProperty('--club-primary', teamStyle.primary);
+    document.documentElement.style.setProperty('--club-secondary', teamStyle.secondary);
+
+    const positionMap = {
+        "4-4-2": {
+            "GK": [{ x: 50, y: 92 }],
+            "DF": [{ x: 15, y: 74 }, { x: 38, y: 74 }, { x: 62, y: 74 }, { x: 85, y: 74 }],
+            "MF": [{ x: 15, y: 54 }, { x: 38, y: 54 }, { x: 62, y: 54 }, { x: 85, y: 54 }],
+            "FW": [{ x: 35, y: 24 }, { x: 65, y: 24 }]
+        },
+        "4-2-3-1": {
+            "GK": [{ x: 50, y: 92 }],
+            "DF": [{ x: 15, y: 76 }, { x: 38, y: 76 }, { x: 62, y: 76 }, { x: 85, y: 76 }],
+            "DM": [{ x: 35, y: 58 }, { x: 65, y: 58 }],
+            "AM": [{ x: 20, y: 40 }, { x: 50, y: 40 }, { x: 80, y: 40 }],
+            "FW": [{ x: 50, y: 18 }]
+        },
+        "4-3-3": {
+            "GK": [{ x: 50, y: 92 }],
+            "DF": [{ x: 15, y: 74 }, { x: 38, y: 74 }, { x: 62, y: 74 }, { x: 85, y: 74 }],
+            "MF": [{ x: 25, y: 52 }, { x: 50, y: 52 }, { x: 75, y: 52 }],
+            "FW": [{ x: 20, y: 28 }, { x: 50, y: 24 }, { x: 80, y: 28 }]
+        },
+        "3-5-2": {
+            "GK": [{ x: 50, y: 92 }],
+            "DF": [{ x: 25, y: 76 }, { x: 50, y: 76 }, { x: 75, y: 76 }],
+            "MF": [{ x: 10, y: 52 }, { x: 30, y: 52 }, { x: 50, y: 52 }, { x: 70, y: 52 }, { x: 90, y: 52 }],
+            "FW": [{ x: 35, y: 26 }, { x: 65, y: 26 }]
+        }
+    };
+
+    let posConfig = positionMap[formation] || positionMap["4-4-2"];
+    let available = [...starters];
+    
+    // Pozisyon gruplarını doldur
+    let gk = available.find(p => p.position?.abbreviation === 'GK') || available[0];
+    let others = available.filter(p => p !== gk);
+    
+    let defenders = others.splice(0, formation.startsWith('3') ? 3 : 4);
+    let midfielders = others.splice(0, others.length - (formation.endsWith('1') || formation.endsWith('2') ? (formation.endsWith('1') ? 1 : 2) : 3));
+    let forwards = others;
+
+    let playersHtml = "";
+
+    // Render Kaleci
+    if (gk) {
+        playersHtml += `<div class="player goalkeeper" style="top:92%; left:50%;">
+            <div class="player-icon"><div class="jersey-number">${gk.jersey || "1"}</div></div>
+            <div class="player-name">${gk.athlete?.displayName?.substring(0,14) || "Kaleci"}</div>
+        </div>`;
+    }
+
+    // Render Diğerleri (Gelişmiş koordinat ataması)
+    const renderGroup = (group, posList) => {
+        group.forEach((p, i) => {
+            if (posList && posList[i]) {
+                playersHtml += `<div class="player" style="top:${posList[i].y}%; left:${posList[i].x}%;">
+                    <div class="player-icon"><div class="jersey-number">${p.jersey || "?"}</div></div>
+                    <div class="player-name">${p.athlete?.displayName?.substring(0,14) || "Oyuncu"}</div>
+                </div>`;
+            }
+        });
+    };
+
+    renderGroup(defenders, posConfig.DF);
+    if (formation === '4-2-3-1') {
+        renderGroup(midfielders.slice(0,2), posConfig.DM);
+        renderGroup(midfielders.slice(2), posConfig.AM);
+    } else {
+        renderGroup(midfielders, posConfig.MF);
+    }
+    renderGroup(forwards, posConfig.FW);
+
+    const logoHtml = teamStyle.logo ? `<img src="${teamStyle.logo}" class="team-logo-on-pitch" onerror="this.style.display='none'">` : '';
+
+    container.innerHTML = `
+        <div class="pitch-container">
+            <div class="pitch-line center-line"></div>
+            <div class="pitch-line center-circle"></div>
+            <div class="pitch-line penalty-box top-box"></div>
+            <div class="pitch-line penalty-box bottom-box"></div>
+            ${playersHtml}
+            ${logoHtml}
+        </div>
+    `;
+}
+
+// 📐 Takım detay sayfasında Maç Kartı > Saha sıralamasını garanti eder
+function fixTeamDetailOrder() {
+  const overlayContent = document.querySelector("#teamDetailOverlay .overlay-content");
+  if (!overlayContent) return;
+
+  const matchCard = document.getElementById("teamLastMatchCard");
+  const pitch = document.getElementById("teamFormationContainer");
+
+  if (matchCard && pitch) {
+    // Eğer matchCard zaten ilk sırada değilse veya pitch'ten sonraysa, pitch'in önüne al
+    if (overlayContent.children[0] !== matchCard) {
+      overlayContent.insertBefore(matchCard, overlayContent.children[0]);
+    }
   }
 }
 
