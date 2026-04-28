@@ -16,6 +16,9 @@
     href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Space+Grotesk:wght@500;700;800&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <!-- Leaflet CSS ve JS (Navigasyon Modülü İçin) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 
 <body ontouchstart="">
@@ -397,217 +400,279 @@
       </section>
 
       <!-- ═════════════════════════ YAKIT SEKMESİ ═════════════════════════ -->
-      <section id="fuel" class="tab-page">
-        <!-- ⛽ GÜNCEL YAKIT FİYATLARI -->
-        <div class="fuel-price-widget" id="fuelPriceWidget">
-          <div
-            style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:4px;">
-            <!-- Başlık – mobilde tek satırda kalır -->
+      <section id="fuel" class="tab-page" style="padding:0;">
+        <!-- ⛽ Yakıt / 🗺️ Navigasyon Alt Sekmeleri -->
+        <div class="market-sub-tabs">
+          <button class="market-sub-btn active" id="btnFuelMain" onclick="switchFuelTab('main')">⛽ Yakıt</button>
+          <button class="market-sub-btn" id="btnFuelNav" onclick="switchFuelTab('nav')">🗺️ Navigasyon</button>
+        </div>
+
+        <!-- ════ YAKIT ANA BÖLÜM ════ -->
+        <div id="fuelMainSection" style="padding:16px;">
+          <!-- ⛽ GÜNCEL YAKIT FİYATLARI -->
+          <div class="fuel-price-widget" id="fuelPriceWidget">
             <div
-              style="font-size:12px; font-weight:800; color:var(--up); display:flex; align-items:center; gap:6px; white-space:nowrap;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <line x1="3" y1="22" x2="15" y2="22" />
-                <line x1="4" y1="9" x2="14" y2="9" />
-                <path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18" />
-                <path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 4 0V9.83a2 2 0 0 0-.59-1.42L18 5" />
-              </svg>
-              Yakıt Fiyatları
-            </div>
-            <!-- Seçimler ve buton – mobilde sağa yaslı kalır -->
-            <div class="fuel-controls"
-              style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; justify-content:flex-end;">
-              <select id="fuelCitySelect" class="fuel-city-select" onchange="fetchFuelPrices()" style="width: 80px;">
-                <option value="konya" selected>KONYA</option>
-                <option value="istanbul-avrupa">İST</option>
-                <option value="ankara">ANK</option>
-                <option value="izmir">İZM</option>
-                <option value="bursa">BUR</option>
-                <option value="antalya">ANT</option>
-              </select>
-              <select id="fuelFirmSelect" class="fuel-city-select" onchange="fetchFuelPrices()"
-                style="width: 90px; border-color: rgba(255,255,255,0.1);">
-                <option value="opet" selected>OPET</option>
-                <option value="petrol-ofisi">P.Ofisi</option>
-                <option value="shell">Shell</option>
-                <option value="bp">BP</option>
-                <option value="total">Total</option>
-                <option value="aytemiz">Aytemiz</option>
-              </select>
-              <button class="refresh-badge" onclick="fetchFuelPrices()" style="margin-left:auto;">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:4px;">
+              <!-- Başlık – mobilde tek satırda kalır -->
+              <div
+                style="font-size:12px; font-weight:800; color:var(--up); display:flex; align-items:center; gap:6px; white-space:nowrap;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                   stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3" />
+                  <line x1="3" y1="22" x2="15" y2="22" />
+                  <line x1="4" y1="9" x2="14" y2="9" />
+                  <path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18" />
+                  <path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 4 0V9.83a2 2 0 0 0-.59-1.42L18 5" />
                 </svg>
-                <span>Yenile</span>
-              </button>
-            </div>
-          </div>
-          <div class="fuel-price-cards-grid" id="fuelPriceCards">
-            <div class="fuel-price-card benzin">
-              <div class="fpc-icon">⛽</div>
-              <div class="fpc-label">Benzin 95</div>
-              <div class="fpc-price anim-pulse">●●</div>
-            </div>
-            <div class="fuel-price-card motorin">
-              <div class="fpc-icon">🚛</div>
-              <div class="fpc-label">Motorin</div>
-              <div class="fpc-price anim-pulse">●●</div>
-            </div>
-            <div class="fuel-price-card lpg">
-              <div class="fpc-icon">💨</div>
-              <div class="fpc-label">LPG</div>
-              <div class="fpc-price anim-pulse">●●</div>
-            </div>
-          </div>
-          <div id="fuelPriceMeta"
-            style="font-size:10px; color:var(--text-secondary); text-align:center; margin-top:8px;"></div>
-        </div>
-
-        <!-- PRO WIDGET: Yakıt Özet Paneli -->
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px;">
-          <!-- Toplam Harcama -->
-          <div
-            style="background:linear-gradient(135deg, rgba(252,213,53,0.12) 0%, rgba(11,14,17,0) 100%); border:1px solid rgba(252,213,53,0.18); border-radius:14px; padding:14px; text-align:center;">
-            <div
-              style="font-size:10px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">
-              💰 Toplam Harcama</div>
-            <div style="font-size:22px; font-weight:900; font-family:'Space Grotesk',monospace; color:var(--brand);"
-              id="sumAmount">0</div>
-          </div>
-          <!-- Toplam KM -->
-          <div
-            style="background:linear-gradient(135deg, rgba(14,203,129,0.08) 0%, rgba(11,14,17,0) 100%); border:1px solid rgba(14,203,129,0.14); border-radius:14px; padding:14px; text-align:center;">
-            <div
-              style="font-size:10px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">
-              🛣️ Toplam Mesafe</div>
-            <div style="font-size:22px; font-weight:900; font-family:'Space Grotesk',monospace; color:var(--up);"
-              id="sumKm">0</div>
-          </div>
-          <!-- Toplam Litre -->
-          <div
-            style="background:linear-gradient(135deg, rgba(30,144,255,0.08) 0%, rgba(11,14,17,0) 100%); border:1px solid rgba(30,144,255,0.14); border-radius:14px; padding:14px; text-align:center;">
-            <div
-              style="font-size:10px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">
-              ⛽ Toplam Hacim</div>
-            <div style="font-size:22px; font-weight:900; font-family:'Space Grotesk',monospace; color:#4da6ff;"
-              id="sumLiters">0</div>
-          </div>
-          <!-- 100 KM Tüketim -->
-          <div
-            style="background:linear-gradient(135deg, rgba(246,70,93,0.06) 0%, rgba(11,14,17,0) 100%); border:1px solid rgba(246,70,93,0.12); border-radius:14px; padding:14px; text-align:center;">
-            <div
-              style="font-size:10px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">
-              📊 100 KM Tüketim</div>
-            <div style="font-size:22px; font-weight:900; font-family:'Space Grotesk',monospace; color:var(--down);"
-              id="avgLt100">0</div>
-          </div>
-          <!-- 100 KM Maliyet - Tam genişlik -->
-          <div
-            style="grid-column:span 2; background:linear-gradient(135deg, rgba(252,213,53,0.18) 0%, rgba(14,203,129,0.1) 100%); border:1px solid rgba(252,213,53,0.25); border-radius:14px; padding:16px; text-align:center;">
-            <div
-              style="font-size:10px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">
-              💸 100 KM Ortalama Maliyet</div>
-            <div
-              style="font-size:28px; font-weight:900; font-family:'Space Grotesk',monospace; background:linear-gradient(90deg, var(--brand), var(--up)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;"
-              id="avgCost100">₺0</div>
-          </div>
-        </div>
-
-        <details class="panel"
-          style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin-bottom:24px; border:1px solid rgba(14,203,129,0.3); cursor: pointer;"
-          id="travelSimDetails">
-          <summary
-            style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
-            <span style="display:flex; align-items:center; gap:8px; color:var(--up);"><span
-                style="font-size:18px;">📍</span> Yolculuk Bütçe Simülatörü</span>
-            <span style="font-size:12px; color:var(--up)">Genişlet 🔽</span>
-          </summary>
-          <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--line); cursor: default;"
-            onclick="event.stopPropagation()">
-            <label class="form-panel">Gidilecek Mesafe (KM)
-              <input type="number" id="simKm" min="1" placeholder="Örn: 450" style="margin-top:6px;" />
-            </label>
-            <label style="display:flex; align-items:center; gap:12px; cursor:pointer; margin-top:16px;">
-              <input type="checkbox" id="simReturn" style="width:24px; height:24px;" />
-              <span style="font-size:14px;">Dönüşü de hesaba kat (Mesafe x2)</span>
-            </label>
-            <div
-              style="margin-top:20px; background:var(--bg-primary); padding:16px; border-radius:12px; text-align:center;">
-              <span style="font-size:12px; color:var(--text-secondary);">Tahmini Toplam Yakıt Bütçesi</span>
-              <div style="color:var(--brand); font-size:32px; font-weight:900; margin-top:4px;" id="simResult">₺0</div>
-            </div>
-          </div>
-        </details>
-
-        <details class="panel"
-          style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin-bottom:24px; border:1px dashed var(--line); cursor: pointer;"
-          id="newFuelDetails">
-          <summary
-            style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
-            <span style="display:flex; align-items:center; gap:8px;"><span style="font-size:18px;">⛽</span> Yeni Yakıt
-              Fişi İşle</span>
-            <span style="font-size:12px; color:var(--brand)">Genişlet 🔽</span>
-          </summary>
-          <form id="fuelForm" class="form-panel"
-            style="margin-top:20px; padding-top:16px; border-top:1px solid var(--line); cursor: default;"
-            onclick="event.stopPropagation()">
-            <label>İşlem Tarihi <input type="date" id="fuelDate" required /></label>
-            <!-- Yakıt Tipi Seçimi -->
-            <label>Yakıt Tipi
-              <select id="fuelTypeSelect"
-                style="width:100%; padding:14px; background:var(--bg-primary); color:var(--text-primary); border:1px solid var(--line); border-radius:8px; font-size:14px; outline:none; font-family:inherit; font-weight:700;">
-                <option value="benzin" selected>⛽ Benzin 95</option>
-                <option value="motorin">🚛 Motorin</option>
-                <option value="lpg">💨 LPG</option>
-              </select>
-            </label>
-            <label>Fiş Tutarı (TRY) <input type="number" id="fuelAmount" min="0" step="0.01" placeholder="Örn: 1500"
-                required /></label>
-            <label>Alınan Yol (KM) <input type="number" id="fuelKm" min="0.1" step="0.1" placeholder="Örn: 500"
-                required /></label>
-            <label>Litre Fiyatı (TRY/L)
-              <div style="display:flex; gap:8px; align-items:center;">
-                <input type="number" id="fuelPrice" min="0" step="0.01" placeholder="Örn: 45.60" required
-                  style="flex:1;" />
-                <button type="button" id="fuelPriceFetchBtn" onclick="fillFuelPriceFromWidget()"
-                  style="background:var(--brand); color:#000; border:none; padding:10px 14px; border-radius:8px; font-weight:800; font-size:11px; cursor:pointer; white-space:nowrap;">📡
-                  Güncel Fiyatı Çek</button>
+                Yakıt Fiyatları
               </div>
-              <span id="fuelPriceHint"
-                style="font-size:9px; color:var(--text-secondary); margin-top:4px; display:block;">Yukarıdaki
-                şehir/firma/yakıt tipine göre otomatik dolar</span>
-            </label>
-            <button type="submit" class="btn primary" style="margin-top:8px;">Harcamayı Bilançoya Ekle</button>
-          </form>
-        </details>
+              <!-- Seçimler ve buton – mobilde sağa yaslı kalır -->
+              <div class="fuel-controls"
+                style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; justify-content:flex-end;">
+                <select id="fuelCitySelect" class="fuel-city-select" onchange="fetchFuelPrices()" style="width: 80px;">
+                  <option value="konya" selected>KONYA</option>
+                  <option value="istanbul-avrupa">İST</option>
+                  <option value="ankara">ANK</option>
+                  <option value="izmir">İZM</option>
+                  <option value="bursa">BUR</option>
+                  <option value="antalya">ANT</option>
+                </select>
+                <select id="fuelFirmSelect" class="fuel-city-select" onchange="fetchFuelPrices()"
+                  style="width: 90px; border-color: rgba(255,255,255,0.1);">
+                  <option value="opet" selected>OPET</option>
+                  <option value="petrol-ofisi">P.Ofisi</option>
+                  <option value="shell">Shell</option>
+                  <option value="bp">BP</option>
+                  <option value="total">Total</option>
+                  <option value="aytemiz">Aytemiz</option>
+                </select>
+                <button class="refresh-badge" onclick="fetchFuelPrices()" style="margin-left:auto;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3" />
+                  </svg>
+                  <span>Yenile</span>
+                </button>
+              </div>
+            </div>
+            <div class="fuel-price-cards-grid" id="fuelPriceCards">
+              <div class="fuel-price-card benzin">
+                <div class="fpc-icon">⛽</div>
+                <div class="fpc-label">Benzin 95</div>
+                <div class="fpc-price anim-pulse">●●</div>
+              </div>
+              <div class="fuel-price-card motorin">
+                <div class="fpc-icon">🚛</div>
+                <div class="fpc-label">Motorin</div>
+                <div class="fpc-price anim-pulse">●●</div>
+              </div>
+              <div class="fuel-price-card lpg">
+                <div class="fpc-icon">💨</div>
+                <div class="fpc-label">LPG</div>
+                <div class="fpc-price anim-pulse">●●</div>
+              </div>
+            </div>
+            <div id="fuelPriceMeta"
+              style="font-size:10px; color:var(--text-secondary); text-align:center; margin-top:8px;"></div>
+          </div>
 
-        <details class="panel" style="padding:0; overflow:hidden;" open>
-          <summary
-            style="padding:16px; font-weight:800; border-bottom:1px solid rgba(255,255,255,0.05); list-style:none; outline:none; display:flex; justify-content:space-between; cursor:pointer;">
-            <span>Yakıt İşlem Arşivi</span><span style="font-size:10px; color:var(--brand);">GÖSTER/GİZLE</span>
-          </summary>
-          <div style="padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-size:12px; color:var(--text-secondary);">Tam Liste</span>
-            <button type="button" id="clearAllFuelBtn" class="btn danger-btn"
-              style="padding:4px 8px; font-size:11px;">Tümünü Temizle</button>
+          <!-- PRO WIDGET: Yakıt Özet Paneli -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px;">
+            <!-- Toplam Harcama -->
+            <div
+              style="background:linear-gradient(135deg, rgba(252,213,53,0.12) 0%, rgba(11,14,17,0) 100%); border:1px solid rgba(252,213,53,0.18); border-radius:14px; padding:14px; text-align:center;">
+              <div
+                style="font-size:10px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">
+                💰 Toplam Harcama</div>
+              <div style="font-size:22px; font-weight:900; font-family:'Space Grotesk',monospace; color:var(--brand);"
+                id="sumAmount">0</div>
+            </div>
+            <!-- Toplam KM -->
+            <div
+              style="background:linear-gradient(135deg, rgba(14,203,129,0.08) 0%, rgba(11,14,17,0) 100%); border:1px solid rgba(14,203,129,0.14); border-radius:14px; padding:14px; text-align:center;">
+              <div
+                style="font-size:10px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">
+                🛣️ Toplam Mesafe</div>
+              <div style="font-size:22px; font-weight:900; font-family:'Space Grotesk',monospace; color:var(--up);"
+                id="sumKm">0</div>
+            </div>
+            <!-- Toplam Litre -->
+            <div
+              style="background:linear-gradient(135deg, rgba(30,144,255,0.08) 0%, rgba(11,14,17,0) 100%); border:1px solid rgba(30,144,255,0.14); border-radius:14px; padding:14px; text-align:center;">
+              <div
+                style="font-size:10px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">
+                ⛽ Toplam Hacim</div>
+              <div style="font-size:22px; font-weight:900; font-family:'Space Grotesk',monospace; color:#4da6ff;"
+                id="sumLiters">0</div>
+            </div>
+            <!-- 100 KM Tüketim -->
+            <div
+              style="background:linear-gradient(135deg, rgba(246,70,93,0.06) 0%, rgba(11,14,17,0) 100%); border:1px solid rgba(246,70,93,0.12); border-radius:14px; padding:14px; text-align:center;">
+              <div
+                style="font-size:10px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">
+                📊 100 KM Tüketim</div>
+              <div style="font-size:22px; font-weight:900; font-family:'Space Grotesk',monospace; color:var(--down);"
+                id="avgLt100">0</div>
+            </div>
+            <!-- 100 KM Maliyet - Tam genişlik -->
+            <div
+              style="grid-column:span 2; background:linear-gradient(135deg, rgba(252,213,53,0.18) 0%, rgba(14,203,129,0.1) 100%); border:1px solid rgba(252,213,53,0.25); border-radius:14px; padding:16px; text-align:center;">
+              <div
+                style="font-size:10px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">
+                💸 100 KM Ortalama Maliyet</div>
+              <div
+                style="font-size:28px; font-weight:900; font-family:'Space Grotesk',monospace; background:linear-gradient(90deg, var(--brand), var(--up)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;"
+                id="avgCost100">₺0</div>
+            </div>
           </div>
-          <div class="table-wrap" style="border:none; border-radius:0; margin:0;">
-            <table id="fuelTable">
-              <thead>
-                <tr>
-                  <th style="font-size:10px;">Tarih</th>
-                  <th style="font-size:10px;">Tutar</th>
-                  <th style="font-size:10px;">KM</th>
-                  <th style="font-size:10px;">₺/L</th>
-                  <th style="font-size:10px;">1KM</th>
-                  <th style="width:20px;"></th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
+
+          <details class="panel"
+            style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin-bottom:24px; border:1px solid rgba(14,203,129,0.3); cursor: pointer;"
+            id="travelSimDetails">
+            <summary
+              style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
+              <span style="display:flex; align-items:center; gap:8px; color:var(--up);"><span
+                  style="font-size:18px;">📍</span> Yolculuk Bütçe Simülatörü</span>
+              <span style="font-size:12px; color:var(--up)">Genişlet 🔽</span>
+            </summary>
+            <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--line); cursor: default;"
+              onclick="event.stopPropagation()">
+              <label class="form-panel">Gidilecek Mesafe (KM)
+                <input type="number" id="simKm" min="1" placeholder="Örn: 450" style="margin-top:6px;" />
+              </label>
+              <label style="display:flex; align-items:center; gap:12px; cursor:pointer; margin-top:16px;">
+                <input type="checkbox" id="simReturn" style="width:24px; height:24px;" />
+                <span style="font-size:14px;">Dönüşü de hesaba kat (Mesafe x2)</span>
+              </label>
+              <div
+                style="margin-top:20px; background:var(--bg-primary); padding:16px; border-radius:12px; text-align:center;">
+                <span style="font-size:12px; color:var(--text-secondary);">Tahmini Toplam Yakıt Bütçesi</span>
+                <div style="color:var(--brand); font-size:32px; font-weight:900; margin-top:4px;" id="simResult">₺0</div>
+              </div>
+            </div>
+          </details>
+
+          <details class="panel"
+            style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin-bottom:24px; border:1px dashed var(--line); cursor: pointer;"
+            id="newFuelDetails">
+            <summary
+              style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
+              <span style="display:flex; align-items:center; gap:8px;"><span style="font-size:18px;">⛽</span> Yeni Yakıt
+                Fişi İşle</span>
+              <span style="font-size:12px; color:var(--brand)">Genişlet 🔽</span>
+            </summary>
+            <form id="fuelForm" class="form-panel"
+              style="margin-top:20px; padding-top:16px; border-top:1px solid var(--line); cursor: default;"
+              onclick="event.stopPropagation()">
+              <label>İşlem Tarihi <input type="date" id="fuelDate" required /></label>
+              <!-- Yakıt Tipi Seçimi -->
+              <label>Yakıt Tipi
+                <select id="fuelTypeSelect"
+                  style="width:100%; padding:14px; background:var(--bg-primary); color:var(--text-primary); border:1px solid var(--line); border-radius:8px; font-size:14px; outline:none; font-family:inherit; font-weight:700;">
+                  <option value="benzin" selected>⛽ Benzin 95</option>
+                  <option value="motorin">🚛 Motorin</option>
+                  <option value="lpg">💨 LPG</option>
+                </select>
+              </label>
+              <label>Fiş Tutarı (TRY) <input type="number" id="fuelAmount" min="0" step="0.01" placeholder="Örn: 1500"
+                  required /></label>
+              <label>Alınan Yol (KM) <input type="number" id="fuelKm" min="0.1" step="0.1" placeholder="Örn: 500"
+                  required /></label>
+              <label>Litre Fiyatı (TRY/L)
+                <div style="display:flex; gap:8px; align-items:center;">
+                  <input type="number" id="fuelPrice" min="0" step="0.01" placeholder="Örn: 45.60" required
+                    style="flex:1;" />
+                  <button type="button" id="fuelPriceFetchBtn" onclick="fillFuelPriceFromWidget()"
+                    style="background:var(--brand); color:#000; border:none; padding:10px 14px; border-radius:8px; font-weight:800; font-size:11px; cursor:pointer; white-space:nowrap;">📡
+                    Güncel Fiyatı Çek</button>
+                </div>
+                <span id="fuelPriceHint"
+                  style="font-size:9px; color:var(--text-secondary); margin-top:4px; display:block;">Yukarıdaki
+                  şehir/firma/yakıt tipine göre otomatik dolar</span>
+              </label>
+              <button type="submit" class="btn primary" style="margin-top:8px;">Harcamayı Bilançoya Ekle</button>
+            </form>
+          </details>
+
+          <details class="panel" style="padding:0; overflow:hidden;" open>
+            <summary
+              style="padding:16px; font-weight:800; border-bottom:1px solid rgba(255,255,255,0.05); list-style:none; outline:none; display:flex; justify-content:space-between; cursor:pointer;">
+              <span>Yakıt İşlem Arşivi</span><span style="font-size:10px; color:var(--brand);">GÖSTER/GİZLE</span>
+            </summary>
+            <div style="padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:12px; color:var(--text-secondary);">Tam Liste</span>
+              <button type="button" id="clearAllFuelBtn" class="btn danger-btn"
+                style="padding:4px 8px; font-size:11px;">Tümünü Temizle</button>
+            </div>
+            <div class="table-wrap" style="border:none; border-radius:0; margin:0;">
+              <table id="fuelTable">
+                <thead>
+                  <tr>
+                    <th style="font-size:10px;">Tarih</th>
+                    <th style="font-size:10px;">Tutar</th>
+                    <th style="font-size:10px;">KM</th>
+                    <th style="font-size:10px;">₺/L</th>
+                    <th style="font-size:10px;">1KM</th>
+                    <th style="width:20px;"></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </details>
+        </div>
+
+        <!-- ════ NAVİGASYON (ROTA) BÖLÜMÜ ════ -->
+        <div id="fuelNavSection" style="display:none; padding:16px;">
+          <div class="panel" style="margin-bottom:16px; border:1px solid var(--line);">
+            <div class="form-panel" style="gap:12px;">
+              <div style="display:flex; gap:10px;">
+                <label style="flex:1;">🚩 Nereden (İl)
+                  <select id="originCityNav" class="input-modern" style="padding:10px; font-size:13px;"></select>
+                </label>
+                <label style="flex:1;">📍 İlçe
+                  <select id="originDistrictNav" class="input-modern" style="padding:10px; font-size:13px;"></select>
+                </label>
+              </div>
+              <div style="display:flex; gap:10px;">
+                <label style="flex:1;">🏁 Nereye (İl)
+                  <select id="destCityNav" class="input-modern" style="padding:10px; font-size:13px;"></select>
+                </label>
+                <label style="flex:1;">📍 İlçe
+                  <select id="destDistrictNav" class="input-modern" style="padding:10px; font-size:13px;"></select>
+                </label>
+              </div>
+              <label>⛽ KM Maliyeti (TL/KM)
+                <input type="number" id="navFuelCostPerKm" step="0.01" value="2.5" placeholder="Örn: 2.80"
+                  class="input-modern" style="padding:10px;" />
+              </label>
+              <button id="calculateNavBtn" class="btn primary" style="padding:12px;">🔄 Rotayı Hesapla</button>
+            </div>
           </div>
-        </details>
+
+          <!-- Rota Sonuç Kutusu -->
+          <div id="navResultBox"
+            style="display:none; background:var(--bg-secondary); border-radius:12px; padding:14px; margin-bottom:16px; border-left:4px solid var(--brand); animation: fadeIn 0.4s ease;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-size:11px; color:var(--text-secondary); text-transform:uppercase;">Mesafe</div>
+                <div id="navDistanceResult"
+                  style="font-size:20px; font-weight:900; font-family:'Space Grotesk'; color:var(--text-primary);">-- km
+                </div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:11px; color:var(--text-secondary); text-transform:uppercase;">Tahmini Maliyet</div>
+                <div id="navCostResult"
+                  style="font-size:20px; font-weight:900; font-family:'Space Grotesk'; color:var(--brand);">-- TL</div>
+              </div>
+            </div>
+            <div style="font-size:10px; color:var(--text-secondary); margin-top:8px; border-top:1px solid var(--line); padding-top:6px;">* OSRM gerçek yol verisidir.</div>
+          </div>
+
+          <!-- Harita Container -->
+          <div id="navMap"
+            style="height:380px; width:100%; border-radius:14px; border:1px solid var(--line); background:var(--bg-secondary); overflow:hidden; z-index:1;">
+          </div>
+        </div>
       </section>
 
       <!-- ═════════════════════════ GÜN ═════════════════════════ -->

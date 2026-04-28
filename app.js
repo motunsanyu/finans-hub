@@ -20,6 +20,12 @@ let state = {
 };
 let currentLigWeek = 1; // Mevcut lig haftasını tutacak global değişken
 
+// 🗺️ Navigasyon (Rota) Modülü Global Değişkenleri
+let navCitiesData = null;
+let navMap = null;
+let navRouteLayer = null;
+let navMarkers = [];
+
 const _rawSchool = readStorage(STORAGE_KEYS.school, []);
 if (!Array.isArray(_rawSchool)) {
   state.school = [];
@@ -476,6 +482,170 @@ function renderFuelSummary() {
   setText("avgCost100", formatCurrency(km > 0 ? (amt / km) * 100 : 0));
   document.getElementById("avgLt100").innerHTML = `${formatNumber(km > 0 ? (lt / km) * 100 : 0, 2)} <span style="font-size:12px; font-weight:400;">L</span>`;
   calcSimYakit();
+}
+
+// 🗺️ NAVİGASYON (ROTA) ALT SEKME SİSTEMİ
+window.switchFuelTab = function (tab) {
+  const mainSec = document.getElementById("fuelMainSection");
+  const navSec = document.getElementById("fuelNavSection");
+  const btnMain = document.getElementById("btnFuelMain");
+  const btnNav = document.getElementById("btnFuelNav");
+
+  if (tab === 'main') {
+    mainSec.style.display = "block";
+    navSec.style.display = "none";
+    btnMain.classList.add("active");
+    btnNav.classList.remove("active");
+  } else {
+    mainSec.style.display = "none";
+    navSec.style.display = "block";
+    btnMain.classList.remove("active");
+    btnNav.classList.add("active");
+
+    if (!navMap) {
+      initNavMap();
+      loadNavCitiesData();
+    } else {
+      setTimeout(() => navMap.invalidateSize(), 100);
+    }
+    fillNavFuelCost();
+  }
+};
+
+// KM maliyetini mevcut yakıt kayıtlarından çekip doldurur
+function fillNavFuelCost() {
+  const km = sum([...state.fuelRecords], "km");
+  const amt = sum([...state.fuelRecords], "amount");
+  const avgCost = km > 0 ? (amt / km) : 2.5;
+  const input = document.getElementById("navFuelCostPerKm");
+  if (input) input.value = avgCost.toFixed(2);
+}
+
+// Haritayı başlat
+function initNavMap() {
+  if (navMap) return;
+  navMap = L.map('navMap').setView([39.0, 35.0], 6);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap &copy; CartoDB',
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(navMap);
+}
+
+// Şehir verilerini yükle
+async function loadNavCitiesData() {
+  try {
+    const response = await fetch('./cities.json');
+    if (!response.ok) throw new Error('Yerel JSON yüklenemedi');
+    navCitiesData = await response.json();
+    populateNavCitySelects();
+  } catch (error) {
+    console.error('Navigasyon yerel veri yükleme hatası:', error);
+  }
+}
+
+function populateNavCitySelects() {
+  const originCitySelect = document.getElementById('originCityNav');
+  const destCitySelect = document.getElementById('destCityNav');
+  if (!originCitySelect || !destCitySelect) return;
+
+  const sortedCities = [...navCitiesData].sort((a, b) => a.name.localeCompare(b.name));
+  sortedCities.forEach(city => {
+    const opt1 = new Option(city.name, city.id);
+    const opt2 = new Option(city.name, city.id);
+    originCitySelect.add(opt1);
+    destCitySelect.add(opt2);
+  });
+
+  originCitySelect.onchange = () => updateNavDistricts('origin', parseInt(originCitySelect.value));
+  destCitySelect.onchange = () => updateNavDistricts('dest', parseInt(destCitySelect.value));
+
+  if (sortedCities.length > 0) {
+    updateNavDistricts('origin', sortedCities[0].id);
+    updateNavDistricts('dest', sortedCities[0].id);
+  }
+
+  document.getElementById("calculateNavBtn").onclick = calculateAndShowNavRoute;
+}
+
+function updateNavDistricts(type, cityId) {
+  const city = navCitiesData.find(c => c.id === cityId);
+  const districtSelect = document.getElementById(`${type}DistrictNav`);
+  if (!city || !districtSelect) return;
+
+  districtSelect.innerHTML = '';
+  const sortedTowns = [...city.towns].sort((a, b) => a.name.localeCompare(b.name));
+  sortedTowns.forEach(town => {
+    const opt = new Option(town.name, town.id);
+    opt.dataset.lat = town.latitude;
+    opt.dataset.lng = town.longitude;
+    districtSelect.add(opt);
+  });
+}
+
+async function calculateAndShowNavRoute() {
+  const originDist = document.getElementById("originDistrictNav");
+  const destDist = document.getElementById("destDistrictNav");
+  const costInput = document.getElementById("navFuelCostPerKm");
+  
+  const oOpt = originDist.options[originDist.selectedIndex];
+  const dOpt = destDist.options[destDist.selectedIndex];
+  const fuelCost = parseFloat(costInput.value) || 0;
+
+  if (!oOpt || !dOpt) return alert("Lütfen başlangıç ve varış noktalarını seçin.");
+  
+  const start = { lat: parseFloat(oOpt.dataset.lat), lng: parseFloat(oOpt.dataset.lng), name: oOpt.text };
+  const end = { lat: parseFloat(dOpt.dataset.lat), lng: parseFloat(dOpt.dataset.lng), name: dOpt.text };
+
+  const btn = document.getElementById("calculateNavBtn");
+  btn.textContent = "⌛ Hesaplanıyor...";
+  btn.disabled = true;
+
+  try {
+    const url = `https://router.project-osrm.org/route/v1/driving/${start.lng},${start.lat};${end.lng},${end.lat}?overview=full&geometries=geojson`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (data.code === 'Ok' && data.routes.length > 0) {
+      const route = data.routes[0];
+      const distKm = route.distance / 1000;
+      const totalCost = distKm * fuelCost;
+
+      // Sonuçları göster
+      const resBox = document.getElementById("navResultBox");
+      resBox.style.display = "block";
+      document.getElementById("navDistanceResult").textContent = distKm.toFixed(1) + " km";
+      document.getElementById("navCostResult").textContent = formatCurrency(totalCost);
+
+      // Haritayı güncelle
+      if (navRouteLayer) navMap.removeLayer(navRouteLayer);
+      navMarkers.forEach(m => navMap.removeLayer(m));
+      navMarkers = [];
+
+      navRouteLayer = L.geoJSON(route.geometry, {
+        style: { color: 'var(--brand)', weight: 5, opacity: 0.8 }
+      }).addTo(navMap);
+
+      const m1 = L.marker([start.lat, start.lng], {
+        icon: L.divIcon({ className: 'custom-marker', html: '🚩', iconSize: [25, 25] })
+      }).bindPopup("Başlangıç: " + start.name).addTo(navMap);
+      
+      const m2 = L.marker([end.lat, end.lng], {
+        icon: L.divIcon({ className: 'custom-marker', html: '🏁', iconSize: [25, 25] })
+      }).bindPopup("Varış: " + end.name).addTo(navMap);
+
+      navMarkers.push(m1, m2);
+      navMap.fitBounds(navRouteLayer.getBounds(), { padding: [40, 40] });
+    } else {
+      alert("Rota bulunamadı.");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("OSRM bağlantı hatası!");
+  } finally {
+    btn.textContent = "🔄 Rotayı Hesapla";
+    btn.disabled = false;
+  }
 }
 
 function renderFuelTable() {
