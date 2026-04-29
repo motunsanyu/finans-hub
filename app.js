@@ -2299,69 +2299,33 @@ async function fetchTeamLineup(teamId) {
 
     const starters = teamRoster.roster.filter(p => p.starter);
     const subs = teamRoster.roster.filter(p => !p.starter);
-
-    // ⚽ SAHAYI OLUŞTUR (Yeşil saha)
     const activeTeamName = document.getElementById("teamDetailName")?.textContent || "Takım";
     const formation = teamRoster.formation || '4-4-2';
+
+    // ==========================================
+    // YENİ SVG SİSTEMİ (şimdilik yedekte)
+    // Formation.render('teamFormationContainer', teamId, { dark: true, width: 340, height: 460 });
+    // ==========================================
+
+    // ESKİ, ÇALIŞAN SİSTEM (HTML/CSS tabanlı saha)
     renderModernPitch(formation, starters, activeTeamName);
 
-    // 📝 Maç kartındaki diziliş bilgisini güncelle
     const formationText = document.getElementById("teamFormationText");
     if (formationText) formationText.textContent = `Diziliş: ${formation}`;
 
-    // 📌 SIRALAMA DÜZELTME: Maç kartını en üste al (zaten varsa, yoksa eklenmeyecek)
-    setTimeout(() => {
-      const container = document.getElementById("detailTabLineup");
-      const matchCard = document.getElementById("teamLastMatchCard");
-      const pitch = document.getElementById("teamFormationContainer");
-      const lineupList = document.getElementById("teamLineupList");
-
-      if (container && matchCard && pitch && lineupList) {
-        // Maç kartını zaten varsa en üste taşı
-        if (matchCard.parentNode !== container) {
-          matchCard.remove();
-          container.insertBefore(matchCard, container.firstChild);
-        } else if (container.children[0] !== matchCard) {
-          container.insertBefore(matchCard, container.firstChild);
-        }
-        // Sahayı karttan sonraya al
-        if (container.children[1] !== pitch && pitch.parentNode === container) {
-          container.insertBefore(pitch, lineupList);
-        }
-        console.log("✅ Sıralama düzeltildi: kart üstte, saha altta");
-      } else {
-        console.warn("Elementler bulunamadı", { container, matchCard, pitch, lineupList });
-      }
-    }, 200);
-
-    // Pozisyon renkleri (ilk 11 ve yedekler için)
-    const posColors = {
-      'GK': 'rgba(255,215,0,0.08)',
-      'DF': 'rgba(30,144,255,0.08)',
-      'DEF': 'rgba(30,144,255,0.08)',
-      'MF': 'rgba(50,205,50,0.08)',
-      'MID': 'rgba(50,205,50,0.08)',
-      'FW': 'rgba(220,20,60,0.08)',
-      'FWD': 'rgba(220,20,60,0.08)',
-      'ST': 'rgba(220,20,60,0.08)',
-    };
-    const getPosBg = (pos) => posColors[pos] || 'rgba(255,255,255,0.02)';
-
+    // Liste: İlk 11 ve Yedekler
     const renderPlayer = (p) => {
-      const pos = p.position?.abbreviation || '';
-      const posBg = getPosBg(pos);
-      return `
-        <div style="display:flex; justify-content:space-between; padding:10px 8px; border-bottom:1px solid rgba(255,255,255,0.03); align-items:center; background:${posBg};">
+       const pos = p.position?.abbreviation || '';
+       return `
+        <div style="display:flex; justify-content:space-between; padding:10px 8px; border-bottom:1px solid rgba(255,255,255,0.03); align-items:center;">
           <div style="display:flex; gap:12px; align-items:center;">
              <span style="width:26px; text-align:center; font-size:12px; font-weight:800; color:var(--brand); background:rgba(252,213,53,0.1); padding:4px; border-radius:6px; font-family:'Space Grotesk', sans-serif;">${p.jersey || '-'}</span>
              <span style="font-weight:700; color:var(--text-primary); font-size:14px;">${p.athlete?.displayName || 'Bilinmiyor'}</span>
           </div>
           <span style="font-size:11px; color:var(--text-secondary); font-weight:600; padding:2px 6px; background:rgba(255,255,255,0.05); border-radius:4px;">${pos}</span>
-        </div>
-      `;
+        </div>`;
     };
 
-    // 🧾 LİSTE (sadece ilk 11 ve yedekler, MAÇ KARTI YOK)
     list.innerHTML = `
       <div style="padding:8px; font-size:13px; font-weight:800; color:var(--brand); text-transform:uppercase; border-bottom:1px solid rgba(252,213,53,0.2); margin-bottom:4px;">İlk 11</div>
       ${starters.length > 0 ? starters.map(renderPlayer).join("") : '<div style="font-size:12px; color:var(--text-secondary); padding:8px;">Veri yok</div>'}
@@ -2375,36 +2339,201 @@ async function fetchTeamLineup(teamId) {
   }
 }
 
-// ========= TAKIM RENK VE LOGO EŞLEME =========
-function getTeamColorsAndLogo(teamName) {
-  const normalized = (teamName || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ı/g, 'i').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c');
-  let primary = "#003366", secondary = "#fbca03", logo = "";
+function renderModernPitch(formation, starters, teamName) {
+  const container = document.getElementById("teamFormationContainer");
+  if (!container) return;
 
-  if (normalized.includes("galatasaray")) {
-    primary = "#a32638"; secondary = "#f9a51a";
-    logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/347.png&h=80&w=80";
-  } else if (normalized.includes("fenerbahce")) {
-    primary = "#003366"; secondary = "#fbca03";
-    logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/358.png&h=80&w=80";
-  } else if (normalized.includes("besiktas")) {
-    primary = "#111111"; secondary = "#e0e0e0";
-    logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/359.png&h=80&w=80";
-  } else if (normalized.includes("trabzonspor")) {
-    primary = "#7a1a1a"; secondary = "#2c5aa6";
-    logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/361.png&h=80&w=80";
-  } else if (normalized.includes("basaksehir")) {
-    primary = "#004d99"; secondary = "#ff6b00";
-    logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2969.png&h=80&w=80";
-  } else if (normalized.includes("goztepe")) {
-    primary = "#f57c00"; secondary = "#ffffff";
-    logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2975.png&h=80&w=80";
-  } else if (normalized.includes("konyaspor")) {
-    primary = "#2e7d32"; secondary = "#ffffff";
-    logo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2976.png&h=80&w=80";
+  const teamStyle = getTeamColorsAndLogo(teamName);
+  document.documentElement.style.setProperty('--club-primary', teamStyle.primary);
+  document.documentElement.style.setProperty('--club-secondary', teamStyle.secondary);
+
+  const formationPositions = getFormationPositions(formation);
+  
+  // ── AKILLI SIRALAMA: `formationPlace`i olan oyuncuları doğrudan yerleştir ──
+  const usedIndices = new Set();
+  const placedByFormation = new Array(formationPositions.length).fill(null);
+
+  // 1. Aşama: Güvenilir sıra numarasına göre yerleştirme
+  starters.forEach((player, idx) => {
+    if (player.formationPlace !== undefined && player.formationPlace !== null) {
+      const placeIndex = Number(player.formationPlace) - 1; // API'den gelen sıra 1 tabanlı
+      if (placeIndex >= 0 && placeIndex < formationPositions.length) {
+        placedByFormation[placeIndex] = player;
+        usedIndices.add(idx);
+      }
+    }
+  });
+
+  // 2. Aşama: Eğer hâlâ boş pozisyon varsa, kalan oyuncuları sırayla yerleştir
+  if (usedIndices.size < starters.length) {
+    const remainingPlayers = starters.filter((_, idx) => !usedIndices.has(idx));
+    let remainingIdx = 0;
+    for (let i = 0; i < placedByFormation.length; i++) {
+      if (!placedByFormation[i] && remainingIdx < remainingPlayers.length) {
+        placedByFormation[i] = remainingPlayers[remainingIdx];
+        remainingIdx++;
+      }
+    }
   }
 
-  return { primary, secondary, logo };
+  // Saha HTML'ini oluştur
+  let playersHtml = "";
+  const addPlayerHtml = (player, pos) => {
+    if (!player) return;
+    const jersey = player.jersey || (player.number ? String(player.number) : "?");
+    const displayName = player.athlete?.displayName || player.name || "Oyuncu";
+    const name = displayName.substring(0, 14);
+    const isGK = pos.role === 'GK';
+    playersHtml += `<div class="player ${isGK ? 'goalkeeper' : ''}" style="top:${pos.y}%; left:${pos.x}%;">
+      <div class="player-icon"><div class="jersey-number">${jersey}</div></div>
+      <div class="player-name">${name}</div>
+    </div>`;
+  };
+
+  // Oyuncuları şablonla eşleştirip HTML'i oluştur
+  for (let i = 0; i < formationPositions.length; i++) {
+    if (i < placedByFormation.length && placedByFormation[i]) {
+      addPlayerHtml(placedByFormation[i], formationPositions[i]);
+    }
+  }
+
+  container.innerHTML = `
+    <div class="pitch-container">
+        <div class="pitch-line center-line"></div>
+        <div class="pitch-line center-circle"></div>
+        <div class="pitch-line penalty-box top-box"></div>
+        <div class="pitch-line penalty-box bottom-box"></div>
+        ${playersHtml}
+    </div>`;
 }
+
+function getFormationPositions(formation) {
+    const key = String(formation).trim();
+    const map = {
+      "4-4-2": [
+        { role: 'GK', x: 50, y: 88 },
+        { role: 'DF', x: 15, y: 70 }, { role: 'DF', x: 38, y: 72 }, { role: 'DF', x: 62, y: 72 }, { role: 'DF', x: 85, y: 70 },
+        { role: 'MF', x: 15, y: 45 }, { role: 'MF', x: 38, y: 48 }, { role: 'MF', x: 62, y: 48 }, { role: 'MF', x: 85, y: 45 },
+        { role: 'FW', x: 35, y: 20 }, { role: 'FW', x: 65, y: 20 }
+      ],
+      "4-2-3-1": [
+        { role: 'GK', x: 50, y: 88 },
+        { role: 'DF', x: 12, y: 72 }, { role: 'DF', x: 37, y: 75 }, { role: 'DF', x: 63, y: 75 }, { role: 'DF', x: 88, y: 72 },
+        { role: 'DM', x: 33, y: 55 }, { role: 'DM', x: 67, y: 55 },
+        { role: 'MF', x: 15, y: 35 }, { role: 'MF', x: 50, y: 38 }, { role: 'MF', x: 85, y: 35 },
+        { role: 'FW', x: 50, y: 15 }
+      ],
+      "4-3-3": [
+        { role: 'GK', x: 50, y: 88 },
+        { role: 'DF', x: 12, y: 72 }, { role: 'DF', x: 37, y: 75 }, { role: 'DF', x: 63, y: 75 }, { role: 'DF', x: 88, y: 72 },
+        { role: 'MF', x: 25, y: 52 }, { role: 'MF', x: 50, y: 55 }, { role: 'MF', x: 75, y: 52 },
+        { role: 'FW', x: 15, y: 22 }, { role: 'FW', x: 50, y: 18 }, { role: 'FW', x: 85, y: 22 }
+      ],
+      "3-5-2": [
+        { role: 'GK', x: 50, y: 88 },
+        { role: 'DF', x: 25, y: 75 }, { role: 'DF', x: 50, y: 78 }, { role: 'DF', x: 75, y: 75 },
+        { role: 'MF', x: 12, y: 45 }, { role: 'MF', x: 33, y: 52 }, { role: 'MF', x: 50, y: 55 }, { role: 'MF', x: 67, y: 52 }, { role: 'MF', x: 88, y: 45 },
+        { role: 'FW', x: 35, y: 22 }, { role: 'FW', x: 65, y: 22 }
+      ],
+      "5-3-2": [
+        { role: 'GK', x: 50, y: 88 },
+        { role: 'DF', x: 10, y: 70 }, { role: 'DF', x: 30, y: 75 }, { role: 'DF', x: 50, y: 78 }, { role: 'DF', x: 70, y: 75 }, { role: 'DF', x: 90, y: 70 },
+        { role: 'MF', x: 25, y: 50 }, { role: 'MF', x: 50, y: 52 }, { role: 'MF', x: 75, y: 50 },
+        { role: 'FW', x: 35, y: 22 }, { role: 'FW', x: 65, y: 22 }
+      ],
+      "5-4-1": [
+        { role: 'GK', x: 50, y: 88 },
+        { role: 'DF', x: 10, y: 70 }, { role: 'DF', x: 30, y: 75 }, { role: 'DF', x: 50, y: 78 }, { role: 'DF', x: 70, y: 75 }, { role: 'DF', x: 90, y: 70 },
+        { role: 'MF', x: 15, y: 45 }, { role: 'MF', x: 38, y: 48 }, { role: 'MF', x: 62, y: 48 }, { role: 'MF', x: 85, y: 45 },
+        { role: 'FW', x: 50, y: 20 }
+      ],
+      "4-1-4-1": [
+        { x: 50, y: 92, role: 'GK' },
+        { x: 15, y: 76, role: 'DF' }, { x: 38, y: 76, role: 'DF' }, { x: 62, y: 76, role: 'DF' }, { x: 85, y: 76, role: 'DF' },
+        { x: 50, y: 60, role: 'DM' },
+        { x: 12, y: 46, role: 'MF' }, { x: 38, y: 46, role: 'MF' }, { x: 62, y: 46, role: 'MF' }, { x: 88, y: 46, role: 'MF' },
+        { x: 50, y: 22, role: 'FW' }
+      ]
+    };
+    // Sayısal versiyonları da destekle (örn: "442")
+    const raw = key.replace(/\D/g, "");
+    if (!map[key] && raw) {
+        if (raw === "442") return map["4-4-2"];
+        if (raw === "4231") return map["4-2-3-1"];
+        if (raw === "433") return map["4-3-3"];
+        if (raw === "352") return map["3-5-2"];
+        if (raw === "532") return map["5-3-2"];
+        if (raw === "541") return map["5-4-1"];
+        if (raw === "4141") return map["4-1-4-1"];
+    }
+    return map[key] || map["4-4-2"];
+}
+
+function getTeamColorsAndLogo(teamName) {
+  const normalized = (teamName || '')
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/ı/g, 'i')
+    .replace(/ğ/g, 'g')
+    .replace(/ü/g, 'u')
+    .replace(/ş/g, 's')
+    .replace(/ö/g, 'o')
+    .replace(/ç/g, 'c');
+
+  // Puan durumunda görünen tam takım adlarıyla birebir eşleşme
+  const colorMap = {
+    'galatasaray':            { primary: '#FFCC00', secondary: '#FF0000' },
+    'fenerbahce':             { primary: '#FFFF00', secondary: '#000080' },
+    'trabzonspor':            { primary: '#800000', secondary: '#0000FF' },
+    'besiktas':               { primary: '#000000', secondary: '#FFFFFF' },
+    'basaksehir':             { primary: '#FF6600', secondary: '#000080' },
+    'goztepe':                { primary: '#FFFF00', secondary: '#FF0000' },
+    'samsunspor':             { primary: '#FF0000', secondary: '#FFFFFF' },
+    'konyaspor':              { primary: '#008000', secondary: '#FFFFFF' },
+    'rize':                   { primary: '#008000', secondary: '#0000FF' },   // Çaykur Rizespor
+    'gaziantep':              { primary: '#FF0000', secondary: '#000000' },
+    'kocaelispor':            { primary: '#008000', secondary: '#000000' },
+    'alanyaspor':             { primary: '#FF6600', secondary: '#008000' },
+    'kasimpasa':              { primary: '#000080', secondary: '#FFFFFF' },
+    'genclerbirligi':         { primary: '#FF0000', secondary: '#000000' },
+    'eyupspor':               { primary: '#800080', secondary: '#FFFF00' },
+    'antalyaspor':            { primary: '#FF0000', secondary: '#FFFFFF' },
+    'kayserispor':            { primary: '#FFFF00', secondary: '#FF0000' },
+    'karagumruk':             { primary: '#FF0000', secondary: '#000000' },
+    'fatih':                  { primary: '#FF0000', secondary: '#000000' },
+  };
+
+  // 1. Tam eşleşme dene
+  if (colorMap[normalized]) {
+    return { primary: colorMap[normalized].primary, secondary: colorMap[normalized].secondary, logo: '' };
+  }
+
+  // 2. Parça parça eşleşme (takım adındaki her kelime için ayrı ayrı kontrol)
+  const parts = normalized.split(/\s+/);
+  for (const part of parts) {
+    if (colorMap[part]) {
+      return { primary: colorMap[part].primary, secondary: colorMap[part].secondary, logo: '' };
+    }
+  }
+
+  // 3. Boşluksuz birleşik eşleşme
+  const joined = parts.join('');
+  if (colorMap[joined]) {
+    return { primary: colorMap[joined].primary, secondary: colorMap[joined].secondary, logo: '' };
+  }
+
+  // Varsayılan (hiçbiri tutmazsa)
+  return { primary: '#003366', secondary: '#fbca03', logo: '' };
+}
+
+function resolveTeamLogo(name, espnLogo) {
+    if (espnLogo) return espnLogo;
+    const colors = getTeamColorsAndLogo(name);
+    return colors.logo || "";
+}
+
+// ========= TAKIM RENK VE LOGO EŞLEME =========
 
 // ✅ Takımın son maçını bulur
 async function getLastMatchForTeam(teamId) {
@@ -2535,98 +2664,6 @@ async function fetchLastMatch(teamId) {
   }
 }
 
-// ⚽ YENİ - KOORDİNAT TABANLI SAHA YERLEŞTİRME
-function renderModernPitch(formation, starters, teamName) {
-  const container = document.getElementById("teamFormationContainer");
-  if (!container) return;
-
-  const teamStyle = getTeamColorsAndLogo(teamName);
-  document.documentElement.style.setProperty('--club-primary', teamStyle.primary);
-  document.documentElement.style.setProperty('--club-secondary', teamStyle.secondary);
-
-  const positionMap = {
-    "4-4-2": {
-      "GK": [{ x: 50, y: 92 }],
-      "DF": [{ x: 15, y: 74 }, { x: 38, y: 74 }, { x: 62, y: 74 }, { x: 85, y: 74 }],
-      "MF": [{ x: 15, y: 54 }, { x: 38, y: 54 }, { x: 62, y: 54 }, { x: 85, y: 54 }],
-      "FW": [{ x: 35, y: 24 }, { x: 65, y: 24 }]
-    },
-    "4-2-3-1": {
-      "GK": [{ x: 50, y: 92 }],
-      "DF": [{ x: 15, y: 76 }, { x: 38, y: 76 }, { x: 62, y: 76 }, { x: 85, y: 76 }],
-      "DM": [{ x: 35, y: 58 }, { x: 65, y: 58 }],
-      "AM": [{ x: 20, y: 40 }, { x: 50, y: 40 }, { x: 80, y: 40 }],
-      "FW": [{ x: 50, y: 18 }]
-    },
-    "4-3-3": {
-      "GK": [{ x: 50, y: 92 }],
-      "DF": [{ x: 15, y: 74 }, { x: 38, y: 74 }, { x: 62, y: 74 }, { x: 85, y: 74 }],
-      "MF": [{ x: 25, y: 52 }, { x: 50, y: 52 }, { x: 75, y: 52 }],
-      "FW": [{ x: 20, y: 28 }, { x: 50, y: 24 }, { x: 80, y: 28 }]
-    },
-    "3-5-2": {
-      "GK": [{ x: 50, y: 92 }],
-      "DF": [{ x: 25, y: 76 }, { x: 50, y: 76 }, { x: 75, y: 76 }],
-      "MF": [{ x: 10, y: 52 }, { x: 30, y: 52 }, { x: 50, y: 52 }, { x: 70, y: 52 }, { x: 90, y: 52 }],
-      "FW": [{ x: 35, y: 26 }, { x: 65, y: 26 }]
-    }
-  };
-
-  let posConfig = positionMap[formation] || positionMap["4-4-2"];
-  let available = [...starters];
-
-  // Pozisyon gruplarını doldur
-  let gk = available.find(p => p.position?.abbreviation === 'GK') || available[0];
-  let others = available.filter(p => p !== gk);
-
-  let defenders = others.splice(0, formation.startsWith('3') ? 3 : 4);
-  let midfielders = others.splice(0, others.length - (formation.endsWith('1') || formation.endsWith('2') ? (formation.endsWith('1') ? 1 : 2) : 3));
-  let forwards = others;
-
-  let playersHtml = "";
-
-  // Render Kaleci
-  if (gk) {
-    playersHtml += `<div class="player goalkeeper" style="top:92%; left:50%;">
-            <div class="player-icon"><div class="jersey-number">${gk.jersey || "1"}</div></div>
-            <div class="player-name">${gk.athlete?.displayName?.substring(0, 14) || "Kaleci"}</div>
-        </div>`;
-  }
-
-  // Render Diğerleri (Gelişmiş koordinat ataması)
-  const renderGroup = (group, posList) => {
-    group.forEach((p, i) => {
-      if (posList && posList[i]) {
-        playersHtml += `<div class="player" style="top:${posList[i].y}%; left:${posList[i].x}%;">
-                    <div class="player-icon"><div class="jersey-number">${p.jersey || "?"}</div></div>
-                    <div class="player-name">${p.athlete?.displayName?.substring(0, 14) || "Oyuncu"}</div>
-                </div>`;
-      }
-    });
-  };
-
-  renderGroup(defenders, posConfig.DF);
-  if (formation === '4-2-3-1') {
-    renderGroup(midfielders.slice(0, 2), posConfig.DM);
-    renderGroup(midfielders.slice(2), posConfig.AM);
-  } else {
-    renderGroup(midfielders, posConfig.MF);
-  }
-  renderGroup(forwards, posConfig.FW);
-
-  const logoHtml = teamStyle.logo ? `<img src="${teamStyle.logo}" class="team-logo-on-pitch" onerror="this.style.display='none'">` : '';
-
-  container.innerHTML = `
-        <div class="pitch-container">
-            <div class="pitch-line center-line"></div>
-            <div class="pitch-line center-circle"></div>
-            <div class="pitch-line penalty-box top-box"></div>
-            <div class="pitch-line penalty-box bottom-box"></div>
-            ${playersHtml}
-            ${logoHtml}
-        </div>
-    `;
-}
 
 // 📐 Takım detay sayfasında Maç Kartı > Saha sıralamasını garanti eder
 function fixTeamDetailOrder() {

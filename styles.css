@@ -424,7 +424,7 @@ h3 {
 
   40% {
     opacity: 1;
-    transform: scale(1.1);
+    transform: scale(1.25);
     filter: blur(0);
     box-shadow: 0 0 80px rgba(243, 186, 47, 0.6);
   }
@@ -447,7 +447,7 @@ h3 {
 }
 
 .zoom-app {
-  transform: scale(1.1);
+  transform: scale(1.25);
   opacity: 0;
 }
 
@@ -2209,7 +2209,7 @@ details[id^="match-detail-"] {
 }
 
 .player:hover {
-  transform: translate(-50%, -55%) scale(1.1);
+  transform: translate(-50%, -55%) scale(1.25);
   z-index: 20;
 }
 
@@ -2281,3 +2281,25 @@ details[id^="match-detail-"] {
 #teamLastMatchCard { order: 1 !important; }
 #teamFormationContainer { order: 2 !important; }
 #teamLineupList { order: 3 !important; }
+
+/* SVG oyuncu hover efekti */
+.pitch-container svg circle:hover {
+  stroke: gold;
+  stroke-width: 3;
+  filter: drop-shadow(0 0 6px rgba(255,215,0,0.7));
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* SVG 2.0 Hover Efekti */
+.formation-pitch .player-dot {
+  transition: transform 0.2s ease, stroke 0.2s ease, filter 0.2s ease;
+  cursor: pointer;
+  transform-origin: center;
+}
+.formation-pitch .player-dot:hover {
+  stroke: gold;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 8px rgba(255,215,0,0.9));
+  transform: scale(1.3);
+}
