@@ -2645,8 +2645,31 @@ function fixTeamDetailOrder() {
 }
 
 window.switchDetailTab = function (tab) {
-  document.querySelectorAll('.detail-tab-btn').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes(tab)));
-  document.querySelectorAll('.detail-tab-content').forEach(c => c.classList.toggle('active', c.id.toLowerCase().includes(tab)));
+  // 1. Buton aktiflik sınıflarını güncelle
+  document.querySelectorAll('.detail-tab-btn').forEach(btn => {
+    const btnTab = btn.getAttribute('onclick')?.match(/switchDetailTab\('(\w+)'\)/)?.[1];
+    if (btnTab === tab) btn.classList.add('active');
+    else btn.classList.remove('active');
+  });
+  
+  // 2. İçerik bloklarının görünürlüğünü güncelle
+  document.querySelectorAll('.detail-tab-content').forEach(content => {
+    if (content.id === `detailTab${tab.charAt(0).toUpperCase() + tab.slice(1)}`) {
+      content.classList.add('active');
+    } else {
+      content.classList.remove('active');
+    }
+  });
+  
+  // 3. Takım sekmesine özel elementlerin görünürlüğünü kontrol et
+  const isLineup = (tab === 'lineup');
+  const matchCard = document.getElementById('teamLastMatchCard');
+  const pitch = document.getElementById('teamFormationContainer');
+  const lineupList = document.getElementById('teamLineupList');
+  
+  if (matchCard) matchCard.style.display = isLineup ? 'block' : 'none';
+  if (pitch) pitch.style.display = isLineup ? 'block' : 'none';
+  if (lineupList) lineupList.style.display = isLineup ? 'block' : 'none';
 };
 
 async function fetchTeamSchedule(teamId) {

@@ -2261,7 +2261,23 @@ details[id^="match-detail-"] {
   }
 }
 /* Takim Detay Siralama */
-#detailTabLineup { display: flex !important; flex-direction: column !important; }
+#teamLastMatchCard { order: 1 !important; }
+#teamFormationContainer { order: 2 !important; }
+#teamLineupList { order: 3 !important; }
+
+/* KESIN TAB COZUMU */
+.detail-tab-content { display: none !important; }
+.detail-tab-content.active { display: block !important; }
+
+/* Maçlar sekmesi dýþýndaki tüm sekmelerde takým sekmesine ait elemanlarý gizle */
+.detail-tab-content:not(#detailTabLineup) #teamLastMatchCard,
+.detail-tab-content:not(#detailTabLineup) #teamFormationContainer,
+.detail-tab-content:not(#detailTabLineup) #teamLineupList {
+    display: none !important;
+}
+
+/* KESIN COZUM: Sadece aktifken flex olsun */
+.detail-tab-content.active#detailTabLineup { display: flex !important; flex-direction: column !important; }
 #teamLastMatchCard { order: 1 !important; }
 #teamFormationContainer { order: 2 !important; }
 #teamLineupList { order: 3 !important; }
