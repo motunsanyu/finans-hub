@@ -2315,8 +2315,8 @@ async function fetchTeamLineup(teamId) {
 
     // Liste: İlk 11 ve Yedekler
     const renderPlayer = (p) => {
-       const pos = p.position?.abbreviation || '';
-       return `
+      const pos = p.position?.abbreviation || '';
+      return `
         <div style="display:flex; justify-content:space-between; padding:10px 8px; border-bottom:1px solid rgba(255,255,255,0.03); align-items:center;">
           <div style="display:flex; gap:12px; align-items:center;">
              <span style="width:26px; text-align:center; font-size:12px; font-weight:800; color:var(--brand); background:rgba(252,213,53,0.1); padding:4px; border-radius:6px; font-family:'Space Grotesk', sans-serif;">${p.jersey || '-'}</span>
@@ -2339,6 +2339,43 @@ async function fetchTeamLineup(teamId) {
   }
 }
 
+const POSITION_MAP = {
+  'G': 'GK', 'GK': 'GK',
+  'RB': 'RB', 'LB': 'LB', 'RWB': 'RWB', 'LWB': 'LWB',
+  'CB': 'CB', 'CD': 'CB', 'CD-R': 'RCB', 'CD-L': 'LCB',
+  'DM': 'DM', 'CM': 'CM', 'LM': 'LM', 'RM': 'RM',
+  'AM': 'CAM', 'AM-L': 'LW', 'AM-R': 'RW',
+  'F': 'ST', 'FW': 'ST', 'ST': 'ST', 'CF': 'ST',
+  'LW': 'LW', 'RW': 'RW'
+};
+
+function getFormationTemplate(formation) {
+  const key = String(formation).replace(/\s/g, '');
+  const templates = {
+    '4-2-3-1': ['GK', 'RB', 'RCB', 'LCB', 'LB', 'RM', 'LM', 'CAM', 'LW', 'RW', 'ST'],
+    '4-4-2': ['GK', 'RB', 'RCB', 'LCB', 'LB', 'RM', 'CM', 'CM', 'LM', 'ST', 'ST'],
+    '4-3-3': ['GK', 'RB', 'RCB', 'LCB', 'LB', 'CM', 'CM', 'CM', 'RW', 'LW', 'ST'],
+    '4-1-4-1': ['GK', 'RB', 'RCB', 'LCB', 'LB', 'DM', 'RM', 'CM', 'CM', 'LM', 'ST'],
+    '3-4-3': ['GK', 'RCB', 'CB', 'LCB', 'RM', 'CM', 'CM', 'LM', 'RW', 'LW', 'ST'],
+    '3-5-2': ['GK', 'RCB', 'CB', 'LCB', 'RM', 'CM', 'DM', 'CM', 'LM', 'ST', 'ST'],
+    '5-3-2': ['GK', 'RWB', 'RCB', 'CB', 'LCB', 'LWB', 'CM', 'CM', 'CM', 'ST', 'ST'],
+    '5-4-1': ['GK', 'RWB', 'RCB', 'CB', 'LCB', 'LWB', 'RM', 'CM', 'CM', 'LM', 'ST']
+  };
+
+  const numericAliases = {
+    '4231': '4-2-3-1',
+    '442': '4-4-2',
+    '433': '4-3-3',
+    '4141': '4-1-4-1',
+    '343': '3-4-3',
+    '352': '3-5-2',
+    '532': '5-3-2',
+    '541': '5-4-1'
+  };
+
+  return templates[key] || templates[numericAliases[key]] || templates['4-4-2'];
+}
+
 function renderModernPitch(formation, starters, teamName) {
   const container = document.getElementById("teamFormationContainer");
   if (!container) return;
@@ -2348,54 +2385,54 @@ function renderModernPitch(formation, starters, teamName) {
   document.documentElement.style.setProperty('--club-secondary', teamStyle.secondary);
 
   const formationPositions = getFormationPositions(formation);
-  
-  // ── AKILLI SIRALAMA: `formationPlace`i olan oyuncuları doğrudan yerleştir ──
-  const usedIndices = new Set();
-  const placedByFormation = new Array(formationPositions.length).fill(null);
+  const positionTemplate = getFormationTemplate(formation);
 
-  // 1. Aşama: Güvenilir sıra numarasına göre yerleştirme
-  starters.forEach((player, idx) => {
-    if (player.formationPlace !== undefined && player.formationPlace !== null) {
-      const placeIndex = Number(player.formationPlace) - 1; // API'den gelen sıra 1 tabanlı
-      if (placeIndex >= 0 && placeIndex < formationPositions.length) {
-        placedByFormation[placeIndex] = player;
-        usedIndices.add(idx);
-      }
+  const mappedPlayers = starters.map(p => {
+    const rawPos = (p.position?.abbreviation || '').toUpperCase().trim();
+    const standardPos = POSITION_MAP[rawPos] || rawPos;
+    return { ...p, standardPos };
+  });
+
+  const usedIndices = new Set();
+  const sortedPlayers = [];
+
+  positionTemplate.forEach((targetPos) => {
+    const foundIndex = mappedPlayers.findIndex((p, idx) =>
+      !usedIndices.has(idx) && p.standardPos === targetPos
+    );
+
+    if (foundIndex !== -1) {
+      sortedPlayers.push(mappedPlayers[foundIndex]);
+      usedIndices.add(foundIndex);
+    } else {
+      sortedPlayers.push(null);
     }
   });
 
-  // 2. Aşama: Eğer hâlâ boş pozisyon varsa, kalan oyuncuları sırayla yerleştir
-  if (usedIndices.size < starters.length) {
-    const remainingPlayers = starters.filter((_, idx) => !usedIndices.has(idx));
-    let remainingIdx = 0;
-    for (let i = 0; i < placedByFormation.length; i++) {
-      if (!placedByFormation[i] && remainingIdx < remainingPlayers.length) {
-        placedByFormation[i] = remainingPlayers[remainingIdx];
-        remainingIdx++;
-      }
+  const remainingPlayers = mappedPlayers.filter((_, idx) => !usedIndices.has(idx));
+  let remainingIdx = 0;
+  for (let i = 0; i < sortedPlayers.length; i++) {
+    if (!sortedPlayers[i] && remainingIdx < remainingPlayers.length) {
+      sortedPlayers[i] = remainingPlayers[remainingIdx];
+      remainingIdx++;
     }
   }
 
-  // Saha HTML'ini oluştur
-  let playersHtml = "";
-  const addPlayerHtml = (player, pos) => {
-    if (!player) return;
-    const jersey = player.jersey || (player.number ? String(player.number) : "?");
-    const displayName = player.athlete?.displayName || player.name || "Oyuncu";
+  let playersHtml = '';
+  sortedPlayers.forEach((player, index) => {
+    const pos = formationPositions[index];
+    if (!player || !pos) return;
+
+    const jersey = player.jersey || '?';
+    const displayName = player.athlete?.displayName || player.name || 'Oyuncu';
     const name = displayName.substring(0, 14);
     const isGK = pos.role === 'GK';
+
     playersHtml += `<div class="player ${isGK ? 'goalkeeper' : ''}" style="top:${pos.y}%; left:${pos.x}%;">
       <div class="player-icon"><div class="jersey-number">${jersey}</div></div>
       <div class="player-name">${name}</div>
     </div>`;
-  };
-
-  // Oyuncuları şablonla eşleştirip HTML'i oluştur
-  for (let i = 0; i < formationPositions.length; i++) {
-    if (i < placedByFormation.length && placedByFormation[i]) {
-      addPlayerHtml(placedByFormation[i], formationPositions[i]);
-    }
-  }
+  });
 
   container.innerHTML = `
     <div class="pitch-container">
@@ -2408,65 +2445,65 @@ function renderModernPitch(formation, starters, teamName) {
 }
 
 function getFormationPositions(formation) {
-    const key = String(formation).trim();
-    const map = {
-      "4-4-2": [
-        { role: 'GK', x: 50, y: 88 },
-        { role: 'DF', x: 15, y: 70 }, { role: 'DF', x: 38, y: 72 }, { role: 'DF', x: 62, y: 72 }, { role: 'DF', x: 85, y: 70 },
-        { role: 'MF', x: 15, y: 45 }, { role: 'MF', x: 38, y: 48 }, { role: 'MF', x: 62, y: 48 }, { role: 'MF', x: 85, y: 45 },
-        { role: 'FW', x: 35, y: 20 }, { role: 'FW', x: 65, y: 20 }
-      ],
-      "4-2-3-1": [
-        { role: 'GK', x: 50, y: 88 },
-        { role: 'DF', x: 12, y: 72 }, { role: 'DF', x: 37, y: 75 }, { role: 'DF', x: 63, y: 75 }, { role: 'DF', x: 88, y: 72 },
-        { role: 'DM', x: 33, y: 55 }, { role: 'DM', x: 67, y: 55 },
-        { role: 'MF', x: 15, y: 35 }, { role: 'MF', x: 50, y: 38 }, { role: 'MF', x: 85, y: 35 },
-        { role: 'FW', x: 50, y: 15 }
-      ],
-      "4-3-3": [
-        { role: 'GK', x: 50, y: 88 },
-        { role: 'DF', x: 12, y: 72 }, { role: 'DF', x: 37, y: 75 }, { role: 'DF', x: 63, y: 75 }, { role: 'DF', x: 88, y: 72 },
-        { role: 'MF', x: 25, y: 52 }, { role: 'MF', x: 50, y: 55 }, { role: 'MF', x: 75, y: 52 },
-        { role: 'FW', x: 15, y: 22 }, { role: 'FW', x: 50, y: 18 }, { role: 'FW', x: 85, y: 22 }
-      ],
-      "3-5-2": [
-        { role: 'GK', x: 50, y: 88 },
-        { role: 'DF', x: 25, y: 75 }, { role: 'DF', x: 50, y: 78 }, { role: 'DF', x: 75, y: 75 },
-        { role: 'MF', x: 12, y: 45 }, { role: 'MF', x: 33, y: 52 }, { role: 'MF', x: 50, y: 55 }, { role: 'MF', x: 67, y: 52 }, { role: 'MF', x: 88, y: 45 },
-        { role: 'FW', x: 35, y: 22 }, { role: 'FW', x: 65, y: 22 }
-      ],
-      "5-3-2": [
-        { role: 'GK', x: 50, y: 88 },
-        { role: 'DF', x: 10, y: 70 }, { role: 'DF', x: 30, y: 75 }, { role: 'DF', x: 50, y: 78 }, { role: 'DF', x: 70, y: 75 }, { role: 'DF', x: 90, y: 70 },
-        { role: 'MF', x: 25, y: 50 }, { role: 'MF', x: 50, y: 52 }, { role: 'MF', x: 75, y: 50 },
-        { role: 'FW', x: 35, y: 22 }, { role: 'FW', x: 65, y: 22 }
-      ],
-      "5-4-1": [
-        { role: 'GK', x: 50, y: 88 },
-        { role: 'DF', x: 10, y: 70 }, { role: 'DF', x: 30, y: 75 }, { role: 'DF', x: 50, y: 78 }, { role: 'DF', x: 70, y: 75 }, { role: 'DF', x: 90, y: 70 },
-        { role: 'MF', x: 15, y: 45 }, { role: 'MF', x: 38, y: 48 }, { role: 'MF', x: 62, y: 48 }, { role: 'MF', x: 85, y: 45 },
-        { role: 'FW', x: 50, y: 20 }
-      ],
-      "4-1-4-1": [
-        { x: 50, y: 92, role: 'GK' },
-        { x: 15, y: 76, role: 'DF' }, { x: 38, y: 76, role: 'DF' }, { x: 62, y: 76, role: 'DF' }, { x: 85, y: 76, role: 'DF' },
-        { x: 50, y: 60, role: 'DM' },
-        { x: 12, y: 46, role: 'MF' }, { x: 38, y: 46, role: 'MF' }, { x: 62, y: 46, role: 'MF' }, { x: 88, y: 46, role: 'MF' },
-        { x: 50, y: 22, role: 'FW' }
-      ]
-    };
-    // Sayısal versiyonları da destekle (örn: "442")
-    const raw = key.replace(/\D/g, "");
-    if (!map[key] && raw) {
-        if (raw === "442") return map["4-4-2"];
-        if (raw === "4231") return map["4-2-3-1"];
-        if (raw === "433") return map["4-3-3"];
-        if (raw === "352") return map["3-5-2"];
-        if (raw === "532") return map["5-3-2"];
-        if (raw === "541") return map["5-4-1"];
-        if (raw === "4141") return map["4-1-4-1"];
-    }
-    return map[key] || map["4-4-2"];
+  const key = String(formation).trim();
+  const map = {
+    "4-4-2": [
+      { role: 'GK', x: 50, y: 88 },
+      { role: 'DF', x: 15, y: 70 }, { role: 'DF', x: 38, y: 72 }, { role: 'DF', x: 62, y: 72 }, { role: 'DF', x: 85, y: 70 },
+      { role: 'MF', x: 15, y: 45 }, { role: 'MF', x: 38, y: 48 }, { role: 'MF', x: 62, y: 48 }, { role: 'MF', x: 85, y: 45 },
+      { role: 'FW', x: 35, y: 20 }, { role: 'FW', x: 65, y: 20 }
+    ],
+    "4-2-3-1": [
+      { role: 'GK', x: 50, y: 88 },
+      { role: 'DF', x: 12, y: 72 }, { role: 'DF', x: 37, y: 75 }, { role: 'DF', x: 63, y: 75 }, { role: 'DF', x: 88, y: 72 },
+      { role: 'DM', x: 33, y: 55 }, { role: 'DM', x: 67, y: 55 },
+      { role: 'MF', x: 15, y: 35 }, { role: 'MF', x: 50, y: 38 }, { role: 'MF', x: 85, y: 35 },
+      { role: 'FW', x: 50, y: 15 }
+    ],
+    "4-3-3": [
+      { role: 'GK', x: 50, y: 88 },
+      { role: 'DF', x: 12, y: 72 }, { role: 'DF', x: 37, y: 75 }, { role: 'DF', x: 63, y: 75 }, { role: 'DF', x: 88, y: 72 },
+      { role: 'MF', x: 25, y: 52 }, { role: 'MF', x: 50, y: 55 }, { role: 'MF', x: 75, y: 52 },
+      { role: 'FW', x: 15, y: 22 }, { role: 'FW', x: 50, y: 18 }, { role: 'FW', x: 85, y: 22 }
+    ],
+    "3-5-2": [
+      { role: 'GK', x: 50, y: 88 },
+      { role: 'DF', x: 25, y: 75 }, { role: 'DF', x: 50, y: 78 }, { role: 'DF', x: 75, y: 75 },
+      { role: 'MF', x: 12, y: 45 }, { role: 'MF', x: 33, y: 52 }, { role: 'MF', x: 50, y: 55 }, { role: 'MF', x: 67, y: 52 }, { role: 'MF', x: 88, y: 45 },
+      { role: 'FW', x: 35, y: 22 }, { role: 'FW', x: 65, y: 22 }
+    ],
+    "5-3-2": [
+      { role: 'GK', x: 50, y: 88 },
+      { role: 'DF', x: 10, y: 70 }, { role: 'DF', x: 30, y: 75 }, { role: 'DF', x: 50, y: 78 }, { role: 'DF', x: 70, y: 75 }, { role: 'DF', x: 90, y: 70 },
+      { role: 'MF', x: 25, y: 50 }, { role: 'MF', x: 50, y: 52 }, { role: 'MF', x: 75, y: 50 },
+      { role: 'FW', x: 35, y: 22 }, { role: 'FW', x: 65, y: 22 }
+    ],
+    "5-4-1": [
+      { role: 'GK', x: 50, y: 88 },
+      { role: 'DF', x: 10, y: 70 }, { role: 'DF', x: 30, y: 75 }, { role: 'DF', x: 50, y: 78 }, { role: 'DF', x: 70, y: 75 }, { role: 'DF', x: 90, y: 70 },
+      { role: 'MF', x: 15, y: 45 }, { role: 'MF', x: 38, y: 48 }, { role: 'MF', x: 62, y: 48 }, { role: 'MF', x: 85, y: 45 },
+      { role: 'FW', x: 50, y: 20 }
+    ],
+    "4-1-4-1": [
+      { x: 50, y: 92, role: 'GK' },
+      { x: 15, y: 76, role: 'DF' }, { x: 38, y: 76, role: 'DF' }, { x: 62, y: 76, role: 'DF' }, { x: 85, y: 76, role: 'DF' },
+      { x: 50, y: 60, role: 'DM' },
+      { x: 12, y: 46, role: 'MF' }, { x: 38, y: 46, role: 'MF' }, { x: 62, y: 46, role: 'MF' }, { x: 88, y: 46, role: 'MF' },
+      { x: 50, y: 22, role: 'FW' }
+    ]
+  };
+  // Sayısal versiyonları da destekle (örn: "442")
+  const raw = key.replace(/\D/g, "");
+  if (!map[key] && raw) {
+    if (raw === "442") return map["4-4-2"];
+    if (raw === "4231") return map["4-2-3-1"];
+    if (raw === "433") return map["4-3-3"];
+    if (raw === "352") return map["3-5-2"];
+    if (raw === "532") return map["5-3-2"];
+    if (raw === "541") return map["5-4-1"];
+    if (raw === "4141") return map["4-1-4-1"];
+  }
+  return map[key] || map["4-4-2"];
 }
 
 function getTeamColorsAndLogo(teamName) {
@@ -2483,25 +2520,25 @@ function getTeamColorsAndLogo(teamName) {
 
   // Puan durumunda görünen tam takım adlarıyla birebir eşleşme
   const colorMap = {
-    'galatasaray':            { primary: '#FFCC00', secondary: '#FF0000' },
-    'fenerbahce':             { primary: '#FFFF00', secondary: '#000080' },
-    'trabzonspor':            { primary: '#800000', secondary: '#0000FF' },
-    'besiktas':               { primary: '#000000', secondary: '#FFFFFF' },
-    'basaksehir':             { primary: '#FF6600', secondary: '#000080' },
-    'goztepe':                { primary: '#FFFF00', secondary: '#FF0000' },
-    'samsunspor':             { primary: '#FF0000', secondary: '#FFFFFF' },
-    'konyaspor':              { primary: '#008000', secondary: '#FFFFFF' },
-    'rize':                   { primary: '#008000', secondary: '#0000FF' },   // Çaykur Rizespor
-    'gaziantep':              { primary: '#FF0000', secondary: '#000000' },
-    'kocaelispor':            { primary: '#008000', secondary: '#000000' },
-    'alanyaspor':             { primary: '#FF6600', secondary: '#008000' },
-    'kasimpasa':              { primary: '#000080', secondary: '#FFFFFF' },
-    'genclerbirligi':         { primary: '#FF0000', secondary: '#000000' },
-    'eyupspor':               { primary: '#800080', secondary: '#FFFF00' },
-    'antalyaspor':            { primary: '#FF0000', secondary: '#FFFFFF' },
-    'kayserispor':            { primary: '#FFFF00', secondary: '#FF0000' },
-    'karagumruk':             { primary: '#FF0000', secondary: '#000000' },
-    'fatih':                  { primary: '#FF0000', secondary: '#000000' },
+    'galatasaray': { primary: '#FFCC00', secondary: '#FF0000' },
+    'fenerbahce': { primary: '#FFFF00', secondary: '#000080' },
+    'trabzonspor': { primary: '#800000', secondary: '#0000FF' },
+    'besiktas': { primary: '#000000', secondary: '#FFFFFF' },
+    'basaksehir': { primary: '#FF6600', secondary: '#000080' },
+    'goztepe': { primary: '#FFFF00', secondary: '#FF0000' },
+    'samsunspor': { primary: '#FF0000', secondary: '#FFFFFF' },
+    'konyaspor': { primary: '#008000', secondary: '#FFFFFF' },
+    'rize': { primary: '#008000', secondary: '#0000FF' },   // Çaykur Rizespor
+    'gaziantep': { primary: '#FF0000', secondary: '#000000' },
+    'kocaelispor': { primary: '#008000', secondary: '#000000' },
+    'alanyaspor': { primary: '#FF6600', secondary: '#008000' },
+    'kasimpasa': { primary: '#000080', secondary: '#FFFFFF' },
+    'genclerbirligi': { primary: '#FF0000', secondary: '#000000' },
+    'eyupspor': { primary: '#800080', secondary: '#FFFF00' },
+    'antalyaspor': { primary: '#FF0000', secondary: '#FFFFFF' },
+    'kayserispor': { primary: '#FFFF00', secondary: '#FF0000' },
+    'karagumruk': { primary: '#FF0000', secondary: '#000000' },
+    'fatih': { primary: '#FF0000', secondary: '#000000' },
   };
 
   // 1. Tam eşleşme dene
@@ -2528,9 +2565,9 @@ function getTeamColorsAndLogo(teamName) {
 }
 
 function resolveTeamLogo(name, espnLogo) {
-    if (espnLogo) return espnLogo;
-    const colors = getTeamColorsAndLogo(name);
-    return colors.logo || "";
+  if (espnLogo) return espnLogo;
+  const colors = getTeamColorsAndLogo(name);
+  return colors.logo || "";
 }
 
 // ========= TAKIM RENK VE LOGO EŞLEME =========
@@ -2688,7 +2725,7 @@ window.switchDetailTab = function (tab) {
     if (btnTab === tab) btn.classList.add('active');
     else btn.classList.remove('active');
   });
-  
+
   // 2. İçerik bloklarının görünürlüğünü güncelle
   document.querySelectorAll('.detail-tab-content').forEach(content => {
     if (content.id === `detailTab${tab.charAt(0).toUpperCase() + tab.slice(1)}`) {
@@ -2697,13 +2734,13 @@ window.switchDetailTab = function (tab) {
       content.classList.remove('active');
     }
   });
-  
+
   // 3. Takım sekmesine özel elementlerin görünürlüğünü kontrol et
   const isLineup = (tab === 'lineup');
   const matchCard = document.getElementById('teamLastMatchCard');
   const pitch = document.getElementById('teamFormationContainer');
   const lineupList = document.getElementById('teamLineupList');
-  
+
   if (matchCard) matchCard.style.display = isLineup ? 'block' : 'none';
   if (pitch) pitch.style.display = isLineup ? 'block' : 'none';
   if (lineupList) lineupList.style.display = isLineup ? 'block' : 'none';
