@@ -2339,41 +2339,90 @@ async function fetchTeamLineup(teamId) {
   }
 }
 
-const POSITION_MAP = {
-  'G': 'GK', 'GK': 'GK',
-  'RB': 'RB', 'LB': 'LB', 'RWB': 'RWB', 'LWB': 'LWB',
-  'CB': 'CB', 'CD': 'CB', 'CD-R': 'RCB', 'CD-L': 'LCB',
-  'DM': 'DM', 'CM': 'CM', 'LM': 'LM', 'RM': 'RM',
-  'AM': 'CAM', 'AM-L': 'LW', 'AM-R': 'RW',
-  'F': 'ST', 'FW': 'ST', 'ST': 'ST', 'CF': 'ST',
-  'LW': 'LW', 'RW': 'RW'
-};
+// Pozisyon kisaltmalarini gruba ve tarafa ceviren yardimci
+// Pozisyon kisaltmalarini gruba ve tarafa ceviren yardimci
+function parsePosition(abbr) {
+  const code = String(abbr || '').toUpperCase().trim();
+  let role = 'UNKNOWN';
+  let side = null;
+
+  if (code === 'G' || code === 'GK') { role = 'GK'; }
+  else if (/^(RB|RWB)/.test(code)) { role = 'DF'; side = 'R'; }
+  else if (/^(LB|LWB)/.test(code)) { role = 'DF'; side = 'L'; }
+  else if (code === 'CB' || code === 'CD') { role = 'DF'; side = null; }
+  else if (code === 'CD-L' || code === 'LCB') { role = 'DF'; side = 'L'; }
+  else if (code === 'CD-R' || code === 'RCB') { role = 'DF'; side = 'R'; }
+  else if (code === 'LM' || code === 'LWB') { role = 'MF'; side = 'L'; }
+  else if (code === 'RM' || code === 'RWB') { role = 'MF'; side = 'R'; }
+  else if (code === 'CM' || code === 'DM' || code === 'CDM') { role = 'MF'; side = null; }
+  else if (code === 'AM') { role = 'AM'; side = null; }
+  else if (code === 'AM-L' || code === 'LW') { role = 'FW'; side = 'L'; }
+  else if (code === 'AM-R' || code === 'RW') { role = 'FW'; side = 'R'; }
+  else if (code === 'F' || code === 'FW' || code === 'ST' || code === 'CF') { role = 'FW'; side = null; }
+  else if (code === 'LW' || code === 'LWF') { role = 'FW'; side = 'L'; }
+  else if (code === 'RW' || code === 'RWF') { role = 'FW'; side = 'R'; }
+
+  return { role, side };
+}
 
 function getFormationTemplate(formation) {
   const key = String(formation).replace(/\s/g, '');
   const templates = {
-    '4-2-3-1': ['GK', 'RB', 'RCB', 'LCB', 'LB', 'RM', 'LM', 'CAM', 'LW', 'RW', 'ST'],
-    '4-4-2': ['GK', 'RB', 'RCB', 'LCB', 'LB', 'RM', 'CM', 'CM', 'LM', 'ST', 'ST'],
-    '4-3-3': ['GK', 'RB', 'RCB', 'LCB', 'LB', 'CM', 'CM', 'CM', 'RW', 'LW', 'ST'],
-    '4-1-4-1': ['GK', 'RB', 'RCB', 'LCB', 'LB', 'DM', 'RM', 'CM', 'CM', 'LM', 'ST'],
-    '3-4-3': ['GK', 'RCB', 'CB', 'LCB', 'RM', 'CM', 'CM', 'LM', 'RW', 'LW', 'ST'],
-    '3-5-2': ['GK', 'RCB', 'CB', 'LCB', 'RM', 'CM', 'DM', 'CM', 'LM', 'ST', 'ST'],
-    '5-3-2': ['GK', 'RWB', 'RCB', 'CB', 'LCB', 'LWB', 'CM', 'CM', 'CM', 'ST', 'ST'],
-    '5-4-1': ['GK', 'RWB', 'RCB', 'CB', 'LCB', 'LWB', 'RM', 'CM', 'CM', 'LM', 'ST']
+    '4-2-3-1': [
+      { role: 'GK', side: null },
+      { role: 'DF', side: 'R' }, { role: 'DF', side: 'R' }, { role: 'DF', side: 'L' }, { role: 'DF', side: 'L' },
+      { role: 'MF', side: 'R' }, { role: 'MF', side: 'L' },
+      { role: 'AM', side: null },
+      { role: 'FW', side: 'L' }, { role: 'FW', side: 'R' },
+      { role: 'FW', side: null }
+    ],
+    '4-4-2': [
+      { role: 'GK', side: null },
+      { role: 'DF', side: 'R' }, { role: 'DF', side: 'R' }, { role: 'DF', side: 'L' }, { role: 'DF', side: 'L' },
+      { role: 'MF', side: 'R' }, { role: 'MF', side: 'L' }, { role: 'MF', side: 'L' }, { role: 'MF', side: 'R' },
+      { role: 'FW', side: null }, { role: 'FW', side: null }
+    ],
+    '4-3-3': [
+      { role: 'GK', side: null },
+      { role: 'DF', side: 'R' }, { role: 'DF', side: 'R' }, { role: 'DF', side: 'L' }, { role: 'DF', side: 'L' },
+      { role: 'MF', side: 'R' }, { role: 'MF', side: null }, { role: 'MF', side: 'L' },
+      { role: 'FW', side: 'R' }, { role: 'FW', side: null }, { role: 'FW', side: 'L' }
+    ],
+    '4-1-4-1': [
+      { role: 'GK', side: null },
+      { role: 'DF', side: 'R' }, { role: 'DF', side: 'R' }, { role: 'DF', side: 'L' }, { role: 'DF', side: 'L' },
+      { role: 'MF', side: null },
+      { role: 'MF', side: 'R' }, { role: 'MF', side: 'L' }, { role: 'MF', side: 'L' }, { role: 'MF', side: 'R' },
+      { role: 'FW', side: null }
+    ],
+    '3-4-3': [
+      { role: 'GK', side: null },
+      { role: 'DF', side: 'R' }, { role: 'DF', side: null }, { role: 'DF', side: 'L' },
+      { role: 'MF', side: 'R' }, { role: 'MF', side: null }, { role: 'MF', side: null }, { role: 'MF', side: 'L' },
+      { role: 'FW', side: 'R' }, { role: 'FW', side: null }, { role: 'FW', side: 'L' }
+    ],
+    '3-4-2-1': [
+      { role: 'GK', side: null },
+      { role: 'DF', side: 'R' }, { role: 'DF', side: null }, { role: 'DF', side: 'L' },
+      { role: 'MF', side: 'R' }, { role: 'MF', side: null }, { role: 'MF', side: null }, { role: 'MF', side: 'L' },
+      { role: 'AM', side: 'R' }, { role: 'AM', side: 'L' },
+      { role: 'FW', side: null }
+    ],
+    '3-4-1-2': [
+      { role: 'GK', side: null },
+      { role: 'DF', side: 'R' }, { role: 'DF', side: null }, { role: 'DF', side: 'L' },
+      { role: 'MF', side: 'R' }, { role: 'MF', side: null }, { role: 'MF', side: null }, { role: 'MF', side: 'L' },
+      { role: 'AM', side: null },
+      { role: 'FW', side: 'L' }, { role: 'FW', side: 'R' }
+    ],
+    '3-5-2': [
+      { role: 'GK', side: null },
+      { role: 'DF', side: 'R' }, { role: 'DF', side: null }, { role: 'DF', side: 'L' },
+      { role: 'MF', side: 'R' }, { role: 'MF', side: null }, { role: 'MF', side: null }, { role: 'MF', side: null }, { role: 'MF', side: 'L' },
+      { role: 'FW', side: 'L' }, { role: 'FW', side: 'R' }
+    ],
   };
-
-  const numericAliases = {
-    '4231': '4-2-3-1',
-    '442': '4-4-2',
-    '433': '4-3-3',
-    '4141': '4-1-4-1',
-    '343': '3-4-3',
-    '352': '3-5-2',
-    '532': '5-3-2',
-    '541': '5-4-1'
-  };
-
-  return templates[key] || templates[numericAliases[key]] || templates['4-4-2'];
+  return templates[key] || templates['4-4-2'];
 }
 
 function renderModernPitch(formation, starters, teamName) {
@@ -2384,48 +2433,121 @@ function renderModernPitch(formation, starters, teamName) {
   document.documentElement.style.setProperty('--club-primary', teamStyle.primary);
   document.documentElement.style.setProperty('--club-secondary', teamStyle.secondary);
 
-  const formationPositions = getFormationPositions(formation);
-  const positionTemplate = getFormationTemplate(formation);
+  const positions = getFormationPositions(formation);
 
-  const mappedPlayers = starters.map(p => {
-    const rawPos = (p.position?.abbreviation || '').toUpperCase().trim();
-    const standardPos = POSITION_MAP[rawPos] || rawPos;
-    return { ...p, standardPos };
+  const roleIndices = {};
+  positions.forEach((p, i) => {
+    if (!roleIndices[p.role]) roleIndices[p.role] = [];
+    roleIndices[p.role].push(i);
   });
 
-  const usedIndices = new Set();
-  const sortedPlayers = [];
+  // Pozisyon kodundan taraf (L/R/null) çıkaran kapsamlı yardımcı
+  function getSide(player) {
+    const code = String(player.position?.abbreviation || '').toUpperCase().trim();
+    // Açık L/R içeren kodlar
+    if (/^(LB|LWB|LM|LW|LWF|LCB|CD-L|AM-L|DM-L|MF-L|FW-L|WL|ML)$/.test(code)) return 'L';
+    if (/^(RB|RWB|RM|RW|RWF|RCB|CD-R|AM-R|DM-R|MF-R|FW-R|WR|MR)$/.test(code)) return 'R';
+    // Tire ile ayrılmış L/R son eki (örn: "MF-L", "DF-R")
+    if (/-L$/.test(code)) return 'L';
+    if (/-R$/.test(code)) return 'R';
+    // Nötr pozisyonlar
+    return null;
+  }
 
-  positionTemplate.forEach((targetPos) => {
-    const foundIndex = mappedPlayers.findIndex((p, idx) =>
-      !usedIndices.has(idx) && p.standardPos === targetPos
-    );
+  // Pozisyon kodundan ana rol grubunu çıkaran kapsamlı yardımcı
+  function getRole(player) {
+    const code = String(player.position?.abbreviation || '').toUpperCase().trim();
+    if (/^(G|GK)$/.test(code)) return 'GK';
+    if (/^(LB|RB|LWB|RWB|CB|CD|CD-L|CD-R|LCB|RCB|DF|DEF|SW|D)$/.test(code)) return 'DF';
+    if (/^(DM|CDM|DM-L|DM-R|VOL)$/.test(code)) return 'DM';
+    if (/^(LM|RM|CM|MF|MID|M|BOX)$/.test(code)) return 'MF';
+    if (/^(AM|CAM|AM-L|AM-R|SS|TRQ)$/.test(code)) return 'AM';
+    if (/^(LW|RW|LWF|RWF|WL|WR|F|FW|FWD|ST|CF|SS)$/.test(code)) return 'FW';
+    // Bilinmeyen: genel gruba ata
+    if (code.startsWith('D')) return 'DF';
+    if (code.startsWith('M')) return 'MF';
+    if (code.startsWith('F') || code.startsWith('S') || code.startsWith('W')) return 'FW';
+    return 'MF'; // son çare
+  }
 
-    if (foundIndex !== -1) {
-      sortedPlayers.push(mappedPlayers[foundIndex]);
-      usedIndices.add(foundIndex);
-    } else {
-      sortedPlayers.push(null);
-    }
+  const placed = new Array(positions.length).fill(null);
+
+  // Kaleci
+  if (roleIndices['GK']) {
+    const gk = starters.find(p => getRole(p) === 'GK') || starters[0];
+    if (gk) placed[roleIndices['GK'][0]] = gk;
+  }
+
+  // Tüm rolleri tara (GK hariç)
+  Object.keys(roleIndices).forEach(role => {
+    if (role === 'GK') return;
+    const indices = roleIndices[role];
+    if (!indices || indices.length === 0) return;
+
+    // Pozisyonları x koordinatına göre sol/orta/sağ olarak ayır
+    const leftIndices = indices.filter(i => positions[i].x < 38);
+    const centerIndices = indices.filter(i => positions[i].x >= 38 && positions[i].x <= 62);
+    const rightIndices = indices.filter(i => positions[i].x > 62);
+
+    // Bu role uygun oyuncuları bul (henüz yerleştirilmemiş)
+    const available = starters.filter(p => {
+      if (placed.includes(p)) return false;
+      const r = getRole(p);
+      // Rol eşleşmesi: DM pozisyonları MF slotuna da girebilir, AM pozisyonları MF/FW slotuna da
+      if (role === 'DF') return r === 'DF';
+      if (role === 'DM') return r === 'DM' || r === 'MF';
+      if (role === 'MF') return r === 'MF' || r === 'DM' || r === 'AM';
+      if (role === 'AM') return r === 'AM' || r === 'MF' || r === 'FW';
+      if (role === 'FW') return r === 'FW' || r === 'AM';
+      return false;
+    });
+
+    const leftPool = available.filter(p => getSide(p) === 'L');
+    const rightPool = available.filter(p => getSide(p) === 'R');
+    const neutrals = available.filter(p => getSide(p) === null);
+
+    // Sol pozisyonlara: L oyuncular → nötrler → R oyuncular
+    leftIndices.forEach(idx => {
+      if (!placed[idx]) {
+        if (leftPool.length) placed[idx] = leftPool.shift();
+        else if (neutrals.length) placed[idx] = neutrals.shift();
+        else if (rightPool.length) placed[idx] = rightPool.shift();
+      }
+    });
+
+    // Orta pozisyonlara: nötr oyuncular → L → R
+    centerIndices.forEach(idx => {
+      if (!placed[idx]) {
+        if (neutrals.length) placed[idx] = neutrals.shift();
+        else if (leftPool.length) placed[idx] = leftPool.shift();
+        else if (rightPool.length) placed[idx] = rightPool.shift();
+      }
+    });
+
+    // Sağ pozisyonlara: R oyuncular → nötrler → L oyuncular
+    rightIndices.forEach(idx => {
+      if (!placed[idx]) {
+        if (rightPool.length) placed[idx] = rightPool.shift();
+        else if (neutrals.length) placed[idx] = neutrals.shift();
+        else if (leftPool.length) placed[idx] = leftPool.shift();
+      }
+    });
   });
 
-  const remainingPlayers = mappedPlayers.filter((_, idx) => !usedIndices.has(idx));
-  let remainingIdx = 0;
-  for (let i = 0; i < sortedPlayers.length; i++) {
-    if (!sortedPlayers[i] && remainingIdx < remainingPlayers.length) {
-      sortedPlayers[i] = remainingPlayers[remainingIdx];
-      remainingIdx++;
+  const leftovers = starters.filter(p => !placed.includes(p));
+  for (let i = 0; i < placed.length; i++) {
+    if (!placed[i] && leftovers.length) {
+      placed[i] = leftovers.shift();
     }
   }
 
   let playersHtml = '';
-  sortedPlayers.forEach((player, index) => {
-    const pos = formationPositions[index];
-    if (!player || !pos) return;
+  positions.forEach((pos, i) => {
+    const player = placed[i];
+    if (!player) return;
 
     const jersey = player.jersey || '?';
-    const displayName = player.athlete?.displayName || player.name || 'Oyuncu';
-    const name = displayName.substring(0, 14);
+    const name = (player.athlete?.displayName || player.name || 'Oyuncu').substring(0, 14);
     const isGK = pos.role === 'GK';
 
     playersHtml += `<div class="player ${isGK ? 'goalkeeper' : ''}" style="top:${pos.y}%; left:${pos.x}%;">
@@ -2440,6 +2562,8 @@ function renderModernPitch(formation, starters, teamName) {
         <div class="pitch-line center-circle"></div>
         <div class="pitch-line penalty-box top-box"></div>
         <div class="pitch-line penalty-box bottom-box"></div>
+        <div class="pitch-line six-yard-box top-box"></div>
+        <div class="pitch-line six-yard-box bottom-box"></div>
         ${playersHtml}
     </div>`;
 }
@@ -2492,7 +2616,6 @@ function getFormationPositions(formation) {
       { x: 50, y: 22, role: 'FW' }
     ]
   };
-  // Sayısal versiyonları da destekle (örn: "442")
   const raw = key.replace(/\D/g, "");
   if (!map[key] && raw) {
     if (raw === "442") return map["4-4-2"];
