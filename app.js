@@ -2433,124 +2433,144 @@ function renderModernPitch(formation, starters, teamName) {
   document.documentElement.style.setProperty('--club-primary', teamStyle.primary);
   document.documentElement.style.setProperty('--club-secondary', teamStyle.secondary);
 
-  const positions = getFormationPositions(formation);
+  const slots = getFormationPositions(formation);
 
-  const roleIndices = {};
-  positions.forEach((p, i) => {
-    if (!roleIndices[p.role]) roleIndices[p.role] = [];
-    roleIndices[p.role].push(i);
+  // ─── SPESİFİK POZİSYON KODU → SLOT ROLÜ EŞLEŞTİRME ───
+  function getSpecificRole(player) {
+    const code = String(player.position?.abbreviation || '').toUpperCase().trim();
+    // Kaleci
+    if (code === 'G' || code === 'GK') return 'GK';
+    // Bekler
+    if (code === 'LB' || code === 'LWB') return 'LB';
+    if (code === 'RB' || code === 'RWB') return 'RB';
+    // Stoperler
+    if (code === 'CD-L' || code === 'LCB') return 'LCB';
+    if (code === 'CD-R' || code === 'RCB') return 'RCB';
+    if (code === 'CB' || code === 'CD') return 'CB';
+    // Defansif Orta Saha
+    if (code === 'DM' || code === 'CDM') return 'DM';
+    // Merkez Orta Saha
+    if (code === 'CM-L' || code === 'LCM') return 'LCM';
+    if (code === 'CM-R' || code === 'RCM') return 'RCM';
+    if (code === 'CM') return 'CM';
+    // Kanat Orta Saha
+    if (code === 'LM') return 'LM';
+    if (code === 'RM') return 'RM';
+    // Ofansif Orta Saha
+    if (code === 'AM' || code === 'CAM') return 'CAM';
+    if (code === 'AM-L' || code === 'LAM') return 'LAM';
+    if (code === 'AM-R' || code === 'RAM') return 'RAM';
+    // Forvet / Kanat
+    if (code === 'F' || code === 'ST' || code === 'CF' || code === 'FW' || code === 'FWD') return 'ST';
+    if (code === 'CF-L' || code === 'LST') return 'LST';
+    if (code === 'CF-R' || code === 'RST') return 'RST';
+    if (code === 'LW' || code === 'LWF') return 'LW';
+    if (code === 'RW' || code === 'RWF') return 'RW';
+    // Genel tahmin
+    if (code.startsWith('D')) return 'CB';
+    if (code.startsWith('M')) return 'CM';
+    if (code.startsWith('F') || code.startsWith('S')) return 'ST';
+    return 'CM'; // son çare
+  }
+
+  // ─── FALLBACK: Spesifik eşleşme yoksa genel grup eşleştirme ───
+  // Slot rolünün hangi genel gruba ait olduğunu döndürür
+  function slotGroup(slotRole) {
+    if (slotRole === 'GK') return 'GK';
+    if (['LB', 'RB', 'LCB', 'RCB', 'CB', 'LWB', 'RWB'].includes(slotRole)) return 'DF';
+    if (['DM'].includes(slotRole)) return 'DM';
+    if (['LM', 'RM', 'LCM', 'RCM', 'CM'].includes(slotRole)) return 'MF';
+    if (['CAM', 'LAM', 'RAM'].includes(slotRole)) return 'AM';
+    if (['ST', 'LST', 'RST', 'LW', 'RW'].includes(slotRole)) return 'FW';
+    return 'MF';
+  }
+
+  // Oyuncunun genel grubunu döndürür
+  function playerGroup(player) {
+    const r = getSpecificRole(player);
+    if (r === 'GK') return 'GK';
+    if (['LB', 'RB', 'LCB', 'RCB', 'CB'].includes(r)) return 'DF';
+    if (r === 'DM') return 'DM';
+    if (['LM', 'RM', 'LCM', 'RCM', 'CM'].includes(r)) return 'MF';
+    if (['CAM', 'LAM', 'RAM'].includes(r)) return 'AM';
+    if (['ST', 'LST', 'RST', 'LW', 'RW'].includes(r)) return 'FW';
+    return 'MF';
+  }
+
+  const assigned = new Array(slots.length).fill(null);
+  const usedPlayers = new Set();
+
+  // 1. Tam spesifik eşleşme (LB → LB slotu, RCB → RCB slotu vb.)
+  starters.forEach(player => {
+    const role = getSpecificRole(player);
+    const slotIndex = slots.findIndex((slot, idx) => slot.role === role && !assigned[idx]);
+    if (slotIndex !== -1) {
+      assigned[slotIndex] = player;
+      usedPlayers.add(player);
+    }
   });
 
-  // Pozisyon kodundan taraf (L/R/null) çıkaran kapsamlı yardımcı
-  function getSide(player) {
-    const code = String(player.position?.abbreviation || '').toUpperCase().trim();
-    // Açık L/R içeren kodlar
-    if (/^(LB|LWB|LM|LW|LWF|LCB|CD-L|AM-L|DM-L|MF-L|FW-L|WL|ML)$/.test(code)) return 'L';
-    if (/^(RB|RWB|RM|RW|RWF|RCB|CD-R|AM-R|DM-R|MF-R|FW-R|WR|MR)$/.test(code)) return 'R';
-    // Tire ile ayrılmış L/R son eki (örn: "MF-L", "DF-R")
-    if (/-L$/.test(code)) return 'L';
-    if (/-R$/.test(code)) return 'R';
-    // Nötr pozisyonlar
-    return null;
-  }
+  // 2. Genel grup eşleştirme (DF grubundaki oyuncular DF slotlarına vb.)
+  // Grup öncelik sırası: GK > DF > DM > MF > AM > FW
+  const groupOrder = ['GK', 'DF', 'DM', 'MF', 'AM', 'FW'];
+  groupOrder.forEach(group => {
+    // Bu gruba ait boş slotları bul
+    const emptySlots = slots
+      .map((slot, idx) => ({ slot, idx }))
+      .filter(({ slot, idx }) => slotGroup(slot.role) === group && !assigned[idx]);
 
-  // Pozisyon kodundan ana rol grubunu çıkaran kapsamlı yardımcı
-  function getRole(player) {
-    const code = String(player.position?.abbreviation || '').toUpperCase().trim();
-    if (/^(G|GK)$/.test(code)) return 'GK';
-    if (/^(LB|RB|LWB|RWB|CB|CD|CD-L|CD-R|LCB|RCB|DF|DEF|SW|D)$/.test(code)) return 'DF';
-    if (/^(DM|CDM|DM-L|DM-R|VOL)$/.test(code)) return 'DM';
-    if (/^(LM|RM|CM|MF|MID|M|BOX)$/.test(code)) return 'MF';
-    if (/^(AM|CAM|AM-L|AM-R|SS|TRQ)$/.test(code)) return 'AM';
-    if (/^(LW|RW|LWF|RWF|WL|WR|F|FW|FWD|ST|CF|SS)$/.test(code)) return 'FW';
-    // Bilinmeyen: genel gruba ata
-    if (code.startsWith('D')) return 'DF';
-    if (code.startsWith('M')) return 'MF';
-    if (code.startsWith('F') || code.startsWith('S') || code.startsWith('W')) return 'FW';
-    return 'MF'; // son çare
-  }
+    // Bu gruba ait henüz atanmamış oyuncuları bul
+    const availablePlayers = starters.filter(p =>
+      !usedPlayers.has(p) && playerGroup(p) === group
+    );
 
-  const placed = new Array(positions.length).fill(null);
+    // Komşu grup oyuncuları (fallback için)
+    const fallbackGroups = {
+      'DM': ['MF', 'DF'],
+      'MF': ['DM', 'AM'],
+      'AM': ['MF', 'FW'],
+      'FW': ['AM'],
+    };
 
-  // Kaleci
-  if (roleIndices['GK']) {
-    const gk = starters.find(p => getRole(p) === 'GK') || starters[0];
-    if (gk) placed[roleIndices['GK'][0]] = gk;
-  }
-
-  // Tüm rolleri tara (GK hariç)
-  Object.keys(roleIndices).forEach(role => {
-    if (role === 'GK') return;
-    const indices = roleIndices[role];
-    if (!indices || indices.length === 0) return;
-
-    // Pozisyonları x koordinatına göre sol/orta/sağ olarak ayır
-    const leftIndices = indices.filter(i => positions[i].x < 38);
-    const centerIndices = indices.filter(i => positions[i].x >= 38 && positions[i].x <= 62);
-    const rightIndices = indices.filter(i => positions[i].x > 62);
-
-    // Bu role uygun oyuncuları bul (henüz yerleştirilmemiş)
-    const available = starters.filter(p => {
-      if (placed.includes(p)) return false;
-      const r = getRole(p);
-      // Rol eşleşmesi: DM pozisyonları MF slotuna da girebilir, AM pozisyonları MF/FW slotuna da
-      if (role === 'DF') return r === 'DF';
-      if (role === 'DM') return r === 'DM' || r === 'MF';
-      if (role === 'MF') return r === 'MF' || r === 'DM' || r === 'AM';
-      if (role === 'AM') return r === 'AM' || r === 'MF' || r === 'FW';
-      if (role === 'FW') return r === 'FW' || r === 'AM';
-      return false;
-    });
-
-    const leftPool = available.filter(p => getSide(p) === 'L');
-    const rightPool = available.filter(p => getSide(p) === 'R');
-    const neutrals = available.filter(p => getSide(p) === null);
-
-    // Sol pozisyonlara: L oyuncular → nötrler → R oyuncular
-    leftIndices.forEach(idx => {
-      if (!placed[idx]) {
-        if (leftPool.length) placed[idx] = leftPool.shift();
-        else if (neutrals.length) placed[idx] = neutrals.shift();
-        else if (rightPool.length) placed[idx] = rightPool.shift();
+    emptySlots.forEach(({ slot, idx }) => {
+      if (assigned[idx]) return;
+      // Önce tam grup eşleşmesi
+      let player = availablePlayers.find(p => !usedPlayers.has(p));
+      // Yoksa fallback gruplardan dene
+      if (!player && fallbackGroups[group]) {
+        for (const fg of fallbackGroups[group]) {
+          player = starters.find(p => !usedPlayers.has(p) && playerGroup(p) === fg);
+          if (player) break;
+        }
       }
-    });
-
-    // Orta pozisyonlara: nötr oyuncular → L → R
-    centerIndices.forEach(idx => {
-      if (!placed[idx]) {
-        if (neutrals.length) placed[idx] = neutrals.shift();
-        else if (leftPool.length) placed[idx] = leftPool.shift();
-        else if (rightPool.length) placed[idx] = rightPool.shift();
-      }
-    });
-
-    // Sağ pozisyonlara: R oyuncular → nötrler → L oyuncular
-    rightIndices.forEach(idx => {
-      if (!placed[idx]) {
-        if (rightPool.length) placed[idx] = rightPool.shift();
-        else if (neutrals.length) placed[idx] = neutrals.shift();
-        else if (leftPool.length) placed[idx] = leftPool.shift();
+      if (player) {
+        assigned[idx] = player;
+        usedPlayers.add(player);
+        // availablePlayers listesinden de çıkar
+        const pi = availablePlayers.indexOf(player);
+        if (pi !== -1) availablePlayers.splice(pi, 1);
       }
     });
   });
 
-  const leftovers = starters.filter(p => !placed.includes(p));
-  for (let i = 0; i < placed.length; i++) {
-    if (!placed[i] && leftovers.length) {
-      placed[i] = leftovers.shift();
+  // 3. Kalan oyuncuları sırayla boş slotlara yerleştir
+  const leftovers = starters.filter(p => !usedPlayers.has(p));
+  let leftoverIdx = 0;
+  for (let i = 0; i < slots.length; i++) {
+    if (!assigned[i] && leftoverIdx < leftovers.length) {
+      assigned[i] = leftovers[leftoverIdx++];
     }
   }
 
+  // HTML oluştur
   let playersHtml = '';
-  positions.forEach((pos, i) => {
-    const player = placed[i];
+  slots.forEach((slot, i) => {
+    const player = assigned[i];
     if (!player) return;
-
     const jersey = player.jersey || '?';
     const name = (player.athlete?.displayName || player.name || 'Oyuncu').substring(0, 14);
-    const isGK = pos.role === 'GK';
-
-    playersHtml += `<div class="player ${isGK ? 'goalkeeper' : ''}" style="top:${pos.y}%; left:${pos.x}%;">
+    const isGK = slot.role === 'GK';
+    playersHtml += `<div class="player ${isGK ? 'goalkeeper' : ''}" style="top:${slot.y}%; left:${slot.x}%;">
       <div class="player-icon"><div class="jersey-number">${jersey}</div></div>
       <div class="player-name">${name}</div>
     </div>`;
@@ -2573,67 +2593,67 @@ function getFormationPositions(formation) {
   const map = {
     "4-4-2": [
       { role: 'GK', x: 50, y: 88 },
-      { role: 'DF', x: 15, y: 70 }, { role: 'DF', x: 38, y: 72 }, { role: 'DF', x: 62, y: 72 }, { role: 'DF', x: 85, y: 70 },
-      { role: 'MF', x: 15, y: 45 }, { role: 'MF', x: 38, y: 48 }, { role: 'MF', x: 62, y: 48 }, { role: 'MF', x: 85, y: 45 },
-      { role: 'FW', x: 35, y: 20 }, { role: 'FW', x: 65, y: 20 }
+      { role: 'RB', x: 88, y: 70 }, { role: 'RCB', x: 62, y: 72 }, { role: 'LCB', x: 38, y: 72 }, { role: 'LB', x: 12, y: 70 },
+      { role: 'RM', x: 85, y: 45 }, { role: 'RCM', x: 62, y: 48 }, { role: 'LCM', x: 38, y: 48 }, { role: 'LM', x: 15, y: 45 },
+      { role: 'RST', x: 65, y: 20 }, { role: 'LST', x: 35, y: 20 }
     ],
     "4-2-3-1": [
       { role: 'GK', x: 50, y: 88 },
-      { role: 'DF', x: 12, y: 72 }, { role: 'DF', x: 37, y: 75 }, { role: 'DF', x: 63, y: 75 }, { role: 'DF', x: 88, y: 72 },
-      { role: 'DM', x: 33, y: 55 }, { role: 'DM', x: 67, y: 55 },
-      { role: 'MF', x: 15, y: 35 }, { role: 'MF', x: 50, y: 38 }, { role: 'MF', x: 85, y: 35 },
-      { role: 'FW', x: 50, y: 15 }
+      { role: 'RB', x: 88, y: 72 }, { role: 'RCB', x: 63, y: 75 }, { role: 'LCB', x: 37, y: 75 }, { role: 'LB', x: 12, y: 72 },
+      { role: 'RCM', x: 67, y: 55 }, { role: 'LCM', x: 33, y: 55 },
+      { role: 'RM', x: 85, y: 35 }, { role: 'CAM', x: 50, y: 38 }, { role: 'LM', x: 15, y: 35 },
+      { role: 'ST', x: 50, y: 15 }
     ],
     "4-3-3": [
       { role: 'GK', x: 50, y: 88 },
-      { role: 'DF', x: 12, y: 72 }, { role: 'DF', x: 37, y: 75 }, { role: 'DF', x: 63, y: 75 }, { role: 'DF', x: 88, y: 72 },
-      { role: 'MF', x: 25, y: 52 }, { role: 'MF', x: 50, y: 55 }, { role: 'MF', x: 75, y: 52 },
-      { role: 'FW', x: 15, y: 22 }, { role: 'FW', x: 50, y: 18 }, { role: 'FW', x: 85, y: 22 }
+      { role: 'RB', x: 88, y: 72 }, { role: 'RCB', x: 63, y: 75 }, { role: 'LCB', x: 37, y: 75 }, { role: 'LB', x: 12, y: 72 },
+      { role: 'RCM', x: 75, y: 52 }, { role: 'CM', x: 50, y: 55 }, { role: 'LCM', x: 25, y: 52 },
+      { role: 'RW', x: 85, y: 22 }, { role: 'ST', x: 50, y: 18 }, { role: 'LW', x: 15, y: 22 }
     ],
     "3-4-3": [
       { role: 'GK', x: 50, y: 88 },
-      { role: 'DF', x: 25, y: 75 }, { role: 'DF', x: 50, y: 78 }, { role: 'DF', x: 75, y: 75 },
-      { role: 'MF', x: 15, y: 52 }, { role: 'MF', x: 38, y: 55 }, { role: 'MF', x: 62, y: 55 }, { role: 'MF', x: 85, y: 52 },
-      { role: 'FW', x: 15, y: 22 }, { role: 'FW', x: 50, y: 18 }, { role: 'FW', x: 85, y: 22 }
+      { role: 'RCB', x: 75, y: 75 }, { role: 'CB', x: 50, y: 78 }, { role: 'LCB', x: 25, y: 75 },
+      { role: 'RM', x: 85, y: 52 }, { role: 'RCM', x: 62, y: 55 }, { role: 'LCM', x: 38, y: 55 }, { role: 'LM', x: 15, y: 52 },
+      { role: 'RW', x: 85, y: 22 }, { role: 'ST', x: 50, y: 18 }, { role: 'LW', x: 15, y: 22 }
     ],
     "3-4-2-1": [
       { role: 'GK', x: 50, y: 88 },
-      { role: 'DF', x: 25, y: 75 }, { role: 'DF', x: 50, y: 78 }, { role: 'DF', x: 75, y: 75 },
-      { role: 'MF', x: 15, y: 55 }, { role: 'MF', x: 38, y: 58 }, { role: 'MF', x: 62, y: 58 }, { role: 'MF', x: 85, y: 55 },
-      { role: 'AM', x: 33, y: 35 }, { role: 'AM', x: 67, y: 35 },
-      { role: 'FW', x: 50, y: 15 }
+      { role: 'RCB', x: 75, y: 75 }, { role: 'CB', x: 50, y: 78 }, { role: 'LCB', x: 25, y: 75 },
+      { role: 'RM', x: 85, y: 55 }, { role: 'RCM', x: 62, y: 58 }, { role: 'LCM', x: 38, y: 58 }, { role: 'LM', x: 15, y: 55 },
+      { role: 'RAM', x: 67, y: 35 }, { role: 'LAM', x: 33, y: 35 },
+      { role: 'ST', x: 50, y: 15 }
     ],
     "3-4-1-2": [
       { role: 'GK', x: 50, y: 88 },
-      { role: 'DF', x: 25, y: 75 }, { role: 'DF', x: 50, y: 78 }, { role: 'DF', x: 75, y: 75 },
-      { role: 'MF', x: 15, y: 55 }, { role: 'MF', x: 38, y: 58 }, { role: 'MF', x: 62, y: 58 }, { role: 'MF', x: 85, y: 55 },
-      { role: 'AM', x: 50, y: 38 },
-      { role: 'FW', x: 33, y: 18 }, { role: 'FW', x: 67, y: 18 }
+      { role: 'RCB', x: 75, y: 75 }, { role: 'CB', x: 50, y: 78 }, { role: 'LCB', x: 25, y: 75 },
+      { role: 'RM', x: 85, y: 55 }, { role: 'RCM', x: 62, y: 58 }, { role: 'LCM', x: 38, y: 58 }, { role: 'LM', x: 15, y: 55 },
+      { role: 'CAM', x: 50, y: 38 },
+      { role: 'RST', x: 67, y: 18 }, { role: 'LST', x: 33, y: 18 }
     ],
     "3-5-2": [
       { role: 'GK', x: 50, y: 88 },
-      { role: 'DF', x: 25, y: 75 }, { role: 'DF', x: 50, y: 78 }, { role: 'DF', x: 75, y: 75 },
-      { role: 'MF', x: 12, y: 45 }, { role: 'MF', x: 33, y: 52 }, { role: 'MF', x: 50, y: 55 }, { role: 'MF', x: 67, y: 52 }, { role: 'MF', x: 88, y: 45 },
-      { role: 'FW', x: 35, y: 22 }, { role: 'FW', x: 65, y: 22 }
+      { role: 'RCB', x: 75, y: 75 }, { role: 'CB', x: 50, y: 78 }, { role: 'LCB', x: 25, y: 75 },
+      { role: 'RWB', x: 88, y: 45 }, { role: 'RCM', x: 67, y: 52 }, { role: 'CM', x: 50, y: 55 }, { role: 'LCM', x: 33, y: 52 }, { role: 'LWB', x: 12, y: 45 },
+      { role: 'RST', x: 65, y: 22 }, { role: 'LST', x: 35, y: 22 }
     ],
     "5-3-2": [
       { role: 'GK', x: 50, y: 88 },
-      { role: 'DF', x: 10, y: 70 }, { role: 'DF', x: 30, y: 75 }, { role: 'DF', x: 50, y: 78 }, { role: 'DF', x: 70, y: 75 }, { role: 'DF', x: 90, y: 70 },
-      { role: 'MF', x: 25, y: 50 }, { role: 'MF', x: 50, y: 52 }, { role: 'MF', x: 75, y: 50 },
-      { role: 'FW', x: 35, y: 22 }, { role: 'FW', x: 65, y: 22 }
+      { role: 'RWB', x: 90, y: 70 }, { role: 'RCB', x: 70, y: 75 }, { role: 'CB', x: 50, y: 78 }, { role: 'LCB', x: 30, y: 75 }, { role: 'LWB', x: 10, y: 70 },
+      { role: 'RCM', x: 75, y: 50 }, { role: 'CM', x: 50, y: 52 }, { role: 'LCM', x: 25, y: 50 },
+      { role: 'RST', x: 65, y: 22 }, { role: 'LST', x: 35, y: 22 }
     ],
     "5-4-1": [
       { role: 'GK', x: 50, y: 88 },
-      { role: 'DF', x: 10, y: 70 }, { role: 'DF', x: 30, y: 75 }, { role: 'DF', x: 50, y: 78 }, { role: 'DF', x: 70, y: 75 }, { role: 'DF', x: 90, y: 70 },
-      { role: 'MF', x: 15, y: 45 }, { role: 'MF', x: 38, y: 48 }, { role: 'MF', x: 62, y: 48 }, { role: 'MF', x: 85, y: 45 },
-      { role: 'FW', x: 50, y: 20 }
+      { role: 'RWB', x: 90, y: 70 }, { role: 'RCB', x: 70, y: 75 }, { role: 'CB', x: 50, y: 78 }, { role: 'LCB', x: 30, y: 75 }, { role: 'LWB', x: 10, y: 70 },
+      { role: 'RM', x: 85, y: 45 }, { role: 'RCM', x: 62, y: 48 }, { role: 'LCM', x: 38, y: 48 }, { role: 'LM', x: 15, y: 45 },
+      { role: 'ST', x: 50, y: 20 }
     ],
     "4-1-4-1": [
-      { x: 50, y: 92, role: 'GK' },
-      { x: 15, y: 76, role: 'DF' }, { x: 38, y: 76, role: 'DF' }, { x: 62, y: 76, role: 'DF' }, { x: 85, y: 76, role: 'DF' },
-      { x: 50, y: 60, role: 'DM' },
-      { x: 12, y: 46, role: 'MF' }, { x: 38, y: 46, role: 'MF' }, { x: 62, y: 46, role: 'MF' }, { x: 88, y: 46, role: 'MF' },
-      { x: 50, y: 22, role: 'FW' }
+      { role: 'GK', x: 50, y: 88 },
+      { role: 'RB', x: 85, y: 76 }, { role: 'RCB', x: 62, y: 76 }, { role: 'LCB', x: 38, y: 76 }, { role: 'LB', x: 15, y: 76 },
+      { role: 'DM', x: 50, y: 60 },
+      { role: 'RM', x: 85, y: 46 }, { role: 'RCM', x: 62, y: 46 }, { role: 'LCM', x: 38, y: 46 }, { role: 'LM', x: 15, y: 46 },
+      { role: 'ST', x: 50, y: 22 }
     ]
   };
   const raw = key.replace(/\D/g, "");
