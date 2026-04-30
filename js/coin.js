@@ -341,6 +341,16 @@ window.openCoinDetail = async function(symbol) {
   currentCoinSymbol = symbol;
   const modal = document.getElementById('coinDetailModal');
   if (!modal) return;
+
+  // Zaman aralığını 1 günlük (1d) olarak ayarla
+  document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
+  const defaultTfBtn = document.querySelector('.tf-btn[data-tf="1d"]');
+  if (defaultTfBtn) defaultTfBtn.classList.add('active');
+
+  // Mum sayısını varsayılan 400 yap
+  const limitSelect = document.getElementById('candleLimitSelect');
+  if (limitSelect) limitSelect.value = '400';
+
   modal.style.display = 'flex';
   document.getElementById('coinDetailSymbol').textContent = symbol;
   document.getElementById('coinDetailPrice').textContent = '--';
@@ -462,7 +472,10 @@ async function renderCoinChart() {
         horzLines: { color: 'rgba(255,255,255,0.05)' },
       },
       crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
-      rightPriceScale: { borderColor: 'rgba(255,255,255,0.1)' },
+      rightPriceScale: { 
+        borderColor: 'rgba(255,255,255,0.1)',
+        textColor: '#0ecb81'
+      },
       timeScale: { borderColor: 'rgba(255,255,255,0.1)', timeVisible: true },
       width: container.clientWidth || 400,
       height: 350,
@@ -487,7 +500,7 @@ async function renderCoinChart() {
       const ema84Data = calculateEMAArray(klines, 84);
 
       if (wma50Data.length > 0) {
-        wma50Series = coinChart.addLineSeries({ color: '#E91E63', lineWidth: 1 });
+        wma50Series = coinChart.addLineSeries({ color: '#FF9800', lineWidth: 1 });
         wma50Series.setData(wma50Data);
         wma50Series.applyOptions({ visible: isWma50Visible });
       }
