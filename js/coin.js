@@ -325,13 +325,11 @@ async function fetchCoinPrices() {
   }
 }
 
-// EMA serileri için global referanslar
-let ema5Series = null;
-let ema12Series = null;
-let ema13Series = null;
-let isEma5Visible = true;
-let isEma12Visible = true;
-let isEma13Visible = true;
+// İndikatör serileri için global referanslar
+let wma50Series = null;
+let ema84Series = null;
+let isWma50Visible = true;
+let isEma84Visible = true;
 
 // ─── 4. COIN DETAY MODALI ─────────────────────────────────────
 let currentCoinSymbol = '';
@@ -388,12 +386,12 @@ async function refreshCoinDetailData() {
     const klines = await fetchKlines(symbol, selectedTF, 200);
     const { items, statusEmoji, statusColor } = generateAdvancedAIComment(klines, selectedTF);
     document.getElementById('coinDetailComment').innerHTML = `
-      <div style="margin-bottom:12px;">
-        <span style="font-weight:800; color:${statusColor}; font-size:15px;">${statusEmoji}</span>
-        <span style="font-size:11px; color:var(--text-secondary); margin-left:8px;">${selectedTF}'lık analiz</span>
+      <div style="margin-bottom:16px; padding:12px; background:rgba(0,0,0,0.15); border-radius:10px; border-left:4px solid ${statusColor};">
+        <span style="font-weight:800; color:${statusColor}; font-size:16px;">${statusEmoji}</span>
+        <span style="font-size:11px; color:var(--text-secondary); margin-left:8px;">• ${selectedTF}'lık analiz</span>
       </div>
-      <ul style="margin:0; padding-left:18px; list-style:none;">
-        ${items.map(item => `<li style="margin-bottom:8px; display:flex; align-items:baseline; gap:8px;"><span style="color:var(--brand); font-size:12px;">•</span> <span style="color:var(--text-primary);">${item}</span></li>`).join('')}
+      <ul style="margin:0; padding:0; list-style:none;">
+        ${items.map(item => `<li style="margin-bottom:8px; display:flex; align-items:baseline; gap:8px; padding:8px; background:rgba(255,255,255,0.02); border-radius:6px;"><span style="color:var(--brand); font-size:12px;">▸</span> <span style="color:var(--text-primary);">${item}</span></li>`).join('')}
       </ul>`;
   } catch (err) { console.error('Coin detay hatası:', err); }
 }
@@ -483,30 +481,24 @@ async function renderCoinChart() {
     coinChart.timeScale().fitContent();
     console.log('✅ Mum grafiği başarıyla çizildi');
 
-    // EMA serileri
+    // WMA 50 ve EMA 84 serileri
     try {
-      const ema5Data = calculateEMAArray(klines, 5);
-      const ema12Data = calculateEMAArray(klines, 12);
-      const ema13Data = calculateEMAArray(klines, 13);
+      const wma50Data = calculateWMAArray(klines, 50);
+      const ema84Data = calculateEMAArray(klines, 84);
 
-      if (ema5Data.length > 0) {
-        ema5Series = coinChart.addLineSeries({ color: '#2962FF', lineWidth: 1 });
-        ema5Series.setData(ema5Data);
-        ema5Series.applyOptions({ visible: isEma5Visible });
+      if (wma50Data.length > 0) {
+        wma50Series = coinChart.addLineSeries({ color: '#E91E63', lineWidth: 1 });
+        wma50Series.setData(wma50Data);
+        wma50Series.applyOptions({ visible: isWma50Visible });
       }
-      if (ema12Data.length > 0) {
-        ema12Series = coinChart.addLineSeries({ color: '#FF9800', lineWidth: 1 });
-        ema12Series.setData(ema12Data);
-        ema12Series.applyOptions({ visible: isEma12Visible });
+      if (ema84Data.length > 0) {
+        ema84Series = coinChart.addLineSeries({ color: '#00BCD4', lineWidth: 1 });
+        ema84Series.setData(ema84Data);
+        ema84Series.applyOptions({ visible: isEma84Visible });
       }
-      if (ema13Data.length > 0) {
-        ema13Series = coinChart.addLineSeries({ color: '#F44336', lineWidth: 1 });
-        ema13Series.setData(ema13Data);
-        ema13Series.applyOptions({ visible: isEma13Visible });
-      }
-      console.log('✅ EMA çizgileri eklendi');
+      console.log('✅ WMA 50 ve EMA 84 çizgileri eklendi');
     } catch (e) {
-      console.warn('EMA çizgileri eklenemedi:', e);
+      console.warn('İndikatör çizgileri eklenemedi:', e);
     }
 
   } catch (e) {
@@ -515,6 +507,22 @@ async function renderCoinChart() {
 }
 
 // ─── YENİ: EMA Çizgi Verisi Hesaplayıcı (Grafik için) ───
+function calculateWMAArray(klines, period) {
+  if (klines.length < period) return [];
+  const result = [];
+  for (let i = period - 1; i < klines.length; i++) {
+    let sum = 0;
+    let weightSum = 0;
+    for (let j = 0; j < period; j++) {
+      const weight = period - j;
+      sum += klines[i - j].close * weight;
+      weightSum += weight;
+    }
+    result.push({ time: klines[i].time, value: sum / weightSum });
+  }
+  return result;
+}
+
 function calculateEMAArray(klines, period) {
   if (klines.length < period) return [];
   const k = 2 / (period + 1);
@@ -565,22 +573,18 @@ window.switchMarketTab = function (tab) {
   }
 };
 
-window.toggleEMA = function(period) {
-  const btn = document.getElementById(`ema${period}Toggle`);
+window.toggleIndicator = function(ind) {
+  const btn = document.getElementById(`${ind}Toggle`);
   let series, isVisible;
 
-  if (period === '5') {
-    series = ema5Series;
-    isEma5Visible = !isEma5Visible;
-    isVisible = isEma5Visible;
-  } else if (period === '12') {
-    series = ema12Series;
-    isEma12Visible = !isEma12Visible;
-    isVisible = isEma12Visible;
-  } else if (period === '13') {
-    series = ema13Series;
-    isEma13Visible = !isEma13Visible;
-    isVisible = isEma13Visible;
+  if (ind === 'wma50') {
+    series = wma50Series;
+    isWma50Visible = !isWma50Visible;
+    isVisible = isWma50Visible;
+  } else if (ind === 'ema84') {
+    series = ema84Series;
+    isEma84Visible = !isEma84Visible;
+    isVisible = isEma84Visible;
   }
 
   if (series) {

@@ -1172,11 +1172,10 @@
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
         <h3 style="margin:0; font-size:14px; font-weight:800; color:var(--brand); text-transform:uppercase; letter-spacing:0.5px;">🤖 AKILLI YORUM</h3>
         <div>
-          <!-- EMA Toggle Butonları -->
+          <!-- WMA / EMA Toggle Butonları -->
           <div style="display:flex; justify-content:flex-end; gap:6px; margin-bottom:8px;">
-            <button class="ema-toggle-btn active" id="ema5Toggle" data-ema="5" onclick="toggleEMA('5')">EMA 5</button>
-            <button class="ema-toggle-btn active" id="ema12Toggle" data-ema="12" onclick="toggleEMA('12')">EMA 12</button>
-            <button class="ema-toggle-btn active" id="ema13Toggle" data-ema="13" onclick="toggleEMA('13')">EMA 13</button>
+            <button class="ema-toggle-btn active" id="wma50Toggle" data-ind="wma50" onclick="toggleIndicator('wma50')" style="background:#E91E63; border-color:#E91E63; color:#fff;">WMA 50</button>
+            <button class="ema-toggle-btn active" id="ema84Toggle" data-ind="ema84" onclick="toggleIndicator('ema84')" style="background:#00BCD4; border-color:#00BCD4; color:#fff;">EMA 84</button>
           </div>
           <div style="display:flex; gap:6px; justify-content:flex-end; align-items:center;">
             <button class="tf-btn active" data-tf="15m" onclick="switchCoinTF('15m')">15dk</button>
