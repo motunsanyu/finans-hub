@@ -337,6 +337,7 @@ let isEma13Visible = true;
 let currentCoinSymbol = '';
 let coinChart = null;
 let coinCandleSeries = null;
+let coinDetailInterval = null; // Modal güncelleme zamanlayıcısı
 
 window.openCoinDetail = async function(symbol) {
   currentCoinSymbol = symbol;
@@ -358,6 +359,9 @@ window.openCoinDetail = async function(symbol) {
 
   await refreshCoinDetailData();
   await renderCoinChart();
+
+  // Her 5 saniyede bir modal içeriğini güncelle
+  coinDetailInterval = setInterval(refreshCoinDetailData, 5000);
 };
 
 async function refreshCoinDetailData() {
@@ -533,6 +537,9 @@ window.switchCoinTF = function(tf) {
 };
 
 window.closeCoinDetail = function() {
+  // Modal kapanınca zamanlayıcıyı temizle
+  clearInterval(coinDetailInterval);
+  
   document.getElementById('coinDetailModal').style.display = 'none';
   if (coinChart) { coinChart.remove(); coinChart = null; coinCandleSeries = null; }
 };
