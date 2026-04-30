@@ -2590,6 +2590,26 @@ function getFormationPositions(formation) {
       { role: 'MF', x: 25, y: 52 }, { role: 'MF', x: 50, y: 55 }, { role: 'MF', x: 75, y: 52 },
       { role: 'FW', x: 15, y: 22 }, { role: 'FW', x: 50, y: 18 }, { role: 'FW', x: 85, y: 22 }
     ],
+    "3-4-3": [
+      { role: 'GK', x: 50, y: 88 },
+      { role: 'DF', x: 25, y: 75 }, { role: 'DF', x: 50, y: 78 }, { role: 'DF', x: 75, y: 75 },
+      { role: 'MF', x: 15, y: 52 }, { role: 'MF', x: 38, y: 55 }, { role: 'MF', x: 62, y: 55 }, { role: 'MF', x: 85, y: 52 },
+      { role: 'FW', x: 15, y: 22 }, { role: 'FW', x: 50, y: 18 }, { role: 'FW', x: 85, y: 22 }
+    ],
+    "3-4-2-1": [
+      { role: 'GK', x: 50, y: 88 },
+      { role: 'DF', x: 25, y: 75 }, { role: 'DF', x: 50, y: 78 }, { role: 'DF', x: 75, y: 75 },
+      { role: 'MF', x: 15, y: 55 }, { role: 'MF', x: 38, y: 58 }, { role: 'MF', x: 62, y: 58 }, { role: 'MF', x: 85, y: 55 },
+      { role: 'AM', x: 33, y: 35 }, { role: 'AM', x: 67, y: 35 },
+      { role: 'FW', x: 50, y: 15 }
+    ],
+    "3-4-1-2": [
+      { role: 'GK', x: 50, y: 88 },
+      { role: 'DF', x: 25, y: 75 }, { role: 'DF', x: 50, y: 78 }, { role: 'DF', x: 75, y: 75 },
+      { role: 'MF', x: 15, y: 55 }, { role: 'MF', x: 38, y: 58 }, { role: 'MF', x: 62, y: 58 }, { role: 'MF', x: 85, y: 55 },
+      { role: 'AM', x: 50, y: 38 },
+      { role: 'FW', x: 33, y: 18 }, { role: 'FW', x: 67, y: 18 }
+    ],
     "3-5-2": [
       { role: 'GK', x: 50, y: 88 },
       { role: 'DF', x: 25, y: 75 }, { role: 'DF', x: 50, y: 78 }, { role: 'DF', x: 75, y: 75 },
@@ -2621,6 +2641,9 @@ function getFormationPositions(formation) {
     if (raw === "442") return map["4-4-2"];
     if (raw === "4231") return map["4-2-3-1"];
     if (raw === "433") return map["4-3-3"];
+    if (raw === "343") return map["3-4-3"];
+    if (raw === "3421") return map["3-4-2-1"];
+    if (raw === "3412") return map["3-4-1-2"];
     if (raw === "352") return map["3-5-2"];
     if (raw === "532") return map["5-3-2"];
     if (raw === "541") return map["5-4-1"];
