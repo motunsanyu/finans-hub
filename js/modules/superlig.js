@@ -320,11 +320,11 @@ const SuperligModule = (() => {
                <div style="background:rgba(255,255,255,0.05);"></div>
                <div style="padding-left:10px;">${renderSide(awayGoals, awayCards, awaySubs, "right")}</div>
              </div>
-             <div id="stats-placeholder-${ev.id}" style="margin-top:12px; padding-top:8px; border-top:1px solid rgba(255,255,255,0.08);"></div>
+             <div id="stats-placeholder-${currentTab}-${ev.id}" style="margin-top:12px; padding-top:8px; border-top:1px solid rgba(255,255,255,0.08);"></div>
            </details>` : "";
       const cursorStyle = hasDetail ? "cursor:pointer;" : "";
       const clickAttr = hasDetail
-        ? `onmousedown="event.stopPropagation(); var st = window._currentLigSubTab||'live'; if(!window.openMatchDetails[st]) window.openMatchDetails[st]={}; window.openMatchDetails[st]['${ev.id}'] = !window.openMatchDetails[st]['${ev.id}']; var el=document.getElementById('mdetail-'+st+'-${ev.id}'); if(el)el.open=window.openMatchDetails[st]['${ev.id}']; if(window.openMatchDetails[st]['${ev.id}']) setTimeout(() => window.loadMatchStatsInline('${ev.id}'), 100);"`
+        ? `onmousedown="event.stopPropagation(); var st = window._currentLigSubTab||'live'; if(!window.openMatchDetails[st]) window.openMatchDetails[st]={}; window.openMatchDetails[st]['${ev.id}'] = !window.openMatchDetails[st]['${ev.id}']; var el=document.getElementById('mdetail-'+st+'-${ev.id}'); if(el)el.open=window.openMatchDetails[st]['${ev.id}']; if(window.openMatchDetails[st]['${ev.id}']) setTimeout(() => window.loadMatchStatsInline('${ev.id}', '${currentTab}'), 100);"`
         : "";
 
       const scoreBox = (isFinal || isActive)
@@ -460,9 +460,9 @@ const SuperligModule = (() => {
               const detailEl = document.getElementById(`mdetail-live-${eventId}`);
               if (detailEl) detailEl.open = true;
               if (typeof window.loadMatchStatsInline === 'function') {
-                const placeholder = document.getElementById(`stats-placeholder-${eventId}`);
+                const placeholder = document.getElementById(`stats-placeholder-live-${eventId}`);
                 if (placeholder) delete placeholder.dataset.loaded;
-                window.loadMatchStatsInline(eventId);
+                window.loadMatchStatsInline(eventId, 'live');
               }
             }
           });
@@ -804,9 +804,9 @@ const SuperligModule = (() => {
             const detailEl = document.getElementById(`mdetail-week-${eventId}`);
             if (detailEl) detailEl.open = true;
             if (typeof window.loadMatchStatsInline === 'function') {
-              const placeholder = document.getElementById(`stats-placeholder-${eventId}`);
+              const placeholder = document.getElementById(`stats-placeholder-week-${eventId}`);
               if (placeholder) delete placeholder.dataset.loaded;
-              window.loadMatchStatsInline(eventId);
+              window.loadMatchStatsInline(eventId, 'week');
             }
           }
         });
@@ -1043,26 +1043,38 @@ const SuperligModule = (() => {
       const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=${ds}-${de}&limit=100`);
       if (!res.ok) throw new Error();
       const data = await res.json();
-      let targetEvent = null;
       const teamEvents = (data?.events || []).filter(ev => {
         const comps = ev.competitions?.[0];
-        const hasId = comps?.competitors?.some(c => String(c.id) === String(teamId));
+        const hasId = comps?.competitors?.some(c => String(c.team?.id || c.id) === String(teamId));
         const hasName = clean(ev.name).includes(sName);
         return hasId || hasName;
       });
       teamEvents.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       const now = new Date().getTime();
-      targetEvent = teamEvents.find(ev => new Date(ev.date).getTime() <= now + 7200000);
-      if (!targetEvent) {
+      const candidateEvents = teamEvents.filter(ev => new Date(ev.date).getTime() <= now + 7200000);
+      const nearestMatch = candidateEvents[0];
+      if (!nearestMatch) {
         list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-secondary);">Yakın tarihli maç bulunamadı.</div>`;
         return;
       }
-      const summaryRes = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/summary?event=${targetEvent.id}`);
-      if (!summaryRes.ok) throw new Error();
-      const summaryData = await summaryRes.json();
-      const rosters = summaryData.rosters || [];
-      const teamRoster = rosters.find(r => String(r.team?.id) === String(teamId));
-      if (!teamRoster || !teamRoster.roster) {
+      let targetEvent = nearestMatch;
+      let teamRoster = null;
+      for (const ev of candidateEvents) {
+        try {
+          const summaryRes = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/summary?event=${ev.id}`);
+          if (!summaryRes.ok) continue;
+          const summaryData = await summaryRes.json();
+          const rosters = summaryData.rosters || [];
+          const roster = rosters.find(r => String(r.team?.id) === String(teamId));
+          if (roster && roster.roster && roster.roster.length > 0) {
+            targetEvent = ev;
+            teamRoster = roster;
+            break;
+          }
+        } catch (e) { }
+      }
+
+      if (!teamRoster) {
         list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-secondary);">Bu maç için kadro verisi henüz açıklanmamış.</div>`;
         return;
       }
@@ -1445,11 +1457,14 @@ const SuperligModule = (() => {
       const events = data.events || [];
       const teamMatches = events.filter(ev => {
         const comps = ev.competitions?.[0];
-        return comps?.competitors?.some(c => String(c.team.id) === String(teamId));
+        return comps?.competitors?.some(c => String(c.team?.id || c.id) === String(teamId));
       });
-      const finished = teamMatches.filter(ev => ev.status?.type?.state === "post");
-      if (finished.length === 0) return null;
-      return finished.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+      if (teamMatches.length === 0) return null;
+      const activeStates = ["in", "post"];
+      const relevantMatches = teamMatches.filter(ev => activeStates.includes(ev.status?.type?.state));
+      if (relevantMatches.length === 0) return null;
+      relevantMatches.sort((a, b) => new Date(b.date) - new Date(a.date));
+      return relevantMatches[0];
     } catch (e) { console.error("getLastMatchForTeam hatası:", e); return null; }
   }
 
@@ -1776,8 +1791,11 @@ const SuperligModule = (() => {
     return html;
   }
 
-  window.loadMatchStatsInline = async function (eventId) {
-    const placeholder = document.getElementById(`stats-placeholder-${eventId}`);
+  window.loadMatchStatsInline = async function (eventId, tab) {
+    const placeholderId = tab
+      ? `stats-placeholder-${tab}-${eventId}`
+      : `stats-placeholder-${eventId}`;
+    const placeholder = document.getElementById(placeholderId);
     if (!placeholder) return;
 
     // Zaten yuklendiyse bir daha ugrasma
