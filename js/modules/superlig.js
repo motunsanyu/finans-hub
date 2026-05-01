@@ -154,6 +154,30 @@ const SuperligModule = (() => {
 
   window.openMatchDetails = window.openMatchDetails || {};
 
+  function isHalftimeStatus(ev) {
+    const statusType = ev.status?.type || {};
+    const normalizeStatus = (value) => String(value || "").toLowerCase().replace(/[-_]/g, " ").trim();
+    const id = String(statusType.id || "");
+    const shortDetail = normalizeStatus(statusType.shortDetail);
+    const description = normalizeStatus(statusType.description);
+    const name = normalizeStatus(statusType.name);
+    const detail = normalizeStatus(statusType.detail || ev.status?.detail);
+    const displayClock = normalizeStatus(ev.status?.displayClock);
+
+    return id === "23" ||
+      shortDetail === "ht" ||
+      detail === "ht" ||
+      displayClock === "ht" ||
+      description === "halftime" ||
+      description === "half time" ||
+      name === "status halftime" ||
+      name === "status half time" ||
+      name === "halftime" ||
+      name === "half time" ||
+      detail === "halftime" ||
+      detail === "half time";
+  }
+
   function renderFullMatchCards(events) {
     const sorted = [...events].sort((a, b) => new Date(a.date) - new Date(b.date));
     const logoUrl = (id) => id ? `https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/${id}.png&w=64&h=64` : "";
@@ -165,13 +189,7 @@ const SuperligModule = (() => {
       const state = ev.status?.type?.state;
       const isFinal = (state === "post");
       const isLive = (state === "in");
-      const statusType = ev.status?.type || {};
-      const isHalftime = (statusType.id === "23") ||
-        (statusType.shortDetail === "HT") ||
-        (statusType.description || "").toLowerCase().includes("half") ||
-        (statusType.name || "").toLowerCase().includes("half") ||
-        (ev.status?.detail || "").toLowerCase().includes("half") ||
-        (ev.status?.displayClock || "").toLowerCase().includes("ht");
+      const isHalftime = isHalftimeStatus(ev);
       const isActive = isLive || isHalftime;
       const clock = ev.status?.displayClock || "";
       const homeLogo = logoUrl(home?.team?.id);
@@ -189,8 +207,10 @@ const SuperligModule = (() => {
 
       let borderColor = "transparent";
       let statusColor = "var(--text-secondary)";
-      if (isLive) { borderColor = "var(--up)"; statusColor = "var(--up)"; }
-      else if (isHalftime) { borderColor = "var(--down)"; statusColor = "var(--brand)"; }
+      // Devre arasi ESPN'de bazen state="in" olarak gelmeye devam ediyor.
+      // Bu yuzden isHalftime kontrolu isLive'dan once yapilmali.
+      if (isHalftime) { borderColor = "var(--down)"; statusColor = "var(--brand)"; }
+      else if (isLive) { borderColor = "var(--up)"; statusColor = "var(--up)"; }
       else if (isFinal) { borderColor = "var(--down)"; statusColor = "var(--text-secondary)"; }
 
       const details = comp?.details || [];
@@ -240,7 +260,7 @@ const SuperligModule = (() => {
       const homeSubs = subs.filter(s => s.teamId === homeId);
       const awaySubs = subs.filter(s => s.teamId === awayId);
 
-      const hasDetail = (isFinal || isActive) && (goals.length > 0 || cards.length > 0 || subs.length > 0);
+      const hasDetail = (isFinal || isActive);
       const currentTab = window._currentLigSubTab || 'live';
       const detailId = `mdetail-${currentTab}-${ev.id}`;
       if (!window.openMatchDetails[currentTab]) window.openMatchDetails[currentTab] = {};
@@ -309,10 +329,10 @@ const SuperligModule = (() => {
 
       const scoreBox = (isFinal || isActive)
         ? `<div style="font-size:15px;font-weight:900;font-family:'Space Grotesk',monospace;color:${statusColor};letter-spacing:1px;white-space:nowrap;">${home?.score ?? 0} – ${away?.score ?? 0}</div>
-             ${isLive
-          ? `<div style="font-size:8px;color:var(--up);font-weight:900;animation:pulse 1.2s infinite;margin-top:2px;">● ${clock}</div>`
-          : isHalftime
-            ? `<div style="font-size:8px;color:var(--brand);font-weight:900;margin-top:2px;">DEVRE ARASI</div>`
+             ${isHalftime
+          ? `<div style="font-size:8px;color:var(--brand);font-weight:900;margin-top:2px;">DEVRE ARASI</div>`
+          : isLive
+            ? `<div style="font-size:8px;color:var(--up);font-weight:900;animation:pulse 1.2s infinite;margin-top:2px;">● ${clock}</div>`
             : `<div style="font-size:8px;color:var(--text-secondary);margin-top:2px;font-weight:700;">MS</div>`
         }`
         : `<div style="font-size:11px;font-weight:800;color:var(--brand);letter-spacing:1px;">VS</div>`;
@@ -364,13 +384,7 @@ const SuperligModule = (() => {
       const allEvents = data?.events || [];
       const liveEvents = allEvents.filter(ev => {
         const state = ev.status?.type?.state;
-        const statusType = ev.status?.type || {};
-        const isHalftime = (statusType.id === "23") ||
-          (statusType.shortDetail === "HT") ||
-          (statusType.description || "").toLowerCase().includes("half") ||
-          (statusType.name || "").toLowerCase().includes("half") ||
-          (ev.status?.detail || "").toLowerCase().includes("half") ||
-          (ev.status?.displayClock || "").toLowerCase().includes("ht");
+        const isHalftime = isHalftimeStatus(ev);
         return state === "in" || isHalftime;
       });
 
@@ -438,10 +452,25 @@ const SuperligModule = (() => {
       </div>`;
       } else {
         list.innerHTML = renderFullMatchCards(liveEvents);
+        // Acik detaylari ve istatistikleri yeniden yukle
+        setTimeout(() => {
+          const openMatches = window.openMatchDetails['live'] || {};
+          Object.keys(openMatches).forEach(eventId => {
+            if (openMatches[eventId]) {
+              const detailEl = document.getElementById(`mdetail-live-${eventId}`);
+              if (detailEl) detailEl.open = true;
+              if (typeof window.loadMatchStatsInline === 'function') {
+                const placeholder = document.getElementById(`stats-placeholder-${eventId}`);
+                if (placeholder) delete placeholder.dataset.loaded;
+                window.loadMatchStatsInline(eventId);
+              }
+            }
+          });
+        }, 200);
       }
       const ts = new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
       const upd = document.getElementById('liveLastUpdate');
-      if (upd) upd.textContent = `Son Güncelleme: ${ts} (her 30sn)`;
+      if (upd) upd.textContent = `Son Güncelleme: ${ts} (her 60sn)`;
     } catch (e) { list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--down);">Canlı veriler alınamadı.</div>`; }
   }
 
@@ -767,6 +796,21 @@ const SuperligModule = (() => {
     const weekList = document.getElementById("ligWeekList");
     if (matches.length > 0) {
       weekList.innerHTML = renderFullMatchCards(matches);
+      // Acik detaylari ve istatistikleri yeniden yukle
+      setTimeout(() => {
+        const openMatches = window.openMatchDetails['week'] || {};
+        Object.keys(openMatches).forEach(eventId => {
+          if (openMatches[eventId]) {
+            const detailEl = document.getElementById(`mdetail-week-${eventId}`);
+            if (detailEl) detailEl.open = true;
+            if (typeof window.loadMatchStatsInline === 'function') {
+              const placeholder = document.getElementById(`stats-placeholder-${eventId}`);
+              if (placeholder) delete placeholder.dataset.loaded;
+              window.loadMatchStatsInline(eventId);
+            }
+          }
+        });
+      }, 200);
     } else {
       weekList.innerHTML = `<div style="text-align:center; padding:48px 16px; color:var(--text-secondary);">📅<br>Bu hafta için maç programı açıklanmamış.</div>`;
     }
@@ -1676,7 +1720,6 @@ const SuperligModule = (() => {
     const t1 = teams[0];
     const t2 = teams[1];
 
-    // Karsilastirmali gosterilecek istatistikler
     const statsToShow = [
       { key: 'possessionPct', label: 'Topa Sahip Olma', format: 'pct' },
       { key: 'totalShots', label: 'Toplam Sut', format: 'num' },
@@ -1701,6 +1744,11 @@ const SuperligModule = (() => {
       const p1 = total > 0 ? (v1 / total) * 100 : 50;
       const p2 = total > 0 ? (v2 / total) * 100 : 50;
 
+      // Renk mantığı: Eşitlikte ve v1 > v2'de ev sahibi yeşil.
+      // Deplasmanın yeşil olması için v2 > v1 olmalı.
+      const leftColor = (v1 >= v2) ? 'var(--up)' : 'rgba(255, 255, 255, 0.25)';
+      const rightColor = (v2 > v1) ? 'var(--up)' : 'rgba(255, 255, 255, 0.25)';
+
       let leftVal, rightVal;
       if (stat.format === 'pct') {
         leftVal = `${v1}%`;
@@ -1718,8 +1766,8 @@ const SuperligModule = (() => {
             <span style="font-weight:700;">${rightVal}</span>
           </div>
           <div style="display:flex; height:5px; border-radius:3px; overflow:hidden; background:rgba(255,255,255,0.05);">
-            <div style="width:${p1}%; background:var(--brand); transition:width 0.4s ease;"></div>
-            <div style="width:${p2}%; background:rgba(255,255,255,0.25);"></div>
+            <div style="width:${p1}%; background:${leftColor}; transition:width 0.4s ease;"></div>
+            <div style="width:${p2}%; background:${rightColor};"></div>
           </div>
         </div>
       `;
