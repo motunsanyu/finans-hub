@@ -1,41 +1,34 @@
 const STORAGE_KEYS = {
-  fuel: "financeApp.fuelRecords",
-  days: "financeApp.dayRecords",
+  fuel: "financeApp.fuelRecords",     // belki silinebilir
+  days: "financeApp.dayRecords",     // belki silinebilir
   school: "financeApp.schoolRecords",
   financeSnapshot: "financeApp.financeSnapshot",
   debts: "financeApp.debts",
   appPin: "financeApp.pin",
-  vault: "financeApp.vault",
+  vault: "financeApp.vault",         // silinebilir
   yesterdayDebt: "financeApp.yesterdayDebt",
   lastDailyUpdate: "financeApp.lastDailyUpdate"
 };
 
+// toggleFriendsModal ve toggleMessagesModal → js/friends-chat.js dosyasında tanımlı
+
+
+
+function getSB() {
+  return window._supabaseClient;
+}
+
 let state = {
-  fuelRecords: readStorage(STORAGE_KEYS.fuel, []),
-  dayRecords: readStorage(STORAGE_KEYS.days, []),
   financeSnapshot: readStorage(STORAGE_KEYS.financeSnapshot, {}),
   debts: readStorage(STORAGE_KEYS.debts, { usd: 0, eur: 0, gold: 0, btc: 0, try: 0 }),
-  vaultRecords: readStorage(STORAGE_KEYS.vault, []),
+
   yesterdayDebt: Number(localStorage.getItem(STORAGE_KEYS.yesterdayDebt)) || 0
 };
 
 
-const _rawSchool = readStorage(STORAGE_KEYS.school, []);
-if (!Array.isArray(_rawSchool)) {
-  state.school = [];
-  if (_rawSchool.child1 && _rawSchool.child1.records && _rawSchool.child1.records.length > 0) {
-    state.school.push({ id: "child1", name: _rawSchool.child1.name || "Profil 1", records: _rawSchool.child1.records });
-  }
-  if (_rawSchool.child2 && _rawSchool.child2.records && _rawSchool.child2.records.length > 0) {
-    state.school.push({ id: "child2", name: _rawSchool.child2.name || "Profil 2", records: _rawSchool.child2.records });
-  }
-  writeStorage(STORAGE_KEYS.school, state.school);
-} else {
-  state.school = _rawSchool;
-}
 
 // ═════════════════════════ BAŞLATICILAR ═════════════════════════
-function init() {
+async function init() {
   // Service Worker Kaydı (PWA için)
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -51,12 +44,32 @@ function init() {
 
   document.getElementById("refreshFinanceBtn").addEventListener("click", refreshFinanceData);
 
-  VaultModule.init();
-  FuelModule.init();
-  DaysModule.init();
-  SchoolModule.init();
-  AltinModule.init();
-  SuperligModule.init();
+  if (typeof VaultModule !== 'undefined') VaultModule.init();
+  if (typeof FuelModule !== 'undefined') FuelModule.init();
+  if (typeof DaysModule !== 'undefined') DaysModule.init();
+  if (typeof SchoolModule !== 'undefined') SchoolModule.init();
+  if (typeof AltinModule !== 'undefined') AltinModule.init();
+  if (typeof SuperligModule !== 'undefined') SuperligModule.init();
+  if (typeof FriendsChatModule !== 'undefined') FriendsChatModule.init();
+
+  try {
+    const { data: { user } } = await getSB().auth.getUser();
+    if (user) {
+      const { data, error } = await getSB()
+        .from('finance_snapshots')
+        .select('data')
+        .eq('user_id', user.id)
+        .maybeSingle(); // .single() yerine .maybeSingle()
+
+      if (error) {
+        console.warn('Piyasa verisi yüklenemedi, varsayılan kullanılıyor.');
+      }
+      state.financeSnapshot = data?.data || {}; // Boşsa boş nesne kullan
+      if (data) {
+        state.financeSnapshot = data.data;
+      }
+    }
+  } catch (e) { console.warn('Piyasa verisi Supabase’den alınamadı:', e.message); }
 
   refreshFinanceData();
 
@@ -64,7 +77,7 @@ function init() {
   // Yakıt fiyatlarını uygulama başında yükle
   setTimeout(() => { if (typeof fetchFuelPrices === 'function') fetchFuelPrices(); }, 1200);
 
-  fireAlarmBanner();
+  //fireAlarmBanner();
 
 
   const now = new Date();
@@ -79,6 +92,27 @@ function init() {
     refreshFinanceData();
   }, 30000);
 }
+
+let appInitialized = false;
+function initApp() {
+  if (appInitialized) return;
+  appInitialized = true;
+  if (typeof init === 'function') init();
+}
+
+window.toggleSidebar = function (forceOpen) {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  if (!sidebar || !overlay) return;
+
+  const shouldOpen = typeof forceOpen === 'boolean'
+    ? forceOpen
+    : sidebar.classList.contains('translate-x-full');
+
+  sidebar.classList.toggle('translate-x-full', !shouldOpen);
+  sidebar.classList.toggle('translate-x-0', shouldOpen);
+  overlay.classList.toggle('hidden', !shouldOpen);
+};
 
 // ═════════════════════════ NUMARA MASKELEME ═════════════════════════
 function bindInputMasks() {
@@ -96,7 +130,7 @@ function bindInputMasks() {
 function parseVal(str) { return Number(String(str).replace(/\./g, "").replace(",", ".")); }
 
 // ═════════════════════════ ALARM BANNER ═════════════════════════
-function fireAlarmBanner() {
+/*function fireAlarmBanner() {
   let urgent = [];
   const todayMillis = new Date().setHours(0, 0, 0, 0);
 
@@ -106,15 +140,7 @@ function fireAlarmBanner() {
     if (d === 0) urgent.push(`⏰ BUGÜN SON GÜN: ${r.title}`);
     else if (d > 0 && d <= 5) urgent.push(`⏰ ${r.title} hedefine sadece ${d} gün kaldı!`);
   });
-  state.school.forEach(plan => {
-    const u = plan.records.filter(x => !x.paid).sort((a, b) => a.dueDate.localeCompare(b.dueDate))[0];
-    if (u) {
-      const target = new Date(u.dueDate).setHours(0, 0, 0, 0);
-      const d = Math.round((target - todayMillis) / (1000 * 60 * 60 * 24));
-      if (d === 0) urgent.push(`💳 BUGÜN SON GÜN: ${plan.name} Taksiti (${formatCurrency(u.amount)})`);
-      else if (d > 0 && d <= 5) urgent.push(`💳 Kritik Taksit: ${plan.name} (${d} Gün Kaldı)`);
-    }
-  });
+
 
   if (urgent.length > 0) {
     const b = document.createElement("div");
@@ -126,7 +152,7 @@ function fireAlarmBanner() {
     document.body.appendChild(b);
     setTimeout(() => { b.style.top = "-200px"; setTimeout(() => b.remove(), 500); }, 6000);
   }
-}
+}*/
 
 function bindTabs() {
   const buttons = document.querySelectorAll(".tab-btn"); const pages = document.querySelectorAll(".tab-page");
@@ -140,6 +166,7 @@ function bindTabs() {
 }
 
 // ═════════════════════════ APP LOCK / PIN ═════════════════════════
+/*
 let enteredPin = ""; let pinStage = "login"; let tempSetupPin = "";
 const SAVED_PIN = localStorage.getItem(STORAGE_KEYS.appPin);
 const pinScreen = document.getElementById("pinScreen"); const appShell = document.getElementById("appShell"); const pinTitle = document.getElementById("pinTitle");
@@ -186,17 +213,57 @@ function unlockApp() {
 }
 
 // ═════════════════════════ SIDEBAR VE TOPLAM BORÇ ═════════════════════════
+*/
 function bindSidebar() {
-  const sidebar = document.getElementById("sidebar"); const overlay = document.getElementById("sidebarOverlay");
-  document.getElementById("debtUSD").value = state.debts.usd || 0; document.getElementById("debtEUR").value = state.debts.eur || 0;
-  document.getElementById("debtGold").value = state.debts.gold || 0; document.getElementById("debtBTC").value = state.debts.btc || 0;
-  document.getElementById("debtTRY").value = state.debts.try || 0;
-  document.getElementById("menuBtn").onclick = () => { sidebar.classList.add("open"); overlay.classList.add("open"); }
-  document.getElementById("closeSidebarBtn").onclick = () => { sidebar.classList.remove("open"); overlay.classList.remove("open"); }
-  overlay.onclick = () => { sidebar.classList.remove("open"); overlay.classList.remove("open"); }
-  document.getElementById("saveDebtsBtn").onclick = () => {
-    state.debts = { usd: Number(document.getElementById("debtUSD").value), eur: Number(document.getElementById("debtEUR").value), gold: Number(document.getElementById("debtGold").value), btc: Number(document.getElementById("debtBTC").value), try: Number(document.getElementById("debtTRY").value) };
-    writeStorage(STORAGE_KEYS.debts, state.debts); calcTotalDebt(); sidebar.classList.remove("open"); overlay.classList.remove("open");
+  const positionsPanel = document.getElementById("positionsPanel");
+  const positionsOverlay = document.getElementById("positionsOverlay");
+  const menuBtn = document.getElementById("menuBtn");
+  const closePositionsBtn = document.getElementById("closePositionsBtn");
+  const saveDebtsBtn = document.getElementById("saveDebtsBtn");
+
+  const debtUSD = document.getElementById("debtUSD");
+  const debtEUR = document.getElementById("debtEUR");
+  const debtGold = document.getElementById("debtGold");
+  const debtBTC = document.getElementById("debtBTC");
+  const debtTRY = document.getElementById("debtTRY");
+
+  if (debtUSD) debtUSD.value = state.debts.usd || 0;
+  if (debtEUR) debtEUR.value = state.debts.eur || 0;
+  if (debtGold) debtGold.value = state.debts.gold || 0;
+  if (debtBTC) debtBTC.value = state.debts.btc || 0;
+  if (debtTRY) debtTRY.value = state.debts.try || 0;
+
+  if (menuBtn) menuBtn.onclick = () => toggleSidebar();
+
+  window.openPositions = function () {
+    if (typeof toggleSidebar === 'function') toggleSidebar(false);
+    if (positionsPanel) positionsPanel.classList.add("open");
+    if (positionsOverlay) positionsOverlay.classList.add("open");
+  };
+
+  window.openProfile = function () {
+    alert("Profil ekranı yakında eklenecek.");
+  };
+
+  const closePositions = () => {
+    if (positionsPanel) positionsPanel.classList.remove("open");
+    if (positionsOverlay) positionsOverlay.classList.remove("open");
+  };
+
+  if (closePositionsBtn) closePositionsBtn.onclick = closePositions;
+  if (positionsOverlay) positionsOverlay.onclick = closePositions;
+
+  if (saveDebtsBtn) saveDebtsBtn.onclick = () => {
+    state.debts = {
+      usd: Number(debtUSD?.value || 0),
+      eur: Number(debtEUR?.value || 0),
+      gold: Number(debtGold?.value || 0),
+      btc: Number(debtBTC?.value || 0),
+      try: Number(debtTRY?.value || 0)
+    };
+    writeStorage(STORAGE_KEYS.debts, state.debts);
+    calcTotalDebt();
+    closePositions();
   };
 }
 
@@ -285,7 +352,20 @@ async function refreshFinanceData() {
     }
   } catch (e) { console.warn("Doviz Central Error", e); }
 
-  state.financeSnapshot = nextSnapshot; writeStorage(STORAGE_KEYS.financeSnapshot, nextSnapshot);
+  state.financeSnapshot = nextSnapshot;
+
+  try {
+    const { data: { user } } = await getSB().auth.getUser();
+    if (user) {
+      await getSB().from('finance_snapshots').upsert({
+        user_id: user.id,
+        data: nextSnapshot,
+        updated_at: new Date().toISOString()
+      });
+    }
+  } catch (e) { console.warn('Piyasa verisi Supabase’e kaydedilemedi:', e.message); }
+
+  writeStorage(STORAGE_KEYS.financeSnapshot, nextSnapshot);
 
   // UI Güncelleme
   paintFinanceRow("usdTry", nextSnapshot.usdTry, 4);
@@ -353,8 +433,7 @@ window.toggleMatchDetail = function (id) {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  const pinScreen = document.getElementById("pinScreen");
-  if (pinScreen) pinScreen.style.display = "flex";
+  if (typeof checkAuthState === 'function') checkAuthState();
 });
 
 // ══════════════════════════════════════════

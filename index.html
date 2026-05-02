@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Finans Hub</title>
 
+  <!-- Supabase JS Client -->
+
+  <!-- Yeni Auth Modülü (en üstte olmalı) -->
+
   <link rel="apple-touch-icon" href="icon.svg">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
   <link rel="manifest" href="manifest.json">
@@ -18,13 +22,219 @@
   <link rel="stylesheet" href="styles.css" />
   <!-- Leaflet CSS ve JS (Navigasyon Modülü İçin) -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    /* --- MODERN TOAST NOTIFICATION --- */
+    #toastContainer { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 10px; align-items: center; pointer-events: none; }
+    .toast-msg { background: #2b5278; color: #fff; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 700; box-shadow: 0 4px 12px rgba(0,0,0,0.3); animation: toastIn 0.3s cubic-bezier(0.25, 1, 0.5, 1) forwards, toastOut 0.3s cubic-bezier(0.25, 1, 0.5, 1) forwards 2.7s; max-width: 90vw; text-align: center; }
+    .toast-msg.error { background: #ef5350; }
+    .toast-msg.success { background: #4caf50; }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(-20px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes toastOut { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(-20px) scale(0.9); } }
+    
+    /* --- TELEGRAM PRO FRIENDS STYLES --- */
+    .friends-container { background-color: #0e1621; color: #fff; height: 100%; display: flex; flex-direction: column; overflow: hidden; border-radius: 24px; }
+    .friends-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid #0e1621; background: #17212b; }
+    .search-wrapper { padding: 12px 16px; background: #17212b; }
+    .search-bar { background: #242f3d; border-radius: 12px; display: flex; align-items: center; padding: 10px 15px; border: 1.5px solid transparent; transition: all 0.2s; }
+    .search-bar:focus-within { border-color: #2481cc; background: #1c242d; }
+    .search-bar input { background: transparent; border: none; color: white; margin-left: 10px; width: 100%; outline: none; font-size: 15px; }
+    .section-title { color: #2481cc; font-size: 13px; font-weight: 800; padding: 20px 20px 8px; text-transform: uppercase; letter-spacing: 0.8px; }
+    .friend-card { background: #17212b; margin: 0 12px 8px; padding: 12px 16px; border-radius: 14px; display: flex; align-items: center; cursor: pointer; transition: transform 0.1s ease, background 0.2s; user-select: none; }
+    .friend-card:active { transform: scale(0.96); background: #232e3c; }
+    .friend-avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 900; color: white; margin-right: 14px; font-size: 18px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.2); background: #2b5278; }
+    .friend-info { display: flex; flex-direction: column; flex-grow: 1; min-width: 0; }
+    .friend-name { color: white; font-size: 15px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .friend-status { font-size: 12px; font-weight: 600; margin-top: 2px; }
+    .friend-status.offline { color: #708499; }
+    .friend-status.online { color: #6ab2f2; }
+    .friend-action { color: #2481cc; margin-left: 10px; display: flex; align-items: center; }
+    .requests-empty { padding: 30px; text-align: center; color: #708499; font-size: 14px; font-style: italic; }
+    /* ------------------------------------ */
+    #authScreen .binance-card {
+      background: #1e2329;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+      width: 100%;
+      max-width: 400px;
+      box-sizing: border-box;
+    }
+
+    #authScreen input:focus {
+      border-color: #fcd535 !important;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(252, 213, 53, 0.12);
+    }
+
+    #authScreen .btn-main:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    #sidebar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(20rem, 92vw);
+      background: #1e2329;
+      z-index: 50;
+      border-left: 1px solid #1f2937;
+      box-shadow: -20px 0 60px rgba(0, 0, 0, 0.4);
+    }
+
+    #overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 40;
+    }
+
+    .translate-x-full {
+      transform: translateX(100%);
+    }
+
+    .translate-x-0 {
+      transform: translateX(0);
+    }
+
+    .transition-transform {
+      transition-property: transform;
+    }
+
+    .duration-300 {
+      transition-duration: 300ms;
+    }
+
+    .ease-in-out {
+      transition-timing-function: ease-in-out;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-120%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      #conversationsPanel {
+        width: 100%;
+      }
+
+      #chatArea {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body ontouchstart="">
 
 
   <!-- ════ŞİFRE EKRANI / APP LOCK════ -->
-  <div id="pinScreen">
+  <div id="authScreen"
+    style="display:flex; min-height:100vh; align-items:center; justify-content:center; background:#0b0e11; position:relative; z-index:10000; padding:24px;">
+    <div id="loginPanel" class="binance-card" style="border-radius:32px; padding:32px; border:1px solid #1f2937;">
+      <div style="display:flex; flex-direction:column; align-items:center; margin-bottom:40px;">
+        <div
+          style="width:80px; height:80px; background:#0b0e11; border-radius:16px; display:flex; align-items:center; justify-content:center; border:1px solid #374151;">
+          <svg width="50" height="50" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M30 20H75V34H46V48H70V62H46V80H30V20Z" fill="#FCD535" />
+            <circle cx="82" cy="20" r="8" fill="#FCD535">
+              <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite" />
+            </circle>
+          </svg>
+        </div>
+        <h1 style="color:#eaecef; font-size:24px; font-weight:800; margin:24px 0 0;">Finans Hub</h1>
+        <p style="color:#6b7280; font-size:14px; margin:4px 0 0;">Güvenli işlem merkezine hoş geldiniz</p>
+      </div>
+
+      <form id="loginForm" onsubmit="return handleLogin(event)" style="display:flex; flex-direction:column; gap:20px;">
+        <div>
+          <label
+            style="display:block; color:#9ca3af; font-size:11px; font-weight:800; margin:0 0 8px 4px; text-transform:uppercase; letter-spacing:0.08em;">E-posta
+            Adresi</label>
+          <input type="email" id="loginEmail" placeholder="mail@example.com" required
+            style="width:100%; padding:16px 20px; border-radius:16px; color:#fff; font-size:14px; font-weight:600; background:#2b3139; border:1px solid transparent; box-sizing:border-box;">
+        </div>
+        <div>
+          <label
+            style="display:block; color:#9ca3af; font-size:11px; font-weight:800; margin:0 0 8px 4px; text-transform:uppercase; letter-spacing:0.08em;">Şifre</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" required
+            style="width:100%; padding:16px 20px; border-radius:16px; color:#fff; font-size:14px; background:#2b3139; border:1px solid transparent; box-sizing:border-box;">
+        </div>
+        <div style="display:flex; justify-content:flex-end;">
+          <a href="#" onclick="handleForgotPassword()" style="color:#fcd535; font-size:12px; font-weight:700;">Şifremi
+            unuttum?</a>
+        </div>
+        <button type="submit" class="btn-main"
+          style="width:100%; padding:16px; border:0; border-radius:16px; font-weight:800; font-size:16px; background:#fcd535; color:#181a20; cursor:pointer;">Giriş
+          Yap</button>
+      </form>
+
+      <div style="position:relative; margin:40px 0;">
+        <div style="position:absolute; inset:0; display:flex; align-items:center;">
+          <div style="width:100%; border-top:1px solid #1f2937;"></div>
+        </div>
+        <div style="position:relative; display:flex; justify-content:center; font-size:11px; text-transform:uppercase;">
+          <span
+            style="background:#1e2329; padding:0 16px; color:#6b7280; font-weight:800; letter-spacing:0.12em;">Veya</span>
+        </div>
+      </div>
+
+      <button onclick="signInWithGoogle(); return false;"
+        style="width:100%; background:#2b3139; border:1px solid #374151; padding:16px; border-radius:16px; display:flex; align-items:center; justify-content:center; gap:12px; cursor:pointer;">
+        <svg width="20" height="20" viewBox="0 0 24 24">
+          <path fill="#EA4335"
+            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+          <path fill="#4285F4"
+            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+          <path fill="#FBBC05"
+            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+          <path fill="#34A853"
+            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+        </svg>
+        <span style="color:#eaecef; font-weight:700; font-size:14px;">Google ile devam et</span>
+      </button>
+
+      <div style="margin-top:32px; text-align:center;">
+        <span style="color:#6b7280; font-size:14px;">Hesabınız yok mu?</span>
+        <a href="#" onclick="switchToSignUp()"
+          style="color:#fcd535; font-size:14px; font-weight:800; margin-left:4px;">Hemen Kaydolun</a>
+      </div>
+    </div>
+
+    <div id="signUpForm"
+      style="display:none; width:100%; max-width:400px; border-radius:32px; padding:32px; border:1px solid #1f2937;"
+      class="binance-card">
+      <h2 style="color:#eaecef; font-size:24px; font-weight:800; margin:0 0 24px; text-align:center;">Hesap Oluştur</h2>
+      <form onsubmit="return handleSignUp(event)" style="display:flex; flex-direction:column; gap:18px;">
+        <input type="text" id="signUpName" placeholder="İsim Soyisim" required
+          style="width:100%; padding:16px 20px; border-radius:16px; color:#fff; background:#2b3139; border:1px solid transparent; box-sizing:border-box;">
+        <input type="email" id="signUpEmail" placeholder="mail@example.com" required
+          style="width:100%; padding:16px 20px; border-radius:16px; color:#fff; background:#2b3139; border:1px solid transparent; box-sizing:border-box;">
+        <input type="password" id="signUpPassword" placeholder="Şifre" required minlength="6"
+          style="width:100%; padding:16px 20px; border-radius:16px; color:#fff; background:#2b3139; border:1px solid transparent; box-sizing:border-box;">
+        <button type="submit"
+          style="width:100%; padding:16px; border:0; border-radius:16px; font-weight:800; font-size:16px; background:#fcd535; color:#181a20; cursor:pointer;">Kaydol</button>
+      </form>
+      <div style="margin-top:24px; text-align:center;">
+        <a href="#" onclick="switchToLogin()" style="color:#fcd535; font-size:14px; font-weight:800;">Giriş ekranına
+          dön</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="pinScreen" style="display:none;">
     <!-- Açılış Animasyonu Katmanı -->
     <div id="splashLayer">
       <div class="splash-logo">FINANS TR</div>
@@ -59,7 +269,7 @@
     <div class="powered-by">powered by muzaf</div>
   </div>
 
-  <div class="app-shell" id="appShell">
+  <div class="app-shell" id="appShell" style="display:none;">
 
     <header class="topbar">
       <div class="logo-area">
@@ -77,11 +287,11 @@
     </header>
 
     <!-- ════YAN MENÜ (BORÇ GİRİŞİ)════ -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-    <div class="sidebar" id="sidebar">
+    <div class="sidebar-overlay" id="positionsOverlay"></div>
+    <div class="sidebar" id="positionsPanel">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
         <h2 style="font-size:18px;">Açık Pozisyonlar</h2>
-        <button id="closeSidebarBtn"
+        <button id="closePositionsBtn"
           style="background:transparent; border:none; font-size:28px; color:var(--text-secondary); cursor:pointer;">&times;</button>
       </div>
       <p style="font-size:12px; color:var(--text-secondary); margin-bottom:16px;">
@@ -100,6 +310,116 @@
     </div>
 
     <!-- ═════════════════════════ ANA SAYFA (PİYASALAR) ═════════════════════════ -->
+    <div id="sidebar" class="translate-x-full transition-transform duration-300 ease-in-out" style="color:#eaecef;">
+      <div
+        style="display:flex; align-items:center; justify-content:space-between; padding:24px; border-bottom:1px solid #1f2937;">
+        <span
+          style="color:#9ca3af; font-weight:800; font-size:12px; text-transform:uppercase; letter-spacing:0.14em;">Hesap
+          Menüsü</span>
+        <button onclick="toggleSidebar()" style="background:transparent; border:0; color:#6b7280; cursor:pointer;">
+          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div style="padding:24px; background:linear-gradient(to bottom, #2b3139, #1e2329);">
+        <div style="display:flex; align-items:center; gap:16px;">
+          <div style="position:relative;">
+            <div id="sidebarAvatar"
+              style="width:56px; height:56px; border-radius:999px; background:#2b3139; display:flex; align-items:center; justify-content:center; box-shadow:0 0 0 4px #0b0e11; overflow:hidden;">
+              <svg id="defaultAvatar" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#848e9c"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              <img id="avatarImage" src="" alt="Profil"
+                style="display:none; width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div
+              style="position:absolute; bottom:0; right:0; width:16px; height:16px; background:#22c55e; border:2px solid #1e2329; border-radius:999px;">
+            </div>
+          </div>
+          <div>
+            <h3 id="sidebarProfileName" style="color:#fff; font-weight:800; font-size:18px; line-height:1.1; margin:0;">
+              Kullanıcı</h3>
+            <p id="sidebarProfileEmail" style="color:#6b7280; font-size:12px; margin:4px 0 0;">email@example.com</p>
+            <span style="display:inline-block; margin-top:4px; padding:2px 8px; background:rgba(252,213,53,0.1); color:#fcd535; font-size:10px; font-weight:900; border-radius:999px; text-transform:uppercase;">Doğrulanmış</span>
+          </div>
+        </div>
+      </div>
+
+      <nav style="margin-top:16px; padding:0 16px; display:flex; flex-direction:column; gap:8px; overflow-y:auto; max-height:calc(100vh - 200px);">
+        <a href="#" onclick="const pages=document.querySelectorAll('.tab-page'); pages.forEach(p=>p.classList.remove('active')); document.getElementById('profile').classList.add('active'); toggleSidebar(false); return false;"
+          style="display:flex; align-items:center; gap:16px; padding:16px; border-radius:12px; color:#d1d5db; text-decoration:none; font-weight:700;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          Profil
+        </a>
+        <a href="#" onclick="toggleFriendsModal(); return false;"
+          style="display:flex; align-items:center; gap:16px; padding:16px; border-radius:12px; color:#d1d5db; text-decoration:none; font-weight:700;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            style="flex-shrink:0;">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          Arkadaşlar
+        </a>
+        <a href="#" onclick="toggleMessagesModal(); return false;"
+          style="display:flex; align-items:center; justify-content:space-between; padding:16px; border-radius:12px; color:#d1d5db; text-decoration:none; font-weight:700;">
+          <span style="display:flex; align-items:center; gap:16px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              style="flex-shrink:0;">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            Mesajlar
+          </span>
+          <span id="messagesBadge" class="bg-[#f6465d] text-white text-[10px] font-bold px-2 py-0.5 rounded-full"
+            style="display:none; background:#f6465d; color:#fff; font-size:10px; font-weight:900; padding:2px 8px; border-radius:999px;">0</span>
+        </a>
+        <a href="#" onclick="openPositions()"
+          style="display:flex; align-items:center; gap:16px; padding:16px; border-radius:12px; color:#d1d5db; text-decoration:none; font-weight:700;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            style="flex-shrink:0;">
+            <line x1="12" y1="20" x2="12" y2="10"></line>
+            <line x1="18" y1="20" x2="18" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="16"></line>
+          </svg>
+          Açık Pozisyonlar
+        </a>
+        <a href="#" onclick="toggleDisclaimerModal(); return false;"
+          style="display:flex; align-items:center; gap:16px; padding:16px; border-radius:12px; color:#f87171; text-decoration:none; font-weight:700;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          Yasal Uyarı
+        </a>
+        <div style="margin-top:8px; border-top:1px solid #1f2937;"></div>
+        <a href="#" onclick="signOut()"
+          style="display:flex; align-items:center; gap:16px; padding:12px 16px; border-radius:12px; color:#9ca3af; text-decoration:none; font-weight:700;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            style="flex-shrink:0;">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          Çıkış Yap
+        </a>
+      </nav>
+
+      <div
+        style="position:absolute; bottom:16px; width:100%; padding:0 32px; text-align:center; box-sizing:border-box;">
+        <p style="color:#4b5563; font-size:9px; text-transform:uppercase; letter-spacing:0.05em; font-style:italic; opacity:0.5;">
+          Finans Hub v1.1 Professional</p>
+      </div>
+    </div>
+
+    <div id="overlay" onclick="toggleSidebar()" class="hidden"></div>
+
     <main>
       <section id="home" class="tab-page active" style="padding:0;">
         <!-- TOPLAM BORÇ WIDGET -->
@@ -283,12 +603,6 @@
           </div> <!-- financeGrid kapanışı -->
           <p id="financeMeta" style="color:var(--text-secondary); font-size:11px; text-align:center; padding:16px 0;">
           </p>
-          <div style="padding:32px 16px; text-align:center; opacity:0.3; border-top:1px solid rgba(255,255,255,0.03);">
-            <div
-              style="font-size:12px; font-weight:800; color:var(--text-primary); letter-spacing:1px; text-transform:uppercase;">
-              Powered by ®muzaf</div>
-            <div style="font-size:10px; color:var(--text-secondary); margin-top:4px;">muzaf@hotmail.com</div>
-          </div>
         </div> <!-- piyasaSection kapanışı -->
         <!-- COİNLER BOLUMU -->
         <div id="coinlerSection" style="display:none;">
@@ -963,6 +1277,69 @@
         <p id="ligTimestamp"
           style="color:var(--text-secondary); font-size:11px; text-align:center; padding:8px 16px 24px;"></p>
       </section>
+ 
+      <!-- ═════════════════════════ PROFİL SEKMESİ ═════════════════════════ -->
+      <section id="profile" class="tab-page" style="padding:0; background:var(--bg-primary);">
+        <!-- Profil Header -->
+        <div style="padding:16px; background:var(--bg-secondary); display:flex; align-items:center; gap:16px; border-bottom:1px solid var(--line);">
+          <button class="tab-btn" data-tab="home" style="background:none; border:none; color:var(--text-primary); cursor:pointer; padding:4px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          </button>
+          <h2 style="margin:0; font-size:18px; font-weight:800; color:var(--text-primary);">Hesabım</h2>
+        </div>
+
+        <div style="padding:0;">
+          <!-- 👤 PROFIL KARTI -->
+          <div style="background:#17212b; padding:24px; text-align:center; border-bottom:1px solid #0e1621; margin-bottom:12px;">
+            <div id="profileAvatarBigWrapper" style="position:relative; width:100px; height:100px; margin:0 auto 16px; cursor:pointer;" onclick="document.getElementById('avatarUploadInput').click()">
+               <div id="profileAvatarBig" style="width:100%; height:100%; border-radius:50%; background:#2b5278; display:flex; align-items:center; justify-content:center; font-size:36px; font-weight:900; color:#fff; box-shadow:0 8px 24px rgba(0,0,0,0.3); overflow:hidden;">?</div>
+               <div style="position:absolute; bottom:0; right:0; background:#2481cc; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:3px solid #17212b; color:#fff; font-size:16px;">📷</div>
+            </div>
+            <input type="file" id="avatarUploadInput" style="display:none;" accept="image/*" onchange="window.uploadProfilePicture(event)">
+            <h2 id="profileNameDisplay" style="margin:0; font-size:22px; font-weight:800; color:#fff;">Kullanıcı Adı</h2>
+            <p id="profileEmailDisplay" style="margin:4px 0 0; color:#708499; font-size:14px;">email@example.com</p>
+          </div>
+
+          <!-- 🆔 KULLANICI KIMLIGI (DÜZENLE) -->
+          <div style="background:#17212b; padding:12px 20px; border-bottom:1px solid #0e1621; margin-bottom:16px;">
+            <label style="display:block; font-size:12px; font-weight:700; color:#2481cc; text-transform:uppercase; margin-bottom:8px;">Kullanıcı Kimliği</label>
+            <div style="display:flex; gap:12px; align-items:center;">
+              <input type="text" id="newUsernameInput" placeholder="@kullaniciadi" 
+                style="flex:1; background:#0e1621; border:1px solid #232e3c; color:#fff; padding:12px 16px; border-radius:12px; outline:none; font-family:inherit; font-size:15px;">
+              <button onclick="window.updateUsernameFromProfile()" style="background:#2481cc; color:#fff; border:none; padding:10px 20px; border-radius:10px; font-weight:700; font-size:14px; cursor:pointer;">Kaydet</button>
+            </div>
+          </div>
+
+          <!-- ⚙️ AYARLAR GRUBU (PRO TELEGRAM LISTE YAPISI) -->
+          <div style="background:#17212b; margin-bottom:16px; border-top:1px solid #232e3c; border-bottom:1px solid #232e3c;">
+            <div style="display:flex; align-items:center; padding:12px 20px; border-bottom:1px solid #0e1621;">
+              <div style="width:34px; font-size:20px;">🛡️</div>
+              <div style="flex:1;">
+                <div style="font-size:15px; color:#fff;">Güvenlik</div>
+                <div style="font-size:13px; color:#4caf50; font-weight:600;">Aktif</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; padding:12px 20px;">
+              <div style="width:34px; font-size:20px;">💎</div>
+              <div style="flex:1;">
+                <div style="font-size:15px; color:#fff;">Hesap Tipi</div>
+                <div style="font-size:13px; color:#2481cc; font-weight:600;">Premium</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 🚪 EYLEMLER -->
+          <div style="background:#17212b; margin-bottom:32px; border-top:1px solid #232e3c; border-bottom:1px solid #232e3c;">
+            <div onclick="window.signOut()" style="padding:15px 20px; color:#fff; cursor:pointer; font-weight:600; display:flex; align-items:center; gap:14px; border-bottom:1px solid #0e1621;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+              Oturumu Kapat
+            </div>
+            <div onclick="window.confirmDeleteAccount()" style="padding:15px 20px; color:#ef5350; cursor:pointer; font-weight:600;">
+              Hesabımı Kalıcı Olarak Sil
+            </div>
+          </div>
+        </div>
+      </section>
 
     </main>
 
@@ -1021,6 +1398,7 @@
         <span>Lig</span>
       </button>
     </nav>
+
 
 
     <!-- 🥇 Canlı Altın Borsası Modal (Research Integrated) -->
@@ -1142,6 +1520,151 @@
     </div>
 
     <!-- ═════════════════════════ COIN DETAY MODALI ═════════════════════════ -->
+    <style>
+      @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+    </style>
+    <!-- Arkadaşlar Modal (Telegram Pro Sidebar) -->
+    <div id="friendsModal" class="modal-overlay" style="display:none; justify-content:flex-end; z-index:10000; padding:0;">
+      <div class="modal-content" style="max-width:400px; width:100%; height:100%; padding:0; overflow:hidden; border-radius:24px 0 0 24px; border-left:1px solid #232e3c; border-top:none; border-bottom:none; border-right:none; background:#0e1621; animation: slideInRight 0.3s cubic-bezier(0.25, 1, 0.5, 1); margin:0;">
+        <div class="friends-container">
+          <div class="friends-header">
+            <h2 style="margin:0; font-size:18px; font-weight:800;">Arkadaşlar</h2>
+            <button onclick="toggleFriendsModal()" style="background:none; border:none; color:#708499; font-size:24px; cursor:pointer;">✕</button>
+          </div>
+
+          <div style="flex:1; overflow-y:auto; padding-bottom:20px;">
+            <!-- Arama -->
+            <div class="search-wrapper">
+              <div class="search-bar">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#708499" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="friendSearchInput" placeholder="Kullanıcı adı girin..." onkeyup="if(event.key==='Enter') window.searchAndAddFriend()">
+              </div>
+              <div id="searchResult"></div>
+            </div>
+
+            <!-- Gelen İstekler -->
+            <div class="section-title">Gelen İstekler</div>
+            <div id="pendingRequests">
+              <div class="requests-empty">Bekleyen istek yok.</div>
+            </div>
+
+            <!-- Arkadaş Listesi -->
+            <div class="section-title">Arkadaş Listem</div>
+            <div id="friendList">
+              <div class="requests-empty">Henüz arkadaşınız yok.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MESAJLAR MODAL (Tam Ekran, Telegram Tarzı) -->
+    <div id="messagesModal" style="display:none; position:fixed; inset:0; background:var(--bg-primary); z-index:10000; font-family:'Space Grotesk', sans-serif;">
+      <div style="display:flex; height:100%; width:100%; overflow:hidden;">
+
+        <!-- SOL PANEL: Konuşma Listesi -->
+        <div id="conversationsPanel"
+          style="display:flex; flex-direction:column; flex-shrink:0; background:#0e1621;
+                 width:100%; border-right:1px solid #17212b;">
+
+          <!-- Başlık Çubuğu -->
+          <div style="display:flex; justify-content:space-between; align-items:center;
+                      padding:12px 16px; background:#17212b;
+                      border-bottom:1px solid #0e1621; position:sticky; top:0; z-index:10;">
+            <div style="display:flex; align-items:center; gap:12px;">
+               <button onclick="toggleMessagesModal()" style="background:none; border:none; color:#6c7883; cursor:pointer;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></button>
+               <h2 style="margin:0; font-size:18px; font-weight:700; color:#fff;">Mesajlar</h2>
+            </div>
+            <div style="color:#6ab2f2; cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></div>
+          </div>
+
+          <!-- Konuşma Listesi -->
+          <div id="conversationList" style="flex:1; overflow-y:auto; padding:4px 0; background:#0e1621;"></div>
+        </div>
+
+        <!-- SAĞ PANEL: Mesajlaşma Alanı -->
+        <div id="chatArea" style="flex:1; display:none; flex-direction:column; min-width:0; position:absolute; inset:0; background:var(--bg-primary); z-index:1;">
+
+          <!-- Chat Header -->
+          <div id="messageHeader"
+            style="display:flex; align-items:center; gap:10px; padding:12px 16px;
+                   border-bottom:1px solid #1f2937; background:#17212b;
+                   position:sticky; top:0; z-index:2;">
+            <button id="backToConversations" onclick="showConversationsList()"
+              style="background:none; border:none; padding:6px; color:#6c7883; cursor:pointer;
+                     display:flex; align-items:center; justify-content:center; border-radius:50%;
+                     transition:background 0.15s;"
+              onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='none'">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+            <div id="chatHeaderAvatar"
+              style="width:40px; height:40px; border-radius:50%; background:#2b5278;
+                     display:flex; align-items:center; justify-content:center;
+                     font-size:16px; font-weight:900; color:#fff; flex-shrink:0;">?</div>
+            <div style="flex:1; min-width:0;">
+              <div id="chatHeaderName" style="font-weight:800; font-size:15px; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Sohbet</div>
+              <div id="chatHeaderStatus" style="font-size:12px; color:#6ab2f2; font-weight:500;">çevrimiçi</div>
+            </div>
+            <button onclick="toggleMessagesModal()"
+              style="background:none; border:none; color:#6c7883; font-size:20px; cursor:pointer;">✕</button>
+          </div>
+
+          <!-- Mesaj Listesi -->
+          <div id="messageList" style="flex:1; overflow-y:auto; padding:16px 12px; background:#0e1621;"></div>
+
+          <!-- Mesaj Giriş Alanı -->
+          <div style="display:flex; gap:10px; padding:10px 14px 14px;
+                      background:#17212b; align-items:center;">
+            <input type="text" id="messageInput" placeholder="Mesaj..." autocomplete="off" inputmode="text"
+              style="flex:1; padding:12px 16px; border-radius:24px; border:none;
+                     background:#242f3d; color:#fff; font-size:15px;
+                     font-family:inherit; outline:none;">
+            <button onclick="sendMessageFromUi()"
+              style="width:40px; height:40px; background:none; color:#6ab2f2; border:none;
+                     font-size:24px; cursor:pointer; display:flex;
+                     align-items:center; justify-content:center; flex-shrink:0;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mesaj Silme Menüsü (Telegram Tarzı) -->
+    <div id="messageActionMenu"
+      style="display:none; position:fixed; background:var(--bg-secondary); border:1px solid var(--line);
+             border-radius:14px; padding:6px; z-index:10002; box-shadow:0 12px 32px rgba(0,0,0,0.5);
+             min-width:200px; animation:fadeIn 0.15s ease;">
+      <button id="deleteForMeBtn" onclick="deleteMessage('me')"
+        style="display:flex; align-items:center; gap:10px; width:100%; padding:11px 14px; border:none;
+               background:transparent; color:var(--text-primary); font-size:13px; font-weight:700;
+               cursor:pointer; text-align:left; border-radius:8px; font-family:inherit;
+               transition:background 0.12s;"
+        onmouseover="this.style.background='var(--bg-primary)'" onmouseout="this.style.background='transparent'">
+        <span style="font-size:16px;">🙈</span> Benden Sil
+      </button>
+      <button onclick="deleteMessage('everyone')"
+        style="display:flex; align-items:center; gap:10px; width:100%; padding:11px 14px; border:none;
+               background:transparent; color:var(--down); font-size:13px; font-weight:700;
+               cursor:pointer; text-align:left; border-radius:8px; font-family:inherit;
+               transition:background 0.12s;"
+        onmouseover="this.style.background='rgba(246,70,93,0.08)'" onmouseout="this.style.background='transparent'">
+        <span style="font-size:16px;">🗑️</span> Herkesten Sil
+      </button>
+      <div style="border-top:1px solid var(--line); margin:4px 0;"></div>
+      <button onclick="closeMessageMenu()"
+        style="display:flex; align-items:center; gap:10px; width:100%; padding:11px 14px; border:none;
+               background:transparent; color:var(--text-secondary); font-size:13px; font-weight:700;
+               cursor:pointer; text-align:left; border-radius:8px; font-family:inherit;
+               transition:background 0.12s;"
+        onmouseover="this.style.background='var(--bg-primary)'" onmouseout="this.style.background='transparent'">
+        <span style="font-size:16px;">✕</span> İptal
+      </button>
+    </div>
+
     <div id="coinDetailModal" class="modal-overlay"
       style="display:none; z-index:9999; font-family:'Space Grotesk', sans-serif;">
       <div
@@ -1206,7 +1729,6 @@
                 <button class="tf-btn" data-tf="1h" onclick="switchCoinTF('1h')">1s</button>
                 <button class="tf-btn" data-tf="4h" onclick="switchCoinTF('4h')">4s</button>
                 <button class="tf-btn active" data-tf="1d" onclick="switchCoinTF('1d')">1g</button>
-                <!-- Mum Sayısı Seçimi -->
                 <select id="candleLimitSelect" onchange="switchCandleLimit()"
                   style="margin-left:8px; padding:4px 8px; border-radius:6px; background:var(--bg-hover); color:var(--text-primary); border:1px solid var(--line); font-size:10px; font-family:inherit; cursor:pointer;">
                   <option value="200">200 mum</option>
@@ -1231,17 +1753,20 @@
     </div>
 
     <!-- 1. KÜTÜPHANELER -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/auth.js"></script>
+    <script src="app.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/lightweight-charts@4.2.1/dist/lightweight-charts.standalone.production.js"></script>
 
     <!-- 2. ANA UYGULAMA (Global fonksiyonlar, state, PIN vs.) -->
-    <script src="app.js"></script>
 
     <!-- 3. FORMATION (Süper Lig saha çizimi için) -->
     <script src="js/modules/formation.js"></script>
 
     <!-- 4. MODÜLLER (app.js'e bağımlı) -->
     <script src="js/modules/vault.js"></script>
+    <script src="js/friends-chat.js"></script>
     <script src="js/modules/school.js"></script>
     <script src="js/modules/fuel.js"></script>
     <script src="js/modules/days.js"></script>
@@ -1250,6 +1775,45 @@
     <script src="js/modules/coin.js"></script>
 
     <!-- 5. TEMA (En son) -->
+    <div id="toastContainer"></div>
+    <!-- CUSTOM CONFIRM MODAL -->
+    <div id="customConfirmModal" class="modal-overlay" style="display:none; justify-content:center; align-items:center; z-index:100001; padding:20px; background:rgba(0,0,0,0.6); backdrop-filter:blur(3px);">
+      <div style="background:#17212b; width:100%; max-width:320px; border-radius:16px; padding:24px; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.5); animation: zoomIn 0.2s cubic-bezier(0.25, 1, 0.5, 1);">
+        <div id="customConfirmText" style="color:#fff; font-size:16px; font-weight:600; margin-bottom:24px; line-height:1.4;">Emin misiniz?</div>
+        <div style="display:flex; gap:12px;">
+          <button id="customConfirmCancel" style="flex:1; background:#232e3c; color:#708499; border:none; padding:12px; border-radius:10px; font-weight:700; cursor:pointer; transition:background 0.2s;">İptal</button>
+          <button id="customConfirmOk" style="flex:1; background:#ef5350; color:#fff; border:none; padding:12px; border-radius:10px; font-weight:700; cursor:pointer; transition:background 0.2s;">Sil</button>
+        </div>
+      </div>
+    </div>
+    <style>@keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }</style>
+    <script>
+      window.showCustomConfirm = function(msg, onConfirm) {
+        const modal = document.getElementById('customConfirmModal');
+        const text = document.getElementById('customConfirmText');
+        const btnCancel = document.getElementById('customConfirmCancel');
+        const btnOk = document.getElementById('customConfirmOk');
+        if(!modal || !text || !btnCancel || !btnOk) {
+           if(confirm(msg)) onConfirm(); // Fallback
+           return;
+        }
+        text.textContent = msg;
+        modal.style.display = 'flex';
+        
+        btnCancel.onclick = function() { modal.style.display = 'none'; };
+        btnOk.onclick = function() { modal.style.display = 'none'; onConfirm(); };
+      };
+      
+      window.showToast = function(msg, type = 'default') {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+        const toast = document.createElement('div');
+        toast.className = 'toast-msg ' + type;
+        toast.textContent = msg;
+        container.appendChild(toast);
+        setTimeout(() => { if(toast.parentNode) toast.parentNode.removeChild(toast); }, 3000);
+      };
+    </script>
     <script>
       function applyThemeScope() {
         const saved = localStorage.getItem('finans-theme') || 'klasik';
@@ -1274,9 +1838,132 @@
         applyThemeScope();
       };
 
+      window.toggleDisclaimerModal = function() {
+        const modal = document.getElementById('disclaimerModal');
+        if (!modal) return;
+        const isVisible = modal.style.display === 'flex';
+        modal.style.display = isVisible ? 'none' : 'flex';
+        if (!isVisible && typeof toggleSidebar === 'function') toggleSidebar(false);
+      };
+
       (function () { applyThemeScope(); })();
     </script>
 
+    <!-- YASAL UYARI MODALI (Telegram Pro) -->
+    <style>
+      .legal-overlay {
+          position: fixed;
+          top: 0; left: 0; width: 100%; height: 100%;
+          background: rgba(0, 0, 0, 0.8);
+          display: none; /* JavaScript ile flex yapılacak */
+          align-items: center;
+          justify-content: center;
+          backdrop-filter: blur(5px);
+          z-index: 100000;
+      }
+      
+      .legal-modal {
+          background: #17212b;
+          width: 90%;
+          max-width: 400px;
+          border-radius: 20px;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+          border: 1px solid #232e3c;
+          animation: zoomIn 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+      
+      .legal-header {
+          padding: 20px;
+          text-align: center;
+          border-bottom: 1px solid #232e3c;
+      }
+      
+      .legal-header-icon {
+          font-size: 32px;
+          margin-bottom: 10px;
+      }
+      
+      .legal-header h2 {
+          margin: 0;
+          color: #ef5350;
+          font-size: 18px;
+          letter-spacing: 1px;
+      }
+      
+      .legal-content {
+          padding: 20px;
+          max-height: 400px;
+          overflow-y: auto;
+          color: #ffffff;
+          line-height: 1.6;
+          font-size: 14px;
+      }
+      
+      .legal-content::-webkit-scrollbar { width: 4px; }
+      .legal-content::-webkit-scrollbar-thumb { background: #232e3c; border-radius: 10px; }
+      
+      .legal-alert-box {
+          background: rgba(239, 83, 80, 0.1);
+          border-left: 3px solid #ef5350;
+          padding: 12px;
+          margin: 15px 0;
+          border-radius: 4px;
+      }
+      
+      .legal-highlight-box {
+          background: #242f3d;
+          padding: 12px;
+          border-radius: 10px;
+          margin: 15px 0;
+          border: 1px dashed #708499;
+      }
+      
+      .legal-intro { font-size: 15px; margin-top: 0; }
+      .legal-footer-note { color: #708499; font-style: italic; font-size: 13px; }
+      
+      .legal-footer { padding: 15px 20px; }
+      
+      .accept-btn {
+          width: 100%;
+          padding: 14px;
+          border-radius: 12px;
+          border: none;
+          background: #ef5350;
+          color: white;
+          font-weight: bold;
+          font-size: 16px;
+          cursor: pointer;
+          transition: transform 0.1s, opacity 0.2s;
+      }
+      
+      .accept-btn:active { transform: scale(0.97); opacity: 0.9; }
+    </style>
+    
+    <div id="disclaimerModal" class="legal-overlay">
+        <div class="legal-modal">
+            <div class="legal-header">
+                <div class="legal-header-icon">🛡️</div>
+                <h2>YASAL UYARI</h2>
+            </div>
+            <div class="legal-content">
+                <p class="legal-intro">Bu uygulamada yer alan tüm bilgiler, veriler ve analizler <strong>yalnızca bilgilendirme amaçlıdır</strong>.</p>
+                <div class="legal-alert-box">Kesinlikle yatırım tavsiyesi, finansal öneri veya herhangi bir alım-satım işlemi için referans teşkil etmez.</div>
+                <p>Hiçbir içerik, menkul kıymet, fon, kripto varlık veya başka bir enstrümanın alınması, satılması ya da elde tutulması yönünde bir çağrı olarak yorumlanmamalıdır.</p>
+                <p>Uygulamada sunulan verilerin doğruluğu, tamlığı veya güncelliği konusunda garanti verilmemektedir. <strong>Üçüncü taraflardan alınan verilerde hata veya gecikme olabilir.</strong></p>
+                <div class="legal-highlight-box">
+                    <p style="margin:0;">Bu bilgilere dayanarak yapacağınız tüm yatırım kararları tamamen <strong>size aittir</strong>. Oluşabilecek kâr veya zararlardan taraflar sorumlu tutulamaz.</p>
+                </div>
+                <p>Bu uygulama yatırım araçlarına dair alım/satım emri iletmemekte olup, sadece gözlem amaçlıdır. Kanunen yasaklanan bölgelerdeki kullanıcılar bu uygulamayı kullanmamalıdır.</p>
+                <p class="legal-footer-note">Geçmiş performans verileri, gelecekteki sonuçlar için bir garanti oluşturmaz. Uygulamayı kullanarak bu şartları kabul etmiş sayılırsınız.</p>
+            </div>
+            <div class="legal-footer">
+                <button class="accept-btn" onclick="window.toggleDisclaimerModal()">Anladım, Kabul Ediyorum</button>
+            </div>
+        </div>
+    </div>
 
 </body>
 
