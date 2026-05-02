@@ -2190,7 +2190,7 @@
           if (confirm(msg)) onConfirm(); // Fallback
           return;
         }
-        text.textContent = msg;
+        text.innerHTML = msg;
         modal.style.display = 'flex';
 
         btnCancel.onclick = function () { modal.style.display = 'none'; };
