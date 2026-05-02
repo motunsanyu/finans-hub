@@ -238,6 +238,18 @@ const FriendsChatModule = (() => {
     if (!el) return;
     try {
       const requests = await getPendingRequests();
+      
+      // Badge güncelle
+      const badge = document.getElementById('friendsBadge');
+      if (badge) {
+        if (requests.length > 0) {
+          badge.style.display = 'inline-flex';
+          badge.textContent = requests.length;
+        } else {
+          badge.style.display = 'none';
+        }
+      }
+
       if (!requests.length) {
         el.innerHTML = '';
         if (wrapper) wrapper.style.display = 'none';
@@ -374,14 +386,24 @@ const FriendsChatModule = (() => {
 
   window.removeFriend = async function (event, friendId) {
     if (event) event.stopPropagation();
-    if (!confirm('Bu kişiyi arkadaş listesinden çıkarmak istiyor musunuz?')) return;
-    try {
-      await getSB().from('friendships').delete()
-        .or(`and(requester_id.eq.${currentUserId},addressee_id.eq.${friendId}),and(requester_id.eq.${friendId},addressee_id.eq.${currentUserId})`);
-      loadFriendList();
-      if (window.showToast) window.showToast('Arkadaşlıktan çıkarıldı.', 'success');
-    } catch (e) {
-      if (window.showToast) window.showToast('Hata oluştu.', 'error');
+    
+    const executeDelete = async () => {
+      try {
+        await getSB().from('friendships').delete()
+          .or(`and(requester_id.eq.${currentUserId},addressee_id.eq.${friendId}),and(requester_id.eq.${friendId},addressee_id.eq.${currentUserId})`);
+        loadFriendList();
+        if (window.showToast) window.showToast('Arkadaşlıktan çıkarıldı.', 'success');
+      } catch (e) {
+        if (window.showToast) window.showToast('Hata oluştu.', 'error');
+      }
+    };
+
+    if (window.showCustomConfirm) {
+      window.showCustomConfirm('Bu kişiyi arkadaş listesinden çıkarmak istiyor musunuz?', executeDelete);
+    } else {
+      if (confirm('Bu kişiyi arkadaş listesinden çıkarmak istiyor musunuz?')) {
+        executeDelete();
+      }
     }
   };
 
@@ -1148,6 +1170,14 @@ const FriendsChatModule = (() => {
       .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'messages' }, async (payload) => {
         if (currentFriendId) await loadMessages();
       })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'friendships' }, async (payload) => {
+        // Arkadaşlık isteklerinde değişiklik olunca listeleri yenile
+        loadPendingRequests();
+        const modal = document.getElementById('friendsModal');
+        if (modal?.style.display === 'flex') {
+          loadFriendList();
+        }
+      })
       .subscribe();
   }
 
@@ -1181,6 +1211,9 @@ const FriendsChatModule = (() => {
 
     // Başlangıçta okunmamış mesaj sayısını al
     await recalcTotalUnread();
+
+    // Başlangıçta arkadaş isteklerini yükle (badge için)
+    loadPendingRequests();
   }
 
   // Okunmamışları localStorage bazlı yeniden hesapla

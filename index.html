@@ -533,15 +533,19 @@
           Profil
         </a>
         <a href="#" onclick="toggleFriendsModal(); return false;"
-          style="display:flex; align-items:center; gap:16px; padding:16px; border-radius:12px; color:#d1d5db; text-decoration:none; font-weight:700;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            style="flex-shrink:0;">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-          </svg>
-          Arkadaşlar
+          style="display:flex; align-items:center; justify-content:space-between; padding:16px; border-radius:12px; color:#d1d5db; text-decoration:none; font-weight:700;">
+          <span style="display:flex; align-items:center; gap:16px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              style="flex-shrink:0;">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            Arkadaşlar
+          </span>
+          <span id="friendsBadge" class="bg-[#f6465d] text-white text-[10px] font-bold px-2 py-0.5 rounded-full"
+            style="display:none; background:#f6465d; color:#fff; font-size:10px; font-weight:900; padding:2px 8px; border-radius:999px;">0</span>
         </a>
         <a href="#" onclick="toggleMessagesModal(); return false;"
           style="display:flex; align-items:center; justify-content:space-between; padding:16px; border-radius:12px; color:#d1d5db; text-decoration:none; font-weight:700;">
