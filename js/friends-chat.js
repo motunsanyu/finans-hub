@@ -552,15 +552,16 @@ const FriendsChatModule = (() => {
         return dateSeparatorHtml + `<div
           data-msg-id="${msg.id}"
           data-is-mine="${isMine}"
-          style="display:flex; justify-content:${isMine ? 'flex-end' : 'flex-start'}; margin:6px 0; animation: fadeIn 0.2s ease; user-select:none; -webkit-touch-callout:none;"
+          style="display:flex; justify-content:${isMine ? 'flex-end' : 'flex-start'}; margin:6px 0; animation: fadeIn 0.2s ease; user-select:none; -webkit-touch-callout:none; touch-action: pan-y;"
           oncontextmenu="FriendsChatModule.showMessageMenu(event, '${msg.id}', ${isMine}); return false;"
           ontouchstart="FriendsChatModule.handleTouchStart(event, '${msg.id}', ${isMine})"
           ontouchmove="FriendsChatModule.handleTouchMove(event)"
           ontouchend="FriendsChatModule.handleTouchEnd(event, '${msg.id}', ${isMine})"
         >
-          <div class="message-bubble" style="max-width:82%; background:${bubbleBg}; color:${textColor}; padding:8px 12px; border-radius:${borderRadius}; position:relative; box-shadow:0 1px 2px rgba(0,0,0,0.2); transition: transform 0.2s ease;">
+          <div class="message-bubble" 
+            style="max-width:82%; background:${bubbleBg}; color:${textColor}; padding:8px 12px; border-radius:${borderRadius}; position:relative; box-shadow:0 1px 2px rgba(0,0,0,0.2); transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); cursor:pointer; transform-origin: center;">
             <div style="font-size:15px; line-height:1.45; word-break:break-word;">${msg.content}</div>
-            <div style="font-size:10px; color:#6c7883; margin-top:4px; text-align:right; font-weight:500;">${time}</div>
+            <div style="font-size:10px; color:rgba(255,255,255,0.5); margin-top:4px; text-align:right; font-weight:500;">${time}</div>
           </div>
         </div>`;
       }).join('');
@@ -620,6 +621,10 @@ const FriendsChatModule = (() => {
     touchStartY = event.touches[0].clientY;
     isSwipeAction = false;
 
+    // Basma efekti (Küçülme)
+    const bubble = event.currentTarget.querySelector('.message-bubble');
+    if (bubble) bubble.style.transform = 'scale(0.96)';
+
     touchTimer = setTimeout(() => {
       if (!isSwipeAction) {
         const touch = event.touches[0];
@@ -631,22 +636,31 @@ const FriendsChatModule = (() => {
 
   function handleTouchMove(event) {
     const moveX = event.touches[0].clientX;
+    const moveY = event.touches[0].clientY;
     const diffX = touchStartX - moveX;
+    const diffY = Math.abs(touchStartY - moveY);
     
-    // Eğer sola 30px'den fazla kaydıysa swipe olarak işaretle
-    if (diffX > 30) {
+    // Eğer yatay kaydırma dikeyden fazlaysa ve 20px'den fazlaysa swipe moduna geç
+    if (Math.abs(diffX) > 20 && Math.abs(diffX) > diffY) {
       isSwipeAction = true;
       clearTimeout(touchTimer);
+      // Sayfanın dikeyde kaymasını engelle ki swipe düzgün çalışsın
+      if (event.cancelable) event.preventDefault();
     }
   }
 
   function handleTouchEnd(event, msgId, isMine) {
     clearTimeout(touchTimer);
+    
+    // Basma efektini geri al
+    const bubble = event.currentTarget.querySelector('.message-bubble');
+    if (bubble) bubble.style.transform = 'scale(1)';
+
     const touchEndX = event.changedTouches[0].clientX;
     const diffX = touchStartX - touchEndX;
 
     // Sola kaydırma (Swipe Left) gerçekleştiyse menüyü aç
-    if (isSwipeAction && diffX > 50) {
+    if (isSwipeAction && diffX > 60) {
       const touch = event.changedTouches[0];
       const fakeEvent = { clientX: touch.clientX, clientY: touch.clientY, stopPropagation: () => {} };
       showMessageMenu(fakeEvent, msgId, isMine);
@@ -685,17 +699,32 @@ const FriendsChatModule = (() => {
 
     try {
       const { data: { user } } = await getSB().auth.getUser();
+      
+      // Mesajın sahibini kontrol et
+      const { data: msg, error: fetchError } = await getSB().from('messages').select('sender_id').eq('id', id).single();
+      if (fetchError) throw fetchError;
+
+      let updateError;
       if (scope === 'me') {
-        const { data: msg } = await getSB().from('messages').select('sender_id').eq('id', id).single();
-        const field = msg?.sender_id === user.id ? 'deleted_for_sender' : 'deleted_for_receiver';
-        await getSB().from('messages').update({ [field]: true }).eq('id', id);
+        const field = msg.sender_id === user.id ? 'deleted_for_sender' : 'deleted_for_receiver';
+        const { error } = await getSB().from('messages').update({ [field]: true }).eq('id', id);
+        updateError = error;
       } else if (scope === 'everyone') {
-        if (!selectedMessageIsMine) return;
-        await getSB().from('messages').update({ deleted_for_sender: true, deleted_for_receiver: true }).eq('id', id);
+        if (msg.sender_id !== user.id) {
+           if (window.showToast) window.showToast('Sadece kendi mesajlarını herkesten silebilirsin.', 'error');
+           return;
+        }
+        const { error } = await getSB().from('messages').update({ deleted_for_sender: true, deleted_for_receiver: true }).eq('id', id);
+        updateError = error;
       }
+
+      if (updateError) throw updateError;
+
+      if (window.showToast) window.showToast('Mesaj silindi.', 'success');
       await loadMessages();
     } catch (e) {
-      if (window.showToast) window.showToast('Silme hatası: ' + e.message, 'error');
+      console.error("Silme hatası detay:", e);
+      if (window.showToast) window.showToast('Silme hatası: ' + (e.message || 'Yetki sorunu'), 'error');
     }
   };
 
