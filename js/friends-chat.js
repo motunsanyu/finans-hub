@@ -362,20 +362,15 @@ const FriendsChatModule = (() => {
 
       const listItems = [];
       for (const f of friends) {
-        // PRO MANTIK: Sadece mesaj geçmişi olan (ve silinmemiş) sohbetleri göster
+        // PRO MANTIK DÜZELTİLDİ: Sadece SİLİNMEMİŞ mesajı olanları bul
+        // Hem gönderen hem alan tarafındaki silinme durumlarını kontrol ediyoruz
         const { data: msgs } = await getSB()
           .from('messages')
           .select('id, sender_id, receiver_id, deleted_for_sender, deleted_for_receiver')
-          .or(`and(sender_id.eq.${user.id},receiver_id.eq.${f.friendId}),and(sender_id.eq.${f.friendId},receiver_id.eq.${user.id})`)
+          .or(`and(sender_id.eq.${user.id},receiver_id.eq.${f.friendId},deleted_for_sender.eq.false),and(sender_id.eq.${f.friendId},receiver_id.eq.${user.id},deleted_for_receiver.eq.false)`)
           .limit(1);
 
-        const hasVisibleMessages = msgs?.some(m => {
-          if (m.sender_id === user.id && m.deleted_for_sender) return false;
-          if (m.receiver_id === user.id && m.deleted_for_receiver) return false;
-          return true;
-        });
-
-        if (!hasVisibleMessages) continue; // Sohbet boşsa listede gösterme
+        if (!msgs || msgs.length === 0) continue; // Görünür mesaj yoksa listede gösterme
 
         const { data: prof } = await getSB().from('profiles').select('last_seen, avatar_url').eq('id', f.friendId).maybeSingle();
         
