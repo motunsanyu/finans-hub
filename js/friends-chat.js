@@ -560,6 +560,12 @@ const FriendsChatModule = (() => {
       // Yumuşak ve anında kaydırma (Smooth Scroll)
       setTimeout(() => {
         list.scrollTo({ top: list.scrollHeight, behavior: 'smooth' });
+        
+        // Ek: Mesaj listesi yüklendikten sonra input focus'unu koru
+        const msgInput = document.getElementById('messageInput');
+        if (msgInput && document.activeElement !== msgInput && currentFriendId) {
+            msgInput.focus({ preventScroll: true });
+        }
       }, 50);
     } catch (e) {
       list.innerHTML = '<p style="text-align:center; padding:20px; color:red;">Mesajlar yüklenemedi.</p>';
@@ -652,13 +658,22 @@ const FriendsChatModule = (() => {
 
   let isSendingMsg = false;
   window.sendMessageFromUi = async function () {
-    if (isSendingMsg) return; // Çift tıklamayı engelle (Gizli Kilit)
+    if (isSendingMsg) return; // Çift tıklamayı engelle
     const input = document.getElementById('messageInput');
     const text = input?.value?.trim();
     if (!text || !currentFriendId) return;
 
+    // 1. Input'u temizle ve hemen focus'u geri ver (klavye kapanmasın)
     input.value = '';
-    isSendingMsg = true; // Gönderim başladı
+    input.focus();
+
+    // 2. Mobil tarayıcılar buton tıklaması sonrası focus'u çalmasın diye
+    //    minik bir gecikmeyle tekrar odaklan
+    setTimeout(() => {
+      input.focus({ preventScroll: true });
+    }, 30);
+
+    isSendingMsg = true;
 
     try {
       await sendMessage(currentFriendId, text);
@@ -667,8 +682,11 @@ const FriendsChatModule = (() => {
       alert('Mesaj gönderilemedi: ' + e.message);
       input.value = text;
     } finally {
-      isSendingMsg = false; // Gönderim bitti
-      input.focus(); // Klavye KAPANMASIN diye tekrar odaklan
+      isSendingMsg = false;
+      // Güvenlik için bir kez daha odakla (özellikle loadMessages sonrası)
+      setTimeout(() => {
+        input.focus({ preventScroll: true });
+      }, 100);
     }
   };
 
