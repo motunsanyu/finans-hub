@@ -1,34 +1,41 @@
 const STORAGE_KEYS = {
-  fuel: "financeApp.fuelRecords",     // belki silinebilir
-  days: "financeApp.dayRecords",     // belki silinebilir
+  fuel: "financeApp.fuelRecords",
+  days: "financeApp.dayRecords",
   school: "financeApp.schoolRecords",
   financeSnapshot: "financeApp.financeSnapshot",
   debts: "financeApp.debts",
   appPin: "financeApp.pin",
-  vault: "financeApp.vault",         // silinebilir
+  vault: "financeApp.vault",
   yesterdayDebt: "financeApp.yesterdayDebt",
   lastDailyUpdate: "financeApp.lastDailyUpdate"
 };
 
-// toggleFriendsModal ve toggleMessagesModal → js/friends-chat.js dosyasında tanımlı
-
-
-
-function getSB() {
-  return window._supabaseClient;
-}
-
 let state = {
+  fuelRecords: readStorage(STORAGE_KEYS.fuel, []),
+  dayRecords: readStorage(STORAGE_KEYS.days, []),
   financeSnapshot: readStorage(STORAGE_KEYS.financeSnapshot, {}),
   debts: readStorage(STORAGE_KEYS.debts, { usd: 0, eur: 0, gold: 0, btc: 0, try: 0 }),
-
+  vaultRecords: readStorage(STORAGE_KEYS.vault, []),
   yesterdayDebt: Number(localStorage.getItem(STORAGE_KEYS.yesterdayDebt)) || 0
 };
 
 
+const _rawSchool = readStorage(STORAGE_KEYS.school, []);
+if (!Array.isArray(_rawSchool)) {
+  state.school = [];
+  if (_rawSchool.child1 && _rawSchool.child1.records && _rawSchool.child1.records.length > 0) {
+    state.school.push({ id: "child1", name: _rawSchool.child1.name || "Profil 1", records: _rawSchool.child1.records });
+  }
+  if (_rawSchool.child2 && _rawSchool.child2.records && _rawSchool.child2.records.length > 0) {
+    state.school.push({ id: "child2", name: _rawSchool.child2.name || "Profil 2", records: _rawSchool.child2.records });
+  }
+  writeStorage(STORAGE_KEYS.school, state.school);
+} else {
+  state.school = _rawSchool;
+}
 
 // ═════════════════════════ BAŞLATICILAR ═════════════════════════
-async function init() {
+function init() {
   // Service Worker Kaydı (PWA için)
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -44,32 +51,12 @@ async function init() {
 
   document.getElementById("refreshFinanceBtn").addEventListener("click", refreshFinanceData);
 
-  if (typeof VaultModule !== 'undefined') VaultModule.init();
-  if (typeof FuelModule !== 'undefined') FuelModule.init();
-  if (typeof DaysModule !== 'undefined') DaysModule.init();
-  if (typeof SchoolModule !== 'undefined') SchoolModule.init();
-  if (typeof AltinModule !== 'undefined') AltinModule.init();
-  if (typeof SuperligModule !== 'undefined') SuperligModule.init();
-  if (typeof FriendsChatModule !== 'undefined') FriendsChatModule.init();
-
-  try {
-    const { data: { user } } = await getSB().auth.getUser();
-    if (user) {
-      const { data, error } = await getSB()
-        .from('finance_snapshots')
-        .select('data')
-        .eq('user_id', user.id)
-        .maybeSingle(); // .single() yerine .maybeSingle()
-
-      if (error) {
-        console.warn('Piyasa verisi yüklenemedi, varsayılan kullanılıyor.');
-      }
-      state.financeSnapshot = data?.data || {}; // Boşsa boş nesne kullan
-      if (data) {
-        state.financeSnapshot = data.data;
-      }
-    }
-  } catch (e) { console.warn('Piyasa verisi Supabase’den alınamadı:', e.message); }
+  VaultModule.init();
+  FuelModule.init();
+  DaysModule.init();
+  SchoolModule.init();
+  AltinModule.init();
+  SuperligModule.init();
 
   refreshFinanceData();
 
@@ -77,7 +64,7 @@ async function init() {
   // Yakıt fiyatlarını uygulama başında yükle
   setTimeout(() => { if (typeof fetchFuelPrices === 'function') fetchFuelPrices(); }, 1200);
 
-  //fireAlarmBanner();
+  fireAlarmBanner();
 
 
   const now = new Date();
@@ -90,47 +77,8 @@ async function init() {
   setInterval(() => {
     console.log("🔄 Finans verileri 30 saniyede bir yenileniyor...");
     refreshFinanceData();
-    
-    // Heartbeat: Kullanıcı aktifse veritabanındaki son görülme saatini güncelle
-    if (window._supabaseClient) {
-      window._supabaseClient.auth.getUser().then(({ data: { user } }) => {
-        if (user) {
-          window._supabaseClient.from('profiles').update({ last_seen: new Date().toISOString() }).eq('id', user.id).then();
-        }
-      });
-    }
   }, 30000);
-
-  // 🛡️ Yasal uyarıyı ilk kez göster (LocalStorage kontrolü)
-  const legalAccepted = localStorage.getItem('legalDisclaimerAccepted');
-  if (!legalAccepted) {
-    setTimeout(() => {
-      const modal = document.getElementById('disclaimerModal');
-      if (modal) modal.style.display = 'flex';
-    }, 800);
-  }
 }
-
-let appInitialized = false;
-function initApp() {
-  if (appInitialized) return;
-  appInitialized = true;
-  if (typeof init === 'function') init();
-}
-
-window.toggleSidebar = function (forceOpen) {
-  const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('overlay');
-  if (!sidebar || !overlay) return;
-
-  const shouldOpen = typeof forceOpen === 'boolean'
-    ? forceOpen
-    : sidebar.classList.contains('translate-x-full');
-
-  sidebar.classList.toggle('translate-x-full', !shouldOpen);
-  sidebar.classList.toggle('translate-x-0', shouldOpen);
-  overlay.classList.toggle('hidden', !shouldOpen);
-};
 
 // ═════════════════════════ NUMARA MASKELEME ═════════════════════════
 function bindInputMasks() {
@@ -148,7 +96,7 @@ function bindInputMasks() {
 function parseVal(str) { return Number(String(str).replace(/\./g, "").replace(",", ".")); }
 
 // ═════════════════════════ ALARM BANNER ═════════════════════════
-/*function fireAlarmBanner() {
+function fireAlarmBanner() {
   let urgent = [];
   const todayMillis = new Date().setHours(0, 0, 0, 0);
 
@@ -158,7 +106,15 @@ function parseVal(str) { return Number(String(str).replace(/\./g, "").replace(",
     if (d === 0) urgent.push(`⏰ BUGÜN SON GÜN: ${r.title}`);
     else if (d > 0 && d <= 5) urgent.push(`⏰ ${r.title} hedefine sadece ${d} gün kaldı!`);
   });
-
+  state.school.forEach(plan => {
+    const u = plan.records.filter(x => !x.paid).sort((a, b) => a.dueDate.localeCompare(b.dueDate))[0];
+    if (u) {
+      const target = new Date(u.dueDate).setHours(0, 0, 0, 0);
+      const d = Math.round((target - todayMillis) / (1000 * 60 * 60 * 24));
+      if (d === 0) urgent.push(`💳 BUGÜN SON GÜN: ${plan.name} Taksiti (${formatCurrency(u.amount)})`);
+      else if (d > 0 && d <= 5) urgent.push(`💳 Kritik Taksit: ${plan.name} (${d} Gün Kaldı)`);
+    }
+  });
 
   if (urgent.length > 0) {
     const b = document.createElement("div");
@@ -170,7 +126,7 @@ function parseVal(str) { return Number(String(str).replace(/\./g, "").replace(",
     document.body.appendChild(b);
     setTimeout(() => { b.style.top = "-200px"; setTimeout(() => b.remove(), 500); }, 6000);
   }
-}*/
+}
 
 function bindTabs() {
   const buttons = document.querySelectorAll(".tab-btn"); const pages = document.querySelectorAll(".tab-page");
@@ -184,7 +140,6 @@ function bindTabs() {
 }
 
 // ═════════════════════════ APP LOCK / PIN ═════════════════════════
-/*
 let enteredPin = ""; let pinStage = "login"; let tempSetupPin = "";
 const SAVED_PIN = localStorage.getItem(STORAGE_KEYS.appPin);
 const pinScreen = document.getElementById("pinScreen"); const appShell = document.getElementById("appShell"); const pinTitle = document.getElementById("pinTitle");
@@ -231,57 +186,17 @@ function unlockApp() {
 }
 
 // ═════════════════════════ SIDEBAR VE TOPLAM BORÇ ═════════════════════════
-*/
 function bindSidebar() {
-  const positionsPanel = document.getElementById("positionsPanel");
-  const positionsOverlay = document.getElementById("positionsOverlay");
-  const menuBtn = document.getElementById("menuBtn");
-  const closePositionsBtn = document.getElementById("closePositionsBtn");
-  const saveDebtsBtn = document.getElementById("saveDebtsBtn");
-
-  const debtUSD = document.getElementById("debtUSD");
-  const debtEUR = document.getElementById("debtEUR");
-  const debtGold = document.getElementById("debtGold");
-  const debtBTC = document.getElementById("debtBTC");
-  const debtTRY = document.getElementById("debtTRY");
-
-  if (debtUSD) debtUSD.value = state.debts.usd || 0;
-  if (debtEUR) debtEUR.value = state.debts.eur || 0;
-  if (debtGold) debtGold.value = state.debts.gold || 0;
-  if (debtBTC) debtBTC.value = state.debts.btc || 0;
-  if (debtTRY) debtTRY.value = state.debts.try || 0;
-
-  if (menuBtn) menuBtn.onclick = () => toggleSidebar();
-
-  window.openPositions = function () {
-    if (typeof toggleSidebar === 'function') toggleSidebar(false);
-    if (positionsPanel) positionsPanel.classList.add("open");
-    if (positionsOverlay) positionsOverlay.classList.add("open");
-  };
-
-  window.openProfile = function () {
-    alert("Profil ekranı yakında eklenecek.");
-  };
-
-  const closePositions = () => {
-    if (positionsPanel) positionsPanel.classList.remove("open");
-    if (positionsOverlay) positionsOverlay.classList.remove("open");
-  };
-
-  if (closePositionsBtn) closePositionsBtn.onclick = closePositions;
-  if (positionsOverlay) positionsOverlay.onclick = closePositions;
-
-  if (saveDebtsBtn) saveDebtsBtn.onclick = () => {
-    state.debts = {
-      usd: Number(debtUSD?.value || 0),
-      eur: Number(debtEUR?.value || 0),
-      gold: Number(debtGold?.value || 0),
-      btc: Number(debtBTC?.value || 0),
-      try: Number(debtTRY?.value || 0)
-    };
-    writeStorage(STORAGE_KEYS.debts, state.debts);
-    calcTotalDebt();
-    closePositions();
+  const sidebar = document.getElementById("sidebar"); const overlay = document.getElementById("sidebarOverlay");
+  document.getElementById("debtUSD").value = state.debts.usd || 0; document.getElementById("debtEUR").value = state.debts.eur || 0;
+  document.getElementById("debtGold").value = state.debts.gold || 0; document.getElementById("debtBTC").value = state.debts.btc || 0;
+  document.getElementById("debtTRY").value = state.debts.try || 0;
+  document.getElementById("menuBtn").onclick = () => { sidebar.classList.add("open"); overlay.classList.add("open"); }
+  document.getElementById("closeSidebarBtn").onclick = () => { sidebar.classList.remove("open"); overlay.classList.remove("open"); }
+  overlay.onclick = () => { sidebar.classList.remove("open"); overlay.classList.remove("open"); }
+  document.getElementById("saveDebtsBtn").onclick = () => {
+    state.debts = { usd: Number(document.getElementById("debtUSD").value), eur: Number(document.getElementById("debtEUR").value), gold: Number(document.getElementById("debtGold").value), btc: Number(document.getElementById("debtBTC").value), try: Number(document.getElementById("debtTRY").value) };
+    writeStorage(STORAGE_KEYS.debts, state.debts); calcTotalDebt(); sidebar.classList.remove("open"); overlay.classList.remove("open");
   };
 }
 
@@ -370,20 +285,7 @@ async function refreshFinanceData() {
     }
   } catch (e) { console.warn("Doviz Central Error", e); }
 
-  state.financeSnapshot = nextSnapshot;
-
-  try {
-    const { data: { user } } = await getSB().auth.getUser();
-    if (user) {
-      await getSB().from('finance_snapshots').upsert({
-        user_id: user.id,
-        data: nextSnapshot,
-        updated_at: new Date().toISOString()
-      });
-    }
-  } catch (e) { console.warn('Piyasa verisi Supabase’e kaydedilemedi:', e.message); }
-
-  writeStorage(STORAGE_KEYS.financeSnapshot, nextSnapshot);
+  state.financeSnapshot = nextSnapshot; writeStorage(STORAGE_KEYS.financeSnapshot, nextSnapshot);
 
   // UI Güncelleme
   paintFinanceRow("usdTry", nextSnapshot.usdTry, 4);
@@ -451,7 +353,8 @@ window.toggleMatchDetail = function (id) {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (typeof checkAuthState === 'function') checkAuthState();
+  const pinScreen = document.getElementById("pinScreen");
+  if (pinScreen) pinScreen.style.display = "flex";
 });
 
 // ══════════════════════════════════════════
@@ -613,170 +516,3 @@ const globalScrollObserver = new MutationObserver(() => {
   bindScrollToTopToAllTabButtons();
 });
 globalScrollObserver.observe(document.body, { childList: true, subtree: true });
-
-// ═════════════════════════ YASAL UYARI FONKSİYONLARI ═════════════════════════
-// İlk kabulde çağrılır: localStorage'a kaydeder ve kapatır
-window.acceptDisclaimer = function () {
-  localStorage.setItem('legalDisclaimerAccepted', 'true');
-  const modal = document.getElementById('disclaimerModal');
-  if (modal) modal.style.display = 'none';
-  if (window.showToast) window.showToast('Yasal şartları kabul ettiniz.', 'success');
-};
-
-// Menüden manuel açma/kapatma (kayıt yapmaz)
-window.toggleDisclaimerModal = function () {
-  const modal = document.getElementById('disclaimerModal');
-  if (!modal) return;
-  const isVisible = modal.style.display === 'flex';
-  modal.style.display = isVisible ? 'none' : 'flex';
-  // Eğer açılıyorsa ve sidebar açıksa sidebar'ı kapat (daha temiz görünüm)
-  if (!isVisible && typeof window.toggleSidebar === 'function') window.toggleSidebar(false);
-};
-
-// ========== TOAST BİLDİRİM STİLİ (FLU KOYU YEŞİL ZEMİN, BEYAZ YAZI) ==========
-window.showToast = function(msg, type = 'default') {
-  const container = document.getElementById('toastContainer');
-  if (!container) return;
-  const toast = document.createElement('div');
-  toast.className = 'toast-msg';
-  toast.textContent = msg;
-  // Her zaman koyu yeşil arka plan (flu olması için blur eklendi)
-  toast.style.background = 'rgba(0, 70, 0, 0.85)';
-  toast.style.backdropFilter = 'blur(12px)';
-  toast.style.webkitBackdropFilter = 'blur(12px)';
-  toast.style.color = '#fff';
-  toast.style.borderRadius = '30px';
-  toast.style.padding = '12px 24px';
-  toast.style.fontWeight = '700';
-  toast.style.fontSize = '14px';
-  toast.style.boxShadow = '0 8px 32px rgba(0,0,0,0.3)';
-  toast.style.border = '1px solid rgba(255,255,255,0.1)';
-  toast.style.marginBottom = '10px';
-  toast.style.animation = 'toast-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-  
-  container.appendChild(toast);
-  setTimeout(() => { 
-    toast.style.opacity = '0';
-    toast.style.transform = 'translateY(-20px)';
-    setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 300)
-  }, 3000);
-};
-
-// ========== PROFİL FOTOĞRAFI YÜKLEME, KULLANICI ADI GÜNCELLEME, HESAP SİLME ==========
-window.uploadProfilePicture = async function(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  if (!file.type.startsWith('image/')) {
-    window.showToast('Lütfen geçerli bir resim dosyası seçin.', 'error');
-    return;
-  }
-  if (file.size > 2 * 1024 * 1024) {
-    window.showToast('Dosya boyutu 2MB\'ı geçemez.', 'error');
-    return;
-  }
-  try {
-    const { data: { user } } = await getSB().auth.getUser();
-    if (!user) throw new Error('Oturum açık değil');
-    
-    window.showToast('Fotoğraf yükleniyor...', 'default');
-    
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${user.id}-${Date.now()}.${fileExt}`;
-    const { error: uploadError } = await getSB().storage.from('avatars').upload(fileName, file);
-    if (uploadError) throw uploadError;
-    
-    const { data: urlData } = getSB().storage.from('avatars').getPublicUrl(fileName);
-    const avatarUrl = urlData.publicUrl;
-    
-    const { error: updateError } = await getSB().from('profiles').update({ avatar_url: avatarUrl }).eq('id', user.id);
-    if (updateError) throw updateError;
-    
-    // UI güncelleme
-    const avatarBig = document.getElementById('profileAvatarBig');
-    const avatarSide = document.getElementById('sidebarAvatar');
-    const avatarImage = document.getElementById('avatarImage');
-    const defaultAvatar = document.getElementById('defaultAvatar');
-    
-    if (avatarBig) avatarBig.innerHTML = `<img src="${avatarUrl}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`;
-    if (avatarSide && avatarImage) {
-      avatarImage.src = avatarUrl;
-      avatarImage.style.display = 'block';
-      if (defaultAvatar) defaultAvatar.style.display = 'none';
-    }
-    window.showToast('Profil fotoğrafı güncellendi!', 'success');
-  } catch (error) {
-    console.error('Avatar yükleme hatası:', error);
-    window.showToast('Fotoğraf yüklenirken hata oluştu.', 'error');
-  }
-};
-
-window.updateUsernameFromProfile = async function() {
-  const input = document.getElementById('newUsernameInput');
-  const newUsername = input?.value?.trim();
-  if (!newUsername) {
-    window.showToast('Lütfen bir kullanıcı adı girin.', 'error');
-    return;
-  }
-  if (!/^[a-zA-Z0-9_]{3,20}$/.test(newUsername)) {
-    window.showToast('Kullanıcı adı 3-20 karakter olmalı ve sadece harf, rakam, alt çizgi içerebilir.', 'error');
-    return;
-  }
-  try {
-    const { data: { user } } = await getSB().auth.getUser();
-    if (!user) throw new Error('Oturum açık değil');
-    
-    const { data: existing } = await getSB().from('profiles').select('id').eq('username', newUsername).neq('id', user.id).maybeSingle();
-    if (existing) {
-      window.showToast('Bu kullanıcı adı zaten kullanılıyor.', 'error');
-      return;
-    }
-    
-    const { error } = await getSB().from('profiles').update({ username: newUsername }).eq('id', user.id);
-    if (error) throw error;
-    
-    const profileName = document.getElementById('profileNameDisplay');
-    const sidebarName = document.getElementById('sidebarProfileName');
-    if (profileName) profileName.textContent = newUsername;
-    if (sidebarName) sidebarName.textContent = newUsername;
-    
-    window.showToast('Kullanıcı adı güncellendi!', 'success');
-    input.value = '';
-  } catch (error) {
-    console.error('Kullanıcı adı güncelleme hatası:', error);
-    window.showToast('Güncelleme başarısız.', 'error');
-  }
-};
-
-window.confirmDeleteAccount = function() {
-  if (typeof window.showCustomConfirm === 'function') {
-    window.showCustomConfirm('Hesabınızı kalıcı olarak silmek üzeresiniz. Bu işlem geri alınamaz. Devam etmek istediğinize emin misiniz?', async () => {
-      try {
-        const { data: { user } } = await getSB().auth.getUser();
-        if (!user) throw new Error('Oturum açık değil');
-        
-        window.showToast('Hesabınız siliniyor...', 'default');
-        
-        await getSB().from('profiles').delete().eq('id', user.id);
-        await getSB().from('friendships').delete().or(`requester_id.eq.${user.id},addressee_id.eq.${user.id}`);
-        await getSB().from('messages').delete().or(`sender_id.eq.${user.id},receiver_id.eq.${user.id}`);
-        await getSB().from('finance_snapshots').delete().eq('user_id', user.id);
-        
-        // Auth silme işlemi genellikle admin yetkisi gerektirir, 
-        // Client-side'da auth.admin mevcut olmayabilir. 
-        // Eğer mevcut değilse sadece çıkış yapıp verileri silmek bir yöntemdir.
-        const { error } = await getSB().auth.signOut();
-        if (error) throw error;
-        
-        localStorage.clear();
-        window.location.reload();
-      } catch (error) {
-        console.error('Hesap silme hatası:', error);
-        window.showToast('Hata oluştu. Lütfen tekrar deneyin.', 'error');
-      }
-    });
-  } else {
-    if (confirm('Hesabınızı silmek istediğinize emin misiniz?')) {
-      // Benzer silme mantığı...
-    }
-  }
-};
