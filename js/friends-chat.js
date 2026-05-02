@@ -561,15 +561,10 @@ const FriendsChatModule = (() => {
           data-msg-id="${msg.id}"
           data-is-mine="${isMine}"
           style="position:relative; display:flex; justify-content:${isMine ? 'flex-end' : 'flex-start'}; margin:6px 0; animation: fadeIn 0.2s ease; user-select:none; -webkit-touch-callout:none; touch-action: pan-y; overflow:hidden;"
-          oncontextmenu="FriendsChatModule.showMessageMenu(event, '${msg.id}', ${isMine}); return false;"
-          ontouchstart="FriendsChatModule.handleTouchStart(event, '${msg.id}', ${isMine})"
-          ontouchmove="FriendsChatModule.handleTouchMove(event)"
-          ontouchend="FriendsChatModule.handleTouchEnd(event, '${msg.id}', ${isMine})"
         >
           <!-- Sola kaydırınca ortaya çıkan SİLME butonu (WhatsApp tarzı) -->
-          <button class="swipe-delete-btn" type="button"
-            onclick="event.stopPropagation(); FriendsChatModule.openSwipeMenu(event, '${msg.id}', ${isMine})"
-            style="position:absolute; right:6px; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:50%; background:#ef5350; border:none; color:#fff; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.15s ease; box-shadow:0 2px 6px rgba(0,0,0,0.3); cursor:pointer; z-index:1;"
+          <button class="swipe-delete-btn" type="button" data-msg-id="${msg.id}" data-is-mine="${isMine}"
+            style="position:absolute; right:6px; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:50%; background:#ef5350; border:none; color:#fff; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.15s ease; box-shadow:0 2px 6px rgba(0,0,0,0.3); cursor:pointer; z-index:3;"
             title="Sil">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -583,6 +578,10 @@ const FriendsChatModule = (() => {
         </div>`;
 
       }).join('');
+
+      // Pointer Events ile swipe & long-press dinleyicileri bağla (mouse + touch tek API)
+      attachSwipeHandlers(list);
+
 
       // Yumuşak ve anında kaydırma (Smooth Scroll)
       setTimeout(() => {
@@ -730,8 +729,126 @@ const FriendsChatModule = (() => {
     }
   }
 
+  // ═══ POINTER EVENTS TABANLI SWIPE (Mouse + Touch tek API) ═══
+  function attachSwipeHandlers(container) {
+    const rows = container.querySelectorAll('.message-row');
+    rows.forEach(row => {
+      const bubble = row.querySelector('.message-bubble');
+      const btn = row.querySelector('.swipe-delete-btn');
+      const msgId = row.dataset.msgId;
+      const isMine = row.dataset.isMine === 'true';
+      if (!bubble) return;
+
+      let startX = 0, startY = 0;
+      let dragging = false;
+      let isHorizontal = false;
+      let pressTimer = null;
+      let currentTranslate = 0;
+
+      const onDown = (e) => {
+        // Birden fazla pointer (multi-touch) varsa atla
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        startX = e.clientX;
+        startY = e.clientY;
+        dragging = true;
+        isHorizontal = false;
+        currentTranslate = 0;
+
+        // Diğer açık swipe'ları kapat
+        if (activeSwipeRow && activeSwipeRow !== row) resetAllSwipes(row);
+
+        bubble.style.transition = 'none';
+
+        // Long-press → menü
+        clearTimeout(pressTimer);
+        pressTimer = setTimeout(() => {
+          if (!isHorizontal && dragging) {
+            showMessageMenu({ clientX: startX, clientY: startY, stopPropagation() { }, preventDefault() { } }, msgId, isMine);
+            dragging = false;
+          }
+        }, 600);
+
+        // Pointer capture, böylece move/up'lar bu elementte gelir
+        try { row.setPointerCapture(e.pointerId); } catch (err) { }
+      };
+
+      const onMove = (e) => {
+        if (!dragging) return;
+        const diffX = startX - e.clientX;   // > 0 = sola
+        const diffY = Math.abs(startY - e.clientY);
+
+        if (!isHorizontal && (Math.abs(diffX) > 8 && Math.abs(diffX) > diffY)) {
+          isHorizontal = true;
+          clearTimeout(pressTimer);
+        }
+        if (!isHorizontal) return;
+
+        // Sola kaydırma: -90px ile sınırla
+        currentTranslate = Math.max(-90, Math.min(0, -diffX));
+        bubble.style.transform = `translateX(${currentTranslate}px)`;
+        if (btn) btn.style.opacity = String(Math.min(1, Math.abs(currentTranslate) / 60));
+
+        if (e.cancelable) e.preventDefault();
+      };
+
+      const onUp = (e) => {
+        clearTimeout(pressTimer);
+        if (!dragging) return;
+        dragging = false;
+        bubble.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)';
+
+        if (isHorizontal && Math.abs(currentTranslate) > 50) {
+          // Aç durumda
+          bubble.style.transform = 'translateX(-80px)';
+          if (btn) { btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; }
+          row.dataset.swipeOpen = 'true';
+          activeSwipeRow = row;
+        } else {
+          bubble.style.transform = 'translateX(0)';
+          if (btn) { btn.style.opacity = '0'; btn.style.pointerEvents = 'none'; }
+          row.dataset.swipeOpen = 'false';
+          if (activeSwipeRow === row) activeSwipeRow = null;
+        }
+
+        try { row.releasePointerCapture(e.pointerId); } catch (err) { }
+      };
+
+      const onCancel = (e) => {
+        clearTimeout(pressTimer);
+        dragging = false;
+        bubble.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)';
+        bubble.style.transform = 'translateX(0)';
+        if (btn) { btn.style.opacity = '0'; btn.style.pointerEvents = 'none'; }
+        row.dataset.swipeOpen = 'false';
+      };
+
+      // Eski dinleyicileri temizle (replaceWith trick)
+      row.addEventListener('pointerdown', onDown);
+      row.addEventListener('pointermove', onMove);
+      row.addEventListener('pointerup', onUp);
+      row.addEventListener('pointercancel', onCancel);
+
+      // Sağ tık → menü
+      row.addEventListener('contextmenu', (ev) => {
+        ev.preventDefault();
+        showMessageMenu(ev, msgId, isMine);
+      });
+
+      // Silme butonu (mouse veya touch ile tıkla)
+      if (btn) {
+        btn.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          ev.preventDefault();
+          showMessageMenu({ clientX: ev.clientX, clientY: ev.clientY, stopPropagation() { }, preventDefault() { } }, msgId, isMine);
+          resetAllSwipes(null);
+        });
+      }
+    });
+  }
+
   // Sola kaydırınca çıkan silme butonu tıklandığında: silme menüsünü aç
   window.openSwipeMenu = function (event, msgId, isMine) {
+
     if (event) {
       if (typeof event.stopPropagation === 'function') event.stopPropagation();
       if (typeof event.preventDefault === 'function') event.preventDefault();
@@ -797,13 +914,32 @@ const FriendsChatModule = (() => {
           if (window.showToast) window.showToast('Sadece kendi mesajlarını herkesten silebilirsin.', 'error');
           return;
         }
-        // KARŞI TARAFTAN DA SİLMEK İÇİN: Mesajı fiziksel olarak veritabanından kaldır.
-        // Böylece RLS politikası sebebiyle "deleted_for_receiver" güncellenememe sorunu yaşanmaz.
-        const { error } = await getSB().from('messages').delete().eq('id', id);
-        updateError = error;
+        // 1. ADIM: Önce fiziksel DELETE dene (en temiz çözüm).
+        const delResult = await getSB().from('messages').delete().eq('id', id).select();
+
+        if (delResult.error || !delResult.data || delResult.data.length === 0) {
+          // 2. ADIM: DELETE başarısız oldu (RLS izin vermiyor olabilir).
+          // Fallback: içeriği değiştir + her iki flag'i güncelle.
+          console.warn('DELETE başarısız, fallback UPDATE deneniyor:', delResult.error);
+          const { error: upErr, data: upData } = await getSB()
+            .from('messages')
+            .update({
+              content: '🚫 Bu mesaj silindi',
+              deleted_for_sender: true,
+              deleted_for_receiver: true
+            })
+            .eq('id', id)
+            .select();
+          if (upErr) throw upErr;
+          if (!upData || upData.length === 0) {
+            throw new Error('Mesaj güncellenemedi (RLS engeli olabilir). Supabase policy kontrolü gerekli.');
+          }
+        }
+        updateError = null;
       }
 
       if (updateError) throw updateError;
+
 
 
       if (window.showToast) window.showToast('Mesaj silindi.', 'success');
