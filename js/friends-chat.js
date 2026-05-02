@@ -358,14 +358,25 @@ const FriendsChatModule = (() => {
     el.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-secondary);">Yükleniyor...</p>';
     try {
       const friends = await getFriends();
-      if (!friends.length) {
-        el.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-secondary);">Henüz arkadaş yok.<br><small>Arkadaşlar menüsünden kullanıcı ekleyebilirsiniz.</small></p>';
-        return;
-      }
+      const { data: { user } } = await getSB().auth.getUser();
 
       const listItems = [];
       for (const f of friends) {
-        // Her arkadaş için son görülme verisini çek
+        // PRO MANTIK: Sadece mesaj geçmişi olan (ve silinmemiş) sohbetleri göster
+        const { data: msgs } = await getSB()
+          .from('messages')
+          .select('id, sender_id, receiver_id, deleted_for_sender, deleted_for_receiver')
+          .or(`and(sender_id.eq.${user.id},receiver_id.eq.${f.friendId}),and(sender_id.eq.${f.friendId},receiver_id.eq.${user.id})`)
+          .limit(1);
+
+        const hasVisibleMessages = msgs?.some(m => {
+          if (m.sender_id === user.id && m.deleted_for_sender) return false;
+          if (m.receiver_id === user.id && m.deleted_for_receiver) return false;
+          return true;
+        });
+
+        if (!hasVisibleMessages) continue; // Sohbet boşsa listede gösterme
+
         const { data: prof } = await getSB().from('profiles').select('last_seen, avatar_url').eq('id', f.friendId).maybeSingle();
         
         let statusText = 'çevrimdışı';
@@ -387,14 +398,15 @@ const FriendsChatModule = (() => {
 
         listItems.push(`
           <div class="conversation-row" 
-            style="display:flex; align-items:center; gap:12px; padding:12px 16px; cursor:pointer; transition:background 0.2s; border-bottom:1px solid #17212b;"
+            style="display:flex; align-items:center; gap:12px; padding:12px 16px; cursor:pointer; transition: all 0.15s ease; border-bottom:1px solid #17212b; user-select:none; -webkit-touch-callout:none; touch-action: pan-y;"
             onmouseover="this.style.background='#17212b'" onmouseout="this.style.background='transparent'"
             data-friend-id="${f.friendId}"
             onclick="FriendsChatModule.openConversation('${f.friendId}','${f.friendName}')"
             ontouchstart="FriendsChatModule.handleConvTouchStart(event, '${f.friendId}')"
-            ontouchend="FriendsChatModule.handleConvTouchEnd(event)"
+            ontouchmove="FriendsChatModule.handleTouchMove(event)"
+            ontouchend="FriendsChatModule.handleConvTouchEnd(event, '${f.friendId}')"
           >
-            <div style="width:52px;height:52px;border-radius:50%;background:#2b5278;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.2); overflow:hidden;">
+            <div class="conv-avatar-box" style="width:52px;height:52px;border-radius:50%;background:#2b5278;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.2); overflow:hidden; transition: transform 0.15s ease;">
               ${avatarContent}
             </div>
             <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;">
@@ -728,19 +740,57 @@ const FriendsChatModule = (() => {
     }
   };
 
-  // ═══ SOHBET SİLME (Long Press) ═══
+  // ═══ SOHBET SİLME (Long Press & Swipe) ═══
   let convTouchTimer = null;
+  let convStartX = 0;
+  let convStartY = 0;
+  let isConvSwipe = false;
 
   function handleConvTouchStart(e, friendId) {
+    convStartX = e.touches[0].clientX;
+    convStartY = e.touches[0].clientY;
+    isConvSwipe = false;
     window.closeConversationMenu();
+
+    // Basma efekti
+    const row = e.currentTarget;
+    if (row) row.style.transform = 'scale(0.97)';
+
     convTouchTimer = setTimeout(() => {
-        const touch = e.touches[0];
-        showConversationMenu(touch.clientX, touch.clientY, friendId);
+        if (!isConvSwipe) {
+          const touch = e.touches[0];
+          showConversationMenu(touch.clientX, touch.clientY, friendId);
+        }
     }, 600);
   }
 
-  function handleConvTouchEnd() {
+  function handleConvTouchMove(e) {
+    const moveX = e.touches[0].clientX;
+    const moveY = e.touches[0].clientY;
+    const diffX = convStartX - moveX;
+    const diffY = Math.abs(convStartY - moveY);
+
+    if (Math.abs(diffX) > 20 && Math.abs(diffX) > diffY) {
+      isConvSwipe = true;
+      clearTimeout(convTouchTimer);
+      if (e.cancelable) e.preventDefault();
+    }
+  }
+
+  function handleConvTouchEnd(e, friendId) {
     clearTimeout(convTouchTimer);
+    
+    // Basma efektini geri al
+    const row = e.currentTarget;
+    if (row) row.style.transform = 'scale(1)';
+
+    const endX = e.changedTouches[0].clientX;
+    const diffX = convStartX - endX;
+
+    if (isConvSwipe && diffX > 60) {
+      const touch = e.changedTouches[0];
+      showConversationMenu(touch.clientX, touch.clientY, friendId);
+    }
   }
 
   function showConversationMenu(x, y, friendId) {
@@ -872,6 +922,7 @@ const FriendsChatModule = (() => {
     rejectAndRefresh: window.rejectAndRefresh,
     showConversationsList: window.showConversationsList,
     handleConvTouchStart,
+    handleConvTouchMove,
     handleConvTouchEnd,
     closeConversationMenu: window.closeConversationMenu,
     deleteConversation: window.deleteConversation
