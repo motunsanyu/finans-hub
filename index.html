@@ -1638,7 +1638,7 @@
       style="display:none; position:fixed; background:var(--bg-secondary); border:1px solid var(--line);
              border-radius:14px; padding:6px; z-index:10002; box-shadow:0 12px 32px rgba(0,0,0,0.5);
              min-width:200px; animation:fadeIn 0.15s ease;">
-      <button id="deleteForMeBtn" onclick="deleteMessage('me')"
+      <button id="deleteForMeBtn" onclick="window.deleteMessage('me')"
         style="display:flex; align-items:center; gap:10px; width:100%; padding:11px 14px; border:none;
                background:transparent; color:var(--text-primary); font-size:13px; font-weight:700;
                cursor:pointer; text-align:left; border-radius:8px; font-family:inherit;
@@ -1646,21 +1646,44 @@
         onmouseover="this.style.background='var(--bg-primary)'" onmouseout="this.style.background='transparent'">
         <span style="font-size:16px;">🙈</span> Benden Sil
       </button>
-      <button onclick="deleteMessage('everyone')"
+      <button id="btnDeleteEveryone" onclick="window.deleteMessage('everyone')"
         style="display:flex; align-items:center; gap:10px; width:100%; padding:11px 14px; border:none;
-               background:transparent; color:var(--down); font-size:13px; font-weight:700;
+               background:transparent; color:var(--text-primary); font-size:13px; font-weight:700;
                cursor:pointer; text-align:left; border-radius:8px; font-family:inherit;
                transition:background 0.12s;"
-        onmouseover="this.style.background='rgba(246,70,93,0.08)'" onmouseout="this.style.background='transparent'">
-        <span style="font-size:16px;">🗑️</span> Herkesten Sil
+        onmouseover="this.style.background='var(--bg-primary)'" onmouseout="this.style.background='transparent'">
+        <span style="font-size:16px;">🚮</span> Herkesten Sil
       </button>
       <div style="border-top:1px solid var(--line); margin:4px 0;"></div>
-      <button onclick="closeMessageMenu()"
+      <button onclick="window.closeMessageMenu()"
         style="display:flex; align-items:center; gap:10px; width:100%; padding:11px 14px; border:none;
                background:transparent; color:var(--text-secondary); font-size:13px; font-weight:700;
                cursor:pointer; text-align:left; border-radius:8px; font-family:inherit;
                transition:background 0.12s;"
         onmouseover="this.style.background='var(--bg-primary)'" onmouseout="this.style.background='transparent'">
+        <span style="font-size:16px;">✕</span> İptal
+      </button>
+    </div>
+
+    <!-- Sohbet Silme Menüsü (Konuşma listesinde uzun basınca çıkar) -->
+    <div id="conversationActionMenu"
+         style="display:none; position:fixed; background:var(--bg-secondary); border:1px solid var(--line);
+                border-radius:14px; padding:6px; z-index:10003; box-shadow:0 12px 32px rgba(0,0,0,0.5);
+                min-width:180px; animation:fadeIn 0.15s ease;">
+      <button onclick="window.deleteConversation()"
+              style="display:flex; align-items:center; gap:10px; width:100%; padding:11px 14px; border:none;
+                     background:transparent; color:var(--down); font-size:13px; font-weight:700;
+                     cursor:pointer; text-align:left; border-radius:8px; font-family:inherit;
+                     transition:background 0.12s;"
+              onmouseover="this.style.background='rgba(255,59,48,0.1)'" onmouseout="this.style.background='transparent'">
+        <span style="font-size:16px;">🗑️</span> Sohbeti Sil
+      </button>
+      <button onclick="window.closeConversationMenu()"
+              style="display:flex; align-items:center; gap:10px; width:100%; padding:11px 14px; border:none;
+                     background:transparent; color:var(--text-secondary); font-size:13px; font-weight:700;
+                     cursor:pointer; text-align:left; border-radius:8px; font-family:inherit;
+                     transition:background 0.12s;"
+              onmouseover="this.style.background='var(--bg-primary)'" onmouseout="this.style.background='transparent'">
         <span style="font-size:16px;">✕</span> İptal
       </button>
     </div>
