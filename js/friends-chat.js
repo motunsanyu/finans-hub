@@ -1,4 +1,4 @@
-// js/friends-chat.js — Son Sürüm (Dalgalanma Yok, Subscription Hatası Giderildi)
+// js/friends-chat.js — Son Sürüm (Hatadüzeltilmiş, Çalışır Durumda)
 
 const FriendsChatModule = (() => {
   let currentFriendId = null;
@@ -10,10 +10,21 @@ const FriendsChatModule = (() => {
   let selectedMessageId = null;
   let selectedMessageIsMine = false;
   let unreadCount = 0;
-  let realtimeInitialized = false;   // 🔧 Subscription'ın tekrar eklenmesini engeller
-  let moduleInitialized = false;      // 🔧 Modülün init() birden çok kez çalışmasını engeller
+  let realtimeInitialized = false;
+  let moduleInitialized = false;
 
   function getSB() { return window._supabaseClient; }
+
+  // ESCAPE HTML
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function (m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
 
   // ═══ ARKADAŞLIK MANTIĞI ═══
   async function searchUser(username) {
@@ -212,105 +223,13 @@ const FriendsChatModule = (() => {
     setTimeout(() => { window.openConversation(friendId, friendName); }, 50);
   };
 
-  async function loadConversations() {
-    const el = document.getElementById('conversationList');
-    if (!el) return;
-    el.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-secondary);">Yükleniyor...</p>';
-    try {
-      const friends = await getFriends();
-      const { data: { user } } = await getSB().auth.getUser();
-      const listItems = [];
-      for (const f of friends) {
-        const { data: msgs } = await getSB().from('messages').select('id, sender_id, receiver_id, created_at, content, deleted_for_sender, deleted_for_receiver').or(`and(sender_id.eq.${user.id},receiver_id.eq.${f.friendId},deleted_for_sender.eq.false),and(sender_id.eq.${f.friendId},receiver_id.eq.${user.id},deleted_for_receiver.eq.false)`).order('created_at', { ascending: false }).limit(1);
-        if (!msgs || msgs.length === 0) continue;
-        const lastMsg = msgs[0];
-        const { data: prof } = await getSB().from('profiles').select('last_seen, avatar_url').eq('id', f.friendId).maybeSingle();
-        let statusText = 'çevrimdışı';
-        let statusColor = '#6c7883';
-        if (prof?.last_seen) {
-          const lastSeenDate = new Date(prof.last_seen);
-          const diffInSec = Math.floor((new Date() - lastSeenDate) / 1000);
-          if (diffInSec < 60 && diffInSec >= -5) { statusText = 'çevrimiçi'; statusColor = '#6ab2f2'; }
-          else { statusText = lastSeenDate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }); }
-        }
-        const avatarContent = prof?.avatar_url ? `<img src="${prof.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">` : (f.friendName || '?')[0].toUpperCase();
-        listItems.push(`
-          <div class="conversation-row" data-friend-id="${f.friendId}" style="display:flex; align-items:center; gap:12px; padding:12px 16px; cursor:pointer; border-bottom:1px solid #17212b; position:relative; overflow:hidden;" onclick="FriendsChatModule.openConversation('${f.friendId}','${f.friendName}')">
-            <button class="swipe-delete-btn" type="button" style="position:absolute; right:6px; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:50%; background:#ef5350; border:none; color:#fff; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.15s ease; z-index:5;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-            </button>
-            <div class="conv-content-wrapper" style="display:flex; align-items:center; gap:12px; flex:1; transition: transform 0.2s ease; z-index:2;">
-              <div style="width:52px;height:52px;border-radius:50%;background:#2b5278;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;flex-shrink:0;overflow:hidden;">${avatarContent}</div>
-              <div style="flex:1;min-width:0;">
-                <div style="display:flex;justify-content:space-between;align-items:center;">
-                  <div style="font-weight:700; font-size:15px; color:#fff;">${f.friendName}</div>
-                  <div style="font-size:11px; color:${statusColor};">${statusText}</div>
-                </div>
-                <div style="font-size:13px; color:#6c7883; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(lastMsg.content)}</div>
-              </div>
-            </div>
-          </div>`);
-      }
-      el.innerHTML = listItems.join('');
-      attachSwipeHandlers(el);
-    } catch (e) { el.innerHTML = '<p style="text-align:center; padding:20px; color:red;">Hata.</p>'; }
+  // Swipe handler for conversation rows (eski yöntem)
+  function attachSwipeHandlers(container) {
+    const rows = container.querySelectorAll('.conversation-row');
+    rows.forEach(row => attachSwipeHandlersForSingleRow(row));
   }
 
-  // ========== INCREMENTAL MESAJ YÖNETİMİ (DALGALANMA YOK) ==========
-  function appendMessageToDOM(msg, isMine, scrollToBottom = true) {
-    const list = document.getElementById('messageList');
-    if (!list) return;
-    const msgDate = new Date(msg.created_at);
-    const time = msgDate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-    const dateStr = msgDate.toLocaleDateString('tr-TR');
-    const bubbleBg = isMine ? '#2b5278' : '#1e2c3a';
-
-    let lastDateStr = null;
-    const lastMsgDiv = list.lastElementChild;
-    if (lastMsgDiv && lastMsgDiv.classList && lastMsgDiv.classList.contains('message-row')) {
-      const prevDateDiv = lastMsgDiv.previousElementSibling;
-      if (prevDateDiv && prevDateDiv.innerHTML?.includes('justify-content:center')) {
-        lastDateStr = prevDateDiv.innerText?.trim();
-      }
-    }
-
-    let dateSeparatorHtml = '';
-    if (lastDateStr !== dateStr) {
-      dateSeparatorHtml = `<div style="display:flex; justify-content:center; margin:16px 0 8px 0;"><span style="background:rgba(255,255,255,0.06); color:#9ca3af; font-size:11px; padding:4px 12px; border-radius:12px;">${dateStr}</span></div>`;
-    }
-
-    const messageHtml = dateSeparatorHtml + `<div class="message-row" data-msg-id="${msg.id}" data-is-mine="${isMine}" style="position:relative; display:flex; justify-content:${isMine ? 'flex-end' : 'flex-start'}; margin:6px 0; overflow:hidden;">
-      <button class="swipe-delete-btn" type="button" style="position:absolute; right:6px; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:50%; background:#ef5350; border:none; color:#fff; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.15s ease; z-index:5;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-      </button>
-      <div class="message-bubble" style="max-width:82%; background:${bubbleBg}; color:#fff; padding:8px 12px; border-radius:${isMine ? '12px 12px 0 12px' : '0 12px 12px 12px'}; position:relative; transition: transform 0.2s ease; z-index:2;">
-        <div style="font-size:15px; line-height:1.4;">${escapeHtml(msg.content)}</div>
-        <div style="font-size:10px; color:rgba(255,255,255,0.4); margin-top:4px; text-align:right;">${time}</div>
-      </div>
-    </div>`;
-
-    list.insertAdjacentHTML('beforeend', messageHtml);
-    const newRow = list.lastElementChild;
-    if (newRow && newRow.classList.contains('message-row')) {
-      attachSwipeHandlersForSingleRow(newRow);
-    }
-    if (scrollToBottom) {
-      setTimeout(() => { list.scrollTo({ top: list.scrollHeight, behavior: 'smooth' }); }, 50);
-    }
-  }
-
-  function removeMessageFromDOM(msgId) {
-    const msgRow = document.querySelector(`.message-row[data-msg-id="${msgId}"]`);
-    if (msgRow) {
-      const prevSibling = msgRow.previousElementSibling;
-      if (prevSibling && prevSibling.innerHTML?.includes('justify-content:center') &&
-        (!msgRow.nextElementSibling || msgRow.nextElementSibling.classList?.contains('message-row'))) {
-        prevSibling.remove();
-      }
-      msgRow.remove();
-    }
-  }
-
+  // Swipe handler for single row (hem mesaj hem sohbet)
   function attachSwipeHandlersForSingleRow(row) {
     const isMsg = row.classList.contains('message-row');
     const bubble = isMsg ? row.querySelector('.message-bubble') : row.querySelector('.conv-content-wrapper');
@@ -394,6 +313,105 @@ const FriendsChatModule = (() => {
       if (btn) { btn.style.opacity = '0'; btn.style.pointerEvents = 'none'; }
     });
     if (!exceptRow) activeSwipeRow = null;
+  }
+
+  // ========== INCREMENTAL MESAJ YÖNETİMİ ==========
+  function appendMessageToDOM(msg, isMine, scrollToBottom = true) {
+    const list = document.getElementById('messageList');
+    if (!list) return;
+    const msgDate = new Date(msg.created_at);
+    const time = msgDate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+    const dateStr = msgDate.toLocaleDateString('tr-TR');
+    const bubbleBg = isMine ? '#2b5278' : '#1e2c3a';
+
+    let lastDateStr = null;
+    const lastMsgDiv = list.lastElementChild;
+    if (lastMsgDiv && lastMsgDiv.classList && lastMsgDiv.classList.contains('message-row')) {
+      const prevDateDiv = lastMsgDiv.previousElementSibling;
+      if (prevDateDiv && prevDateDiv.innerHTML?.includes('justify-content:center')) {
+        lastDateStr = prevDateDiv.innerText?.trim();
+      }
+    }
+
+    let dateSeparatorHtml = '';
+    if (lastDateStr !== dateStr) {
+      dateSeparatorHtml = `<div style="display:flex; justify-content:center; margin:16px 0 8px 0;"><span style="background:rgba(255,255,255,0.06); color:#9ca3af; font-size:11px; padding:4px 12px; border-radius:12px;">${dateStr}</span></div>`;
+    }
+
+    const messageHtml = dateSeparatorHtml + `<div class="message-row" data-msg-id="${msg.id}" data-is-mine="${isMine}" style="position:relative; display:flex; justify-content:${isMine ? 'flex-end' : 'flex-start'}; margin:6px 0; overflow:hidden;">
+      <button class="swipe-delete-btn" type="button" style="position:absolute; right:6px; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:50%; background:#ef5350; border:none; color:#fff; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.15s ease; z-index:5;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+      </button>
+      <div class="message-bubble" style="max-width:82%; background:${bubbleBg}; color:#fff; padding:8px 12px; border-radius:${isMine ? '12px 12px 0 12px' : '0 12px 12px 12px'}; position:relative; transition: transform 0.2s ease; z-index:2;">
+        <div style="font-size:15px; line-height:1.4;">${escapeHtml(msg.content)}</div>
+        <div style="font-size:10px; color:rgba(255,255,255,0.4); margin-top:4px; text-align:right;">${time}</div>
+      </div>
+    </div>`;
+
+    list.insertAdjacentHTML('beforeend', messageHtml);
+    const newRow = list.lastElementChild;
+    if (newRow && newRow.classList.contains('message-row')) {
+      attachSwipeHandlersForSingleRow(newRow);
+    }
+    if (scrollToBottom) {
+      setTimeout(() => { list.scrollTo({ top: list.scrollHeight, behavior: 'smooth' }); }, 50);
+    }
+  }
+
+  function removeMessageFromDOM(msgId) {
+    const msgRow = document.querySelector(`.message-row[data-msg-id="${msgId}"]`);
+    if (msgRow) {
+      const prevSibling = msgRow.previousElementSibling;
+      if (prevSibling && prevSibling.innerHTML?.includes('justify-content:center') &&
+        (!msgRow.nextElementSibling || msgRow.nextElementSibling.classList?.contains('message-row'))) {
+        prevSibling.remove();
+      }
+      msgRow.remove();
+    }
+  }
+
+  async function loadConversations() {
+    const el = document.getElementById('conversationList');
+    if (!el) return;
+    el.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-secondary);">Yükleniyor...</p>';
+    try {
+      const friends = await getFriends();
+      const { data: { user } } = await getSB().auth.getUser();
+      const listItems = [];
+      for (const f of friends) {
+        const { data: msgs } = await getSB().from('messages').select('id, sender_id, receiver_id, created_at, content, deleted_for_sender, deleted_for_receiver').or(`and(sender_id.eq.${user.id},receiver_id.eq.${f.friendId},deleted_for_sender.eq.false),and(sender_id.eq.${f.friendId},receiver_id.eq.${user.id},deleted_for_receiver.eq.false)`).order('created_at', { ascending: false }).limit(1);
+        if (!msgs || msgs.length === 0) continue;
+        const lastMsg = msgs[0];
+        const { data: prof } = await getSB().from('profiles').select('last_seen, avatar_url').eq('id', f.friendId).maybeSingle();
+        let statusText = 'çevrimdışı';
+        let statusColor = '#6c7883';
+        if (prof?.last_seen) {
+          const lastSeenDate = new Date(prof.last_seen);
+          const diffInSec = Math.floor((new Date() - lastSeenDate) / 1000);
+          if (diffInSec < 60 && diffInSec >= -5) { statusText = 'çevrimiçi'; statusColor = '#6ab2f2'; }
+          else { statusText = lastSeenDate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }); }
+        }
+        const avatarContent = prof?.avatar_url ? `<img src="${prof.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">` : (f.friendName || '?')[0].toUpperCase();
+        listItems.push(`
+          <div class="conversation-row" data-friend-id="${f.friendId}" style="display:flex; align-items:center; gap:12px; padding:12px 16px; cursor:pointer; border-bottom:1px solid #17212b; position:relative; overflow:hidden;" onclick="FriendsChatModule.openConversation('${f.friendId}','${f.friendName}')">
+            <button class="swipe-delete-btn" type="button" style="position:absolute; right:6px; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:50%; background:#ef5350; border:none; color:#fff; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.15s ease; z-index:5;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+            <div class="conv-content-wrapper" style="display:flex; align-items:center; gap:12px; flex:1; transition: transform 0.2s ease; z-index:2;">
+              <div style="width:52px;height:52px;border-radius:50%;background:#2b5278;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;flex-shrink:0;overflow:hidden;">${avatarContent}</div>
+              <div style="flex:1;min-width:0;">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <div style="font-weight:700; font-size:15px; color:#fff;">${f.friendName}</div>
+                  <div style="font-size:11px; color:${statusColor};">${statusText}</div>
+                </div>
+                <div style="font-size:13px; color:#6c7883; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(lastMsg.content)}</div>
+              </div>
+            </div>
+          </div>`);
+      }
+      el.innerHTML = listItems.join('');
+      attachSwipeHandlers(el);
+    } catch (e) { el.innerHTML = '<p style="text-align:center; padding:20px; color:red;">Hata.</p>'; }
   }
 
   async function loadMessages() {
@@ -633,9 +651,9 @@ const FriendsChatModule = (() => {
     await getSB().from('friendships').delete().eq('id', requestId);
   }
 
-  // ========== REALTIME SUBSCRIPTION (TEK SEfer) ==========
+  // ========== REALTIME SUBSCRIPTION ==========
   async function setupRealtimeSubscription() {
-    if (realtimeInitialized) return;       // 🔧 Subscription zaten eklenmişse çık
+    if (realtimeInitialized) return;
     if (chatSubscription) {
       try { await getSB().removeChannel(chatSubscription); } catch (e) { }
     }
@@ -679,7 +697,6 @@ const FriendsChatModule = (() => {
     realtimeInitialized = true;
   }
 
-  // ========== MODÜLÜN İNİT (TEK SEfer) ==========
   async function init() {
     if (moduleInitialized) return;
     moduleInitialized = true;
