@@ -96,13 +96,23 @@ const FriendsChatModule = (() => {
   window.toggleFriendsModal = function () {
     const modal = document.getElementById('friendsModal');
     if (!modal) return;
-    const isOpen = modal.style.display === 'block';
+    const isOpen = modal.style.display === 'flex' || modal.style.display === 'block';
     modal.style.display = isOpen ? 'none' : 'block';
     if (!isOpen) {
       loadPendingRequests();
       loadFriendList();
-      // Sidebar'ı kapat
-      if (typeof toggleSidebar === 'function') toggleSidebar(false);
+      if (typeof window.toggleSidebar === 'function') window.toggleSidebar(false);
+    }
+  };
+
+  window.toggleMessagesModal = function () {
+    const modal = document.getElementById('messagesModal');
+    if (!modal) return;
+    const isOpen = modal.style.display === 'flex' || modal.style.display === 'block';
+    modal.style.display = isOpen ? 'none' : 'flex';
+    if (!isOpen) {
+      loadConversations();
+      if (typeof window.toggleSidebar === 'function') window.toggleSidebar(false);
     }
   };
 
@@ -992,22 +1002,14 @@ const FriendsChatModule = (() => {
     init,
     openConversation,
     openConversationFromFriends,
-    showMessageMenu,
-    handleTouchStart,
-    handleTouchMove,
-    handleTouchEnd,
     toggleFriendsModal: window.toggleFriendsModal,
     toggleMessagesModal: window.toggleMessagesModal,
     sendRequestAndRefresh: window.sendRequestAndRefresh,
     acceptAndRefresh: window.acceptAndRefresh,
     rejectAndRefresh: window.rejectAndRefresh,
-    showConversationsList: window.showConversationsList,
-    handleConvTouchStart,
-    handleConvTouchMove,
-    handleConvTouchEnd,
+    loadConversations,
     closeConversationMenu: window.closeConversationMenu,
-    deleteConversation: window.deleteConversation,
-    openSwipeMenu: window.openSwipeMenu
+    deleteConversation: window.deleteConversation
   };
 
 })();
