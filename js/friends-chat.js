@@ -234,13 +234,16 @@ const FriendsChatModule = (() => {
   // ═══ ARKADAŞLAR MODAL UI ═══
   async function loadPendingRequests() {
     const el = document.getElementById('pendingRequests');
+    const wrapper = document.getElementById('pendingRequestsWrapper');
     if (!el) return;
     try {
       const requests = await getPendingRequests();
       if (!requests.length) {
-        el.innerHTML = '<div class="requests-empty">Bekleyen istek yok.</div>';
+        el.innerHTML = '';
+        if (wrapper) wrapper.style.display = 'none';
         return;
       }
+      if (wrapper) wrapper.style.display = 'block';
       el.innerHTML = requests.map(r => {
         const name = r.profiles?.display_name || r.profiles?.username || 'Bilinmeyen';
         const avatarHtml = makeAvatarHtml(name, r.profiles?.avatar_url, 40, 16);
@@ -490,14 +493,15 @@ const FriendsChatModule = (() => {
           }
         }
 
-        // Okunmamış mesaj sayısı (bana gönderilmiş, silinmemiş mesajlar) - is_read yok, sadece durum bazlı
+        // Okunmamış mesaj sayısı (bana gönderilmiş, son okumadan sonraki mesajlar)
+        const lastReadStr = localStorage.getItem(`lastRead_${currentUserId}_${f.friendId}`);
+        const lastRead = lastReadStr ? new Date(lastReadStr).toISOString() : new Date(0).toISOString();
         const { count: unreadMsgCount } = await getSB().from('messages')
           .select('*', { count: 'exact', head: true })
           .eq('sender_id', f.friendId)
           .eq('receiver_id', currentUserId)
-          .eq('deleted_for_receiver', false);
-        // NOT: is_read kolonu yok, bu nedenle tüm gönderilenler okunmamış sayılıyor.
-        // İleride is_read eklerseniz .eq('is_read', false) ekleyin.
+          .eq('deleted_for_receiver', false)
+          .gt('created_at', lastRead);
 
         conversationsWithMsg.push({
           friend: f,
@@ -589,8 +593,11 @@ const FriendsChatModule = (() => {
       if (prof) updateChatHeader(prof, friendId);
     } catch (e) { }
 
+    localStorage.setItem(`lastRead_${currentUserId}_${friendId}`, new Date().toISOString());
     await loadMessages();
-    resetUnreadCount();
+    
+    // Okunmamış mesajları tamamen yeniden hesapla
+    recalcTotalUnread();
 
     setTimeout(() => {
       const input = document.getElementById('messageInput');
@@ -1109,6 +1116,7 @@ const FriendsChatModule = (() => {
 
         if (currentFriendId && msg.sender_id === currentFriendId) {
           // Aktif sohbetteyiz: sessizce mesajları güncelle (scroll korunur)
+          localStorage.setItem(`lastRead_${currentUserId}_${currentFriendId}`, new Date().toISOString());
           await loadMessages();
         } else {
           // Farklı bir yerden mesaj geldi
@@ -1172,15 +1180,29 @@ const FriendsChatModule = (() => {
     await setupRealtimeSubscription();
 
     // Başlangıçta okunmamış mesaj sayısını al
+    await recalcTotalUnread();
+  }
+
+  // Okunmamışları localStorage bazlı yeniden hesapla
+  async function recalcTotalUnread() {
+    if (!currentUserId) return;
     try {
-      const { count } = await getSB().from('messages')
-        .select('*', { count: 'exact', head: true })
+      const { data: incomingMsgs } = await getSB().from('messages')
+        .select('sender_id, created_at')
         .eq('receiver_id', currentUserId)
         .eq('deleted_for_receiver', false);
-      unreadCount = count || 0;
+      
+      let realUnread = 0;
+      if (incomingMsgs) {
+        incomingMsgs.forEach(m => {
+          const lrStr = localStorage.getItem(`lastRead_${currentUserId}_${m.sender_id}`);
+          const lr = lrStr ? new Date(lrStr) : new Date(0);
+          if (new Date(m.created_at) > lr) realUnread++;
+        });
+      }
+      unreadCount = realUnread;
+      updateBadgeUI();
     } catch (e) { }
-
-    updateBadgeUI();
   }
 
   // ═══ PUBLIC API ═══
