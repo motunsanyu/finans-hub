@@ -552,7 +552,7 @@ const FriendsChatModule = (() => {
         }
 
         // Telegram Dark Balon Stilleri
-        const bubbleBg = isMine ? '#2b5278' : '#182533';
+        const bubbleBg = isMine ? '#2b5278' : '#1e2c3a'; // Gelen: daha net bir gri-mavi
         const textColor = '#fff';
         const borderRadius = isMine ? '12px 12px 0px 12px' : '0px 12px 12px 12px';
 
@@ -571,7 +571,7 @@ const FriendsChatModule = (() => {
             </svg>
           </button>
           <div class="message-bubble" 
-            style="max-width:82%; background:${bubbleBg}; color:${textColor}; padding:8px 12px; border-radius:${borderRadius}; position:relative; box-shadow:0 1px 2px rgba(0,0,0,0.2); transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); cursor:pointer; transform-origin: center; z-index:2;">
+            style="max-width:82%; background:${bubbleBg}; color:${textColor}; padding:8px 12px; border-radius:${borderRadius}; position:relative; box-shadow:0 1px 2px rgba(0,0,0,0.3); transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); cursor:pointer; transform-origin: center; z-index:2; text-shadow: 0 0.5px 1px rgba(0,0,0,0.15);">
             <div style="font-size:15px; line-height:1.45; word-break:break-word;">${msg.content}</div>
             <div style="font-size:10px; color:rgba(255,255,255,0.5); margin-top:4px; text-align:right; font-weight:500;">${time}</div>
           </div>
@@ -839,7 +839,12 @@ const FriendsChatModule = (() => {
         btn.addEventListener('click', (ev) => {
           ev.stopPropagation();
           ev.preventDefault();
-          showMessageMenu({ clientX: ev.clientX, clientY: ev.clientY, stopPropagation() { }, preventDefault() { } }, msgId, isMine);
+          // Direkt benden sil
+          if (confirm('Bu mesajı silmek istediğinize emin misiniz?')) {
+            selectedMessageId = msgId;
+            selectedMessageIsMine = isMine;
+            window.deleteMessage('me');
+          }
           resetAllSwipes(null);
         });
       }
