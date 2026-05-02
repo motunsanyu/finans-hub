@@ -1,4 +1,4 @@
-// js/friends-chat.js — Dalgalanmasız, incremental mesaj güncelleme (Telegram benzeri)
+// js/friends-chat.js — Son Sürüm (Dalgalanma Yok, Subscription Hatası Giderildi)
 
 const FriendsChatModule = (() => {
   let currentFriendId = null;
@@ -10,11 +10,12 @@ const FriendsChatModule = (() => {
   let selectedMessageId = null;
   let selectedMessageIsMine = false;
   let unreadCount = 0;
-  let messagesCache = []; // Yerel mesaj önbelleği (DOM ile senkronize)
+  let realtimeInitialized = false;   // 🔧 Subscription'ın tekrar eklenmesini engeller
+  let moduleInitialized = false;      // 🔧 Modülün init() birden çok kez çalışmasını engeller
 
   function getSB() { return window._supabaseClient; }
 
-  // ═══ ARKADAŞLIK MANTIĞI (değişmedi) ═══
+  // ═══ ARKADAŞLIK MANTIĞI ═══
   async function searchUser(username) {
     const { data } = await getSB().from('profiles').select('id, username, display_name, avatar_url').eq('username', username).maybeSingle();
     return data;
@@ -53,7 +54,7 @@ const FriendsChatModule = (() => {
     return list;
   }
 
-  // ═══ ARKADAŞLAR UI (değişmedi) ═══
+  // ═══ ARKADAŞLAR UI ═══
   async function loadPendingRequests() {
     const el = document.getElementById('pendingRequests');
     if (!el) return;
@@ -264,16 +265,12 @@ const FriendsChatModule = (() => {
     const dateStr = msgDate.toLocaleDateString('tr-TR');
     const bubbleBg = isMine ? '#2b5278' : '#1e2c3a';
 
-    // Tarih ayracı kontrolü (son mesajın tarihi farklıysa ekle)
-    const lastMsgDiv = list.lastElementChild;
     let lastDateStr = null;
+    const lastMsgDiv = list.lastElementChild;
     if (lastMsgDiv && lastMsgDiv.classList && lastMsgDiv.classList.contains('message-row')) {
-      // Önceki tarih ayracını bul
       const prevDateDiv = lastMsgDiv.previousElementSibling;
       if (prevDateDiv && prevDateDiv.innerHTML?.includes('justify-content:center')) {
         lastDateStr = prevDateDiv.innerText?.trim();
-      } else {
-        // Ayraç yoksa mesajın kendi tarihini almak zor
       }
     }
 
@@ -293,7 +290,6 @@ const FriendsChatModule = (() => {
     </div>`;
 
     list.insertAdjacentHTML('beforeend', messageHtml);
-    // Yeni eklenen satıra swipe handler ekle
     const newRow = list.lastElementChild;
     if (newRow && newRow.classList.contains('message-row')) {
       attachSwipeHandlersForSingleRow(newRow);
@@ -306,7 +302,6 @@ const FriendsChatModule = (() => {
   function removeMessageFromDOM(msgId) {
     const msgRow = document.querySelector(`.message-row[data-msg-id="${msgId}"]`);
     if (msgRow) {
-      // Tarih ayracını da kontrol et: eğer bu mesajdan önce tarih ayracı varsa ve sonraki mesaj yoksa veya farklı tarihse ayracı da sil
       const prevSibling = msgRow.previousElementSibling;
       if (prevSibling && prevSibling.innerHTML?.includes('justify-content:center') &&
         (!msgRow.nextElementSibling || msgRow.nextElementSibling.classList?.contains('message-row'))) {
@@ -401,7 +396,6 @@ const FriendsChatModule = (() => {
     if (!exceptRow) activeSwipeRow = null;
   }
 
-  // ========== MESAJLARI İLK YÜKLEME (SADECE BURDA TAM YENİLEME) ==========
   async function loadMessages() {
     const list = document.getElementById('messageList');
     if (!list || !currentFriendId) return;
@@ -438,7 +432,6 @@ const FriendsChatModule = (() => {
         </div>`;
       }
       list.innerHTML = html;
-      // Tüm satırlara swipe handler ekle
       document.querySelectorAll('#messageList .message-row').forEach(row => attachSwipeHandlersForSingleRow(row));
       setTimeout(() => { list.scrollTo({ top: list.scrollHeight, behavior: 'smooth' }); }, 50);
     } catch (e) { list.innerHTML = '<p style="text-align:center; padding:20px; color:red;">Hata.</p>'; }
@@ -470,7 +463,7 @@ const FriendsChatModule = (() => {
         }
       }
     } catch (e) { }
-    await loadMessages();  // sadece ilk yükleme
+    await loadMessages();
     resetUnreadCount();
   };
 
@@ -520,13 +513,11 @@ const FriendsChatModule = (() => {
       if (scope === 'me') {
         const field = msg.sender_id === user.id ? 'deleted_for_sender' : 'deleted_for_receiver';
         await getSB().from('messages').update({ [field]: true }).eq('id', id);
-        // DOM'dan kaldır
         removeMessageFromDOM(id);
       } else if (scope === 'everyone' && msg.sender_id === user.id) {
         await getSB().from('messages').delete().eq('id', id);
         removeMessageFromDOM(id);
       }
-      // Arka planda senkronizasyon için sessizce yeniden yüklemeye gerek yok, optimistic yeterli.
     } catch (e) { console.error('Silme hatası:', e); if (window.showToast) window.showToast('Silme işlemi başarısız oldu.', 'error'); }
   };
 
@@ -574,8 +565,7 @@ const FriendsChatModule = (() => {
       };
       const { data, error } = await getSB().from('messages').insert(newMsg).select().single();
       if (error) throw error;
-      // DOM'a ekle
-      appendMessageToDOM(data, true, true); // isMine=true, scroll yap
+      appendMessageToDOM(data, true, true);
     } catch (e) {
       input.value = text;
       if (window.showToast) window.showToast('Mesaj gönderilemedi.', 'error');
@@ -585,7 +575,7 @@ const FriendsChatModule = (() => {
     }
   };
 
-  // ═══ BİLDİRİM VE BADGE ═══
+  // ========== BİLDİRİM VE BADGE ==========
   function updateBadgeUI() {
     const badge = document.getElementById('messagesBadge');
     if (badge) {
@@ -643,8 +633,9 @@ const FriendsChatModule = (() => {
     await getSB().from('friendships').delete().eq('id', requestId);
   }
 
-  // ═══ REALTIME (SADECE YENİ MESAJLARI DOM'A EKLE, TAM YENİLEME YAPMA) ═══
+  // ========== REALTIME SUBSCRIPTION (TEK SEfer) ==========
   async function setupRealtimeSubscription() {
+    if (realtimeInitialized) return;       // 🔧 Subscription zaten eklenmişse çık
     if (chatSubscription) {
       try { await getSB().removeChannel(chatSubscription); } catch (e) { }
     }
@@ -654,13 +645,10 @@ const FriendsChatModule = (() => {
       .channel('public:messages')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, async (payload) => {
         const newMsg = payload.new;
-        if (newMsg.sender_id === user.id) return; // kendi mesajımız zaten gönderildi, eklemeyi tekrar yapma
-
+        if (newMsg.sender_id === user.id) return;
         if (currentFriendId && (newMsg.sender_id === currentFriendId || newMsg.receiver_id === currentFriendId)) {
-          // Karşı taraftan gelen mesaj, sohbet açık -> DOM'a ekle
           appendMessageToDOM(newMsg, false, true);
         } else {
-          // Farklı bir arkadaştan mesaj -> badge artır
           incrementUnreadCount();
           try {
             const { data: prof } = await getSB().from('profiles').select('display_name, username').eq('id', newMsg.sender_id).single();
@@ -672,7 +660,6 @@ const FriendsChatModule = (() => {
         }
       })
       .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'messages' }, async (payload) => {
-        // Silme işaretlemeleri veya güncellemeler için - sadece açık sohbetse ve mesaj silinmişse DOM'dan kaldır
         if (currentFriendId && (payload.new.sender_id === currentFriendId || payload.new.receiver_id === currentFriendId)) {
           const { data: { user: currentUser } } = await getSB().auth.getUser();
           const msg = payload.new;
@@ -689,9 +676,13 @@ const FriendsChatModule = (() => {
         }
       })
       .subscribe();
+    realtimeInitialized = true;
   }
 
+  // ========== MODÜLÜN İNİT (TEK SEfer) ==========
   async function init() {
+    if (moduleInitialized) return;
+    moduleInitialized = true;
     const inp = document.getElementById('messageInput');
     if (inp) {
       inp.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); window.sendMessageFromUi(); } });
