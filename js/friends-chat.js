@@ -319,7 +319,14 @@ const FriendsChatModule = (() => {
     const modal = document.getElementById('messagesModal');
     if (!modal) return;
     modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden'; // Arka planın kaymasını engelle (Header sabit kalır)
+    document.body.style.overflow = 'hidden'; 
+    
+    // Mobil Klavye Düzeltmesi: Ekranın itilmesini önlemek için yüksekliği sabitle
+    if (window.visualViewport) {
+      modal.style.height = window.visualViewport.height + 'px';
+    } else {
+      modal.style.height = '100%';
+    }
 
     const panel = document.getElementById('conversationsPanel');
     const area = document.getElementById('chatArea');
@@ -680,18 +687,26 @@ const FriendsChatModule = (() => {
 
   async function init() {
     try {
+      // Mobil Klavye / Görünüm Takibi (Header'ın kaybolmasını engeller)
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', () => {
+          const modal = document.getElementById('messagesModal');
+          if (modal && modal.style.display === 'flex') {
+            modal.style.height = window.visualViewport.height + 'px';
+            window.scrollTo(0, 0); // Sayfa kaymasını sıfırla
+          }
+        });
+      }
+
       const { data: { user } } = await getSB().auth.getUser();
       if (user && !chatSubscription) {
-        // Supabase Canlı Veri Dinleyicisi (Realtime)
         chatSubscription = getSB()
           .channel('public:messages')
           .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
             const msg = payload.new;
-            // Eğer şu an açık olan sohbetin mesajıysa anında yükle
             if (currentFriendId && (msg.sender_id === currentFriendId || msg.receiver_id === currentFriendId)) {
                loadMessages();
             } else if (msg.receiver_id === user.id && window.showToast) {
-               // Başka birinden mesaj geldiyse bildirim ver (opsiyonel)
                window.showToast('Yeni bir mesajın var!', 'success');
             }
           })
@@ -699,7 +714,7 @@ const FriendsChatModule = (() => {
       }
     } catch(e) { console.warn("Realtime başlatılamadı:", e); }
     
-    console.log('✅ Sohbet modülü (Realtime) hazır.');
+    console.log('✅ Sohbet modülü (Realtime + Mobile Fix) hazır.');
   }
 
   return {
