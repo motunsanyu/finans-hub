@@ -108,7 +108,7 @@
 
       if (authScreen) authScreen.style.display = 'none';
       if (appShell) appShell.style.display = 'block';
-      if (typeof FriendsChatModule !== 'undefined') FriendsChatModule.init();
+      // FriendsChatModule.init() app.js -> initApp() içinde zaten çağrılıyor.
       if (typeof initApp === 'function') initApp();
       return true;
     } else {

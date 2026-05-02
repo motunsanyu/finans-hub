@@ -332,10 +332,12 @@ const FriendsChatModule = (() => {
     }
   };
 
-  // ═══ MODAL AÇMA/KAPAMA (appShell gizleme ile) ═══
+  // ═══ MODAL AÇMA/KAPAMA ═══
+  // Not: Modallar position:fixed; z-index:10000 olduğundan appShell'i gizlemeye gerek yok.
+  // appShell'i gizlemek sadece messagesModal (tam ekran) için kullanılıyor.
   function toggleAppShell(show) {
     if (!appShellElement) {
-      appShellElement = document.querySelector('.app-shell');
+      appShellElement = document.querySelector('.app-shell') || document.getElementById('appShell');
     }
     if (appShellElement) {
       appShellElement.style.display = show ? '' : 'none';
@@ -345,15 +347,14 @@ const FriendsChatModule = (() => {
   window.toggleFriendsModal = function () {
     const modal = document.getElementById('friendsModal');
     if (!modal) return;
-    const isOpen = modal.style.display === 'flex' || modal.style.display === 'block';
-    modal.style.display = isOpen ? 'none' : 'block';
-    if (!isOpen) {
-      toggleAppShell(false);
+    const isOpen = modal.style.display === 'flex';
+    if (isOpen) {
+      modal.style.display = 'none';
+    } else {
+      modal.style.display = 'flex'; // flex şart: justify-content:flex-end çalışsın
       loadPendingRequests();
       loadFriendList();
       if (typeof window.toggleSidebar === 'function') window.toggleSidebar(false);
-    } else {
-      toggleAppShell(true);
     }
   };
 
@@ -361,7 +362,6 @@ const FriendsChatModule = (() => {
     const modal = document.getElementById('messagesModal');
     if (!modal) return;
     modal.style.display = 'flex';
-    toggleAppShell(false);
     document.body.style.overflow = 'hidden';
     const panel = document.getElementById('conversationsPanel');
     const area = document.getElementById('chatArea');
@@ -378,7 +378,6 @@ const FriendsChatModule = (() => {
     if (modal.style.display === 'flex') {
       modal.style.display = 'none';
       document.body.style.overflow = '';
-      toggleAppShell(true);
       currentFriendId = null;
       currentFriendName = null;
     } else {
@@ -1079,9 +1078,13 @@ const FriendsChatModule = (() => {
   }
 
   // ═══ INIT ═══
+  let _initializedForUserId = null;
   async function init() {
     const ok = await refreshSession();
     if (!ok) return;
+    // Aynı kullanıcı için tekrar init edilmesin (çift çağrı koruması)
+    if (_initializedForUserId === currentUserId) return;
+    _initializedForUserId = currentUserId;
     setupKeyboardHandler();
     await setupRealtimeSubscription();
     updateBadgeUI();
@@ -1103,9 +1106,7 @@ const FriendsChatModule = (() => {
   };
 })();
 
-// Sayfa yüklendiğinde başlat
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => FriendsChatModule.init());
-} else {
-  FriendsChatModule.init();
-}
+// NOT: FriendsChatModule.init() çağrısı auth.js ve app.js üzerinden yapılıyor.
+// Oturum doğrulandıktan sonra init edilmeli; sayfa yüklenince direkt init etmek
+// oturum henüz hazır olmadığından currentUserId null kalır.
+// Bu nedenle buradaki otomatik init kaldırıldı.
