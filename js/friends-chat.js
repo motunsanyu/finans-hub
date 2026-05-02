@@ -552,12 +552,13 @@ const FriendsChatModule = (() => {
         return dateSeparatorHtml + `<div
           data-msg-id="${msg.id}"
           data-is-mine="${isMine}"
-          style="display:flex; justify-content:${isMine ? 'flex-end' : 'flex-start'}; margin:6px 0; animation: fadeIn 0.2s ease;"
+          style="display:flex; justify-content:${isMine ? 'flex-end' : 'flex-start'}; margin:6px 0; animation: fadeIn 0.2s ease; user-select:none; -webkit-touch-callout:none;"
           oncontextmenu="FriendsChatModule.showMessageMenu(event, '${msg.id}', ${isMine}); return false;"
           ontouchstart="FriendsChatModule.handleTouchStart(event, '${msg.id}', ${isMine})"
-          ontouchend="FriendsChatModule.handleTouchEnd()"
+          ontouchmove="FriendsChatModule.handleTouchMove(event)"
+          ontouchend="FriendsChatModule.handleTouchEnd(event, '${msg.id}', ${isMine})"
         >
-          <div style="max-width:82%; background:${bubbleBg}; color:${textColor}; padding:8px 12px; border-radius:${borderRadius}; position:relative; box-shadow:0 1px 2px rgba(0,0,0,0.2);">
+          <div class="message-bubble" style="max-width:82%; background:${bubbleBg}; color:${textColor}; padding:8px 12px; border-radius:${borderRadius}; position:relative; box-shadow:0 1px 2px rgba(0,0,0,0.2); transition: transform 0.2s ease;">
             <div style="font-size:15px; line-height:1.45; word-break:break-word;">${msg.content}</div>
             <div style="font-size:10px; color:#6c7883; margin-top:4px; text-align:right; font-weight:500;">${time}</div>
           </div>
@@ -610,16 +611,46 @@ const FriendsChatModule = (() => {
     return false;
   }
 
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let isSwipeAction = false;
+
   function handleTouchStart(event, msgId, isMine) {
+    touchStartX = event.touches[0].clientX;
+    touchStartY = event.touches[0].clientY;
+    isSwipeAction = false;
+
     touchTimer = setTimeout(() => {
-      const touch = event.touches[0];
-      const fakeEvent = { clientX: touch.clientX, clientY: touch.clientY, stopPropagation: () => {} };
-      showMessageMenu(fakeEvent, msgId, isMine);
-    }, 500);
+      if (!isSwipeAction) {
+        const touch = event.touches[0];
+        const fakeEvent = { clientX: touch.clientX, clientY: touch.clientY, stopPropagation: () => {} };
+        showMessageMenu(fakeEvent, msgId, isMine);
+      }
+    }, 600);
   }
 
-  function handleTouchEnd() {
+  function handleTouchMove(event) {
+    const moveX = event.touches[0].clientX;
+    const diffX = touchStartX - moveX;
+    
+    // Eğer sola 30px'den fazla kaydıysa swipe olarak işaretle
+    if (diffX > 30) {
+      isSwipeAction = true;
+      clearTimeout(touchTimer);
+    }
+  }
+
+  function handleTouchEnd(event, msgId, isMine) {
     clearTimeout(touchTimer);
+    const touchEndX = event.changedTouches[0].clientX;
+    const diffX = touchStartX - touchEndX;
+
+    // Sola kaydırma (Swipe Left) gerçekleştiyse menüyü aç
+    if (isSwipeAction && diffX > 50) {
+      const touch = event.changedTouches[0];
+      const fakeEvent = { clientX: touch.clientX, clientY: touch.clientY, stopPropagation: () => {} };
+      showMessageMenu(fakeEvent, msgId, isMine);
+    }
   }
 
   // --- MENÜLERİ KAPATMA (Global Click) ---
@@ -803,6 +834,7 @@ const FriendsChatModule = (() => {
     openConversationFromFriends,
     showMessageMenu,
     handleTouchStart,
+    handleTouchMove,
     handleTouchEnd,
     toggleFriendsModal: window.toggleFriendsModal,
     toggleMessagesModal: window.toggleMessagesModal,
