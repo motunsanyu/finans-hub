@@ -632,3 +632,151 @@ window.toggleDisclaimerModal = function () {
   // Eğer açılıyorsa ve sidebar açıksa sidebar'ı kapat (daha temiz görünüm)
   if (!isVisible && typeof window.toggleSidebar === 'function') window.toggleSidebar(false);
 };
+
+// ========== TOAST BİLDİRİM STİLİ (FLU KOYU YEŞİL ZEMİN, BEYAZ YAZI) ==========
+window.showToast = function(msg, type = 'default') {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+  const toast = document.createElement('div');
+  toast.className = 'toast-msg';
+  toast.textContent = msg;
+  // Her zaman koyu yeşil arka plan (flu olması için blur eklendi)
+  toast.style.background = 'rgba(0, 70, 0, 0.85)';
+  toast.style.backdropFilter = 'blur(12px)';
+  toast.style.webkitBackdropFilter = 'blur(12px)';
+  toast.style.color = '#fff';
+  toast.style.borderRadius = '30px';
+  toast.style.padding = '12px 24px';
+  toast.style.fontWeight = '700';
+  toast.style.fontSize = '14px';
+  toast.style.boxShadow = '0 8px 32px rgba(0,0,0,0.3)';
+  toast.style.border = '1px solid rgba(255,255,255,0.1)';
+  toast.style.marginBottom = '10px';
+  toast.style.animation = 'toast-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+  
+  container.appendChild(toast);
+  setTimeout(() => { 
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(-20px)';
+    setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 300)
+  }, 3000);
+};
+
+// ========== PROFİL FOTOĞRAFI YÜKLEME, KULLANICI ADI GÜNCELLEME, HESAP SİLME ==========
+window.uploadProfilePicture = async function(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (!file.type.startsWith('image/')) {
+    window.showToast('Lütfen geçerli bir resim dosyası seçin.', 'error');
+    return;
+  }
+  if (file.size > 2 * 1024 * 1024) {
+    window.showToast('Dosya boyutu 2MB\'ı geçemez.', 'error');
+    return;
+  }
+  try {
+    const { data: { user } } = await getSB().auth.getUser();
+    if (!user) throw new Error('Oturum açık değil');
+    
+    window.showToast('Fotoğraf yükleniyor...', 'default');
+    
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${user.id}-${Date.now()}.${fileExt}`;
+    const { error: uploadError } = await getSB().storage.from('avatars').upload(fileName, file);
+    if (uploadError) throw uploadError;
+    
+    const { data: urlData } = getSB().storage.from('avatars').getPublicUrl(fileName);
+    const avatarUrl = urlData.publicUrl;
+    
+    const { error: updateError } = await getSB().from('profiles').update({ avatar_url: avatarUrl }).eq('id', user.id);
+    if (updateError) throw updateError;
+    
+    // UI güncelleme
+    const avatarBig = document.getElementById('profileAvatarBig');
+    const avatarSide = document.getElementById('sidebarAvatar');
+    const avatarImage = document.getElementById('avatarImage');
+    const defaultAvatar = document.getElementById('defaultAvatar');
+    
+    if (avatarBig) avatarBig.innerHTML = `<img src="${avatarUrl}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`;
+    if (avatarSide && avatarImage) {
+      avatarImage.src = avatarUrl;
+      avatarImage.style.display = 'block';
+      if (defaultAvatar) defaultAvatar.style.display = 'none';
+    }
+    window.showToast('Profil fotoğrafı güncellendi!', 'success');
+  } catch (error) {
+    console.error('Avatar yükleme hatası:', error);
+    window.showToast('Fotoğraf yüklenirken hata oluştu.', 'error');
+  }
+};
+
+window.updateUsernameFromProfile = async function() {
+  const input = document.getElementById('newUsernameInput');
+  const newUsername = input?.value?.trim();
+  if (!newUsername) {
+    window.showToast('Lütfen bir kullanıcı adı girin.', 'error');
+    return;
+  }
+  if (!/^[a-zA-Z0-9_]{3,20}$/.test(newUsername)) {
+    window.showToast('Kullanıcı adı 3-20 karakter olmalı ve sadece harf, rakam, alt çizgi içerebilir.', 'error');
+    return;
+  }
+  try {
+    const { data: { user } } = await getSB().auth.getUser();
+    if (!user) throw new Error('Oturum açık değil');
+    
+    const { data: existing } = await getSB().from('profiles').select('id').eq('username', newUsername).neq('id', user.id).maybeSingle();
+    if (existing) {
+      window.showToast('Bu kullanıcı adı zaten kullanılıyor.', 'error');
+      return;
+    }
+    
+    const { error } = await getSB().from('profiles').update({ username: newUsername }).eq('id', user.id);
+    if (error) throw error;
+    
+    const profileName = document.getElementById('profileNameDisplay');
+    const sidebarName = document.getElementById('sidebarProfileName');
+    if (profileName) profileName.textContent = newUsername;
+    if (sidebarName) sidebarName.textContent = newUsername;
+    
+    window.showToast('Kullanıcı adı güncellendi!', 'success');
+    input.value = '';
+  } catch (error) {
+    console.error('Kullanıcı adı güncelleme hatası:', error);
+    window.showToast('Güncelleme başarısız.', 'error');
+  }
+};
+
+window.confirmDeleteAccount = function() {
+  if (typeof window.showCustomConfirm === 'function') {
+    window.showCustomConfirm('Hesabınızı kalıcı olarak silmek üzeresiniz. Bu işlem geri alınamaz. Devam etmek istediğinize emin misiniz?', async () => {
+      try {
+        const { data: { user } } = await getSB().auth.getUser();
+        if (!user) throw new Error('Oturum açık değil');
+        
+        window.showToast('Hesabınız siliniyor...', 'default');
+        
+        await getSB().from('profiles').delete().eq('id', user.id);
+        await getSB().from('friendships').delete().or(`requester_id.eq.${user.id},addressee_id.eq.${user.id}`);
+        await getSB().from('messages').delete().or(`sender_id.eq.${user.id},receiver_id.eq.${user.id}`);
+        await getSB().from('finance_snapshots').delete().eq('user_id', user.id);
+        
+        // Auth silme işlemi genellikle admin yetkisi gerektirir, 
+        // Client-side'da auth.admin mevcut olmayabilir. 
+        // Eğer mevcut değilse sadece çıkış yapıp verileri silmek bir yöntemdir.
+        const { error } = await getSB().auth.signOut();
+        if (error) throw error;
+        
+        localStorage.clear();
+        window.location.reload();
+      } catch (error) {
+        console.error('Hesap silme hatası:', error);
+        window.showToast('Hata oluştu. Lütfen tekrar deneyin.', 'error');
+      }
+    });
+  } else {
+    if (confirm('Hesabınızı silmek istediğinize emin misiniz?')) {
+      // Benzer silme mantığı...
+    }
+  }
+};

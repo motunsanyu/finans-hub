@@ -2067,15 +2067,7 @@
         btnOk.onclick = function () { modal.style.display = 'none'; onConfirm(); };
       };
 
-      window.showToast = function (msg, type = 'default') {
-        const container = document.getElementById('toastContainer');
-        if (!container) return;
-        const toast = document.createElement('div');
-        toast.className = 'toast-msg ' + type;
-        toast.textContent = msg;
-        container.appendChild(toast);
-        setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 3000);
-      };
+      // window.showToast fonksiyonu artık app.js içindeki profesyonel sürümü kullanıyor.
     </script>
     <script>
       function applyThemeScope() {
