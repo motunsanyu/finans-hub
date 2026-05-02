@@ -1081,12 +1081,15 @@ const FriendsChatModule = (() => {
     });
 
     if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', () => {
+      const adjustViewport = () => {
         const modal = document.getElementById('messagesModal');
         if (!modal || modal.style.display !== 'flex') return;
-        const vh = window.visualViewport.height;
-        modal.style.height = vh + 'px';
-      });
+        modal.style.height = window.visualViewport.height + 'px';
+        modal.style.top = window.visualViewport.offsetTop + 'px';
+        window.scrollTo(0, 0); // Kendi viewport'umuzu yönettiğimiz için tarayıcı scrollunu sıfırla
+      };
+      window.visualViewport.addEventListener('resize', adjustViewport);
+      window.visualViewport.addEventListener('scroll', adjustViewport);
     }
   }
 
@@ -1167,6 +1170,16 @@ const FriendsChatModule = (() => {
     _initializedForUserId = currentUserId;
     setupKeyboardHandler();
     await setupRealtimeSubscription();
+
+    // Başlangıçta okunmamış mesaj sayısını al
+    try {
+      const { count } = await getSB().from('messages')
+        .select('*', { count: 'exact', head: true })
+        .eq('receiver_id', currentUserId)
+        .eq('deleted_for_receiver', false);
+      unreadCount = count || 0;
+    } catch (e) { }
+
     updateBadgeUI();
   }
 
