@@ -1,32 +1,22 @@
-// js/friends-chat.js — Son Sürüm (Hatadüzeltilmiş, Çalışır Durumda)
+// js/friends-chat.js — İyileştirilmiş Sürüm (Badge + Header Sabit)
 
 const FriendsChatModule = (() => {
   let currentFriendId = null;
   let currentFriendName = null;
   let chatSubscription = null;
+  let profilesSubscription = null;        // Profil değişikliklerini dinlemek için
   let currentConversationFriendId = null;
   let isSendingMsg = false;
   let activeSwipeRow = null;
   let selectedMessageId = null;
   let selectedMessageIsMine = false;
-  let unreadCount = 0;
+  let unreadCount = 0;                    // Toplam okunmamış (sidebar badge)
   let realtimeInitialized = false;
   let moduleInitialized = false;
 
   function getSB() { return window._supabaseClient; }
 
-  // ESCAPE HTML
-  function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>]/g, function (m) {
-      if (m === '&') return '&amp;';
-      if (m === '<') return '&lt;';
-      if (m === '>') return '&gt;';
-      return m;
-    });
-  }
-
-  // ═══ ARKADAŞLIK MANTIĞI ═══
+  // ═══ ARKADAŞLIK MANTIĞI (Aynı) ═══
   async function searchUser(username) {
     const { data } = await getSB().from('profiles').select('id, username, display_name, avatar_url').eq('username', username).maybeSingle();
     return data;
@@ -65,7 +55,7 @@ const FriendsChatModule = (() => {
     return list;
   }
 
-  // ═══ ARKADAŞLAR UI ═══
+  // ═══ ARKADAŞLAR UI (Aynı) ═══
   async function loadPendingRequests() {
     const el = document.getElementById('pendingRequests');
     if (!el) return;
@@ -223,13 +213,127 @@ const FriendsChatModule = (() => {
     setTimeout(() => { window.openConversation(friendId, friendName); }, 50);
   };
 
-  // Swipe handler for conversation rows (eski yöntem)
-  function attachSwipeHandlers(container) {
-    const rows = container.querySelectorAll('.conversation-row');
-    rows.forEach(row => attachSwipeHandlersForSingleRow(row));
+  // ========== YENİ: Konuşma başına okunmamış mesaj sayısını hesapla ==========
+  async function getUnreadCountForFriend(friendId) {
+    const { data: { user } } = await getSB().auth.getUser();
+    if (!user) return 0;
+    const { data, error } = await getSB()
+      .from('messages')
+      .select('id', { count: 'exact', head: true })
+      .eq('receiver_id', user.id)
+      .eq('sender_id', friendId)
+      .eq('deleted_for_receiver', false);
+    if (error) return 0;
+    return data?.length || 0;
   }
 
-  // Swipe handler for single row (hem mesaj hem sohbet)
+  async function loadConversations() {
+    const el = document.getElementById('conversationList');
+    if (!el) return;
+    el.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-secondary);">Yükleniyor...</p>';
+    try {
+      const friends = await getFriends();
+      const { data: { user } } = await getSB().auth.getUser();
+      const listItems = [];
+      for (const f of friends) {
+        const { data: msgs } = await getSB().from('messages').select('id, sender_id, receiver_id, created_at, content, deleted_for_sender, deleted_for_receiver').or(`and(sender_id.eq.${user.id},receiver_id.eq.${f.friendId},deleted_for_sender.eq.false),and(sender_id.eq.${f.friendId},receiver_id.eq.${user.id},deleted_for_receiver.eq.false)`).order('created_at', { ascending: false }).limit(1);
+        if (!msgs || msgs.length === 0) continue;
+        const lastMsg = msgs[0];
+        const { data: prof } = await getSB().from('profiles').select('last_seen, avatar_url').eq('id', f.friendId).maybeSingle();
+        let statusText = 'çevrimdışı';
+        let statusColor = '#6c7883';
+        if (prof?.last_seen) {
+          const lastSeenDate = new Date(prof.last_seen);
+          const diffInSec = Math.floor((new Date() - lastSeenDate) / 1000);
+          if (diffInSec < 60 && diffInSec >= -5) { statusText = 'çevrimiçi'; statusColor = '#6ab2f2'; }
+          else { statusText = lastSeenDate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }); }
+        }
+        const avatarContent = prof?.avatar_url ? `<img src="${prof.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">` : (f.friendName || '?')[0].toUpperCase();
+
+        // Okunmamış mesaj sayısını al
+        const unread = await getUnreadCountForFriend(f.friendId);
+        const badgeHtml = unread > 0 ? `<span style="background:#ef5350; color:#fff; font-size:10px; font-weight:800; border-radius:12px; padding:2px 6px; min-width:18px; text-align:center; margin-left:8px;">${unread > 99 ? '99+' : unread}</span>` : '';
+
+        listItems.push(`
+          <div class="conversation-row" data-friend-id="${f.friendId}" style="display:flex; align-items:center; gap:12px; padding:12px 16px; cursor:pointer; border-bottom:1px solid #17212b; position:relative; overflow:hidden;" onclick="FriendsChatModule.openConversation('${f.friendId}','${f.friendName}')">
+            <button class="swipe-delete-btn" type="button" style="position:absolute; right:6px; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:50%; background:#ef5350; border:none; color:#fff; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.15s ease; z-index:5;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+            <div class="conv-content-wrapper" style="display:flex; align-items:center; gap:12px; flex:1; transition: transform 0.2s ease; z-index:2;">
+              <div style="width:52px;height:52px;border-radius:50%;background:#2b5278;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;flex-shrink:0;overflow:hidden;">${avatarContent}</div>
+              <div style="flex:1;min-width:0;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <div style="font-weight:700; font-size:15px; color:#fff;">${f.friendName}</div>
+                  <div style="display:flex; align-items:center; gap:4px;">
+                    <div style="font-size:11px; color:${statusColor};">${statusText}</div>
+                    ${badgeHtml}
+                  </div>
+                </div>
+                <div style="font-size:13px; color:#6c7883; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(lastMsg.content)}</div>
+              </div>
+            </div>
+          </div>`);
+      }
+      el.innerHTML = listItems.join('');
+      attachSwipeHandlers(el);
+    } catch (e) { el.innerHTML = '<p style="text-align:center; padding:20px; color:red;">Hata.</p>'; }
+  }
+
+  // ========== INCREMENTAL MESAJ YÖNETİMİ (Aynı) ==========
+  function appendMessageToDOM(msg, isMine, scrollToBottom = true) {
+    const list = document.getElementById('messageList');
+    if (!list) return;
+    const msgDate = new Date(msg.created_at);
+    const time = msgDate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+    const dateStr = msgDate.toLocaleDateString('tr-TR');
+    const bubbleBg = isMine ? '#2b5278' : '#1e2c3a';
+
+    let lastDateStr = null;
+    const lastMsgDiv = list.lastElementChild;
+    if (lastMsgDiv && lastMsgDiv.classList && lastMsgDiv.classList.contains('message-row')) {
+      const prevDateDiv = lastMsgDiv.previousElementSibling;
+      if (prevDateDiv && prevDateDiv.innerHTML?.includes('justify-content:center')) {
+        lastDateStr = prevDateDiv.innerText?.trim();
+      }
+    }
+
+    let dateSeparatorHtml = '';
+    if (lastDateStr !== dateStr) {
+      dateSeparatorHtml = `<div style="display:flex; justify-content:center; margin:16px 0 8px 0;"><span style="background:rgba(255,255,255,0.06); color:#9ca3af; font-size:11px; padding:4px 12px; border-radius:12px;">${dateStr}</span></div>`;
+    }
+
+    const messageHtml = dateSeparatorHtml + `<div class="message-row" data-msg-id="${msg.id}" data-is-mine="${isMine}" style="position:relative; display:flex; justify-content:${isMine ? 'flex-end' : 'flex-start'}; margin:6px 0; overflow:hidden;">
+      <button class="swipe-delete-btn" type="button" style="position:absolute; right:6px; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:50%; background:#ef5350; border:none; color:#fff; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.15s ease; z-index:5;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+      </button>
+      <div class="message-bubble" style="max-width:82%; background:${bubbleBg}; color:#fff; padding:8px 12px; border-radius:${isMine ? '12px 12px 0 12px' : '0 12px 12px 12px'}; position:relative; transition: transform 0.2s ease; z-index:2;">
+        <div style="font-size:15px; line-height:1.4;">${escapeHtml(msg.content)}</div>
+        <div style="font-size:10px; color:rgba(255,255,255,0.4); margin-top:4px; text-align:right;">${time}</div>
+      </div>
+    </div>`;
+
+    list.insertAdjacentHTML('beforeend', messageHtml);
+    const newRow = list.lastElementChild;
+    if (newRow && newRow.classList.contains('message-row')) {
+      attachSwipeHandlersForSingleRow(newRow);
+    }
+    if (scrollToBottom) {
+      setTimeout(() => { list.scrollTo({ top: list.scrollHeight, behavior: 'smooth' }); }, 50);
+    }
+  }
+
+  function removeMessageFromDOM(msgId) {
+    const msgRow = document.querySelector(`.message-row[data-msg-id="${msgId}"]`);
+    if (msgRow) {
+      const prevSibling = msgRow.previousElementSibling;
+      if (prevSibling && prevSibling.innerHTML?.includes('justify-content:center') &&
+        (!msgRow.nextElementSibling || msgRow.nextElementSibling.classList?.contains('message-row'))) {
+        prevSibling.remove();
+      }
+      msgRow.remove();
+    }
+  }
+
   function attachSwipeHandlersForSingleRow(row) {
     const isMsg = row.classList.contains('message-row');
     const bubble = isMsg ? row.querySelector('.message-bubble') : row.querySelector('.conv-content-wrapper');
@@ -315,105 +419,6 @@ const FriendsChatModule = (() => {
     if (!exceptRow) activeSwipeRow = null;
   }
 
-  // ========== INCREMENTAL MESAJ YÖNETİMİ ==========
-  function appendMessageToDOM(msg, isMine, scrollToBottom = true) {
-    const list = document.getElementById('messageList');
-    if (!list) return;
-    const msgDate = new Date(msg.created_at);
-    const time = msgDate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-    const dateStr = msgDate.toLocaleDateString('tr-TR');
-    const bubbleBg = isMine ? '#2b5278' : '#1e2c3a';
-
-    let lastDateStr = null;
-    const lastMsgDiv = list.lastElementChild;
-    if (lastMsgDiv && lastMsgDiv.classList && lastMsgDiv.classList.contains('message-row')) {
-      const prevDateDiv = lastMsgDiv.previousElementSibling;
-      if (prevDateDiv && prevDateDiv.innerHTML?.includes('justify-content:center')) {
-        lastDateStr = prevDateDiv.innerText?.trim();
-      }
-    }
-
-    let dateSeparatorHtml = '';
-    if (lastDateStr !== dateStr) {
-      dateSeparatorHtml = `<div style="display:flex; justify-content:center; margin:16px 0 8px 0;"><span style="background:rgba(255,255,255,0.06); color:#9ca3af; font-size:11px; padding:4px 12px; border-radius:12px;">${dateStr}</span></div>`;
-    }
-
-    const messageHtml = dateSeparatorHtml + `<div class="message-row" data-msg-id="${msg.id}" data-is-mine="${isMine}" style="position:relative; display:flex; justify-content:${isMine ? 'flex-end' : 'flex-start'}; margin:6px 0; overflow:hidden;">
-      <button class="swipe-delete-btn" type="button" style="position:absolute; right:6px; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:50%; background:#ef5350; border:none; color:#fff; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.15s ease; z-index:5;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-      </button>
-      <div class="message-bubble" style="max-width:82%; background:${bubbleBg}; color:#fff; padding:8px 12px; border-radius:${isMine ? '12px 12px 0 12px' : '0 12px 12px 12px'}; position:relative; transition: transform 0.2s ease; z-index:2;">
-        <div style="font-size:15px; line-height:1.4;">${escapeHtml(msg.content)}</div>
-        <div style="font-size:10px; color:rgba(255,255,255,0.4); margin-top:4px; text-align:right;">${time}</div>
-      </div>
-    </div>`;
-
-    list.insertAdjacentHTML('beforeend', messageHtml);
-    const newRow = list.lastElementChild;
-    if (newRow && newRow.classList.contains('message-row')) {
-      attachSwipeHandlersForSingleRow(newRow);
-    }
-    if (scrollToBottom) {
-      setTimeout(() => { list.scrollTo({ top: list.scrollHeight, behavior: 'smooth' }); }, 50);
-    }
-  }
-
-  function removeMessageFromDOM(msgId) {
-    const msgRow = document.querySelector(`.message-row[data-msg-id="${msgId}"]`);
-    if (msgRow) {
-      const prevSibling = msgRow.previousElementSibling;
-      if (prevSibling && prevSibling.innerHTML?.includes('justify-content:center') &&
-        (!msgRow.nextElementSibling || msgRow.nextElementSibling.classList?.contains('message-row'))) {
-        prevSibling.remove();
-      }
-      msgRow.remove();
-    }
-  }
-
-  async function loadConversations() {
-    const el = document.getElementById('conversationList');
-    if (!el) return;
-    el.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-secondary);">Yükleniyor...</p>';
-    try {
-      const friends = await getFriends();
-      const { data: { user } } = await getSB().auth.getUser();
-      const listItems = [];
-      for (const f of friends) {
-        const { data: msgs } = await getSB().from('messages').select('id, sender_id, receiver_id, created_at, content, deleted_for_sender, deleted_for_receiver').or(`and(sender_id.eq.${user.id},receiver_id.eq.${f.friendId},deleted_for_sender.eq.false),and(sender_id.eq.${f.friendId},receiver_id.eq.${user.id},deleted_for_receiver.eq.false)`).order('created_at', { ascending: false }).limit(1);
-        if (!msgs || msgs.length === 0) continue;
-        const lastMsg = msgs[0];
-        const { data: prof } = await getSB().from('profiles').select('last_seen, avatar_url').eq('id', f.friendId).maybeSingle();
-        let statusText = 'çevrimdışı';
-        let statusColor = '#6c7883';
-        if (prof?.last_seen) {
-          const lastSeenDate = new Date(prof.last_seen);
-          const diffInSec = Math.floor((new Date() - lastSeenDate) / 1000);
-          if (diffInSec < 60 && diffInSec >= -5) { statusText = 'çevrimiçi'; statusColor = '#6ab2f2'; }
-          else { statusText = lastSeenDate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }); }
-        }
-        const avatarContent = prof?.avatar_url ? `<img src="${prof.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">` : (f.friendName || '?')[0].toUpperCase();
-        listItems.push(`
-          <div class="conversation-row" data-friend-id="${f.friendId}" style="display:flex; align-items:center; gap:12px; padding:12px 16px; cursor:pointer; border-bottom:1px solid #17212b; position:relative; overflow:hidden;" onclick="FriendsChatModule.openConversation('${f.friendId}','${f.friendName}')">
-            <button class="swipe-delete-btn" type="button" style="position:absolute; right:6px; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:50%; background:#ef5350; border:none; color:#fff; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.15s ease; z-index:5;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-            </button>
-            <div class="conv-content-wrapper" style="display:flex; align-items:center; gap:12px; flex:1; transition: transform 0.2s ease; z-index:2;">
-              <div style="width:52px;height:52px;border-radius:50%;background:#2b5278;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;flex-shrink:0;overflow:hidden;">${avatarContent}</div>
-              <div style="flex:1;min-width:0;">
-                <div style="display:flex;justify-content:space-between;align-items:center;">
-                  <div style="font-weight:700; font-size:15px; color:#fff;">${f.friendName}</div>
-                  <div style="font-size:11px; color:${statusColor};">${statusText}</div>
-                </div>
-                <div style="font-size:13px; color:#6c7883; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(lastMsg.content)}</div>
-              </div>
-            </div>
-          </div>`);
-      }
-      el.innerHTML = listItems.join('');
-      attachSwipeHandlers(el);
-    } catch (e) { el.innerHTML = '<p style="text-align:center; padding:20px; color:red;">Hata.</p>'; }
-  }
-
   async function loadMessages() {
     const list = document.getElementById('messageList');
     if (!list || !currentFriendId) return;
@@ -455,6 +460,26 @@ const FriendsChatModule = (() => {
     } catch (e) { list.innerHTML = '<p style="text-align:center; padding:20px; color:red;">Hata.</p>'; }
   }
 
+  // ========== HEADER'ı GÜNCELLEYEN FONKSİYON ==========
+  async function updateHeaderForFriend(friendId) {
+    if (currentFriendId !== friendId) return;
+    try {
+      const { data: prof } = await getSB().from('profiles').select('display_name, username, last_seen, avatar_url').eq('id', friendId).maybeSingle();
+      if (!prof) return;
+      const nameEl = document.getElementById('chatHeaderName');
+      const avatar = document.getElementById('chatHeaderAvatar');
+      const statusEl = document.getElementById('chatHeaderStatus');
+      const fullName = prof.display_name || prof.username || currentFriendName;
+      if (nameEl) nameEl.textContent = fullName;
+      if (avatar) avatar.innerHTML = prof.avatar_url ? `<img src="${prof.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">` : fullName[0].toUpperCase();
+      if (statusEl && prof.last_seen) {
+        const diffInSec = Math.floor((new Date() - new Date(prof.last_seen)) / 1000);
+        if (diffInSec < 60 && diffInSec >= -5) { statusEl.textContent = 'çevrimiçi'; statusEl.style.color = '#6ab2f2'; }
+        else { statusEl.textContent = 'son görülme ' + new Date(prof.last_seen).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }); statusEl.style.color = '#6c7883'; }
+      }
+    } catch (e) { }
+  }
+
   window.openConversation = async function (friendId, friendName) {
     currentFriendId = friendId;
     currentFriendName = friendName;
@@ -468,21 +493,11 @@ const FriendsChatModule = (() => {
     if (avatar) avatar.innerHTML = (friendName || '?')[0].toUpperCase();
     if (nameEl) nameEl.textContent = friendName;
     if (statusEl) { statusEl.textContent = 'yükleniyor...'; statusEl.style.color = '#6c7883'; }
-    try {
-      const { data: prof } = await getSB().from('profiles').select('display_name, username, last_seen, avatar_url').eq('id', friendId).maybeSingle();
-      if (prof) {
-        const fullName = prof.display_name || prof.username || friendName;
-        if (nameEl) nameEl.textContent = fullName;
-        if (avatar) avatar.innerHTML = prof.avatar_url ? `<img src="${prof.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">` : fullName[0].toUpperCase();
-        if (statusEl && prof.last_seen) {
-          const diffInSec = Math.floor((new Date() - new Date(prof.last_seen)) / 1000);
-          if (diffInSec < 60 && diffInSec >= -5) { statusEl.textContent = 'çevrimiçi'; statusEl.style.color = '#6ab2f2'; }
-          else { statusEl.textContent = 'son görülme ' + new Date(prof.last_seen).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }); }
-        }
-      }
-    } catch (e) { }
+    await updateHeaderForFriend(friendId); // Profil bilgilerini çek ve header'ı güncelle
     await loadMessages();
     resetUnreadCount();
+    // Konuşma listesini yeniden yükle (badge sıfırlansın)
+    loadConversations();
   };
 
   window.showConversationsList = function () {
@@ -532,9 +547,12 @@ const FriendsChatModule = (() => {
         const field = msg.sender_id === user.id ? 'deleted_for_sender' : 'deleted_for_receiver';
         await getSB().from('messages').update({ [field]: true }).eq('id', id);
         removeMessageFromDOM(id);
+        // Konuşma listesini yenile (badge güncellemesi için)
+        loadConversations();
       } else if (scope === 'everyone' && msg.sender_id === user.id) {
         await getSB().from('messages').delete().eq('id', id);
         removeMessageFromDOM(id);
+        loadConversations();
       }
     } catch (e) { console.error('Silme hatası:', e); if (window.showToast) window.showToast('Silme işlemi başarısız oldu.', 'error'); }
   };
@@ -584,6 +602,8 @@ const FriendsChatModule = (() => {
       const { data, error } = await getSB().from('messages').insert(newMsg).select().single();
       if (error) throw error;
       appendMessageToDOM(data, true, true);
+      // Konuşma listesini yenile (son mesaj güncellemesi için)
+      loadConversations();
     } catch (e) {
       input.value = text;
       if (window.showToast) window.showToast('Mesaj gönderilemedi.', 'error');
@@ -651,14 +671,19 @@ const FriendsChatModule = (() => {
     await getSB().from('friendships').delete().eq('id', requestId);
   }
 
-  // ========== REALTIME SUBSCRIPTION ==========
+  // ========== REALTIME SUBSCRIPTIONS ==========
   async function setupRealtimeSubscription() {
     if (realtimeInitialized) return;
     if (chatSubscription) {
       try { await getSB().removeChannel(chatSubscription); } catch (e) { }
     }
+    if (profilesSubscription) {
+      try { await getSB().removeChannel(profilesSubscription); } catch (e) { }
+    }
     const { data: { user } } = await getSB().auth.getUser();
     if (!user) return;
+
+    // Mesaj kanalı
     chatSubscription = getSB()
       .channel('public:messages')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, async (payload) => {
@@ -666,8 +691,12 @@ const FriendsChatModule = (() => {
         if (newMsg.sender_id === user.id) return;
         if (currentFriendId && (newMsg.sender_id === currentFriendId || newMsg.receiver_id === currentFriendId)) {
           appendMessageToDOM(newMsg, false, true);
+          // Okunmamış badge sıfırlandı çünkü sohbet açık, konuşma listesini yenile
+          loadConversations();
         } else {
           incrementUnreadCount();
+          // Konuşma listesini yenile (badge göstermek için)
+          loadConversations();
           try {
             const { data: prof } = await getSB().from('profiles').select('display_name, username').eq('id', newMsg.sender_id).single();
             const senderName = prof?.display_name || prof?.username || 'Bir arkadaşınız';
@@ -685,15 +714,30 @@ const FriendsChatModule = (() => {
             (msg.receiver_id === currentUser.id && msg.deleted_for_receiver);
           if (isDeletedForMe) {
             removeMessageFromDOM(msg.id);
+            loadConversations();
           }
         }
       })
       .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'messages' }, async (payload) => {
         if (currentFriendId) {
           removeMessageFromDOM(payload.old.id);
+          loadConversations();
         }
       })
       .subscribe();
+
+    // Profil değişikliklerini dinle (header güncellemesi için)
+    profilesSubscription = getSB()
+      .channel('public:profiles')
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profiles' }, async (payload) => {
+        if (currentFriendId === payload.new.id) {
+          updateHeaderForFriend(payload.new.id);
+        }
+        // Ayrıca konuşma listesinde isim/avatar değiştiyse yenile
+        loadConversations();
+      })
+      .subscribe();
+
     realtimeInitialized = true;
   }
 
