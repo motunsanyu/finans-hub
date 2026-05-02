@@ -319,6 +319,7 @@ const FriendsChatModule = (() => {
     const modal = document.getElementById('messagesModal');
     if (!modal) return;
     modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // Arka planın kaymasını engelle (Header sabit kalır)
 
     const panel = document.getElementById('conversationsPanel');
     const area = document.getElementById('chatArea');
@@ -335,6 +336,7 @@ const FriendsChatModule = (() => {
     if (!modal) return;
     if (modal.style.display === 'flex') {
       modal.style.display = 'none';
+      document.body.style.overflow = ''; // Arka plan kaydırmasını geri aç
       currentFriendId = null;
     } else {
       openMessagesModal();
@@ -641,13 +643,15 @@ const FriendsChatModule = (() => {
     }
   });
 
+  let isSendingMsg = false;
   window.sendMessageFromUi = async function () {
+    if (isSendingMsg) return; // Çift tıklamayı engelle (Gizli Kilit)
     const input = document.getElementById('messageInput');
     const text = input?.value?.trim();
     if (!text || !currentFriendId) return;
 
     input.value = '';
-    input.disabled = true;
+    isSendingMsg = true; // Gönderim başladı
 
     try {
       await sendMessage(currentFriendId, text);
@@ -656,8 +660,8 @@ const FriendsChatModule = (() => {
       alert('Mesaj gönderilemedi: ' + e.message);
       input.value = text;
     } finally {
-      input.disabled = false;
-      input.focus();
+      isSendingMsg = false; // Gönderim bitti
+      input.focus(); // Klavye KAPANMASIN diye tekrar odaklan
     }
   };
 
