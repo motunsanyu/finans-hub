@@ -1,29 +1,29 @@
 // js/friends-chat.js — Tam Donanımlı Düzeltilmiş Sürüm
- 
+
 const FriendsChatModule = (() => {
   let currentFriendId = null;
   let currentFriendName = null;
   let chatSubscription = null;
-  let currentConversationFriendId = null; 
-  let isSendingMsg = false; 
-  let activeSwipeRow = null; 
+  let currentConversationFriendId = null;
+  let isSendingMsg = false;
+  let activeSwipeRow = null;
   let selectedMessageId = null;
   let selectedMessageIsMine = false;
- 
+
   function getSB() { return window._supabaseClient; }
- 
+
   // ═══ ARKADAŞLIK MANTIĞI ═══
   async function searchUser(username) {
     const { data } = await getSB().from('profiles').select('id, username, display_name, avatar_url').eq('username', username).maybeSingle();
     return data;
   }
- 
+
   async function sendFriendRequest(addresseeId) {
     const { data: { user } } = await getSB().auth.getUser();
     if (!user) return;
     await getSB().from('friendships').insert({ requester_id: user.id, addressee_id: addresseeId, status: 'pending' });
   }
- 
+
   async function getPendingRequests() {
     const { data: { user } } = await getSB().auth.getUser();
     if (!user) return [];
@@ -36,7 +36,7 @@ const FriendsChatModule = (() => {
     }
     return list;
   }
- 
+
   async function getFriends() {
     const { data: { user } } = await getSB().auth.getUser();
     if (!user) return [];
@@ -50,7 +50,7 @@ const FriendsChatModule = (() => {
     }
     return list;
   }
- 
+
   // ═══ ARKADAŞLAR UI FONKSİYONLARI ═══
   async function loadPendingRequests() {
     const el = document.getElementById('pendingRequests');
@@ -75,7 +75,7 @@ const FriendsChatModule = (() => {
       }).join('');
     } catch (e) { el.innerHTML = '<div class="requests-empty" style="color:red;">Yüklenemedi.</div>'; }
   }
- 
+
   async function loadFriendList() {
     const el = document.getElementById('friendList');
     if (!el) return;
@@ -105,7 +105,7 @@ const FriendsChatModule = (() => {
       el.innerHTML = listItems.join('');
     } catch (e) { el.innerHTML = '<div class="requests-empty" style="color:red;">Hata.</div>'; }
   }
- 
+
   window.searchAndAddFriend = async function () {
     const input = document.getElementById('friendSearchInput');
     const resultDiv = document.getElementById('searchResult');
@@ -127,15 +127,15 @@ const FriendsChatModule = (() => {
         </div>`;
     } catch (e) { resultDiv.innerHTML = '<div style="padding:10px; color:#ef5350;">Hata.</div>'; }
   };
- 
+
   window.sendRequestAndRefresh = async function (id) {
     try { await sendFriendRequest(id); if (window.showToast) window.showToast('İstek gönderildi!', 'success'); input.value = ''; resultDiv.innerHTML = ''; }
     catch (e) { if (window.showToast) window.showToast('Hata!', 'error'); }
   };
- 
+
   window.acceptAndRefresh = async function (id) { await acceptRequest(id); loadPendingRequests(); loadFriendList(); };
   window.rejectAndRefresh = async function (id) { await rejectRequest(id); loadPendingRequests(); };
- 
+
   window.removeFriend = async function (event, friendId) {
     if (event) event.stopPropagation();
     if (confirm('Arkadaşlıktan çıkar?')) {
@@ -144,10 +144,10 @@ const FriendsChatModule = (() => {
         await getSB().from('friendships').delete().match({ requester_id: user.id, addressee_id: friendId });
         await getSB().from('friendships').delete().match({ requester_id: friendId, addressee_id: user.id });
         loadFriendList();
-      } catch (e) {}
+      } catch (e) { }
     }
   };
- 
+
   // ═══ MODALLAR VE MESAJLAŞMA ═══
   window.toggleFriendsModal = function () {
     const modal = document.getElementById('friendsModal');
@@ -156,14 +156,52 @@ const FriendsChatModule = (() => {
     modal.style.display = isOpen ? 'none' : 'block';
     if (!isOpen) { loadPendingRequests(); loadFriendList(); if (typeof window.toggleSidebar === 'function') window.toggleSidebar(false); }
   };
- 
+
+  function lockChatLayout() {
+    const modal = document.getElementById('messagesModal');
+    const area = document.getElementById('chatArea');
+    const header = document.getElementById('messageHeader');
+    const list = document.getElementById('messageList');
+    if (!modal) return;
+
+    const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    modal.style.position = 'fixed';
+    modal.style.inset = '0';
+    modal.style.width = '100vw';
+    modal.style.height = h + 'px';
+    modal.style.maxHeight = h + 'px';
+    modal.style.overflow = 'hidden';
+    modal.style.background = '#0e1621';
+
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+
+    if (area) {
+      area.style.height = '100%';
+      area.style.maxHeight = '100%';
+      area.style.overflow = 'hidden';
+      area.style.flexDirection = 'column';
+      area.style.position = 'relative';
+    }
+    if (header) {
+      header.style.flexShrink = '0';
+      header.style.position = 'relative';
+      header.style.zIndex = '20';
+    }
+    if (list) {
+      list.style.flex = '1 1 auto';
+      list.style.minHeight = '0';
+      list.style.overflowY = 'auto';
+      list.style.overscrollBehavior = 'contain';
+      list.style.webkitOverflowScrolling = 'touch';
+    }
+  }
+
   function openMessagesModal() {
     const modal = document.getElementById('messagesModal');
     if (!modal) return;
     modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-    if (window.visualViewport) modal.style.height = window.visualViewport.height + 'px';
-    else modal.style.height = '100%';
+    lockChatLayout();
     const panel = document.getElementById('conversationsPanel');
     const area = document.getElementById('chatArea');
     if (panel) { panel.style.display = 'flex'; panel.style.width = '100%'; }
@@ -171,21 +209,26 @@ const FriendsChatModule = (() => {
     loadConversations();
     if (typeof window.toggleSidebar === 'function') window.toggleSidebar(false);
   }
- 
+
   window.toggleMessagesModal = function () {
     const modal = document.getElementById('messagesModal');
     if (!modal) return;
-    if (modal.style.display === 'flex') { modal.style.display = 'none'; document.body.style.overflow = ''; currentFriendId = null; }
+    if (modal.style.display === 'flex') {
+      modal.style.display = 'none';
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      currentFriendId = null;
+    }
     else { openMessagesModal(); }
   };
- 
+
   window.openConversationFromFriends = function (friendId, friendName) {
     const friendsModal = document.getElementById('friendsModal');
     if (friendsModal) friendsModal.style.display = 'none';
     openMessagesModal();
     setTimeout(() => { window.openConversation(friendId, friendName); }, 50);
   };
- 
+
   async function loadConversations() {
     const el = document.getElementById('conversationList');
     if (!el) return;
@@ -228,7 +271,7 @@ const FriendsChatModule = (() => {
       attachSwipeHandlers(el);
     } catch (e) { el.innerHTML = '<p style="text-align:center; padding:20px; color:red;">Hata.</p>'; }
   }
- 
+
   window.openConversation = async function (friendId, friendName) {
     currentFriendId = friendId;
     currentFriendName = friendName;
@@ -239,6 +282,7 @@ const FriendsChatModule = (() => {
     const statusEl = document.getElementById('chatHeaderStatus');
     if (panel) panel.style.display = 'none';
     if (area) area.style.display = 'flex';
+    lockChatLayout();
     if (avatar) avatar.innerHTML = (friendName || '?')[0].toUpperCase();
     if (nameEl) nameEl.textContent = friendName;
     if (statusEl) { statusEl.textContent = 'yükleniyor...'; statusEl.style.color = '#6c7883'; }
@@ -254,10 +298,10 @@ const FriendsChatModule = (() => {
           else { statusEl.textContent = 'son görülme ' + new Date(prof.last_seen).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }); }
         }
       }
-    } catch (e) {}
+    } catch (e) { }
     await loadMessages();
   };
- 
+
   window.showConversationsList = function () {
     const panel = document.getElementById('conversationsPanel');
     const area = document.getElementById('chatArea');
@@ -266,7 +310,7 @@ const FriendsChatModule = (() => {
     currentFriendId = null;
     loadConversations();
   };
- 
+
   async function loadMessages() {
     const list = document.getElementById('messageList');
     if (!list || !currentFriendId) return;
@@ -303,7 +347,7 @@ const FriendsChatModule = (() => {
       setTimeout(() => { list.scrollTo({ top: list.scrollHeight, behavior: 'smooth' }); }, 50);
     } catch (e) { list.innerHTML = '<p style="text-align:center; padding:20px; color:red;">Hata.</p>'; }
   }
- 
+
   function showMessageMenu(event, msgId, isMine) {
     if (event) { event.preventDefault?.(); event.stopPropagation?.(); }
     selectedMessageId = msgId;
@@ -319,7 +363,7 @@ const FriendsChatModule = (() => {
     if (y + 120 > window.innerHeight) y -= 120;
     menu.style.left = x + 'px'; menu.style.top = y + 'px';
   }
- 
+
   function attachSwipeHandlers(container) {
     const rows = container.querySelectorAll('.message-row, .conversation-row');
     rows.forEach(row => {
@@ -344,7 +388,7 @@ const FriendsChatModule = (() => {
             dragging = false;
           }
         }, 600);
-        try { row.setPointerCapture(e.pointerId); } catch (err) {}
+        try { row.setPointerCapture(e.pointerId); } catch (err) { }
       };
       const onMove = (e) => {
         if (!dragging) return;
@@ -371,7 +415,7 @@ const FriendsChatModule = (() => {
           btn.style.opacity = '0'; btn.style.pointerEvents = 'none';
           if (activeSwipeRow === row) activeSwipeRow = null;
         }
-        try { row.releasePointerCapture(e.pointerId); } catch (err) {}
+        try { row.releasePointerCapture(e.pointerId); } catch (err) { }
       };
       row.addEventListener('pointerdown', onDown);
       row.addEventListener('pointermove', onMove);
@@ -385,7 +429,7 @@ const FriendsChatModule = (() => {
       };
     });
   }
- 
+
   function resetAllSwipes(exceptRow) {
     document.querySelectorAll('.message-row, .conversation-row').forEach(row => {
       if (row === exceptRow) return;
@@ -397,7 +441,7 @@ const FriendsChatModule = (() => {
     });
     if (!exceptRow) activeSwipeRow = null;
   }
- 
+
   document.addEventListener('click', (e) => {
     const msgMenu = document.getElementById('messageActionMenu');
     if (msgMenu && msgMenu.style.display === 'block' && !msgMenu.contains(e.target)) { msgMenu.style.display = 'none'; selectedMessageId = null; }
@@ -405,9 +449,9 @@ const FriendsChatModule = (() => {
     if (convMenu && convMenu.style.display === 'block' && !convMenu.contains(e.target)) { convMenu.style.display = 'none'; currentConversationFriendId = null; }
     if (activeSwipeRow && !activeSwipeRow.contains(e.target)) resetAllSwipes(null);
   });
- 
-  window.closeMessageMenu = () => { const m = document.getElementById('messageActionMenu'); if(m) m.style.display = 'none'; selectedMessageId = null; };
- 
+
+  window.closeMessageMenu = () => { const m = document.getElementById('messageActionMenu'); if (m) m.style.display = 'none'; selectedMessageId = null; };
+
   window.deleteMessage = async function (scope) {
     if (!selectedMessageId) return;
     const id = selectedMessageId; selectedMessageId = null;
@@ -421,10 +465,13 @@ const FriendsChatModule = (() => {
       } else if (scope === 'everyone' && msg.sender_id === user.id) {
         await getSB().from('messages').delete().eq('id', id);
       }
-      setTimeout(() => loadMessages(), 50);
-    } catch (e) {}
+      setTimeout(() => {
+        loadMessages();
+        loadConversations();
+      }, 50);
+    } catch (e) { }
   };
- 
+
   function showConversationMenu(x, y, friendId) {
     const menu = document.getElementById('conversationActionMenu');
     if (!menu) return;
@@ -433,9 +480,9 @@ const FriendsChatModule = (() => {
     if (x + 180 > window.innerWidth) x -= 180;
     menu.style.left = x + 'px'; menu.style.top = y + 'px';
   }
- 
-  window.closeConversationMenu = () => { const m = document.getElementById('conversationActionMenu'); if(m) m.style.display = 'none'; currentConversationFriendId = null; };
- 
+
+  window.closeConversationMenu = () => { const m = document.getElementById('conversationActionMenu'); if (m) m.style.display = 'none'; currentConversationFriendId = null; };
+
   window.deleteConversation = async function () {
     if (!currentConversationFriendId) return;
     const friendId = currentConversationFriendId;
@@ -444,10 +491,13 @@ const FriendsChatModule = (() => {
     if (confirm("Sohbeti gizlemek istediğinize emin misiniz?")) {
       await getSB().from('messages').update({ deleted_for_sender: true }).match({ sender_id: user.id, receiver_id: friendId });
       await getSB().from('messages').update({ deleted_for_receiver: true }).match({ sender_id: friendId, receiver_id: user.id });
-      setTimeout(() => loadConversations(), 50);
+      setTimeout(() => {
+        if (currentFriendId === friendId) window.showConversationsList();
+        loadConversations();
+      }, 50);
     }
   };
- 
+
   window.sendMessageFromUi = async function () {
     if (isSendingMsg) return;
     const input = document.getElementById('messageInput');
@@ -458,20 +508,60 @@ const FriendsChatModule = (() => {
     catch (e) { input.value = text; }
     finally { isSendingMsg = false; setTimeout(() => input.focus(), 50); }
   };
- 
+
   async function init() {
     const inp = document.getElementById('messageInput');
     if (inp) {
       inp.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); window.sendMessageFromUi(); } });
     }
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', () => {
+        const modal = document.getElementById('messagesModal');
+        if (modal && modal.style.display === 'flex') lockChatLayout();
+      });
+    }
+
     const { data: { user } } = await getSB().auth.getUser();
     if (user && !chatSubscription) {
-      chatSubscription = getSB().channel('public:messages').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
-        if (currentFriendId && (payload.new.sender_id === currentFriendId || payload.new.receiver_id === currentFriendId)) loadMessages();
-      }).subscribe();
+      const handleMessageRealtime = (payload) => {
+        const row = payload.new || payload.old;
+        if (!row) return;
+
+        // DELETE eventinde Supabase bazen sadece primary key döndürür.
+        // Bu durumda sender/receiver kontrolü yapılamaz; açık sohbeti doğrudan yenile.
+        if (payload.eventType === 'DELETE') {
+          if (currentFriendId) loadMessages();
+          loadConversations();
+          return;
+        }
+
+        const belongsToCurrentChat = currentFriendId && (
+          row.sender_id === currentFriendId ||
+          row.receiver_id === currentFriendId ||
+          row.sender_id === user.id ||
+          row.receiver_id === user.id
+        );
+
+        // Silme/güncelleme/gönderme olayları açık sohbet veya konuşma listesini anlık yenilesin.
+        if (belongsToCurrentChat) {
+          loadMessages();
+          loadConversations();
+        } else if (row.receiver_id === user.id) {
+          loadConversations();
+          if (window.showToast && payload.eventType === 'INSERT') window.showToast('Yeni bir mesajın var!', 'success');
+        }
+      };
+
+      chatSubscription = getSB()
+        .channel('public:messages')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, handleMessageRealtime)
+        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'messages' }, handleMessageRealtime)
+        .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'messages' }, handleMessageRealtime)
+        .subscribe();
     }
   }
- 
+
   return {
     init, openConversation, openConversationFromFriends,
     toggleFriendsModal: window.toggleFriendsModal,
