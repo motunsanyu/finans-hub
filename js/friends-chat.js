@@ -383,15 +383,14 @@ const FriendsChatModule = (() => {
   };
 
   // ═══ MODAL AÇMA/KAPAMA ═══
-  // Not: Modallar position:fixed; z-index:10000 olduğundan appShell'i gizlemeye gerek yok.
-  // appShell'i gizlemek sadece messagesModal (tam ekran) için kullanılıyor.
+  // Not: appShell'i tamamen gizlemek (display:none) iç içe HTML yapısı nedeniyle
+  // bazen modallerin de görünmez olmasına yol açabiliyor. Z-kaymasını önlemek için 
+  // sadece ana içerik (<main>) ve alt navigasyonu (.bottom-nav) gizleyeceğiz.
   function toggleAppShell(show) {
-    if (!appShellElement) {
-      appShellElement = document.querySelector('.app-shell') || document.getElementById('appShell');
-    }
-    if (appShellElement) {
-      appShellElement.style.display = show ? '' : 'none';
-    }
+    const mainEl = document.querySelector('main');
+    const navEl = document.querySelector('.bottom-nav');
+    if (mainEl) mainEl.style.display = show ? '' : 'none';
+    if (navEl) navEl.style.display = show ? 'flex' : 'none';
   }
 
   window.toggleFriendsModal = function () {
