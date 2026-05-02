@@ -5,6 +5,7 @@ const FriendsChatModule = (() => {
   let currentFriendName = null;
   let chatSubscription = null;
   let currentConversationFriendId = null; // sohbet silmek için seçili arkadaş
+  let isSendingMsg = false; // mesaj gönderim kilidi
 
   function getSB() { return window._supabaseClient; }
 
