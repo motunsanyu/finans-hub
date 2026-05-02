@@ -1,4 +1,4 @@
-// js/friends-chat.js — Profesyonel Düzeltilmiş Sürüm
+// js/friends-chat.js — Tam Donanımlı Düzeltilmiş Sürüm
  
 const FriendsChatModule = (() => {
   let currentFriendId = null;
@@ -12,19 +12,21 @@ const FriendsChatModule = (() => {
  
   function getSB() { return window._supabaseClient; }
  
-  // ═══ ARKADAŞLIK ═══
+  // ═══ ARKADAŞLIK MANTIĞI ═══
   async function searchUser(username) {
-    const { data } = await getSB().from('profiles').select('id, username, display_name').eq('username', username).maybeSingle();
+    const { data } = await getSB().from('profiles').select('id, username, display_name, avatar_url').eq('username', username).maybeSingle();
     return data;
   }
  
   async function sendFriendRequest(addresseeId) {
     const { data: { user } } = await getSB().auth.getUser();
-    await getSB().from('friendships').insert({ requester_id: user.id, addressee_id: addresseeId });
+    if (!user) return;
+    await getSB().from('friendships').insert({ requester_id: user.id, addressee_id: addresseeId, status: 'pending' });
   }
  
   async function getPendingRequests() {
     const { data: { user } } = await getSB().auth.getUser();
+    if (!user) return [];
     const { data } = await getSB().from('friendships').select('id, requester_id').eq('addressee_id', user.id).eq('status', 'pending');
     if (!data) return [];
     const list = [];
@@ -37,6 +39,7 @@ const FriendsChatModule = (() => {
  
   async function getFriends() {
     const { data: { user } } = await getSB().auth.getUser();
+    if (!user) return [];
     const { data } = await getSB().from('friendships').select('id, requester_id, addressee_id').or(`requester_id.eq.${user.id},addressee_id.eq.${user.id}`).eq('status', 'accepted');
     if (!data) return [];
     const list = [];
@@ -48,21 +51,104 @@ const FriendsChatModule = (() => {
     return list;
   }
  
-  async function acceptRequest(id) { await getSB().from('friendships').update({ status: 'accepted' }).eq('id', id); }
-  async function rejectRequest(id) { await getSB().from('friendships').delete().eq('id', id); }
- 
-  async function sendMessage(receiverId, content) {
-    const { data: { user } } = await getSB().auth.getUser();
-    await getSB().from('messages').insert({ sender_id: user.id, receiver_id: receiverId, content });
+  // ═══ ARKADAŞLAR UI FONKSİYONLARI ═══
+  async function loadPendingRequests() {
+    const el = document.getElementById('pendingRequests');
+    if (!el) return;
+    try {
+      const requests = await getPendingRequests();
+      if (!requests.length) { el.innerHTML = '<div class="requests-empty">Bekleyen istek yok.</div>'; return; }
+      el.innerHTML = requests.map(r => {
+        const name = r.profiles?.display_name || r.profiles?.username || 'Bilinmeyen';
+        return `
+          <div class="friend-card" style="cursor:default; padding:10px; margin-bottom:8px; background:#17212b; border-radius:12px; display:flex; align-items:center; gap:10px;">
+            <div style="width:40px; height:40px; border-radius:50%; background:#2b5278; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800;">${name[0].toUpperCase()}</div>
+            <div style="flex:1;">
+              <div style="font-size:14px; font-weight:700; color:#fff;">${name}</div>
+              <div style="font-size:11px; color:#708499;">Sana istek gönderdi</div>
+            </div>
+            <div style="display:flex; gap:6px;">
+              <button onclick="FriendsChatModule.acceptAndRefresh('${r.id}')" style="background:#2481cc; border:none; color:#fff; padding:6px 10px; border-radius:8px; font-size:11px; font-weight:700; cursor:pointer;">Onayla</button>
+              <button onclick="FriendsChatModule.rejectAndRefresh('${r.id}')" style="background:#232e3c; border:none; color:#ef5350; padding:6px 10px; border-radius:8px; font-size:11px; font-weight:700; cursor:pointer;">Reddet</button>
+            </div>
+          </div>`;
+      }).join('');
+    } catch (e) { el.innerHTML = '<div class="requests-empty" style="color:red;">Yüklenemedi.</div>'; }
   }
  
-  async function getMessageHistory(friendId) {
-    const { data: { user } } = await getSB().auth.getUser();
-    const { data } = await getSB().from('messages').select('*').or(`and(sender_id.eq.${user.id},receiver_id.eq.${friendId}),and(sender_id.eq.${friendId},receiver_id.eq.${user.id})`).order('created_at', { ascending: true });
-    return data || [];
+  async function loadFriendList() {
+    const el = document.getElementById('friendList');
+    if (!el) return;
+    try {
+      const data = await getFriends();
+      if (!data || data.length === 0) { el.innerHTML = '<div class="requests-empty">Henüz arkadaşınız yok.</div>'; return; }
+      const listItems = [];
+      for (const f of data) {
+        const { data: prof } = await getSB().from('profiles').select('username, display_name, last_seen, avatar_url').eq('id', f.friendId).maybeSingle();
+        if (!prof) continue;
+        const name = prof.display_name || prof.username || f.friendName;
+        const avatar = prof.avatar_url ? `<img src="${prof.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">` : name[0].toUpperCase();
+        listItems.push(`
+          <div style="display:flex; align-items:center; margin-bottom:8px; background:#17212b; padding:10px; border-radius:12px; gap:10px;">
+            <div onclick="window.openConversationFromFriends('${f.friendId}','${name}')" style="flex:1; display:flex; align-items:center; gap:10px; cursor:pointer;">
+              <div style="width:44px; height:44px; border-radius:50%; background:#2b5278; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:900; overflow:hidden;">${avatar}</div>
+              <div style="flex:1;">
+                <div style="font-size:14px; font-weight:700; color:#fff;">${name}</div>
+                <div style="font-size:11px; color:#708499;">Sohbeti açmak için tıkla</div>
+              </div>
+            </div>
+            <button onclick="window.removeFriend(event, '${f.friendId}')" style="background:none; border:none; color:#ef5350; cursor:pointer; padding:8px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+          </div>`);
+      }
+      el.innerHTML = listItems.join('');
+    } catch (e) { el.innerHTML = '<div class="requests-empty" style="color:red;">Hata.</div>'; }
   }
  
-  // ═══ MODALLAR ═══
+  window.searchAndAddFriend = async function () {
+    const input = document.getElementById('friendSearchInput');
+    const resultDiv = document.getElementById('searchResult');
+    if (!input || !resultDiv) return;
+    const username = input.value.trim();
+    if (!username) { resultDiv.innerHTML = ''; return; }
+    try {
+      resultDiv.innerHTML = '<div style="padding:10px; color:#708499; font-size:12px;">Aranıyor...</div>';
+      const user = await searchUser(username);
+      if (!user) { resultDiv.innerHTML = '<div style="padding:10px; color:#ef5350; font-size:12px;">Bulunamadı.</div>'; return; }
+      resultDiv.innerHTML = `
+        <div style="margin-top:10px; padding:10px; background:#17212b; border-radius:12px; display:flex; align-items:center; gap:10px;">
+          <div style="width:40px; height:40px; border-radius:50%; background:#2b5278; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800;">${(user.display_name || user.username)[0].toUpperCase()}</div>
+          <div style="flex:1;">
+            <div style="color:#fff; font-weight:700;">${user.display_name || user.username}</div>
+            <div style="color:#708499; font-size:11px;">@${user.username}</div>
+          </div>
+          <button onclick="FriendsChatModule.sendRequestAndRefresh('${user.id}')" style="background:#2481cc; color:#fff; border:none; padding:8px 12px; border-radius:8px; font-weight:700; cursor:pointer;">Ekle</button>
+        </div>`;
+    } catch (e) { resultDiv.innerHTML = '<div style="padding:10px; color:#ef5350;">Hata.</div>'; }
+  };
+ 
+  window.sendRequestAndRefresh = async function (id) {
+    try { await sendFriendRequest(id); if (window.showToast) window.showToast('İstek gönderildi!', 'success'); input.value = ''; resultDiv.innerHTML = ''; }
+    catch (e) { if (window.showToast) window.showToast('Hata!', 'error'); }
+  };
+ 
+  window.acceptAndRefresh = async function (id) { await acceptRequest(id); loadPendingRequests(); loadFriendList(); };
+  window.rejectAndRefresh = async function (id) { await rejectRequest(id); loadPendingRequests(); };
+ 
+  window.removeFriend = async function (event, friendId) {
+    if (event) event.stopPropagation();
+    if (confirm('Arkadaşlıktan çıkar?')) {
+      try {
+        const { data: { user } } = await getSB().auth.getUser();
+        await getSB().from('friendships').delete().match({ requester_id: user.id, addressee_id: friendId });
+        await getSB().from('friendships').delete().match({ requester_id: friendId, addressee_id: user.id });
+        loadFriendList();
+      } catch (e) {}
+    }
+  };
+ 
+  // ═══ MODALLAR VE MESAJLAŞMA ═══
   window.toggleFriendsModal = function () {
     const modal = document.getElementById('friendsModal');
     if (!modal) return;
@@ -122,25 +208,25 @@ const FriendsChatModule = (() => {
         }
         const avatarContent = prof?.avatar_url ? `<img src="${prof.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">` : (f.friendName || '?')[0].toUpperCase();
         listItems.push(`
-          <div class="conversation-row" data-friend-id="${f.friendId}" data-friend-name="${f.friendName}" style="display:flex; align-items:center; gap:12px; padding:12px 16px; cursor:pointer; transition: all 0.15s ease; border-bottom:1px solid #17212b; user-select:none; touch-action: pan-y; position:relative; overflow:hidden;" onclick="FriendsChatModule.openConversation('${f.friendId}','${f.friendName}')">
+          <div class="conversation-row" data-friend-id="${f.friendId}" style="display:flex; align-items:center; gap:12px; padding:12px 16px; cursor:pointer; border-bottom:1px solid #17212b; position:relative; overflow:hidden;" onclick="FriendsChatModule.openConversation('${f.friendId}','${f.friendName}')">
             <button class="swipe-delete-btn" type="button" style="position:absolute; right:6px; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:50%; background:#ef5350; border:none; color:#fff; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.15s ease; z-index:5;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
             </button>
             <div class="conv-content-wrapper" style="display:flex; align-items:center; gap:12px; flex:1; transition: transform 0.2s ease; z-index:2;">
-              <div class="conv-avatar-box" style="width:52px;height:52px;border-radius:50%;background:#2b5278;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;flex-shrink:0;overflow:hidden;">${avatarContent}</div>
+              <div style="width:52px;height:52px;border-radius:50%;background:#2b5278;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;flex-shrink:0;overflow:hidden;">${avatarContent}</div>
               <div style="flex:1;min-width:0;">
                 <div style="display:flex;justify-content:space-between;align-items:center;">
-                  <div style="font-weight:700; font-size:15px; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${f.friendName}</div>
+                  <div style="font-weight:700; font-size:15px; color:#fff;">${f.friendName}</div>
                   <div style="font-size:11px; color:${statusColor};">${statusText}</div>
                 </div>
-                <div style="font-size:13px; color:#6c7883; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Sohbeti açmak için tıkla...</div>
+                <div style="font-size:13px; color:#6c7883;">Sohbeti aç...</div>
               </div>
             </div>
           </div>`);
       }
       el.innerHTML = listItems.join('');
       attachSwipeHandlers(el);
-    } catch (e) { el.innerHTML = '<p style="text-align:center; padding:20px; color:red;">Yükleme hatası.</p>'; }
+    } catch (e) { el.innerHTML = '<p style="text-align:center; padding:20px; color:red;">Hata.</p>'; }
   }
  
   window.openConversation = async function (friendId, friendName) {
@@ -151,16 +237,11 @@ const FriendsChatModule = (() => {
     const avatar = document.getElementById('chatHeaderAvatar');
     const nameEl = document.getElementById('chatHeaderName');
     const statusEl = document.getElementById('chatHeaderStatus');
-    const header = document.getElementById('messageHeader');
- 
     if (panel) panel.style.display = 'none';
     if (area) area.style.display = 'flex';
-    if (header) header.style.display = 'flex'; // Header'ı kesinlikle göster
- 
     if (avatar) avatar.innerHTML = (friendName || '?')[0].toUpperCase();
     if (nameEl) nameEl.textContent = friendName;
     if (statusEl) { statusEl.textContent = 'yükleniyor...'; statusEl.style.color = '#6c7883'; }
- 
     try {
       const { data: prof } = await getSB().from('profiles').select('display_name, username, last_seen, avatar_url').eq('id', friendId).maybeSingle();
       if (prof) {
@@ -249,9 +330,7 @@ const FriendsChatModule = (() => {
       const friendId = row.dataset.friendId;
       const isMine = row.dataset.isMine === 'true';
       if (!bubble || !btn) return;
- 
       let startX = 0, startY = 0, dragging = false, isHorizontal = false, pressTimer = null, currentTranslate = 0;
- 
       const onDown = (e) => {
         if (e.pointerType === 'mouse' && e.button !== 0) return;
         startX = e.clientX; startY = e.clientY; dragging = true; isHorizontal = false; currentTranslate = 0;
@@ -267,7 +346,6 @@ const FriendsChatModule = (() => {
         }, 600);
         try { row.setPointerCapture(e.pointerId); } catch (err) {}
       };
- 
       const onMove = (e) => {
         if (!dragging) return;
         const diffX = startX - e.clientX, diffY = Math.abs(startY - e.clientY);
@@ -280,7 +358,6 @@ const FriendsChatModule = (() => {
         btn.style.opacity = String(Math.min(1, Math.abs(currentTranslate) / 60));
         if (e.cancelable) e.preventDefault();
       };
- 
       const onUp = (e) => {
         clearTimeout(pressTimer); row.style.touchAction = 'pan-y';
         if (!dragging) return; dragging = false;
@@ -296,20 +373,14 @@ const FriendsChatModule = (() => {
         }
         try { row.releasePointerCapture(e.pointerId); } catch (err) {}
       };
- 
       row.addEventListener('pointerdown', onDown);
       row.addEventListener('pointermove', onMove);
       row.addEventListener('pointerup', onUp);
       row.addEventListener('pointercancel', onUp);
- 
-      // Çöp Kovası Tıklama (Bağımsız Olay)
       btn.onclick = (ev) => {
         ev.stopPropagation(); ev.preventDefault();
-        if (isMsg) {
-          if (confirm('Bu mesajı silmek istediğinize emin misiniz?')) { selectedMessageId = msgId; window.deleteMessage('me'); }
-        } else {
-          currentConversationFriendId = friendId; window.deleteConversation();
-        }
+        if (isMsg) { if (confirm('Sil?')) { selectedMessageId = msgId; window.deleteMessage('me'); } }
+        else { currentConversationFriendId = friendId; window.deleteConversation(); }
         resetAllSwipes(null);
       };
     });
@@ -350,7 +421,7 @@ const FriendsChatModule = (() => {
       } else if (scope === 'everyone' && msg.sender_id === user.id) {
         await getSB().from('messages').delete().eq('id', id);
       }
-      setTimeout(() => loadMessages(), 50); // Anlık yenileme
+      setTimeout(() => loadMessages(), 50);
     } catch (e) {}
   };
  
@@ -372,7 +443,7 @@ const FriendsChatModule = (() => {
     const { data: { user } } = await getSB().auth.getUser();
     if (confirm("Sohbeti gizlemek istediğinize emin misiniz?")) {
       await getSB().from('messages').update({ deleted_for_sender: true }).match({ sender_id: user.id, receiver_id: friendId });
-      await getSB().from('messages').update({ deleted_for_receiver: true }).match({ sender_id: friendId, receiver_id: userId });
+      await getSB().from('messages').update({ deleted_for_receiver: true }).match({ sender_id: friendId, receiver_id: user.id });
       setTimeout(() => loadConversations(), 50);
     }
   };
@@ -383,23 +454,15 @@ const FriendsChatModule = (() => {
     const text = input?.value?.trim();
     if (!text || !currentFriendId) return;
     input.value = ''; isSendingMsg = true;
-    try {
-      await sendMessage(currentFriendId, text);
-      await loadMessages();
-    } catch (e) { input.value = text; }
+    try { await sendMessage(currentFriendId, text); await loadMessages(); }
+    catch (e) { input.value = text; }
     finally { isSendingMsg = false; setTimeout(() => input.focus(), 50); }
   };
  
   async function init() {
-    // Desktop Enter Tuşu Dinleyicisi
     const inp = document.getElementById('messageInput');
     if (inp) {
-      inp.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          window.sendMessageFromUi();
-        }
-      });
+      inp.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); window.sendMessageFromUi(); } });
     }
     const { data: { user } } = await getSB().auth.getUser();
     if (user && !chatSubscription) {
@@ -418,6 +481,7 @@ const FriendsChatModule = (() => {
     rejectAndRefresh: window.rejectAndRefresh,
     loadConversations,
     closeConversationMenu: window.closeConversationMenu,
-    deleteConversation: window.deleteConversation
+    deleteConversation: window.deleteConversation,
+    removeFriend: window.removeFriend
   };
 })();
