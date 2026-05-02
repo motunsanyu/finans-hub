@@ -174,12 +174,62 @@ const FriendsChatModule = (() => {
   function resetUnreadCount() {
     unreadCount = 0;
     updateBadgeUI();
+    hideNewMessageBanner();
   }
 
   function incrementUnreadCount() {
     unreadCount++;
     updateBadgeUI();
   }
+
+  // ═══ YENİ MESAJ BANNER (koyu yeşil, beyaz yazı) ═══
+  function showNewMessageBanner(senderName, preview) {
+    let banner = document.getElementById('newMsgBanner');
+    if (!banner) {
+      banner = document.createElement('div');
+      banner.id = 'newMsgBanner';
+      banner.style.cssText = [
+        'position:fixed', 'top:0', 'left:0', 'right:0',
+        'background:#1a6b3a', 'color:#fff',
+        'display:flex', 'align-items:center', 'gap:10px',
+        'padding:12px 16px', 'z-index:10005',
+        'cursor:pointer', 'box-shadow:0 2px 12px rgba(0,0,0,0.4)',
+        'transform:translateY(-100%)',
+        'transition:transform 0.3s cubic-bezier(0.25,1,0.5,1)',
+        'font-family:\'Space Grotesk\',sans-serif'
+      ].join(';');
+      banner.innerHTML = `
+        <div style="width:36px;height:36px;border-radius:50%;background:#155a2e;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;">💬</div>
+        <div style="flex:1;min-width:0;">
+          <div id="newMsgBannerName" style="font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+          <div id="newMsgBannerPreview" style="font-size:12px;color:rgba(255,255,255,0.75);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+        </div>
+        <button onclick="hideBannerAndOpen()" style="background:rgba(255,255,255,0.15);border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;flex-shrink:0;">Aç</button>`;
+      banner.onclick = function(e) { if (!e.target.closest('button')) window.hideBannerAndOpen(); };
+      document.body.appendChild(banner);
+    }
+    const nameEl = document.getElementById('newMsgBannerName');
+    const prevEl = document.getElementById('newMsgBannerPreview');
+    if (nameEl) nameEl.textContent = senderName;
+    if (prevEl) prevEl.textContent = preview || 'Yeni mesajınız var';
+    // Animasyonlu göster
+    requestAnimationFrame(() => {
+      banner.style.transform = 'translateY(0)';
+    });
+    // 5 saniye sonra otomatik gizle
+    clearTimeout(banner._hideTimer);
+    banner._hideTimer = setTimeout(() => hideNewMessageBanner(), 5000);
+  }
+
+  function hideNewMessageBanner() {
+    const banner = document.getElementById('newMsgBanner');
+    if (banner) banner.style.transform = 'translateY(-100%)';
+  }
+
+  window.hideBannerAndOpen = function() {
+    hideNewMessageBanner();
+    window.toggleMessagesModal();
+  };
 
   // ═══ ARKADAŞLAR MODAL UI ═══
   async function loadPendingRequests() {
@@ -362,7 +412,15 @@ const FriendsChatModule = (() => {
     const modal = document.getElementById('messagesModal');
     if (!modal) return;
     modal.style.display = 'flex';
+    // Tam ekran modal: altında app içeriği görünmesin (Z kayması önlemi)
+    toggleAppShell(false);
     document.body.style.overflow = 'hidden';
+    // iOS'ta klavye açılınca modal yüksekliğini ayarla
+    if (window.visualViewport) {
+      modal.style.height = window.visualViewport.height + 'px';
+    } else {
+      modal.style.height = '100%';
+    }
     const panel = document.getElementById('conversationsPanel');
     const area = document.getElementById('chatArea');
     if (panel) { panel.style.display = 'flex'; panel.style.width = '100%'; }
@@ -377,7 +435,9 @@ const FriendsChatModule = (() => {
     if (!modal) return;
     if (modal.style.display === 'flex') {
       modal.style.display = 'none';
+      modal.style.height = '';
       document.body.style.overflow = '';
+      toggleAppShell(true);
       currentFriendId = null;
       currentFriendName = null;
     } else {
@@ -655,6 +715,10 @@ const FriendsChatModule = (() => {
   }
 
   // ═══ MESAJ GÖNDER ═══
+  // NOT: loadMessages() çağrılmıyor — tüm listeyi yeniden render edince
+  // "dalgalanma" (flicker) oluyor. Bunun yerine optimistik mesaj anında
+  // ekranda kalır, sadece "gönderildi" stiline geçirilir. Realtime
+  // subscription zaten karşı tarafın mesajlarını günceller.
   window.sendMessageFromUi = async function () {
     if (isSendingMsg) return;
     const input = document.getElementById('messageInput');
@@ -670,11 +734,24 @@ const FriendsChatModule = (() => {
 
     try {
       await sendMessage(currentFriendId, text);
-      await loadMessages();
+      // Başarı: optimistik mesajı "gönderildi" stiline geçir
+      const tempEl = document.querySelector(`[data-msg-id="${tempId}"]`);
+      if (tempEl) {
+        tempEl.style.opacity = '1';
+        // Çift tik (gönderildi) ikonu güncelle
+        const svg = tempEl.querySelector('svg polyline');
+        if (svg) svg.closest('svg').setAttribute('stroke', 'rgba(255,255,255,0.65)');
+      }
     } catch (e) {
       const tempEl = document.querySelector(`[data-msg-id="${tempId}"]`);
-      if (tempEl) tempEl.remove();
+      if (tempEl) {
+        // Hata: mesajı kırmızıya çevir
+        const bubble = tempEl.querySelector('.message-bubble');
+        if (bubble) bubble.style.background = 'linear-gradient(135deg,#5c1a1a,#3c0d0d)';
+        tempEl.title = 'Gönderilemedi — tekrar dokunun';
+      }
       input.value = text;
+      adjustTextareaHeight(input);
       if (window.showToast) window.showToast('Mesaj gönderilemedi.', 'error');
     } finally {
       isSendingMsg = false;
@@ -1029,21 +1106,25 @@ const FriendsChatModule = (() => {
         if (msg.sender_id === currentUserId) return;
 
         if (currentFriendId && msg.sender_id === currentFriendId) {
+          // Aktif sohbetteyiz: sessizce mesajları güncelle (scroll korunur)
           await loadMessages();
         } else {
+          // Farklı bir yerden mesaj geldi
           incrementUnreadCount();
           const modal = document.getElementById('messagesModal');
           if (modal?.style.display === 'flex') {
+            // Mesajlar ekranı açıksa konuşma listesini yenile
             const panel = document.getElementById('conversationsPanel');
             if (panel?.style.display !== 'none') loadConversations();
           }
+          // Gönderen bilgisini al ve banner göster
           try {
             const { data: prof } = await getSB().from('profiles')
               .select('display_name, username').eq('id', msg.sender_id).single();
             const senderName = prof?.display_name || prof?.username || 'Biri';
-            if (window.showToast) {
-              window.showToast(`💬 ${senderName}: ${msg.content.slice(0, 50)}${msg.content.length > 50 ? '...' : ''}`, 'info');
-            }
+            const preview = msg.content ? msg.content.slice(0, 60) + (msg.content.length > 60 ? '...' : '') : 'Yeni mesaj';
+            // Koyu yeşil bildirim banner'ı göster
+            showNewMessageBanner(senderName, preview);
           } catch (e) { }
         }
       })
