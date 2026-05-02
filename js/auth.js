@@ -21,6 +21,26 @@
     // Profili veritabanından çek
     const { data: prof } = await sb.from('profiles').select('*').eq('id', user.id).maybeSingle();
     
+    // Engelleme Kontrolü
+    if (prof?.is_banned) {
+      if (window.showToast) window.showToast('Hesabınız sistem yöneticisi tarafından engellenmiştir.', 'error');
+      await sb.auth.signOut();
+      window.location.reload();
+      return;
+    }
+
+    // Admin Paneli Butonu Kontrolü
+    const adminBtn = document.getElementById('adminPanelBtn');
+    if (adminBtn) {
+      adminBtn.style.display = prof?.is_admin ? 'flex' : 'none';
+    }
+
+    // E-posta adresi eksikse profile kaydet (Admin panelinde görebilmek için)
+    if (user.email && prof?.email !== user.email) {
+      // Sadece eksik alanları güncellemek için upsert kullanıyoruz
+      await sb.from('profiles').upsert({ id: user.id, email: user.email, username: prof?.username || null });
+    }
+
     const displayName = getDisplayName(user, prof);
     const sidebarProfileName = document.getElementById('sidebarProfileName');
     const sidebarProfileEmail = document.getElementById('sidebarProfileEmail');
