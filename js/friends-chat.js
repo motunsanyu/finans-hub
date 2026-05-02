@@ -1170,6 +1170,10 @@ const FriendsChatModule = (() => {
       .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'messages' }, async (payload) => {
         if (currentFriendId) await loadMessages();
       })
+      .subscribe();
+
+    // Arkadaşlık istekleri için ayrı bir kanal (eğer Supabase'de realtime açık değilse mesajları bozmasın)
+    getSB().channel(`friendships:${currentUserId}`)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'friendships' }, async (payload) => {
         // Arkadaşlık isteklerinde değişiklik olunca listeleri yenile
         loadPendingRequests();
