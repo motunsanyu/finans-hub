@@ -1945,6 +1945,20 @@
              border-radius:14px; padding:6px; z-index:10002; box-shadow:0 16px 40px rgba(0,0,0,0.6);
              min-width:210px; animation:fadeIn 0.15s ease;">
 
+      <button onclick="window.copyMessageText()"
+        style="display:flex; align-items:center; gap:10px; width:100%; padding:11px 14px; border:none;
+               background:transparent; color:#fff; font-size:14px; font-weight:600;
+               cursor:pointer; text-align:left; border-radius:8px; font-family:inherit; transition:background 0.12s;"
+        onmouseover="this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.background='transparent'">
+        <span style="font-size:18px;">📋</span>
+        <div>
+          <div style="font-weight:700;">Metni Kopyala</div>
+          <div style="font-size:11px; color:#6c7883; margin-top:1px;">Mesaj içeriğini panoya kopyalar</div>
+        </div>
+      </button>
+
+      <div style="height:1px; background:rgba(255,255,255,0.05); margin:4px 8px;"></div>
+
       <button onclick="window.deleteMessage('me')"
         style="display:flex; align-items:center; gap:10px; width:100%; padding:11px 14px; border:none;
                background:transparent; color:#fff; font-size:14px; font-weight:600;

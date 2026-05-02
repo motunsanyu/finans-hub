@@ -717,8 +717,9 @@ const FriendsChatModule = (() => {
             <div class="message-bubble"
               style="max-width:78%;background:${bubbleBg};color:#fff;padding:9px 12px 7px;border-radius:${borderRadius};
                      position:relative;word-break:break-word;box-shadow:0 1px 4px rgba(0,0,0,0.3);
-                     transition:transform 0.25s cubic-bezier(0.4,0,0.2,1);">
-              <div style="font-size:15px;line-height:1.45;letter-spacing:0.01em;">${escapeHtml(msg.content)}</div>
+                     transition:transform 0.25s cubic-bezier(0.4,0,0.2,1);
+                     user-select:none;-webkit-user-select:none;cursor:pointer;">
+              <div class="msg-content-text" style="font-size:15px;line-height:1.45;letter-spacing:0.01em;">${escapeHtml(msg.content)}</div>
               <div style="display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:4px;">
                 <span style="font-size:10px;color:rgba(255,255,255,0.38);">${time}</span>
                 ${isMine ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>` : ''}
@@ -854,6 +855,26 @@ const FriendsChatModule = (() => {
       menu.style.visibility = 'visible';
     });
   }
+
+  window.copyMessageText = function () {
+    if (!selectedMessageId) return;
+    const msgEl = document.querySelector(`.message-row[data-msg-id="${selectedMessageId}"] .msg-content-text`);
+    if (msgEl) {
+      const text = msgEl.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        if (window.showToast) window.showToast('Metin kopyalandı', 'success');
+      }).catch(() => {
+        const area = document.createElement('textarea');
+        area.value = text;
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand('copy');
+        document.body.removeChild(area);
+        if (window.showToast) window.showToast('Metin kopyalandı', 'success');
+      });
+    }
+    window.closeMessageMenu();
+  };
 
   window.closeMessageMenu = function () {
     const m = document.getElementById('messageActionMenu');
@@ -1058,8 +1079,13 @@ const FriendsChatModule = (() => {
         }
       };
 
-      const onEnd = () => {
+      const onEnd = (e) => {
         clearTimeout(pressTimer);
+        // Kısa tıklama ise menüyü aç
+        if (!hasMoved && (Date.now() - startTime < 400)) {
+          e.preventDefault();
+          showMessageContextMenu(e, msgId, isMine);
+        }
       };
 
       bubble.addEventListener('contextmenu', (e) => {
@@ -1070,8 +1096,8 @@ const FriendsChatModule = (() => {
       bubble.addEventListener('mousedown', onStart);
       bubble.addEventListener('mousemove', onMove);
       bubble.addEventListener('mouseup', onEnd);
-      bubble.addEventListener('touchstart', onStart, { passive: true });
-      bubble.addEventListener('touchmove', onMove, { passive: true });
+      bubble.addEventListener('touchstart', onStart, { passive: false });
+      bubble.addEventListener('touchmove', onMove, { passive: false });
       bubble.addEventListener('touchend', onEnd);
     });
   }
