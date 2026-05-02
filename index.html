@@ -2101,14 +2101,6 @@
         applyThemeScope();
       };
 
-      window.toggleDisclaimerModal = function () {
-        const modal = document.getElementById('disclaimerModal');
-        if (!modal) return;
-        const isVisible = modal.style.display === 'flex';
-        modal.style.display = isVisible ? 'none' : 'flex';
-        if (!isVisible && typeof toggleSidebar === 'function') toggleSidebar(false);
-      };
-
       (function () { applyThemeScope(); })();
     </script>
 
@@ -2253,7 +2245,7 @@
             Uygulamayı kullanarak bu şartları kabul etmiş sayılırsınız.</p>
         </div>
         <div class="legal-footer">
-          <button class="accept-btn" onclick="window.toggleDisclaimerModal()">Anladım, Kabul Ediyorum</button>
+          <button id="disclaimerAcceptBtn" class="accept-btn" onclick="window.acceptDisclaimer()">Anladım, Kabul Ediyorum</button>
         </div>
       </div>
     </div>

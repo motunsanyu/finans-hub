@@ -100,6 +100,15 @@ async function init() {
       });
     }
   }, 30000);
+
+  // 🛡️ Yasal uyarıyı ilk kez göster (LocalStorage kontrolü)
+  const legalAccepted = localStorage.getItem('legalDisclaimerAccepted');
+  if (!legalAccepted) {
+    setTimeout(() => {
+      const modal = document.getElementById('disclaimerModal');
+      if (modal) modal.style.display = 'flex';
+    }, 800);
+  }
 }
 
 let appInitialized = false;
@@ -604,3 +613,22 @@ const globalScrollObserver = new MutationObserver(() => {
   bindScrollToTopToAllTabButtons();
 });
 globalScrollObserver.observe(document.body, { childList: true, subtree: true });
+
+// ═════════════════════════ YASAL UYARI FONKSİYONLARI ═════════════════════════
+// İlk kabulde çağrılır: localStorage'a kaydeder ve kapatır
+window.acceptDisclaimer = function () {
+  localStorage.setItem('legalDisclaimerAccepted', 'true');
+  const modal = document.getElementById('disclaimerModal');
+  if (modal) modal.style.display = 'none';
+  if (window.showToast) window.showToast('Yasal şartları kabul ettiniz.', 'success');
+};
+
+// Menüden manuel açma/kapatma (kayıt yapmaz)
+window.toggleDisclaimerModal = function () {
+  const modal = document.getElementById('disclaimerModal');
+  if (!modal) return;
+  const isVisible = modal.style.display === 'flex';
+  modal.style.display = isVisible ? 'none' : 'flex';
+  // Eğer açılıyorsa ve sidebar açıksa sidebar'ı kapat (daha temiz görünüm)
+  if (!isVisible && typeof window.toggleSidebar === 'function') window.toggleSidebar(false);
+};

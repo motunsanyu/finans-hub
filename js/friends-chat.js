@@ -391,25 +391,31 @@ const FriendsChatModule = (() => {
           ? `<img src="${prof.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`
           : (f.friendName || '?')[0].toUpperCase();
 
-        listItems.push(`
           <div class="conversation-row" 
-            style="display:flex; align-items:center; gap:12px; padding:12px 16px; cursor:pointer; transition: all 0.15s ease; border-bottom:1px solid #17212b; user-select:none; -webkit-touch-callout:none; touch-action: pan-y;"
+            style="display:flex; align-items:center; gap:12px; padding:12px 16px; cursor:pointer; transition: all 0.15s ease; border-bottom:1px solid #17212b; user-select:none; -webkit-touch-callout:none; touch-action: pan-y; position:relative; overflow:hidden;"
             onmouseover="this.style.background='#17212b'" onmouseout="this.style.background='transparent'"
             data-friend-id="${f.friendId}"
+            data-row-type="conv"
             onclick="FriendsChatModule.openConversation('${f.friendId}','${f.friendName}')"
-            ontouchstart="FriendsChatModule.handleConvTouchStart(event, '${f.friendId}')"
-            ontouchmove="FriendsChatModule.handleTouchMove(event)"
-            ontouchend="FriendsChatModule.handleConvTouchEnd(event, '${f.friendId}')"
           >
-            <div class="conv-avatar-box" style="width:52px;height:52px;border-radius:50%;background:#2b5278;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.2); overflow:hidden; transition: transform 0.15s ease;">
-              ${avatarContent}
-            </div>
-            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;">
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <div style="font-weight:700; font-size:15px; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${f.friendName}</div>
-                <div style="font-size:11px; color:${statusColor}; font-weight:600;">${statusText}</div>
+            <!-- Sohbet Silme Butonu (Swipe ile çıkar) -->
+            <button class="swipe-delete-btn" type="button" 
+              style="position:absolute; right:6px; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:50%; background:#ef5350; border:none; color:#fff; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.15s ease; box-shadow:0 2px 6px rgba(0,0,0,0.3); cursor:pointer; z-index:3;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+            <div class="conv-content-wrapper" style="display:flex; align-items:center; gap:12px; flex:1; transition: transform 0.2s ease; z-index:2;">
+              <div class="conv-avatar-box" style="width:52px;height:52px;border-radius:50%;background:#2b5278;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.2); overflow:hidden; transition: transform 0.15s ease;">
+                ${avatarContent}
               </div>
-              <div style="font-size:13px; color:#6c7883; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Sohbeti açmak için tıkla...</div>
+              <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <div style="font-weight:700; font-size:15px; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${f.friendName}</div>
+                  <div style="font-size:11px; color:${statusColor}; font-weight:600;">${statusText}</div>
+                </div>
+                <div style="font-size:13px; color:#6c7883; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Sohbeti açmak için tıkla...</div>
+              </div>
             </div>
           </div>`);
       }
@@ -629,114 +635,17 @@ const FriendsChatModule = (() => {
     return false;
   }
 
-  let touchStartX = 0;
-  let touchStartY = 0;
-  let isSwipeAction = false;
-  let activeSwipeRow = null; // O an açık olan kaydırılmış mesaj satırı
-
-  // Açık olan diğer mesajları kapat (yalnızca bir mesaj açık kalsın)
-  function resetAllSwipes(exceptRow) {
-    document.querySelectorAll('.message-row').forEach(row => {
-      if (row === exceptRow) return;
-      const bub = row.querySelector('.message-bubble');
-      const btn = row.querySelector('.swipe-delete-btn');
-      if (bub) bub.style.transform = 'translateX(0)';
-      if (btn) { btn.style.opacity = '0'; btn.style.pointerEvents = 'none'; }
-      row.dataset.swipeOpen = 'false';
-    });
-    if (!exceptRow) activeSwipeRow = null;
-  }
-
-  function handleTouchStart(event, msgId, isMine) {
-    // Başka bir açık mesaj varsa önce onu kapat
-    if (activeSwipeRow && activeSwipeRow !== event.currentTarget) {
-      resetAllSwipes(event.currentTarget);
-    }
-
-    touchStartX = event.touches[0].clientX;
-    touchStartY = event.touches[0].clientY;
-    isSwipeAction = false;
-
-    const bubble = event.currentTarget.querySelector('.message-bubble');
-    if (bubble) {
-      // Anlık kaydırma için animasyonu kapat (sadece touchend'de aç)
-      bubble.style.transition = 'none';
-    }
-
-    touchTimer = setTimeout(() => {
-      if (!isSwipeAction) {
-        const touch = event.touches[0];
-        const fakeEvent = { clientX: touch.clientX, clientY: touch.clientY, stopPropagation: () => { } };
-        showMessageMenu(fakeEvent, msgId, isMine);
-      }
-    }, 600);
-  }
-
-  function handleTouchMove(event) {
-    const moveX = event.touches[0].clientX;
-    const moveY = event.touches[0].clientY;
-    const diffX = touchStartX - moveX;   // > 0 = sola
-    const diffY = Math.abs(touchStartY - moveY);
-
-    // Yatay kaydırma dikeyden fazlaysa swipe moduna geç
-    if (Math.abs(diffX) > 10 && Math.abs(diffX) > diffY) {
-      isSwipeAction = true;
-      clearTimeout(touchTimer);
-      if (event.cancelable) event.preventDefault();
-
-      // Sadece SOLA kaydırmaya izin ver, en fazla -90px
-      const row = event.currentTarget;
-      const bubble = row && row.querySelector ? row.querySelector('.message-bubble') : null;
-      const btn = row && row.querySelector ? row.querySelector('.swipe-delete-btn') : null;
-      if (bubble) {
-        const translate = Math.max(-90, Math.min(0, -diffX));
-        bubble.style.transform = `translateX(${translate}px)`;
-        if (btn) {
-          const opacity = Math.min(1, Math.abs(translate) / 60);
-          btn.style.opacity = String(opacity);
-        }
-      }
-    }
-  }
-
-  function handleTouchEnd(event, msgId, isMine) {
-    clearTimeout(touchTimer);
-
-    const row = event.currentTarget;
-    const bubble = row.querySelector('.message-bubble');
-    const btn = row.querySelector('.swipe-delete-btn');
-
-    if (bubble) bubble.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)';
-
-    const touchEndX = event.changedTouches[0].clientX;
-    const diffX = touchStartX - touchEndX;
-
-    if (isSwipeAction && diffX > 50) {
-      // Aç durumda: balon -80px'de kalır, silme butonu görünür
-      if (bubble) bubble.style.transform = 'translateX(-80px)';
-      if (btn) { btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; }
-      row.dataset.swipeOpen = 'true';
-      activeSwipeRow = row;
-      // Bu mesajın bilgilerini global state'e kaydet (silme butonu için)
-      row.dataset.msgId = msgId;
-      row.dataset.isMine = String(isMine);
-    } else {
-      // Kapat durumu: balon eski yerine döner
-      if (bubble) bubble.style.transform = 'translateX(0)';
-      if (btn) { btn.style.opacity = '0'; btn.style.pointerEvents = 'none'; }
-      row.dataset.swipeOpen = 'false';
-      if (activeSwipeRow === row) activeSwipeRow = null;
-    }
-  }
-
-  // ═══ POINTER EVENTS TABANLI SWIPE (Mouse + Touch tek API) ═══
+  // ═══ POINTER EVENTS TABANLI SWIPE (Merkezi Sistem) ═══
   function attachSwipeHandlers(container) {
-    const rows = container.querySelectorAll('.message-row');
+    const rows = container.querySelectorAll('.message-row, .conversation-row');
     rows.forEach(row => {
-      const bubble = row.querySelector('.message-bubble');
+      const isMsg = row.classList.contains('message-row');
+      const bubble = isMsg ? row.querySelector('.message-bubble') : row.querySelector('.conv-content-wrapper');
       const btn = row.querySelector('.swipe-delete-btn');
       const msgId = row.dataset.msgId;
+      const friendId = row.dataset.friendId;
       const isMine = row.dataset.isMine === 'true';
+
       if (!bubble) return;
 
       let startX = 0, startY = 0;
@@ -746,7 +655,6 @@ const FriendsChatModule = (() => {
       let currentTranslate = 0;
 
       const onDown = (e) => {
-        // Birden fazla pointer (multi-touch) varsa atla
         if (e.pointerType === 'mouse' && e.button !== 0) return;
         startX = e.clientX;
         startY = e.clientY;
@@ -754,36 +662,37 @@ const FriendsChatModule = (() => {
         isHorizontal = false;
         currentTranslate = 0;
 
-        // Diğer açık swipe'ları kapat
         if (activeSwipeRow && activeSwipeRow !== row) resetAllSwipes(row);
 
         bubble.style.transition = 'none';
 
-        // Long-press → menü
         clearTimeout(pressTimer);
         pressTimer = setTimeout(() => {
           if (!isHorizontal && dragging) {
-            showMessageMenu({ clientX: startX, clientY: startY, stopPropagation() { }, preventDefault() { } }, msgId, isMine);
+            if (isMsg) {
+              showMessageMenu({ clientX: startX, clientY: startY, stopPropagation() { }, preventDefault() { } }, msgId, isMine);
+            } else {
+              showConversationMenu(startX, startY, friendId);
+            }
             dragging = false;
           }
         }, 600);
 
-        // Pointer capture, böylece move/up'lar bu elementte gelir
         try { row.setPointerCapture(e.pointerId); } catch (err) { }
       };
 
       const onMove = (e) => {
         if (!dragging) return;
-        const diffX = startX - e.clientX;   // > 0 = sola
+        const diffX = startX - e.clientX;
         const diffY = Math.abs(startY - e.clientY);
 
-        if (!isHorizontal && (Math.abs(diffX) > 8 && Math.abs(diffX) > diffY)) {
+        if (!isHorizontal && (Math.abs(diffX) > 10 && Math.abs(diffX) > diffY)) {
           isHorizontal = true;
           clearTimeout(pressTimer);
+          row.style.touchAction = 'none';
         }
         if (!isHorizontal) return;
 
-        // Sola kaydırma: -90px ile sınırla
         currentTranslate = Math.max(-90, Math.min(0, -diffX));
         bubble.style.transform = `translateX(${currentTranslate}px)`;
         if (btn) btn.style.opacity = String(Math.min(1, Math.abs(currentTranslate) / 60));
@@ -793,12 +702,12 @@ const FriendsChatModule = (() => {
 
       const onUp = (e) => {
         clearTimeout(pressTimer);
+        row.style.touchAction = 'pan-y';
         if (!dragging) return;
         dragging = false;
         bubble.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)';
 
         if (isHorizontal && Math.abs(currentTranslate) > 50) {
-          // Aç durumda
           bubble.style.transform = 'translateX(-80px)';
           if (btn) { btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; }
           row.dataset.swipeOpen = 'true';
@@ -816,34 +725,43 @@ const FriendsChatModule = (() => {
       const onCancel = (e) => {
         clearTimeout(pressTimer);
         dragging = false;
+        row.style.touchAction = 'pan-y';
         bubble.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)';
         bubble.style.transform = 'translateX(0)';
         if (btn) { btn.style.opacity = '0'; btn.style.pointerEvents = 'none'; }
         row.dataset.swipeOpen = 'false';
       };
 
-      // Eski dinleyicileri temizle (replaceWith trick)
       row.addEventListener('pointerdown', onDown);
       row.addEventListener('pointermove', onMove);
       row.addEventListener('pointerup', onUp);
       row.addEventListener('pointercancel', onCancel);
 
-      // Sağ tık → menü
-      row.addEventListener('contextmenu', (ev) => {
-        ev.preventDefault();
-        showMessageMenu(ev, msgId, isMine);
-      });
+      if (isMsg) {
+        row.addEventListener('contextmenu', (ev) => {
+          ev.preventDefault();
+          showMessageMenu(ev, msgId, isMine);
+        });
+      } else {
+        row.addEventListener('contextmenu', (ev) => {
+          ev.preventDefault();
+          showConversationMenu(ev.clientX, ev.clientY, friendId);
+        });
+      }
 
-      // Silme butonu (mouse veya touch ile tıkla)
       if (btn) {
         btn.addEventListener('click', (ev) => {
           ev.stopPropagation();
           ev.preventDefault();
-          // Direkt benden sil
-          if (confirm('Bu mesajı silmek istediğinize emin misiniz?')) {
-            selectedMessageId = msgId;
-            selectedMessageIsMine = isMine;
-            window.deleteMessage('me');
+          if (isMsg) {
+            if (confirm('Bu mesajı silmek istediğinize emin misiniz?')) {
+              selectedMessageId = msgId;
+              selectedMessageIsMine = isMine;
+              window.deleteMessage('me');
+            }
+          } else {
+            currentConversationFriendId = friendId;
+            window.deleteConversation();
           }
           resetAllSwipes(null);
         });
@@ -851,20 +769,19 @@ const FriendsChatModule = (() => {
     });
   }
 
-  // Sola kaydırınca çıkan silme butonu tıklandığında: silme menüsünü aç
-  window.openSwipeMenu = function (event, msgId, isMine) {
-
-    if (event) {
-      if (typeof event.stopPropagation === 'function') event.stopPropagation();
-      if (typeof event.preventDefault === 'function') event.preventDefault();
-    }
-    const x = (event && event.clientX) ? event.clientX : window.innerWidth - 220;
-    const y = (event && event.clientY) ? event.clientY : window.innerHeight / 2;
-    const fakeEvent = { clientX: x, clientY: y, stopPropagation: () => { }, preventDefault: () => { } };
-    showMessageMenu(fakeEvent, msgId, isMine);
-    // Açtıktan sonra swipe'ı kapat
-    resetAllSwipes(null);
-  };
+  // Açık olan diğer mesajları/sohbetleri kapat
+  function resetAllSwipes(exceptRow) {
+    document.querySelectorAll('.message-row, .conversation-row').forEach(row => {
+      if (row === exceptRow) return;
+      const isMsg = row.classList.contains('message-row');
+      const bub = isMsg ? row.querySelector('.message-bubble') : row.querySelector('.conv-content-wrapper');
+      const btn = row.querySelector('.swipe-delete-btn');
+      if (bub) bub.style.transform = 'translateX(0)';
+      if (btn) { btn.style.opacity = '0'; btn.style.pointerEvents = 'none'; }
+      row.dataset.swipeOpen = 'false';
+    });
+    if (!exceptRow) activeSwipeRow = null;
+  }
 
 
   // --- MENÜLERİ KAPATMA (Global Click) ---
@@ -955,57 +872,6 @@ const FriendsChatModule = (() => {
     }
   };
 
-  // ═══ SOHBET SİLME (Long Press & Swipe) ═══
-  let convTouchTimer = null;
-  let convStartX = 0;
-  let convStartY = 0;
-  let isConvSwipe = false;
-
-  function handleConvTouchStart(e, friendId) {
-    convStartX = e.touches[0].clientX;
-    convStartY = e.touches[0].clientY;
-    isConvSwipe = false;
-    window.closeConversationMenu();
-
-    // Basma efekti
-    const row = e.currentTarget;
-    if (row) row.style.transform = 'scale(0.97)';
-
-    convTouchTimer = setTimeout(() => {
-      if (!isConvSwipe) {
-        const touch = e.touches[0];
-        showConversationMenu(touch.clientX, touch.clientY, friendId);
-      }
-    }, 600);
-  }
-
-  function handleConvTouchMove(e) {
-    const moveX = e.touches[0].clientX;
-    const moveY = e.touches[0].clientY;
-    const diffX = convStartX - moveX;
-    const diffY = Math.abs(convStartY - moveY);
-
-    if (Math.abs(diffX) > 20 && Math.abs(diffX) > diffY) {
-      isConvSwipe = true;
-      clearTimeout(convTouchTimer);
-      if (e.cancelable) e.preventDefault();
-    }
-  }
-
-  function handleConvTouchEnd(e, friendId) {
-    clearTimeout(convTouchTimer);
-
-    // Basma efektini geri al
-    const row = e.currentTarget;
-    if (row) row.style.transform = 'scale(1)';
-
-    const endX = e.changedTouches[0].clientX;
-    const diffX = convStartX - endX;
-
-    if (isConvSwipe && diffX > 60) {
-      const touch = e.changedTouches[0];
-      showConversationMenu(touch.clientX, touch.clientY, friendId);
-    }
   }
 
   function showConversationMenu(x, y, friendId) {
