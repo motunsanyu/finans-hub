@@ -479,8 +479,11 @@ const FriendsChatModule = (() => {
     const list = document.getElementById('messageList');
     if (!list || !currentFriendId) return;
 
-    list.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-secondary);">Yükleniyor...</p>';
-
+    // Sadece ilk açılışta (liste boşken) yükleniyor yazsın. 
+    // Böylece mesaj geldiğinde/gittiğinde ekran silinip "dalgalanma" yapmaz!
+    if (list.innerHTML.trim() === '' || list.children.length === 0) {
+      list.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-secondary);">Yükleniyor...</p>';
+    }
     try {
       const messages = await getMessageHistory(currentFriendId);
       const { data: { user } } = await getSB().auth.getUser();
@@ -496,16 +499,41 @@ const FriendsChatModule = (() => {
         return;
       }
 
+      let currentDateStr = null;
+
       list.innerHTML = visible.map(msg => {
         const isMine = msg.sender_id === user.id;
-        const time = new Date(msg.created_at).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+        const msgDate = new Date(msg.created_at);
+        const time = msgDate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+        
+        // --- TARİH AYRACI MANTIĞI ---
+        let dateSeparatorHtml = '';
+        const dateStr = msgDate.toLocaleDateString('tr-TR');
+        if (dateStr !== currentDateStr) {
+           currentDateStr = dateStr;
+           const today = new Date().toLocaleDateString('tr-TR');
+           const yesterday = new Date(Date.now() - 86400000).toLocaleDateString('tr-TR');
+           
+           let displayDate = dateStr;
+           if (dateStr === today) displayDate = 'Bugün';
+           else if (dateStr === yesterday) displayDate = 'Dün';
+           else displayDate = msgDate.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' });
+
+           dateSeparatorHtml = `
+             <div style="display:flex; justify-content:center; margin:16px 0 8px 0; animation: fadeIn 0.2s ease;">
+               <span style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.05); color:#9ca3af; font-size:11px; padding:4px 12px; border-radius:12px; font-weight:600; letter-spacing:0.5px; box-shadow:0 1px 2px rgba(0,0,0,0.2);">
+                 ${displayDate}
+               </span>
+             </div>
+           `;
+        }
         
         // Telegram Dark Balon Stilleri
         const bubbleBg = isMine ? '#2b5278' : '#182533';
         const textColor = '#fff';
         const borderRadius = isMine ? '12px 12px 0px 12px' : '0px 12px 12px 12px';
 
-        return `<div
+        return dateSeparatorHtml + `<div
           data-msg-id="${msg.id}"
           data-is-mine="${isMine}"
           style="display:flex; justify-content:${isMine ? 'flex-end' : 'flex-start'}; margin:6px 0; animation: fadeIn 0.2s ease;"

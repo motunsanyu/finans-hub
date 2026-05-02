@@ -1589,7 +1589,7 @@
           <div id="messageHeader"
             style="display:flex; align-items:center; gap:10px; padding:12px 16px;
                    border-bottom:1px solid #1f2937; background:#17212b;
-                   position:sticky; top:0; z-index:2;">
+                   flex-shrink:0; z-index:2;">
             <button id="backToConversations" onclick="showConversationsList()"
               style="background:none; border:none; padding:6px; color:#6c7883; cursor:pointer;
                      display:flex; align-items:center; justify-content:center; border-radius:50%;
@@ -1613,11 +1613,11 @@
           </div>
 
           <!-- Mesaj Listesi -->
-          <div id="messageList" style="flex:1; overflow-y:auto; padding:16px 12px; background:#0e1621;"></div>
+          <div id="messageList" style="flex:1; overflow-y:auto; padding:16px 12px; background:#0e1621; min-height:0;"></div>
 
           <!-- Mesaj Giriş Alanı -->
           <div style="display:flex; gap:10px; padding:10px 14px 14px;
-                      background:#17212b; align-items:center;">
+                      background:#17212b; align-items:center; flex-shrink:0; border-top:1px solid #1f2937;">
             <input type="text" id="messageInput" placeholder="Mesaj..." autocomplete="off" inputmode="text"
               style="flex:1; padding:12px 16px; border-radius:24px; border:none;
                      background:#242f3d; color:#fff; font-size:15px;

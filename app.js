@@ -90,6 +90,15 @@ async function init() {
   setInterval(() => {
     console.log("🔄 Finans verileri 30 saniyede bir yenileniyor...");
     refreshFinanceData();
+    
+    // Heartbeat: Kullanıcı aktifse veritabanındaki son görülme saatini güncelle
+    if (window._supabaseClient) {
+      window._supabaseClient.auth.getUser().then(({ data: { user } }) => {
+        if (user) {
+          window._supabaseClient.from('profiles').update({ last_seen: new Date().toISOString() }).eq('id', user.id).then();
+        }
+      });
+    }
   }, 30000);
 }
 
