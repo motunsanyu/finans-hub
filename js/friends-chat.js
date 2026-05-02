@@ -3,6 +3,7 @@
 const FriendsChatModule = (() => {
   let currentFriendId = null;
   let currentFriendName = null;
+  let chatSubscription = null;
 
   function getSB() { return window._supabaseClient; }
 
@@ -519,7 +520,10 @@ const FriendsChatModule = (() => {
         </div>`;
       }).join('');
 
-      list.scrollTop = list.scrollHeight;
+      // Yumuşak ve anında kaydırma (Smooth Scroll)
+      setTimeout(() => {
+        list.scrollTo({ top: list.scrollHeight, behavior: 'smooth' });
+      }, 50);
     } catch (e) {
       list.innerHTML = '<p style="text-align:center; padding:20px; color:red;">Mesajlar yüklenemedi.</p>';
       console.error('loadMessages hatası:', e);
@@ -642,8 +646,28 @@ const FriendsChatModule = (() => {
     }
   });
 
-  function init() {
-    console.log('✅ Sohbet modülü hazır.');
+  async function init() {
+    try {
+      const { data: { user } } = await getSB().auth.getUser();
+      if (user && !chatSubscription) {
+        // Supabase Canlı Veri Dinleyicisi (Realtime)
+        chatSubscription = getSB()
+          .channel('public:messages')
+          .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
+            const msg = payload.new;
+            // Eğer şu an açık olan sohbetin mesajıysa anında yükle
+            if (currentFriendId && (msg.sender_id === currentFriendId || msg.receiver_id === currentFriendId)) {
+               loadMessages();
+            } else if (msg.receiver_id === user.id && window.showToast) {
+               // Başka birinden mesaj geldiyse bildirim ver (opsiyonel)
+               window.showToast('Yeni bir mesajın var!', 'success');
+            }
+          })
+          .subscribe();
+      }
+    } catch(e) { console.warn("Realtime başlatılamadı:", e); }
+    
+    console.log('✅ Sohbet modülü (Realtime) hazır.');
   }
 
   return {
