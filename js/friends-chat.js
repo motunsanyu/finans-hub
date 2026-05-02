@@ -159,6 +159,7 @@ const FriendsChatModule = (() => {
 
   function lockChatLayout() {
     const modal = document.getElementById('messagesModal');
+    const shell = modal?.firstElementChild;
     const area = document.getElementById('chatArea');
     const header = document.getElementById('messageHeader');
     const list = document.getElementById('messageList');
@@ -176,7 +177,14 @@ const FriendsChatModule = (() => {
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
 
+    if (shell) {
+      shell.style.height = '100%';
+      shell.style.maxHeight = '100%';
+      shell.style.overflow = 'hidden';
+    }
+
     if (area) {
+      area.style.display = area.style.display === 'none' ? 'none' : 'flex';
       area.style.height = '100%';
       area.style.maxHeight = '100%';
       area.style.overflow = 'hidden';
@@ -185,8 +193,12 @@ const FriendsChatModule = (() => {
     }
     if (header) {
       header.style.flexShrink = '0';
-      header.style.position = 'relative';
-      header.style.zIndex = '20';
+      header.style.position = 'sticky';
+      header.style.top = '0';
+      header.style.left = '0';
+      header.style.right = '0';
+      header.style.zIndex = '50';
+      header.style.background = '#17212b';
     }
     if (list) {
       list.style.flex = '1 1 auto';
@@ -423,7 +435,11 @@ const FriendsChatModule = (() => {
       row.addEventListener('pointercancel', onUp);
       btn.onclick = (ev) => {
         ev.stopPropagation(); ev.preventDefault();
-        if (isMsg) { if (confirm('Sil?')) { selectedMessageId = msgId; window.deleteMessage('me'); } }
+        if (isMsg) {
+          selectedMessageId = msgId;
+          selectedMessageIsMine = isMine;
+          window.deleteMessage('me');
+        }
         else { currentConversationFriendId = friendId; window.deleteConversation(); }
         resetAllSwipes(null);
       };
@@ -503,10 +519,17 @@ const FriendsChatModule = (() => {
     const input = document.getElementById('messageInput');
     const text = input?.value?.trim();
     if (!text || !currentFriendId) return;
-    input.value = ''; isSendingMsg = true;
+    input.value = '';
+    input.focus({ preventScroll: true });
+    isSendingMsg = true;
     try { await sendMessage(currentFriendId, text); await loadMessages(); }
     catch (e) { input.value = text; }
-    finally { isSendingMsg = false; setTimeout(() => input.focus(), 50); }
+    finally {
+      isSendingMsg = false;
+      input.focus({ preventScroll: true });
+      setTimeout(() => input.focus({ preventScroll: true }), 30);
+      setTimeout(() => input.focus({ preventScroll: true }), 120);
+    }
   };
 
   async function init() {
@@ -514,6 +537,16 @@ const FriendsChatModule = (() => {
     if (inp) {
       inp.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); window.sendMessageFromUi(); } });
     }
+
+    // Mobilde gönder butonu focus alınca klavye kapanmasın.
+    document.querySelectorAll('button[onclick*="sendMessageFromUi"]').forEach(btn => {
+      btn.addEventListener('mousedown', e => e.preventDefault());
+      btn.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        window.sendMessageFromUi();
+      });
+    });
 
     if (window.visualViewport) {
       window.visualViewport.addEventListener('resize', () => {
@@ -537,10 +570,8 @@ const FriendsChatModule = (() => {
         }
 
         const belongsToCurrentChat = currentFriendId && (
-          row.sender_id === currentFriendId ||
-          row.receiver_id === currentFriendId ||
-          row.sender_id === user.id ||
-          row.receiver_id === user.id
+          (row.sender_id === user.id && row.receiver_id === currentFriendId) ||
+          (row.sender_id === currentFriendId && row.receiver_id === user.id)
         );
 
         // Silme/güncelleme/gönderme olayları açık sohbet veya konuşma listesini anlık yenilesin.
