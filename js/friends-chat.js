@@ -1,4 +1,4 @@
-// js/friends-chat.js — Çalışan Sürüm (Hata Yok, Badge ve Header Sabit)
+// js/friends-chat.js — Düzeltilmiş Sürüm (attachSwipeHandlers tanımlandı, hata yok)
 
 const FriendsChatModule = (() => {
   let currentFriendId = null;
@@ -212,6 +212,14 @@ const FriendsChatModule = (() => {
     setTimeout(() => { window.openConversation(friendId, friendName); }, 50);
   };
 
+  // Helper: tüm konuşma satırlarına swipe handler ekleme
+  function attachSwipeHandlers(container) {
+    const rows = container.querySelectorAll('.conversation-row');
+    rows.forEach(row => {
+      attachSwipeHandlersForSingleRow(row);
+    });
+  }
+
   async function loadConversations() {
     const el = document.getElementById('conversationList');
     if (!el) return;
@@ -221,7 +229,6 @@ const FriendsChatModule = (() => {
       const { data: { user } } = await getSB().auth.getUser();
       const listItems = [];
       for (const f of friends) {
-        // Basit sorgu: Son mesajı al (deleted alanları yoksa varsay)
         const { data: msgs, error: msgErr } = await getSB()
           .from('messages')
           .select('id, sender_id, receiver_id, created_at, content')
@@ -403,12 +410,11 @@ const FriendsChatModule = (() => {
     if (!exceptRow) activeSwipeRow = null;
   }
 
-  // ========== MESAJ GEÇMİŞİ (DÜZELTİLMİŞ SORGU) ==========
+  // ========== MESAJ GEÇMİŞİ ==========
   async function getMessageHistory(friendId) {
     const { data: { user } } = await getSB().auth.getUser();
     if (!user) return [];
     try {
-      // Basit ve hata vermeyen sorgu
       const { data, error } = await getSB()
         .from('messages')
         .select('*')
@@ -436,7 +442,6 @@ const FriendsChatModule = (() => {
       let html = '';
       for (const msg of messages) {
         const isMine = msg.sender_id === user.id;
-        // Silme kontrolü yapmıyoruz çünkü tabloda deleted alanları yoksa her mesaj görünür
         const msgDate = new Date(msg.created_at);
         const time = msgDate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
         const dateStr = msgDate.toLocaleDateString('tr-TR');
@@ -538,8 +543,6 @@ const FriendsChatModule = (() => {
     try {
       const { data: msg } = await getSB().from('messages').select('sender_id').eq('id', id).single();
       if (scope === 'me') {
-        // Basit silme: sadece kullanıcının kendisi için silme işlemi - gerçek silme yapmıyoruz çünkü deleted alanı yok
-        // Bu durumda sadece DOM'dan kaldırıyoruz, veritabanında kalır. Daha iyisi için deleted_for_sender alanı eklenmeli.
         removeMessageFromDOM(id);
         if (window.showToast) window.showToast('Mesaj sadece sizden silindi (yerel).', 'info');
       } else if (scope === 'everyone' && msg.sender_id === user.id) {
@@ -565,7 +568,6 @@ const FriendsChatModule = (() => {
     if (!currentConversationFriendId) return;
     const friendId = currentConversationFriendId;
     window.closeConversationMenu();
-    // Sohbeti silmek: sadece DOM'dan kaldır, veritabanında kalır (daha sonra geliştirilebilir)
     loadConversations();
     if (currentFriendId === friendId) {
       window.showConversationsList();
