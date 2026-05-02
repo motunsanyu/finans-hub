@@ -1,83 +1,219 @@
-// js/friends-chat.js — İyileştirilmiş Sürüm (Badge + Header Sabit)
+// js/friends-chat.js — Tam Yeniden Yazılmış, WhatsApp/Telegram Kalitesinde
+// Özellikler: Sabit header, swipe silme, mesaj baloncuğu silme, herkesten silme,
+//             realtime, online durum, bildirim badge, emoji, klavye düzeltmesi
 
 const FriendsChatModule = (() => {
+  // ═══ STATE ═══
   let currentFriendId = null;
   let currentFriendName = null;
   let chatSubscription = null;
-  let profilesSubscription = null;        // Profil değişikliklerini dinlemek için
-  let currentConversationFriendId = null;
   let isSendingMsg = false;
   let activeSwipeRow = null;
   let selectedMessageId = null;
   let selectedMessageIsMine = false;
-  let unreadCount = 0;                    // Toplam okunmamış (sidebar badge)
-  let realtimeInitialized = false;
-  let moduleInitialized = false;
+  let unreadCount = 0;
+  let currentUserId = null;
+  let typingTimer = null;
+  let isAtBottom = true;
 
   function getSB() { return window._supabaseClient; }
 
-  // ═══ ARKADAŞLIK MANTIĞI (Aynı) ═══
+  // ═══ YARDIMCI FONKSİYONLAR ═══
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function formatTime(dateStr) {
+    const d = new Date(dateStr);
+    return d.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function formatDate(dateStr) {
+    const d = new Date(dateStr);
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    if (d.toDateString() === today.toDateString()) return 'Bugün';
+    if (d.toDateString() === yesterday.toDateString()) return 'Dün';
+    return d.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  function getOnlineStatus(lastSeen) {
+    if (!lastSeen) return { text: 'çevrimdışı', color: '#6c7883', online: false };
+    const diffSec = Math.floor((new Date() - new Date(lastSeen)) / 1000);
+    if (diffSec < 90) return { text: 'çevrimiçi', color: '#4ade80', online: true };
+    if (diffSec < 3600) return { text: `${Math.floor(diffSec / 60)} dk önce`, color: '#6c7883', online: false };
+    return {
+      text: 'son görülme ' + new Date(lastSeen).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }),
+      color: '#6c7883', online: false
+    };
+  }
+
+  function makeAvatarHtml(name, avatarUrl, size = 44, fontSize = 18) {
+    const initial = (name || '?')[0].toUpperCase();
+    const colors = ['#2b5278', '#1a4a6b', '#3a6b8a', '#1e3a5f', '#2d6a9f'];
+    const colorIdx = initial.charCodeAt(0) % colors.length;
+    if (avatarUrl) {
+      return `<img src="${avatarUrl}" style="width:${size}px;height:${size}px;object-fit:cover;border-radius:50%;" onerror="this.parentElement.innerHTML='${initial}';this.parentElement.style.background='${colors[colorIdx]}';">`;
+    }
+    return `<span style="font-size:${fontSize}px;font-weight:900;color:#fff;">${initial}</span>`;
+  }
+
+  // ═══ ARKADAŞLIK İŞLEMLERİ ═══
   async function searchUser(username) {
-    const { data } = await getSB().from('profiles').select('id, username, display_name, avatar_url').eq('username', username).maybeSingle();
+    const { data } = await getSB().from('profiles')
+      .select('id, username, display_name, avatar_url')
+      .eq('username', username).maybeSingle();
     return data;
   }
 
   async function sendFriendRequest(addresseeId) {
     const { data: { user } } = await getSB().auth.getUser();
     if (!user) return;
-    await getSB().from('friendships').insert({ requester_id: user.id, addressee_id: addresseeId, status: 'pending' });
+    // Duplicate kontrolü
+    const { data: existing } = await getSB().from('friendships')
+      .select('id').or(
+        `and(requester_id.eq.${user.id},addressee_id.eq.${addresseeId}),and(requester_id.eq.${addresseeId},addressee_id.eq.${user.id})`
+      ).maybeSingle();
+    if (existing) {
+      if (window.showToast) window.showToast('Bu kullanıcıyla zaten bağlantınız var.', 'error');
+      return;
+    }
+    const { error } = await getSB().from('friendships')
+      .insert({ requester_id: user.id, addressee_id: addresseeId, status: 'pending' });
+    if (error) throw error;
   }
 
   async function getPendingRequests() {
     const { data: { user } } = await getSB().auth.getUser();
     if (!user) return [];
-    const { data } = await getSB().from('friendships').select('id, requester_id').eq('addressee_id', user.id).eq('status', 'pending');
+    const { data } = await getSB().from('friendships')
+      .select('id, requester_id').eq('addressee_id', user.id).eq('status', 'pending');
     if (!data) return [];
     const list = [];
     for (const req of data) {
-      const { data: prof } = await getSB().from('profiles').select('username, display_name').eq('id', req.requester_id).single();
+      const { data: prof } = await getSB().from('profiles')
+        .select('username, display_name, avatar_url').eq('id', req.requester_id).single();
       list.push({ id: req.id, requester_id: req.requester_id, profiles: prof });
     }
     return list;
   }
 
+  async function acceptRequest(requestId) {
+    await getSB().from('friendships').update({ status: 'accepted' }).eq('id', requestId);
+  }
+
+  async function rejectRequest(requestId) {
+    await getSB().from('friendships').delete().eq('id', requestId);
+  }
+
   async function getFriends() {
     const { data: { user } } = await getSB().auth.getUser();
     if (!user) return [];
-    const { data } = await getSB().from('friendships').select('id, requester_id, addressee_id').or(`requester_id.eq.${user.id},addressee_id.eq.${user.id}`).eq('status', 'accepted');
+    const { data } = await getSB().from('friendships')
+      .select('id, requester_id, addressee_id')
+      .or(`requester_id.eq.${user.id},addressee_id.eq.${user.id}`)
+      .eq('status', 'accepted');
     if (!data) return [];
     const list = [];
     for (const f of data) {
       const friendId = f.requester_id === user.id ? f.addressee_id : f.requester_id;
-      const { data: prof } = await getSB().from('profiles').select('username, display_name').eq('id', friendId).single();
-      list.push({ friendshipId: f.id, friendId, friendName: prof?.display_name || prof?.username || 'Bilinmeyen' });
+      const { data: prof } = await getSB().from('profiles')
+        .select('id, username, display_name, avatar_url, last_seen').eq('id', friendId).single();
+      list.push({
+        friendshipId: f.id,
+        friendId,
+        friendName: prof?.display_name || prof?.username || 'Bilinmeyen',
+        profile: prof
+      });
     }
     return list;
   }
 
-  // ═══ ARKADAŞLAR UI (Aynı) ═══
+  // ═══ MESAJLAŞMA İŞLEMLERİ ═══
+  async function sendMessage(receiverId, content) {
+    const { data: { user } } = await getSB().auth.getUser();
+    if (!user) throw new Error('Oturum yok');
+    const { error } = await getSB().from('messages').insert({
+      sender_id: user.id,
+      receiver_id: receiverId,
+      content,
+      created_at: new Date().toISOString(),
+      deleted_for_sender: false,
+      deleted_for_receiver: false
+    });
+    if (error) throw error;
+  }
+
+  async function getMessageHistory(friendId) {
+    const { data: { user } } = await getSB().auth.getUser();
+    if (!user) return [];
+    const { data, error } = await getSB().from('messages')
+      .select('*')
+      .or(`and(sender_id.eq.${user.id},receiver_id.eq.${friendId}),and(sender_id.eq.${friendId},receiver_id.eq.${user.id})`)
+      .order('created_at', { ascending: true });
+    if (error) return [];
+    return data;
+  }
+
+  // ═══ BADGE YÖNETİMİ ═══
+  function updateBadgeUI() {
+    const badge = document.getElementById('messagesBadge');
+    if (!badge) return;
+    if (unreadCount > 0) {
+      badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+      badge.style.display = 'inline-flex';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+
+  function resetUnreadCount() {
+    unreadCount = 0;
+    updateBadgeUI();
+  }
+
+  function incrementUnreadCount() {
+    unreadCount++;
+    updateBadgeUI();
+  }
+
+  // ═══ ARKADAŞLAR MODAL UI ═══
   async function loadPendingRequests() {
     const el = document.getElementById('pendingRequests');
     if (!el) return;
     try {
       const requests = await getPendingRequests();
-      if (!requests.length) { el.innerHTML = '<div class="requests-empty">Bekleyen istek yok.</div>'; return; }
+      if (!requests.length) {
+        el.innerHTML = '<div class="requests-empty">Bekleyen istek yok.</div>';
+        return;
+      }
       el.innerHTML = requests.map(r => {
         const name = r.profiles?.display_name || r.profiles?.username || 'Bilinmeyen';
+        const avatarHtml = makeAvatarHtml(name, r.profiles?.avatar_url, 40, 16);
         return `
-          <div class="friend-card" style="cursor:default; padding:10px; margin-bottom:8px; background:#17212b; border-radius:12px; display:flex; align-items:center; gap:10px;">
-            <div style="width:40px; height:40px; border-radius:50%; background:#2b5278; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800;">${name[0].toUpperCase()}</div>
-            <div style="flex:1;">
-              <div style="font-size:14px; font-weight:700; color:#fff;">${name}</div>
-              <div style="font-size:11px; color:#708499;">Sana istek gönderdi</div>
+          <div style="display:flex;align-items:center;padding:10px;margin-bottom:8px;background:#17212b;border-radius:12px;gap:10px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:#2b5278;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;">${avatarHtml}</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:14px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(name)}</div>
+              <div style="font-size:11px;color:#708499;">Sana istek gönderdi</div>
             </div>
-            <div style="display:flex; gap:6px;">
-              <button onclick="FriendsChatModule.acceptAndRefresh('${r.id}')" style="background:#2481cc; border:none; color:#fff; padding:6px 10px; border-radius:8px; font-size:11px; font-weight:700; cursor:pointer;">Onayla</button>
-              <button onclick="FriendsChatModule.rejectAndRefresh('${r.id}')" style="background:#232e3c; border:none; color:#ef5350; padding:6px 10px; border-radius:8px; font-size:11px; font-weight:700; cursor:pointer;">Reddet</button>
+            <div style="display:flex;gap:6px;flex-shrink:0;">
+              <button onclick="FriendsChatModule.acceptAndRefresh('${r.id}')"
+                style="background:#2481cc;border:none;color:#fff;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">✓ Onayla</button>
+              <button onclick="FriendsChatModule.rejectAndRefresh('${r.id}')"
+                style="background:#232e3c;border:none;color:#ef5350;padding:6px 10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">✕</button>
             </div>
           </div>`;
       }).join('');
-    } catch (e) { el.innerHTML = '<div class="requests-empty" style="color:red;">Yüklenemedi.</div>'; }
+    } catch (e) {
+      el.innerHTML = '<div class="requests-empty" style="color:#ef5350;">Yüklenemedi.</div>';
+    }
   }
 
   async function loadFriendList() {
@@ -85,31 +221,45 @@ const FriendsChatModule = (() => {
     if (!el) return;
     try {
       const data = await getFriends();
-      if (!data || data.length === 0) { el.innerHTML = '<div class="requests-empty">Henüz arkadaşınız yok.</div>'; return; }
-      const listItems = [];
-      for (const f of data) {
-        const { data: prof } = await getSB().from('profiles').select('username, display_name, last_seen, avatar_url').eq('id', f.friendId).maybeSingle();
-        if (!prof) continue;
-        const name = prof.display_name || prof.username || f.friendName;
-        const avatar = prof.avatar_url ? `<img src="${prof.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">` : name[0].toUpperCase();
-        listItems.push(`
-          <div style="display:flex; align-items:center; margin-bottom:8px; background:#17212b; padding:10px; border-radius:12px; gap:10px;">
-            <div onclick="window.openConversationFromFriends('${f.friendId}','${name}')" style="flex:1; display:flex; align-items:center; gap:10px; cursor:pointer;">
-              <div style="width:44px; height:44px; border-radius:50%; background:#2b5278; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:900; overflow:hidden;">${avatar}</div>
-              <div style="flex:1;">
-                <div style="font-size:14px; font-weight:700; color:#fff;">${name}</div>
-                <div style="font-size:11px; color:#708499;">Sohbeti açmak için tıkla</div>
+      if (!data || !data.length) {
+        el.innerHTML = '<div class="requests-empty">Henüz arkadaşınız yok.</div>';
+        return;
+      }
+      el.innerHTML = data.map(f => {
+        const name = f.friendName;
+        const prof = f.profile;
+        const status = getOnlineStatus(prof?.last_seen);
+        const avatarHtml = makeAvatarHtml(name, prof?.avatar_url, 44, 18);
+        return `
+          <div style="display:flex;align-items:center;margin-bottom:4px;background:#17212b;padding:10px 12px;border-radius:12px;gap:10px;position:relative;">
+            <div onclick="window.openConversationFromFriends('${f.friendId}','${escapeHtml(name)}')"
+              style="flex:1;display:flex;align-items:center;gap:10px;cursor:pointer;min-width:0;">
+              <div style="position:relative;flex-shrink:0;">
+                <div style="width:44px;height:44px;border-radius:50%;background:#2b5278;display:flex;align-items:center;justify-content:center;overflow:hidden;">${avatarHtml}</div>
+                ${status.online ? `<div style="position:absolute;bottom:1px;right:1px;width:11px;height:11px;background:#4ade80;border-radius:50%;border:2px solid #17212b;"></div>` : ''}
+              </div>
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:14px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(name)}</div>
+                <div style="font-size:11px;color:${status.color};">${status.text}</div>
               </div>
             </div>
-            <button onclick="window.removeFriend(event, '${f.friendId}')" style="background:none; border:none; color:#ef5350; cursor:pointer; padding:8px;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            <button onclick="window.removeFriend(event,'${f.friendId}')"
+              style="background:none;border:none;color:#ef5350;cursor:pointer;padding:8px;border-radius:8px;flex-shrink:0;transition:background 0.15s;"
+              onmouseover="this.style.background='rgba(239,83,80,0.1)'" onmouseout="this.style.background='none'">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6l-1 14H6L5 6"></path>
+                <path d="M10 11v6M14 11v6M9 6V4h6v2"></path>
+              </svg>
             </button>
-          </div>`);
-      }
-      el.innerHTML = listItems.join('');
-    } catch (e) { el.innerHTML = '<div class="requests-empty" style="color:red;">Hata.</div>'; }
+          </div>`;
+      }).join('');
+    } catch (e) {
+      el.innerHTML = '<div class="requests-empty" style="color:#ef5350;">Hata oluştu.</div>';
+    }
   }
 
+  // ═══ GLOBAL WINDOW FONKSİYONLARI (Arkadaş İşlemleri) ═══
   window.searchAndAddFriend = async function () {
     const input = document.getElementById('friendSearchInput');
     const resultDiv = document.getElementById('searchResult');
@@ -117,74 +267,93 @@ const FriendsChatModule = (() => {
     const username = input.value.trim();
     if (!username) { resultDiv.innerHTML = ''; return; }
     try {
-      resultDiv.innerHTML = '<div style="padding:10px; color:#708499; font-size:12px;">Aranıyor...</div>';
+      resultDiv.innerHTML = '<div style="padding:10px;color:#708499;font-size:12px;">Aranıyor...</div>';
       const user = await searchUser(username);
-      if (!user) { resultDiv.innerHTML = '<div style="padding:10px; color:#ef5350; font-size:12px;">Bulunamadı.</div>'; return; }
+      if (!user) {
+        resultDiv.innerHTML = '<div style="padding:10px;color:#ef5350;font-size:12px;">Kullanıcı bulunamadı.</div>';
+        return;
+      }
+      const name = user.display_name || user.username;
+      const avatarHtml = makeAvatarHtml(name, user.avatar_url, 40, 16);
       resultDiv.innerHTML = `
-        <div style="margin-top:10px; padding:10px; background:#17212b; border-radius:12px; display:flex; align-items:center; gap:10px;">
-          <div style="width:40px; height:40px; border-radius:50%; background:#2b5278; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800;">${(user.display_name || user.username)[0].toUpperCase()}</div>
-          <div style="flex:1;">
-            <div style="color:#fff; font-weight:700;">${user.display_name || user.username}</div>
-            <div style="color:#708499; font-size:11px;">@${user.username}</div>
+        <div style="margin-top:10px;padding:12px;background:#17212b;border-radius:12px;display:flex;align-items:center;gap:10px;">
+          <div style="width:40px;height:40px;border-radius:50%;background:#2b5278;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;">${avatarHtml}</div>
+          <div style="flex:1;min-width:0;">
+            <div style="color:#fff;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(name)}</div>
+            <div style="color:#708499;font-size:11px;">@${escapeHtml(user.username)}</div>
           </div>
-          <button onclick="FriendsChatModule.sendRequestAndRefresh('${user.id}')" style="background:#2481cc; color:#fff; border:none; padding:8px 12px; border-radius:8px; font-weight:700; cursor:pointer;">Ekle</button>
+          <button onclick="FriendsChatModule.sendRequestAndRefresh('${user.id}')"
+            style="background:#2481cc;color:#fff;border:none;padding:8px 14px;border-radius:8px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;">Ekle</button>
         </div>`;
-    } catch (e) { resultDiv.innerHTML = '<div style="padding:10px; color:#ef5350;">Hata.</div>'; }
+    } catch (e) {
+      resultDiv.innerHTML = '<div style="padding:10px;color:#ef5350;">Hata oluştu.</div>';
+    }
   };
 
   window.sendRequestAndRefresh = async function (id) {
     try {
       await sendFriendRequest(id);
-      if (window.showToast) window.showToast('İstek gönderildi!', 'success');
+      if (window.showToast) window.showToast('Arkadaşlık isteği gönderildi!', 'success');
       const input = document.getElementById('friendSearchInput');
       const resultDiv = document.getElementById('searchResult');
       if (input) input.value = '';
       if (resultDiv) resultDiv.innerHTML = '';
-    } catch (e) { if (window.showToast) window.showToast('Hata!', 'error'); }
+    } catch (e) {
+      if (window.showToast) window.showToast('Hata oluştu!', 'error');
+    }
   };
 
-  window.acceptAndRefresh = async function (id) { await acceptRequest(id); loadPendingRequests(); loadFriendList(); };
-  window.rejectAndRefresh = async function (id) { await rejectRequest(id); loadPendingRequests(); };
+  window.acceptAndRefresh = async function (id) {
+    try {
+      await acceptRequest(id);
+      if (window.showToast) window.showToast('Arkadaşlık isteği kabul edildi!', 'success');
+      loadPendingRequests();
+      loadFriendList();
+    } catch (e) {
+      if (window.showToast) window.showToast('Hata oluştu!', 'error');
+    }
+  };
+
+  window.rejectAndRefresh = async function (id) {
+    try {
+      await rejectRequest(id);
+      loadPendingRequests();
+    } catch (e) { }
+  };
 
   window.removeFriend = async function (event, friendId) {
     if (event) event.stopPropagation();
-    window.showCustomConfirm('Arkadaşlıktan çıkarmak istediğinize emin misiniz?', async () => {
-      try {
-        const { data: { user } } = await getSB().auth.getUser();
-        await getSB().from('friendships').delete().match({ requester_id: user.id, addressee_id: friendId });
-        await getSB().from('friendships').delete().match({ requester_id: friendId, addressee_id: user.id });
-        loadFriendList();
-        if (window.toggleMessagesModal && document.getElementById('messagesModal')?.style.display === 'flex') {
-          loadConversations();
-        }
-        if (window.showToast) window.showToast('Arkadaşlıktan çıkarıldı.', 'success');
-      } catch (e) { if (window.showToast) window.showToast('Bir hata oluştu.', 'error'); }
-    });
+    if (!confirm('Bu kişiyi arkadaş listesinden çıkarmak istiyor musunuz?')) return;
+    try {
+      const { data: { user } } = await getSB().auth.getUser();
+      await getSB().from('friendships').delete()
+        .or(`and(requester_id.eq.${user.id},addressee_id.eq.${friendId}),and(requester_id.eq.${friendId},addressee_id.eq.${user.id})`);
+      loadFriendList();
+      if (window.showToast) window.showToast('Arkadaşlıktan çıkarıldı.', 'success');
+    } catch (e) {
+      if (window.showToast) window.showToast('Hata oluştu.', 'error');
+    }
   };
 
-  // ═══ MODALLAR VE MESAJLAŞMA ═══
+  // ═══ MODAL AÇMA/KAPAMA ═══
   window.toggleFriendsModal = function () {
     const modal = document.getElementById('friendsModal');
     if (!modal) return;
     const isOpen = modal.style.display === 'flex' || modal.style.display === 'block';
     modal.style.display = isOpen ? 'none' : 'block';
-    if (!isOpen) { loadPendingRequests(); loadFriendList(); if (typeof window.toggleSidebar === 'function') window.toggleSidebar(false); }
+    if (!isOpen) {
+      loadPendingRequests();
+      loadFriendList();
+      if (typeof window.toggleSidebar === 'function') window.toggleSidebar(false);
+    }
   };
-
-  function lockChatLayout() {
-    const modal = document.getElementById('messagesModal');
-    if (!modal) return;
-    const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-    modal.style.height = h + 'px';
-    modal.style.maxHeight = h + 'px';
-    modal.style.overflow = 'hidden';
-  }
 
   function openMessagesModal() {
     const modal = document.getElementById('messagesModal');
     if (!modal) return;
     modal.style.display = 'flex';
-    lockChatLayout();
+    // Layout kilitle
+    document.body.style.overflow = 'hidden';
     const panel = document.getElementById('conversationsPanel');
     const area = document.getElementById('chatArea');
     if (panel) { panel.style.display = 'flex'; panel.style.width = '100%'; }
@@ -201,6 +370,8 @@ const FriendsChatModule = (() => {
       modal.style.display = 'none';
       document.body.style.overflow = '';
       currentFriendId = null;
+      currentFriendName = null;
+      // Subscription'ı temizleme - arka planda devam etsin (bildirimler için)
     } else {
       openMessagesModal();
     }
@@ -210,295 +381,190 @@ const FriendsChatModule = (() => {
     const friendsModal = document.getElementById('friendsModal');
     if (friendsModal) friendsModal.style.display = 'none';
     openMessagesModal();
-    setTimeout(() => { window.openConversation(friendId, friendName); }, 50);
+    // Kısa gecikme ile aç
+    setTimeout(() => window.openConversation(friendId, friendName), 80);
   };
 
-  // ========== YENİ: Konuşma başına okunmamış mesaj sayısını hesapla ==========
-  async function getUnreadCountForFriend(friendId) {
-    const { data: { user } } = await getSB().auth.getUser();
-    if (!user) return 0;
-    const { data, error } = await getSB()
-      .from('messages')
-      .select('id', { count: 'exact', head: true })
-      .eq('receiver_id', user.id)
-      .eq('sender_id', friendId)
-      .eq('deleted_for_receiver', false);
-    if (error) return 0;
-    return data?.length || 0;
-  }
-
+  // ═══ KONUŞMA LİSTESİ ═══
   async function loadConversations() {
     const el = document.getElementById('conversationList');
     if (!el) return;
-    el.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-secondary);">Yükleniyor...</p>';
-    try {
-      const friends = await getFriends();
-      const { data: { user } } = await getSB().auth.getUser();
-      const listItems = [];
-      for (const f of friends) {
-        const { data: msgs } = await getSB().from('messages').select('id, sender_id, receiver_id, created_at, content, deleted_for_sender, deleted_for_receiver').or(`and(sender_id.eq.${user.id},receiver_id.eq.${f.friendId},deleted_for_sender.eq.false),and(sender_id.eq.${f.friendId},receiver_id.eq.${user.id},deleted_for_receiver.eq.false)`).order('created_at', { ascending: false }).limit(1);
-        if (!msgs || msgs.length === 0) continue;
-        const lastMsg = msgs[0];
-        const { data: prof } = await getSB().from('profiles').select('last_seen, avatar_url').eq('id', f.friendId).maybeSingle();
-        let statusText = 'çevrimdışı';
-        let statusColor = '#6c7883';
-        if (prof?.last_seen) {
-          const lastSeenDate = new Date(prof.last_seen);
-          const diffInSec = Math.floor((new Date() - lastSeenDate) / 1000);
-          if (diffInSec < 60 && diffInSec >= -5) { statusText = 'çevrimiçi'; statusColor = '#6ab2f2'; }
-          else { statusText = lastSeenDate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }); }
-        }
-        const avatarContent = prof?.avatar_url ? `<img src="${prof.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">` : (f.friendName || '?')[0].toUpperCase();
-
-        // Okunmamış mesaj sayısını al
-        const unread = await getUnreadCountForFriend(f.friendId);
-        const badgeHtml = unread > 0 ? `<span style="background:#ef5350; color:#fff; font-size:10px; font-weight:800; border-radius:12px; padding:2px 6px; min-width:18px; text-align:center; margin-left:8px;">${unread > 99 ? '99+' : unread}</span>` : '';
-
-        listItems.push(`
-          <div class="conversation-row" data-friend-id="${f.friendId}" style="display:flex; align-items:center; gap:12px; padding:12px 16px; cursor:pointer; border-bottom:1px solid #17212b; position:relative; overflow:hidden;" onclick="FriendsChatModule.openConversation('${f.friendId}','${f.friendName}')">
-            <button class="swipe-delete-btn" type="button" style="position:absolute; right:6px; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:50%; background:#ef5350; border:none; color:#fff; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.15s ease; z-index:5;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-            </button>
-            <div class="conv-content-wrapper" style="display:flex; align-items:center; gap:12px; flex:1; transition: transform 0.2s ease; z-index:2;">
-              <div style="width:52px;height:52px;border-radius:50%;background:#2b5278;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;flex-shrink:0;overflow:hidden;">${avatarContent}</div>
-              <div style="flex:1;min-width:0;">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                  <div style="font-weight:700; font-size:15px; color:#fff;">${f.friendName}</div>
-                  <div style="display:flex; align-items:center; gap:4px;">
-                    <div style="font-size:11px; color:${statusColor};">${statusText}</div>
-                    ${badgeHtml}
-                  </div>
-                </div>
-                <div style="font-size:13px; color:#6c7883; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(lastMsg.content)}</div>
-              </div>
-            </div>
-          </div>`);
-      }
-      el.innerHTML = listItems.join('');
-      attachSwipeHandlers(el);
-    } catch (e) { el.innerHTML = '<p style="text-align:center; padding:20px; color:red;">Hata.</p>'; }
-  }
-
-  // ========== INCREMENTAL MESAJ YÖNETİMİ (Aynı) ==========
-  function appendMessageToDOM(msg, isMine, scrollToBottom = true) {
-    const list = document.getElementById('messageList');
-    if (!list) return;
-    const msgDate = new Date(msg.created_at);
-    const time = msgDate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-    const dateStr = msgDate.toLocaleDateString('tr-TR');
-    const bubbleBg = isMine ? '#2b5278' : '#1e2c3a';
-
-    let lastDateStr = null;
-    const lastMsgDiv = list.lastElementChild;
-    if (lastMsgDiv && lastMsgDiv.classList && lastMsgDiv.classList.contains('message-row')) {
-      const prevDateDiv = lastMsgDiv.previousElementSibling;
-      if (prevDateDiv && prevDateDiv.innerHTML?.includes('justify-content:center')) {
-        lastDateStr = prevDateDiv.innerText?.trim();
-      }
-    }
-
-    let dateSeparatorHtml = '';
-    if (lastDateStr !== dateStr) {
-      dateSeparatorHtml = `<div style="display:flex; justify-content:center; margin:16px 0 8px 0;"><span style="background:rgba(255,255,255,0.06); color:#9ca3af; font-size:11px; padding:4px 12px; border-radius:12px;">${dateStr}</span></div>`;
-    }
-
-    const messageHtml = dateSeparatorHtml + `<div class="message-row" data-msg-id="${msg.id}" data-is-mine="${isMine}" style="position:relative; display:flex; justify-content:${isMine ? 'flex-end' : 'flex-start'}; margin:6px 0; overflow:hidden;">
-      <button class="swipe-delete-btn" type="button" style="position:absolute; right:6px; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:50%; background:#ef5350; border:none; color:#fff; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.15s ease; z-index:5;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-      </button>
-      <div class="message-bubble" style="max-width:82%; background:${bubbleBg}; color:#fff; padding:8px 12px; border-radius:${isMine ? '12px 12px 0 12px' : '0 12px 12px 12px'}; position:relative; transition: transform 0.2s ease; z-index:2;">
-        <div style="font-size:15px; line-height:1.4;">${escapeHtml(msg.content)}</div>
-        <div style="font-size:10px; color:rgba(255,255,255,0.4); margin-top:4px; text-align:right;">${time}</div>
-      </div>
+    el.innerHTML = `<div style="display:flex;flex-direction:column;gap:2px;padding:8px 0;">
+      ${[1, 2, 3].map(() => `
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;">
+          <div style="width:52px;height:52px;border-radius:50%;background:#17212b;flex-shrink:0;"></div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
+            <div style="height:14px;background:#17212b;border-radius:4px;width:60%;"></div>
+            <div style="height:12px;background:#17212b;border-radius:4px;width:80%;"></div>
+          </div>
+        </div>`).join('')}
     </div>`;
 
-    list.insertAdjacentHTML('beforeend', messageHtml);
-    const newRow = list.lastElementChild;
-    if (newRow && newRow.classList.contains('message-row')) {
-      attachSwipeHandlersForSingleRow(newRow);
-    }
-    if (scrollToBottom) {
-      setTimeout(() => { list.scrollTo({ top: list.scrollHeight, behavior: 'smooth' }); }, 50);
-    }
-  }
-
-  function removeMessageFromDOM(msgId) {
-    const msgRow = document.querySelector(`.message-row[data-msg-id="${msgId}"]`);
-    if (msgRow) {
-      const prevSibling = msgRow.previousElementSibling;
-      if (prevSibling && prevSibling.innerHTML?.includes('justify-content:center') &&
-        (!msgRow.nextElementSibling || msgRow.nextElementSibling.classList?.contains('message-row'))) {
-        prevSibling.remove();
-      }
-      msgRow.remove();
-    }
-  }
-
-  function attachSwipeHandlersForSingleRow(row) {
-    const isMsg = row.classList.contains('message-row');
-    const bubble = isMsg ? row.querySelector('.message-bubble') : row.querySelector('.conv-content-wrapper');
-    const btn = row.querySelector('.swipe-delete-btn');
-    const msgId = row.dataset.msgId;
-    const friendId = row.dataset.friendId;
-    const isMine = row.dataset.isMine === 'true';
-    if (!bubble || !btn) return;
-
-    let startX = 0, startY = 0, dragging = false, isHorizontal = false, pressTimer = null, currentTranslate = 0;
-    const onDown = (e) => {
-      if (e.pointerType === 'mouse' && e.button !== 0) return;
-      startX = e.clientX; startY = e.clientY; dragging = true; isHorizontal = false; currentTranslate = 0;
-      if (activeSwipeRow && activeSwipeRow !== row) resetAllSwipes(row);
-      bubble.style.transition = 'none';
-      clearTimeout(pressTimer);
-      pressTimer = setTimeout(() => {
-        if (!isHorizontal && dragging) {
-          if (isMsg) showMessageMenu(e, msgId, isMine);
-          else showConversationMenu(e.clientX, e.clientY, friendId);
-          dragging = false;
-        }
-      }, 600);
-      try { row.setPointerCapture(e.pointerId); } catch (err) { }
-    };
-    const onMove = (e) => {
-      if (!dragging) return;
-      const diffX = startX - e.clientX, diffY = Math.abs(startY - e.clientY);
-      if (!isHorizontal && (Math.abs(diffX) > 10 && Math.abs(diffX) > diffY)) {
-        isHorizontal = true; clearTimeout(pressTimer); row.style.touchAction = 'none';
-      }
-      if (!isHorizontal) return;
-      currentTranslate = Math.max(-90, Math.min(0, -diffX));
-      bubble.style.transform = `translateX(${currentTranslate}px)`;
-      btn.style.opacity = String(Math.min(1, Math.abs(currentTranslate) / 60));
-      if (e.cancelable) e.preventDefault();
-    };
-    const onUp = (e) => {
-      clearTimeout(pressTimer); row.style.touchAction = 'pan-y';
-      if (!dragging) return; dragging = false;
-      bubble.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)';
-      if (isHorizontal && Math.abs(currentTranslate) > 50) {
-        bubble.style.transform = 'translateX(-80px)';
-        btn.style.opacity = '1'; btn.style.pointerEvents = 'auto';
-        activeSwipeRow = row;
-      } else {
-        bubble.style.transform = 'translateX(0)';
-        btn.style.opacity = '0'; btn.style.pointerEvents = 'none';
-        if (activeSwipeRow === row) activeSwipeRow = null;
-      }
-      try { row.releasePointerCapture(e.pointerId); } catch (err) { }
-    };
-    row.addEventListener('pointerdown', onDown);
-    row.addEventListener('pointermove', onMove);
-    row.addEventListener('pointerup', onUp);
-    row.addEventListener('pointercancel', onUp);
-    btn.onclick = (ev) => {
-      ev.stopPropagation(); ev.preventDefault();
-      if (isMsg) {
-        window.showCustomConfirm('Bu mesajı silmek istediğinize emin misiniz?', () => {
-          selectedMessageId = msgId;
-          window.deleteMessage('me');
-        });
-      } else {
-        window.showCustomConfirm('Bu sohbeti silmek istediğinize emin misiniz? (Bu işlem yalnızca sizin için gizler)', () => {
-          currentConversationFriendId = friendId;
-          window.deleteConversation();
-        });
-      }
-      resetAllSwipes(null);
-    };
-  }
-
-  function resetAllSwipes(exceptRow) {
-    document.querySelectorAll('.message-row, .conversation-row').forEach(row => {
-      if (row === exceptRow) return;
-      const isMsg = row.classList.contains('message-row');
-      const bub = isMsg ? row.querySelector('.message-bubble') : row.querySelector('.conv-content-wrapper');
-      const btn = row.querySelector('.swipe-delete-btn');
-      if (bub) bub.style.transform = 'translateX(0)';
-      if (btn) { btn.style.opacity = '0'; btn.style.pointerEvents = 'none'; }
-    });
-    if (!exceptRow) activeSwipeRow = null;
-  }
-
-  async function loadMessages() {
-    const list = document.getElementById('messageList');
-    if (!list || !currentFriendId) return;
-    list.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-secondary);">Yükleniyor...</p>';
     try {
-      const messages = await getMessageHistory(currentFriendId);
       const { data: { user } } = await getSB().auth.getUser();
-      const visible = messages.filter(msg => {
-        if (msg.sender_id === user.id && msg.deleted_for_sender) return false;
-        if (msg.receiver_id === user.id && msg.deleted_for_receiver) return false;
-        return true;
-      });
-      if (!visible.length) { list.innerHTML = '<p style="text-align:center; padding:40px 20px; color:var(--text-secondary);">Henüz mesaj yok.</p>'; return; }
-      let currentDateStr = null;
-      let html = '';
-      for (const msg of visible) {
-        const isMine = msg.sender_id === user.id;
-        const msgDate = new Date(msg.created_at);
-        const time = msgDate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-        const dateStr = msgDate.toLocaleDateString('tr-TR');
-        if (dateStr !== currentDateStr) {
-          currentDateStr = dateStr;
-          html += `<div style="display:flex; justify-content:center; margin:16px 0 8px 0;"><span style="background:rgba(255,255,255,0.06); color:#9ca3af; font-size:11px; padding:4px 12px; border-radius:12px;">${dateStr}</span></div>`;
+      if (!user) return;
+      currentUserId = user.id;
+
+      const friends = await getFriends();
+      const conversationsWithMsg = [];
+
+      for (const f of friends) {
+        // Son mesajı getir - içeriği de dahil et
+        const { data: msgs } = await getSB().from('messages')
+          .select('id, sender_id, receiver_id, content, created_at, deleted_for_sender, deleted_for_receiver')
+          .or(`and(sender_id.eq.${user.id},receiver_id.eq.${f.friendId}),and(sender_id.eq.${f.friendId},receiver_id.eq.${user.id})`)
+          .order('created_at', { ascending: false })
+          .limit(10);
+
+        // Filtreleme: kullanıcı için görünür olan son mesajı bul
+        let lastVisibleMsg = null;
+        if (msgs && msgs.length > 0) {
+          for (const m of msgs) {
+            if (m.sender_id === user.id && m.deleted_for_sender) continue;
+            if (m.receiver_id === user.id && m.deleted_for_receiver) continue;
+            lastVisibleMsg = m;
+            break;
+          }
         }
-        const bubbleBg = isMine ? '#2b5278' : '#1e2c3a';
-        html += `<div class="message-row" data-msg-id="${msg.id}" data-is-mine="${isMine}" style="position:relative; display:flex; justify-content:${isMine ? 'flex-end' : 'flex-start'}; margin:6px 0; overflow:hidden;">
-          <button class="swipe-delete-btn" type="button" style="position:absolute; right:6px; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:50%; background:#ef5350; border:none; color:#fff; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.15s ease; z-index:5;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-          </button>
-          <div class="message-bubble" style="max-width:82%; background:${bubbleBg}; color:#fff; padding:8px 12px; border-radius:${isMine ? '12px 12px 0 12px' : '0 12px 12px 12px'}; position:relative; transition: transform 0.2s ease; z-index:2;">
-            <div style="font-size:15px; line-height:1.4;">${escapeHtml(msg.content)}</div>
-            <div style="font-size:10px; color:rgba(255,255,255,0.4); margin-top:4px; text-align:right;">${time}</div>
-          </div>
+
+        // Okunmamış mesaj sayısı (bana gönderilmiş, silinmemiş mesajlar)
+        const { count: unreadMsgCount } = await getSB().from('messages')
+          .select('*', { count: 'exact', head: true })
+          .eq('sender_id', f.friendId)
+          .eq('receiver_id', user.id)
+          .eq('deleted_for_receiver', false)
+          .eq('is_read', false);
+
+        conversationsWithMsg.push({
+          friend: f,
+          lastMsg: lastVisibleMsg,
+          unread: unreadMsgCount || 0,
+          lastMsgTime: lastVisibleMsg ? new Date(lastVisibleMsg.created_at) : new Date(0)
+        });
+      }
+
+      // Son mesaja göre sırala (en yeni üstte)
+      conversationsWithMsg.sort((a, b) => b.lastMsgTime - a.lastMsgTime);
+
+      // Mesajı olmayan arkadaşları da göster (sona ekle)
+      const withMsg = conversationsWithMsg.filter(c => c.lastMsg);
+      const withoutMsg = conversationsWithMsg.filter(c => !c.lastMsg);
+      const sorted = [...withMsg, ...withoutMsg];
+
+      if (!sorted.length) {
+        el.innerHTML = `<div style="text-align:center;padding:60px 20px;">
+          <div style="font-size:48px;margin-bottom:16px;">💬</div>
+          <div style="color:#708499;font-size:15px;font-weight:700;">Henüz mesajınız yok</div>
+          <div style="color:#4a5568;font-size:13px;margin-top:8px;">Arkadaşlarınıza mesaj gönderin</div>
         </div>`;
+        return;
       }
-      list.innerHTML = html;
-      document.querySelectorAll('#messageList .message-row').forEach(row => attachSwipeHandlersForSingleRow(row));
-      setTimeout(() => { list.scrollTo({ top: list.scrollHeight, behavior: 'smooth' }); }, 50);
-    } catch (e) { list.innerHTML = '<p style="text-align:center; padding:20px; color:red;">Hata.</p>'; }
+
+      el.innerHTML = sorted.map(({ friend: f, lastMsg, unread }) => {
+        const status = getOnlineStatus(f.profile?.last_seen);
+        const avatarHtml = makeAvatarHtml(f.friendName, f.profile?.avatar_url, 52, 20);
+        let lastMsgText = lastMsg ? escapeHtml(lastMsg.content) : 'Sohbet başlatın';
+        if (lastMsg && lastMsg.sender_id === user.id) lastMsgText = '✓ ' + lastMsgText;
+        const timeStr = lastMsg ? formatTime(lastMsg.created_at) : '';
+
+        return `
+          <div class="conversation-row" data-friend-id="${f.friendId}"
+            style="position:relative;overflow:hidden;border-bottom:1px solid rgba(255,255,255,0.03);">
+            <!-- Swipe ile ortaya çıkan silme butonu -->
+            <div class="swipe-delete-bg" style="position:absolute;right:0;top:0;bottom:0;width:80px;background:#ef5350;display:flex;align-items:center;justify-content:center;z-index:1;">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;color:#fff;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6l-1 14H6L5 6"></path>
+                  <path d="M10 11v6M14 11v6M9 6V4h6v2"></path>
+                </svg>
+                <span style="font-size:10px;font-weight:700;">Sil</span>
+              </div>
+            </div>
+            <!-- Ana içerik (swipe ile sola kayar) -->
+            <div class="conv-content-wrapper"
+              onclick="window.openConversation('${f.friendId}','${escapeHtml(f.friendName)}')"
+              style="display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;background:#0e1621;position:relative;z-index:2;transition:transform 0.25s cubic-bezier(0.4,0,0.2,1);">
+              <!-- Avatar -->
+              <div style="position:relative;flex-shrink:0;">
+                <div style="width:52px;height:52px;border-radius:50%;background:#2b5278;display:flex;align-items:center;justify-content:center;overflow:hidden;">${avatarHtml}</div>
+                ${status.online ? `<div style="position:absolute;bottom:1px;right:1px;width:13px;height:13px;background:#4ade80;border-radius:50%;border:2.5px solid #0e1621;"></div>` : ''}
+              </div>
+              <!-- Bilgi -->
+              <div style="flex:1;min-width:0;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+                  <div style="font-weight:700;font-size:15px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60%;">${escapeHtml(f.friendName)}</div>
+                  <div style="font-size:11px;color:${unread > 0 ? '#4ade80' : '#6c7883'};flex-shrink:0;">${timeStr}</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <div style="font-size:13px;color:${unread > 0 ? '#a8b4c0' : '#6c7883'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80%;${unread > 0 ? 'font-weight:600;' : ''}">${lastMsgText}</div>
+                  ${unread > 0 ? `<div style="min-width:20px;height:20px;border-radius:10px;background:#2481cc;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 5px;flex-shrink:0;">${unread > 99 ? '99+' : unread}</div>` : ''}
+                </div>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+
+      attachSwipeHandlers(el);
+
+    } catch (e) {
+      console.error('Konuşmalar yüklenemedi:', e);
+      el.innerHTML = '<div style="text-align:center;padding:40px;color:#ef5350;">Yüklenemedi. Lütfen tekrar deneyin.</div>';
+    }
   }
 
-  // ========== HEADER'ı GÜNCELLEYEN FONKSİYON ==========
-  async function updateHeaderForFriend(friendId) {
-    if (currentFriendId !== friendId) return;
-    try {
-      const { data: prof } = await getSB().from('profiles').select('display_name, username, last_seen, avatar_url').eq('id', friendId).maybeSingle();
-      if (!prof) return;
-      const nameEl = document.getElementById('chatHeaderName');
-      const avatar = document.getElementById('chatHeaderAvatar');
-      const statusEl = document.getElementById('chatHeaderStatus');
-      const fullName = prof.display_name || prof.username || currentFriendName;
-      if (nameEl) nameEl.textContent = fullName;
-      if (avatar) avatar.innerHTML = prof.avatar_url ? `<img src="${prof.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">` : fullName[0].toUpperCase();
-      if (statusEl && prof.last_seen) {
-        const diffInSec = Math.floor((new Date() - new Date(prof.last_seen)) / 1000);
-        if (diffInSec < 60 && diffInSec >= -5) { statusEl.textContent = 'çevrimiçi'; statusEl.style.color = '#6ab2f2'; }
-        else { statusEl.textContent = 'son görülme ' + new Date(prof.last_seen).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }); statusEl.style.color = '#6c7883'; }
-      }
-    } catch (e) { }
-  }
-
+  // ═══ SOHBET AÇMA ═══
   window.openConversation = async function (friendId, friendName) {
     currentFriendId = friendId;
     currentFriendName = friendName;
+
     const panel = document.getElementById('conversationsPanel');
     const area = document.getElementById('chatArea');
-    const avatar = document.getElementById('chatHeaderAvatar');
-    const nameEl = document.getElementById('chatHeaderName');
-    const statusEl = document.getElementById('chatHeaderStatus');
+
     if (panel) panel.style.display = 'none';
-    if (area) area.style.display = 'flex';
-    if (avatar) avatar.innerHTML = (friendName || '?')[0].toUpperCase();
-    if (nameEl) nameEl.textContent = friendName;
-    if (statusEl) { statusEl.textContent = 'yükleniyor...'; statusEl.style.color = '#6c7883'; }
-    await updateHeaderForFriend(friendId); // Profil bilgilerini çek ve header'ı güncelle
+    if (area) { area.style.display = 'flex'; area.style.flexDirection = 'column'; }
+
+    // Header'ı hemen güncelle (placeholder)
+    updateChatHeader({ display_name: friendName }, null);
+
+    // Profil bilgilerini arka planda yükle
+    try {
+      const { data: prof } = await getSB().from('profiles')
+        .select('display_name, username, last_seen, avatar_url').eq('id', friendId).maybeSingle();
+      if (prof) updateChatHeader(prof, friendId);
+    } catch (e) { }
+
     await loadMessages();
     resetUnreadCount();
-    // Konuşma listesini yeniden yükle (badge sıfırlansın)
-    loadConversations();
+
+    // Input'a odaklan (kısa gecikme ile - klavyenin açılmasına izin ver)
+    setTimeout(() => {
+      const input = document.getElementById('messageInput');
+      if (input) input.focus();
+    }, 150);
   };
+
+  function updateChatHeader(prof, friendId) {
+    const nameEl = document.getElementById('chatHeaderName');
+    const statusEl = document.getElementById('chatHeaderStatus');
+    const avatarEl = document.getElementById('chatHeaderAvatar');
+    const avatarDot = document.getElementById('chatHeaderOnlineDot');
+
+    const name = prof?.display_name || prof?.username || currentFriendName || '?';
+    const status = getOnlineStatus(prof?.last_seen);
+
+    if (nameEl) nameEl.textContent = name;
+    if (statusEl) {
+      statusEl.textContent = status.text;
+      statusEl.style.color = status.color;
+    }
+    if (avatarEl) {
+      avatarEl.innerHTML = makeAvatarHtml(name, prof?.avatar_url, 40, 16);
+    }
+    if (avatarDot) {
+      avatarDot.style.display = status.online ? 'block' : 'none';
+    }
+  }
 
   window.showConversationsList = function () {
     const panel = document.getElementById('conversationsPanel');
@@ -506,264 +572,548 @@ const FriendsChatModule = (() => {
     if (panel) { panel.style.display = 'flex'; panel.style.width = '100%'; }
     if (area) area.style.display = 'none';
     currentFriendId = null;
+    currentFriendName = null;
     loadConversations();
-    resetUnreadCount();
   };
 
-  function showMessageMenu(event, msgId, isMine) {
-    if (event) { event.preventDefault?.(); event.stopPropagation?.(); }
-    selectedMessageId = msgId;
-    selectedMessageIsMine = isMine;
-    const menu = document.getElementById('messageActionMenu');
-    if (!menu) return;
-    const everyoneBtn = document.getElementById('btnDeleteEveryone');
-    if (everyoneBtn) everyoneBtn.style.display = isMine ? 'block' : 'none';
-    menu.style.display = 'block';
-    let x = (event.clientX || (event.touches ? event.touches[0].clientX : 0));
-    let y = (event.clientY || (event.touches ? event.touches[0].clientY : 0));
-    if (x + 200 > window.innerWidth) x -= 200;
-    if (y + 120 > window.innerHeight) y -= 120;
-    menu.style.left = x + 'px'; menu.style.top = y + 'px';
-  }
+  // ═══ MESAJLARI YÜKLE ═══
+  async function loadMessages() {
+    const list = document.getElementById('messageList');
+    if (!list || !currentFriendId) return;
 
-  document.addEventListener('click', (e) => {
-    const msgMenu = document.getElementById('messageActionMenu');
-    if (msgMenu && msgMenu.style.display === 'block' && !msgMenu.contains(e.target)) { msgMenu.style.display = 'none'; selectedMessageId = null; }
-    const convMenu = document.getElementById('conversationActionMenu');
-    if (convMenu && convMenu.style.display === 'block' && !convMenu.contains(e.target)) { convMenu.style.display = 'none'; currentConversationFriendId = null; }
-    if (activeSwipeRow && !activeSwipeRow.contains(e.target)) resetAllSwipes(null);
-  });
+    // Scroll pozisyonunu kontrol et (en altta mıyız?)
+    const wasAtBottom = list.scrollHeight - list.scrollTop - list.clientHeight < 80;
 
-  window.closeMessageMenu = () => { const m = document.getElementById('messageActionMenu'); if (m) m.style.display = 'none'; selectedMessageId = null; };
+    list.innerHTML = `<div style="display:flex;flex-direction:column;gap:8px;padding:8px;">
+      ${[1, 2, 3, 4, 5].map(i => `
+        <div style="display:flex;justify-content:${i % 2 === 0 ? 'flex-end' : 'flex-start'};">
+          <div style="width:${60 + (i * 15)}px;height:36px;background:#17212b;border-radius:12px;"></div>
+        </div>`).join('')}
+    </div>`;
 
-  window.deleteMessage = async function (scope) {
-    if (!selectedMessageId) return;
-    const id = selectedMessageId; selectedMessageId = null;
-    window.closeMessageMenu();
-    const { data: { user } } = await getSB().auth.getUser();
     try {
-      const { data: msg } = await getSB().from('messages').select('sender_id').eq('id', id).single();
-      if (scope === 'me') {
-        const field = msg.sender_id === user.id ? 'deleted_for_sender' : 'deleted_for_receiver';
-        await getSB().from('messages').update({ [field]: true }).eq('id', id);
-        removeMessageFromDOM(id);
-        // Konuşma listesini yenile (badge güncellemesi için)
-        loadConversations();
-      } else if (scope === 'everyone' && msg.sender_id === user.id) {
-        await getSB().from('messages').delete().eq('id', id);
-        removeMessageFromDOM(id);
-        loadConversations();
-      }
-    } catch (e) { console.error('Silme hatası:', e); if (window.showToast) window.showToast('Silme işlemi başarısız oldu.', 'error'); }
-  };
+      const { data: { user } } = await getSB().auth.getUser();
+      if (!user) return;
+      currentUserId = user.id;
 
-  function showConversationMenu(x, y, friendId) {
-    const menu = document.getElementById('conversationActionMenu');
-    if (!menu) return;
-    currentConversationFriendId = friendId;
-    menu.style.display = 'block';
-    if (x + 180 > window.innerWidth) x -= 180;
-    menu.style.left = x + 'px'; menu.style.top = y + 'px';
+      const messages = await getMessageHistory(currentFriendId);
+      const visible = messages.filter(msg => {
+        if (msg.sender_id === user.id && msg.deleted_for_sender) return false;
+        if (msg.receiver_id === user.id && msg.deleted_for_receiver) return false;
+        return true;
+      });
+
+      if (!visible.length) {
+        list.innerHTML = `
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px 20px;gap:16px;">
+            <div style="font-size:64px;opacity:0.3;">💬</div>
+            <div style="color:#6c7883;font-size:15px;font-weight:700;text-align:center;">Henüz mesaj yok</div>
+            <div style="color:#4a5568;font-size:13px;text-align:center;">İlk mesajı gönder!</div>
+          </div>`;
+        return;
+      }
+
+      // Mesajları tarih gruplarına böl
+      let currentDateStr = null;
+      const rows = visible.map(msg => {
+        const isMine = msg.sender_id === user.id;
+        const time = formatTime(msg.created_at);
+        const dateStr = formatDate(msg.created_at);
+        let dateHtml = '';
+        if (dateStr !== currentDateStr) {
+          currentDateStr = dateStr;
+          dateHtml = `
+            <div style="display:flex;justify-content:center;margin:12px 0 4px;">
+              <span style="background:rgba(255,255,255,0.06);color:#9ca3af;font-size:11px;font-weight:700;padding:4px 14px;border-radius:12px;backdrop-filter:blur(8px);">${dateStr}</span>
+            </div>`;
+        }
+
+        const bubbleBg = isMine
+          ? 'linear-gradient(135deg,#2b5278,#1a3d5c)'
+          : '#1e2c3a';
+        const borderRadius = isMine ? '14px 14px 2px 14px' : '14px 14px 14px 2px';
+
+        return dateHtml + `
+          <div class="message-row" data-msg-id="${msg.id}" data-is-mine="${isMine}"
+            style="display:flex;justify-content:${isMine ? 'flex-end' : 'flex-start'};margin:2px 0;position:relative;">
+            <div class="message-bubble"
+              style="max-width:78%;background:${bubbleBg};color:#fff;padding:9px 12px 7px;border-radius:${borderRadius};
+                     position:relative;word-break:break-word;box-shadow:0 1px 4px rgba(0,0,0,0.3);
+                     transition:transform 0.25s cubic-bezier(0.4,0,0.2,1);">
+              <div style="font-size:15px;line-height:1.45;letter-spacing:0.01em;">${escapeHtml(msg.content)}</div>
+              <div style="display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:4px;">
+                <span style="font-size:10px;color:rgba(255,255,255,0.38);">${time}</span>
+                ${isMine ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>` : ''}
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+
+      list.innerHTML = rows;
+      attachMessageSwipeHandlers(list);
+
+      // Scroll to bottom
+      if (wasAtBottom || !currentFriendId) {
+        requestAnimationFrame(() => {
+          list.scrollTop = list.scrollHeight;
+        });
+      }
+
+    } catch (e) {
+      console.error('Mesajlar yüklenemedi:', e);
+      list.innerHTML = '<div style="text-align:center;padding:40px;color:#ef5350;">Mesajlar yüklenemedi.</div>';
+    }
   }
 
-  window.closeConversationMenu = () => { const m = document.getElementById('conversationActionMenu'); if (m) m.style.display = 'none'; currentConversationFriendId = null; };
-
-  window.deleteConversation = async function () {
-    if (!currentConversationFriendId) return;
-    const friendId = currentConversationFriendId;
-    window.closeConversationMenu();
-    const { data: { user } } = await getSB().auth.getUser();
-    await getSB().from('messages').update({ deleted_for_sender: true }).match({ sender_id: user.id, receiver_id: friendId });
-    await getSB().from('messages').update({ deleted_for_receiver: true }).match({ sender_id: friendId, receiver_id: user.id });
-    loadConversations();
-    if (currentFriendId === friendId) {
-      window.showConversationsList();
-    }
-    if (window.showToast) window.showToast('Sohbet silindi.', 'success');
-  };
-
+  // ═══ MESAJ GÖNDER ═══
   window.sendMessageFromUi = async function () {
     if (isSendingMsg) return;
     const input = document.getElementById('messageInput');
     const text = input?.value?.trim();
     if (!text || !currentFriendId) return;
-    input.value = ''; isSendingMsg = true;
-    input.focus();
+
+    input.value = '';
+    isSendingMsg = true;
+    adjustTextareaHeight(input);
+
+    // Optimistic: Mesajı hemen ekle
+    const tempId = 'temp_' + Date.now();
+    appendOptimisticMessage(tempId, text);
+
     try {
-      const { data: { user } } = await getSB().auth.getUser();
-      const newMsg = {
-        sender_id: user.id,
-        receiver_id: currentFriendId,
-        content: text,
-        created_at: new Date().toISOString(),
-        deleted_for_sender: false,
-        deleted_for_receiver: false
-      };
-      const { data, error } = await getSB().from('messages').insert(newMsg).select().single();
-      if (error) throw error;
-      appendMessageToDOM(data, true, true);
-      // Konuşma listesini yenile (son mesaj güncellemesi için)
-      loadConversations();
+      await sendMessage(currentFriendId, text);
+      // Gerçek mesajı yükle (temp'i kaldır)
+      await loadMessages();
     } catch (e) {
+      // Hata: temp'i kaldır ve inputa geri koy
+      const tempEl = document.querySelector(`[data-msg-id="${tempId}"]`);
+      if (tempEl) tempEl.remove();
       input.value = text;
       if (window.showToast) window.showToast('Mesaj gönderilemedi.', 'error');
     } finally {
       isSendingMsg = false;
-      setTimeout(() => input.focus(), 50);
+      input.focus();
     }
   };
 
-  // ========== BİLDİRİM VE BADGE ==========
-  function updateBadgeUI() {
-    const badge = document.getElementById('messagesBadge');
-    if (badge) {
-      if (unreadCount > 0) {
-        badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
-        badge.style.display = 'inline-block';
-      } else {
-        badge.style.display = 'none';
+  function appendOptimisticMessage(tempId, text) {
+    const list = document.getElementById('messageList');
+    if (!list) return;
+
+    // "Henüz mesaj yok" placeholderını kaldır
+    if (list.querySelector('[style*="flex-direction:column"]') && !list.querySelector('.message-row')) {
+      list.innerHTML = '';
+    }
+
+    const time = formatTime(new Date().toISOString());
+    const div = document.createElement('div');
+    div.className = 'message-row';
+    div.dataset.msgId = tempId;
+    div.dataset.isMine = 'true';
+    div.style.cssText = 'display:flex;justify-content:flex-end;margin:2px 0;position:relative;opacity:0.7;';
+    div.innerHTML = `
+      <div class="message-bubble"
+        style="max-width:78%;background:linear-gradient(135deg,#2b5278,#1a3d5c);color:#fff;padding:9px 12px 7px;
+               border-radius:14px 14px 2px 14px;word-break:break-word;box-shadow:0 1px 4px rgba(0,0,0,0.3);">
+        <div style="font-size:15px;line-height:1.45;">${escapeHtml(text)}</div>
+        <div style="display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:4px;">
+          <span style="font-size:10px;color:rgba(255,255,255,0.38);">${time}</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+      </div>`;
+    list.appendChild(div);
+    list.scrollTop = list.scrollHeight;
+  }
+
+  // ═══ MESAJ SİLME ═══
+  function showMessageContextMenu(event, msgId, isMine) {
+    event?.preventDefault?.();
+    event?.stopPropagation?.();
+
+    selectedMessageId = msgId;
+    selectedMessageIsMine = isMine;
+
+    const menu = document.getElementById('messageActionMenu');
+    if (!menu) return;
+
+    const everyoneBtn = document.getElementById('btnDeleteEveryone');
+    if (everyoneBtn) everyoneBtn.style.display = isMine ? 'flex' : 'none';
+
+    menu.style.display = 'block';
+
+    // Menü konumlandırma - ekrandan taşmayı önle
+    let x = event?.clientX ?? window.innerWidth / 2;
+    let y = event?.clientY ?? window.innerHeight / 2;
+
+    // Touch için
+    if (!event?.clientX && event?.touches) {
+      x = event.touches[0].clientX;
+      y = event.touches[0].clientY;
+    }
+
+    menu.style.left = '0';
+    menu.style.top = '0';
+    menu.style.visibility = 'hidden';
+    requestAnimationFrame(() => {
+      const mW = menu.offsetWidth;
+      const mH = menu.offsetHeight;
+      x = Math.min(x, window.innerWidth - mW - 8);
+      y = Math.min(y, window.innerHeight - mH - 8);
+      x = Math.max(8, x);
+      y = Math.max(8, y);
+      menu.style.left = x + 'px';
+      menu.style.top = y + 'px';
+      menu.style.visibility = 'visible';
+    });
+  }
+
+  window.closeMessageMenu = function () {
+    const m = document.getElementById('messageActionMenu');
+    if (m) m.style.display = 'none';
+    selectedMessageId = null;
+  };
+
+  window.deleteMessage = async function (scope) {
+    if (!selectedMessageId) return;
+    const id = selectedMessageId;
+    selectedMessageId = null;
+    window.closeMessageMenu();
+
+    // Optimistic: hemen kaldır
+    const msgEl = document.querySelector(`.message-row[data-msg-id="${id}"]`);
+    if (msgEl) msgEl.style.opacity = '0.3';
+
+    try {
+      const { data: { user } } = await getSB().auth.getUser();
+      const { data: msg } = await getSB().from('messages').select('sender_id').eq('id', id).single();
+
+      if (scope === 'me') {
+        const field = msg.sender_id === user.id ? 'deleted_for_sender' : 'deleted_for_receiver';
+        await getSB().from('messages').update({ [field]: true }).eq('id', id);
+        if (msgEl) msgEl.remove();
+      } else if (scope === 'everyone' && msg.sender_id === user.id) {
+        await getSB().from('messages').delete().eq('id', id);
+        if (msgEl) msgEl.remove();
       }
+
+      // Boşsa placeholder göster
+      const list = document.getElementById('messageList');
+      if (list && !list.querySelector('.message-row')) {
+        list.innerHTML = `
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px 20px;gap:16px;">
+            <div style="font-size:64px;opacity:0.3;">💬</div>
+            <div style="color:#6c7883;font-size:15px;font-weight:700;text-align:center;">Henüz mesaj yok</div>
+          </div>`;
+      }
+
+      // Konuşma listesini de güncelle
+      loadConversations();
+
+    } catch (e) {
+      console.error('Silme hatası:', e);
+      if (msgEl) msgEl.style.opacity = '1';
+      if (window.showToast) window.showToast('Silme başarısız oldu.', 'error');
+    }
+  };
+
+  // ═══ SOHBET (KONUŞMA) SİLME ═══
+  window.deleteConversation = async function (friendId) {
+    const fId = friendId || window._pendingDeleteFriendId;
+    if (!fId) return;
+    window._pendingDeleteFriendId = null;
+
+    if (!confirm('Bu sohbeti silmek istediğinize emin misiniz?\n(Yalnızca sizin için silinir)')) return;
+
+    try {
+      const { data: { user } } = await getSB().auth.getUser();
+      await getSB().from('messages')
+        .update({ deleted_for_sender: true })
+        .match({ sender_id: user.id, receiver_id: fId });
+      await getSB().from('messages')
+        .update({ deleted_for_receiver: true })
+        .match({ sender_id: fId, receiver_id: user.id });
+
+      if (window.showToast) window.showToast('Sohbet silindi.', 'success');
+      loadConversations();
+
+      if (currentFriendId === fId) window.showConversationsList();
+    } catch (e) {
+      if (window.showToast) window.showToast('Sohbet silinemedi.', 'error');
+    }
+  };
+
+  // ═══ SWIPE HANDLERLERİ (Konuşma Listesi) ═══
+  function attachSwipeHandlers(container) {
+    const rows = container.querySelectorAll('.conversation-row');
+    rows.forEach(row => {
+      const wrapper = row.querySelector('.conv-content-wrapper');
+      if (!wrapper) return;
+
+      const friendId = row.dataset.friendId;
+      let startX = 0, startY = 0, dragging = false, isHorizontal = null;
+      let currentX = 0;
+      const SWIPE_THRESHOLD = 60;
+      const MAX_SWIPE = 80;
+
+      const resetRow = (animate = true) => {
+        wrapper.style.transition = animate ? 'transform 0.25s cubic-bezier(0.4,0,0.2,1)' : 'none';
+        wrapper.style.transform = 'translateX(0)';
+        currentX = 0;
+      };
+
+      const onDown = (e) => {
+        if (activeSwipeRow && activeSwipeRow !== row) {
+          const prevWrapper = activeSwipeRow.querySelector('.conv-content-wrapper');
+          if (prevWrapper) { prevWrapper.style.transition = 'transform 0.25s'; prevWrapper.style.transform = 'translateX(0)'; }
+          activeSwipeRow = null;
+        }
+        startX = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
+        startY = e.clientY ?? e.touches?.[0]?.clientY ?? 0;
+        dragging = true;
+        isHorizontal = null;
+        wrapper.style.transition = 'none';
+      };
+
+      const onMove = (e) => {
+        if (!dragging) return;
+        const cx = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
+        const cy = e.clientY ?? e.touches?.[0]?.clientY ?? 0;
+        const dx = startX - cx;
+        const dy = Math.abs(startY - cy);
+
+        if (isHorizontal === null) {
+          if (Math.abs(dx) < 6 && dy < 6) return;
+          isHorizontal = Math.abs(dx) > dy;
+        }
+        if (!isHorizontal) return;
+        if (e.cancelable) e.preventDefault();
+
+        const tx = Math.max(-MAX_SWIPE, Math.min(0, -dx + (currentX < 0 ? currentX : 0)));
+        wrapper.style.transform = `translateX(${tx}px)`;
+      };
+
+      const onUp = (e) => {
+        if (!dragging) return;
+        dragging = false;
+        const cx = e.clientX ?? e.changedTouches?.[0]?.clientX ?? 0;
+        const dx = startX - cx;
+        const finalTx = parseFloat(wrapper.style.transform?.match(/-?\d+(\.\d+)?/)?.[0] ?? 0);
+
+        wrapper.style.transition = 'transform 0.25s cubic-bezier(0.4,0,0.2,1)';
+        if (Math.abs(finalTx) > SWIPE_THRESHOLD) {
+          wrapper.style.transform = `translateX(-${MAX_SWIPE}px)`;
+          currentX = -MAX_SWIPE;
+          activeSwipeRow = row;
+        } else {
+          resetRow();
+          activeSwipeRow = null;
+        }
+      };
+
+      // Swipe silme butonuna tıklama
+      const bg = row.querySelector('.swipe-delete-bg');
+      if (bg) {
+        bg.addEventListener('click', (e) => {
+          e.stopPropagation();
+          resetRow();
+          activeSwipeRow = null;
+          window._pendingDeleteFriendId = friendId;
+          window.deleteConversation(friendId);
+        });
+      }
+
+      row.addEventListener('mousedown', onDown);
+      row.addEventListener('mousemove', onMove);
+      row.addEventListener('mouseup', onUp);
+      row.addEventListener('touchstart', onDown, { passive: true });
+      row.addEventListener('touchmove', onMove, { passive: false });
+      row.addEventListener('touchend', onUp);
+    });
+  }
+
+  // ═══ MESAJ BALONCUĞU SWIPE (Uzun basma ile menü) ═══
+  function attachMessageSwipeHandlers(container) {
+    const rows = container.querySelectorAll('.message-row');
+    rows.forEach(row => {
+      const bubble = row.querySelector('.message-bubble');
+      if (!bubble) return;
+
+      const msgId = row.dataset.msgId;
+      const isMine = row.dataset.isMine === 'true';
+
+      if (msgId.startsWith('temp_')) return; // Optimistic mesajlara handler ekleme
+
+      let pressTimer = null;
+      let hasMoved = false;
+      let startX = 0, startY = 0;
+
+      // Uzun basma ile menü (Telegram tarzı)
+      const onStart = (e) => {
+        hasMoved = false;
+        startX = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
+        startY = e.clientY ?? e.touches?.[0]?.clientY ?? 0;
+        pressTimer = setTimeout(() => {
+          if (!hasMoved) {
+            // Haptic feedback (destekleniyorsa)
+            if (navigator.vibrate) navigator.vibrate(30);
+            showMessageContextMenu(e, msgId, isMine);
+          }
+        }, 500);
+      };
+
+      const onMove = (e) => {
+        const cx = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
+        const cy = e.clientY ?? e.touches?.[0]?.clientY ?? 0;
+        if (Math.abs(cx - startX) > 8 || Math.abs(cy - startY) > 8) {
+          hasMoved = true;
+          clearTimeout(pressTimer);
+        }
+      };
+
+      const onEnd = () => {
+        clearTimeout(pressTimer);
+      };
+
+      // Sağ tık (masaüstü)
+      bubble.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        showMessageContextMenu(e, msgId, isMine);
+      });
+
+      bubble.addEventListener('mousedown', onStart);
+      bubble.addEventListener('mousemove', onMove);
+      bubble.addEventListener('mouseup', onEnd);
+      bubble.addEventListener('touchstart', onStart, { passive: true });
+      bubble.addEventListener('touchmove', onMove, { passive: true });
+      bubble.addEventListener('touchend', onEnd);
+    });
+  }
+
+  // Dışarı tıklayınca swipe ve menüleri kapat
+  document.addEventListener('click', (e) => {
+    const msgMenu = document.getElementById('messageActionMenu');
+    if (msgMenu && msgMenu.style.display === 'block' && !msgMenu.contains(e.target)) {
+      msgMenu.style.display = 'none';
+      selectedMessageId = null;
+    }
+
+    if (activeSwipeRow && !activeSwipeRow.contains(e.target)) {
+      const wrapper = activeSwipeRow.querySelector('.conv-content-wrapper');
+      if (wrapper) { wrapper.style.transition = 'transform 0.25s'; wrapper.style.transform = 'translateX(0)'; }
+      activeSwipeRow = null;
+    }
+  });
+
+  // ═══ TEXTAREA OTOMATİK YÜKSELTİ ═══
+  function adjustTextareaHeight(el) {
+    if (!el) return;
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  }
+
+  // ═══ KLAVYE AÇILINCA LAYOUT (iOS için) ═══
+  function setupKeyboardHandler() {
+    const input = document.getElementById('messageInput');
+    if (!input) return;
+
+    // Input'u textarea'ya dönüştür (çok satırlı mesaj için)
+    input.addEventListener('input', () => adjustTextareaHeight(input));
+    input.addEventListener('focus', () => {
+      setTimeout(() => {
+        const list = document.getElementById('messageList');
+        if (list) list.scrollTop = list.scrollHeight;
+      }, 400);
+    });
+
+    // Enter gönder, Shift+Enter yeni satır
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        window.sendMessageFromUi();
+      }
+    });
+
+    // Visual viewport değişince layout güncelle (iOS klavye açıldığında)
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', () => {
+        const modal = document.getElementById('messagesModal');
+        if (!modal || modal.style.display !== 'flex') return;
+        const vh = window.visualViewport.height;
+        modal.style.height = vh + 'px';
+      });
     }
   }
 
-  function resetUnreadCount() {
-    if (unreadCount === 0) return;
-    unreadCount = 0;
-    updateBadgeUI();
-  }
-
-  function incrementUnreadCount() {
-    unreadCount++;
-    updateBadgeUI();
-  }
-
-  async function sendMessage(receiverId, content) {
-    const { data: { user } } = await getSB().auth.getUser();
-    if (!user) throw new Error('Oturum yok');
-    const { error } = await getSB().from('messages').insert({
-      sender_id: user.id,
-      receiver_id: receiverId,
-      content: content,
-      created_at: new Date().toISOString(),
-      deleted_for_sender: false,
-      deleted_for_receiver: false
-    });
-    if (error) throw error;
-  }
-
-  async function getMessageHistory(friendId) {
-    const { data: { user } } = await getSB().auth.getUser();
-    if (!user) return [];
-    const { data, error } = await getSB()
-      .from('messages')
-      .select('*')
-      .or(`and(sender_id.eq.${user.id},receiver_id.eq.${friendId}),and(sender_id.eq.${friendId},receiver_id.eq.${user.id})`)
-      .order('created_at', { ascending: true });
-    if (error) return [];
-    return data;
-  }
-
-  async function acceptRequest(requestId) {
-    await getSB().from('friendships').update({ status: 'accepted' }).eq('id', requestId);
-  }
-
-  async function rejectRequest(requestId) {
-    await getSB().from('friendships').delete().eq('id', requestId);
-  }
-
-  // ========== REALTIME SUBSCRIPTIONS ==========
+  // ═══ REALTIME SUBSCRIPTION ═══
   async function setupRealtimeSubscription() {
-    if (realtimeInitialized) return;
     if (chatSubscription) {
       try { await getSB().removeChannel(chatSubscription); } catch (e) { }
     }
-    if (profilesSubscription) {
-      try { await getSB().removeChannel(profilesSubscription); } catch (e) { }
-    }
+
     const { data: { user } } = await getSB().auth.getUser();
     if (!user) return;
+    currentUserId = user.id;
 
-    // Mesaj kanalı
     chatSubscription = getSB()
-      .channel('public:messages')
+      .channel(`messages:${user.id}`)
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, async (payload) => {
-        const newMsg = payload.new;
-        if (newMsg.sender_id === user.id) return;
-        if (currentFriendId && (newMsg.sender_id === currentFriendId || newMsg.receiver_id === currentFriendId)) {
-          appendMessageToDOM(newMsg, false, true);
-          // Okunmamış badge sıfırlandı çünkü sohbet açık, konuşma listesini yenile
-          loadConversations();
+        const msg = payload.new;
+        if (msg.sender_id === user.id) return; // Benim mesajım, zaten optimistic gösterildi
+
+        if (currentFriendId && msg.sender_id === currentFriendId) {
+          // Açık sohbet: mesajı ekle
+          await loadMessages();
         } else {
+          // Farklı kişiden mesaj: bildirim
           incrementUnreadCount();
-          // Konuşma listesini yenile (badge göstermek için)
-          loadConversations();
+          // Konuşma listesini güncelle
+          const modal = document.getElementById('messagesModal');
+          if (modal?.style.display === 'flex') {
+            const panel = document.getElementById('conversationsPanel');
+            if (panel?.style.display !== 'none') loadConversations();
+          }
+          // Toast bildirimi
           try {
-            const { data: prof } = await getSB().from('profiles').select('display_name, username').eq('id', newMsg.sender_id).single();
-            const senderName = prof?.display_name || prof?.username || 'Bir arkadaşınız';
+            const { data: prof } = await getSB().from('profiles')
+              .select('display_name, username').eq('id', msg.sender_id).single();
+            const senderName = prof?.display_name || prof?.username || 'Biri';
             if (window.showToast) {
-              window.showToast(`${senderName} size yeni bir mesaj gönderdi`, 'info');
+              window.showToast(`💬 ${senderName}: ${msg.content.slice(0, 50)}${msg.content.length > 50 ? '...' : ''}`, 'info');
             }
           } catch (e) { }
         }
       })
       .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'messages' }, async (payload) => {
-        if (currentFriendId && (payload.new.sender_id === currentFriendId || payload.new.receiver_id === currentFriendId)) {
-          const { data: { user: currentUser } } = await getSB().auth.getUser();
-          const msg = payload.new;
-          const isDeletedForMe = (msg.sender_id === currentUser.id && msg.deleted_for_sender) ||
-            (msg.receiver_id === currentUser.id && msg.deleted_for_receiver);
-          if (isDeletedForMe) {
-            removeMessageFromDOM(msg.id);
-            loadConversations();
-          }
+        if (!currentFriendId) return;
+        const msg = payload.new;
+        if (msg.sender_id === currentFriendId || msg.receiver_id === currentFriendId) {
+          await loadMessages();
         }
       })
       .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'messages' }, async (payload) => {
-        if (currentFriendId) {
-          removeMessageFromDOM(payload.old.id);
-          loadConversations();
-        }
+        if (currentFriendId) await loadMessages();
       })
       .subscribe();
-
-    // Profil değişikliklerini dinle (header güncellemesi için)
-    profilesSubscription = getSB()
-      .channel('public:profiles')
-      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profiles' }, async (payload) => {
-        if (currentFriendId === payload.new.id) {
-          updateHeaderForFriend(payload.new.id);
-        }
-        // Ayrıca konuşma listesinde isim/avatar değiştiyse yenile
-        loadConversations();
-      })
-      .subscribe();
-
-    realtimeInitialized = true;
   }
 
+  // ═══ INIT ═══
   async function init() {
-    if (moduleInitialized) return;
-    moduleInitialized = true;
-    const inp = document.getElementById('messageInput');
-    if (inp) {
-      inp.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); window.sendMessageFromUi(); } });
-    }
+    setupKeyboardHandler();
     await setupRealtimeSubscription();
-    unreadCount = 0;
     updateBadgeUI();
   }
 
+  // ═══ PUBLIC API ═══
   return {
     init,
-    openConversation: window.openConversation,
-    openConversationFromFriends: window.openConversationFromFriends,
+    openConversation: (...args) => window.openConversation(...args),
+    openConversationFromFriends: (...args) => window.openConversationFromFriends(...args),
     toggleFriendsModal: window.toggleFriendsModal,
     toggleMessagesModal: window.toggleMessagesModal,
     sendRequestAndRefresh: window.sendRequestAndRefresh,
     acceptAndRefresh: window.acceptAndRefresh,
     rejectAndRefresh: window.rejectAndRefresh,
     loadConversations,
-    closeConversationMenu: window.closeConversationMenu,
     deleteConversation: window.deleteConversation,
     removeFriend: window.removeFriend
   };
