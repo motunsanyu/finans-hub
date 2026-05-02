@@ -454,20 +454,43 @@
   }
 
   window.confirmDeleteAccount = async function() {
-    if (!confirm("HESABINIZI SİLMEK ÜZERESİNİZ!\n\nBu işlem geri alınamaz. Tüm mesajlarınız ve profil verileriniz silinecektir. Devam etmek istiyor musunuz?")) return;
+    if (window.showCustomConfirm) {
+      window.showCustomConfirm(
+        "HESABINIZI SİLMEK ÜZERESİNİZ!\n\nBu işlem geri alınamaz. Tüm mesajlarınız ve profil verileriniz tamamen silinecektir. Devam etmek istiyor musunuz?", 
+        executeAccountDeletion
+      );
+    } else {
+      if (confirm("HESABINIZI SİLMEK ÜZERESİNİZ!\n\nBu işlem geri alınamaz. Devam etmek istiyor musunuz?")) executeAccountDeletion();
+    }
     
-    const sb = window._supabaseClient;
-    const { data: { user } } = await sb.auth.getUser();
-    if (!user) return;
+    async function executeAccountDeletion() {
+      const sb = window._supabaseClient;
+      const { data: { user } } = await sb.auth.getUser();
+      if (!user) return;
 
-    try {
-      const { error: profileError } = await sb.from('profiles').delete().eq('id', user.id);
-      if (profileError) throw profileError;
+      try {
+        // 1. Önce cascade (otomatik silinme) ayarlanmamış olma ihtimaline karşı arkadaşlıkları manuel silelim
+        await sb.from('friendships').delete().or(`requester_id.eq.${user.id},addressee_id.eq.${user.id}`);
+        
+        // 2. Profil verilerini silelim
+        await sb.from('profiles').delete().eq('id', user.id);
+        
+        // 3. Asıl kimliği (Auth tablosundan) silmek için Supabase Function (RPC) çağırıyoruz
+        const { error: authError } = await sb.rpc('delete_user');
+        
+        // Eğer RPC bir hata döndürürse (PGRST202 - Fonksiyon bulunamadı hatası hariç), işlemi durdur ve hatayı göster
+        if (authError && authError.code !== 'PGRST202') {
+           throw new Error("Kimlik silinemedi: " + (authError.message || authError.details));
+        }
 
-      alert('Hesabınız başarıyla silindi. Güle güle!');
-      await signOut();
-    } catch (err) {
-      alert('Hata: ' + err.message);
+        if (window.showToast) window.showToast('Hesabınız başarıyla silindi. Güle güle!', 'success');
+        else alert('Hesabınız başarıyla silindi. Güle güle!');
+        
+        await signOut();
+      } catch (err) {
+        if (window.showToast) window.showToast('Silme Hatası: ' + err.message, 'error');
+        else alert('Silme Hatası: ' + err.message);
+      }
     }
   };
 
