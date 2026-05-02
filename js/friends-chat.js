@@ -906,22 +906,30 @@ const FriendsChatModule = (() => {
     if (!fId) return;
     window._pendingDeleteFriendId = null;
 
-    if (!confirm('Bu sohbeti silmek istediğinize emin misiniz?\n(Yalnızca sizin için silinir)')) return;
+    const executeDelete = async () => {
+      try {
+        await getSB().from('messages')
+          .update({ deleted_for_sender: true })
+          .match({ sender_id: currentUserId, receiver_id: fId });
+        await getSB().from('messages')
+          .update({ deleted_for_receiver: true })
+          .match({ sender_id: fId, receiver_id: currentUserId });
 
-    try {
-      await getSB().from('messages')
-        .update({ deleted_for_sender: true })
-        .match({ sender_id: currentUserId, receiver_id: fId });
-      await getSB().from('messages')
-        .update({ deleted_for_receiver: true })
-        .match({ sender_id: fId, receiver_id: currentUserId });
+        if (window.showToast) window.showToast('Sohbet silindi.', 'success');
+        loadConversations();
 
-      if (window.showToast) window.showToast('Sohbet silindi.', 'success');
-      loadConversations();
+        if (currentFriendId === fId) window.showConversationsList();
+      } catch (e) {
+        if (window.showToast) window.showToast('Sohbet silinemedi.', 'error');
+      }
+    };
 
-      if (currentFriendId === fId) window.showConversationsList();
-    } catch (e) {
-      if (window.showToast) window.showToast('Sohbet silinemedi.', 'error');
+    if (window.showCustomConfirm) {
+      window.showCustomConfirm('Bu sohbeti silmek istediğinize emin misiniz?<br><span style="font-size:12px;color:#708499;">(Yalnızca sizin için silinir)</span>', executeDelete);
+    } else {
+      if (confirm('Bu sohbeti silmek istediğinize emin misiniz?\n(Yalnızca sizin için silinir)')) {
+        executeDelete();
+      }
     }
   };
 

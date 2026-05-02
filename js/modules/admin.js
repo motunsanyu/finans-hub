@@ -28,8 +28,7 @@ async function loadAdminUsers() {
   try {
     const { data: users, error } = await sb
       .from('profiles')
-      .select('*')
-      .order('created_at', { ascending: false });
+      .select('*');
 
     if (error) throw error;
 
