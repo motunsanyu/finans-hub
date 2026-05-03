@@ -310,11 +310,137 @@ const FuelModule = (() => {
   }
 
   async function calculateAndShowNavRoute() {
-    // ... navigasyon hesaplama kodu aynı (değişiklik yok)
+    const calculateBtn = document.getElementById("calculateNavBtn");
+    const originalText = calculateBtn.innerHTML;
+
+    try {
+      let startLat, startLng, startName;
+
+      if (navUserLocation) {
+        startLat = navUserLocation.lat;
+        startLng = navUserLocation.lng;
+        startName = navUserLocation.name;
+      } else {
+        const originDistrictSelect = document.getElementById('originDistrictNav');
+        const opt = originDistrictSelect.options[originDistrictSelect.selectedIndex];
+        if (!opt) return alert("Lütfen başlangıç noktası seçin.");
+        startLat = parseFloat(opt.dataset.lat);
+        startLng = parseFloat(opt.dataset.lng);
+        startName = opt.text;
+      }
+
+      const destDistrictSelect = document.getElementById('destDistrictNav');
+      const destOpt = destDistrictSelect.options[destDistrictSelect.selectedIndex];
+      if (!destOpt) return alert("Lütfen varış noktası seçin.");
+      const endLat = parseFloat(destOpt.dataset.lat);
+      const endLng = parseFloat(destOpt.dataset.lng);
+      const endName = destOpt.text;
+
+      calculateBtn.innerHTML = "⌛ Hesaplanıyor...";
+      calculateBtn.disabled = true;
+
+      // OSRM API Call
+      const url = `https://router.project-osrm.org/route/v1/driving/${startLng},${startLat};${endLng},${endLat}?overview=full&geometries=geojson&alternatives=true`;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data.code !== 'Ok') throw new Error('Rota bulunamadı');
+
+      navActiveRoutes = data.routes;
+      navCurrentSelectedIndex = 0;
+
+      // Clear old layers
+      navRouteLayers.forEach(layer => navMap.removeLayer(layer));
+      navRouteLayers = [];
+      navMarkers.forEach(marker => navMap.removeLayer(marker));
+      navMarkers = [];
+
+      // Add Markers
+      const startMarker = L.marker([startLat, startLng], {
+        icon: L.divIcon({ className: 'custom-marker', html: '🚩', iconSize: [25, 25] })
+      }).addTo(navMap).bindPopup(`<b>Başlangıç:</b><br>${startName}`);
+
+      const endMarker = L.marker([endLat, endLng], {
+        icon: L.divIcon({ className: 'custom-marker', html: '🏁', iconSize: [25, 25] })
+      }).addTo(navMap).bindPopup(`<b>Varış:</b><br>${endName}`);
+
+      navMarkers.push(startMarker, endMarker);
+
+      // UI Update
+      document.getElementById("navResultBox").style.display = "block";
+
+      // Render Route Buttons if alternatives exist
+      const buttonsWrap = document.getElementById("navRouteButtonsWrap");
+      buttonsWrap.innerHTML = "";
+      if (navActiveRoutes.length > 1) {
+        buttonsWrap.style.display = "flex";
+        navActiveRoutes.forEach((route, i) => {
+          const btn = document.createElement("button");
+          btn.className = `btn ${i === 0 ? 'primary' : 'ghost'}`;
+          btn.style.padding = "6px 12px";
+          btn.style.fontSize = "11px";
+          btn.textContent = `Rota ${i + 1} (${(route.distance / 1000).toFixed(1)} km)`;
+          btn.onclick = () => selectNavRoute(i);
+          buttonsWrap.appendChild(btn);
+        });
+      } else {
+        buttonsWrap.style.display = "none";
+      }
+
+      selectNavRoute(0);
+
+    } catch (err) {
+      console.error(err);
+      alert("Rota hesaplanırken bir hata oluştu: " + err.message);
+    } finally {
+      calculateBtn.innerHTML = originalText;
+      calculateBtn.disabled = false;
+    }
   }
 
   function selectNavRoute(index) {
-    // ... rota seçme kodu aynı (değişiklik yok)
+    if (!navActiveRoutes[index]) return;
+    navCurrentSelectedIndex = index;
+    const route = navActiveRoutes[index];
+
+    // Clear old route lines
+    navRouteLayers.forEach(layer => navMap.removeLayer(layer));
+    navRouteLayers = [];
+
+    // Draw Polyline
+    const coordinates = route.geometry.coordinates.map(coord => [coord[1], coord[0]]);
+    const polyline = L.polyline(coordinates, {
+      color: '#fcd535',
+      weight: 6,
+      opacity: 0.8,
+      lineJoin: 'round'
+    }).addTo(navMap);
+
+    navRouteLayers.push(polyline);
+    navMap.fitBounds(polyline.getBounds(), { padding: [50, 50] });
+
+    // Update UI
+    const distanceKm = route.distance / 1000;
+    const fuelCostPerKm = parseFloat(document.getElementById("navFuelCostPerKm").value) || 0;
+    const isRoundTrip = document.getElementById("navRoundTrip").checked;
+
+    const displayDistance = isRoundTrip ? distanceKm * 2 : distanceKm;
+    const totalCost = displayDistance * fuelCostPerKm;
+
+    document.getElementById("navDistanceResult").textContent = `${displayDistance.toFixed(1)} km`;
+    document.getElementById("navCostResult").textContent = formatCurrency(totalCost);
+
+    // Update Button styles
+    const buttons = document.querySelectorAll("#navRouteButtonsWrap button");
+    buttons.forEach((btn, i) => {
+      if (i === index) {
+        btn.classList.add("primary");
+        btn.classList.remove("ghost");
+      } else {
+        btn.classList.remove("primary");
+        btn.classList.add("ghost");
+      }
+    });
   }
 
   window.updateNavCalculation = function () {
