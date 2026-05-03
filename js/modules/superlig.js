@@ -207,8 +207,6 @@ const SuperligModule = (() => {
 
       let borderColor = "transparent";
       let statusColor = "var(--text-secondary)";
-      // Devre arasi ESPN'de bazen state="in" olarak gelmeye devam ediyor.
-      // Bu yuzden isHalftime kontrolu isLive'dan once yapilmali.
       if (isHalftime) { borderColor = "var(--down)"; statusColor = "var(--brand)"; }
       else if (isLive) { borderColor = "var(--up)"; statusColor = "var(--up)"; }
       else if (isFinal) { borderColor = "var(--down)"; statusColor = "var(--text-secondary)"; }
@@ -452,7 +450,6 @@ const SuperligModule = (() => {
       </div>`;
       } else {
         list.innerHTML = renderFullMatchCards(liveEvents);
-        // Acik detaylari ve istatistikleri yeniden yukle
         setTimeout(() => {
           const openMatches = window.openMatchDetails['live'] || {};
           Object.keys(openMatches).forEach(eventId => {
@@ -472,54 +469,6 @@ const SuperligModule = (() => {
       const upd = document.getElementById('liveLastUpdate');
       if (upd) upd.textContent = `Son Güncelleme: ${ts} (her 60sn)`;
     } catch (e) { list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--down);">Canlı veriler alınamadı.</div>`; }
-  }
-
-  function renderLiveMatchCard(ev) {
-    const clock = ev.clock || "";
-    const homeGoals = (ev.goals || []).filter(g => g.teamId === ev.homeId);
-    const awayGoals = (ev.goals || []).filter(g => g.teamId === ev.awayId);
-
-    const goalRow = (g) => `
-        <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:var(--text-secondary); margin-bottom:3px;">
-          <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--brand); flex-shrink:0;"></span>
-          <span style="font-family:'Space Grotesk',monospace; font-size:10px; font-weight:700; color:var(--brand);">${g.min}</span>
-          <span>${g.player}</span>
-        </div>`;
-
-    return `
-        <div style="margin:8px 12px; background:var(--bg-secondary); border:1px solid rgba(246,70,93,0.25); border-left:3px solid var(--down); border-radius:14px; padding:16px 14px 14px; position:relative;">
-          <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
-            <div style="display:flex; flex-direction:column; align-items:center; gap:6px; width:82px;">
-              <img src="${ev.homeLogo}" onerror="this.style.visibility='hidden'" style="width:40px; height:40px; object-fit:contain;">
-              <span style="font-size:11px; font-weight:700; color:var(--text-primary); text-align:center; line-height:1.3;">${ev.home}</span>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1;">
-              <div style="background:var(--bg-primary); border:1px solid rgba(246,70,93,0.3); border-radius:10px; padding:8px 18px; font-size:26px; font-weight:900; font-family:'Space Grotesk',monospace; color:var(--down); letter-spacing:4px; line-height:1;">${ev.hScore} – ${ev.aScore}</div>
-              <div style="font-size:9px; font-weight:900; background:var(--up); color:#000; padding:2px 8px; border-radius:4px; letter-spacing:.06em; animation:blink 1.2s infinite;">LIVE</div>
-              <div style="font-size:11px; font-weight:800; color:var(--down); font-family:'Space Grotesk',monospace;">${clock ? clock + "'" : ""}</div>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center; gap:6px; width:82px;">
-              <img src="${ev.awayLogo}" onerror="this.style.visibility='hidden'" style="width:40px; height:40px; object-fit:contain;">
-              <span style="font-size:11px; font-weight:700; color:var(--text-primary); text-align:center; line-height:1.3;">${ev.away}</span>
-            </div>
-          </div>
-          ${(ev.goals && ev.goals.length > 0) ? `
-          <div style="margin-top:12px; padding-top:10px; border-top:1px dashed rgba(255,255,255,0.06); display:grid; grid-template-columns:1fr 1px 1fr; gap:0; align-items:start;">
-            <div style="padding-right:10px;">
-              ${homeGoals.length > 0 ? homeGoals.map(goalRow).join("") : `<div style="font-size:10px; color:rgba(255,255,255,0.1); font-style:italic;">—</div>`}
-            </div>
-            <div style="background:rgba(255,255,255,0.05); align-self:stretch;"></div>
-            <div style="padding-left:10px; display:flex; flex-direction:column; align-items:flex-end;">
-              ${awayGoals.length > 0 ? awayGoals.map(g => `
-                <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:var(--text-secondary); margin-bottom:3px; flex-direction:row-reverse; text-align:right;">
-                  <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--brand); flex-shrink:0;"></span>
-                  <span style="font-family:'Space Grotesk',monospace; font-size:10px; font-weight:700; color:var(--brand);">${g.min}</span>
-                  <span>${g.player}</span>
-                </div>`).join("") : `<div style="font-size:10px; color:rgba(255,255,255,0.1); font-style:italic; text-align:right;">—</div>`}
-            </div>
-          </div>` : ""}
-        </div>
-      `;
   }
 
   function renderRecentMatches(events) {
@@ -688,13 +637,11 @@ const SuperligModule = (() => {
   };
 
   async function fetchWeeklyMatches() {
-    console.log('📅 Haftalık maç verisi fetchWeeklyMatches() çağrıldı – Yeni veri çekilecek');
     const weekList = document.getElementById("ligWeekList");
     if (!weekList) return;
     weeklyFixtureData.isLoading = true;
     weekList.innerHTML = `<div style="text-align:center; padding:32px; color:var(--text-secondary);">📡<br>Fikstür yükleniyor...</div>`;
     try {
-      console.log('⏳ Fikstür API isteği gönderiliyor...');
       const startYear = getCurrentSuperLigSeasonStartYear();
       const startDate = new Date(startYear, 7, 1);
       const endDate = new Date(startYear + 1, 4, 31);
@@ -702,7 +649,6 @@ const SuperligModule = (() => {
       const de = endDate.toISOString().split('T')[0].replace(/-/g, '');
       const apiUrl = `https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=${ds}-${de}&limit=500`;
       const res = await fetch(apiUrl);
-      console.log('✅ Fikstür API cevabı alındı, maçlar gruplandırılıyor...');
       if (!res.ok) throw new Error("API Hatası");
       const data = await res.json();
       const allEvents = data?.events || [];
@@ -754,20 +700,10 @@ const SuperligModule = (() => {
           remainText.textContent = `${remaining} Hafta Kaldı`;
         }
       }
-      if (targetWeek === 1 && data?.week?.number && data.week.number > 1) {
-        targetWeek = data.week.number;
-      }
       weeklyFixtureData.currentWeekIndex = Math.max(0, Math.min(targetWeek - 1, weeklyFixtureData.allWeeks.length - 1));
       renderWeeklyWeek();
     } catch (e) {
-      console.error("Fikstür Hatası:", e);
-      console.log('❌ Fikstür çekme hatası:', e.message);
-      weekList.innerHTML = `<div style="text-align:center; padding:24px; color:var(--down);">
-              Veri çekilemedi. 
-              <button onclick="fetchWeeklyMatches()" style="color:var(--brand);background:none;border:none;font-weight:800;cursor:pointer;margin-top:8px;">
-                  🔄 Tekrar Dene
-              </button>
-          </div>`;
+      weekList.innerHTML = `<div style="text-align:center; padding:24px; color:var(--down);">Veri çekilemedi. <button onclick="fetchWeeklyMatches()" style="color:var(--brand);background:none;border:none;font-weight:800;cursor:pointer;margin-top:8px;">🔄 Tekrar Dene</button></div>`;
     } finally {
       weeklyFixtureData.isLoading = false;
     }
@@ -796,7 +732,6 @@ const SuperligModule = (() => {
     const weekList = document.getElementById("ligWeekList");
     if (matches.length > 0) {
       weekList.innerHTML = renderFullMatchCards(matches);
-      // Acik detaylari ve istatistikleri yeniden yukle
       setTimeout(() => {
         const openMatches = window.openMatchDetails['week'] || {};
         Object.keys(openMatches).forEach(eventId => {
@@ -933,7 +868,7 @@ const SuperligModule = (() => {
       if (allEvents.length > 0) {
         const normalizedEvents = allEvents.map(ev => normalizeMatch(ev)).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
         const pastEvents = normalizedEvents.filter(ev => ev.isFinal).slice(-10).reverse();
-        const futureEvents = normalizedEvents.filter(ev => !ev.isFinal).slice(0, 10)
+        const futureEvents = normalizedEvents.filter(ev => !ev.isFinal).slice(0, 10);
         renderRecentMatches(pastEvents);
         renderGeneralFixture(futureEvents);
       }
@@ -976,9 +911,7 @@ const SuperligModule = (() => {
             }
           }
         }
-        if (calculatedWeek > 0) {
-          weekNum = calculatedWeek;
-        }
+        if (calculatedWeek > 0) weekNum = calculatedWeek;
       }
       if (weekNum === 0 && rows.length > 0) {
         weekNum = Math.max(...rows.map(r => r.gp));
@@ -1670,6 +1603,7 @@ const SuperligModule = (() => {
 
   async function checkTeamLiveStatus(teamName) {
     const liveInd = document.getElementById("teamDetailLive");
+    if (!liveInd) return;
     liveInd.style.display = "none";
     try {
       const res = await fetch("https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard");
@@ -1718,7 +1652,6 @@ const SuperligModule = (() => {
   }
 
   // ─── MAÇ İSTATİSTİKLERİ (ESPN Summary API) ───────────────────
-  // --- YENI: Otomatik Istatistik Yukleme ve Gorsellestirme -----
   async function fetchMatchStats(eventId) {
     try {
       const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/summary?event=${eventId}`);
@@ -1759,10 +1692,8 @@ const SuperligModule = (() => {
       const p1 = total > 0 ? (v1 / total) * 100 : 50;
       const p2 = total > 0 ? (v2 / total) * 100 : 50;
 
-      // Renk mantığı: Eşitlikte ve v1 > v2'de ev sahibi yeşil.
-      // Deplasmanın yeşil olması için v2 > v1 olmalı.
-      const leftColor = (v1 >= v2) ? 'var(--up)' : 'rgba(255, 255, 255, 0.25)';
-      const rightColor = (v2 > v1) ? 'var(--up)' : 'rgba(255, 255, 255, 0.25)';
+      const leftColor = (v1 >= v2) ? 'rgba(252, 213, 53, 0.85)' : 'rgba(255, 255, 255, 0.15)';
+      const rightColor = (v2 > v1) ? 'rgba(252, 213, 53, 0.85)' : 'rgba(255, 255, 255, 0.15)';
 
       let leftVal, rightVal;
       if (stat.format === 'pct') {
@@ -1798,7 +1729,6 @@ const SuperligModule = (() => {
     const placeholder = document.getElementById(placeholderId);
     if (!placeholder) return;
 
-    // Zaten yuklendiyse bir daha ugrasma
     if (placeholder.dataset.loaded === 'true') return;
 
     placeholder.innerHTML = '<div style="text-align:center;padding:12px;color:var(--text-secondary);font-size:11px;">Istatistikler yukleniyor...</div>';
