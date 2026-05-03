@@ -46,14 +46,16 @@ const DaysModule = (() => {
     });
 
     document.getElementById("daysCards").addEventListener("click", async (e) => {
-      if (e.target.classList.contains('btn-del-day') && confirm('Sayaç silinsin mi?')) {
+      if (e.target.classList.contains('btn-del-day')) {
         const id = e.target.dataset.id;
-        try {
-          await getSB().from('day_records').delete().eq('id', id);
-          await render();
-        } catch (err) {
-          console.error('Silme hatası:', err.message);
-        }
+        window.showCustomConfirm('Sayaç silinsin mi?', async () => {
+          try {
+            await getSB().from('day_records').delete().eq('id', id);
+            await render();
+          } catch (err) {
+            console.error('Silme hatası:', err.message);
+          }
+        });
       }
     });
   }

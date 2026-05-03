@@ -73,8 +73,8 @@ const FuelModule = (() => {
 
     document.getElementById("fuelTable").addEventListener("click", async (e) => {
       if (e.target.classList.contains('fuel-del-btn')) {
-        if (confirm('Kayıt silinsin mi?')) {
-          const id = e.target.dataset.id;
+        const id = e.target.dataset.id;
+        window.showCustomConfirm('Kayıt silinsin mi?', async () => {
           try {
             await getSB().from('fuel_records').delete().eq('id', id);
             await renderFuelTable();
@@ -82,12 +82,12 @@ const FuelModule = (() => {
           } catch (err) {
             console.error('Silme hatası:', err.message);
           }
-        }
+        });
       }
     });
 
     document.getElementById("clearAllFuelBtn").addEventListener("click", async () => {
-      if (confirm('Tüm yakıt dökümü silinecek. Onaylıyor musunuz?')) {
+      window.showCustomConfirm('Tüm yakıt dökümü silinecek. Onaylıyor musunuz?', async () => {
         try {
           const { data: { user } } = await getSB().auth.getUser();
           await getSB().from('fuel_records').delete().eq('user_id', user.id);
@@ -96,7 +96,7 @@ const FuelModule = (() => {
         } catch (err) {
           console.error('Toplu silme hatası:', err.message);
         }
-      }
+      });
     });
   }
 

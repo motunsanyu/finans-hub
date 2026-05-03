@@ -116,20 +116,22 @@ const VaultModule = (() => {
     }
 
     document.getElementById("vaultListContainer").addEventListener("click", async (e) => {
-      if (e.target.classList.contains("vault-del-btn") && confirm("Kasa kaydı silinsin mi?")) {
+      if (e.target.classList.contains("vault-del-btn")) {
         const id = e.target.dataset.id;
-        try {
-          await getSB().from('vault_records').delete().eq('id', id);
-          await render();
-          await updateSmartSelector();
-        } catch (err) {
-          console.error('Silme hatası:', err.message);
-        }
+        window.showCustomConfirm("Kasa kaydı silinsin mi?", async () => {
+          try {
+            await getSB().from('vault_records').delete().eq('id', id);
+            await render();
+            await updateSmartSelector();
+          } catch (err) {
+            console.error('Silme hatası:', err.message);
+          }
+        });
       }
     });
 
     document.getElementById("clearAllVaultBtn").addEventListener("click", async () => {
-      if (confirm("Tüm kasa dökümü SİLİNECEK. Emin misiniz?")) {
+      window.showCustomConfirm("Tüm kasa dökümü SİLİNECEK. Emin misiniz?", async () => {
         try {
           const { data: { user } } = await getSB().auth.getUser();
           await getSB().from('vault_records').delete().eq('user_id', user.id);
@@ -138,7 +140,7 @@ const VaultModule = (() => {
         } catch (err) {
           console.error('Toplu silme hatası:', err.message);
         }
-      }
+      });
     });
   }
 

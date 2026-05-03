@@ -117,14 +117,16 @@ const SchoolModule = (() => {
         }
       }
 
-      if (e.target.classList.contains('delete-plan-btn') && confirm('Bu planı tümüyle silmek istediğinize emin misiniz?')) {
+      if (e.target.classList.contains('delete-plan-btn')) {
         const planId = e.target.dataset.id;
-        try {
-          await getSB().from('school_plans').delete().eq('id', planId);
-          await render();
-        } catch (err) {
-          console.error('Plan silinemedi:', err.message);
-        }
+        window.showCustomConfirm('Bu planı tümüyle silmek istediğinize emin misiniz?', async () => {
+          try {
+            await getSB().from('school_plans').delete().eq('id', planId);
+            await render();
+          } catch (err) {
+            console.error('Plan silinemedi:', err.message);
+          }
+        });
       }
     });
   }
