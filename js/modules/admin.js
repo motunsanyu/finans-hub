@@ -50,9 +50,16 @@ function renderAdminUsers(users) {
     return;
   }
 
+  // Ana yöneticiyi (muzafnot@gmail.com) en üste sabitle
+  const sortedUsers = [...users].sort((a, b) => {
+    if (a.email === 'muzafnot@gmail.com') return -1;
+    if (b.email === 'muzafnot@gmail.com') return 1;
+    return 0;
+  });
+
   const currentUserId = window.currentUser?.id;
 
-  const html = users.map(u => {
+  const html = sortedUsers.map(u => {
     const isMe = u.id === currentUserId;
     const name = u.display_name || u.username || 'İsimsiz';
     const email = u.email || 'E-posta yok';
