@@ -850,12 +850,13 @@
             </div>
 
             <!-- Input Mode Selector (Amount / Total) -->
-            <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
-               <select id="tradeInputMode" onchange="TradeModule.updateInputLabel()" style="background:none; border:none; color:var(--brand); font-weight:700; font-size:12px; cursor:pointer; outline:none;">
-                 <option value="amount">Miktar (Coin)</option>
-                 <option value="total">Toplam (USDT)</option>
-               </select>
-            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <div style="font-size:12px; color:#848e9c; font-weight:700;">Emir Tipi: <span style="color:white;">Piyasa</span></div>
+                <select id="tradeInputMode" onchange="TradeModule.updateInputLabel()" style="background:none; border:none; color:var(--brand); font-weight:700; font-size:12px; cursor:pointer; outline:none;">
+                  <option value="total" selected>Toplam (USDT)</option>
+                  <option value="amount">Miktar (Coin)</option>
+                </select>
+             </div>
 
             <!-- Amount/Total Input -->
             <div style="position:relative; margin-bottom:12px;">
@@ -873,7 +874,7 @@
                   <div style="width:10px; height:10px; background:#2b3139; border:2px solid #374151; transform:rotate(45deg); transition:0.2s;" class="slider-dot" data-val="75"></div>
                   <div style="width:10px; height:10px; background:#2b3139; border:2px solid #374151; transform:rotate(45deg); transition:0.2s;" class="slider-dot" data-val="100"></div>
                </div>
-               <div id="sliderValueLabel" style="position:absolute; top:12px; left:50%; transform:translateX(-50%); font-size:10px; color:#848e9c; font-weight:800;">0%</div>
+               <div id="sliderValueLabel" style="position:absolute; bottom:-18px; left:50%; transform:translateX(-50%); font-size:10px; color:var(--brand); font-weight:800; background:#2b3139; padding:2px 6px; border-radius:4px; border:1px solid rgba(255,255,255,0.1);">0%</div>
             </div>
             <style>
                #tradePercentSlider::-webkit-slider-thumb {
@@ -905,10 +906,8 @@
             <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
               <div>
                 <div style="color:#848e9c; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Toplam Varlık Değeri</div>
-                <div style="display:flex; align-items:baseline; gap:8px;">
-                   <div id="totalPortfolioValue" style="font-size:32px; font-weight:800; color:white; font-family:'Space Grotesk', sans-serif;">$0.00</div>
-                   <div id="totalPortfolioValueTRY" style="font-size:14px; color:#848e9c; font-weight:600;">≈ 0.00 ₺</div>
-                </div>
+                <div id="totalPortfolioValue" style="font-size:36px; font-weight:800; color:white; font-family:'Space Grotesk', sans-serif; line-height:1;">$0.00</div>
+                <div id="totalPortfolioValueTRY" style="font-size:16px; color:#848e9c; font-weight:600; margin-top:4px;">≈ 0.00 ₺</div>
               </div>
               <button onclick="TradeModule.resetPortfolio()" style="background:rgba(239,83,80,0.1); border:none; color:#ef5350; padding:6px 12px; border-radius:8px; font-size:10px; font-weight:800; cursor:pointer;">SIFIRLA</button>
             </div>

@@ -1,4 +1,4 @@
-// js/modules/trade.js - Sanal Alım Satım ve Portföy Yönetimi (Bakiye Yükleme Destekli)
+// js/modules/trade.js - Sanal Alım Satım ve Portföy Yönetimi (Pro İyileştirmeler)
 
 const TradeModule = (() => {
     const PORTFOLIO_KEY = 'finansHub_tradePortfolio';
@@ -18,7 +18,9 @@ const TradeModule = (() => {
             { sym: 'BTCUSDT', name: 'Bitcoin', base: 'BTC' },
             { sym: 'ETHUSDT', name: 'Ethereum', base: 'ETH' },
             { sym: 'BNBUSDT', name: 'BNB', base: 'BNB' },
-            { sym: 'SOLUSDT', name: 'Solana', base: 'SOL' }
+            { sym: 'SOLUSDT', name: 'Solana', base: 'SOL' },
+            { sym: 'DOGEUSDT', name: 'Dogecoin', base: 'DOGE' },
+            { sym: 'AVAXUSDT', name: 'Avalanche', base: 'AVAX' }
         ];
     }
 
@@ -108,6 +110,30 @@ const TradeModule = (() => {
             const amount = val / currentPrice;
             preview.textContent = `Yaklaşık: ${amount.toFixed(6)} ${coinBase}`;
         }
+        
+        // Manuel girişte slider'ı güncellemeye çalış
+        syncSliderWithInput(val);
+    }
+
+    function syncSliderWithInput(val) {
+        const inputMode = document.getElementById('tradeInputMode')?.value;
+        const slider = document.getElementById('tradePercentSlider');
+        if (!slider) return;
+
+        let ratio = 0;
+        if (tradeMode === 'buy') {
+            const usdtVal = inputMode === 'total' ? val : (val * currentPrice);
+            ratio = walletBalance > 0 ? (usdtVal / walletBalance) : 0;
+        } else {
+            const coinBase = currentSymbol.replace('USDT', '');
+            const coinQty = portfolio[coinBase]?.quantity || 0;
+            const coinVal = inputMode === 'amount' ? val : (val / currentPrice);
+            ratio = coinQty > 0 ? (coinVal / coinQty) : 0;
+        }
+        
+        const percent = Math.min(100, Math.max(0, Math.round(ratio * 100)));
+        slider.value = percent;
+        updateSliderVisuals(percent);
     }
 
     function switchMode(mode) {
@@ -138,7 +164,7 @@ const TradeModule = (() => {
         const slider = document.getElementById('tradePercentSlider');
         if (slider) {
             slider.value = 0;
-            onSliderInput(0);
+            updateSliderVisuals(0);
         }
 
         updateBalanceUI();
@@ -149,12 +175,19 @@ const TradeModule = (() => {
         const mode = document.getElementById('tradeInputMode').value;
         const label = document.getElementById('tradeUnitLabel');
         const coinBase = currentSymbol.replace('USDT', '');
-        if (label) label.textContent = mode === 'amount' ? coinBase : 'USDT';
+        // Varsayılan USDT ise, label coin olmalı (çünkü girdi USDT). 
+        // Kullanıcı karışıklığını önlemek için:
+        if (label) label.textContent = mode === 'total' ? 'USDT' : coinBase;
         updateCostPreview();
     }
 
     function onSliderInput(value) {
         const percent = parseInt(value);
+        updateSliderVisuals(percent);
+        setTradePercent(percent / 100);
+    }
+
+    function updateSliderVisuals(percent) {
         const label = document.getElementById('sliderValueLabel');
         if (label) label.textContent = `${percent}%`;
 
@@ -168,8 +201,6 @@ const TradeModule = (() => {
                 dot.style.borderColor = '#374151';
             }
         });
-
-        setTradePercent(percent / 100);
     }
 
     function setTradePercent(ratio) {
@@ -199,7 +230,16 @@ const TradeModule = (() => {
                 input.value = (targetQty * currentPrice).toFixed(2);
             }
         }
-        updateCostPreview();
+        // slider'ı tekrar sync etmeye gerek yok çünkü slider'dan tetiklendi
+        const val = parseFloat(input.value);
+        const preview = document.getElementById('tradeCostPreview');
+        if (preview && !isNaN(val)) {
+            if (inputMode === 'amount') {
+                preview.textContent = `Yaklaşık: ${(val * currentPrice).toLocaleString('tr-TR', { minimumFractionDigits: 2 })} USDT`;
+            } else {
+                preview.textContent = `Yaklaşık: ${(val / currentPrice).toFixed(6)} ${coinBase}`;
+            }
+        }
     }
 
     async function executeTrade() {
@@ -254,7 +294,7 @@ const TradeModule = (() => {
         const slider = document.getElementById('tradePercentSlider');
         if (slider) {
             slider.value = 0;
-            onSliderInput(0);
+            updateSliderVisuals(0);
         }
         updateCostPreview();
         if (document.getElementById('portfolioSection')?.style.display === 'block') renderPortfolio();
@@ -268,19 +308,27 @@ const TradeModule = (() => {
     }
 
     function resetPortfolio() {
-        if (!confirm('Tüm portföyünüz ve bakiyeniz sıfırlanacak. Emin misiniz?')) return;
-        portfolio = {};
-        walletBalance = 1000;
-        saveData();
-        if (window.showToast) window.showToast('✅ Portföy sıfırlandı, $1000 yüklendi.', 'success');
-        if (document.getElementById('portfolioSection')?.style.display === 'block') renderPortfolio();
+        if (window.showCustomConfirm) {
+            window.showCustomConfirm('Tüm portföyünüz ve bakiyeniz sıfırlanacak. Emin misiniz?', () => {
+                portfolio = {};
+                walletBalance = 1000;
+                saveData();
+                if (window.showToast) window.showToast('✅ Portföy sıfırlandı, $1000 yüklendi.', 'success');
+                if (document.getElementById('portfolioSection')?.style.display === 'block') renderPortfolio();
+            });
+        } else if (confirm('Tüm portföyünüz ve bakiyeniz sıfırlanacak. Emin misiniz?')) {
+            portfolio = {};
+            walletBalance = 1000;
+            saveData();
+            if (document.getElementById('portfolioSection')?.style.display === 'block') renderPortfolio();
+        }
     }
 
     function populateCoinSelect() {
         const select = document.getElementById('tradeCoinSelect');
         if (!select) return;
         const coins = getCoinList();
-        select.innerHTML = coins.map(coin => `<option value="${coin.sym}">${coin.name} (${coin.sym})</option>`).join('');
+        select.innerHTML = coins.map(coin => `<option value="${coin.sym}">${coin.base}/USDT</option>`).join('');
         select.onchange = () => {
             currentSymbol = select.value;
             updateInputLabel();
@@ -341,7 +389,7 @@ const TradeModule = (() => {
             rows += `
                 <div class="portfolio-item" onclick="TradeModule.prepareTrade('${symbol}', 'sell')" style="background:#1e2329; border-radius:16px; padding:16px; border:1px solid #2a2f36; margin-bottom:12px; cursor:pointer;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                        <div><strong style="font-size:16px; color:white;">${coinKey}</strong> <span style="font-size:12px; color:#848e9c;">${data.quantity.toFixed(6)}</span></div>
+                        <div><strong style="font-size:16px; color:white;">${coinKey}/USDT</strong> <span style="font-size:12px; color:#848e9c;">${data.quantity.toFixed(6)}</span></div>
                         <div style="font-weight:800; color:${pnl >= 0 ? 'var(--up)' : 'var(--down)'}">${pnl >= 0 ? '+' : ''}$${pnl.toFixed(2)} (${pnlPercent.toFixed(2)}%)</div>
                     </div>
                     <div style="display:flex; justify-content:space-between; font-size:12px; color:#848e9c;">
