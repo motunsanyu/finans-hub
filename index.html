@@ -652,11 +652,12 @@
         </div>
 
         <!-- Piyasa / Coinler Alt Sekmeleri -->
-        <div class="market-sub-tabs">
-          <button class="market-sub-btn active" id="btnMarketPiyasa" onclick="switchMarketTab('market')">Piyasa</button>
-          <button class="market-sub-btn" id="btnMarketCoinler" onclick="switchMarketTab('coins')">Coinler</button>
-          <button class="market-sub-btn" id="btnMarketTrade" onclick="switchMarketTab('trade')">İşlemler</button>
-          <button class="market-sub-btn" id="btnMarketPortfolio" onclick="switchMarketTab('portfolio')">Portföy</button>
+        <div class="market-sub-tabs" style="overflow-x:auto; white-space:nowrap; padding:4px 0; -webkit-overflow-scrolling:touch; display:flex; gap:8px;">
+          <button class="market-sub-btn active" id="btnMarketPiyasa" onclick="window.switchMarketTab('market')" style="flex:none; padding:8px 16px; font-size:13px;">Piyasa</button>
+          <button class="market-sub-btn" id="btnMarketCoinler" onclick="window.switchMarketTab('coins')" style="flex:none; padding:8px 16px; font-size:13px;">Coinler</button>
+          <button class="market-sub-btn" id="btnMarketTrade" onclick="window.switchMarketTab('trade')" style="flex:none; padding:8px 16px; font-size:13px;">İşlemler</button>
+          <button class="market-sub-btn" id="btnMarketPortfolio" onclick="window.switchMarketTab('portfolio')" style="flex:none; padding:8px 16px; font-size:13px;">Portföy</button>
+          <button class="market-sub-btn" id="btnMarketNews" onclick="window.switchMarketTab('news')" style="flex:none; padding:8px 16px; font-size:13px;">Haberler</button>
         </div>
 
         <!-- PIYASA BOLUMU -->
@@ -921,6 +922,17 @@
 
           <div style="color:white; font-size:16px; font-weight:800; margin-bottom:12px; padding:0 4px;">Varlıklarım</div>
           <div id="portfolioList" class="portfolio-container" style="display:flex; flex-direction:column; gap:12px;"></div>
+        </div>
+
+        <!-- HABERLER BÖLÜMÜ -->
+        <div id="newsSection" class="trade-portfolio-panel" style="display:none; padding:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding:0 4px;">
+             <div style="color:white; font-size:16px; font-weight:800;">Türkiye Ekonomi Haberleri</div>
+             <button onclick="NewsModule.fetchNews()" style="background:rgba(252,213,53,0.1); border:none; color:var(--brand); padding:6px 12px; border-radius:20px; font-size:11px; font-weight:700; cursor:pointer;">↻ Yenile</button>
+          </div>
+          <div id="newsList" style="display:flex; flex-direction:column; gap:16px;">
+             <div style="text-align:center; padding:40px; color:#848e9c;">Haberler yükleniyor...</div>
+          </div>
         </div>
       </section> <!-- home kapanışı -->
 
@@ -2237,6 +2249,7 @@
     <script src="js/modules/superlig.js"></script>
     <script src="js/modules/coin.js"></script>
     <script src="js/modules/trade.js"></script>
+    <script src="js/modules/news.js"></script>
 
     <!-- 5. TEMA (En son) -->
     <div id="toastContainer"></div>

@@ -28,7 +28,7 @@ let state = {
 
 
 // ═════════════════════════ BAŞLATICILAR ═════════════════════════
-async function init() {
+async function initializeSystem() {
   // Service Worker Kaydı (PWA için)
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -113,10 +113,10 @@ async function init() {
 }
 
 let appInitialized = false;
-function initApp() {
+function startApp() {
   if (appInitialized) return;
   appInitialized = true;
-  if (typeof init === 'function') init();
+  if (typeof initializeSystem === 'function') initializeSystem();
 }
 
 window.toggleSidebar = function (forceOpen) {
@@ -874,6 +874,15 @@ window.switchMarketTab = function (tab) {
     if (btnPort) btnPort.classList.add('active');
     if (coinRefreshInterval) { clearInterval(coinRefreshInterval); coinRefreshInterval = null; }
     if (typeof TradeModule !== 'undefined' && TradeModule.renderPortfolio) TradeModule.renderPortfolio();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  else if (tab === 'news') {
+    const newsSection = document.getElementById('newsSection');
+    const btnNews = document.getElementById('btnMarketNews');
+    if (newsSection) newsSection.style.display = 'block';
+    if (btnNews) btnNews.classList.add('active');
+    if (coinRefreshInterval) { clearInterval(coinRefreshInterval); coinRefreshInterval = null; }
+    if (typeof NewsModule !== 'undefined' && NewsModule.fetchNews) NewsModule.fetchNews();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 };

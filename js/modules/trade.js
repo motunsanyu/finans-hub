@@ -374,5 +374,9 @@ const TradeModule = (() => {
         switchMode(tradeMode);
     }
 
+    function init() {
+        loadData();
+    }
+
     return { init, initTradeUI, renderPortfolio, switchMode, updateInputLabel, onSliderInput, prepareTrade };
 })();

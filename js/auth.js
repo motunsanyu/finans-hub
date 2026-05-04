@@ -130,16 +130,16 @@
           window.runIntroAnimation(() => {
             authScreen.style.display = 'none';
             appShell.style.display = 'block';
-            if (typeof initApp === 'function') initApp();
+            if (typeof startApp === 'function') startApp();
           });
         } else {
           authScreen.style.display = 'none';
           appShell.style.display = 'block';
-          if (typeof initApp === 'function') initApp();
+          if (typeof startApp === 'function') startApp();
         }
       } else {
         if (appShell) appShell.style.display = 'block';
-        if (typeof initApp === 'function') initApp();
+        if (typeof startApp === 'function') startApp();
       }
       return true;
     } else {
