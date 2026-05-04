@@ -1,4 +1,4 @@
-// js/modules/trade.js - Sanal Alım Satım ve Portföy Yönetimi (Slider Entegre)
+// js/modules/trade.js - Sanal Alım Satım ve Portföy Yönetimi (Bakiye Yükleme Destekli)
 
 const TradeModule = (() => {
     const PORTFOLIO_KEY = 'finansHub_tradePortfolio';
@@ -135,7 +135,6 @@ const TradeModule = (() => {
             if (priceEl) priceEl.style.color = 'var(--down)';
         }
         
-        // Slider'ı sıfırla
         const slider = document.getElementById('tradePercentSlider');
         if (slider) {
             slider.value = 0;
@@ -159,7 +158,6 @@ const TradeModule = (() => {
         const label = document.getElementById('sliderValueLabel');
         if (label) label.textContent = `${percent}%`;
 
-        // Noktaları (dot) renklendir
         document.querySelectorAll('.slider-dot').forEach(dot => {
             const dotVal = parseInt(dot.dataset.val);
             if (dotVal <= percent) {
@@ -171,7 +169,6 @@ const TradeModule = (() => {
             }
         });
 
-        // Miktarı hesapla
         setTradePercent(percent / 100);
     }
 
@@ -230,7 +227,7 @@ const TradeModule = (() => {
         const coinKey = currentSymbol.replace('USDT', '');
 
         if (tradeMode === 'buy') {
-            if (walletBalance < (cost - 0.01)) { // Küsürat toleransı
+            if (walletBalance < (cost - 0.01)) {
                 if (window.showToast) window.showToast('❌ Yetersiz bakiye!', 'error');
                 return;
             }
@@ -253,7 +250,6 @@ const TradeModule = (() => {
         saveData();
         if (window.showToast) window.showToast(`✅ ${tradeMode === 'buy' ? 'Alım' : 'Satım'} başarılı!`, 'success');
         
-        // Formu temizle
         document.getElementById('tradeQuantity').value = '';
         const slider = document.getElementById('tradePercentSlider');
         if (slider) {
@@ -261,6 +257,22 @@ const TradeModule = (() => {
             onSliderInput(0);
         }
         updateCostPreview();
+        if (document.getElementById('portfolioSection')?.style.display === 'block') renderPortfolio();
+    }
+
+    function addBalance(amount) {
+        walletBalance += amount;
+        saveData();
+        if (window.showToast) window.showToast(`✅ $${amount} bakiye eklendi!`, 'success');
+        if (document.getElementById('portfolioSection')?.style.display === 'block') renderPortfolio();
+    }
+
+    function resetPortfolio() {
+        if (!confirm('Tüm portföyünüz ve bakiyeniz sıfırlanacak. Emin misiniz?')) return;
+        portfolio = {};
+        walletBalance = 1000;
+        saveData();
+        if (window.showToast) window.showToast('✅ Portföy sıfırlandı, $1000 yüklendi.', 'success');
         if (document.getElementById('portfolioSection')?.style.display === 'block') renderPortfolio();
     }
 
@@ -361,6 +373,10 @@ const TradeModule = (() => {
         }
     }
 
+    function init() {
+        loadData();
+    }
+
     function initTradeUI() {
         populateCoinSelect();
         loadData();
@@ -374,9 +390,5 @@ const TradeModule = (() => {
         switchMode(tradeMode);
     }
 
-    function init() {
-        loadData();
-    }
-
-    return { init, initTradeUI, renderPortfolio, switchMode, updateInputLabel, onSliderInput, prepareTrade };
+    return { init, initTradeUI, renderPortfolio, switchMode, updateInputLabel, onSliderInput, prepareTrade, addBalance, resetPortfolio };
 })();
