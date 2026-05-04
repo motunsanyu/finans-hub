@@ -1,13 +1,16 @@
-// js/modules/trade.js - Sanal Alım Satım ve Portföy Yönetimi (Binance Pro UI Entegre)
+// js/modules/trade.js - Sanal Alım Satım ve Portföy Yönetimi (Slider Entegre)
 
 const TradeModule = (() => {
     const PORTFOLIO_KEY = 'finansHub_tradePortfolio';
+    const BALANCE_KEY = 'finansHub_tradeBalance';
+    
     let currentSymbol = 'BTCUSDT';
     let currentPrice = 0;
     let currentChange = 0;
     let priceRefreshInterval = null;
     let portfolio = {};
     let tradeMode = 'buy'; // 'buy' or 'sell'
+    let walletBalance = 1000;
 
     function getCoinList() {
         if (window.COIN_LIST && Array.isArray(window.COIN_LIST)) return window.COIN_LIST;
@@ -35,6 +38,37 @@ const TradeModule = (() => {
             console.warn('Fiyat çekme hatası:', e);
             return { price: 0, change: 0 };
         }
+    }
+
+    function loadData() {
+        const storedPort = localStorage.getItem(PORTFOLIO_KEY);
+        portfolio = storedPort ? JSON.parse(storedPort) : {};
+        const storedBal = localStorage.getItem(BALANCE_KEY);
+        walletBalance = storedBal !== null ? parseFloat(storedBal) : 1000;
+    }
+
+    function saveData() {
+        localStorage.setItem(PORTFOLIO_KEY, JSON.stringify(portfolio));
+        localStorage.setItem(BALANCE_KEY, walletBalance.toString());
+        updateBalanceUI();
+    }
+
+    function updateBalanceUI() {
+        const tradeBal = document.getElementById('tradeAvailableBalance');
+        const walletBal = document.getElementById('walletCashBalance');
+        const label = document.getElementById('tradeAvailableLabel');
+        const coinBase = currentSymbol.replace('USDT', '');
+
+        if (tradeMode === 'buy') {
+            if (label) label.textContent = 'Cüzdan Bakiyesi:';
+            if (tradeBal) tradeBal.textContent = `$${walletBalance.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}`;
+        } else {
+            const coinQty = portfolio[coinBase]?.quantity || 0;
+            if (label) label.textContent = `${coinBase} Bakiyesi:`;
+            if (tradeBal) tradeBal.textContent = `${coinQty.toFixed(6)} ${coinBase}`;
+        }
+        
+        if (walletBal) walletBal.textContent = `$${walletBalance.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}`;
     }
 
     async function updateCurrentPrice() {
@@ -100,6 +134,15 @@ const TradeModule = (() => {
             execBtn.textContent = 'Sat';
             if (priceEl) priceEl.style.color = 'var(--down)';
         }
+        
+        // Slider'ı sıfırla
+        const slider = document.getElementById('tradePercentSlider');
+        if (slider) {
+            slider.value = 0;
+            onSliderInput(0);
+        }
+
+        updateBalanceUI();
         updateCostPreview();
     }
 
@@ -111,13 +154,55 @@ const TradeModule = (() => {
         updateCostPreview();
     }
 
-    function loadPortfolio() {
-        const stored = localStorage.getItem(PORTFOLIO_KEY);
-        portfolio = stored ? JSON.parse(stored) : {};
+    function onSliderInput(value) {
+        const percent = parseInt(value);
+        const label = document.getElementById('sliderValueLabel');
+        if (label) label.textContent = `${percent}%`;
+
+        // Noktaları (dot) renklendir
+        document.querySelectorAll('.slider-dot').forEach(dot => {
+            const dotVal = parseInt(dot.dataset.val);
+            if (dotVal <= percent) {
+                dot.style.background = 'var(--brand)';
+                dot.style.borderColor = 'var(--brand)';
+            } else {
+                dot.style.background = '#2b3139';
+                dot.style.borderColor = '#374151';
+            }
+        });
+
+        // Miktarı hesapla
+        setTradePercent(percent / 100);
     }
 
-    function savePortfolio() {
-        localStorage.setItem(PORTFOLIO_KEY, JSON.stringify(portfolio));
+    function setTradePercent(ratio) {
+        const input = document.getElementById('tradeQuantity');
+        const inputMode = document.getElementById('tradeInputMode').value;
+        const coinBase = currentSymbol.replace('USDT', '');
+        
+        if (ratio === 0) {
+            input.value = '';
+            updateCostPreview();
+            return;
+        }
+
+        if (tradeMode === 'buy') {
+            const targetUSDT = walletBalance * ratio;
+            if (inputMode === 'total') {
+                input.value = targetUSDT.toFixed(2);
+            } else {
+                input.value = (targetUSDT / currentPrice).toFixed(6);
+            }
+        } else {
+            const coinQty = portfolio[coinBase]?.quantity || 0;
+            const targetQty = coinQty * ratio;
+            if (inputMode === 'amount') {
+                input.value = targetQty.toFixed(6);
+            } else {
+                input.value = (targetQty * currentPrice).toFixed(2);
+            }
+        }
+        updateCostPreview();
     }
 
     async function executeTrade() {
@@ -132,33 +217,49 @@ const TradeModule = (() => {
         if (!price) return;
 
         let quantity = 0;
+        let cost = 0;
+
         if (inputMode === 'amount') {
             quantity = inputVal;
+            cost = quantity * price;
         } else {
-            quantity = inputVal / price;
+            cost = inputVal;
+            quantity = cost / price;
         }
 
-        const cost = quantity * price;
         const coinKey = currentSymbol.replace('USDT', '');
 
         if (tradeMode === 'buy') {
+            if (walletBalance < (cost - 0.01)) { // Küsürat toleransı
+                if (window.showToast) window.showToast('❌ Yetersiz bakiye!', 'error');
+                return;
+            }
+            walletBalance -= cost;
             if (!portfolio[coinKey]) portfolio[coinKey] = { quantity: 0, totalCost: 0 };
             portfolio[coinKey].quantity += quantity;
             portfolio[coinKey].totalCost += cost;
         } else {
-            if (!portfolio[coinKey] || portfolio[coinKey].quantity < quantity) {
-                if (window.showToast) window.showToast('❌ Yetersiz bakiye!', 'error');
+            if (!portfolio[coinKey] || portfolio[coinKey].quantity < (quantity - 0.000001)) {
+                if (window.showToast) window.showToast('❌ Yetersiz coin bakiyesi!', 'error');
                 return;
             }
+            walletBalance += cost;
             const avgCost = portfolio[coinKey].totalCost / portfolio[coinKey].quantity;
             portfolio[coinKey].quantity -= quantity;
             portfolio[coinKey].totalCost -= avgCost * quantity;
             if (portfolio[coinKey].quantity <= 0.000001) delete portfolio[coinKey];
         }
 
-        savePortfolio();
+        saveData();
         if (window.showToast) window.showToast(`✅ ${tradeMode === 'buy' ? 'Alım' : 'Satım'} başarılı!`, 'success');
+        
+        // Formu temizle
         document.getElementById('tradeQuantity').value = '';
+        const slider = document.getElementById('tradePercentSlider');
+        if (slider) {
+            slider.value = 0;
+            onSliderInput(0);
+        }
         updateCostPreview();
         if (document.getElementById('portfolioSection')?.style.display === 'block') renderPortfolio();
     }
@@ -171,24 +272,43 @@ const TradeModule = (() => {
         select.onchange = () => {
             currentSymbol = select.value;
             updateInputLabel();
+            updateBalanceUI();
             updateCurrentPrice();
         };
         if (coins.length) {
             currentSymbol = coins[0].sym;
             updateInputLabel();
+            updateBalanceUI();
             updateCurrentPrice();
         }
+    }
+
+    function prepareTrade(symbol, mode) {
+        if (window.switchMarketTab) window.switchMarketTab('trade');
+        const select = document.getElementById('tradeCoinSelect');
+        if (select) {
+            select.value = symbol;
+            currentSymbol = symbol;
+        }
+        switchMode(mode);
+        updateInputLabel();
+        updateBalanceUI();
+        updateCurrentPrice();
+        document.getElementById('tradeQuantity').value = '';
     }
 
     async function renderPortfolio() {
         const container = document.getElementById('portfolioList');
         const totalValueEl = document.getElementById('totalPortfolioValue');
+        const totalValueTRYEl = document.getElementById('totalPortfolioValueTRY');
         const totalPnlEl = document.getElementById('totalPnl');
         if (!container) return;
         
-        loadPortfolio();
-        let totalValue = 0;
-        let totalCost = 0;
+        loadData();
+        updateBalanceUI();
+
+        let assetValueUSD = 0;
+        let totalCostUSD = 0;
         const coins = getCoinList();
         let rows = '';
         
@@ -203,11 +323,11 @@ const TradeModule = (() => {
             const pnl = currentValue - data.totalCost;
             const pnlPercent = (pnl / data.totalCost) * 100;
             
-            totalValue += currentValue;
-            totalCost += data.totalCost;
+            assetValueUSD += currentValue;
+            totalCostUSD += data.totalCost;
             
             rows += `
-                <div class="portfolio-item" style="background:#1e2329; border-radius:16px; padding:16px; border:1px solid #2a2f36; margin-bottom:12px;">
+                <div class="portfolio-item" onclick="TradeModule.prepareTrade('${symbol}', 'sell')" style="background:#1e2329; border-radius:16px; padding:16px; border:1px solid #2a2f36; margin-bottom:12px; cursor:pointer;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                         <div><strong style="font-size:16px; color:white;">${coinKey}</strong> <span style="font-size:12px; color:#848e9c;">${data.quantity.toFixed(6)}</span></div>
                         <div style="font-weight:800; color:${pnl >= 0 ? 'var(--up)' : 'var(--down)'}">${pnl >= 0 ? '+' : ''}$${pnl.toFixed(2)} (${pnlPercent.toFixed(2)}%)</div>
@@ -221,32 +341,38 @@ const TradeModule = (() => {
             `;
         }
         
-        container.innerHTML = rows || '<div style="text-align:center; padding:40px; color:#848e9c;">Portföyünüz boş.</div>';
-        if (totalValueEl) totalValueEl.textContent = `$${totalValue.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}`;
-        const totalPnl = totalValue - totalCost;
+        container.innerHTML = rows || '<div style="text-align:center; padding:40px; color:#848e9c;">Varlığınız bulunmuyor.</div>';
+        const totalWealthUSD = assetValueUSD + walletBalance;
+        if (totalValueEl) totalValueEl.textContent = `$${totalWealthUSD.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}`;
+        
+        const usdTryText = document.getElementById('usdTry')?.textContent || "0";
+        const usdTryPrice = parseFloat(usdTryText.replace(',', '.'));
+        if (totalValueTRYEl && !isNaN(usdTryPrice)) {
+            const wealthTRY = totalWealthUSD * usdTryPrice;
+            totalValueTRYEl.textContent = `≈ ${wealthTRY.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} ₺`;
+        }
+
+        const totalPnl = assetValueUSD - totalCostUSD;
+        const totalPnlPercent = totalCostUSD > 0 ? (totalPnl / totalCostUSD) * 100 : 0;
+        
         if (totalPnlEl) {
-            totalPnlEl.innerHTML = `K/Z: ${totalPnl >= 0 ? '▲' : '▼'} $${Math.abs(totalPnl).toFixed(2)}`;
+            totalPnlEl.innerHTML = `${totalPnl >= 0 ? '+' : ''}$${totalPnl.toFixed(2)} (${totalPnlPercent.toFixed(2)}%)`;
             totalPnlEl.style.color = totalPnl >= 0 ? 'var(--up)' : 'var(--down)';
         }
     }
 
     function initTradeUI() {
         populateCoinSelect();
+        loadData();
+        updateBalanceUI();
         if (priceRefreshInterval) clearInterval(priceRefreshInterval);
         priceRefreshInterval = setInterval(() => updateCurrentPrice(), 3000);
-        
         const executeBtn = document.getElementById('executeTradeBtn');
         if (executeBtn) executeBtn.onclick = () => executeTrade();
-        
         const qtyInput = document.getElementById('tradeQuantity');
         if (qtyInput) qtyInput.oninput = () => updateCostPreview();
-
-        switchMode('buy');
+        switchMode(tradeMode);
     }
 
-    async function init() {
-        loadPortfolio();
-    }
-
-    return { init, initTradeUI, renderPortfolio, switchMode, updateInputLabel };
+    return { init, initTradeUI, renderPortfolio, switchMode, updateInputLabel, onSliderInput, prepareTrade };
 })();

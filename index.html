@@ -821,8 +821,15 @@
         </div>
 
         <!-- İŞLEMLER (AL/SAT) BÖLÜMÜ -->
+        <!-- İŞLEMLER (AL/SAT) BÖLÜMÜ -->
         <div id="tradeSection" class="trade-portfolio-panel" style="display:none; padding:12px;">
           <div style="background:#1e2329; border-radius:24px; padding:20px; border:1px solid #2a2f36;">
+            <!-- Available Balance -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-size:12px; color:#848e9c;">
+              <span id="tradeAvailableLabel">Cüzdan Bakiyesi:</span>
+              <span id="tradeAvailableBalance" style="font-weight:700; color:white;">$1,000.00</span>
+            </div>
+
             <!-- Buy/Sell Toggle Buttons -->
             <div style="display:flex; background:#0b0e11; padding:4px; border-radius:12px; margin-bottom:20px;">
               <button id="tradeTabBuy" onclick="TradeModule.switchMode('buy')" style="flex:1; padding:10px; border:none; border-radius:10px; font-weight:800; cursor:pointer; background:var(--up); color:white; transition:0.2s;">Al</button>
@@ -850,10 +857,37 @@
             </div>
 
             <!-- Amount/Total Input -->
-            <div style="position:relative; margin-bottom:20px;">
+            <div style="position:relative; margin-bottom:12px;">
               <input type="number" id="tradeQuantity" step="0.000001" placeholder="0.00" style="width:100%; background:#2b3139; border:1px solid #374151; border-radius:12px; padding:16px; color:white; font-size:18px; font-weight:700; box-sizing:border-box; outline:none;">
               <span id="tradeUnitLabel" style="position:absolute; right:16px; top:50%; transform:translateY(-50%); color:#848e9c; font-weight:700; font-size:14px;">BTC</span>
             </div>
+
+            <!-- Percentage Slider (Binance Style) -->
+            <div style="position:relative; margin-bottom:30px; padding:0 10px;">
+               <input type="range" id="tradePercentSlider" min="0" max="100" value="0" step="1" oninput="TradeModule.onSliderInput(this.value)" style="width:100%; height:4px; background:#2b3139; border-radius:2px; appearance:none; outline:none; cursor:pointer;">
+               <div style="position:absolute; top:50%; left:10px; right:10px; display:flex; justify-content:space-between; transform:translateY(-50%); pointer-events:none;">
+                  <div style="width:10px; height:10px; background:#2b3139; border:2px solid #374151; transform:rotate(45deg); transition:0.2s;" class="slider-dot" data-val="0"></div>
+                  <div style="width:10px; height:10px; background:#2b3139; border:2px solid #374151; transform:rotate(45deg); transition:0.2s;" class="slider-dot" data-val="25"></div>
+                  <div style="width:10px; height:10px; background:#2b3139; border:2px solid #374151; transform:rotate(45deg); transition:0.2s;" class="slider-dot" data-val="50"></div>
+                  <div style="width:10px; height:10px; background:#2b3139; border:2px solid #374151; transform:rotate(45deg); transition:0.2s;" class="slider-dot" data-val="75"></div>
+                  <div style="width:10px; height:10px; background:#2b3139; border:2px solid #374151; transform:rotate(45deg); transition:0.2s;" class="slider-dot" data-val="100"></div>
+               </div>
+               <div id="sliderValueLabel" style="position:absolute; top:12px; left:50%; transform:translateX(-50%); font-size:10px; color:#848e9c; font-weight:800;">0%</div>
+            </div>
+            <style>
+               #tradePercentSlider::-webkit-slider-thumb {
+                  appearance: none;
+                  width: 18px;
+                  height: 18px;
+                  background: white;
+                  border: 4px solid var(--brand);
+                  border-radius: 50%;
+                  cursor: pointer;
+                  box-shadow: 0 0 10px rgba(252,213,53,0.4);
+                  position: relative;
+                  z-index: 2;
+               }
+            </style>
 
             <!-- Summary Preview -->
             <div id="tradeCostPreview" style="font-size:13px; color:#848e9c; text-align:right; margin-bottom:24px;">Yaklaşık: 0.00 USDT</div>
@@ -864,12 +898,28 @@
         </div>
 
         <!-- PORTFÖY BÖLÜMÜ -->
-        <div id="portfolioSection" class="trade-portfolio-panel" style="display:none; padding:16px;">
-          <div class="total-debt-widget" style="margin-bottom:16px; background:linear-gradient(135deg, rgba(14,203,129,0.05) 0%, rgba(11,14,17,0) 100%);">
-            <div class="widget-label">Toplam Portföy Değeri (USD)</div>
-            <div class="debt-try" id="totalPortfolioValue" style="font-size:32px;">$0.00</div>
-            <div id="totalPnl" style="font-size:13px; margin-top:8px; font-weight:700;">K/Z: --</div>
+        <div id="portfolioSection" class="trade-portfolio-panel" style="display:none; padding:12px;">
+          <!-- Pro Portfolio Summary -->
+          <div style="background:linear-gradient(135deg, #1e2329 0%, #0b0e11 100%); border-radius:24px; padding:24px; border:1px solid #2a2f36; margin-bottom:20px; box-shadow:0 10px 30px rgba(0,0,0,0.3);">
+            <div style="color:#848e9c; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Toplam Varlık Değeri</div>
+            <div style="display:flex; align-items:baseline; gap:8px;">
+               <div id="totalPortfolioValue" style="font-size:36px; font-weight:800; color:white; font-family:'Space Grotesk', sans-serif;">$0.00</div>
+               <div id="totalPortfolioValueTRY" style="font-size:14px; color:#848e9c; font-weight:600;">≈ 0.00 ₺</div>
+            </div>
+            
+            <div style="display:flex; gap:16px; margin-top:20px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.05);">
+               <div style="flex:1;">
+                  <div style="color:#848e9c; font-size:10px; text-transform:uppercase;">Cüzdan Bakiyesi</div>
+                  <div id="walletCashBalance" style="font-size:16px; font-weight:800; color:var(--brand);">$1,000.00</div>
+               </div>
+               <div style="flex:1; text-align:right;">
+                  <div style="color:#848e9c; font-size:10px; text-transform:uppercase;">Toplam K/Z</div>
+                  <div id="totalPnl" style="font-size:16px; font-weight:800; color:var(--up);">--</div>
+               </div>
+            </div>
           </div>
+
+          <div style="color:white; font-size:16px; font-weight:800; margin-bottom:12px; padding:0 4px;">Varlıklarım</div>
           <div id="portfolioList" class="portfolio-container" style="display:flex; flex-direction:column; gap:12px;"></div>
         </div>
       </section> <!-- home kapanışı -->
