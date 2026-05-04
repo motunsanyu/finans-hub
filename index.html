@@ -404,12 +404,21 @@
     </div>
   </div>
 
-  <div id="pinScreen" style="display:none;">
-    <!-- Açılış Animasyonu Katmanı -->
-    <div id="splashLayer">
-      <div class="splash-logo">FINANS TR</div>
+  <!-- Açılış Animasyonu Katmanı (Global) -->
+  <div id="splashLayer" style="display:none; position:fixed; inset:0; z-index:99999; background:#0b0e11; align-items:center; justify-content:center;">
+    <div class="splash-content" style="text-align:center;">
+      <div class="splash-logo-container" style="position:relative; width:120px; height:120px; margin:0 auto;">
+         <svg class="splash-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
+            <path d="M30 20H75V34H46V48H70V62H46V80H30V20Z" fill="#FCD535" />
+            <circle cx="82" cy="20" r="8" fill="#FCD535" />
+         </svg>
+      </div>
+      <div class="splash-text" style="margin-top:20px; color:#fff; font-size:24px; font-weight:800; letter-spacing:4px; opacity:0; font-family:'Space Grotesk', sans-serif;">FINANS TR</div>
     </div>
+    <div class="explosion-overlay" style="position:absolute; inset:0; background:#fff; opacity:0; pointer-events:none; z-index:2;"></div>
+  </div>
 
+  <div id="pinScreen" style="display:none;">
     <div id="pinContent" style="transition: opacity 0.4s ease;">
       <div style="text-align:center; margin-bottom: 24px;">
         <div class="logo-box" style="display:inline-block; margin-bottom:16px; font-size:18px;">FINANS TR</div>
@@ -646,6 +655,8 @@
         <div class="market-sub-tabs">
           <button class="market-sub-btn active" id="btnMarketPiyasa" onclick="switchMarketTab('market')">Piyasa</button>
           <button class="market-sub-btn" id="btnMarketCoinler" onclick="switchMarketTab('coins')">Coinler</button>
+          <button class="market-sub-btn" id="btnMarketTrade" onclick="switchMarketTab('trade')">İşlemler</button>
+          <button class="market-sub-btn" id="btnMarketPortfolio" onclick="switchMarketTab('portfolio')">Portföy</button>
         </div>
 
         <!-- PIYASA BOLUMU -->
@@ -807,6 +818,53 @@
           </div>
           <p id="coinlerMeta"
             style="color:var(--text-secondary); font-size:11px; text-align:center; padding:8px 16px 16px;"></p>
+        </div>
+
+        <!-- İŞLEMLER (AL/SAT) BÖLÜMÜ -->
+        <div id="tradeSection" class="trade-portfolio-panel" style="display:none; padding:16px;">
+          <div class="panel" style="margin-bottom:16px; border:1px solid var(--line); background:var(--bg-secondary);">
+            <div class="form-panel" style="gap:16px;">
+              <div>
+                <label style="font-size:13px; font-weight:700; color:var(--text-secondary); margin-bottom:6px; display:block;">Coin Seçimi</label>
+                <select id="tradeCoinSelect" class="input-modern" style="width:100%; padding:14px; background:var(--bg-primary); border:1px solid var(--line); border-radius:12px; color:var(--text-primary); font-weight:700;"></select>
+              </div>
+              
+              <div style="background:var(--bg-primary); padding:16px; border-radius:16px; text-align:center; border:1px solid rgba(252,213,53,0.2);">
+                <div style="font-size:12px; color:var(--text-secondary); letter-spacing:0.5px;">Güncel Fiyat (USDT)</div>
+                <div id="tradeCurrentPrice" style="font-size:32px; font-weight:800; color:var(--brand); font-family:'Space Grotesk', monospace;">--</div>
+                <div id="tradePriceChange" style="font-size:12px; margin-top:4px;">--</div>
+              </div>
+              
+              <div style="display:flex; gap:16px; background:rgba(0,0,0,0.2); padding:12px; border-radius:12px;">
+                <label style="flex:1; display:flex; align-items:center; gap:8px; cursor:pointer;">
+                  <input type="radio" name="tradeType" value="buy" checked style="width:18px; height:18px; accent-color:var(--up);"> 
+                  <span style="font-weight:800; color:var(--up);">🟢 AL</span>
+                </label>
+                <label style="flex:1; display:flex; align-items:center; gap:8px; cursor:pointer;">
+                  <input type="radio" name="tradeType" value="sell" style="width:18px; height:18px; accent-color:var(--down);"> 
+                  <span style="font-weight:800; color:var(--down);">🔴 SAT</span>
+                </label>
+              </div>
+              
+              <label>Miktar (Coin Adedi)
+                <input type="number" id="tradeQuantity" step="0.001" placeholder="Örn: 0.05" class="input-modern" style="padding:14px;">
+              </label>
+              
+              <div id="tradeCostPreview" style="font-size:13px; color:var(--text-secondary); text-align:right; padding:0 4px;">Toplam: $0.00</div>
+              
+              <button id="executeTradeBtn" class="btn primary" style="background:var(--brand); color:#000; padding:14px; font-weight:800; width:100%;">İşlemi Onayla</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PORTFÖY BÖLÜMÜ -->
+        <div id="portfolioSection" class="trade-portfolio-panel" style="display:none; padding:16px;">
+          <div class="total-debt-widget" style="margin-bottom:16px; background:linear-gradient(135deg, rgba(14,203,129,0.05) 0%, rgba(11,14,17,0) 100%);">
+            <div class="widget-label">Toplam Portföy Değeri (USD)</div>
+            <div class="debt-try" id="totalPortfolioValue" style="font-size:32px;">$0.00</div>
+            <div id="totalPnl" style="font-size:13px; margin-top:8px; font-weight:700;">K/Z: --</div>
+          </div>
+          <div id="portfolioList" class="portfolio-container" style="display:flex; flex-direction:column; gap:12px;"></div>
         </div>
       </section> <!-- home kapanışı -->
 
@@ -2122,6 +2180,7 @@
     <script src="js/modules/altin.js"></script>
     <script src="js/modules/superlig.js"></script>
     <script src="js/modules/coin.js"></script>
+    <script src="js/modules/trade.js"></script>
 
     <!-- 5. TEMA (En son) -->
     <div id="toastContainer"></div>

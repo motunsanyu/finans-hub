@@ -1,4 +1,4 @@
-console.log('LightweightCharts test:', typeof LightweightCharts, typeof LightweightCharts?.createChart, typeof LightweightCharts?.addCandlestickSeries);
+console.log('LightweightCharts test:', typeof LightweightCharts, typeof LightweightCharts?.createChart);
 
 // js/coin.js — Gelişmiş Teknik Analiz & AI Yorum Motoru
 const COIN_LIST = [
@@ -18,6 +18,7 @@ const COIN_LIST = [
   { sym: 'TWTUSDT', name: 'Trust Wallet Token', base: 'TWT', logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5227.png' },
   { sym: 'EGLDUSDT', name: 'MultiversX', base: 'EGLD', logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/6892.png' },
 ];
+window.COIN_LIST = COIN_LIST;
 
 // ─── 1. GENEL & İLERİ SEVİYE TEKNİK ANALİZ FONKSİYONLARI ────────────
 async function fetchKlines(symbol, interval = '1h', limit = 100) {
@@ -566,25 +567,6 @@ window.closeCoinDetail = function() {
 };
 
 // ─── 6. OTOMATİK LİSTE YENİLEME ──────────────────────────────
-let coinRefreshInterval = null;
-window.switchMarketTab = function (tab) {
-  const piyasa = document.getElementById('piyasaSection');
-  const coinler = document.getElementById('coinlerSection');
-  const btnP = document.getElementById('btnMarketPiyasa');
-  const btnC = document.getElementById('btnMarketCoinler');
-  if (!piyasa || !coinler) return;
-  if (coinRefreshInterval) { clearInterval(coinRefreshInterval); coinRefreshInterval = null; }
-  if (tab === 'coins') {
-    piyasa.style.display = 'none'; coinler.style.display = 'block';
-    btnP?.classList.remove('active'); btnC?.classList.add('active');
-    fetchCoinPrices();
-    coinRefreshInterval = setInterval(fetchCoinPrices, 5000);
-  } else {
-    piyasa.style.display = 'block'; coinler.style.display = 'none';
-    btnP?.classList.add('active'); btnC?.classList.remove('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-};
 
 window.toggleIndicator = function(ind) {
   const btn = document.getElementById(`${ind}Toggle`);

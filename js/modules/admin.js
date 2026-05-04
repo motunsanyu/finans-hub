@@ -50,11 +50,23 @@ function renderAdminUsers(users) {
     return;
   }
 
-  // Ana yöneticiyi (muzafnot@gmail.com) en üste sabitle
+  // Ana yöneticiyi (muzafnot@gmail.com) en üste sabitle, sonra diğer adminleri
   const sortedUsers = [...users].sort((a, b) => {
-    if (a.email === 'muzafnot@gmail.com') return -1;
-    if (b.email === 'muzafnot@gmail.com') return 1;
-    return 0;
+    const emailA = (a.email || '').toLowerCase();
+    const emailB = (b.email || '').toLowerCase();
+    const target = 'muzafnot@gmail.com';
+
+    if (emailA === target) return -1;
+    if (emailB === target) return 1;
+
+    // Diğer adminleri ikinci sırada tut
+    if (a.is_admin && !b.is_admin) return -1;
+    if (!a.is_admin && b.is_admin) return 1;
+
+    // Normal alfabetik sıralama
+    const nameA = a.display_name || a.username || '';
+    const nameB = b.display_name || b.username || '';
+    return nameA.localeCompare(nameB);
   });
 
   const currentUserId = window.currentUser?.id;

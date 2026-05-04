@@ -41,7 +41,8 @@ const DaysModule = (() => {
         await render();
       } catch (err) {
         console.error('Gün kaydı eklenemedi:', err.message);
-        alert('Hedef eklenirken hata oluştu!');
+        if (window.showToast) window.showToast('Hedef eklenirken hata oluştu!', 'error');
+        else alert('Hedef eklenirken hata oluştu!');
       }
     });
 

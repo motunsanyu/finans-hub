@@ -316,6 +316,9 @@ const FuelModule = (() => {
     try {
       let startLat, startLng, startName;
 
+      if (!navMap) initNavMap();
+      navMap.invalidateSize(); // Fix possible zero-size issues
+
       if (navUserLocation) {
         startLat = navUserLocation.lat;
         startLng = navUserLocation.lng;
@@ -323,7 +326,11 @@ const FuelModule = (() => {
       } else {
         const originDistrictSelect = document.getElementById('originDistrictNav');
         const opt = originDistrictSelect.options[originDistrictSelect.selectedIndex];
-        if (!opt) return alert("Lütfen başlangıç noktası seçin.");
+        if (!opt) {
+          if (window.showToast) window.showToast("Lütfen başlangıç noktası seçin.", "error");
+          else alert("Lütfen başlangıç noktası seçin.");
+          return;
+        }
         startLat = parseFloat(opt.dataset.lat);
         startLng = parseFloat(opt.dataset.lng);
         startName = opt.text;
@@ -331,7 +338,11 @@ const FuelModule = (() => {
 
       const destDistrictSelect = document.getElementById('destDistrictNav');
       const destOpt = destDistrictSelect.options[destDistrictSelect.selectedIndex];
-      if (!destOpt) return alert("Lütfen varış noktası seçin.");
+      if (!destOpt) {
+        if (window.showToast) window.showToast("Lütfen varış noktası seçin.", "error");
+        else alert("Lütfen varış noktası seçin.");
+        return;
+      }
       const endLat = parseFloat(destOpt.dataset.lat);
       const endLng = parseFloat(destOpt.dataset.lng);
       const endName = destOpt.text;
@@ -391,7 +402,8 @@ const FuelModule = (() => {
 
     } catch (err) {
       console.error(err);
-      alert("Rota hesaplanırken bir hata oluştu: " + err.message);
+      if (window.showToast) window.showToast("Rota bulunamadı veya bir hata oluştu.", "error");
+      else alert("Rota hesaplanırken bir hata oluştu: " + err.message);
     } finally {
       calculateBtn.innerHTML = originalText;
       calculateBtn.disabled = false;
@@ -417,6 +429,7 @@ const FuelModule = (() => {
     }).addTo(navMap);
 
     navRouteLayers.push(polyline);
+    navMap.invalidateSize();
     navMap.fitBounds(polyline.getBounds(), { padding: [50, 50] });
 
     // Update UI

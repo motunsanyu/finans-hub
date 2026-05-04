@@ -49,6 +49,7 @@ async function init() {
   if (typeof DaysModule !== 'undefined') DaysModule.init();
   if (typeof SchoolModule !== 'undefined') SchoolModule.init();
   if (typeof AltinModule !== 'undefined') AltinModule.init();
+  if (typeof TradeModule !== 'undefined') TradeModule.init();
   if (typeof SuperligModule !== 'undefined') SuperligModule.init();
   if (typeof FriendsChatModule !== 'undefined') FriendsChatModule.init();
 
@@ -182,6 +183,48 @@ function bindTabs() {
     });
   });
 }
+
+// ═════════════════════════ INTRO ANIMATION ═════════════════════════
+window.runIntroAnimation = function (callback) {
+  const splashLayer = document.getElementById('splashLayer');
+  const splashLogo = splashLayer.querySelector('.splash-logo-svg');
+  const splashText = splashLayer.querySelector('.splash-text');
+  const explosion = splashLayer.querySelector('.explosion-overlay');
+
+  if (!splashLayer || !splashLogo || !splashText || !explosion) {
+    if (callback) callback();
+    return;
+  }
+
+  splashLayer.style.display = 'flex';
+  splashLayer.style.opacity = '1';
+
+  // Start sequence
+  splashLogo.classList.add('anim-logo-entry');
+  splashText.classList.add('anim-text-entry');
+
+  // Zoom and Explode
+  setTimeout(() => {
+    splashLogo.classList.remove('anim-logo-entry');
+    splashLogo.classList.add('anim-logo-explode');
+
+    setTimeout(() => {
+      explosion.classList.add('anim-explosion');
+      if (callback) callback();
+
+      setTimeout(() => {
+        splashLayer.style.opacity = '0';
+        setTimeout(() => {
+          splashLayer.style.display = 'none';
+          // Clean up
+          splashLogo.classList.remove('anim-logo-explode');
+          splashText.classList.remove('anim-text-entry');
+          explosion.classList.remove('anim-explosion');
+        }, 600);
+      }, 300);
+    }, 400); // Explosion point
+  }, 2200); // View time
+};
 
 // ═════════════════════════ APP LOCK / PIN ═════════════════════════
 /*
@@ -778,5 +821,59 @@ window.confirmDeleteAccount = function() {
     if (confirm('Hesabınızı silmek istediğinize emin misiniz?')) {
       // Benzer silme mantığı...
     }
+  }
+};
+// === PİYASA / COİN / İŞLEM / PORTFÖY ALT SEKMELERİ ===
+let coinRefreshInterval = null;
+
+window.switchMarketTab = function (tab) {
+  const piyasa = document.getElementById('piyasaSection');
+  const coinler = document.getElementById('coinlerSection');
+  const trade = document.getElementById('tradeSection');
+  const portfolio = document.getElementById('portfolioSection');
+  const btnP = document.getElementById('btnMarketPiyasa');
+  const btnC = document.getElementById('btnMarketCoinler');
+  const btnT = document.getElementById('btnMarketTrade');
+  const btnPort = document.getElementById('btnMarketPortfolio');
+  
+  // Tüm bölümleri gizle
+  if (piyasa) piyasa.style.display = 'none';
+  if (coinler) coinler.style.display = 'none';
+  if (trade) trade.style.display = 'none';
+  if (portfolio) portfolio.style.display = 'none';
+  
+  // Buton aktiflik stilleri
+  if (btnP) btnP.classList.remove('active');
+  if (btnC) btnC.classList.remove('active');
+  if (btnT) btnT.classList.remove('active');
+  if (btnPort) btnPort.classList.remove('active');
+  
+  if (tab === 'market') {
+    if (piyasa) piyasa.style.display = 'block';
+    if (btnP) btnP.classList.add('active');
+    if (coinRefreshInterval) { clearInterval(coinRefreshInterval); coinRefreshInterval = null; }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } 
+  else if (tab === 'coins') {
+    if (coinler) coinler.style.display = 'block';
+    if (btnC) btnC.classList.add('active');
+    if (typeof fetchCoinPrices === 'function') fetchCoinPrices();
+    if (coinRefreshInterval) clearInterval(coinRefreshInterval);
+    coinRefreshInterval = setInterval(fetchCoinPrices, 5000);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  else if (tab === 'trade') {
+    if (trade) trade.style.display = 'block';
+    if (btnT) btnT.classList.add('active');
+    if (coinRefreshInterval) { clearInterval(coinRefreshInterval); coinRefreshInterval = null; }
+    if (typeof TradeModule !== 'undefined' && TradeModule.initTradeUI) TradeModule.initTradeUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  else if (tab === 'portfolio') {
+    if (portfolio) portfolio.style.display = 'block';
+    if (btnPort) btnPort.classList.add('active');
+    if (coinRefreshInterval) { clearInterval(coinRefreshInterval); coinRefreshInterval = null; }
+    if (typeof TradeModule !== 'undefined' && TradeModule.renderPortfolio) TradeModule.renderPortfolio();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 };

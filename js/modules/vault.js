@@ -110,7 +110,8 @@ const VaultModule = (() => {
           await render();
         } catch (err) {
           console.error('Kasa kaydı eklenemedi:', err.message);
-          alert('Kayıt eklenirken bir hata oluştu!');
+          if (window.showToast) window.showToast('Kayıt eklenirken bir hata oluştu!', 'error');
+          else alert('Kayıt eklenirken bir hata oluştu!');
         }
       });
     }

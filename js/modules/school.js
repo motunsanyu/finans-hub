@@ -31,7 +31,11 @@ const SchoolModule = (() => {
         const instCount = Number(document.getElementById("schoolInstCount").value);
         const firstDate = document.getElementById("schoolFirstDate").value;
 
-        if (!name || totalDebt <= 0 || instCount <= 1 || !firstDate) return alert("Hatalı giriş!");
+        if (!name || totalDebt <= 0 || instCount <= 1 || !firstDate) {
+          if (window.showToast) window.showToast("Hatalı giriş!", "error");
+          else alert("Hatalı giriş!");
+          return;
+        }
 
         const hasUneven = unevenToggle?.checked || false;
         let unevenNos = [];
@@ -40,10 +44,18 @@ const SchoolModule = (() => {
         if (hasUneven) {
           const uNoRaw = document.getElementById("unevenNo").value.trim();
           uAmt = parseVal(document.getElementById("unevenAmount").value);
-          if (!uNoRaw || uAmt <= 0) return alert("Farklı taksit bilgisi gerekli!");
+          if (!uNoRaw || uAmt <= 0) {
+            if (window.showToast) window.showToast("Farklı taksit bilgisi gerekli!", "error");
+            else alert("Farklı taksit bilgisi gerekli!");
+            return;
+          }
           unevenNos = uNoRaw.split('/').map(s => Number(s.trim())).filter(n => n > 0);
           const totalUneven = uAmt * unevenNos.length;
-          if (totalUneven >= totalDebt) return alert("Taksit toplamı ana borca eşit veya büyük olamaz!");
+          if (totalUneven >= totalDebt) {
+            if (window.showToast) window.showToast("Taksit toplamı ana borca eşit veya büyük olamaz!", "error");
+            else alert("Taksit toplamı ana borca eşit veya büyük olamaz!");
+            return;
+          }
         }
 
         const normalCount = instCount - unevenNos.length;
@@ -90,7 +102,8 @@ const SchoolModule = (() => {
           await render();
         } catch (err) {
           console.error('Taksit ekleme hatası:', err.message);
-          alert('Plan eklenirken hata oluştu!');
+          if (window.showToast) window.showToast('Plan eklenirken hata oluştu!', 'error');
+          else alert('Plan eklenirken hata oluştu!');
         }
       });
     }

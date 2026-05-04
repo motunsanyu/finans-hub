@@ -1,4 +1,4 @@
-﻿/* Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘
+/* Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘
    TEMA SĂÂ°STEMĂÂ° Ă˘âŹâ data-theme="klasik" | "modern"
    VarsayĂÂąlan: klasik (Binance tarzĂÂą)
    KullanĂÂąm: document.body.setAttribute('data-theme', 'modern')
@@ -2437,4 +2437,53 @@ details[id^="match-detail-"] {
 
 .match-stats-container .btn.ghost:active {
   transform: scale(0.98);
+}
+
+/* --- PREMIUM SPLASH ANIMATION --- */
+#splashLayer {
+  transition: opacity 0.6s ease;
+}
+
+.splash-logo-svg {
+  filter: drop-shadow(0 0 20px rgba(252, 213, 53, 0.4));
+  transform: scale(0.8);
+  opacity: 0;
+}
+
+.anim-logo-entry {
+  animation: splashLogoEntry 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.anim-logo-explode {
+  animation: splashLogoExplode 0.8s cubic-bezier(0.6, 0, 0.4, 1) forwards;
+}
+
+.anim-text-entry {
+  animation: splashTextEntry 0.8s ease forwards 0.4s;
+}
+
+.anim-explosion {
+  animation: explosionFlash 0.6s ease-out forwards;
+}
+
+@keyframes splashLogoEntry {
+  0% { transform: scale(0.5) rotate(-10deg); opacity: 0; filter: blur(10px); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; filter: blur(0); }
+}
+
+@keyframes splashTextEntry {
+  0% { opacity: 0; transform: translateY(10px); letter-spacing: 0px; }
+  100% { opacity: 1; transform: translateY(0); letter-spacing: 4px; }
+}
+
+@keyframes splashLogoExplode {
+  0% { transform: scale(1); opacity: 1; filter: brightness(1); }
+  30% { transform: scale(0.9); opacity: 1; filter: brightness(1.5); }
+  100% { transform: scale(15); opacity: 0; filter: brightness(5) blur(5px); }
+}
+
+@keyframes explosionFlash {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  100% { opacity: 0; }
 }

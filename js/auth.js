@@ -111,8 +111,6 @@
   async function checkAuthState() {
     const authScreen = document.getElementById('authScreen');
     const appShell = document.getElementById('appShell');
-    const sidebarProfileName = document.getElementById('sidebarProfileName');
-    const sidebarProfileEmail = document.getElementById('sidebarProfileEmail');
 
     // Önce oturum var mı diye bakalım
     const { data: { session } } = await sb.auth.getSession();
@@ -126,10 +124,23 @@
         updateSidebarProfile(user);
       }
 
-      if (authScreen) authScreen.style.display = 'none';
-      if (appShell) appShell.style.display = 'block';
-      // FriendsChatModule.init() app.js -> initApp() içinde zaten çağrılıyor.
-      if (typeof initApp === 'function') initApp();
+      // Eğer giriş ekranı görünüyorsa (ilk açılış veya yeni login), animasyonu oynat
+      if (authScreen && authScreen.style.display !== 'none') {
+        if (window.runIntroAnimation) {
+          window.runIntroAnimation(() => {
+            authScreen.style.display = 'none';
+            appShell.style.display = 'block';
+            if (typeof initApp === 'function') initApp();
+          });
+        } else {
+          authScreen.style.display = 'none';
+          appShell.style.display = 'block';
+          if (typeof initApp === 'function') initApp();
+        }
+      } else {
+        if (appShell) appShell.style.display = 'block';
+        if (typeof initApp === 'function') initApp();
+      }
       return true;
     } else {
       // Oturum yoksa direkt giriş ekranına yönlendir
@@ -137,7 +148,6 @@
       if (authScreen) authScreen.style.display = 'flex';
       return false;
     }
-
   }
 
   async function signInWithEmail(email, password) {
