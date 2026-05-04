@@ -821,39 +821,45 @@
         </div>
 
         <!-- İŞLEMLER (AL/SAT) BÖLÜMÜ -->
-        <div id="tradeSection" class="trade-portfolio-panel" style="display:none; padding:16px;">
-          <div class="panel" style="margin-bottom:16px; border:1px solid var(--line); background:var(--bg-secondary);">
-            <div class="form-panel" style="gap:16px;">
-              <div>
-                <label style="font-size:13px; font-weight:700; color:var(--text-secondary); margin-bottom:6px; display:block;">Coin Seçimi</label>
-                <select id="tradeCoinSelect" class="input-modern" style="width:100%; padding:14px; background:var(--bg-primary); border:1px solid var(--line); border-radius:12px; color:var(--text-primary); font-weight:700;"></select>
-              </div>
-              
-              <div style="background:var(--bg-primary); padding:16px; border-radius:16px; text-align:center; border:1px solid rgba(252,213,53,0.2);">
-                <div style="font-size:12px; color:var(--text-secondary); letter-spacing:0.5px;">Güncel Fiyat (USDT)</div>
-                <div id="tradeCurrentPrice" style="font-size:32px; font-weight:800; color:var(--brand); font-family:'Space Grotesk', monospace;">--</div>
-                <div id="tradePriceChange" style="font-size:12px; margin-top:4px;">--</div>
-              </div>
-              
-              <div style="display:flex; gap:16px; background:rgba(0,0,0,0.2); padding:12px; border-radius:12px;">
-                <label style="flex:1; display:flex; align-items:center; gap:8px; cursor:pointer;">
-                  <input type="radio" name="tradeType" value="buy" checked style="width:18px; height:18px; accent-color:var(--up);"> 
-                  <span style="font-weight:800; color:var(--up);">🟢 AL</span>
-                </label>
-                <label style="flex:1; display:flex; align-items:center; gap:8px; cursor:pointer;">
-                  <input type="radio" name="tradeType" value="sell" style="width:18px; height:18px; accent-color:var(--down);"> 
-                  <span style="font-weight:800; color:var(--down);">🔴 SAT</span>
-                </label>
-              </div>
-              
-              <label>Miktar (Coin Adedi)
-                <input type="number" id="tradeQuantity" step="0.001" placeholder="Örn: 0.05" class="input-modern" style="padding:14px;">
-              </label>
-              
-              <div id="tradeCostPreview" style="font-size:13px; color:var(--text-secondary); text-align:right; padding:0 4px;">Toplam: $0.00</div>
-              
-              <button id="executeTradeBtn" class="btn primary" style="background:var(--brand); color:#000; padding:14px; font-weight:800; width:100%;">İşlemi Onayla</button>
+        <div id="tradeSection" class="trade-portfolio-panel" style="display:none; padding:12px;">
+          <div style="background:#1e2329; border-radius:24px; padding:20px; border:1px solid #2a2f36;">
+            <!-- Buy/Sell Toggle Buttons -->
+            <div style="display:flex; background:#0b0e11; padding:4px; border-radius:12px; margin-bottom:20px;">
+              <button id="tradeTabBuy" onclick="TradeModule.switchMode('buy')" style="flex:1; padding:10px; border:none; border-radius:10px; font-weight:800; cursor:pointer; background:var(--up); color:white; transition:0.2s;">Al</button>
+              <button id="tradeTabSell" onclick="TradeModule.switchMode('sell')" style="flex:1; padding:10px; border:none; border-radius:10px; font-weight:800; cursor:pointer; background:transparent; color:#848e9c; transition:0.2s;">Sat</button>
             </div>
+
+            <!-- Market Selector -->
+            <div style="margin-bottom:16px;">
+              <select id="tradeCoinSelect" style="width:100%; background:#2b3139; border:none; border-radius:12px; padding:14px; color:white; font-weight:700; font-size:15px; outline:none;"></select>
+            </div>
+
+            <!-- Price Display -->
+            <div style="text-align:center; margin-bottom:20px; background:rgba(0,0,0,0.15); padding:16px; border-radius:16px;">
+              <div style="font-size:11px; color:#848e9c; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px;">Piyasa Fiyatı</div>
+              <div id="tradeCurrentPrice" style="font-size:28px; font-weight:800; color:var(--up); font-family:'Space Grotesk', sans-serif;">--</div>
+              <div id="tradePriceChange" style="font-size:12px; font-weight:600;">--</div>
+            </div>
+
+            <!-- Input Mode Selector (Amount / Total) -->
+            <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
+               <select id="tradeInputMode" onchange="TradeModule.updateInputLabel()" style="background:none; border:none; color:var(--brand); font-weight:700; font-size:12px; cursor:pointer; outline:none;">
+                 <option value="amount">Miktar (Coin)</option>
+                 <option value="total">Toplam (USDT)</option>
+               </select>
+            </div>
+
+            <!-- Amount/Total Input -->
+            <div style="position:relative; margin-bottom:20px;">
+              <input type="number" id="tradeQuantity" step="0.000001" placeholder="0.00" style="width:100%; background:#2b3139; border:1px solid #374151; border-radius:12px; padding:16px; color:white; font-size:18px; font-weight:700; box-sizing:border-box; outline:none;">
+              <span id="tradeUnitLabel" style="position:absolute; right:16px; top:50%; transform:translateY(-50%); color:#848e9c; font-weight:700; font-size:14px;">BTC</span>
+            </div>
+
+            <!-- Summary Preview -->
+            <div id="tradeCostPreview" style="font-size:13px; color:#848e9c; text-align:right; margin-bottom:24px;">Yaklaşık: 0.00 USDT</div>
+
+            <!-- Execute Button -->
+            <button id="executeTradeBtn" style="width:100%; padding:16px; border:none; border-radius:16px; background:var(--up); color:white; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 8px 16px rgba(0,0,0,0.2);">Satın Al</button>
           </div>
         </div>
 

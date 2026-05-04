@@ -1,4 +1,4 @@
-// js/modules/trade.js - Sanal Alım Satım ve Portföy Yönetimi (Tam Entegre)
+// js/modules/trade.js - Sanal Alım Satım ve Portföy Yönetimi (Binance Pro UI Entegre)
 
 const TradeModule = (() => {
     const PORTFOLIO_KEY = 'finansHub_tradePortfolio';
@@ -7,18 +7,15 @@ const TradeModule = (() => {
     let currentChange = 0;
     let priceRefreshInterval = null;
     let portfolio = {};
+    let tradeMode = 'buy'; // 'buy' or 'sell'
 
-    // coin.js'deki COIN_LIST'ten faydalan
     function getCoinList() {
         if (window.COIN_LIST && Array.isArray(window.COIN_LIST)) return window.COIN_LIST;
-        // fallback
         return [
             { sym: 'BTCUSDT', name: 'Bitcoin', base: 'BTC' },
             { sym: 'ETHUSDT', name: 'Ethereum', base: 'ETH' },
             { sym: 'BNBUSDT', name: 'BNB', base: 'BNB' },
-            { sym: 'SOLUSDT', name: 'Solana', base: 'SOL' },
-            { sym: 'DOGEUSDT', name: 'Dogecoin', base: 'DOGE' },
-            { sym: 'AVAXUSDT', name: 'Avalanche', base: 'AVAX' }
+            { sym: 'SOLUSDT', name: 'Solana', base: 'SOL' }
         ];
     }
 
@@ -47,21 +44,71 @@ const TradeModule = (() => {
             currentChange = change;
             const priceEl = document.getElementById('tradeCurrentPrice');
             const changeEl = document.getElementById('tradePriceChange');
-            const costPreview = document.getElementById('tradeCostPreview');
-            if (priceEl) priceEl.textContent = `$${price.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 6 })}`;
+            if (priceEl) {
+                priceEl.textContent = `$${price.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 6 })}`;
+                priceEl.style.color = tradeMode === 'buy' ? 'var(--up)' : 'var(--down)';
+            }
             if (changeEl) {
                 changeEl.textContent = `${change >= 0 ? '▲' : '▼'} ${Math.abs(change).toFixed(2)}%`;
                 changeEl.style.color = change >= 0 ? 'var(--up)' : 'var(--down)';
             }
-            // Miktar girilmişse toplam tutarı güncelle
-            const qty = parseFloat(document.getElementById('tradeQuantity')?.value);
-            if (!isNaN(qty) && qty > 0 && costPreview) {
-                const total = qty * currentPrice;
-                costPreview.textContent = `Toplam: $${total.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}`;
-            } else if (costPreview) {
-                costPreview.textContent = `Toplam: $0.00`;
-            }
+            updateCostPreview();
         }
+    }
+
+    function updateCostPreview() {
+        const inputMode = document.getElementById('tradeInputMode')?.value;
+        const val = parseFloat(document.getElementById('tradeQuantity')?.value);
+        const preview = document.getElementById('tradeCostPreview');
+        const coinBase = currentSymbol.replace('USDT', '');
+        
+        if (!preview || isNaN(val) || val <= 0 || currentPrice === 0) {
+            if (preview) preview.textContent = `Yaklaşık: 0.00 ${inputMode === 'amount' ? 'USDT' : coinBase}`;
+            return;
+        }
+
+        if (inputMode === 'amount') {
+            const total = val * currentPrice;
+            preview.textContent = `Yaklaşık: ${total.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} USDT`;
+        } else {
+            const amount = val / currentPrice;
+            preview.textContent = `Yaklaşık: ${amount.toFixed(6)} ${coinBase}`;
+        }
+    }
+
+    function switchMode(mode) {
+        tradeMode = mode;
+        const btnBuy = document.getElementById('tradeTabBuy');
+        const btnSell = document.getElementById('tradeTabSell');
+        const execBtn = document.getElementById('executeTradeBtn');
+        const priceEl = document.getElementById('tradeCurrentPrice');
+
+        if (mode === 'buy') {
+            btnBuy.style.background = 'var(--up)';
+            btnBuy.style.color = 'white';
+            btnSell.style.background = 'transparent';
+            btnSell.style.color = '#848e9c';
+            execBtn.style.background = 'var(--up)';
+            execBtn.textContent = 'Satın Al';
+            if (priceEl) priceEl.style.color = 'var(--up)';
+        } else {
+            btnBuy.style.background = 'transparent';
+            btnBuy.style.color = '#848e9c';
+            btnSell.style.background = 'var(--down)';
+            btnSell.style.color = 'white';
+            execBtn.style.background = 'var(--down)';
+            execBtn.textContent = 'Sat';
+            if (priceEl) priceEl.style.color = 'var(--down)';
+        }
+        updateCostPreview();
+    }
+
+    function updateInputLabel() {
+        const mode = document.getElementById('tradeInputMode').value;
+        const label = document.getElementById('tradeUnitLabel');
+        const coinBase = currentSymbol.replace('USDT', '');
+        if (label) label.textContent = mode === 'amount' ? coinBase : 'USDT';
+        updateCostPreview();
     }
 
     function loadPortfolio() {
@@ -73,28 +120,47 @@ const TradeModule = (() => {
         localStorage.setItem(PORTFOLIO_KEY, JSON.stringify(portfolio));
     }
 
-    async function executeTrade(type, symbol, quantity) {
-        if (quantity <= 0) return false;
-        const coinKey = symbol.replace('USDT', '');
-        const { price } = await fetchPriceAndChange(symbol);
-        if (!price) return false;
+    async function executeTrade() {
+        const inputMode = document.getElementById('tradeInputMode').value;
+        const inputVal = parseFloat(document.getElementById('tradeQuantity').value);
+        if (isNaN(inputVal) || inputVal <= 0) {
+            if (window.showToast) window.showToast('❌ Geçerli bir değer girin', 'error');
+            return;
+        }
+
+        const { price } = await fetchPriceAndChange(currentSymbol);
+        if (!price) return;
+
+        let quantity = 0;
+        if (inputMode === 'amount') {
+            quantity = inputVal;
+        } else {
+            quantity = inputVal / price;
+        }
+
         const cost = quantity * price;
-        
-        if (type === 'buy') {
-            if (!portfolio[coinKey]) {
-                portfolio[coinKey] = { quantity: 0, totalCost: 0 };
-            }
+        const coinKey = currentSymbol.replace('USDT', '');
+
+        if (tradeMode === 'buy') {
+            if (!portfolio[coinKey]) portfolio[coinKey] = { quantity: 0, totalCost: 0 };
             portfolio[coinKey].quantity += quantity;
             portfolio[coinKey].totalCost += cost;
-        } else if (type === 'sell') {
-            if (!portfolio[coinKey] || portfolio[coinKey].quantity < quantity) return false;
+        } else {
+            if (!portfolio[coinKey] || portfolio[coinKey].quantity < quantity) {
+                if (window.showToast) window.showToast('❌ Yetersiz bakiye!', 'error');
+                return;
+            }
             const avgCost = portfolio[coinKey].totalCost / portfolio[coinKey].quantity;
             portfolio[coinKey].quantity -= quantity;
             portfolio[coinKey].totalCost -= avgCost * quantity;
             if (portfolio[coinKey].quantity <= 0.000001) delete portfolio[coinKey];
         }
+
         savePortfolio();
-        return true;
+        if (window.showToast) window.showToast(`✅ ${tradeMode === 'buy' ? 'Alım' : 'Satım'} başarılı!`, 'success');
+        document.getElementById('tradeQuantity').value = '';
+        updateCostPreview();
+        if (document.getElementById('portfolioSection')?.style.display === 'block') renderPortfolio();
     }
 
     function populateCoinSelect() {
@@ -102,16 +168,14 @@ const TradeModule = (() => {
         if (!select) return;
         const coins = getCoinList();
         select.innerHTML = coins.map(coin => `<option value="${coin.sym}">${coin.name} (${coin.sym})</option>`).join('');
-        select.onchange = async () => {
+        select.onchange = () => {
             currentSymbol = select.value;
-            await updateCurrentPrice();
-            // Portföyde bu coine ait bilgi varsa işlem tipini otomatik değiştirebiliriz (isteğe bağlı)
-            const qtyInput = document.getElementById('tradeQuantity');
-            if (qtyInput) qtyInput.value = '';
-            document.getElementById('tradeCostPreview').textContent = 'Toplam: $0.00';
+            updateInputLabel();
+            updateCurrentPrice();
         };
         if (coins.length) {
             currentSymbol = coins[0].sym;
+            updateInputLabel();
             updateCurrentPrice();
         }
     }
@@ -131,35 +195,33 @@ const TradeModule = (() => {
         for (const [coinKey, data] of Object.entries(portfolio)) {
             const coinInfo = coins.find(c => c.base === coinKey);
             const symbol = coinInfo ? coinInfo.sym : `${coinKey}USDT`;
-            const { price: currentPrice } = await fetchPriceAndChange(symbol);
-            if (!currentPrice) continue;
-            const currentValue = data.quantity * currentPrice;
+            const { price: livePrice } = await fetchPriceAndChange(symbol);
+            if (!livePrice) continue;
+            
+            const currentValue = data.quantity * livePrice;
             const avgCost = data.totalCost / data.quantity;
             const pnl = currentValue - data.totalCost;
             const pnlPercent = (pnl / data.totalCost) * 100;
+            
             totalValue += currentValue;
             totalCost += data.totalCost;
             
             rows += `
-                <div class="portfolio-item" style="background:#1e2329; border-radius:16px; padding:16px; border:1px solid #2a2f36;">
+                <div class="portfolio-item" style="background:#1e2329; border-radius:16px; padding:16px; border:1px solid #2a2f36; margin-bottom:12px;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                        <div><strong style="font-size:16px;">${coinKey}</strong> <span style="font-size:12px; color:var(--text-secondary);">${data.quantity.toFixed(6)} adet</span></div>
+                        <div><strong style="font-size:16px; color:white;">${coinKey}</strong> <span style="font-size:12px; color:#848e9c;">${data.quantity.toFixed(6)}</span></div>
                         <div style="font-weight:800; color:${pnl >= 0 ? 'var(--up)' : 'var(--down)'}">${pnl >= 0 ? '+' : ''}$${pnl.toFixed(2)} (${pnlPercent.toFixed(2)}%)</div>
                     </div>
-                    <div style="display:flex; justify-content:space-between; font-size:13px; gap:12px; flex-wrap:wrap;">
-                        <span>Ort. Maliyet: <strong>$${avgCost.toFixed(4)}</strong></span>
-                        <span>Güncel: <strong>$${currentPrice.toFixed(4)}</strong></span>
-                        <span>Değer: <strong>$${currentValue.toFixed(2)}</strong></span>
+                    <div style="display:flex; justify-content:space-between; font-size:12px; color:#848e9c;">
+                        <span>Maliyet: $${avgCost.toFixed(2)}</span>
+                        <span>Güncel: $${livePrice.toFixed(2)}</span>
+                        <span>Değer: $${currentValue.toFixed(2)}</span>
                     </div>
                 </div>
             `;
         }
         
-        if (rows === '') {
-            rows = '<div class="info-message" style="background:#1e2329; border-radius:16px; padding:40px; text-align:center;">📭 Henüz işlem yapılmamış. İşlemler sekmesinden alım yapabilirsiniz.</div>';
-        }
-        container.innerHTML = rows;
-        
+        container.innerHTML = rows || '<div style="text-align:center; padding:40px; color:#848e9c;">Portföyünüz boş.</div>';
         if (totalValueEl) totalValueEl.textContent = `$${totalValue.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}`;
         const totalPnl = totalValue - totalCost;
         if (totalPnlEl) {
@@ -168,53 +230,23 @@ const TradeModule = (() => {
         }
     }
 
-    window.submitTrade = async function() {
-        const type = document.querySelector('input[name="tradeType"]:checked')?.value;
-        const quantity = parseFloat(document.getElementById('tradeQuantity')?.value);
-        if (!type || isNaN(quantity) || quantity <= 0) {
-            if (window.showToast) window.showToast('❌ Geçerli miktar girin', 'error');
-            return;
-        }
-        const success = await executeTrade(type, currentSymbol, quantity);
-        if (success) {
-            if (window.showToast) window.showToast(`✅ ${type === 'buy' ? 'Alım' : 'Satım'} işlemi başarılı!`, 'success');
-            await renderPortfolio();
-            await updateCurrentPrice();
-            document.getElementById('tradeQuantity').value = '';
-            document.getElementById('tradeCostPreview').textContent = 'Toplam: $0.00';
-        } else {
-            if (window.showToast) window.showToast('❌ İşlem başarısız (yetersiz bakiye veya hata)', 'error');
-        }
-    };
-
     function initTradeUI() {
         populateCoinSelect();
         if (priceRefreshInterval) clearInterval(priceRefreshInterval);
         priceRefreshInterval = setInterval(() => updateCurrentPrice(), 3000);
+        
         const executeBtn = document.getElementById('executeTradeBtn');
-        if (executeBtn) executeBtn.onclick = () => window.submitTrade();
-        // Miktar değişince toplamı güncelle
+        if (executeBtn) executeBtn.onclick = () => executeTrade();
+        
         const qtyInput = document.getElementById('tradeQuantity');
-        if (qtyInput) {
-            qtyInput.oninput = () => {
-                const qty = parseFloat(qtyInput.value);
-                if (!isNaN(qty) && qty > 0) {
-                    const total = qty * currentPrice;
-                    const preview = document.getElementById('tradeCostPreview');
-                    if (preview) preview.textContent = `Toplam: $${total.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}`;
-                } else {
-                    const preview = document.getElementById('tradeCostPreview');
-                    if (preview) preview.textContent = `Toplam: $0.00`;
-                }
-            };
-        }
+        if (qtyInput) qtyInput.oninput = () => updateCostPreview();
+
+        switchMode('buy');
     }
 
     async function init() {
         loadPortfolio();
-        console.log('Trade modülü başlatıldı');
     }
 
-    return { init, initTradeUI, renderPortfolio };
+    return { init, initTradeUI, renderPortfolio, switchMode, updateInputLabel };
 })();
-
