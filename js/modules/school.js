@@ -186,6 +186,10 @@ const SchoolModule = (() => {
       const card = plan.cardId ? loadCreditCards().find(c => c.id === plan.cardId) : null;
       const paymentType = plan.paymentType === 'card' ? `💳 ${card ? card.name : 'Kart'}` : '💵 Nakit';
 
+      let remainingDebt = 0;
+      let paidCount = 0;
+      let installmentsHtml = '';
+
       const borderColors = ['#26a69a', '#ffa726', '#8d6e63', '#66bb6a']; // Daha mat fintech renkleri
       const borderColor = borderColors[idx % borderColors.length];
 
