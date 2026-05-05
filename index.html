@@ -1419,13 +1419,10 @@
               <label>Vade (Ay Sayısı) <input type="number" id="schoolInstCount" min="2" step="1" required /></label>
               <label>İlk Vade Tarihi <input type="date" id="schoolFirstDate" required /></label>
 
-              <label
-                style="flex-direction:row; align-items:center; cursor:pointer; gap:12px; border:1px solid var(--line); padding:12px; border-radius:8px; margin-top:8px;">
-                <input type="checkbox" id="schoolUnevenToggle"
-                  style="width:20px; height:20px; flex-shrink:0; cursor:pointer;" />
-                <span style="font-size:14px; color:var(--text-primary);">Son veya Ara Taksit Tutarı Diğerlerinden Farklı
-                  Mı?</span>
-              </label>
+              <button type="button" id="schoolUnevenBtn" 
+                style="width:100%; padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.03); color:#848e9c; font-size:12px; font-weight:800; margin-top:12px; cursor:pointer; transition:all 0.2s ease; outline:none;">
+                📎 Farklı Taksit Tutarı Belirle
+              </button>
 
               <div id="schoolUnevenWrap"
                 style="display:none; gap:16px; flex-direction:column; padding:16px; background:rgba(252, 213, 53, 0.05); border-radius:8px; border:1px solid rgba(252, 213, 53, 0.2); margin-top:0;">

@@ -349,9 +349,9 @@ const SchoolModule = (() => {
       const [year, month, day] = firstDate.split('-');
       const correctedDate = new Date(year, month - 1, day);
 
-      const unevenToggle = document.getElementById('schoolUnevenToggle').checked;
+      const unevenWrap = document.getElementById('schoolUnevenWrap');
       let lastAmount = null;
-      if (unevenToggle) {
+      if (unevenWrap && unevenWrap.style.display === 'flex') {
         let unevenAmount = parseVal(document.getElementById('unevenAmount').value);
         if (!isNaN(unevenAmount) && unevenAmount > 0) {
           lastAmount = unevenAmount;
@@ -372,9 +372,34 @@ const SchoolModule = (() => {
       addPlan(newPlan);
       form.reset();
       if (window.showToast) window.showToast('Taksit planı eklendi.', 'success');
-      document.getElementById('schoolUnevenWrap').style.display = 'none';
-      document.getElementById('schoolUnevenToggle').checked = false;
+      if (unevenWrap) unevenWrap.style.display = 'none';
+      const unevenBtn = document.getElementById('schoolUnevenBtn');
+      if (unevenBtn) {
+        unevenBtn.style.borderColor = 'rgba(255,255,255,0.1)';
+        unevenBtn.style.color = '#848e9c';
+        unevenBtn.textContent = '📎 Farklı Taksit Tutarı Belirle';
+      }
     };
+
+    // Farklı taksit butonu olayını bağla (Checkbox yerine Buton)
+    const unevenBtn = document.getElementById('schoolUnevenBtn');
+    const unevenWrap = document.getElementById('schoolUnevenWrap');
+    if (unevenBtn && unevenWrap) {
+      unevenBtn.onclick = () => {
+        const isHidden = unevenWrap.style.display === 'none' || unevenWrap.style.display === '';
+        if (isHidden) {
+          unevenWrap.style.display = 'flex';
+          unevenBtn.style.borderColor = '#fcd535';
+          unevenBtn.style.color = '#fcd535';
+          unevenBtn.textContent = '✅ Farklı Tutar Belirleniyor...';
+        } else {
+          unevenWrap.style.display = 'none';
+          unevenBtn.style.borderColor = 'rgba(255,255,255,0.1)';
+          unevenBtn.style.color = '#848e9c';
+          unevenBtn.textContent = '📎 Farklı Taksit Tutarı Belirle';
+        }
+      };
+    }
   }
 
   // ────────── 4. KREDİ KARTI EKLEME FORMU ──────────
