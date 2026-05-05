@@ -52,6 +52,7 @@ async function initializeSystem() {
   if (typeof TradeModule !== 'undefined') TradeModule.init();
   if (typeof SuperligModule !== 'undefined') SuperligModule.init();
   if (typeof FriendsChatModule !== 'undefined') FriendsChatModule.init();
+  if (typeof AddressModule !== 'undefined') AddressModule.init();
 
   try {
     const { data: { user } } = await getSB().auth.getUser();

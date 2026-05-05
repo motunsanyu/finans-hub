@@ -169,20 +169,25 @@ const FuelModule = (() => {
   window.switchFuelTab = function (tab) {
     const mainSec = document.getElementById("fuelMainSection");
     const navSec = document.getElementById("fuelNavSection");
+    const addrSec = document.getElementById("fuelAddressSection");
     const btnMain = document.getElementById("btnFuelMain");
     const btnNav = document.getElementById("btnFuelNav");
+    const btnAddress = document.getElementById("btnFuelAddress");
+
+    // Tüm sekmeleri gizle
+    if (mainSec) mainSec.style.display = "none";
+    if (navSec) navSec.style.display = "none";
+    if (addrSec) addrSec.style.display = "none";
+    if (btnMain) btnMain.classList.remove("active");
+    if (btnNav) btnNav.classList.remove("active");
+    if (btnAddress) btnAddress.classList.remove("active");
 
     if (tab === 'main') {
-      mainSec.style.display = "block";
-      navSec.style.display = "none";
-      btnMain.classList.add("active");
-      btnNav.classList.remove("active");
-    } else {
-      mainSec.style.display = "none";
-      navSec.style.display = "block";
-      btnMain.classList.remove("active");
-      btnNav.classList.add("active");
-
+      if (mainSec) mainSec.style.display = "block";
+      if (btnMain) btnMain.classList.add("active");
+    } else if (tab === 'nav') {
+      if (navSec) navSec.style.display = "block";
+      if (btnNav) btnNav.classList.add("active");
       if (!navMap) {
         initNavMap();
         loadNavCitiesData();
@@ -190,6 +195,10 @@ const FuelModule = (() => {
         setTimeout(() => navMap.invalidateSize(), 100);
       }
       fillNavFuelCost();
+    } else if (tab === 'address') {
+      if (addrSec) addrSec.style.display = "block";
+      if (btnAddress) btnAddress.classList.add("active");
+      if (typeof AddressModule !== 'undefined') AddressModule.renderAddresses();
     }
   };
 
@@ -264,7 +273,11 @@ const FuelModule = (() => {
   }
 
   async function useMyLocation() {
-    if (!navigator.geolocation) return alert("Tarayıcınız konum özelliğini desteklemiyor.");
+    if (!navigator.geolocation) {
+      if (window.showToast) window.showToast('❌ Tarayıcınız konum özelliğini desteklemiyor.', 'error');
+      else alert("Tarayıcınız konum özelliğini desteklemiyor.");
+      return;
+    }
     if (!navMap) initNavMap();
     const btn = document.getElementById("useMyLocationBtn");
     const originalText = btn.innerHTML;
@@ -274,11 +287,26 @@ const FuelModule = (() => {
       async (position) => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
-        if (isNaN(lat) || isNaN(lng)) { btn.innerHTML = originalText; btn.disabled = false; return alert("Geçersiz koordinat alındı."); }
-        navUserLocation = { lat, lng, name: "Mevcut Konum" };
+        if (isNaN(lat) || isNaN(lng)) {
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+          if (window.showToast) window.showToast('❌ Geçersiz koordinat alındı.', 'error');
+          return;
+        }
+        navUserLocation = { lat, lng, name: "Mevcut Konum", il: '', ilce: '' };
         document.getElementById("originSelectWrap").style.display = "none";
         document.getElementById("activeLocationBadge").style.display = "flex";
         document.getElementById("clearLocationBtn").style.display = "block";
+        // Kaydet butonunu göster ve olayı bağla
+        const saveAddrBtn = document.getElementById("saveAddressBtn");
+        if (saveAddrBtn) {
+          saveAddrBtn.style.display = "inline-flex";
+          saveAddrBtn.onclick = () => {
+            if (typeof AddressModule !== 'undefined') {
+              AddressModule.showAddressModal({ lat, lng, il: navUserLocation.il || '', ilce: navUserLocation.ilce || '' });
+            }
+          };
+        }
         btn.style.display = "none";
         if (navMarkers[0]) navMap.removeLayer(navMarkers[0]);
         const m = L.marker([lat, lng], { icon: L.divIcon({ className: 'custom-marker', html: '🔵', iconSize: [25, 25] }) }).bindPopup("Konumunuz alınıyor...").addTo(navMap);
@@ -289,13 +317,23 @@ const FuelModule = (() => {
           const data = await res.json();
           const address = data.display_name || "Adres bulunamadı";
           navUserLocation.name = address;
+          // İl/ilçe bilgisini parse et
+          if (data.address) {
+            navUserLocation.il = data.address.province || data.address.state || '';
+            navUserLocation.ilce = data.address.town || data.address.city_district || data.address.district || '';
+          }
           m.setPopupContent(`📍 <b>Konumunuz:</b><br>${address}`).openPopup();
           document.getElementById("navAddressText").textContent = address;
         } catch { }
         btn.innerHTML = originalText;
         btn.disabled = false;
       },
-      (err) => { alert("Konum alınamadı."); btn.innerHTML = originalText; btn.disabled = false; },
+      (err) => {
+        if (window.showToast) window.showToast('❌ Konum alınamadı. Lütfen izin verin.', 'error');
+        else alert("Konum alınamadı.");
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      },
       { enableHighAccuracy: true, timeout: 10000 }
     );
   }
@@ -306,6 +344,9 @@ const FuelModule = (() => {
     document.getElementById("activeLocationBadge").style.display = "none";
     document.getElementById("clearLocationBtn").style.display = "none";
     document.getElementById("useMyLocationBtn").style.display = "flex";
+    // Kaydet butonunu gizle
+    const saveAddrBtn = document.getElementById("saveAddressBtn");
+    if (saveAddrBtn) saveAddrBtn.style.display = "none";
     if (navMarkers[0]) navMap.removeLayer(navMarkers[0]);
   }
 
