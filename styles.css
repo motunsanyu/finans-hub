@@ -2487,3 +2487,77 @@ details[id^="match-detail-"] {
   20% { opacity: 1; }
   100% { opacity: 0; }
 }
+
+/* === BINANCE FINTECH MODERN THEME === */
+:root {
+    --binance-bg: #0b0e11;
+    --binance-card: #1e2329;
+    --binance-border: #2b3139;
+    --binance-yellow: #fcd535;
+    --binance-green: #0ecb81;
+    --binance-red: #f6465d;
+    --binance-text-gray: #848e9c;
+}
+
+.modern-plan-card {
+    background: var(--binance-card);
+    border: 1px solid var(--binance-border);
+    border-radius: 16px;
+    padding: 16px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    margin: 0 16px 16px;
+}
+
+.modern-plan-card:hover {
+    border-color: var(--binance-yellow);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.remaining-label {
+    font-size: 11px;
+    color: var(--binance-text-gray);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.remaining-amount {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--binance-yellow);
+}
+
+.progress-container {
+    height: 6px;
+    background: #2b3139;
+    border-radius: 3px;
+    margin: 12px 0;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--binance-green);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+.installment-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.status-paid { background: rgba(14, 203, 129, 0.15); color: var(--binance-green); }
+.status-waiting { background: rgba(246, 70, 93, 0.15); color: var(--binance-red); }

@@ -164,16 +164,15 @@ const SchoolModule = (() => {
     return 'Bekleniyor';
   }
 
-  // Tüm planları ekrana bas (Yeni Kutu Tasarımı)
   function renderPlans() {
     const container = document.getElementById('schoolPlansContainer');
     if (!container) return;
 
     if (schoolPlans.length === 0) {
       container.innerHTML = `
-        <div style="background:var(--bg-secondary); padding:24px; border-radius:12px; border:1px solid var(--line); text-align:center; color:#848e9c; margin:16px;">
+        <div style="background:var(--binance-card); padding:40px; border-radius:16px; border:1px solid var(--binance-border); text-align:center; color:var(--binance-text-gray); margin:16px;">
           <div style="font-size:32px; margin-bottom:10px;">📋</div>
-          <div style="font-size:14px; font-weight:700;">Henüz taksit planı eklenmemiş.</div>
+          <div style="font-size:14px; font-weight:700;">Henüz taksit planı bulunmuyor.</div>
         </div>`;
       return;
     }
@@ -187,83 +186,74 @@ const SchoolModule = (() => {
       const card = plan.cardId ? loadCreditCards().find(c => c.id === plan.cardId) : null;
       const paymentType = plan.paymentType === 'card' ? `💳 ${card ? card.name : 'Kart'}` : '💵 Nakit';
 
-      let totalPaid = 0;
       let remainingDebt = 0;
       let paidCount = 0;
-      let waitingCount = 0;
+      let installmentsHtml = '';
 
-      // Taksit listesini ve matematiksel hesaplamaları yap
-      let installmentsHtml = '<div style="margin-top:16px; border-top:1px solid rgba(255,255,255,0.05); padding-top:16px;">';
+      const borderColors = ['#00f5ff', '#ff9f00', '#8b4513', '#006400'];
+      const borderColor = borderColors[idx % borderColors.length];
+
       for (let i = 0; i < installmentCount; i++) {
         const dueDate = new Date(firstDate);
         dueDate.setMonth(firstDate.getMonth() + i);
         const amount = (i === installmentCount - 1 && plan.lastAmount) ? plan.lastAmount : baseAmount;
         const status = getInstallmentStatus(dueDate, plan.cardId);
-        
+
         if (status === 'Ödendi') {
-          totalPaid += amount;
           paidCount++;
         } else {
           remainingDebt += amount;
-          waitingCount++;
         }
 
-        const statusColor = status === 'Ödendi' ? '#00c087' : 'var(--down)'; // Ödendi = Yeşil
         installmentsHtml += `
-          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.05); padding:10px 0;">
-            <div style="display:flex; flex-direction:column;">
-              <span style="font-size:13px; font-weight:700; color:#fff;">${i + 1}. Taksit</span>
-              <span style="font-size:11px; color:#848e9c;">${dueDate.toLocaleDateString('tr-TR')}</span>
+          <div class="installment-row">
+            <div>
+              <div style="color:#fff; font-weight:700; font-size:13px;">${i + 1}. Taksit</div>
+              <div style="color:var(--binance-text-gray); font-size:11px;">${dueDate.toLocaleDateString('tr-TR')}</div>
             </div>
             <div style="text-align:right;">
-              <div style="font-weight:800; font-size:14px; color:#fff;">${formatCurrency(amount)}</div>
-              <div style="font-size:11px; font-weight:800; color:${statusColor};">${status.toUpperCase()}</div>
+              <div style="color:#fff; font-weight:800; font-size:14px;">${formatCurrency(amount)}</div>
+              <span class="status-badge ${status === 'Ödendi' ? 'status-paid' : 'status-waiting'}">${status.toUpperCase()}</span>
             </div>
-          </div>
-        `;
+          </div>`;
       }
-      installmentsHtml += '</div>';
 
-      const borderColors = ['#00f5ff', '#ff9f00', '#8b4513', '#006400'];
-      const borderColor = borderColors[idx % borderColors.length];
+      const progressPercent = (paidCount / installmentCount) * 100;
 
-      // Plan Kartı (Details/Summary yapısı)
       html += `
-        <details class="school-plan-details" style="background:var(--bg-secondary); border-radius:12px; margin:0 0 16px 0; border:1px dashed ${borderColor}; overflow:hidden; cursor:pointer; box-shadow:0 4px 15px rgba(0,0,0,0.1);">
-          <summary style="padding:14px 16px; list-style:none; outline:none; display:block;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <div style="flex:1;">
-                <h3 style="margin:0; font-size:15px; font-weight:800; color:#fff; letter-spacing:0.3px;">${escapeHtml(plan.name)}</h3>
-                <div style="font-size:10px; color:#848e9c; margin-top:2px;">${paymentType}</div>
-              </div>
-              <div style="text-align:right;">
-                <div style="font-size:9px; color:#848e9c; text-transform:uppercase; letter-spacing:0.5px;">Kalan Borç</div>
-                <div style="font-weight:900; color:${borderColor}; font-size:15px;">${formatCurrency(remainingDebt)}</div>
-              </div>
+        <div class="modern-plan-card" style="border-left: 4px solid ${borderColor};">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+            <div>
+              <h3 style="color:#fff; margin:0; font-size:16px;">${escapeHtml(plan.name)}</h3>
+              <span style="color:var(--binance-text-gray); font-size:11px;">${paymentType}</span>
             </div>
-
-            <div style="display:flex; gap:8px; margin-top:10px; border-top:1px solid rgba(255,255,255,0.05); padding-top:10px;">
-               <div style="flex:1; background:rgba(255,255,255,0.02); padding:6px; border-radius:6px; text-align:center; border:1px solid rgba(255,255,255,0.03);">
-                  <div style="font-size:8px; color:#848e9c; text-transform:uppercase;">Toplam</div>
-                  <div style="font-size:11px; font-weight:700; color:rgba(255,255,255,0.7);">${formatCurrency(totalDebt)}</div>
-               </div>
-               <div style="flex:1; background:rgba(255,255,255,0.02); padding:6px; border-radius:6px; text-align:center; border:1px solid rgba(255,255,255,0.03);">
-                  <div style="font-size:8px; color:#848e9c; text-transform:uppercase;">Kalan Taksit</div>
-                  <div style="font-size:11px; font-weight:700; color:rgba(255,255,255,0.7);">${waitingCount} / ${installmentCount}</div>
-               </div>
-               <div style="width:24px; display:flex; align-items:center; justify-content:center; color:#848e9c; font-size:10px;">▼</div>
+            <div style="text-align:right;">
+              <div class="remaining-label">Kalan Borç</div>
+              <div class="remaining-amount" style="color:${borderColor}">${formatCurrency(remainingDebt)}</div>
             </div>
-          </summary>
-
-          <div style="padding:0 16px 16px; cursor: default;">
-            <div style="display:flex; gap:10px; margin-bottom:12px; padding-top:4px;">
-              <button class="edit-plan-btn" data-index="${idx}" style="flex:1; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff; padding:7px; border-radius:8px; font-size:11px; font-weight:800; cursor:pointer; transition:all 0.1s active; outline:none;">✏️ DÜZENLE</button>
-              <button class="delete-plan-btn" data-index="${idx}" style="flex:1; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); color:#ef5350; padding:7px; border-radius:8px; font-size:11px; font-weight:800; cursor:pointer; transition:all 0.1s active; outline:none;">🗑️ SİL</button>
-            </div>
-            ${installmentsHtml}
           </div>
-        </details>
-      `;
+
+          <div class="progress-container">
+            <div class="progress-bar" style="width: ${progressPercent}%; background:${borderColor}"></div>
+          </div>
+          
+          <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--binance-text-gray); margin-bottom:15px;">
+            <span>İlerleme: %${Math.round(progressPercent)}</span>
+            <span>${paidCount} / ${installmentCount} Taksit</span>
+          </div>
+
+          <div style="display:flex; gap:8px; margin-bottom:16px;">
+            <button class="edit-plan-btn" data-index="${idx}" style="flex:1; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff; padding:8px; border-radius:8px; font-size:11px; font-weight:800; cursor:pointer;">✏️ DÜZENLE</button>
+            <button class="delete-plan-btn" data-index="${idx}" style="flex:1; background:rgba(246,70,93,0.1); border:1px solid rgba(246,70,93,0.2); color:#f6465d; padding:8px; border-radius:8px; font-size:11px; font-weight:800; cursor:pointer;">🗑️ SİL</button>
+          </div>
+
+          <details style="border-top: 1px solid rgba(255,255,255,0.05); padding-top:10px;">
+            <summary style="color:var(--binance-yellow); font-size:12px; font-weight:700; cursor:pointer; list-style:none; outline:none;">
+              📊 Detayları Görüntüle <span style="float:right; font-size:10px;">▼</span>
+            </summary>
+            <div style="margin-top:10px;">${installmentsHtml}</div>
+          </details>
+        </div>`;
     });
 
     container.innerHTML = html;
