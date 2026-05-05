@@ -164,44 +164,36 @@ const SchoolModule = (() => {
     return 'Bekleniyor';
   }
 
-  // Tm planlar ekrana bas (k kartlar, durum rozetleri)
+  // Tüm planları ekrana bas (Yeni Kutu Tasarımı)
   function renderPlans() {
     const container = document.getElementById('schoolPlansContainer');
     if (!container) return;
 
     if (schoolPlans.length === 0) {
       container.innerHTML = `
-        <div style="background:var(--bg-secondary); padding:20px; border-radius:12px; border:1px solid var(--line); text-align:center; color:#848e9c; margin:16px;">
+        <div style="background:var(--bg-secondary); padding:24px; border-radius:12px; border:1px solid var(--line); text-align:center; color:#848e9c; margin:16px;">
           <div style="font-size:32px; margin-bottom:10px;">📋</div>
-          <div style="font-size:14px; font-weight:700;">Henz taksit plan eklenmemi.</div>
+          <div style="font-size:14px; font-weight:700;">Henüz taksit planı eklenmemiş.</div>
         </div>`;
       return;
     }
 
-    // Kaytl Taksitler blmn bir details iine alalm
-    let html = `
-      <details class="panel" open
-        style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin:16px; border:1px dashed var(--brand); cursor: pointer;">
-        <summary style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
-          <span style="display:flex; align-items:center; gap:8px;"><span style="font-size:18px;">📄</span> Kaytl Taksit Planlar</span>
-          <span style="font-size:12px; color:var(--brand)">Genilet/Gizle 🔽</span>
-        </summary>
-        <div style="margin-top:16px; cursor: default;">
-    `;
-
+    let html = '';
     schoolPlans.forEach((plan, idx) => {
       const totalDebt = plan.totalDebt;
       const installmentCount = plan.installmentCount;
       const baseAmount = totalDebt / installmentCount;
       const firstDate = new Date(plan.firstDate);
       const card = plan.cardId ? loadCreditCards().find(c => c.id === plan.cardId) : null;
-      const paymentType = plan.paymentType === 'card' ? `💳 ${card ? card.name : 'Kredi Kartı'}` : '💵 Nakit';
+      const paymentType = plan.paymentType === 'card' ? `💳 ${card ? card.name : 'Kart'}` : '💵 Nakit';
 
       let totalPaid = 0;
       let remainingDebt = 0;
+      let paidCount = 0;
+      let waitingCount = 0;
 
-      // Taksit listesini oluştur
-      let installmentsHtml = '<div style="margin-top:8px;">';
+      // Taksit listesini ve matematiksel hesaplamaları yap
+      let installmentsHtml = '<div style="margin-top:16px; border-top:1px solid rgba(255,255,255,0.05); padding-top:16px;">';
       for (let i = 0; i < installmentCount; i++) {
         const dueDate = new Date(firstDate);
         dueDate.setMonth(firstDate.getMonth() + i);
@@ -210,74 +202,81 @@ const SchoolModule = (() => {
         
         if (status === 'Ödendi') {
           totalPaid += amount;
+          paidCount++;
         } else {
           remainingDebt += amount;
+          waitingCount++;
         }
 
-        const statusColor = status === 'Ödendi' ? 'var(--up)' : 'var(--down)';
+        const statusColor = status === 'Ödendi' ? '#00c087' : 'var(--down)'; // Ödendi = Yeşil
         installmentsHtml += `
-          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.05); padding:8px 0;">
-            <span style="font-size:13px;">${dueDate.toLocaleDateString('tr-TR')}</span>
-            <span style="font-weight:700;">${formatCurrency(amount)}</span>
-            <span style="color:${statusColor}; background:rgba(0,0,0,0.2); padding:2px 8px; border-radius:12px; font-size:11px; font-weight:600;">${status}</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.05); padding:10px 0;">
+            <div style="display:flex; flex-direction:column;">
+              <span style="font-size:13px; font-weight:700; color:#fff;">${i + 1}. Taksit</span>
+              <span style="font-size:11px; color:#848e9c;">${dueDate.toLocaleDateString('tr-TR')}</span>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-weight:800; font-size:14px; color:#fff;">${formatCurrency(amount)}</div>
+              <div style="font-size:11px; font-weight:800; color:${statusColor};">${status.toUpperCase()}</div>
+            </div>
           </div>
         `;
       }
       installmentsHtml += '</div>';
 
+      // Plan Kartı (Details/Summary yapısı)
       html += `
-        <div class="school-plan-card" style="background:#1e2329; border-radius:16px; margin-bottom:16px; overflow:hidden; border:1px solid #2a2f36; box-shadow:0 4px 12px rgba(0,0,0,0.2);">
-          <div style="padding:16px; background:linear-gradient(135deg, #2b3139 0%, #1e2329 100%);">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <div>
-                <h3 style="margin:0; font-size:17px; font-weight:800;">${escapeHtml(plan.name)}</h3>
-                <div style="font-size:11px; color:#9ca3af; margin-top:4px;">${paymentType} • ${installmentCount} taksit</div>
-              </div>
-              <div style="display:flex; gap:8px; align-items:center;">
-                <button class="edit-plan-btn" data-index="${idx}" style="background:rgba(252,213,53,0.15); border:1px solid rgba(252,213,53,0.3); color:#fcd535; padding:6px 12px; border-radius:20px; font-size:11px; font-weight:700; cursor:pointer;">✏️ Düzenle</button>
-                <button class="delete-plan-btn" data-index="${idx}" style="background:rgba(239,68,68,0.2); border:none; color:#ef5350; padding:6px 12px; border-radius:20px; font-size:11px; font-weight:700; cursor:pointer;">🗑️ Sil</button>
-              </div>
-            </div>
-            
-            <div style="margin-top:16px; display:flex; gap:12px; border-top:1px solid rgba(255,255,255,0.05); padding-top:12px;">
+        <details class="school-plan-details" style="background:var(--bg-secondary); border-radius:12px; margin:0 16px 16px; border:1px solid var(--line); overflow:hidden; cursor:pointer;">
+          <summary style="padding:16px; list-style:none; outline:none; display:block;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
               <div style="flex:1;">
-                <div style="font-size:10px; color:#848e9c; text-transform:uppercase; letter-spacing:0.5px;">Toplam Borç</div>
-                <div style="font-weight:800; color:#fff; font-size:15px; margin-top:2px;">${formatCurrency(totalDebt)}</div>
+                <h3 style="margin:0; font-size:16px; font-weight:800; color:var(--brand);">${escapeHtml(plan.name)}</h3>
+                <div style="font-size:11px; color:#848e9c; margin-top:4px;">${paymentType}</div>
               </div>
-              <div style="flex:1; border-left:1px solid rgba(255,255,255,0.1); padding-left:12px;">
+              <div style="text-align:right;">
                 <div style="font-size:10px; color:#848e9c; text-transform:uppercase; letter-spacing:0.5px;">Kalan Borç</div>
-                <div style="font-weight:800; color:#fcd535; font-size:15px; margin-top:2px;">${formatCurrency(remainingDebt)}</div>
+                <div style="font-weight:900; color:#fcd535; font-size:16px;">${formatCurrency(remainingDebt)}</div>
               </div>
             </div>
-          </div>
-          
-          <details style="padding:0;">
-            <summary style="padding:12px 16px; font-weight:700; font-size:12px; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.05); color:#9ca3af;">
-              <span>📅 Taksit Detayları (${installmentCount} ay)</span>
-              <span style="font-size:10px; color:var(--brand);">Aç/Kapat 🔽</span>
-            </summary>
-            <div style="padding:0 16px 16px;">
-              ${installmentsHtml}
+
+            <div style="display:flex; gap:10px; margin-top:12px; border-top:1px solid rgba(255,255,255,0.05); padding-top:12px;">
+               <div style="flex:1; background:rgba(255,255,255,0.03); padding:8px; border-radius:8px; text-align:center;">
+                  <div style="font-size:9px; color:#848e9c; text-transform:uppercase;">Toplam Borç</div>
+                  <div style="font-size:12px; font-weight:800; color:#fff;">${formatCurrency(totalDebt)}</div>
+               </div>
+               <div style="flex:1; background:rgba(255,255,255,0.03); padding:8px; border-radius:8px; text-align:center;">
+                  <div style="font-size:9px; color:#848e9c; text-transform:uppercase;">Taksit</div>
+                  <div style="font-size:12px; font-weight:800; color:#fff;">${waitingCount} / ${installmentCount}</div>
+               </div>
+               <div style="width:30px; display:flex; align-items:center; justify-content:center; color:var(--brand); font-size:12px;">▼</div>
             </div>
-          </details>
-        </div>
+          </summary>
+
+          <div style="padding:0 16px 16px; cursor: default;">
+            <div style="display:flex; gap:8px; margin-bottom:16px;">
+              <button class="edit-plan-btn" data-index="${idx}" style="flex:1; background:rgba(252,213,53,0.15); border:1px solid rgba(252,213,53,0.3); color:#fcd535; padding:10px; border-radius:10px; font-size:12px; font-weight:800; cursor:pointer; transition:all 0.1s active;">✏️ DÜZENLE</button>
+              <button class="delete-plan-btn" data-index="${idx}" style="flex:1; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); color:#ef5350; padding:10px; border-radius:10px; font-size:12px; font-weight:800; cursor:pointer; transition:all 0.1s active;">🗑️ PLANI SİL</button>
+            </div>
+            ${installmentsHtml}
+          </div>
+        </details>
       `;
     });
 
-    html += `</div></details>`;
     container.innerHTML = html;
 
-    // Silme butonlarna olay bala
-    document.querySelectorAll('.delete-plan-btn').forEach(btn => {
+    // Silme ve Düzenleme olaylarını bağla
+    container.querySelectorAll('.delete-plan-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
+        e.preventDefault();
         e.stopPropagation();
         const idx = parseInt(btn.getAttribute('data-index'), 10);
         if (!isNaN(idx)) deletePlan(idx);
       });
     });
-    // Dzenleme butonlarna olay bala
-    document.querySelectorAll('.edit-plan-btn').forEach(btn => {
+    container.querySelectorAll('.edit-plan-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
+        e.preventDefault();
         e.stopPropagation();
         const idx = parseInt(btn.getAttribute('data-index'), 10);
         if (!isNaN(idx)) editPlan(idx);
@@ -286,16 +285,32 @@ const SchoolModule = (() => {
   }
 
   function updateGrandTotal() {
-    let total = 0;
-    let totalInstallments = 0;
+    let grandRemainingDebt = 0;
+    let grandTotalWaitingCount = 0;
+
     schoolPlans.forEach(plan => {
-      total += plan.totalDebt;
-      totalInstallments += plan.installmentCount;
+      const totalDebt = plan.totalDebt;
+      const installmentCount = plan.installmentCount;
+      const baseAmount = totalDebt / installmentCount;
+      const firstDate = new Date(plan.firstDate);
+
+      for (let i = 0; i < installmentCount; i++) {
+        const dueDate = new Date(firstDate);
+        dueDate.setMonth(firstDate.getMonth() + i);
+        const amount = (i === installmentCount - 1 && plan.lastAmount) ? plan.lastAmount : baseAmount;
+        const status = getInstallmentStatus(dueDate, plan.cardId);
+        
+        if (status !== 'Ödendi') {
+          grandRemainingDebt += amount;
+          grandTotalWaitingCount++;
+        }
+      }
     });
+
     const el = document.getElementById('grandSchoolDebt');
-    if (el) el.textContent = formatCurrency(total);
+    if (el) el.textContent = formatCurrency(grandRemainingDebt); // Üstteki toplam kalan borcu gösterir
     const installEl = document.getElementById('grandSchoolInstallment');
-    if (installEl) installEl.textContent = totalInstallments;
+    if (installEl) installEl.textContent = grandTotalWaitingCount; // Üstteki toplam kalan taksit sayısını gösterir
   }
 
   // ────────── 3. FORM İŞLEMLERİ ──────────
@@ -450,6 +465,11 @@ const SchoolModule = (() => {
     const form = document.getElementById('newSchoolForm');
     if (!form) return;
     // Zaten eklenmiş mi kontrol et
+    if (document.getElementById('schoolPaymentTypeInput')) return;
+
+    const firstLabel = form.querySelector('label:first-child');
+    if (!firstLabel) return;
+
     const paymentHtml = `
             <label style="margin-top:8px;">Ödeme Şekli</label>
             <input type="hidden" id="schoolPaymentTypeInput" value="cash">
