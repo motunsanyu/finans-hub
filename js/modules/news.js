@@ -90,7 +90,10 @@ const NewsModule = (() => {
             </div>
         `;
 
-        const targetUrl = `${BASE_URL}?lang=tr&country=tr&max=20&apikey=${API_KEY}&q=ekonomi`;
+        // Haberleri daha güncel ve kategori bazlı almak için category=business kullanıyoruz
+        // Ayrıca cache-busting için rastgele bir parametre ekliyoruz
+        const targetUrl = `${BASE_URL}?category=business&lang=tr&country=tr&max=15&apikey=${API_KEY}&t=${Date.now()}`;
+        
         // CORS hatasını aşmak için proxy kullanımı şarttır
         const finalUrl = PROXY_URL + encodeURIComponent(targetUrl);
 
