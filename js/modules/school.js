@@ -418,8 +418,8 @@ const SchoolModule = (() => {
   function injectCreditCardUI() {
     const schoolSection = document.getElementById('school');
     if (!schoolSection) return;
-    const firstWidget = schoolSection.querySelector('.total-debt-widget');
-    if (!firstWidget) return;
+    const paddedContainer = schoolSection.querySelector('div[style*="padding: 0 16px"]');
+    if (!paddedContainer) return;
 
     if (document.getElementById('schoolCreditCardPanel')) return;
 
@@ -449,7 +449,7 @@ const SchoolModule = (() => {
                 </div>
             </details>
         `;
-    firstWidget.insertAdjacentHTML('afterend', panelHtml);
+    paddedContainer.insertAdjacentHTML('afterbegin', panelHtml);
 
     renderCreditCardList();
     initCardForm();
