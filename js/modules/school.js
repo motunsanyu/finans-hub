@@ -319,11 +319,8 @@ const SchoolModule = (() => {
     const form = document.getElementById('newSchoolForm');
     if (!form) return;
 
-    // Form submit işlemi (mevcut submit dinleyicisini kaldırmak için)
-    const oldSubmit = form.onsubmit;
-    form.onsubmit = null;
-
-    form.addEventListener('submit', (e) => {
+    // Form submit işlemi
+    form.onsubmit = (e) => {
       e.preventDefault();
       const name = document.getElementById('schoolChildName').value.trim();
       let totalDebt = parseVal(document.getElementById('schoolTotalDebt').value);
@@ -346,26 +343,15 @@ const SchoolModule = (() => {
         return;
       }
 
-      // 📌 Vade tarihi düzeltmesi: input date değerini yerel tarih olarak yorumla
       const [year, month, day] = firstDate.split('-');
       const correctedDate = new Date(year, month - 1, day);
-      // Geçmiş tarih artık kabul ediliyor (geçmişe yönelik taksit girilebilir)
 
       const unevenToggle = document.getElementById('schoolUnevenToggle').checked;
       let lastAmount = null;
       if (unevenToggle) {
-        let unevenNo = document.getElementById('unevenNo').value;
         let unevenAmount = parseVal(document.getElementById('unevenAmount').value);
-        if (unevenNo && !isNaN(unevenAmount) && unevenAmount > 0) {
+        if (!isNaN(unevenAmount) && unevenAmount > 0) {
           lastAmount = unevenAmount;
-          // Farklı taksit varsa toplam borcu kontrol et
-          if (lastAmount > totalDebt) {
-            if (window.showToast) window.showToast('Son taksit tutarı toplam borçtan büyük olamaz.', 'error');
-            return;
-          }
-        } else {
-          if (window.showToast) window.showToast('Düzensiz taksit için geçerli taksit no ve tutar girin.', 'error');
-          return;
         }
       }
 
@@ -383,10 +369,9 @@ const SchoolModule = (() => {
       addPlan(newPlan);
       form.reset();
       if (window.showToast) window.showToast('Taksit planı eklendi.', 'success');
-      // Düzensiz taksit panelini gizle
       document.getElementById('schoolUnevenWrap').style.display = 'none';
       document.getElementById('schoolUnevenToggle').checked = false;
-    });
+    };
   }
 
   // ────────── 4. KREDİ KARTI EKLEME FORMU ──────────
@@ -395,39 +380,29 @@ const SchoolModule = (() => {
     const cardNameInput = document.getElementById('newCardName');
     const cardDayInput = document.getElementById('newCardDay');
     if (addCardBtn && cardNameInput && cardDayInput) {
-      // Eski dinleyiciyi kaldır
-      addCardBtn.replaceWith(addCardBtn.cloneNode(true));
-      const newBtn = document.getElementById('addCreditCardBtn');
-      if (newBtn) {
-        newBtn.addEventListener('click', () => {
-          const name = cardNameInput.value.trim();
-          const day = parseInt(cardDayInput.value);
-          if (!name || isNaN(day) || day < 1 || day > 31) {
-            if (window.showToast) window.showToast('Geçerli kart adı ve kesim günü (1-31) girin.', 'error');
-            return;
-          }
-          addCreditCard(name, day);
-          cardNameInput.value = '';
-          cardDayInput.value = '';
-          if (window.showToast) window.showToast('Kart eklendi.', 'success');
-        });
-      }
+      addCardBtn.onclick = () => {
+        const name = cardNameInput.value.trim();
+        const day = parseInt(cardDayInput.value);
+        if (!name || isNaN(day) || day < 1 || day > 31) {
+          if (window.showToast) window.showToast('Geçerli kart adı ve kesim günü (1-31) girin.', 'error');
+          return;
+        }
+        addCreditCard(name, day);
+        cardNameInput.value = '';
+        cardDayInput.value = '';
+        if (window.showToast) window.showToast('Kart eklendi.', 'success');
+      };
     }
   }
 
-  // ────────── 5. ARAYZ ENJEKSYONU (Kredi Kart Ynetim Paneli) ──────────
+  // ────────── 5. ARAYÜZ ENJEKSİYONU (Kredi Kartı Yönetim Paneli) ──────────
   function injectCreditCardUI() {
-    const container = document.getElementById('schoolCreditCardPanel');
-    if (container) {
-      // Panel zaten varsa sadece listeyi tazele
-      renderCreditCardList();
-      initCardForm();
-      return;
-    }
     const schoolSection = document.getElementById('school');
     if (!schoolSection) return;
     const firstWidget = schoolSection.querySelector('.total-debt-widget');
     if (!firstWidget) return;
+
+    if (document.getElementById('schoolCreditCardPanel')) return;
 
     const panelHtml = `
             <details id="schoolCreditCardPanel" 
@@ -449,8 +424,9 @@ const SchoolModule = (() => {
                             <label style="font-size:11px; color:#9ca3af; margin-left:4px;">Hesap Kesim Günü (1-31)</label>
                             <input type="number" id="newCardDay" placeholder="Örn: 15" style="width:100%; padding:14px; border-radius:10px; background:#1e2329; border:1px solid rgba(255,255,255,0.1); color:#fff; outline:none;">
                           </div>
-                          <button id="addCreditCardBtn" style="background:#fcd535; color:#000; border:none; padding:15px; border-radius:10px; font-weight:800; cursor:pointer; font-size:14px; margin-top:8px; transition:all 0.1s active;">KARTI KAYDET</button>
+                          <button id="addCreditCardBtn" style="background:#fcd535; color:#000; border:none; padding:15px; border-radius:10px; font-weight:800; cursor:pointer; font-size:14px; margin-top:8px;">KARTI KAYDET</button>
                       </div>
+                  </div>
                 </div>
             </details>
         `;
@@ -460,14 +436,14 @@ const SchoolModule = (() => {
     initCardForm();
   }
 
-  // ────────── 6. TAKSİT FORMUNU GÜNCELLE (Ödeme tipi radio + Kart dropdown) ──────────
+  // ────────── 6. TAKSİT FORMUNU GÜNCELLE ──────────
   function updateSchoolForm() {
     const form = document.getElementById('newSchoolForm');
     if (!form) return;
-    // Zaten eklenmiş mi kontrol et
+
     if (document.getElementById('schoolPaymentTypeInput')) return;
 
-    const firstLabel = form.querySelector('label:first-child');
+    const firstLabel = form.querySelector('label');
     if (!firstLabel) return;
 
     const paymentHtml = `
@@ -503,33 +479,31 @@ const SchoolModule = (() => {
     const cardGroup = document.getElementById('cardSelectGroup');
 
     function setPaymentType(type) {
+      if (!hiddenInput) return;
       hiddenInput.value = type;
       if (type === 'card') {
-        btnCard.classList.add('active');
-        btnCash.classList.remove('active');
-        cardGroup.style.display = 'block';
+        if (btnCard) btnCard.classList.add('active');
+        if (btnCash) btnCash.classList.remove('active');
+        if (cardGroup) cardGroup.style.display = 'block';
         renderCreditCardSelect();
       } else {
-        btnCash.classList.add('active');
-        btnCard.classList.remove('active');
-        cardGroup.style.display = 'none';
+        if (btnCash) btnCash.classList.add('active');
+        if (btnCard) btnCard.classList.remove('active');
+        if (cardGroup) cardGroup.style.display = 'none';
       }
     }
 
-    if (btnCash && btnCard) {
-      btnCash.onclick = () => setPaymentType('cash');
-      btnCard.onclick = () => setPaymentType('card');
-    }
+    if (btnCash) btnCash.onclick = () => setPaymentType('cash');
+    if (btnCard) btnCard.onclick = () => setPaymentType('card');
 
-    initForm(); // Form submit dinleyicisini yeniden bağla
+    initForm();
   }
 
   // ────────── 7. BAŞLATMA ──────────
   function init() {
     loadPlans();
-    injectCreditCardUI();   // Kredi kartı yönetim panelini ekle
-    updateSchoolForm();      // Taksit formuna ödeme tipi seçeneklerini ekle
-    // Geçmiş tarih girilmesine izin ver (min kısıtlaması yok)
+    injectCreditCardUI();
+    updateSchoolForm();
   }
 
   // ────────── 7b. PLAN DÜZENLEME ──────────
@@ -537,23 +511,16 @@ const SchoolModule = (() => {
     const plan = schoolPlans[index];
     if (!plan) return;
 
-    // Formu aç
     const details = document.getElementById('newSchoolDetails');
     if (details) details.open = true;
 
-    // Form alanlarını doldur
     document.getElementById('schoolChildName').value = plan.name;
     document.getElementById('schoolTotalDebt').value = plan.totalDebt.toLocaleString('tr-TR', { minimumFractionDigits: 2 });
     document.getElementById('schoolInstCount').value = plan.installmentCount;
 
-    // Tarihi YYYY-MM-DD formatına çevir
     const d = new Date(plan.firstDate);
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth() + 1).padStart(2, '0');
-    const dd = String(d.getDate()).padStart(2, '0');
-    document.getElementById('schoolFirstDate').value = `${yyyy}-${mm}-${dd}`;
+    document.getElementById('schoolFirstDate').value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 
-    // Ödeme tipini seç
     const type = plan.paymentType || 'cash';
     const btnCash = document.getElementById('payTypeCash');
     const btnCard = document.getElementById('payTypeCard');
@@ -566,25 +533,24 @@ const SchoolModule = (() => {
       if (btnCash) btnCash.classList.remove('active');
       if (cardGroup) cardGroup.style.display = 'block';
       renderCreditCardSelect();
-      const cardSel = document.getElementById('schoolCardSelect');
-      if (cardSel && plan.cardId) cardSel.value = plan.cardId;
+      setTimeout(() => {
+        const cardSel = document.getElementById('schoolCardSelect');
+        if (cardSel && plan.cardId) cardSel.value = plan.cardId;
+      }, 50);
     } else {
       if (btnCash) btnCash.classList.add('active');
       if (btnCard) btnCard.classList.remove('active');
       if (cardGroup) cardGroup.style.display = 'none';
     }
 
-    // Mevcut planı sil (yeni kaydet üstine yazacak)
     schoolPlans.splice(index, 1);
     savePlans();
 
-    if (window.showToast) window.showToast('✏️ Plan düzenleme modülü açıldı. Değiştirip kaydedin.', 'default');
-    // Forma scroll
+    if (window.showToast) window.showToast('✏️ Plan düzenleme modülü açıldı.', 'default');
     const detailsEl = document.getElementById('newSchoolDetails');
     if (detailsEl) detailsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  // ────────── 8. YARDIMCI FONKSİYONLAR ──────────
   function formatCurrency(value) {
     return new Intl.NumberFormat('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) + ' ₺';
   }
