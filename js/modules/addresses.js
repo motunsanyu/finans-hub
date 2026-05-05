@@ -2,28 +2,18 @@
 const AddressModule = (() => {
   const STORAGE_KEY = 'finansHub_addresses';
 
-  // ── SVG İKONLAR ──────────────────────────────────────────────────
-  const GOOGLE_MAPS_SVG = `<svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-    <path d="M24 4C16.27 4 10 10.27 10 18c0 10.5 14 26 14 26s14-15.5 14-26c0-7.73-6.27-14-14-14z" fill="#EA4335"/>
-    <path d="M24 4C16.27 4 10 10.27 10 18c0 2.3.5 4.47 1.38 6.43L24 4z" fill="#1A73E8"/>
-    <path d="M24 4v14l6.62 8.43C33.5 22.47 34 20.3 34 18c0-7.73-6.27-14-14-14z" fill="#FBBC04"/>
-    <path d="M10 18c0 7.73 6 16.34 10.62 21.57L24 32l3.38 7.57C32 34.34 38 25.73 38 18H10z" fill="#34A853"/>
-    <circle cx="24" cy="18" r="5" fill="#fff"/>
+  // ── SVG İKONLAR (Kullanıcı Tasarımı) ──────────────────────────────
+  const GOOGLE_MAPS_SVG = `<svg class="map-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:20px; height:20px; flex-shrink:0;">
+    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#EA4335"/>
+    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="white" stroke-width="0.5"/>
+    <circle cx="12" cy="9" r="3" fill="#FBBC05"/>
+    <circle cx="12" cy="9" r="1.5" fill="#34A853"/>
   </svg>`;
 
-  const APPLE_MAPS_SVG = `<svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-    <rect width="48" height="48" rx="11" fill="url(#appleGrad)"/>
-    <defs>
-      <linearGradient id="appleGrad" x1="0" y1="0" x2="0" y2="48" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stop-color="#6ECC6E"/>
-        <stop offset="1" stop-color="#3A9A3A"/>
-      </linearGradient>
-    </defs>
-    <rect x="8" y="20" width="14" height="20" rx="2" fill="#fff" opacity="0.5"/>
-    <rect x="26" y="8" width="14" height="32" rx="2" fill="#5BB8F5"/>
-    <rect x="8" y="8" width="14" height="10" rx="2" fill="#F5A623" opacity="0.9"/>
-    <circle cx="24" cy="30" r="6" fill="white"/>
-    <path d="M24 25 L24 30 L27 28" stroke="#3A9A3A" stroke-width="2" stroke-linecap="round" fill="none"/>
+  const APPLE_MAPS_SVG = `<svg class="map-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:20px; height:20px; flex-shrink:0;">
+    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#555555"/>
+    <path d="M12 4C8.686 4 6 6.686 6 10c0 4 6 10 6 10s6-6 6-10c0-3.314-2.686-6-6-6z" fill="#A2AAAD"/>
+    <circle cx="12" cy="10" r="2.5" fill="white"/>
   </svg>`;
 
   // ── YARDIMCI FONKSİYONLAR ────────────────────────────────────────
@@ -119,12 +109,14 @@ const AddressModule = (() => {
     }
   }
 
-  function openInGoogleMaps(lat, lng) {
-    window.open(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`, '_blank');
+  function openInGoogleMaps(lat, lng, address) {
+    const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+    window.open(url, '_blank');
   }
 
-  function openInAppleMaps(lat, lng) {
-    window.open(`https://maps.apple.com/?q=${lat},${lng}&ll=${lat},${lng}`, '_blank');
+  function openInAppleMaps(lat, lng, address) {
+    const url = `https://maps.apple.com/?ll=${lat},${lng}&q=${encodeURIComponent(address || 'Konum')}`;
+    window.open(url, '_blank');
   }
 
   // ── RENDER ───────────────────────────────────────────────────────
@@ -192,24 +184,24 @@ const AddressModule = (() => {
           </div>
 
           <!-- Harita Butonları -->
-          <div style="display:flex; gap:8px;">
-            <button onclick="AddressModule.openInGoogleMaps(${addr.enlem}, ${addr.boylam})"
-              style="flex:1; display:flex; align-items:center; justify-content:center; gap:7px;
-                     padding:10px; border-radius:12px; cursor:pointer; font-size:12px; font-weight:700;
-                     background:rgba(66,133,244,0.1); border:1px solid rgba(66,133,244,0.25); color:#4da6ff;"
-              onmouseover="this.style.background='rgba(66,133,244,0.2)'"
-              onmouseout="this.style.background='rgba(66,133,244,0.1)'">
+          <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+            <button onclick="AddressModule.openInGoogleMaps(${addr.enlem}, ${addr.boylam}, '${escapeHtml(addr.baslik)}')"
+              style="display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:10px 18px; 
+                     border-radius:48px; font-weight:700; font-size:12px; cursor:pointer; transition:all 0.2s ease;
+                     border:1px solid #3c4043; background:#1e2329; color:#eaecef; flex:1; min-width:140px;"
+              onmouseover="this.style.background='#2b3139'; this.style.borderColor='#fcd535';"
+              onmouseout="this.style.background='#1e2329'; this.style.borderColor='#3c4043';">
               ${GOOGLE_MAPS_SVG}
-              Google Maps
+              Google Haritalar
             </button>
-            <button onclick="AddressModule.openInAppleMaps(${addr.enlem}, ${addr.boylam})"
-              style="flex:1; display:flex; align-items:center; justify-content:center; gap:7px;
-                     padding:10px; border-radius:12px; cursor:pointer; font-size:12px; font-weight:700;
-                     background:rgba(52,199,89,0.1); border:1px solid rgba(52,199,89,0.25); color:#34c759;"
-              onmouseover="this.style.background='rgba(52,199,89,0.2)'"
-              onmouseout="this.style.background='rgba(52,199,89,0.1)'">
+            <button onclick="AddressModule.openInAppleMaps(${addr.enlem}, ${addr.boylam}, '${escapeHtml(addr.baslik)}')"
+              style="display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:10px 18px; 
+                     border-radius:48px; font-weight:700; font-size:12px; cursor:pointer; transition:all 0.2s ease;
+                     border:1px solid #3c4043; background:#1e2329; color:#eaecef; flex:1; min-width:140px;"
+              onmouseover="this.style.background='#2b3139'; this.style.borderColor='#fcd535';"
+              onmouseout="this.style.background='#1e2329'; this.style.borderColor='#3c4043';">
               ${APPLE_MAPS_SVG}
-              Apple Maps
+              Apple Haritalar
             </button>
           </div>
         </div>`;
