@@ -224,9 +224,12 @@ const SchoolModule = (() => {
       }
       installmentsHtml += '</div>';
 
+      const borderColors = ['#00f5ff', '#ff9f00', '#8b4513', '#006400'];
+      const borderColor = borderColors[idx % borderColors.length];
+
       // Plan Kartı (Details/Summary yapısı)
       html += `
-        <details class="school-plan-details" style="background:var(--bg-secondary); border-radius:12px; margin:16px; border:1px dashed var(--brand); overflow:hidden; cursor:pointer; box-shadow:0 4px 15px rgba(0,0,0,0.1);">
+        <details class="school-plan-details" style="background:var(--bg-secondary); border-radius:12px; margin:0 0 16px 0; border:1px dashed ${borderColor}; overflow:hidden; cursor:pointer; box-shadow:0 4px 15px rgba(0,0,0,0.1);">
           <summary style="padding:14px 16px; list-style:none; outline:none; display:block;">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <div style="flex:1;">
@@ -235,7 +238,7 @@ const SchoolModule = (() => {
               </div>
               <div style="text-align:right;">
                 <div style="font-size:9px; color:#848e9c; text-transform:uppercase; letter-spacing:0.5px;">Kalan Borç</div>
-                <div style="font-weight:900; color:#fcd535; font-size:15px;">${formatCurrency(remainingDebt)}</div>
+                <div style="font-weight:900; color:${borderColor}; font-size:15px;">${formatCurrency(remainingDebt)}</div>
               </div>
             </div>
 
@@ -254,7 +257,7 @@ const SchoolModule = (() => {
 
           <div style="padding:0 16px 16px; cursor: default;">
             <div style="display:flex; gap:10px; margin-bottom:12px; padding-top:4px;">
-              <button class="edit-plan-btn" data-index="${idx}" style="flex:1; background:rgba(252,213,53,0.08); border:1px solid rgba(252,213,53,0.2); color:#fcd535; padding:7px; border-radius:8px; font-size:11px; font-weight:800; cursor:pointer; transition:all 0.1s active; outline:none;">✏️ DÜZENLE</button>
+              <button class="edit-plan-btn" data-index="${idx}" style="flex:1; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff; padding:7px; border-radius:8px; font-size:11px; font-weight:800; cursor:pointer; transition:all 0.1s active; outline:none;">✏️ DÜZENLE</button>
               <button class="delete-plan-btn" data-index="${idx}" style="flex:1; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); color:#ef5350; padding:7px; border-radius:8px; font-size:11px; font-weight:800; cursor:pointer; transition:all 0.1s active; outline:none;">🗑️ SİL</button>
             </div>
             ${installmentsHtml}
@@ -406,7 +409,7 @@ const SchoolModule = (() => {
 
     const panelHtml = `
             <details id="schoolCreditCardPanel" 
-              style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin:16px; border:1px dashed var(--brand); cursor: pointer;">
+              style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin:0 16px 16px; border:1px dashed var(--brand); cursor: pointer;">
                 <summary style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
                   <span style="display:flex; align-items:center; gap:8px;"><span style="font-size:18px;">💳</span> Kredi Kartlarım</span>
                   <span style="font-size:12px; color:var(--brand)">Genişlet/Gizle 🔽</span>
@@ -447,25 +450,27 @@ const SchoolModule = (() => {
     if (!firstLabel) return;
 
     const paymentHtml = `
-            <label style="margin-top:8px; font-size:12px; color:#848e9c; font-weight:700;">ÖDEME ŞEKLİ</label>
-            <input type="hidden" id="schoolPaymentTypeInput" value="cash">
-            <div style="display:flex; gap:10px; margin:8px 0 16px;">
-                <button type="button" id="payTypeCash" class="pay-type-btn active" style="flex:1; display:flex; align-items:center; justify-content:center; gap:10px; padding:10px; border-radius:10px; border:1px solid #2a2f36; background:#1e2329; color:#9ca3af; cursor:pointer; transition:all 0.2s ease;">
-                  <span style="font-size:18px;">💵</span>
-                  <span style="font-weight:800; font-size:12px; letter-spacing:0.5px;">NAKİT</span>
-                </button>
-                <button type="button" id="payTypeCard" class="pay-type-btn" style="flex:1; display:flex; align-items:center; justify-content:center; gap:10px; padding:10px; border-radius:10px; border:1px solid #2a2f36; background:#1e2329; color:#9ca3af; cursor:pointer; transition:all 0.2s ease;">
-                  <span style="font-size:18px;">💳</span>
-                  <span style="font-weight:800; font-size:12px; letter-spacing:0.5px;">KREDİ KARTI</span>
-                </button>
+            <div style="margin-top:12px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+              <label style="font-size:11px; color:#848e9c; font-weight:800; letter-spacing:0.5px;">ÖDEME ŞEKLİ</label>
+              <input type="hidden" id="schoolPaymentTypeInput" value="cash">
+              <div style="display:flex; background:#0b0e11; padding:3px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+                  <button type="button" id="payTypeCash" class="pay-type-btn active" style="display:flex; align-items:center; gap:6px; padding:6px 14px; border-radius:6px; border:none; background:transparent; color:#848e9c; cursor:pointer; transition:all 0.2s ease; outline:none;">
+                    <span style="font-size:14px;">💵</span>
+                    <span style="font-weight:700; font-size:11px;">NAKİT</span>
+                  </button>
+                  <button type="button" id="payTypeCard" class="pay-type-btn" style="display:flex; align-items:center; gap:6px; padding:6px 14px; border-radius:6px; border:none; background:transparent; color:#848e9c; cursor:pointer; transition:all 0.2s ease; outline:none;">
+                    <span style="font-size:14px;">💳</span>
+                    <span style="font-weight:700; font-size:11px;">KART</span>
+                  </button>
+              </div>
             </div>
             <style>
-              .pay-type-btn.active { border-color: #fcd535 !important; background: rgba(252,213,53,0.1) !important; color: #fcd535 !important; }
-              .pay-type-btn:active { transform: scale(0.97); }
+              .pay-type-btn.active { background: #2b3139 !important; color: #fcd535 !important; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+              .pay-type-btn:not(.active):hover { color: #fff; }
             </style>
-            <div id="cardSelectGroup" style="display:none; margin-bottom:12px;">
-                <label style="font-size:12px; color:#848e9c; font-weight:700;">KREDİ KARTI SEÇ</label>
-                <select id="schoolCardSelect" class="input-modern" style="width:100%; padding:12px; background:#1e2329; color:#fff; border-radius:10px; border:1px solid rgba(255,255,255,0.1); outline:none; margin-top:6px;"></select>
+            <div id="cardSelectGroup" style="display:none; margin-bottom:12px; animation: fadeIn 0.3s ease;">
+                <label style="font-size:11px; color:#848e9c; font-weight:800; letter-spacing:0.5px;">KREDİ KARTI SEÇ</label>
+                <select id="schoolCardSelect" class="input-modern" style="width:100%; padding:10px; background:#1e2329; color:#fff; border-radius:8px; border:1px solid rgba(255,255,255,0.1); outline:none; margin-top:6px; font-size:13px;"></select>
             </div>
         `;
     firstLabel.insertAdjacentHTML('afterend', paymentHtml);
