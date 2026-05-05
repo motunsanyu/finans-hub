@@ -195,12 +195,12 @@ const SchoolModule = (() => {
       const baseAmount = totalDebt / installmentCount;
       const firstDate = new Date(plan.firstDate);
       const card = plan.cardId ? loadCreditCards().find(c => c.id === plan.cardId) : null;
-      const paymentType = plan.paymentType === 'card' ? `💳 ${card ? card.name : 'Kredi Kart'}` : '💵 Nakit';
+      const paymentType = plan.paymentType === 'card' ? `💳 ${card ? card.name : 'Kredi Kartı'}` : '💵 Nakit';
 
       let totalPaid = 0;
       let remainingDebt = 0;
 
-      // Taksit listesini olutur
+      // Taksit listesini oluştur
       let installmentsHtml = '<div style="margin-top:8px;">';
       for (let i = 0; i < installmentCount; i++) {
         const dueDate = new Date(firstDate);
@@ -208,13 +208,13 @@ const SchoolModule = (() => {
         const amount = (i === installmentCount - 1 && plan.lastAmount) ? plan.lastAmount : baseAmount;
         const status = getInstallmentStatus(dueDate, plan.cardId);
         
-        if (status === 'dendi') {
+        if (status === 'Ödendi') {
           totalPaid += amount;
         } else {
           remainingDebt += amount;
         }
 
-        const statusColor = status === 'dendi' ? 'var(--up)' : 'var(--down)';
+        const statusColor = status === 'Ödendi' ? 'var(--up)' : 'var(--down)';
         installmentsHtml += `
           <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.05); padding:8px 0;">
             <span style="font-size:13px;">${dueDate.toLocaleDateString('tr-TR')}</span>
@@ -234,27 +234,27 @@ const SchoolModule = (() => {
                 <div style="font-size:11px; color:#9ca3af; margin-top:4px;">${paymentType} • ${installmentCount} taksit</div>
               </div>
               <div style="display:flex; gap:8px; align-items:center;">
-                <button class="edit-plan-btn" data-index="${idx}" style="background:rgba(252,213,53,0.15); border:1px solid rgba(252,213,53,0.3); color:#fcd535; padding:6px 12px; border-radius:20px; font-size:11px; font-weight:700; cursor:pointer;">✏ Dzenle</button>
-                <button class="delete-plan-btn" data-index="${idx}" style="background:rgba(239,68,68,0.2); border:none; color:#ef5350; padding:6px 12px; border-radius:20px; font-size:11px; font-weight:700; cursor:pointer;">🗑 Sil</button>
+                <button class="edit-plan-btn" data-index="${idx}" style="background:rgba(252,213,53,0.15); border:1px solid rgba(252,213,53,0.3); color:#fcd535; padding:6px 12px; border-radius:20px; font-size:11px; font-weight:700; cursor:pointer;">✏️ Düzenle</button>
+                <button class="delete-plan-btn" data-index="${idx}" style="background:rgba(239,68,68,0.2); border:none; color:#ef5350; padding:6px 12px; border-radius:20px; font-size:11px; font-weight:700; cursor:pointer;">🗑️ Sil</button>
               </div>
             </div>
             
             <div style="margin-top:16px; display:flex; gap:12px; border-top:1px solid rgba(255,255,255,0.05); padding-top:12px;">
               <div style="flex:1;">
-                <div style="font-size:10px; color:#848e9c; text-transform:uppercase;">Toplam Bor</div>
-                <div style="font-weight:800; color:#fff; font-size:14px;">${formatCurrency(totalDebt)}</div>
+                <div style="font-size:10px; color:#848e9c; text-transform:uppercase; letter-spacing:0.5px;">Toplam Borç</div>
+                <div style="font-weight:800; color:#fff; font-size:15px; margin-top:2px;">${formatCurrency(totalDebt)}</div>
               </div>
               <div style="flex:1; border-left:1px solid rgba(255,255,255,0.1); padding-left:12px;">
-                <div style="font-size:10px; color:#848e9c; text-transform:uppercase;">Kalan Bor</div>
-                <div style="font-weight:800; color:#fcd535; font-size:14px;">${formatCurrency(remainingDebt)}</div>
+                <div style="font-size:10px; color:#848e9c; text-transform:uppercase; letter-spacing:0.5px;">Kalan Borç</div>
+                <div style="font-weight:800; color:#fcd535; font-size:15px; margin-top:2px;">${formatCurrency(remainingDebt)}</div>
               </div>
             </div>
           </div>
           
           <details style="padding:0;">
             <summary style="padding:12px 16px; font-weight:700; font-size:12px; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.05); color:#9ca3af;">
-              <span>📅 Taksit Detaylar (${installmentCount} ay)</span>
-              <span style="font-size:10px; color:var(--brand);">A/Kapat 🔽</span>
+              <span>📅 Taksit Detayları (${installmentCount} ay)</span>
+              <span style="font-size:10px; color:var(--brand);">Aç/Kapat 🔽</span>
             </summary>
             <div style="padding:0 16px 16px;">
               ${installmentsHtml}
@@ -314,8 +314,7 @@ const SchoolModule = (() => {
       let totalDebt = parseVal(document.getElementById('schoolTotalDebt').value);
       const instCount = parseInt(document.getElementById('schoolInstCount').value);
       let firstDate = document.getElementById('schoolFirstDate').value;
-      const paymentTypeElem = document.getElementById('schoolPaymentType');
-      const paymentType = paymentTypeElem ? paymentTypeElem.value : 'cash';
+      const paymentType = document.getElementById('schoolPaymentTypeInput').value;
       let cardId = null;
 
       if (paymentType === 'card') {
@@ -419,21 +418,24 @@ const SchoolModule = (() => {
             <details id="schoolCreditCardPanel" 
               style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin:16px; border:1px dashed var(--brand); cursor: pointer;">
                 <summary style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
-                  <span style="display:flex; align-items:center; gap:8px;"><span style="font-size:18px;">💳</span> Kredi Kartlarm</span>
-                  <span style="font-size:12px; color:var(--brand)">Genilet/Gizle 🔽</span>
+                  <span style="display:flex; align-items:center; gap:8px;"><span style="font-size:18px;">💳</span> Kredi Kartlarım</span>
+                  <span style="font-size:12px; color:var(--brand)">Genişlet/Gizle 🔽</span>
                 </summary>
                 <div style="padding:16px 0 0; cursor: default;">
                   <div id="creditCardList" style="margin-bottom:16px;"></div>
-                  <div id="cardFormPanel" style="padding:12px; background:#0b0e11; border-radius:12px; border:1px solid rgba(255,255,255,0.05);">
-                      <div style="font-size:11px; color:#848e9c; margin-bottom:8px; font-weight:700; text-transform:uppercase;">+ Yeni Kart Ekle</div>
-                      <div style="display:flex; gap:10px; flex-direction: column;">
-                          <input type="text" id="newCardName" placeholder="Kart Ad (rn: Bonus, World)" style="width:100%; padding:12px; border-radius:10px; background:#1e2329; border:1px solid rgba(255,255,255,0.1); color:#fff; outline:none;">
-                          <div style="display:flex; gap:10px;">
-                            <input type="number" id="newCardDay" placeholder="Kesim Gn (1-31)" style="flex:1; padding:12px; border-radius:10px; background:#1e2329; border:1px solid rgba(255,255,255,0.1); color:#fff; outline:none;">
-                            <button id="addCreditCardBtn" style="background:#fcd535; color:#000; border:none; padding:12px 24px; border-radius:10px; font-weight:800; cursor:pointer; font-size:13px;">EKLE</button>
+                  <div id="cardFormPanel" style="padding:16px; background:#0b0e11; border-radius:12px; border:1px solid rgba(255,255,255,0.05);">
+                      <div style="font-size:11px; color:#848e9c; margin-bottom:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">+ Yeni Kart Ekle</div>
+                      <div style="display:flex; flex-direction: column; gap:12px;">
+                          <div style="display:flex; flex-direction:column; gap:6px;">
+                            <label style="font-size:11px; color:#9ca3af; margin-left:4px;">Kredi Kartı Adı</label>
+                            <input type="text" id="newCardName" placeholder="Örn: Bonus, World, Axess" style="width:100%; padding:14px; border-radius:10px; background:#1e2329; border:1px solid rgba(255,255,255,0.1); color:#fff; outline:none;">
                           </div>
+                          <div style="display:flex; flex-direction:column; gap:6px;">
+                            <label style="font-size:11px; color:#9ca3af; margin-left:4px;">Hesap Kesim Günü (1-31)</label>
+                            <input type="number" id="newCardDay" placeholder="Örn: 15" style="width:100%; padding:14px; border-radius:10px; background:#1e2329; border:1px solid rgba(255,255,255,0.1); color:#fff; outline:none;">
+                          </div>
+                          <button id="addCreditCardBtn" style="background:#fcd535; color:#000; border:none; padding:15px; border-radius:10px; font-weight:800; cursor:pointer; font-size:14px; margin-top:8px; transition:all 0.1s active;">KARTI KAYDET</button>
                       </div>
-                  </div>
                 </div>
             </details>
         `;
@@ -450,13 +452,24 @@ const SchoolModule = (() => {
     // Zaten eklenmiş mi kontrol et
     const paymentHtml = `
             <label style="margin-top:8px;">Ödeme Şekli</label>
-            <select id="schoolPaymentType" class="input-modern" style="width:100%; padding:12px; background:#2b3139; color:#fff; border-radius:8px; margin-bottom:12px; outline:none; border:1px solid rgba(255,255,255,0.1);">
-                <option value="cash">💵 Nakit</option>
-                <option value="card">💳 Kredi Kartı</option>
-            </select>
+            <input type="hidden" id="schoolPaymentTypeInput" value="cash">
+            <div style="display:flex; gap:12px; margin-bottom:16px;">
+                <button type="button" id="payTypeCash" class="pay-type-btn active" style="flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; padding:16px; border-radius:12px; border:2px solid #2a2f36; background:#1e2329; color:#9ca3af; cursor:pointer; transition:all 0.2s ease;">
+                  <span style="font-size:24px;">💵</span>
+                  <span style="font-weight:700; font-size:13px;">NAKİT</span>
+                </button>
+                <button type="button" id="payTypeCard" class="pay-type-btn" style="flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; padding:16px; border-radius:12px; border:2px solid #2a2f36; background:#1e2329; color:#9ca3af; cursor:pointer; transition:all 0.2s ease;">
+                  <span style="font-size:24px;">💳</span>
+                  <span style="font-weight:700; font-size:13px;">KREDİ KARTI</span>
+                </button>
+            </div>
+            <style>
+              .pay-type-btn.active { border-color: #fcd535 !important; background: rgba(252,213,53,0.1) !important; color: #fcd535 !important; }
+              .pay-type-btn:active { transform: scale(0.95); }
+            </style>
             <div id="cardSelectGroup" style="display:none; margin-bottom:12px;">
                 <label>Kredi Kartı Seç
-                    <select id="schoolCardSelect" class="input-modern" style="width:100%; padding:12px; background:#2b3139; color:#fff; border-radius:8px;"></select>
+                    <select id="schoolCardSelect" class="input-modern" style="width:100%; padding:14px; background:#2b3139; color:#fff; border-radius:10px; border:1px solid rgba(255,255,255,0.1); outline:none;"></select>
                 </label>
             </div>
         `;
@@ -464,18 +477,28 @@ const SchoolModule = (() => {
 
     renderCreditCardSelect();
 
-    // Select değişim olayı
-    const paymentSelect = document.getElementById('schoolPaymentType');
+    const btnCash = document.getElementById('payTypeCash');
+    const btnCard = document.getElementById('payTypeCard');
+    const hiddenInput = document.getElementById('schoolPaymentTypeInput');
     const cardGroup = document.getElementById('cardSelectGroup');
-    if (paymentSelect && cardGroup) {
-      paymentSelect.addEventListener('change', () => {
-        if (paymentSelect.value === 'card') {
-          cardGroup.style.display = 'block';
-          renderCreditCardSelect();
-        } else {
-          cardGroup.style.display = 'none';
-        }
-      });
+
+    function setPaymentType(type) {
+      hiddenInput.value = type;
+      if (type === 'card') {
+        btnCard.classList.add('active');
+        btnCash.classList.remove('active');
+        cardGroup.style.display = 'block';
+        renderCreditCardSelect();
+      } else {
+        btnCash.classList.add('active');
+        btnCard.classList.remove('active');
+        cardGroup.style.display = 'none';
+      }
+    }
+
+    if (btnCash && btnCard) {
+      btnCash.onclick = () => setPaymentType('cash');
+      btnCard.onclick = () => setPaymentType('card');
     }
 
     initForm(); // Form submit dinleyicisini yeniden bağla
@@ -511,18 +534,24 @@ const SchoolModule = (() => {
     document.getElementById('schoolFirstDate').value = `${yyyy}-${mm}-${dd}`;
 
     // Ödeme tipini seç
-    const paymentSelect = document.getElementById('schoolPaymentType');
+    const type = plan.paymentType || 'cash';
+    const btnCash = document.getElementById('payTypeCash');
+    const btnCard = document.getElementById('payTypeCard');
+    const hiddenInput = document.getElementById('schoolPaymentTypeInput');
     const cardGroup = document.getElementById('cardSelectGroup');
-    if (paymentSelect) {
-      paymentSelect.value = plan.paymentType || 'cash';
-      if (plan.paymentType === 'card') {
-        if (cardGroup) cardGroup.style.display = 'block';
-        renderCreditCardSelect();
-        const cardSel = document.getElementById('schoolCardSelect');
-        if (cardSel && plan.cardId) cardSel.value = plan.cardId;
-      } else {
-        if (cardGroup) cardGroup.style.display = 'none';
-      }
+
+    if (hiddenInput) hiddenInput.value = type;
+    if (type === 'card') {
+      if (btnCard) btnCard.classList.add('active');
+      if (btnCash) btnCash.classList.remove('active');
+      if (cardGroup) cardGroup.style.display = 'block';
+      renderCreditCardSelect();
+      const cardSel = document.getElementById('schoolCardSelect');
+      if (cardSel && plan.cardId) cardSel.value = plan.cardId;
+    } else {
+      if (btnCash) btnCash.classList.add('active');
+      if (btnCard) btnCard.classList.remove('active');
+      if (cardGroup) cardGroup.style.display = 'none';
     }
 
     // Mevcut planı sil (yeni kaydet üstine yazacak)
