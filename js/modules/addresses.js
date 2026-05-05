@@ -2,6 +2,31 @@
 const AddressModule = (() => {
   const STORAGE_KEY = 'finansHub_addresses';
 
+  // ── SVG İKONLAR ──────────────────────────────────────────────────
+  const GOOGLE_MAPS_SVG = `<svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <path d="M24 4C16.27 4 10 10.27 10 18c0 10.5 14 26 14 26s14-15.5 14-26c0-7.73-6.27-14-14-14z" fill="#EA4335"/>
+    <path d="M24 4C16.27 4 10 10.27 10 18c0 2.3.5 4.47 1.38 6.43L24 4z" fill="#1A73E8"/>
+    <path d="M24 4v14l6.62 8.43C33.5 22.47 34 20.3 34 18c0-7.73-6.27-14-14-14z" fill="#FBBC04"/>
+    <path d="M10 18c0 7.73 6 16.34 10.62 21.57L24 32l3.38 7.57C32 34.34 38 25.73 38 18H10z" fill="#34A853"/>
+    <circle cx="24" cy="18" r="5" fill="#fff"/>
+  </svg>`;
+
+  const APPLE_MAPS_SVG = `<svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <rect width="48" height="48" rx="11" fill="url(#appleGrad)"/>
+    <defs>
+      <linearGradient id="appleGrad" x1="0" y1="0" x2="0" y2="48" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#6ECC6E"/>
+        <stop offset="1" stop-color="#3A9A3A"/>
+      </linearGradient>
+    </defs>
+    <rect x="8" y="20" width="14" height="20" rx="2" fill="#fff" opacity="0.5"/>
+    <rect x="26" y="8" width="14" height="32" rx="2" fill="#5BB8F5"/>
+    <rect x="8" y="8" width="14" height="10" rx="2" fill="#F5A623" opacity="0.9"/>
+    <circle cx="24" cy="30" r="6" fill="white"/>
+    <path d="M24 25 L24 30 L27 28" stroke="#3A9A3A" stroke-width="2" stroke-linecap="round" fill="none"/>
+  </svg>`;
+
+  // ── YARDIMCI FONKSİYONLAR ────────────────────────────────────────
   function loadAddresses() {
     try {
       const data = localStorage.getItem(STORAGE_KEY);
@@ -20,8 +45,48 @@ const AddressModule = (() => {
     }[m]));
   }
 
-  // Kayıtlı adres ekle
-  function addAddress(title, lat, lng, il, ilce) {
+  // Nominatim address objesini kısa/net formata çevir
+  // Çıktı: "Kabil Caddesi No:31 Çankaya / Ankara"
+  function formatNominatimAddress(addrObj) {
+    if (!addrObj) return '';
+    const parts = [];
+
+    // Sokak/Cadde + Numara
+    if (addrObj.road || addrObj.pedestrian || addrObj.footway) {
+      let street = addrObj.road || addrObj.pedestrian || addrObj.footway;
+      if (addrObj.house_number) street += ' No:' + addrObj.house_number;
+      parts.push(street);
+    }
+
+    // İlçe/Mahalle
+    const district = addrObj.suburb
+      || addrObj.neighbourhood
+      || addrObj.city_district
+      || addrObj.district
+      || addrObj.town
+      || addrObj.village
+      || '';
+
+    // Şehir/İl
+    const city = addrObj.province
+      || addrObj.state
+      || addrObj.city
+      || addrObj.county
+      || '';
+
+    if (district && city) {
+      parts.push(district + ' / ' + city);
+    } else if (city) {
+      parts.push(city);
+    } else if (district) {
+      parts.push(district);
+    }
+
+    return parts.join(', ') || '';
+  }
+
+  // ── CRUD FONKSİYONLARI ───────────────────────────────────────────
+  function addAddress(title, lat, lng, il, ilce, adresTam) {
     const addresses = loadAddresses();
     addresses.push({
       id: Date.now().toString(),
@@ -30,13 +95,13 @@ const AddressModule = (() => {
       boylam: lng,
       il: il || '',
       ilce: ilce || '',
+      adresTam: adresTam || '',
       timestamp: new Date().toISOString()
     });
     saveAddresses(addresses);
     renderAddresses();
   }
 
-  // Adres sil
   function deleteAddress(id) {
     if (typeof window.showCustomConfirm === 'function') {
       window.showCustomConfirm('Bu adresi silmek istediğinize emin misiniz?', () => {
@@ -54,12 +119,15 @@ const AddressModule = (() => {
     }
   }
 
-  // Google Maps'te aç
-  function openInMaps(lat, lng) {
+  function openInGoogleMaps(lat, lng) {
     window.open(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`, '_blank');
   }
 
-  // Adres listesini render et
+  function openInAppleMaps(lat, lng) {
+    window.open(`https://maps.apple.com/?q=${lat},${lng}&ll=${lat},${lng}`, '_blank');
+  }
+
+  // ── RENDER ───────────────────────────────────────────────────────
   function renderAddresses() {
     const container = document.getElementById('addressesList');
     if (!container) return;
@@ -76,19 +144,26 @@ const AddressModule = (() => {
     }
 
     container.innerHTML = addresses.map(addr => {
-      const adresMetni = (addr.il && addr.ilce)
-        ? `${addr.ilce} / ${addr.il}`
-        : `${parseFloat(addr.enlem).toFixed(5)}, ${parseFloat(addr.boylam).toFixed(5)}`;
-      const tarih = new Date(addr.timestamp).toLocaleDateString('tr-TR', { day:'2-digit', month:'long', year:'numeric' });
+      // Gösterilecek adres metni: tam adres varsa onu kullan, yoksa ilçe/il, yoksa koordinat
+      const adresGosterim = addr.adresTam
+        ? addr.adresTam
+        : (addr.il && addr.ilce)
+          ? `${addr.ilce} / ${addr.il}`
+          : `${parseFloat(addr.enlem).toFixed(5)}, ${parseFloat(addr.boylam).toFixed(5)}`;
+
+      const tarih = new Date(addr.timestamp).toLocaleDateString('tr-TR', {
+        day: '2-digit', month: 'long', year: 'numeric'
+      });
 
       return `
-        <div onclick="AddressModule.openInMaps(${addr.enlem}, ${addr.boylam})"
-          style="background:#1e2329; border-radius:16px; padding:16px; margin-bottom:12px;
-                 border:1px solid #2a2f36; cursor:pointer; position:relative;
-                 transition:border-color 0.2s, transform 0.15s;"
-          onmouseover="this.style.borderColor='rgba(252,213,53,0.35)'; this.style.transform='translateY(-1px)'"
-          onmouseout="this.style.borderColor='#2a2f36'; this.style.transform='translateY(0)'">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <div style="background:#1e2329; border-radius:16px; padding:16px; margin-bottom:12px;
+                    border:1px solid #2a2f36; position:relative;
+                    transition:border-color 0.2s;"
+          onmouseover="this.style.borderColor='rgba(252,213,53,0.3)'"
+          onmouseout="this.style.borderColor='#2a2f36'">
+
+          <!-- Başlık + Sil -->
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
             <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
               <div style="width:36px; height:36px; border-radius:10px; background:rgba(252,213,53,0.12);
                           border:1px solid rgba(252,213,53,0.25); display:flex; align-items:center;
@@ -98,29 +173,50 @@ const AddressModule = (() => {
                             overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
                   ${escapeHtml(addr.baslik)}
                 </div>
-                <div style="font-size:12px; color:#b0b8c5; margin-top:3px;
-                            overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
-                  📍 ${escapeHtml(adresMetni)}
-                </div>
-                <div style="font-size:10px; color:#6b7280; margin-top:4px;">🗓️ ${tarih}</div>
+                <div style="font-size:11px; color:#6b7280; margin-top:2px;">🗓️ ${tarih}</div>
               </div>
             </div>
-            <button onclick="event.stopPropagation(); AddressModule.deleteAddress('${addr.id}')"
+            <button onclick="AddressModule.deleteAddress('${addr.id}')"
               style="background:rgba(246,70,93,0.1); border:1px solid rgba(246,70,93,0.2);
-                     color:#f6465d; padding:6px 10px; border-radius:8px; cursor:pointer;
-                     font-size:14px; flex-shrink:0; margin-left:8px; transition:background 0.2s;"
+                     color:#f6465d; padding:5px 9px; border-radius:8px; cursor:pointer;
+                     font-size:14px; flex-shrink:0; margin-left:8px;"
               onmouseover="this.style.background='rgba(246,70,93,0.25)'"
               onmouseout="this.style.background='rgba(246,70,93,0.1)'">🗑️</button>
           </div>
-          <div style="margin-top:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.05);
-                      font-size:11px; color:#4da6ff; font-weight:600; display:flex; align-items:center; gap:6px;">
-            🗺️ Google Maps'te Aç
+
+          <!-- Adres Metni -->
+          <div style="font-size:13px; color:#c9d1d9; margin-bottom:12px; line-height:1.5;
+                      padding:10px; background:rgba(255,255,255,0.03); border-radius:10px;
+                      border:1px solid rgba(255,255,255,0.06);">
+            📍 ${escapeHtml(adresGosterim)}
+          </div>
+
+          <!-- Harita Butonları -->
+          <div style="display:flex; gap:8px;">
+            <button onclick="AddressModule.openInGoogleMaps(${addr.enlem}, ${addr.boylam})"
+              style="flex:1; display:flex; align-items:center; justify-content:center; gap:7px;
+                     padding:10px; border-radius:12px; cursor:pointer; font-size:12px; font-weight:700;
+                     background:rgba(66,133,244,0.1); border:1px solid rgba(66,133,244,0.25); color:#4da6ff;"
+              onmouseover="this.style.background='rgba(66,133,244,0.2)'"
+              onmouseout="this.style.background='rgba(66,133,244,0.1)'">
+              ${GOOGLE_MAPS_SVG}
+              Google Maps
+            </button>
+            <button onclick="AddressModule.openInAppleMaps(${addr.enlem}, ${addr.boylam})"
+              style="flex:1; display:flex; align-items:center; justify-content:center; gap:7px;
+                     padding:10px; border-radius:12px; cursor:pointer; font-size:12px; font-weight:700;
+                     background:rgba(52,199,89,0.1); border:1px solid rgba(52,199,89,0.25); color:#34c759;"
+              onmouseover="this.style.background='rgba(52,199,89,0.2)'"
+              onmouseout="this.style.background='rgba(52,199,89,0.1)'">
+              ${APPLE_MAPS_SVG}
+              Apple Maps
+            </button>
           </div>
         </div>`;
     }).join('');
   }
 
-  // Adres Başlığı Modalını Göster (Kaydet butonundan tetiklenir)
+  // ── ADRES BAŞLIĞI MODALI ─────────────────────────────────────────
   function showAddressModal(pendingData) {
     const modal = document.getElementById('addressModal');
     const input = document.getElementById('addressTitleInput');
@@ -130,7 +226,7 @@ const AddressModule = (() => {
     modal.style.display = 'flex';
     setTimeout(() => input.focus(), 200);
 
-    // Eski handler'ları temizle (clone ile)
+    // Eski handler'ları temizle
     const saveBtn = document.getElementById('addressModalSave');
     const cancelBtn = document.getElementById('addressModalCancel');
     const newSaveBtn = saveBtn.cloneNode(true);
@@ -145,10 +241,16 @@ const AddressModule = (() => {
         input.focus();
         return;
       }
-      addAddress(title, pendingData.lat, pendingData.lng, pendingData.il, pendingData.ilce);
+      addAddress(
+        title,
+        pendingData.lat,
+        pendingData.lng,
+        pendingData.il,
+        pendingData.ilce,
+        pendingData.adresTam || ''
+      );
       modal.style.display = 'none';
       if (window.showToast) window.showToast('✅ Adres kaydedildi!', 'success');
-      // Kaydet butonunu gizle
       const saveAddrBtn = document.getElementById('saveAddressBtn');
       if (saveAddrBtn) saveAddrBtn.style.display = 'none';
     }
@@ -164,8 +266,16 @@ const AddressModule = (() => {
     console.log('✅ Adres modülü başlatıldı');
   }
 
-  // Dışarıya açık API
-  return { init, deleteAddress, openInMaps, renderAddresses, showAddressModal, addAddress };
+  return {
+    init,
+    deleteAddress,
+    openInGoogleMaps,
+    openInAppleMaps,
+    renderAddresses,
+    showAddressModal,
+    addAddress,
+    formatNominatimAddress
+  };
 })();
 
 window.AddressModule = AddressModule;

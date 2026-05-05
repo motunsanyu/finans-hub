@@ -202,24 +202,32 @@ const SchoolModule = (() => {
       installmentsHtml += '</div>';
 
       html += `
-                <div class="school-plan-card" style="background:#1e2329; border-radius:20px; margin-bottom:20px; overflow:hidden; border:1px solid #2a2f36; box-shadow:0 4px 12px rgba(0,0,0,0.2); transition:transform 0.1s;">
+                <div class="school-plan-card" style="background:#1e2329; border-radius:20px; margin-bottom:20px; overflow:hidden; border:1px solid #2a2f36; box-shadow:0 4px 12px rgba(0,0,0,0.2);">
                     <div style="padding:16px; background:linear-gradient(135deg, #2b3139 0%, #1e2329 100%);">
                         <div style="display:flex; justify-content:space-between; align-items:center;">
                             <div>
                                 <h3 style="margin:0; font-size:18px; font-weight:800;">${escapeHtml(plan.name)}</h3>
                                 <div style="font-size:12px; color:#9ca3af; margin-top:4px;">${paymentType} • ${installmentCount} taksit</div>
                             </div>
-                            <button class="delete-plan-btn" data-index="${idx}" style="background:rgba(239,68,68,0.2); border:none; color:#ef5350; padding:6px 12px; border-radius:20px; font-size:12px; font-weight:700; cursor:pointer;">🗑️ Sil</button>
+                            <div style="display:flex; gap:8px; align-items:center;">
+                                <button class="edit-plan-btn" data-index="${idx}" style="background:rgba(252,213,53,0.15); border:1px solid rgba(252,213,53,0.3); color:#fcd535; padding:6px 12px; border-radius:20px; font-size:12px; font-weight:700; cursor:pointer;">✏️ Düzenle</button>
+                                <button class="delete-plan-btn" data-index="${idx}" style="background:rgba(239,68,68,0.2); border:none; color:#ef5350; padding:6px 12px; border-radius:20px; font-size:12px; font-weight:700; cursor:pointer;">🗑️ Sil</button>
+                            </div>
                         </div>
                         <div style="margin-top:12px; display:flex; justify-content:space-between;">
                             <span>Toplam Borç:</span>
                             <span style="font-weight:800; color:#fcd535;">${formatCurrency(totalDebt)}</span>
                         </div>
                     </div>
-                    <div style="padding:16px;">
-                        <div style="margin-bottom:8px; font-weight:700; font-size:13px;">📅 Taksitler</div>
-                        ${installmentsHtml}
-                    </div>
+                    <details style="padding:0;">
+                      <summary style="padding:12px 16px; font-weight:700; font-size:13px; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.05);">
+                        <span>📅 Taksitler (${installmentCount} ay)</span>
+                        <span style="font-size:11px; color:var(--brand);">Göster/Gizle</span>
+                      </summary>
+                      <div style="padding:0 16px 16px;">
+                          ${installmentsHtml}
+                      </div>
+                    </details>
                 </div>
             `;
     });
@@ -228,8 +236,17 @@ const SchoolModule = (() => {
     // Silme butonlarına olay bağla
     document.querySelectorAll('.delete-plan-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
+        e.stopPropagation();
         const idx = parseInt(btn.getAttribute('data-index'), 10);
         if (!isNaN(idx)) deletePlan(idx);
+      });
+    });
+    // Düzenleme butonlarına olay bağla
+    document.querySelectorAll('.edit-plan-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const idx = parseInt(btn.getAttribute('data-index'), 10);
+        if (!isNaN(idx)) editPlan(idx);
       });
     });
   }
@@ -284,13 +301,7 @@ const SchoolModule = (() => {
       // 📌 Vade tarihi düzeltmesi: input date değerini yerel tarih olarak yorumla
       const [year, month, day] = firstDate.split('-');
       const correctedDate = new Date(year, month - 1, day);
-      // Geçmiş tarih kontrolü
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      if (correctedDate < today) {
-        if (window.showToast) window.showToast('İlk vade tarihi bugün veya ileri bir tarih olmalı.', 'error');
-        return;
-      }
+      // Geçmiş tarih artık kabul ediliyor (geçmişe yönelik taksit girilebilir)
 
       const unevenToggle = document.getElementById('schoolUnevenToggle').checked;
       let lastAmount = null;
@@ -371,32 +382,26 @@ const SchoolModule = (() => {
     if (!firstWidget) return;
 
     const panelHtml = `
-            <div id="schoolCreditCardPanel" style="background:#1e2329; border-radius:16px; padding:16px; margin:16px; border:1px solid #2a2f36;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <h3 style="font-size:16px; font-weight:800;">💳 Kredi Kartlarım</h3>
-                    <button id="toggleCardFormBtn" style="background:#2b3139; border:none; color:#fcd535; padding:4px 12px; border-radius:20px; font-size:12px; cursor:pointer;">+ Yeni Kart</button>
+            <details id="schoolCreditCardPanel" style="background:#1e2329; border-radius:16px; margin:16px; border:1px solid #2a2f36; overflow:hidden;">
+                <summary style="padding:14px 16px; font-size:16px; font-weight:800; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
+                  <span>💳 Kredi Kartlarım</span>
+                  <span style="font-size:10px; color:var(--brand); font-weight:700;">GÖSTER/GİZLE</span>
+                </summary>
+                <div style="padding:0 16px 16px;">
+                  <div id="creditCardList" style="margin-bottom:12px;"></div>
+                  <div id="cardFormPanel" style="margin-top:12px; padding:12px; background:#0b0e11; border-radius:12px;">
+                      <div style="font-size:12px; color:#9ca3af; margin-bottom:8px; font-weight:700;">+ Yeni Kart Ekle</div>
+                      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                          <input type="text" id="newCardName" placeholder="Kart Adı (Örn: Bonus, World)" style="flex:2; padding:10px; border-radius:10px; background:#1e2329; border:none; color:#fff;">
+                          <input type="number" id="newCardDay" placeholder="Kesim Günü (1-31)" style="flex:1; padding:10px; border-radius:10px; background:#1e2329; border:none; color:#fff;">
+                          <button id="addCreditCardBtn" style="background:#fcd535; color:#000; border:none; padding:10px 20px; border-radius:10px; font-weight:700; cursor:pointer;">Ekle</button>
+                      </div>
+                  </div>
                 </div>
-                <div id="creditCardList" style="margin-bottom:12px;"></div>
-                <div id="cardFormPanel" style="display:none; margin-top:12px; padding:12px; background:#0b0e11; border-radius:12px;">
-                    <div style="display:flex; gap:12px; flex-wrap:wrap;">
-                        <input type="text" id="newCardName" placeholder="Kart Adı (Örn: Bonus, World)" style="flex:2; padding:10px; border-radius:10px; background:#1e2329; border:none; color:#fff;">
-                        <input type="number" id="newCardDay" placeholder="Kesim Günü (1-31)" style="flex:1; padding:10px; border-radius:10px; background:#1e2329; border:none; color:#fff;">
-                        <button id="addCreditCardBtn" style="background:#fcd535; color:#000; border:none; padding:10px 20px; border-radius:10px; font-weight:700; cursor:pointer;">Ekle</button>
-                    </div>
-                </div>
-            </div>
+            </details>
         `;
     firstWidget.insertAdjacentHTML('afterend', panelHtml);
 
-    // Toggle butonu
-    const toggleBtn = document.getElementById('toggleCardFormBtn');
-    const formPanel = document.getElementById('cardFormPanel');
-    if (toggleBtn && formPanel) {
-      toggleBtn.addEventListener('click', () => {
-        const isVisible = formPanel.style.display === 'block';
-        formPanel.style.display = isVisible ? 'none' : 'block';
-      });
-    }
     renderCreditCardList();
     initCardForm();
   }
@@ -449,16 +454,53 @@ const SchoolModule = (() => {
     loadPlans();
     injectCreditCardUI();   // Kredi kartı yönetim panelini ekle
     updateSchoolForm();      // Taksit formuna ödeme tipi seçeneklerini ekle
+    // Geçmiş tarih girilmesine izin ver (min kısıtlaması yok)
+  }
 
-    // Tarih seçici için min bugün olarak ayarla (geçmiş gün seçilemesin)
-    const firstDateInput = document.getElementById('schoolFirstDate');
-    if (firstDateInput) {
-      const today = new Date();
-      const yyyy = today.getFullYear();
-      const mm = String(today.getMonth() + 1).padStart(2, '0');
-      const dd = String(today.getDate()).padStart(2, '0');
-      firstDateInput.min = `${yyyy}-${mm}-${dd}`;
+  // ────────── 7b. PLAN DÜZENLEME ──────────
+  function editPlan(index) {
+    const plan = schoolPlans[index];
+    if (!plan) return;
+
+    // Formu aç
+    const details = document.getElementById('newSchoolDetails');
+    if (details) details.open = true;
+
+    // Form alanlarını doldur
+    document.getElementById('schoolChildName').value = plan.name;
+    document.getElementById('schoolTotalDebt').value = plan.totalDebt.toLocaleString('tr-TR', { minimumFractionDigits: 2 });
+    document.getElementById('schoolInstCount').value = plan.installmentCount;
+
+    // Tarihi YYYY-MM-DD formatına çevir
+    const d = new Date(plan.firstDate);
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    document.getElementById('schoolFirstDate').value = `${yyyy}-${mm}-${dd}`;
+
+    // Ödeme tipini seç
+    const radioNakit = document.querySelector('input[name="paymentType"][value="cash"]');
+    const radioKart = document.querySelector('input[name="paymentType"][value="card"]');
+    const cardGroup = document.getElementById('cardSelectGroup');
+    if (plan.paymentType === 'card') {
+      if (radioKart) radioKart.checked = true;
+      if (cardGroup) cardGroup.style.display = 'block';
+      renderCreditCardSelect();
+      const cardSel = document.getElementById('schoolCardSelect');
+      if (cardSel && plan.cardId) cardSel.value = plan.cardId;
+    } else {
+      if (radioNakit) radioNakit.checked = true;
+      if (cardGroup) cardGroup.style.display = 'none';
     }
+
+    // Mevcut planı sil (yeni kaydet üstine yazacak)
+    schoolPlans.splice(index, 1);
+    savePlans();
+
+    if (window.showToast) window.showToast('✏️ Plan düzenleme modülü açıldı. Değiştirip kaydedin.', 'default');
+    // Forma scroll
+    const detailsEl = document.getElementById('newSchoolDetails');
+    if (detailsEl) detailsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   // ────────── 8. YARDIMCI FONKSİYONLAR ──────────

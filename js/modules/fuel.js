@@ -315,15 +315,41 @@ const FuelModule = (() => {
         try {
           const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=tr`);
           const data = await res.json();
-          const address = data.display_name || "Adres bulunamadı";
-          navUserLocation.name = address;
+          navUserLocation.name = data.display_name || 'Adres bulunamadı';
+
           // İl/ilçe bilgisini parse et
           if (data.address) {
             navUserLocation.il = data.address.province || data.address.state || '';
-            navUserLocation.ilce = data.address.town || data.address.city_district || data.address.district || '';
+            navUserLocation.ilce = data.address.town || data.address.city_district
+              || data.address.district || data.address.suburb || '';
           }
-          m.setPopupContent(`📍 <b>Konumunuz:</b><br>${address}`).openPopup();
-          document.getElementById("navAddressText").textContent = address;
+
+          // Kısa ve net adres formatı (Sokak No, İlçe / Şehir)
+          let adresTam = '';
+          if (typeof AddressModule !== 'undefined' && data.address) {
+            adresTam = AddressModule.formatNominatimAddress(data.address);
+          }
+          if (!adresTam) adresTam = navUserLocation.name; // Fallback: tam display_name
+          navUserLocation.adresTam = adresTam;
+
+          m.setPopupContent(`📍 <b>Konumunuz:</b><br>${adresTam || navUserLocation.name}`).openPopup();
+          document.getElementById('navAddressText').textContent = adresTam || navUserLocation.name;
+
+          // Kaydet butonunu güncelle: adresTam'ı da ilet
+          const saveAddrBtn2 = document.getElementById('saveAddressBtn');
+          if (saveAddrBtn2) {
+            saveAddrBtn2.onclick = () => {
+              if (typeof AddressModule !== 'undefined') {
+                AddressModule.showAddressModal({
+                  lat,
+                  lng,
+                  il: navUserLocation.il || '',
+                  ilce: navUserLocation.ilce || '',
+                  adresTam: navUserLocation.adresTam || ''
+                });
+              }
+            };
+          }
         } catch { }
         btn.innerHTML = originalText;
         btn.disabled = false;
