@@ -186,11 +186,7 @@ const SchoolModule = (() => {
       const card = plan.cardId ? loadCreditCards().find(c => c.id === plan.cardId) : null;
       const paymentType = plan.paymentType === 'card' ? `💳 ${card ? card.name : 'Kart'}` : '💵 Nakit';
 
-      let remainingDebt = 0;
-      let paidCount = 0;
-      let installmentsHtml = '';
-
-      const borderColors = ['#00f5ff', '#ff9f00', '#8b4513', '#006400'];
+      const borderColors = ['#26a69a', '#ffa726', '#8d6e63', '#66bb6a']; // Daha mat fintech renkleri
       const borderColor = borderColors[idx % borderColors.length];
 
       for (let i = 0; i < installmentCount; i++) {
@@ -224,34 +220,35 @@ const SchoolModule = (() => {
         <div class="modern-plan-card" style="border-left: 4px solid ${borderColor};">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
             <div>
-              <h3 style="color:#fff; margin:0; font-size:16px;">${escapeHtml(plan.name)}</h3>
+              <h3 style="color:#fff; margin:0; font-size:16px; font-weight:800;">${escapeHtml(plan.name)}</h3>
               <span style="color:var(--binance-text-gray); font-size:11px;">${paymentType}</span>
             </div>
             <div style="text-align:right;">
-              <div class="remaining-label">Kalan Borç</div>
-              <div class="remaining-amount" style="color:${borderColor}">${formatCurrency(remainingDebt)}</div>
+              <div class="remaining-label">Kalan / Toplam</div>
+              <div class="remaining-amount" style="color:${borderColor}">
+                ${formatCurrency(remainingDebt)} <span style="font-size:12px; color:var(--binance-text-gray); font-weight:500;">/ ${formatCurrency(totalDebt)}</span>
+              </div>
             </div>
           </div>
 
-          <div class="progress-container">
+          <div class="progress-container" style="margin-bottom:8px;">
             <div class="progress-bar" style="width: ${progressPercent}%; background:${borderColor}"></div>
           </div>
           
-          <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--binance-text-gray); margin-bottom:15px;">
-            <span>İlerleme: %${Math.round(progressPercent)}</span>
-            <span>${paidCount} / ${installmentCount} Taksit</span>
-          </div>
-
-          <div style="display:flex; gap:8px; margin-bottom:16px;">
-            <button class="edit-plan-btn" data-index="${idx}" style="flex:1; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff; padding:8px; border-radius:8px; font-size:11px; font-weight:800; cursor:pointer;">✏️ DÜZENLE</button>
-            <button class="delete-plan-btn" data-index="${idx}" style="flex:1; background:rgba(246,70,93,0.1); border:1px solid rgba(246,70,93,0.2); color:#f6465d; padding:8px; border-radius:8px; font-size:11px; font-weight:800; cursor:pointer;">🗑️ SİL</button>
+          <div style="display:flex; justify-content:flex-end; font-size:11px; color:var(--binance-text-gray); margin-bottom:10px; font-weight:700;">
+            <span>${paidCount} / ${installmentCount} Taksit Tamamlandı</span>
           </div>
 
           <details style="border-top: 1px solid rgba(255,255,255,0.05); padding-top:10px;">
-            <summary style="color:var(--binance-yellow); font-size:12px; font-weight:700; cursor:pointer; list-style:none; outline:none;">
-              📊 Detayları Görüntüle <span style="float:right; font-size:10px;">▼</span>
+            <summary style="color:var(--binance-yellow); font-size:12px; font-weight:800; cursor:pointer; list-style:none; outline:none; display:flex; justify-content:space-between; align-items:center;">
+              <span>📊 Detaylar ve İşlemler</span>
+              <span style="font-size:10px;">▼</span>
             </summary>
-            <div style="margin-top:10px;">${installmentsHtml}</div>
+            <div style="margin-top:15px; display:flex; gap:8px; margin-bottom:15px;">
+              <button class="edit-plan-btn" data-index="${idx}" style="flex:1; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff; padding:8px; border-radius:8px; font-size:11px; font-weight:800; cursor:pointer;">✏️ DÜZENLE</button>
+              <button class="delete-plan-btn" data-index="${idx}" style="flex:1; background:rgba(246,70,93,0.1); border:1px solid rgba(246,70,93,0.2); color:#f6465d; padding:8px; border-radius:8px; font-size:11px; font-weight:800; cursor:pointer;">🗑️ SİL</button>
+            </div>
+            ${installmentsHtml}
           </details>
         </div>`;
     });
@@ -424,7 +421,7 @@ const SchoolModule = (() => {
 
     const panelHtml = `
             <details id="schoolCreditCardPanel" 
-              style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin:0 16px 16px; border:1px dashed var(--brand); cursor: pointer;">
+              style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin:0 0 16px 0; border:1px solid var(--binance-border); cursor: pointer;">
                 <summary style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
                   <span style="display:flex; align-items:center; gap:8px;"><span style="font-size:18px;">💳</span> Kredi Kartlarım</span>
                   <span style="font-size:12px; color:var(--brand)">Genişlet/Gizle 🔽</span>
