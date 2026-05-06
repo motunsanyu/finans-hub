@@ -1,23 +1,3 @@
-const STORAGE_KEYS = {
-  fuel: "financeApp.fuelRecords",     // belki silinebilir
-  days: "financeApp.dayRecords",     // belki silinebilir
-  school: "financeApp.schoolRecords",
-  financeSnapshot: "financeApp.financeSnapshot",
-  debts: "financeApp.debts",
-  appPin: "financeApp.pin",
-  vault: "financeApp.vault",         // silinebilir
-  yesterdayDebt: "financeApp.yesterdayDebt",
-  lastDailyUpdate: "financeApp.lastDailyUpdate"
-};
-
-// toggleFriendsModal ve toggleMessagesModal → js/friends-chat.js dosyasında tanımlı
-
-
-
-function getSB() {
-  return window._supabaseClient;
-}
-
 let state = {
   financeSnapshot: readStorage(STORAGE_KEYS.financeSnapshot, {}),
   debts: readStorage(STORAGE_KEYS.debts, { usd: 0, eur: 0, gold: 0, btc: 0, try: 0 }),
@@ -464,20 +444,6 @@ function paintFinanceRow(id, obj, decimals, prefix = "") {
   if (priceEl) priceEl.textContent = prefix + formatNumber(obj.price, decimals);
   if (chgEl && typeof obj.change === "number") { const c = obj.change; let sign = c > 0 ? "+" : c < 0 ? "" : ""; chgEl.textContent = `${sign}%${Math.abs(c).toFixed(2)}`; chgEl.className = `pill ${c > 0 ? "up" : c < 0 ? "down" : "neutral"}`; }
 }
-
-
-
-// ═════════════════════════════════════════════════════════════════
-// ═════════════════════════ YARDIMCI FONKSİYONLAR ═════════════════════════
-function readStorage(k, f) { try { const r = localStorage.getItem(k); return r ? JSON.parse(r) : f; } catch { return f; } }
-function writeStorage(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
-function sum(a, f) { return a.reduce((a, r) => a + Number(r[f] || 0), 0); }
-function formatCurrency(v, dec = 0, f = "0") { return !Number.isFinite(Number(v)) ? f : new Intl.NumberFormat("tr-TR", { maximumFractionDigits: dec, minimumFractionDigits: dec }).format(v) + " ₺"; }
-function formatNumber(v, d = 2, f = "--") { return !Number.isFinite(Number(v)) ? f : new Intl.NumberFormat("tr-TR", { maximumFractionDigits: d, minimumFractionDigits: d }).format(v); }
-function formatDate(d) { return d ? new Date(d).toLocaleDateString("tr-TR") : "-"; }
-function formatDateShort(d) { if (!d) return "-"; const date = new Date(d); return String(date.getDate()).padStart(2, '0') + "." + String(date.getMonth() + 1).padStart(2, '0'); }
-function formatDateShortYY(d) { if (!d) return "-"; const date = new Date(d); return String(date.getDate()).padStart(2, '0') + "." + String(date.getMonth() + 1).padStart(2, '0') + "." + String(date.getFullYear()).slice(-2); }
-function setText(i, v) { const e = document.getElementById(i); if (e) e.textContent = v; }
 
 
 
