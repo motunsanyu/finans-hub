@@ -153,11 +153,11 @@ const AddressModule = (() => {
           <div style="padding:0 16px 16px; border-top:1px solid rgba(255,255,255,0.05); background:rgba(0,0,0,0.1);">
             <div style="display:flex; gap:10px; margin-top:15px; margin-bottom:15px;">
               <button onclick="AddressModule.openInGoogleMaps(${addr.enlem}, ${addr.boylam})"
-                style="flex:1; display:flex; align-items:center; justify-content:flex-start; gap:8px; height:59px; padding:0 10px; border-radius:10px; border:1px solid #3c4043; background:#1e2329; color:#fff; font-size:11px; font-weight:800; cursor:pointer;">
+                style="flex:1; display:flex; align-items:center; justify-content:flex-start; gap:4px; height:59px; padding:0 6px; border-radius:10px; border:1px solid rgba(66, 133, 244, 0.5); background:#1e2329; color:#fff; font-size:11px; font-weight:800; cursor:pointer; white-space:nowrap;">
                 ${GOOGLE_MAPS_ICON} Google Maps
               </button>
               <button onclick="AddressModule.openInAppleMaps(${addr.enlem}, ${addr.boylam}, '${escapeHtml(addr.baslik)}')"
-                style="flex:1; display:flex; align-items:center; justify-content:flex-start; gap:8px; height:59px; padding:0 10px; border-radius:10px; border:1px solid #3c4043; background:#1e2329; color:#fff; font-size:11px; font-weight:800; cursor:pointer;">
+                style="flex:1; display:flex; align-items:center; justify-content:flex-start; gap:4px; height:59px; padding:0 6px; border-radius:10px; border:1px solid rgba(162, 170, 173, 0.5); background:#1e2329; color:#fff; font-size:11px; font-weight:800; cursor:pointer; white-space:nowrap;">
                 ${APPLE_MAPS_ICON} Apple Maps
               </button>
             </div>

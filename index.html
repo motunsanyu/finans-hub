@@ -405,17 +405,22 @@
   </div>
 
   <!-- Açılış Animasyonu Katmanı (Global) -->
-  <div id="splashLayer" style="display:none; position:fixed; inset:0; z-index:99999; background:#0b0e11; align-items:center; justify-content:center;">
+  <div id="splashLayer"
+    style="display:none; position:fixed; inset:0; z-index:99999; background:#0b0e11; align-items:center; justify-content:center;">
     <div class="splash-content" style="text-align:center;">
       <div class="splash-logo-container" style="position:relative; width:120px; height:120px; margin:0 auto;">
-         <svg class="splash-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
-            <path d="M30 20H75V34H46V48H70V62H46V80H30V20Z" fill="#FCD535" />
-            <circle cx="82" cy="20" r="8" fill="#FCD535" />
-         </svg>
+        <svg class="splash-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"
+          style="width:100%; height:100%;">
+          <path d="M30 20H75V34H46V48H70V62H46V80H30V20Z" fill="#FCD535" />
+          <circle cx="82" cy="20" r="8" fill="#FCD535" />
+        </svg>
       </div>
-      <div class="splash-text" style="margin-top:20px; color:#fff; font-size:24px; font-weight:800; letter-spacing:4px; opacity:0; font-family:'Space Grotesk', sans-serif;">FINANS TR</div>
+      <div class="splash-text"
+        style="margin-top:20px; color:#fff; font-size:24px; font-weight:800; letter-spacing:4px; opacity:0; font-family:'Space Grotesk', sans-serif;">
+        FINANS TR</div>
     </div>
-    <div class="explosion-overlay" style="position:absolute; inset:0; background:#fff; opacity:0; pointer-events:none; z-index:2;"></div>
+    <div class="explosion-overlay"
+      style="position:absolute; inset:0; background:#fff; opacity:0; pointer-events:none; z-index:2;"></div>
   </div>
 
   <div id="pinScreen" style="display:none;">
@@ -647,17 +652,26 @@
               <div id="homeDateOnly" style="font-size:10px; color:var(--text-secondary); font-weight:700;"></div>
               <div id="homeDayOnly"
                 style="font-size:11px; color:var(--text-primary); font-weight:800; text-transform:capitalize;"></div>
+              <div id="lastCommitInfo"
+                style="font-size:8px; color:#6b7280; font-weight:700; opacity:0.8; margin-top:2px; text-transform:uppercase; letter-spacing:0.02em;">
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Piyasa / Coinler Alt Sekmeleri -->
-        <div class="market-sub-tabs" style="overflow-x:auto; white-space:nowrap; padding:8px 4px; -webkit-overflow-scrolling:touch; display:flex; gap:4px; border-bottom:1px solid rgba(255,255,255,0.05);">
-          <button class="market-sub-btn active" id="btnMarketPiyasa" onclick="window.switchMarketTab('market')" style="flex:none; padding:6px 12px; font-size:12px; font-weight:700;">Piyasa</button>
-          <button class="market-sub-btn" id="btnMarketCoinler" onclick="window.switchMarketTab('coins')" style="flex:none; padding:6px 12px; font-size:12px; font-weight:700;">Coinler</button>
-          <button class="market-sub-btn" id="btnMarketTrade" onclick="window.switchMarketTab('trade')" style="flex:none; padding:6px 12px; font-size:12px; font-weight:700;">İşlemler</button>
-          <button class="market-sub-btn" id="btnMarketPortfolio" onclick="window.switchMarketTab('portfolio')" style="flex:none; padding:6px 12px; font-size:12px; font-weight:700;">Portföy</button>
-          <button class="market-sub-btn" id="btnMarketNews" onclick="window.switchMarketTab('news')" style="flex:none; padding:6px 12px; font-size:12px; font-weight:700;">Haberler</button>
+        <div class="market-sub-tabs"
+          style="overflow-x:auto; white-space:nowrap; padding:8px 4px; -webkit-overflow-scrolling:touch; display:flex; gap:4px; border-bottom:1px solid rgba(255,255,255,0.05);">
+          <button class="market-sub-btn active" id="btnMarketPiyasa" onclick="window.switchMarketTab('market')"
+            style="flex:none; padding:6px 12px; font-size:12px; font-weight:700;">Piyasa</button>
+          <button class="market-sub-btn" id="btnMarketCoinler" onclick="window.switchMarketTab('coins')"
+            style="flex:none; padding:6px 12px; font-size:12px; font-weight:700;">Coinler</button>
+          <button class="market-sub-btn" id="btnMarketTrade" onclick="window.switchMarketTab('trade')"
+            style="flex:none; padding:6px 12px; font-size:12px; font-weight:700;">İşlemler</button>
+          <button class="market-sub-btn" id="btnMarketPortfolio" onclick="window.switchMarketTab('portfolio')"
+            style="flex:none; padding:6px 12px; font-size:12px; font-weight:700;">Portföy</button>
+          <button class="market-sub-btn" id="btnMarketNews" onclick="window.switchMarketTab('news')"
+            style="flex:none; padding:6px 12px; font-size:12px; font-weight:700;">Haberler</button>
         </div>
 
         <!-- PIYASA BOLUMU -->
@@ -783,114 +797,161 @@
         <div id="tradeSection" class="trade-portfolio-panel" style="display:none; padding:12px;">
           <div style="background:#1e2329; border-radius:24px; padding:20px; border:1px solid #2a2f36;">
             <!-- Available Balance -->
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-size:12px; color:#848e9c;">
+            <div
+              style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-size:12px; color:#848e9c;">
               <span id="tradeAvailableLabel">Cüzdan Bakiyesi:</span>
               <span id="tradeAvailableBalance" style="font-weight:700; color:white;">$1,000.00</span>
             </div>
 
             <!-- Buy/Sell Toggle Buttons -->
             <div style="display:flex; background:#0b0e11; padding:4px; border-radius:12px; margin-bottom:20px;">
-              <button id="tradeTabBuy" onclick="TradeModule.switchMode('buy')" style="flex:1; padding:10px; border:none; border-radius:10px; font-weight:800; cursor:pointer; background:var(--up); color:white; transition:0.2s;">Al</button>
-              <button id="tradeTabSell" onclick="TradeModule.switchMode('sell')" style="flex:1; padding:10px; border:none; border-radius:10px; font-weight:800; cursor:pointer; background:transparent; color:#848e9c; transition:0.2s;">Sat</button>
+              <button id="tradeTabBuy" onclick="TradeModule.switchMode('buy')"
+                style="flex:1; padding:10px; border:none; border-radius:10px; font-weight:800; cursor:pointer; background:var(--up); color:white; transition:0.2s;">Al</button>
+              <button id="tradeTabSell" onclick="TradeModule.switchMode('sell')"
+                style="flex:1; padding:10px; border:none; border-radius:10px; font-weight:800; cursor:pointer; background:transparent; color:#848e9c; transition:0.2s;">Sat</button>
             </div>
 
             <!-- Market Selector -->
             <div style="margin-bottom:16px;">
-              <select id="tradeCoinSelect" style="width:100%; background:#2b3139; border:none; border-radius:12px; padding:14px; color:white; font-weight:700; font-size:15px; outline:none;"></select>
+              <select id="tradeCoinSelect"
+                style="width:100%; background:#2b3139; border:none; border-radius:12px; padding:14px; color:white; font-weight:700; font-size:15px; outline:none;"></select>
             </div>
 
             <!-- Price Display -->
-            <div style="text-align:center; margin-bottom:20px; background:rgba(0,0,0,0.15); padding:16px; border-radius:16px;">
-              <div style="font-size:11px; color:#848e9c; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px;">Piyasa Fiyatı</div>
-              <div id="tradeCurrentPrice" style="font-size:28px; font-weight:800; color:var(--up); font-family:'Space Grotesk', sans-serif;">--</div>
+            <div
+              style="text-align:center; margin-bottom:20px; background:rgba(0,0,0,0.15); padding:16px; border-radius:16px;">
+              <div
+                style="font-size:11px; color:#848e9c; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px;">
+                Piyasa Fiyatı</div>
+              <div id="tradeCurrentPrice"
+                style="font-size:28px; font-weight:800; color:var(--up); font-family:'Space Grotesk', sans-serif;">--
+              </div>
               <div id="tradePriceChange" style="font-size:12px; font-weight:600;">--</div>
             </div>
 
             <!-- Input Mode Selector (Amount / Total) -->
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                <div style="font-size:12px; color:#848e9c; font-weight:700;">Emir Tipi: <span style="color:white;">Piyasa</span></div>
-                <select id="tradeInputMode" onchange="TradeModule.updateInputLabel()" style="background:none; border:none; color:var(--brand); font-weight:700; font-size:12px; cursor:pointer; outline:none;">
-                  <option value="total" selected>Toplam (USDT)</option>
-                  <option value="amount">Miktar (Coin)</option>
-                </select>
-             </div>
+              <div style="font-size:12px; color:#848e9c; font-weight:700;">Emir Tipi: <span
+                  style="color:white;">Piyasa</span></div>
+              <select id="tradeInputMode" onchange="TradeModule.updateInputLabel()"
+                style="background:none; border:none; color:var(--brand); font-weight:700; font-size:12px; cursor:pointer; outline:none;">
+                <option value="total" selected>Toplam (USDT)</option>
+                <option value="amount">Miktar (Coin)</option>
+              </select>
+            </div>
 
             <!-- Amount/Total Input -->
             <div style="position:relative; margin-bottom:12px;">
-              <input type="number" id="tradeQuantity" step="0.000001" placeholder="0.00" style="width:100%; background:#2b3139; border:1px solid #374151; border-radius:12px; padding:16px; color:white; font-size:18px; font-weight:700; box-sizing:border-box; outline:none;">
-              <span id="tradeUnitLabel" style="position:absolute; right:16px; top:50%; transform:translateY(-50%); color:#848e9c; font-weight:700; font-size:14px;">BTC</span>
+              <input type="number" id="tradeQuantity" step="0.000001" placeholder="0.00"
+                style="width:100%; background:#2b3139; border:1px solid #374151; border-radius:12px; padding:16px; color:white; font-size:18px; font-weight:700; box-sizing:border-box; outline:none;">
+              <span id="tradeUnitLabel"
+                style="position:absolute; right:16px; top:50%; transform:translateY(-50%); color:#848e9c; font-weight:700; font-size:14px;">BTC</span>
             </div>
 
             <!-- Percentage Slider (Binance Style) -->
             <div style="position:relative; margin-bottom:30px; padding:0 10px;">
-               <input type="range" id="tradePercentSlider" min="0" max="100" value="0" step="1" oninput="TradeModule.onSliderInput(this.value)" style="width:100%; height:4px; background:#2b3139; border-radius:2px; appearance:none; outline:none; cursor:pointer;">
-               <div style="position:absolute; top:50%; left:10px; right:10px; display:flex; justify-content:space-between; transform:translateY(-50%); pointer-events:none;">
-                  <div style="width:10px; height:10px; background:#2b3139; border:2px solid #374151; transform:rotate(45deg); transition:0.2s;" class="slider-dot" data-val="0"></div>
-                  <div style="width:10px; height:10px; background:#2b3139; border:2px solid #374151; transform:rotate(45deg); transition:0.2s;" class="slider-dot" data-val="25"></div>
-                  <div style="width:10px; height:10px; background:#2b3139; border:2px solid #374151; transform:rotate(45deg); transition:0.2s;" class="slider-dot" data-val="50"></div>
-                  <div style="width:10px; height:10px; background:#2b3139; border:2px solid #374151; transform:rotate(45deg); transition:0.2s;" class="slider-dot" data-val="75"></div>
-                  <div style="width:10px; height:10px; background:#2b3139; border:2px solid #374151; transform:rotate(45deg); transition:0.2s;" class="slider-dot" data-val="100"></div>
-               </div>
-               <div id="sliderValueLabel" style="position:absolute; bottom:-18px; left:50%; transform:translateX(-50%); font-size:10px; color:var(--brand); font-weight:800; background:#2b3139; padding:2px 6px; border-radius:4px; border:1px solid rgba(255,255,255,0.1);">0%</div>
+              <input type="range" id="tradePercentSlider" min="0" max="100" value="0" step="1"
+                oninput="TradeModule.onSliderInput(this.value)"
+                style="width:100%; height:4px; background:#2b3139; border-radius:2px; appearance:none; outline:none; cursor:pointer;">
+              <div
+                style="position:absolute; top:50%; left:10px; right:10px; display:flex; justify-content:space-between; transform:translateY(-50%); pointer-events:none;">
+                <div
+                  style="width:10px; height:10px; background:#2b3139; border:2px solid #374151; transform:rotate(45deg); transition:0.2s;"
+                  class="slider-dot" data-val="0"></div>
+                <div
+                  style="width:10px; height:10px; background:#2b3139; border:2px solid #374151; transform:rotate(45deg); transition:0.2s;"
+                  class="slider-dot" data-val="25"></div>
+                <div
+                  style="width:10px; height:10px; background:#2b3139; border:2px solid #374151; transform:rotate(45deg); transition:0.2s;"
+                  class="slider-dot" data-val="50"></div>
+                <div
+                  style="width:10px; height:10px; background:#2b3139; border:2px solid #374151; transform:rotate(45deg); transition:0.2s;"
+                  class="slider-dot" data-val="75"></div>
+                <div
+                  style="width:10px; height:10px; background:#2b3139; border:2px solid #374151; transform:rotate(45deg); transition:0.2s;"
+                  class="slider-dot" data-val="100"></div>
+              </div>
+              <div id="sliderValueLabel"
+                style="position:absolute; bottom:-18px; left:50%; transform:translateX(-50%); font-size:10px; color:var(--brand); font-weight:800; background:#2b3139; padding:2px 6px; border-radius:4px; border:1px solid rgba(255,255,255,0.1);">
+                0%</div>
             </div>
             <style>
-               #tradePercentSlider::-webkit-slider-thumb {
-                  appearance: none;
-                  width: 18px;
-                  height: 18px;
-                  background: white;
-                  border: 4px solid var(--brand);
-                  border-radius: 50%;
-                  cursor: pointer;
-                  box-shadow: 0 0 10px rgba(252,213,53,0.4);
-                  position: relative;
-                  z-index: 2;
-               }
+              #tradePercentSlider::-webkit-slider-thumb {
+                appearance: none;
+                width: 18px;
+                height: 18px;
+                background: white;
+                border: 4px solid var(--brand);
+                border-radius: 50%;
+                cursor: pointer;
+                box-shadow: 0 0 10px rgba(252, 213, 53, 0.4);
+                position: relative;
+                z-index: 2;
+              }
             </style>
 
             <!-- Summary Preview -->
-            <div id="tradeCostPreview" style="font-size:13px; color:#848e9c; text-align:right; margin-bottom:24px;">Yaklaşık: 0.00 USDT</div>
+            <div id="tradeCostPreview" style="font-size:13px; color:#848e9c; text-align:right; margin-bottom:24px;">
+              Yaklaşık: 0.00 USDT</div>
 
             <!-- Execute Button -->
-            <button id="executeTradeBtn" style="width:100%; padding:16px; border:none; border-radius:16px; background:var(--up); color:white; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 8px 16px rgba(0,0,0,0.2);">Satın Al</button>
+            <button id="executeTradeBtn"
+              style="width:100%; padding:16px; border:none; border-radius:16px; background:var(--up); color:white; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 8px 16px rgba(0,0,0,0.2);">Satın
+              Al</button>
           </div>
         </div>
 
         <!-- PORTFÖY BÖLÜMÜ -->
         <div id="portfolioSection" class="trade-portfolio-panel" style="display:none; padding:12px;">
           <!-- Pro Portfolio Summary -->
-          <div style="background:linear-gradient(135deg, #1e2329 0%, #0b0e11 100%); border-radius:24px; padding:24px; border:1px solid #2a2f36; margin-bottom:20px; box-shadow:0 10px 30px rgba(0,0,0,0.3);">
+          <div
+            style="background:linear-gradient(135deg, #1e2329 0%, #0b0e11 100%); border-radius:24px; padding:24px; border:1px solid #2a2f36; margin-bottom:20px; box-shadow:0 10px 30px rgba(0,0,0,0.3);">
             <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
               <div>
-                <div style="color:#848e9c; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Toplam Varlık Değeri</div>
-                <div id="totalPortfolioValue" style="font-size:36px; font-weight:800; color:white; font-family:'Space Grotesk', sans-serif; line-height:1;">$0.00</div>
-                <div id="totalPortfolioValueTRY" style="font-size:16px; color:#848e9c; font-weight:600; margin-top:4px;">≈ 0.00 ₺</div>
+                <div
+                  style="color:#848e9c; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">
+                  Toplam Varlık Değeri</div>
+                <div id="totalPortfolioValue"
+                  style="font-size:36px; font-weight:800; color:white; font-family:'Space Grotesk', sans-serif; line-height:1;">
+                  $0.00</div>
+                <div id="totalPortfolioValueTRY"
+                  style="font-size:16px; color:#848e9c; font-weight:600; margin-top:4px;">≈ 0.00 ₺</div>
               </div>
-              <button onclick="TradeModule.resetPortfolio()" style="background:rgba(239,83,80,0.1); border:none; color:#ef5350; padding:6px 12px; border-radius:8px; font-size:10px; font-weight:800; cursor:pointer;">SIFIRLA</button>
+              <button onclick="TradeModule.resetPortfolio()"
+                style="background:rgba(239,83,80,0.1); border:none; color:#ef5350; padding:6px 12px; border-radius:8px; font-size:10px; font-weight:800; cursor:pointer;">SIFIRLA</button>
             </div>
-            
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; padding:16px; background:rgba(255,255,255,0.03); border-radius:16px; border:1px solid rgba(255,255,255,0.05);">
-               <div>
-                  <div style="color:#848e9c; font-size:10px; text-transform:uppercase; margin-bottom:2px;">Cüzdan Bakiyesi</div>
-                  <div id="walletCashBalance" style="font-size:18px; font-weight:800; color:var(--brand);">$1,000.00</div>
-                  <div id="totalPnl" style="font-size:11px; font-weight:700; color:var(--up); margin-top:2px;">--</div>
-               </div>
-               <button onclick="TradeModule.addBalance(1000)" style="background:var(--brand); border:none; color:black; padding:10px 16px; border-radius:12px; font-size:12px; font-weight:800; cursor:pointer; box-shadow:0 4px 12px rgba(252,213,53,0.2);">+$1000 EKLE</button>
+
+            <div
+              style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; padding:16px; background:rgba(255,255,255,0.03); border-radius:16px; border:1px solid rgba(255,255,255,0.05);">
+              <div>
+                <div style="color:#848e9c; font-size:10px; text-transform:uppercase; margin-bottom:2px;">Cüzdan Bakiyesi
+                </div>
+                <div id="walletCashBalance" style="font-size:18px; font-weight:800; color:var(--brand);">$1,000.00</div>
+                <div id="totalPnl" style="font-size:11px; font-weight:700; color:var(--up); margin-top:2px;">--</div>
+              </div>
+              <button onclick="TradeModule.addBalance(1000)"
+                style="background:var(--brand); border:none; color:black; padding:10px 16px; border-radius:12px; font-size:12px; font-weight:800; cursor:pointer; box-shadow:0 4px 12px rgba(252,213,53,0.2);">+$1000
+                EKLE</button>
             </div>
           </div>
 
-          <div style="color:white; font-size:16px; font-weight:800; margin-bottom:12px; padding:0 4px;">Varlıklarım</div>
-          <div id="portfolioList" class="portfolio-container" style="display:flex; flex-direction:column; gap:12px;"></div>
+          <div style="color:white; font-size:16px; font-weight:800; margin-bottom:12px; padding:0 4px;">Varlıklarım
+          </div>
+          <div id="portfolioList" class="portfolio-container" style="display:flex; flex-direction:column; gap:12px;">
+          </div>
         </div>
 
         <!-- HABERLER BÖLÜMÜ -->
         <div id="newsSection" class="trade-portfolio-panel" style="display:none; padding:12px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding:0 4px;">
-             <div style="color:white; font-size:16px; font-weight:800;">Türkiye Ekonomi Haberleri</div>
-             <button onclick="NewsModule.fetchNews()" style="background:rgba(252,213,53,0.1); border:none; color:var(--brand); padding:6px 12px; border-radius:20px; font-size:11px; font-weight:700; cursor:pointer;">↻ Yenile</button>
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding:0 4px;">
+            <div style="color:white; font-size:16px; font-weight:800;">Türkiye Ekonomi Haberleri</div>
+            <button onclick="NewsModule.fetchNews()"
+              style="background:rgba(252,213,53,0.1); border:none; color:var(--brand); padding:6px 12px; border-radius:20px; font-size:11px; font-weight:700; cursor:pointer;">↻
+              Yenile</button>
           </div>
           <div id="newsList" style="display:flex; flex-direction:column; gap:16px;">
-             <div style="text-align:center; padding:40px; color:#848e9c;">Haberler yükleniyor...</div>
+            <div style="text-align:center; padding:40px; color:#848e9c;">Haberler yükleniyor...</div>
           </div>
         </div>
       </section> <!-- home kapanışı -->
@@ -1376,7 +1437,7 @@
               <label>Vade (Ay Sayısı) <input type="number" id="schoolInstCount" min="2" step="1" required /></label>
               <label>İlk Vade Tarihi <input type="date" id="schoolFirstDate" required /></label>
 
-              <button type="button" id="schoolUnevenBtn" 
+              <button type="button" id="schoolUnevenBtn"
                 style="width:100%; padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.03); color:#848e9c; font-size:12px; font-weight:800; margin-top:12px; cursor:pointer; transition:all 0.2s ease; outline:none;">
                 📎 Farklı Taksit Tutarı Belirle
               </button>
@@ -1724,811 +1785,825 @@
 
   <!-- ═══════ MODALLAR (app-shell dışında, position:fixed çalışsın) ═══════ -->
 
-    <!-- 🥇 Canlı Altın Borsası Modal (Research Integrated) -->
-    <div id="altinModal" class="modal-overlay"
-      style="display:none; z-index:9999; font-family:'Space Grotesk', sans-serif;">
+  <!-- 🥇 Canlı Altın Borsası Modal (Research Integrated) -->
+  <div id="altinModal" class="modal-overlay"
+    style="display:none; z-index:9999; font-family:'Space Grotesk', sans-serif;">
+    <div
+      style="background:var(--bg-primary); width:100%; height:100%; position:fixed; top:0; left:0; overflow-y:auto; padding-bottom:40px; color:var(--text-primary);">
+
       <div
-        style="background:var(--bg-primary); width:100%; height:100%; position:fixed; top:0; left:0; overflow-y:auto; padding-bottom:40px; color:var(--text-primary);">
+        style="display:flex; justify-content:space-between; align-items:center; padding:20px; background:var(--bg-secondary); border-bottom:1px solid rgba(255,255,255,0.05); position:sticky; top:0; z-index:10;">
+        <div>
+          <h2 style="margin:0; color:var(--brand); font-size:20px; font-weight:800; letter-spacing:-0.5px;">Piyasa
+            Detayı</h2>
+          <div id="altinGuncelleme"
+            style="color:var(--text-secondary); font-size:11px; margin-top:4px; font-weight:600;">Son güncelleme: --
+          </div>
+        </div>
+        <button onclick="document.getElementById('altinModal').style.display='none'"
+          style="background:rgba(255,255,255,0.05); border:none; color:var(--text-primary); width:36px; height:36px; border-radius:10px; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center;">✕</button>
+      </div>
+
+      <div id="altinYukleniyor" style="text-align:center; padding:60px 0; color:var(--text-secondary);">
+        <div style="font-size:32px; margin-bottom:16px; animation: pulse 1.5s infinite;">⏳</div>
+        <div style="font-size:15px; font-weight:600;">Piyasa verileri okunuyor...</div>
+      </div>
+
+      <div id="altinTabloWrap" style="display:none; padding:16px;">
+        <div style="overflow-x:auto;">
+          <table style="width:100%; border-collapse:separate; border-spacing:0 8px; font-size:13px;">
+            <thead>
+              <tr
+                style="color:var(--text-secondary); font-size:11px; text-transform:uppercase; letter-spacing:1px; font-weight:800;">
+                <th style="padding:0 8px; text-align:left;">Tür</th>
+                <th style="padding:0 8px; text-align:right;">Alış (₺)</th>
+                <th style="padding:0 8px; text-align:right;">Satış (₺)</th>
+              </tr>
+            </thead>
+            <tbody id="altinTbody"></tbody>
+          </table>
+        </div>
+
+        <!-- 🧮 ALTIN HESAP MAKİNESİ (Akerdeon) -->
+        <details class="panel" style="margin-top:24px; padding:0; overflow:hidden;">
+          <summary
+            style="padding:16px; font-weight:800; color:var(--text-primary); cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; user-select:none;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:20px;">🧮</span> Altın Hesap Makinesi
+            </div>
+            <span
+              style="font-size:12px; color:var(--brand); background:rgba(252,213,53,0.1); padding:4px 10px; border-radius:10px;">Genişlet
+              ▼</span>
+          </summary>
+          <div style="padding:16px; border-top:1px solid rgba(255,255,255,0.05); background:rgba(0,0,0,0.15);">
+            <div style="display:flex; gap:12px; margin-bottom:16px;">
+              <div style="flex:1;">
+                <label
+                  style="font-size:11px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; display:block;">Altın
+                  Türü</label>
+                <select id="calcGoldType" class="input-modern" onchange="window.calcGold()"
+                  style="padding:10px; font-size:14px; background:var(--bg-secondary);">
+                  <option value="GA">Gram Altın</option>
+                  <option value="B">22 Ayar Bilezik</option>
+                  <option value="C">Çeyrek Altın</option>
+                  <option value="Y">Yarım Altın</option>
+                  <option value="T">Tam Altın</option>
+                  <option value="A">Ata/Cumhuriyet</option>
+                </select>
+              </div>
+              <div style="width:100px;">
+                <label
+                  style="font-size:11px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; display:block;">Adet
+                  / Gr</label>
+                <input type="number" id="calcGoldAmount" class="input-modern" value="1" min="0.01" step="0.01"
+                  oninput="window.calcGold()"
+                  style="padding:10px; font-size:14px; text-align:center; background:var(--bg-secondary);">
+              </div>
+            </div>
+
+            <div
+              style="display:flex; justify-content:space-between; gap:12px; background:var(--bg-primary); padding:16px; border-radius:12px; border:1px solid rgba(255,255,255,0.05); box-shadow:inset 0 4px 10px rgba(0,0,0,0.2);">
+              <div>
+                <div
+                  style="font-size:11px; color:var(--text-secondary); font-weight:800; text-transform:uppercase; margin-bottom:6px;">
+                  Sen Satarken (Alış)</div>
+                <div id="calcGoldBuy"
+                  style="color:var(--brand); font-size:18px; font-weight:800; letter-spacing:-0.5px;">0,00 ₺</div>
+              </div>
+              <div style="text-align:right;">
+                <div
+                  style="font-size:11px; color:var(--text-secondary); font-weight:800; text-transform:uppercase; margin-bottom:6px;">
+                  Sen Alırken (Satış)</div>
+                <div id="calcGoldSell" style="color:var(--up); font-size:18px; font-weight:800; letter-spacing:-0.5px;">
+                  0,00 ₺</div>
+              </div>
+            </div>
+
+            <button onclick="window.saveGoldCalculation()"
+              style="width:100%; margin-top:16px; background:var(--brand); color:#000; font-family:'Space Grotesk', sans-serif; font-weight:800; border:none; padding:12px; border-radius:8px; cursor:pointer;">
+              Hesaplamayı Kaydet
+            </button>
+            <div id="goldSavedList" style="margin-top:16px; display:flex; flex-direction:column; gap:8px;"></div>
+
+            <div style="font-size:10px; color:var(--text-secondary); margin-top:8px; text-align:center;">Hesaplamalar
+              gösterge niteliğindedir. Alım satım aralığı makas içerebilir.</div>
+          </div>
+        </details>
 
         <div
-          style="display:flex; justify-content:space-between; align-items:center; padding:20px; background:var(--bg-secondary); border-bottom:1px solid rgba(255,255,255,0.05); position:sticky; top:0; z-index:10;">
-          <div>
-            <h2 style="margin:0; color:var(--brand); font-size:20px; font-weight:800; letter-spacing:-0.5px;">Piyasa
-              Detayı</h2>
-            <div id="altinGuncelleme"
-              style="color:var(--text-secondary); font-size:11px; margin-top:4px; font-weight:600;">Son güncelleme: --
-            </div>
-          </div>
-          <button onclick="document.getElementById('altinModal').style.display='none'"
-            style="background:rgba(255,255,255,0.05); border:none; color:var(--text-primary); width:36px; height:36px; border-radius:10px; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center;">✕</button>
-        </div>
-
-        <div id="altinYukleniyor" style="text-align:center; padding:60px 0; color:var(--text-secondary);">
-          <div style="font-size:32px; margin-bottom:16px; animation: pulse 1.5s infinite;">⏳</div>
-          <div style="font-size:15px; font-weight:600;">Piyasa verileri okunuyor...</div>
-        </div>
-
-        <div id="altinTabloWrap" style="display:none; padding:16px;">
-          <div style="overflow-x:auto;">
-            <table style="width:100%; border-collapse:separate; border-spacing:0 8px; font-size:13px;">
-              <thead>
-                <tr
-                  style="color:var(--text-secondary); font-size:11px; text-transform:uppercase; letter-spacing:1px; font-weight:800;">
-                  <th style="padding:0 8px; text-align:left;">Tür</th>
-                  <th style="padding:0 8px; text-align:right;">Alış (₺)</th>
-                  <th style="padding:0 8px; text-align:right;">Satış (₺)</th>
-                </tr>
-              </thead>
-              <tbody id="altinTbody"></tbody>
-            </table>
-          </div>
-
-          <!-- 🧮 ALTIN HESAP MAKİNESİ (Akerdeon) -->
-          <details class="panel" style="margin-top:24px; padding:0; overflow:hidden;">
-            <summary
-              style="padding:16px; font-weight:800; color:var(--text-primary); cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; user-select:none;">
-              <div style="display:flex; align-items:center; gap:8px;">
-                <span style="font-size:20px;">🧮</span> Altın Hesap Makinesi
-              </div>
-              <span
-                style="font-size:12px; color:var(--brand); background:rgba(252,213,53,0.1); padding:4px 10px; border-radius:10px;">Genişlet
-                ▼</span>
-            </summary>
-            <div style="padding:16px; border-top:1px solid rgba(255,255,255,0.05); background:rgba(0,0,0,0.15);">
-              <div style="display:flex; gap:12px; margin-bottom:16px;">
-                <div style="flex:1;">
-                  <label
-                    style="font-size:11px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; display:block;">Altın
-                    Türü</label>
-                  <select id="calcGoldType" class="input-modern" onchange="window.calcGold()"
-                    style="padding:10px; font-size:14px; background:var(--bg-secondary);">
-                    <option value="GA">Gram Altın</option>
-                    <option value="B">22 Ayar Bilezik</option>
-                    <option value="C">Çeyrek Altın</option>
-                    <option value="Y">Yarım Altın</option>
-                    <option value="T">Tam Altın</option>
-                    <option value="A">Ata/Cumhuriyet</option>
-                  </select>
-                </div>
-                <div style="width:100px;">
-                  <label
-                    style="font-size:11px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; display:block;">Adet
-                    / Gr</label>
-                  <input type="number" id="calcGoldAmount" class="input-modern" value="1" min="0.01" step="0.01"
-                    oninput="window.calcGold()"
-                    style="padding:10px; font-size:14px; text-align:center; background:var(--bg-secondary);">
-                </div>
-              </div>
-
-              <div
-                style="display:flex; justify-content:space-between; gap:12px; background:var(--bg-primary); padding:16px; border-radius:12px; border:1px solid rgba(255,255,255,0.05); box-shadow:inset 0 4px 10px rgba(0,0,0,0.2);">
-                <div>
-                  <div
-                    style="font-size:11px; color:var(--text-secondary); font-weight:800; text-transform:uppercase; margin-bottom:6px;">
-                    Sen Satarken (Alış)</div>
-                  <div id="calcGoldBuy"
-                    style="color:var(--brand); font-size:18px; font-weight:800; letter-spacing:-0.5px;">0,00 ₺</div>
-                </div>
-                <div style="text-align:right;">
-                  <div
-                    style="font-size:11px; color:var(--text-secondary); font-weight:800; text-transform:uppercase; margin-bottom:6px;">
-                    Sen Alırken (Satış)</div>
-                  <div id="calcGoldSell"
-                    style="color:var(--up); font-size:18px; font-weight:800; letter-spacing:-0.5px;">0,00 ₺</div>
-                </div>
-              </div>
-
-              <button onclick="window.saveGoldCalculation()"
-                style="width:100%; margin-top:16px; background:var(--brand); color:#000; font-family:'Space Grotesk', sans-serif; font-weight:800; border:none; padding:12px; border-radius:8px; cursor:pointer;">
-                Hesaplamayı Kaydet
-              </button>
-              <div id="goldSavedList" style="margin-top:16px; display:flex; flex-direction:column; gap:8px;"></div>
-
-              <div style="font-size:10px; color:var(--text-secondary); margin-top:8px; text-align:center;">Hesaplamalar
-                gösterge niteliğindedir. Alım satım aralığı makas içerebilir.</div>
-            </div>
-          </details>
-
-          <div
-            style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.05);">
-            <div style="color:var(--text-secondary); font-size:11px; font-weight:600;">Canlı Piyasa • Otomatik Yenileme
-              (60sn)</div>
-            <button onclick="altinVerisiYukle()"
-              style="background:transparent; color:var(--brand); border:1px solid rgba(252,213,53,0.3); padding:8px 16px; border-radius:8px; font-weight:700; cursor:pointer; font-size:12px;">
-              YENİLE
-            </button>
-          </div>
+          style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.05);">
+          <div style="color:var(--text-secondary); font-size:11px; font-weight:600;">Canlı Piyasa • Otomatik Yenileme
+            (60sn)</div>
+          <button onclick="altinVerisiYukle()"
+            style="background:transparent; color:var(--brand); border:1px solid rgba(252,213,53,0.3); padding:8px 16px; border-radius:8px; font-weight:700; cursor:pointer; font-size:12px;">
+            YENİLE
+          </button>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- ═════════════════════════ COIN DETAY MODALI ═════════════════════════ -->
-    <style>
-      @keyframes slideInRight {
-        from {
-          transform: translateX(100%);
-        }
-
-        to {
-          transform: translateX(0);
-        }
+  <!-- ═════════════════════════ COIN DETAY MODALI ═════════════════════════ -->
+  <style>
+    @keyframes slideInRight {
+      from {
+        transform: translateX(100%);
       }
-    </style>
-    <!-- Arkadaşlar Modal (Telegram Pro Sidebar) -->
-    <div id="friendsModal" class="modal-overlay"
-      style="display:none; justify-content:flex-end; z-index:10000; padding:0;">
-      <div class="modal-content"
-        style="max-width:400px; width:100%; height:100%; padding:0; overflow:hidden; border-radius:24px 0 0 24px; border-left:1px solid #232e3c; border-top:none; border-bottom:none; border-right:none; background:#0e1621; animation: slideInRight 0.3s cubic-bezier(0.25, 1, 0.5, 1); margin:0;">
-        <div class="friends-container">
-          <div class="friends-header">
-            <h2 style="margin:0; font-size:18px; font-weight:800;">Arkadaşlar</h2>
-            <button onclick="toggleFriendsModal()"
-              style="background:none; border:none; color:#708499; font-size:24px; cursor:pointer;">✕</button>
+
+      to {
+        transform: translateX(0);
+      }
+    }
+  </style>
+  <!-- Arkadaşlar Modal (Telegram Pro Sidebar) -->
+  <div id="friendsModal" class="modal-overlay"
+    style="display:none; justify-content:flex-end; z-index:10000; padding:0;">
+    <div class="modal-content"
+      style="max-width:400px; width:100%; height:100%; padding:0; overflow:hidden; border-radius:24px 0 0 24px; border-left:1px solid #232e3c; border-top:none; border-bottom:none; border-right:none; background:#0e1621; animation: slideInRight 0.3s cubic-bezier(0.25, 1, 0.5, 1); margin:0;">
+      <div class="friends-container">
+        <div class="friends-header">
+          <h2 style="margin:0; font-size:18px; font-weight:800;">Arkadaşlar</h2>
+          <button onclick="toggleFriendsModal()"
+            style="background:none; border:none; color:#708499; font-size:24px; cursor:pointer;">✕</button>
+        </div>
+
+        <div style="flex:1; overflow-y:auto; padding-bottom:20px; display:flex; flex-direction:column;">
+
+          <!-- Arkadaş Listesi -->
+          <div id="friendListWrapper" style="margin-bottom:16px;">
+            <div class="section-title">Arkadaş Listem</div>
+            <div id="friendList">
+              <div class="requests-empty">Henüz arkadaşınız yok.</div>
+            </div>
           </div>
 
-          <div style="flex:1; overflow-y:auto; padding-bottom:20px; display:flex; flex-direction:column;">
-            
-            <!-- Arkadaş Listesi -->
-            <div id="friendListWrapper" style="margin-bottom:16px;">
-               <div class="section-title">Arkadaş Listem</div>
-               <div id="friendList">
-                 <div class="requests-empty">Henüz arkadaşınız yok.</div>
-               </div>
-            </div>
-
-            <!-- Gelen İstekler -->
-            <div id="pendingRequestsWrapper" style="display:none; margin-bottom:16px;">
-               <div class="section-title">Gelen İstekler</div>
-               <div id="pendingRequests"></div>
-            </div>
-
-            <!-- Spacer -->
-            <div style="flex:1;"></div>
-
-            <!-- Arama -->
-            <div class="search-wrapper" style="margin-top:24px; padding:0 16px;">
-              <div class="search-bar" style="background:#17212b; border-radius:16px;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#708499" stroke-width="2.5">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-                <input type="text" id="friendSearchInput" placeholder="Kullanıcı adı girin..."
-                  onkeyup="if(event.key==='Enter') window.searchAndAddFriend()">
-              </div>
-              <div id="searchResult" style="margin-top:12px;"></div>
-            </div>
-
+          <!-- Gelen İstekler -->
+          <div id="pendingRequestsWrapper" style="display:none; margin-bottom:16px;">
+            <div class="section-title">Gelen İstekler</div>
+            <div id="pendingRequests"></div>
           </div>
+
+          <!-- Spacer -->
+          <div style="flex:1;"></div>
+
+          <!-- Arama -->
+          <div class="search-wrapper" style="margin-top:24px; padding:0 16px;">
+            <div class="search-bar" style="background:#17212b; border-radius:16px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#708499" stroke-width="2.5">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="friendSearchInput" placeholder="Kullanıcı adı girin..."
+                onkeyup="if(event.key==='Enter') window.searchAndAddFriend()">
+            </div>
+            <div id="searchResult" style="margin-top:12px;"></div>
+          </div>
+
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- MESAJLAR MODAL (Tam Ekran, WhatsApp/Telegram Tarzı) -->
-    <div id="messagesModal"
-      style="display:none; position:fixed; top:0; left:0; right:0; bottom:0;
+  <!-- MESAJLAR MODAL (Tam Ekran, WhatsApp/Telegram Tarzı) -->
+  <div id="messagesModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0;
              width:100%; height:100%; max-height:-webkit-fill-available;
              background:#0e1621; z-index:10000;
              font-family:'Space Grotesk', sans-serif;
              flex-direction:column; overflow:hidden;">
 
-      <div style="display:flex; height:100%; width:100%; overflow:hidden; flex-direction:row;">
+    <div style="display:flex; height:100%; width:100%; overflow:hidden; flex-direction:row;">
 
-        <!-- SOL PANEL: Konuşma Listesi -->
-        <div id="conversationsPanel"
-          style="display:flex; flex-direction:column; flex-shrink:0; background:#0e1621; width:100%; border-right:1px solid #17212b;">
+      <!-- SOL PANEL: Konuşma Listesi -->
+      <div id="conversationsPanel"
+        style="display:flex; flex-direction:column; flex-shrink:0; background:#0e1621; width:100%; border-right:1px solid #17212b;">
 
-          <!-- Sabit Başlık Çubuğu -->
-          <div style="display:flex; justify-content:space-between; align-items:center;
+        <!-- Sabit Başlık Çubuğu -->
+        <div style="display:flex; justify-content:space-between; align-items:center;
                       padding:14px 16px; background:#17212b;
                       border-bottom:1px solid #0e1621; flex-shrink:0;">
-            <div style="display:flex; align-items:center; gap:12px;">
-              <button onclick="toggleMessagesModal()"
-                style="background:none; border:none; color:#6c7883; cursor:pointer; padding:4px; display:flex; align-items:center;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <line x1="19" y1="12" x2="5" y2="12"></line>
-                  <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-              </button>
-              <h2 style="margin:0; font-size:19px; font-weight:800; color:#fff;">Mesajlar</h2>
-            </div>
-            <!-- Yeni Mesaj / Arkadaş Ekle butonu -->
-            <button onclick="toggleFriendsModal()"
-              style="background:rgba(36,129,204,0.15); border:none; color:#6ab2f2; cursor:pointer; padding:8px; border-radius:10px; display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <button onclick="toggleMessagesModal()"
+              style="background:none; border:none; color:#6c7883; cursor:pointer; padding:4px; display:flex; align-items:center;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
               </svg>
-              Arkadaş
             </button>
+            <h2 style="margin:0; font-size:19px; font-weight:800; color:#fff;">Mesajlar</h2>
           </div>
-
-          <!-- Konuşma Listesi (scroll) -->
-          <div id="conversationList"
-            style="flex:1; overflow-y:auto; background:#0e1621; overscroll-behavior:contain; -webkit-overflow-scrolling:touch;">
-          </div>
+          <!-- Yeni Mesaj / Arkadaş Ekle butonu -->
+          <button onclick="toggleFriendsModal()"
+            style="background:rgba(36,129,204,0.15); border:none; color:#6ab2f2; cursor:pointer; padding:8px; border-radius:10px; display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Arkadaş
+          </button>
         </div>
 
-        <!-- SAĞ PANEL: Sohbet Ekranı -->
-        <div id="chatArea"
-          style="flex:1; height:100%; display:none; flex-direction:column; min-width:0; background:#0e1621; position:relative;">
+        <!-- Konuşma Listesi (scroll) -->
+        <div id="conversationList"
+          style="flex:1; overflow-y:auto; background:#0e1621; overscroll-behavior:contain; -webkit-overflow-scrolling:touch;">
+        </div>
+      </div>
 
-          <!-- ═══ SABİT CHAT HEADER ═══ -->
-          <div id="messageHeader"
-            style="display:flex; align-items:center; gap:10px; padding:10px 16px;
+      <!-- SAĞ PANEL: Sohbet Ekranı -->
+      <div id="chatArea"
+        style="flex:1; height:100%; display:none; flex-direction:column; min-width:0; background:#0e1621; position:relative;">
+
+        <!-- ═══ SABİT CHAT HEADER ═══ -->
+        <div id="messageHeader" style="display:flex; align-items:center; gap:10px; padding:10px 16px;
                    border-bottom:1px solid #17212b; background:#17212b;
                    flex-shrink:0; z-index:10; position:sticky; top:0;">
 
-            <!-- Geri Butonu -->
-            <button onclick="showConversationsList()"
-              style="background:none; border:none; color:#6c7883; cursor:pointer; padding:6px; display:flex; align-items:center; border-radius:50%; transition:background 0.15s; flex-shrink:0;"
-              onmouseover="this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.background='none'">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-              </svg>
-            </button>
+          <!-- Geri Butonu -->
+          <button onclick="showConversationsList()"
+            style="background:none; border:none; color:#6c7883; cursor:pointer; padding:6px; display:flex; align-items:center; border-radius:50%; transition:background 0.15s; flex-shrink:0;"
+            onmouseover="this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.background='none'">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
 
-            <!-- Avatar + Online Nokta -->
-            <div style="position:relative; flex-shrink:0;">
-              <div id="chatHeaderAvatar"
-                style="width:40px; height:40px; border-radius:50%; background:#2b5278;
+          <!-- Avatar + Online Nokta -->
+          <div style="position:relative; flex-shrink:0;">
+            <div id="chatHeaderAvatar" style="width:40px; height:40px; border-radius:50%; background:#2b5278;
                        display:flex; align-items:center; justify-content:center;
                        font-size:16px; font-weight:900; color:#fff; overflow:hidden;">?</div>
-              <div id="chatHeaderOnlineDot"
-                style="display:none; position:absolute; bottom:1px; right:1px; width:12px; height:12px;
+            <div id="chatHeaderOnlineDot" style="display:none; position:absolute; bottom:1px; right:1px; width:12px; height:12px;
                        background:#4ade80; border-radius:50%; border:2px solid #17212b;"></div>
-            </div>
+          </div>
 
-            <!-- İsim + Durum -->
-            <div style="flex:1; min-width:0; cursor:pointer;">
-              <div id="chatHeaderName"
-                style="font-weight:800; font-size:15px; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                Sohbet</div>
-              <div id="chatHeaderStatus" style="font-size:12px; color:#6c7883; font-weight:500;">çevrimdışı</div>
-            </div>
+          <!-- İsim + Durum -->
+          <div style="flex:1; min-width:0; cursor:pointer;">
+            <div id="chatHeaderName"
+              style="font-weight:800; font-size:15px; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+              Sohbet</div>
+            <div id="chatHeaderStatus" style="font-size:12px; color:#6c7883; font-weight:500;">çevrimdışı</div>
+          </div>
 
-            <!-- Kapat -->
-            <button onclick="toggleMessagesModal()"
-              style="background:none; border:none; color:#6c7883; cursor:pointer; font-size:20px; line-height:1;
+          <!-- Kapat -->
+          <button onclick="toggleMessagesModal()"
+            style="background:none; border:none; color:#6c7883; cursor:pointer; font-size:20px; line-height:1;
                      padding:6px; display:flex; align-items:center; border-radius:50%; flex-shrink:0; transition:background 0.15s;"
-              onmouseover="this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.background='none'">✕</button>
-          </div>
+            onmouseover="this.style.background='rgba(255,255,255,0.06)'"
+            onmouseout="this.style.background='none'">✕</button>
+        </div>
 
-          <!-- ═══ MESAJ LİSTESİ ═══ -->
-          <div id="messageList"
-            style="flex:1; overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch;
+        <!-- ═══ MESAJ LİSTESİ ═══ -->
+        <div id="messageList" style="flex:1; overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch;
                    padding:12px 10px; background:#0e1621; min-height:0;">
-          </div>
+        </div>
 
-          <!-- ═══ MESAJ YAZMA ALANI ═══ -->
-          <div style="display:flex; gap:8px; padding:10px 12px 14px;
+        <!-- ═══ MESAJ YAZMA ALANI ═══ -->
+        <div style="display:flex; gap:8px; padding:10px 12px 14px;
                       background:#17212b; align-items:flex-end; flex-shrink:0; border-top:1px solid #1e2c3a;">
 
-            <!-- Emoji Butonu (opsiyonel) -->
-            <button type="button"
-              style="width:38px; height:38px; background:none; border:none; color:#6c7883; cursor:pointer;
+          <!-- Emoji Butonu (opsiyonel) -->
+          <button type="button"
+            style="width:38px; height:38px; background:none; border:none; color:#6c7883; cursor:pointer;
                      display:flex; align-items:center; justify-content:center; flex-shrink:0; border-radius:50%; transition:color 0.15s;"
-              onmouseover="this.style.color='#6ab2f2'" onmouseout="this.style.color='#6c7883'"
-              onclick="document.getElementById('messageInput').focus()">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
-                <line x1="9" y1="9" x2="9.01" y2="9"></line>
-                <line x1="15" y1="9" x2="15.01" y2="9"></line>
-              </svg>
-            </button>
+            onmouseover="this.style.color='#6ab2f2'" onmouseout="this.style.color='#6c7883'"
+            onclick="document.getElementById('messageInput').focus()">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+              <line x1="9" y1="9" x2="9.01" y2="9"></line>
+              <line x1="15" y1="9" x2="15.01" y2="9"></line>
+            </svg>
+          </button>
 
-            <!-- Mesaj Input -->
-            <input type="text" id="messageInput" placeholder="Mesaj yaz..." autocomplete="off" inputmode="text"
-              style="flex:1; padding:11px 16px; border-radius:22px; border:none;
+          <!-- Mesaj Input -->
+          <input type="text" id="messageInput" placeholder="Mesaj yaz..." autocomplete="off" inputmode="text" style="flex:1; padding:11px 16px; border-radius:22px; border:none;
                      background:#242f3d; color:#fff; font-size:15px;
                      font-family:inherit; outline:none; min-height:42px; max-height:120px;
                      resize:none; line-height:1.4; box-sizing:border-box;">
 
-            <!-- Gönder Butonu -->
-            <button type="button" 
-              onmousedown="event.preventDefault(); sendMessageFromUi();"
-              ontouchstart="event.preventDefault(); sendMessageFromUi();"
-              style="width:42px; height:42px; background:#2481cc; color:#fff; border:none;
+          <!-- Gönder Butonu -->
+          <button type="button" onmousedown="event.preventDefault(); sendMessageFromUi();"
+            ontouchstart="event.preventDefault(); sendMessageFromUi();" style="width:42px; height:42px; background:#2481cc; color:#fff; border:none;
                      border-radius:50%; font-size:18px; cursor:pointer; display:flex;
                      align-items:center; justify-content:center; flex-shrink:0;
                      transition:background 0.15s, transform 0.1s; box-shadow:0 2px 8px rgba(36,129,204,0.4);"
-              onmouseover="this.style.background='#1a6eb5'" onmouseout="this.style.background='#2481cc'">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <line x1="22" y1="2" x2="11" y2="13"></line>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-              </svg>
-            </button>
-          </div>
+            onmouseover="this.style.background='#1a6eb5'" onmouseout="this.style.background='#2481cc'">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- ═══ MESAJ BAĞLAM MENÜSÜ (Uzun basma / Sağ tık) ═══ -->
-    <div id="messageActionMenu"
-      style="display:none; position:fixed; background:#1e2c3a; border:1px solid rgba(255,255,255,0.06);
+  <!-- ═══ MESAJ BAĞLAM MENÜSÜ (Uzun basma / Sağ tık) ═══ -->
+  <div id="messageActionMenu" style="display:none; position:fixed; background:#1e2c3a; border:1px solid rgba(255,255,255,0.06);
              border-radius:14px; padding:6px; z-index:10002; box-shadow:0 16px 40px rgba(0,0,0,0.6);
              min-width:210px; animation:fadeIn 0.15s ease;">
 
-      <button onclick="window.copyMessageText()"
-        style="display:flex; align-items:center; gap:10px; width:100%; padding:11px 14px; border:none;
+    <button onclick="window.copyMessageText()" style="display:flex; align-items:center; gap:10px; width:100%; padding:11px 14px; border:none;
                background:transparent; color:#fff; font-size:14px; font-weight:600;
                cursor:pointer; text-align:left; border-radius:8px; font-family:inherit; transition:background 0.12s;"
-        onmouseover="this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.background='transparent'">
-        <span style="font-size:18px;">📋</span>
-        <div>
-          <div style="font-weight:700;">Metni Kopyala</div>
-          <div style="font-size:11px; color:#6c7883; margin-top:1px;">Mesaj içeriğini panoya kopyalar</div>
-        </div>
-      </button>
+      onmouseover="this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.background='transparent'">
+      <span style="font-size:18px;">📋</span>
+      <div>
+        <div style="font-weight:700;">Metni Kopyala</div>
+        <div style="font-size:11px; color:#6c7883; margin-top:1px;">Mesaj içeriğini panoya kopyalar</div>
+      </div>
+    </button>
 
-      <div style="height:1px; background:rgba(255,255,255,0.05); margin:4px 8px;"></div>
+    <div style="height:1px; background:rgba(255,255,255,0.05); margin:4px 8px;"></div>
 
-      <button onclick="window.deleteMessage('me')"
-        style="display:flex; align-items:center; gap:10px; width:100%; padding:11px 14px; border:none;
+    <button onclick="window.deleteMessage('me')" style="display:flex; align-items:center; gap:10px; width:100%; padding:11px 14px; border:none;
                background:transparent; color:#fff; font-size:14px; font-weight:600;
                cursor:pointer; text-align:left; border-radius:8px; font-family:inherit; transition:background 0.12s;"
-        onmouseover="this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.background='transparent'">
-        <span style="font-size:18px;">🙈</span>
-        <div>
-          <div style="font-weight:700;">Benden Sil</div>
-          <div style="font-size:11px; color:#6c7883; margin-top:1px;">Yalnızca sizin için silinir</div>
-        </div>
-      </button>
+      onmouseover="this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.background='transparent'">
+      <span style="font-size:18px;">🙈</span>
+      <div>
+        <div style="font-weight:700;">Benden Sil</div>
+        <div style="font-size:11px; color:#6c7883; margin-top:1px;">Yalnızca sizin için silinir</div>
+      </div>
+    </button>
 
-      <button id="btnDeleteEveryone" onclick="window.deleteMessage('everyone')"
-        style="display:flex; align-items:center; gap:10px; width:100%; padding:11px 14px; border:none;
+    <button id="btnDeleteEveryone" onclick="window.deleteMessage('everyone')" style="display:flex; align-items:center; gap:10px; width:100%; padding:11px 14px; border:none;
                background:transparent; color:#ef5350; font-size:14px; font-weight:600;
                cursor:pointer; text-align:left; border-radius:8px; font-family:inherit; transition:background 0.12s;"
-        onmouseover="this.style.background='rgba(239,83,80,0.08)'" onmouseout="this.style.background='transparent'">
-        <span style="font-size:18px;">🚮</span>
-        <div>
-          <div style="font-weight:700; color:#ef5350;">Herkesten Sil</div>
-          <div style="font-size:11px; color:#8b5050; margin-top:1px;">Herkes için silinir (geri alınamaz)</div>
-        </div>
-      </button>
+      onmouseover="this.style.background='rgba(239,83,80,0.08)'" onmouseout="this.style.background='transparent'">
+      <span style="font-size:18px;">🚮</span>
+      <div>
+        <div style="font-weight:700; color:#ef5350;">Herkesten Sil</div>
+        <div style="font-size:11px; color:#8b5050; margin-top:1px;">Herkes için silinir (geri alınamaz)</div>
+      </div>
+    </button>
 
-      <div style="border-top:1px solid rgba(255,255,255,0.05); margin:4px 6px;"></div>
+    <div style="border-top:1px solid rgba(255,255,255,0.05); margin:4px 6px;"></div>
 
-      <button onclick="window.closeMessageMenu()"
-        style="display:flex; align-items:center; gap:10px; width:100%; padding:10px 14px; border:none;
+    <button onclick="window.closeMessageMenu()" style="display:flex; align-items:center; gap:10px; width:100%; padding:10px 14px; border:none;
                background:transparent; color:#6c7883; font-size:13px; font-weight:600;
                cursor:pointer; text-align:left; border-radius:8px; font-family:inherit; transition:background 0.12s;"
-        onmouseover="this.style.background='rgba(255,255,255,0.04)'" onmouseout="this.style.background='transparent'">
-        <span style="font-size:16px;">✕</span> İptal
-      </button>
-    </div>
+      onmouseover="this.style.background='rgba(255,255,255,0.04)'" onmouseout="this.style.background='transparent'">
+      <span style="font-size:16px;">✕</span> İptal
+    </button>
+  </div>
 
-    <!-- Sohbet Silme Menüsü (Konuşma listesinde uzun basınca çıkar) -->
-    <div id="conversationActionMenu" style="display:none; position:fixed; background:var(--bg-secondary); border:1px solid var(--line);
+  <!-- Sohbet Silme Menüsü (Konuşma listesinde uzun basınca çıkar) -->
+  <div id="conversationActionMenu" style="display:none; position:fixed; background:var(--bg-secondary); border:1px solid var(--line);
                 border-radius:14px; padding:6px; z-index:10003; box-shadow:0 12px 32px rgba(0,0,0,0.5);
                 min-width:180px; animation:fadeIn 0.15s ease;">
-      <button onclick="window.deleteConversation()" style="display:flex; align-items:center; gap:10px; width:100%; padding:11px 14px; border:none;
+    <button onclick="window.deleteConversation()" style="display:flex; align-items:center; gap:10px; width:100%; padding:11px 14px; border:none;
                      background:transparent; color:var(--down); font-size:13px; font-weight:700;
                      cursor:pointer; text-align:left; border-radius:8px; font-family:inherit;
                      transition:background 0.12s;" onmouseover="this.style.background='rgba(255,59,48,0.1)'"
-        onmouseout="this.style.background='transparent'">
-        <span style="font-size:16px;">🗑️</span> Sohbeti Sil
-      </button>
-      <button onclick="window.closeConversationMenu()" style="display:flex; align-items:center; gap:10px; width:100%; padding:11px 14px; border:none;
+      onmouseout="this.style.background='transparent'">
+      <span style="font-size:16px;">🗑️</span> Sohbeti Sil
+    </button>
+    <button onclick="window.closeConversationMenu()" style="display:flex; align-items:center; gap:10px; width:100%; padding:11px 14px; border:none;
                      background:transparent; color:var(--text-secondary); font-size:13px; font-weight:700;
                      cursor:pointer; text-align:left; border-radius:8px; font-family:inherit;
                      transition:background 0.12s;" onmouseover="this.style.background='var(--bg-primary)'"
-        onmouseout="this.style.background='transparent'">
-        <span style="font-size:16px;">✕</span> İptal
-      </button>
-    </div>
+      onmouseout="this.style.background='transparent'">
+      <span style="font-size:16px;">✕</span> İptal
+    </button>
+  </div>
 
-    <div id="coinDetailModal" class="modal-overlay"
-      style="display:none; z-index:9999; font-family:'Space Grotesk', sans-serif;">
+  <div id="coinDetailModal" class="modal-overlay"
+    style="display:none; z-index:9999; font-family:'Space Grotesk', sans-serif;">
+    <div
+      style="background:var(--bg-primary); width:100%; height:100%; position:fixed; top:0; left:0; overflow-y:auto; padding-bottom:40px; color:var(--text-primary);">
+
+      <!-- Header -->
       <div
-        style="background:var(--bg-primary); width:100%; height:100%; position:fixed; top:0; left:0; overflow-y:auto; padding-bottom:40px; color:var(--text-primary);">
-
-        <!-- Header -->
-        <div
-          style="display:flex; justify-content:space-between; align-items:center; padding:20px; background:var(--bg-secondary); border-bottom:1px solid rgba(255,255,255,0.05); position:sticky; top:0; z-index:10;">
-          <div style="display:flex; align-items:center; gap:12px;">
-            <img id="coinDetailIcon" src="" style="width:36px; height:36px; border-radius:50%;">
-            <div>
-              <h2 id="coinDetailSymbol" style="margin:0; font-size:20px; font-weight:800;">BTC/USDT</h2>
-              <div id="coinDetailUpdate" style="font-size:11px; color:var(--text-secondary);">Son güncelleme: --</div>
-            </div>
-          </div>
-          <button onclick="closeCoinDetail()"
-            style="background:rgba(255,255,255,0.05); border:none; color:var(--text-primary); width:36px; height:36px; border-radius:10px; font-size:20px; cursor:pointer;">✕</button>
-        </div>
-
-        <!-- Fiyat & 24s Değişim -->
-        <div style="padding:24px 16px; text-align:center; border-bottom:1px solid rgba(255,255,255,0.05);">
-          <div id="coinDetailPrice" style="font-size:42px; font-weight:800; color:var(--text-primary);">--</div>
-          <div style="display:flex; justify-content:center; gap:20px; margin-top:12px;">
-            <span id="coinDetailChange" style="font-size:16px; font-weight:800;">--</span>
-            <span
-              style="font-size:12px; color:var(--text-secondary); padding:4px 8px; background:rgba(255,255,255,0.05); border-radius:6px;">📊
-              Binance</span>
-          </div>
-        </div>
-
-        <!-- 24s Verileri -->
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:16px;">
-          <div class="coin-stat-box"><span class="coin-stat-label">24s En Yüksek</span><span id="cdHigh"
-              class="coin-stat-val">--</span></div>
-          <div class="coin-stat-box"><span class="coin-stat-label">24s En Düşük</span><span id="cdLow"
-              class="coin-stat-val">--</span></div>
-          <div class="coin-stat-box"><span class="coin-stat-label">24s Hacim (USDT)</span><span id="cdVolume"
-              class="coin-stat-val">--</span></div>
-          <div class="coin-stat-box"><span class="coin-stat-label">24s Hacim (Coin)</span><span id="cdVolumeCoin"
-              class="coin-stat-val">--</span></div>
-        </div>
-
-        <!-- 🤖 Algo Yorum -->
-        <div
-          style="padding:16px; margin:16px; background:rgba(252,213,53,0.05); border:1px solid rgba(252,213,53,0.15); border-radius:14px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <h3
-              style="margin:0; font-size:14px; font-weight:800; color:var(--brand); text-transform:uppercase; letter-spacing:0.5px;">
-              🤖 AKILLI YORUM</h3>
-            <div>
-              <!-- WMA / EMA Toggle Butonları -->
-              <div style="display:flex; justify-content:flex-end; gap:6px; margin-bottom:8px;">
-                <button class="ema-toggle-btn active" id="wma50Toggle" data-ind="wma50"
-                  onclick="toggleIndicator('wma50')" style="background:#FF9800; border-color:#FF9800; color:#fff;">WMA
-                  50</button>
-                <button class="ema-toggle-btn active" id="ema84Toggle" data-ind="ema84"
-                  onclick="toggleIndicator('ema84')" style="background:#00BCD4; border-color:#00BCD4; color:#fff;">EMA
-                  84</button>
-              </div>
-              <div style="display:flex; gap:6px; justify-content:flex-end; align-items:center;">
-                <button class="tf-btn" data-tf="15m" onclick="switchCoinTF('15m')">15dk</button>
-                <button class="tf-btn" data-tf="1h" onclick="switchCoinTF('1h')">1s</button>
-                <button class="tf-btn" data-tf="4h" onclick="switchCoinTF('4h')">4s</button>
-                <button class="tf-btn active" data-tf="1d" onclick="switchCoinTF('1d')">1g</button>
-                <select id="candleLimitSelect" onchange="switchCandleLimit()"
-                  style="margin-left:8px; padding:4px 8px; border-radius:6px; background:var(--bg-hover); color:var(--text-primary); border:1px solid var(--line); font-size:10px; font-family:inherit; cursor:pointer;">
-                  <option value="200">200 mum</option>
-                  <option value="400" selected>400 mum</option>
-                  <option value="600">600 mum</option>
-                  <option value="800">800 mum</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div id="coinDetailComment" style="font-size:13px; line-height:1.7; color:var(--text-secondary);">
-            <span style="color:var(--text-secondary);">Analiz başlatılıyor...</span>
-          </div>
-        </div>
-
-        <!-- 📈 Mum Grafik -->
-        <div style="padding:16px;">
-          <div id="coinChartContainer" style="width:100%; height:350px; border-radius:12px; overflow:hidden;"></div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- 1. KÜTÜPHANELER -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/auth.js"></script>
-    <!-- 2. ANA UYGULAMA (Global fonksiyonlar, state, PIN vs.) -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/lightweight-charts@4.2.1/dist/lightweight-charts.standalone.production.js"></script>
-
-    <!-- 3. FORMATION (Süper Lig saha çizimi için) -->
-    <script src="js/modules/formation.js"></script>
-
-    <!-- 4. MODÜLLER (app.js'e bağımlı) -->
-    <script src="js/modules/vault.js"></script>
-    <script src="js/friends-chat.js"></script>
-    <script src="js/modules/school.js"></script>
-    <script src="js/modules/addresses.js?v=2"></script>
-    <script src="js/modules/fuel.js?v=2"></script>
-    <script src="js/modules/days.js"></script>
-    <script src="js/modules/altin.js"></script>
-    <script src="js/modules/superlig.js"></script>
-    <script src="js/modules/coin.js"></script>
-    <script src="js/modules/trade.js"></script>
-    <script src="js/modules/news.js?v=2"></script>
-
-    <script src="app.js?v=2"></script>
-
-    <!-- 5. TEMA (En son) -->
-    <div id="toastContainer"></div>
-    <!-- CUSTOM CONFIRM MODAL -->
-    <div id="customConfirmModal" class="modal-overlay"
-      style="display:none; justify-content:center; align-items:center; z-index:100001; padding:20px; background:rgba(0,0,0,0.6); backdrop-filter:blur(3px);">
-      <div
-        style="background:#17212b; width:100%; max-width:320px; border-radius:16px; padding:24px; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.5); animation: zoomIn 0.2s cubic-bezier(0.25, 1, 0.5, 1);">
-        <div id="customConfirmText"
-          style="color:#fff; font-size:16px; font-weight:600; margin-bottom:24px; line-height:1.4;">Emin misiniz?</div>
-        <div style="display:flex; gap:12px;">
-          <button id="customConfirmCancel"
-            style="flex:1; background:#232e3c; color:#708499; border:none; padding:12px; border-radius:10px; font-weight:700; cursor:pointer; transition:background 0.2s;">İptal</button>
-          <button id="customConfirmOk"
-            style="flex:1; background:#ef5350; color:#fff; border:none; padding:12px; border-radius:10px; font-weight:700; cursor:pointer; transition:background 0.2s;">Sil</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- YÖNETİCİ MODALI -->
-    <div id="adminModal" class="modal-overlay"
-      style="display:none; justify-content:center; align-items:center; z-index:100000; padding:20px;">
-      <div class="modal-content"
-        style="max-width:600px; width:100%; max-height:90vh; background:#0e1621; padding:0; overflow:hidden; display:flex; flex-direction:column; border-radius:20px; border:1px solid #232e3c; box-shadow:0 12px 48px rgba(0,0,0,0.5);">
-        
-        <div style="padding:20px; border-bottom:1px solid #232e3c; display:flex; justify-content:space-between; align-items:center; background:#17212b;">
+        style="display:flex; justify-content:space-between; align-items:center; padding:20px; background:var(--bg-secondary); border-bottom:1px solid rgba(255,255,255,0.05); position:sticky; top:0; z-index:10;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <img id="coinDetailIcon" src="" style="width:36px; height:36px; border-radius:50%;">
           <div>
-            <h2 style="margin:0; font-size:20px; font-weight:800; color:#fbbf24; display:flex; align-items:center; gap:8px;">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-              Yönetici Paneli
-            </h2>
-            <p id="adminStats" style="margin:4px 0 0; font-size:12px; color:#708499; font-weight:600;">Kayıtlı Kullanıcı: Yükleniyor...</p>
+            <h2 id="coinDetailSymbol" style="margin:0; font-size:20px; font-weight:800;">BTC/USDT</h2>
+            <div id="coinDetailUpdate" style="font-size:11px; color:var(--text-secondary);">Son güncelleme: --</div>
           </div>
-          <button onclick="toggleAdminModal()"
-            style="background:none; border:none; color:#708499; font-size:24px; cursor:pointer; padding:4px;">✕</button>
         </div>
+        <button onclick="closeCoinDetail()"
+          style="background:rgba(255,255,255,0.05); border:none; color:var(--text-primary); width:36px; height:36px; border-radius:10px; font-size:20px; cursor:pointer;">✕</button>
+      </div>
 
-        <div style="padding:16px; background:#0e1621; border-bottom:1px solid #232e3c;">
-          <div style="display:flex; align-items:center; background:#17212b; border-radius:12px; padding:0 12px; border:1px solid #232e3c;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#708499" stroke-width="2.5">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      <!-- Fiyat & 24s Değişim -->
+      <div style="padding:24px 16px; text-align:center; border-bottom:1px solid rgba(255,255,255,0.05);">
+        <div id="coinDetailPrice" style="font-size:42px; font-weight:800; color:var(--text-primary);">--</div>
+        <div style="display:flex; justify-content:center; gap:20px; margin-top:12px;">
+          <span id="coinDetailChange" style="font-size:16px; font-weight:800;">--</span>
+          <span
+            style="font-size:12px; color:var(--text-secondary); padding:4px 8px; background:rgba(255,255,255,0.05); border-radius:6px;">📊
+            Binance</span>
+        </div>
+      </div>
+
+      <!-- 24s Verileri -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:16px;">
+        <div class="coin-stat-box"><span class="coin-stat-label">24s En Yüksek</span><span id="cdHigh"
+            class="coin-stat-val">--</span></div>
+        <div class="coin-stat-box"><span class="coin-stat-label">24s En Düşük</span><span id="cdLow"
+            class="coin-stat-val">--</span></div>
+        <div class="coin-stat-box"><span class="coin-stat-label">24s Hacim (USDT)</span><span id="cdVolume"
+            class="coin-stat-val">--</span></div>
+        <div class="coin-stat-box"><span class="coin-stat-label">24s Hacim (Coin)</span><span id="cdVolumeCoin"
+            class="coin-stat-val">--</span></div>
+      </div>
+
+      <!-- 🤖 Algo Yorum -->
+      <div
+        style="padding:16px; margin:16px; background:rgba(252,213,53,0.05); border:1px solid rgba(252,213,53,0.15); border-radius:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3
+            style="margin:0; font-size:14px; font-weight:800; color:var(--brand); text-transform:uppercase; letter-spacing:0.5px;">
+            🤖 AKILLI YORUM</h3>
+          <div>
+            <!-- WMA / EMA Toggle Butonları -->
+            <div style="display:flex; justify-content:flex-end; gap:6px; margin-bottom:8px;">
+              <button class="ema-toggle-btn active" id="wma50Toggle" data-ind="wma50" onclick="toggleIndicator('wma50')"
+                style="background:#FF9800; border-color:#FF9800; color:#fff;">WMA
+                50</button>
+              <button class="ema-toggle-btn active" id="ema84Toggle" data-ind="ema84" onclick="toggleIndicator('ema84')"
+                style="background:#00BCD4; border-color:#00BCD4; color:#fff;">EMA
+                84</button>
+            </div>
+            <div style="display:flex; gap:6px; justify-content:flex-end; align-items:center;">
+              <button class="tf-btn" data-tf="15m" onclick="switchCoinTF('15m')">15dk</button>
+              <button class="tf-btn" data-tf="1h" onclick="switchCoinTF('1h')">1s</button>
+              <button class="tf-btn" data-tf="4h" onclick="switchCoinTF('4h')">4s</button>
+              <button class="tf-btn active" data-tf="1d" onclick="switchCoinTF('1d')">1g</button>
+              <select id="candleLimitSelect" onchange="switchCandleLimit()"
+                style="margin-left:8px; padding:4px 8px; border-radius:6px; background:var(--bg-hover); color:var(--text-primary); border:1px solid var(--line); font-size:10px; font-family:inherit; cursor:pointer;">
+                <option value="200">200 mum</option>
+                <option value="400" selected>400 mum</option>
+                <option value="600">600 mum</option>
+                <option value="800">800 mum</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div id="coinDetailComment" style="font-size:13px; line-height:1.7; color:var(--text-secondary);">
+          <span style="color:var(--text-secondary);">Analiz başlatılıyor...</span>
+        </div>
+      </div>
+
+      <!-- 📈 Mum Grafik -->
+      <div style="padding:16px;">
+        <div id="coinChartContainer" style="width:100%; height:350px; border-radius:12px; overflow:hidden;"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 1. KÜTÜPHANELER -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <!-- 2. ANA UYGULAMA (Global fonksiyonlar, state, PIN vs.) -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/lightweight-charts@4.2.1/dist/lightweight-charts.standalone.production.js"></script>
+
+  <!-- 3. FORMATION (Süper Lig saha çizimi için) -->
+  <script src="js/modules/formation.js"></script>
+
+  <!-- 4. MODÜLLER (app.js'e bağımlı) -->
+  <script src="js/modules/vault.js"></script>
+  <script src="js/friends-chat.js"></script>
+  <script src="js/modules/school.js"></script>
+  <script src="js/modules/addresses.js?v=2"></script>
+  <script src="js/modules/fuel.js?v=2"></script>
+  <script src="js/modules/days.js"></script>
+  <script src="js/modules/altin.js"></script>
+  <script src="js/modules/superlig.js"></script>
+  <script src="js/modules/coin.js"></script>
+  <script src="js/modules/trade.js"></script>
+  <script src="js/modules/news.js?v=2"></script>
+
+  <script src="app.js?v=2"></script>
+
+  <!-- 5. TEMA (En son) -->
+  <div id="toastContainer"></div>
+  <!-- CUSTOM CONFIRM MODAL -->
+  <div id="customConfirmModal" class="modal-overlay"
+    style="display:none; justify-content:center; align-items:center; z-index:100001; padding:20px; background:rgba(0,0,0,0.6); backdrop-filter:blur(3px);">
+    <div
+      style="background:#17212b; width:100%; max-width:320px; border-radius:16px; padding:24px; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.5); animation: zoomIn 0.2s cubic-bezier(0.25, 1, 0.5, 1);">
+      <div id="customConfirmText"
+        style="color:#fff; font-size:16px; font-weight:600; margin-bottom:24px; line-height:1.4;">Emin misiniz?</div>
+      <div style="display:flex; gap:12px;">
+        <button id="customConfirmCancel"
+          style="flex:1; background:#232e3c; color:#708499; border:none; padding:12px; border-radius:10px; font-weight:700; cursor:pointer; transition:background 0.2s;">İptal</button>
+        <button id="customConfirmOk"
+          style="flex:1; background:#ef5350; color:#fff; border:none; padding:12px; border-radius:10px; font-weight:700; cursor:pointer; transition:background 0.2s;">Sil</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- YÖNETİCİ MODALI -->
+  <div id="adminModal" class="modal-overlay"
+    style="display:none; justify-content:center; align-items:center; z-index:100000; padding:20px;">
+    <div class="modal-content"
+      style="max-width:600px; width:100%; max-height:90vh; background:#0e1621; padding:0; overflow:hidden; display:flex; flex-direction:column; border-radius:20px; border:1px solid #232e3c; box-shadow:0 12px 48px rgba(0,0,0,0.5);">
+
+      <div
+        style="padding:20px; border-bottom:1px solid #232e3c; display:flex; justify-content:space-between; align-items:center; background:#17212b;">
+        <div>
+          <h2
+            style="margin:0; font-size:20px; font-weight:800; color:#fbbf24; display:flex; align-items:center; gap:8px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
             </svg>
-            <input type="text" id="adminSearchInput" placeholder="İsim, e-posta veya kullanıcı adı ara..."
-              style="background:none; border:none; padding:12px; color:#fff; font-size:14px; width:100%; outline:none;">
-          </div>
+            Yönetici Paneli
+          </h2>
+          <p id="adminStats" style="margin:4px 0 0; font-size:12px; color:#708499; font-weight:600;">Kayıtlı Kullanıcı:
+            Yükleniyor...</p>
         </div>
+        <button onclick="toggleAdminModal()"
+          style="background:none; border:none; color:#708499; font-size:24px; cursor:pointer; padding:4px;">✕</button>
+      </div>
 
-        <div style="flex:1; overflow-y:auto; padding:16px;">
-          <div id="adminUserList" style="display:flex; flex-direction:column; gap:12px;">
-            <div style="text-align:center; padding:40px; color:#708499;">Kullanıcılar Yükleniyor...</div>
-          </div>
+      <div style="padding:16px; background:#0e1621; border-bottom:1px solid #232e3c;">
+        <div
+          style="display:flex; align-items:center; background:#17212b; border-radius:12px; padding:0 12px; border:1px solid #232e3c;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#708499" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="adminSearchInput" placeholder="İsim, e-posta veya kullanıcı adı ara..."
+            style="background:none; border:none; padding:12px; color:#fff; font-size:14px; width:100%; outline:none;">
+        </div>
+      </div>
+
+      <div style="flex:1; overflow-y:auto; padding:16px;">
+        <div id="adminUserList" style="display:flex; flex-direction:column; gap:12px;">
+          <div style="text-align:center; padding:40px; color:#708499;">Kullanıcılar Yükleniyor...</div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- 6. ADMIN SCRIPT -->
-    <script src="js/modules/admin.js"></script>
+  <!-- 6. ADMIN SCRIPT -->
+  <script src="js/modules/admin.js"></script>
 
-    <style>
-      @keyframes zoomIn {
-        from {
-          transform: scale(0.9);
-          opacity: 0;
-        }
-
-        to {
-          transform: scale(1);
-          opacity: 1;
-        }
-      }
-    </style>
-    <script>
-      window.showCustomConfirm = function (msg, onConfirm) {
-        const modal = document.getElementById('customConfirmModal');
-        const text = document.getElementById('customConfirmText');
-        const btnCancel = document.getElementById('customConfirmCancel');
-        const btnOk = document.getElementById('customConfirmOk');
-        if (!modal || !text || !btnCancel || !btnOk) {
-          if (confirm(msg)) onConfirm(); // Fallback
-          return;
-        }
-        text.innerHTML = msg;
-        modal.style.display = 'flex';
-
-        btnCancel.onclick = function () { modal.style.display = 'none'; };
-        btnOk.onclick = function () { modal.style.display = 'none'; onConfirm(); };
-      };
-
-      // window.showToast fonksiyonu artık app.js içindeki profesyonel sürümü kullanıyor.
-    </script>
-    <script>
-      function applyThemeScope() {
-        const saved = localStorage.getItem('finans-theme') || 'klasik';
-        const homeTab = document.getElementById('home');
-        const isHome = homeTab && homeTab.classList.contains('active');
-        document.body.setAttribute('data-theme', (saved === 'modern' && isHome) ? 'modern' : 'klasik');
-
-        const icon = document.getElementById('themeIcon');
-        const label = document.getElementById('themeLabel');
-        if (saved === 'modern') {
-          if (icon) icon.textContent = '◈';
-          if (label) label.textContent = 'MODERN';
-        } else {
-          if (icon) icon.textContent = '✦';
-          if (label) label.textContent = 'KLASİK';
-        }
+  <style>
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
       }
 
-      window.toggleTheme = function () {
-        const saved = localStorage.getItem('finans-theme') || 'klasik';
-        localStorage.setItem('finans-theme', saved === 'klasik' ? 'modern' : 'klasik');
-        applyThemeScope();
-      };
-
-      (function () { applyThemeScope(); })();
-    </script>
-
-    <!-- YASAL UYARI MODALI (Telegram Pro) -->
-    <style>
-      .legal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        display: none;
-        /* JavaScript ile flex yapılacak */
-        align-items: center;
-        justify-content: center;
-        backdrop-filter: blur(5px);
-        z-index: 100000;
+      to {
+        transform: scale(1);
+        opacity: 1;
       }
-
-      .legal-modal {
-        background: #17212b;
-        width: 90%;
-        max-width: 400px;
-        border-radius: 20px;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        border: 1px solid #232e3c;
-        animation: zoomIn 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+  </style>
+  <script>
+    window.showCustomConfirm = function (msg, onConfirm) {
+      const modal = document.getElementById('customConfirmModal');
+      const text = document.getElementById('customConfirmText');
+      const btnCancel = document.getElementById('customConfirmCancel');
+      const btnOk = document.getElementById('customConfirmOk');
+      if (!modal || !text || !btnCancel || !btnOk) {
+        if (confirm(msg)) onConfirm(); // Fallback
+        return;
       }
+      text.innerHTML = msg;
+      modal.style.display = 'flex';
 
-      .legal-header {
-        padding: 20px;
-        text-align: center;
-        border-bottom: 1px solid #232e3c;
+      btnCancel.onclick = function () { modal.style.display = 'none'; };
+      btnOk.onclick = function () { modal.style.display = 'none'; onConfirm(); };
+    };
+
+    // window.showToast fonksiyonu artık app.js içindeki profesyonel sürümü kullanıyor.
+  </script>
+  <script>
+    function applyThemeScope() {
+      const saved = localStorage.getItem('finans-theme') || 'klasik';
+      const homeTab = document.getElementById('home');
+      const isHome = homeTab && homeTab.classList.contains('active');
+      document.body.setAttribute('data-theme', (saved === 'modern' && isHome) ? 'modern' : 'klasik');
+
+      const icon = document.getElementById('themeIcon');
+      const label = document.getElementById('themeLabel');
+      if (saved === 'modern') {
+        if (icon) icon.textContent = '◈';
+        if (label) label.textContent = 'MODERN';
+      } else {
+        if (icon) icon.textContent = '✦';
+        if (label) label.textContent = 'KLASİK';
       }
+    }
 
-      .legal-header-icon {
-        font-size: 32px;
-        margin-bottom: 10px;
-      }
+    window.toggleTheme = function () {
+      const saved = localStorage.getItem('finans-theme') || 'klasik';
+      localStorage.setItem('finans-theme', saved === 'klasik' ? 'modern' : 'klasik');
+      applyThemeScope();
+    };
 
-      .legal-header h2 {
-        margin: 0;
-        color: #ef5350;
-        font-size: 18px;
-        letter-spacing: 1px;
-      }
+    (function () { applyThemeScope(); })();
+  </script>
 
-      .legal-content {
-        padding: 20px;
-        max-height: 400px;
-        overflow-y: auto;
-        color: #ffffff;
-        line-height: 1.6;
-        font-size: 14px;
-      }
+  <!-- YASAL UYARI MODALI (Telegram Pro) -->
+  <style>
+    .legal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      /* JavaScript ile flex yapılacak */
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+      z-index: 100000;
+    }
 
-      .legal-content::-webkit-scrollbar {
-        width: 4px;
-      }
+    .legal-modal {
+      background: #17212b;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border: 1px solid #232e3c;
+      animation: zoomIn 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    }
 
-      .legal-content::-webkit-scrollbar-thumb {
-        background: #232e3c;
-        border-radius: 10px;
-      }
+    .legal-header {
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid #232e3c;
+    }
 
-      .legal-alert-box {
-        background: rgba(239, 83, 80, 0.1);
-        border-left: 3px solid #ef5350;
-        padding: 12px;
-        margin: 15px 0;
-        border-radius: 4px;
-      }
+    .legal-header-icon {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
 
-      .legal-highlight-box {
-        background: #242f3d;
-        padding: 12px;
-        border-radius: 10px;
-        margin: 15px 0;
-        border: 1px dashed #708499;
-      }
+    .legal-header h2 {
+      margin: 0;
+      color: #ef5350;
+      font-size: 18px;
+      letter-spacing: 1px;
+    }
 
-      .legal-intro {
-        font-size: 15px;
-        margin-top: 0;
-      }
+    .legal-content {
+      padding: 20px;
+      max-height: 400px;
+      overflow-y: auto;
+      color: #ffffff;
+      line-height: 1.6;
+      font-size: 14px;
+    }
 
-      .legal-footer-note {
-        color: #708499;
-        font-style: italic;
-        font-size: 13px;
-      }
+    .legal-content::-webkit-scrollbar {
+      width: 4px;
+    }
 
-      .legal-footer {
-        padding: 15px 20px;
-      }
+    .legal-content::-webkit-scrollbar-thumb {
+      background: #232e3c;
+      border-radius: 10px;
+    }
 
-      .accept-btn {
-        width: 100%;
-        padding: 14px;
-        border-radius: 12px;
-        border: none;
-        background: #ef5350;
-        color: white;
-        font-weight: bold;
-        font-size: 16px;
-        cursor: pointer;
-        transition: transform 0.1s, opacity 0.2s;
-      }
+    .legal-alert-box {
+      background: rgba(239, 83, 80, 0.1);
+      border-left: 3px solid #ef5350;
+      padding: 12px;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
 
-      .accept-btn:active {
-        transform: scale(0.97);
-        opacity: 0.9;
-      }
-    </style>
+    .legal-highlight-box {
+      background: #242f3d;
+      padding: 12px;
+      border-radius: 10px;
+      margin: 15px 0;
+      border: 1px dashed #708499;
+    }
 
-    <div id="disclaimerModal" class="legal-overlay">
-      <div class="legal-modal">
-        <div class="legal-header">
-          <div class="legal-header-icon">🛡️</div>
-          <h2>YASAL UYARI</h2>
+    .legal-intro {
+      font-size: 15px;
+      margin-top: 0;
+    }
+
+    .legal-footer-note {
+      color: #708499;
+      font-style: italic;
+      font-size: 13px;
+    }
+
+    .legal-footer {
+      padding: 15px 20px;
+    }
+
+    .accept-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      background: #ef5350;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.2s;
+    }
+
+    .accept-btn:active {
+      transform: scale(0.97);
+      opacity: 0.9;
+    }
+  </style>
+
+  <div id="disclaimerModal" class="legal-overlay">
+    <div class="legal-modal">
+      <div class="legal-header">
+        <div class="legal-header-icon">🛡️</div>
+        <h2>YASAL UYARI</h2>
+      </div>
+      <div class="legal-content">
+        <p class="legal-intro">Bu uygulamada yer alan tüm bilgiler, veriler ve analizler <strong>yalnızca
+            bilgilendirme amaçlıdır</strong>.</p>
+        <div class="legal-alert-box">Kesinlikle yatırım tavsiyesi, finansal öneri veya herhangi bir alım-satım işlemi
+          için referans teşkil etmez.</div>
+        <p>Hiçbir içerik, menkul kıymet, fon, kripto varlık veya başka bir enstrümanın alınması, satılması ya da elde
+          tutulması yönünde bir çağrı olarak yorumlanmamalıdır.</p>
+        <p>Uygulamada sunulan verilerin doğruluğu, tamlığı veya güncelliği konusunda garanti verilmemektedir.
+          <strong>Üçüncü taraflardan alınan verilerde hata veya gecikme olabilir.</strong>
+        </p>
+        <div class="legal-highlight-box">
+          <p style="margin:0;">Bu bilgilere dayanarak yapacağınız tüm yatırım kararları tamamen <strong>size
+              aittir</strong>. Oluşabilecek kâr veya zararlardan taraflar sorumlu tutulamaz.</p>
         </div>
-        <div class="legal-content">
-          <p class="legal-intro">Bu uygulamada yer alan tüm bilgiler, veriler ve analizler <strong>yalnızca
-              bilgilendirme amaçlıdır</strong>.</p>
-          <div class="legal-alert-box">Kesinlikle yatırım tavsiyesi, finansal öneri veya herhangi bir alım-satım işlemi
-            için referans teşkil etmez.</div>
-          <p>Hiçbir içerik, menkul kıymet, fon, kripto varlık veya başka bir enstrümanın alınması, satılması ya da elde
-            tutulması yönünde bir çağrı olarak yorumlanmamalıdır.</p>
-          <p>Uygulamada sunulan verilerin doğruluğu, tamlığı veya güncelliği konusunda garanti verilmemektedir.
-            <strong>Üçüncü taraflardan alınan verilerde hata veya gecikme olabilir.</strong></p>
-          <div class="legal-highlight-box">
-            <p style="margin:0;">Bu bilgilere dayanarak yapacağınız tüm yatırım kararları tamamen <strong>size
-                aittir</strong>. Oluşabilecek kâr veya zararlardan taraflar sorumlu tutulamaz.</p>
-          </div>
-          <p>Bu uygulama yatırım araçlarına dair alım/satım emri iletmemekte olup, sadece gözlem amaçlıdır. Kanunen
-            yasaklanan bölgelerdeki kullanıcılar bu uygulamayı kullanmamalıdır.</p>
-          <p class="legal-footer-note">Geçmiş performans verileri, gelecekteki sonuçlar için bir garanti oluşturmaz.
-            Uygulamayı kullanarak bu şartları kabul etmiş sayılırsınız.</p>
-        </div>
-        <div class="legal-footer">
-          <button id="disclaimerAcceptBtn" class="accept-btn" onclick="window.acceptDisclaimer()">Anladım, Kabul Ediyorum</button>
-        </div>
+        <p>Bu uygulama yatırım araçlarına dair alım/satım emri iletmemekte olup, sadece gözlem amaçlıdır. Kanunen
+          yasaklanan bölgelerdeki kullanıcılar bu uygulamayı kullanmamalıdır.</p>
+        <p class="legal-footer-note">Geçmiş performans verileri, gelecekteki sonuçlar için bir garanti oluşturmaz.
+          Uygulamayı kullanarak bu şartları kabul etmiş sayılırsınız.</p>
+      </div>
+      <div class="legal-footer">
+        <button id="disclaimerAcceptBtn" class="accept-btn" onclick="window.acceptDisclaimer()">Anladım, Kabul
+          Ediyorum</button>
       </div>
     </div>
+  </div>
 
-    <!-- ════ ADRES BAŞLIĞI MODALI ════ -->
-    <div id="addressModal" class="modal-overlay"
-      style="display:none; justify-content:center; align-items:center; z-index:100001; background:rgba(0,0,0,0.75); backdrop-filter:blur(6px);">
-      <div style="max-width:320px; width:92%; background:#1e2329; border-radius:24px; padding:28px;
+  <!-- ════ ADRES BAŞLIĞI MODALI ════ -->
+  <div id="addressModal" class="modal-overlay"
+    style="display:none; justify-content:center; align-items:center; z-index:100001; background:rgba(0,0,0,0.75); backdrop-filter:blur(6px);">
+    <div style="max-width:320px; width:92%; background:#1e2329; border-radius:24px; padding:28px;
                   border:1px solid rgba(252,213,53,0.2); box-shadow:0 24px 64px rgba(0,0,0,0.6);
                   animation:fadeIn 0.2s ease;">
-        <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px;">
-          <div style="width:40px; height:40px; border-radius:12px; background:rgba(252,213,53,0.12);
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px;">
+        <div style="width:40px; height:40px; border-radius:12px; background:rgba(252,213,53,0.12);
                       border:1px solid rgba(252,213,53,0.3); display:flex; align-items:center;
                       justify-content:center; font-size:20px;">📌</div>
-          <h3 style="color:#fff; margin:0; font-size:17px; font-weight:800;">Adres Başlığı</h3>
-        </div>
-        <input type="text" id="addressTitleInput"
-          placeholder="Örn: Ev, İş, Okul, Spor Salonu..."
-          maxlength="30"
-          style="width:100%; padding:14px; border-radius:12px; background:#0b0e11;
+        <h3 style="color:#fff; margin:0; font-size:17px; font-weight:800;">Adres Başlığı</h3>
+      </div>
+      <input type="text" id="addressTitleInput" placeholder="Örn: Ev, İş, Okul, Spor Salonu..." maxlength="30" style="width:100%; padding:14px; border-radius:12px; background:#0b0e11;
                  border:1px solid rgba(255,255,255,0.1); color:#fff; margin-bottom:8px;
                  font-size:15px; font-weight:600; box-sizing:border-box; outline:none;
-                 font-family:'Space Grotesk', sans-serif;"
-          onfocus="this.style.borderColor='rgba(252,213,53,0.5)'"
-          onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
-        <div style="font-size:11px; color:#6b7280; margin-bottom:20px; padding:0 2px;">En fazla 30 karakter</div>
-        <div style="display:flex; gap:10px;">
-          <button id="addressModalCancel" class="btn"
-            style="flex:1; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
+                 font-family:'Space Grotesk', sans-serif;" onfocus="this.style.borderColor='rgba(252,213,53,0.5)'"
+        onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+      <div style="font-size:11px; color:#6b7280; margin-bottom:20px; padding:0 2px;">En fazla 30 karakter</div>
+      <div style="display:flex; gap:10px;">
+        <button id="addressModalCancel" class="btn" style="flex:1; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
                    color:#b0b8c5; padding:13px; border-radius:12px; font-weight:700; cursor:pointer;">İptal</button>
-          <button id="addressModalSave" class="btn"
-            style="flex:2; background:#fcd535; color:#000; padding:13px; border-radius:12px;
+        <button id="addressModalSave" class="btn" style="flex:2; background:#fcd535; color:#000; padding:13px; border-radius:12px;
                    font-weight:800; cursor:pointer; font-size:14px;">💾 Kaydet</button>
-        </div>
       </div>
     </div>
+  </div>
 
+  <!-- KONUM İZNİ MODALI -->
+  <div id="locationPermissionModal"
+    style="display:none; align-items:center; justify-content:center; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10001; backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);">
+    <div
+      style="background:#1e2329; width:90%; max-width:340px; border-radius:28px; padding:32px 24px; text-align:center; border:1px solid rgba(255,255,255,0.1); box-shadow:0 25px 50px rgba(0,0,0,0.5); animation: toast-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+      <div
+        style="width:80px; height:80px; background:rgba(252,213,53,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 24px;">
+        <span style="font-size:36px;">📍</span>
+      </div>
+      <h3 style="color:#fff; margin-bottom:12px; font-weight:800; font-size:20px; font-family:'Syne', sans-serif;">Konum
+        Erişimi</h3>
+      <p style="color:#9ca3af; font-size:14px; line-height:1.6; margin-bottom:28px; font-weight:500;">
+        Rota planlamak için konumunuza ihtiyacımız var.
+      </p>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <button id="allowLocationBtn"
+          style="background:#fcd535; color:#0b0e11; border:none; padding:14px; border-radius:16px; font-weight:800; font-size:15px; cursor:pointer; transition:0.2s; box-shadow:0 4px 15px rgba(252,213,53,0.2);">ANLADIM,
+          İZİN VER</button>
+        <button id="denyLocationBtn"
+          style="background:transparent; color:#717a8a; border:none; padding:8px; font-size:13px; font-weight:600; cursor:pointer;">DAHA
+          SONRA</button>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

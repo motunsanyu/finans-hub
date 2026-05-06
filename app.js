@@ -68,6 +68,9 @@ async function initializeSystem() {
   if (hd) hd.textContent = now.toLocaleDateString("tr-TR", { day: '2-digit', month: '2-digit', year: 'numeric' });
   if (hdy) hdy.textContent = now.toLocaleDateString("tr-TR", { weekday: 'long' });
 
+  // 🐙 GitHub'dan en son commit (push) bilgisini çek
+  fetchLastCommit();
+
   // 🔄 Finans verilerini 30 saniyede bir otomatik yenile
   setInterval(() => {
     console.log("🔄 Finans verileri 30 saniyede bir yenileniyor...");
@@ -90,6 +93,29 @@ async function initializeSystem() {
       const modal = document.getElementById('disclaimerModal');
       if (modal) modal.style.display = 'flex';
     }, 800);
+  }
+}
+
+async function fetchLastCommit() {
+  const el = document.getElementById('lastCommitInfo');
+  if (!el) return;
+  
+  try {
+    // GitHub API ile son commit mesajını çek (motunsanyu/finans-hub reposu için)
+    const response = await fetch('https://api.github.com/repos/motunsanyu/finans-hub/commits?per_page=1');
+    if (!response.ok) throw new Error();
+    const data = await response.json();
+    if (data && data.length > 0) {
+      let msg = data[0].commit.message;
+      // Sadece ilk satırı al (eğer çok satırlıysa)
+      msg = msg.split('\n')[0];
+      // Karakter sınırla
+      if (msg.length > 30) msg = msg.substring(0, 27) + '...';
+      const date = new Date(data[0].commit.author.date).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit' });
+      el.textContent = `${msg} • ${date}`;
+    }
+  } catch (e) {
+    el.textContent = 'VERSİYON: 1.1 PRO';
   }
 }
 

@@ -275,24 +275,45 @@ const FuelModule = (() => {
   async function useMyLocation() {
     if (!navigator.geolocation) {
       if (window.showToast) window.showToast('❌ Tarayıcınız konum özelliğini desteklemiyor.', 'error');
-      else alert("Tarayıcınız konum özelliğini desteklemiyor.");
       return;
     }
-    if (!navMap) initNavMap();
+
+    const modal = document.getElementById('locationPermissionModal');
+    const allowBtn = document.getElementById('allowLocationBtn');
+    const denyBtn = document.getElementById('denyLocationBtn');
     const btn = document.getElementById("useMyLocationBtn");
-    const originalText = btn.innerHTML;
-    btn.innerHTML = "⌛ Konum Alınıyor...";
-    btn.disabled = true;
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
-        if (isNaN(lat) || isNaN(lng)) {
-          btn.innerHTML = originalText;
-          btn.disabled = false;
-          if (window.showToast) window.showToast('❌ Geçersiz koordinat alındı.', 'error');
-          return;
-        }
+
+    if (modal && allowBtn && denyBtn) {
+      modal.style.display = 'flex';
+
+      allowBtn.onclick = () => {
+        modal.style.display = 'none';
+        startActualLocationFetch();
+      };
+
+      denyBtn.onclick = () => {
+        modal.style.display = 'none';
+      };
+    } else {
+      startActualLocationFetch();
+    }
+
+    async function startActualLocationFetch() {
+      if (!navMap) initNavMap();
+      const originalText = btn.innerHTML;
+      btn.innerHTML = "⌛ Konum Alınıyor...";
+      btn.disabled = true;
+
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          if (isNaN(lat) || isNaN(lng)) {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            if (window.showToast) window.showToast('❌ Geçersiz koordinat alındı.', 'error');
+            return;
+          }
         navUserLocation = { lat, lng, name: "Mevcut Konum", il: '', ilce: '' };
         document.getElementById("originSelectWrap").style.display = "none";
         document.getElementById("activeLocationBadge").style.display = "flex";
