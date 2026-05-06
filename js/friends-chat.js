@@ -52,7 +52,7 @@ const FriendsChatModule = (() => {
     if (diffSec < 90) return { text: 'çevrimiçi', color: '#4ade80', online: true };
     if (diffSec < 3600) return { text: `${Math.floor(diffSec / 60)} dk önce`, color: '#6c7883', online: false };
     return {
-      text: 'son görülme ' + new Date(lastSeen).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }),
+      text: 'son görülme ' + formatDate(lastSeen) + ' ' + formatTime(lastSeen),
       color: '#6c7883', online: false
     };
   }
