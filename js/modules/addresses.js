@@ -135,18 +135,18 @@ const AddressModule = (() => {
 
       return `
         <details class="modern-plan-card" style="padding:0; margin-bottom:12px; background:#1e2329; border:1px solid #2a2f36; border-radius:16px; overflow:hidden;">
-          <summary style="list-style:none; outline:none; cursor:pointer; padding:16px;">
-            <div style="display:flex; gap:12px; align-items:flex-start;">
-              <div style="font-size:20px; flex-shrink:0; margin-top:2px;">📍</div>
+          <summary style="list-style:none; outline:none; cursor:pointer; padding:0 16px; height:72px; display:flex; align-items:center; box-sizing:border-box;">
+            <div style="display:flex; gap:12px; align-items:center; width:100%;">
+              <div style="font-size:20px; flex-shrink:0;">📍</div>
               <div style="flex:1; min-width:0;">
-                <div style="font-weight:800; color:#fcd535; font-size:15px; margin-bottom:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                <div style="font-weight:800; color:#fcd535; font-size:15px; margin-bottom:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
                   ${escapeHtml(addr.baslik)}
                 </div>
-                <div style="font-size:12px; color:#c9d1d9; line-height:1.4;">
+                <div style="font-size:12px; color:#c9d1d9; line-height:1.2; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
                   ${escapeHtml(adresGosterim)}
                 </div>
               </div>
-              <div style="font-size:10px; color:#6b7280; margin-top:6px;">▼</div>
+              <div style="font-size:10px; color:#6b7280;">▼</div>
             </div>
           </summary>
 
