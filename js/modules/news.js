@@ -144,34 +144,42 @@ const NewsModule = (() => {
         const gnFinalUrl = PROXY_URL + encodeURIComponent(gnUrl);
 
         // NewsData.io URL (country=tr, category=business, language=tr, size=15)
-        const ndUrl = `${ND_BASE_URL}?apikey=${ND_API_KEY}&country=tr&category=business&language=tr&size=15&time=${Date.now()}`;
+        // 'time' parametresi bazı proxy'lerde sorun çıkarabildiği için kaldırıldı
+        const ndUrl = `${ND_BASE_URL}?apikey=${ND_API_KEY}&country=tr&category=business&language=tr&size=15`;
         const ndFinalUrl = PROXY_URL + encodeURIComponent(ndUrl);
 
         try {
             // Her iki kaynağa da istek gönder, biri başarısız olursa diğeri çalışsın
             const [gnResponse, ndResponse] = await Promise.allSettled([
-                fetch(gnFinalUrl).then(res => res.json()),
-                fetch(ndFinalUrl).then(res => res.json())
+                fetch(gnFinalUrl).then(async res => {
+                    if (!res.ok) throw new Error(`GNews HTTP ${res.status}`);
+                    return res.json();
+                }),
+                fetch(ndFinalUrl).then(async res => {
+                    if (!res.ok) throw new Error(`NewsData HTTP ${res.status}`);
+                    return res.json();
+                })
             ]);
 
             let allArticles = [];
 
             // GNews başarılı mı?
-            if (gnResponse.status === 'fulfilled' && gnResponse.value.articles) {
+            if (gnResponse.status === 'fulfilled' && gnResponse.value && gnResponse.value.articles) {
                 const gnArticles = gnResponse.value.articles.map(convertGNewsItem);
                 allArticles.push(...gnArticles);
                 console.log(`✅ GNews: ${gnArticles.length} haber yüklendi.`);
             } else {
-                console.warn('⚠️ GNews hatası:', gnResponse.reason);
+                console.warn('⚠️ GNews hatası:', gnResponse.status === 'rejected' ? gnResponse.reason : 'Veri yapısı uyumsuz');
             }
 
             // NewsData.io başarılı mı?
-            if (ndResponse.status === 'fulfilled' && ndResponse.value.results && ndResponse.value.results.length > 0) {
+            if (ndResponse.status === 'fulfilled' && ndResponse.value && ndResponse.value.results) {
                 const ndArticles = ndResponse.value.results.map(convertNewsDataItem);
                 allArticles.push(...ndArticles);
                 console.log(`✅ NewsData.io: ${ndArticles.length} haber yüklendi.`);
             } else {
-                console.warn('⚠️ NewsData.io hatası:', ndResponse.reason);
+                const errorInfo = ndResponse.status === 'rejected' ? ndResponse.reason : (ndResponse.value?.message || 'Sonuç bulunamadı');
+                console.warn('⚠️ NewsData.io hatası:', errorInfo);
             }
 
             if (allArticles.length === 0) {

@@ -2,12 +2,12 @@
 const AddressModule = (() => {
   const STORAGE_KEY = 'finansHub_addresses';
 
-  // ── LOGO İKONLARI (Görsel Kaynaklı) ──────────────────────────────
-  const GOOGLE_MAPS_ICON = `<img src="https://w7.pngwing.com/pngs/701/304/png-transparent-google-maps-map-google-icon-thumbnail.png" 
-    style="width:18px; height:18px; flex-shrink:0; border-radius:4px;" alt="Google Maps">`;
+  // ── YEREL İKON YOLLARI ──────────────────────────────────────────
+  const GOOGLE_MAPS_ICON = `<img src="assets/icons/google-maps.png" 
+    style="width:18px; height:18px; flex-shrink:0; border-radius:4px; object-fit:contain;" alt="Google">`;
 
-  const APPLE_MAPS_ICON = `<img src="https://w7.pngwing.com/pngs/351/410/png-transparent-apple-maps-ios-map-apple-icon-thumbnail.png" 
-    style="width:18px; height:18px; flex-shrink:0; border-radius:4px;" alt="Apple Maps">`;
+  const APPLE_MAPS_ICON = `<img src="assets/icons/apple-maps.png" 
+    style="width:18px; height:18px; flex-shrink:0; border-radius:4px; object-fit:contain;" alt="Apple">`;
 
   // ── YARDIMCI FONKSİYONLAR ────────────────────────────────────────
   function loadAddresses() {
