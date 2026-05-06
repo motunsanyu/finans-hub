@@ -109,14 +109,14 @@ const AddressModule = (() => {
     }
   }
 
-  function openInGoogleMaps(lat, lng, address) {
+  function openInGoogleMaps(lat, lng) {
     const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
-    window.open(url, '_blank');
+    window.location.href = url;
   }
 
   function openInAppleMaps(lat, lng, address) {
     const url = `https://maps.apple.com/?ll=${lat},${lng}&q=${encodeURIComponent(address || 'Konum')}`;
-    window.open(url, '_blank');
+    window.location.href = url;
   }
 
   // ── RENDER ───────────────────────────────────────────────────────
@@ -136,75 +136,49 @@ const AddressModule = (() => {
     }
 
     container.innerHTML = addresses.map(addr => {
-      // Gösterilecek adres metni: tam adres varsa onu kullan, yoksa ilçe/il, yoksa koordinat
       const adresGosterim = addr.adresTam
         ? addr.adresTam
         : (addr.il && addr.ilce)
           ? `${addr.ilce} / ${addr.il}`
           : `${parseFloat(addr.enlem).toFixed(5)}, ${parseFloat(addr.boylam).toFixed(5)}`;
 
-      const tarih = new Date(addr.timestamp).toLocaleDateString('tr-TR', {
-        day: '2-digit', month: 'long', year: 'numeric'
-      });
-
       return `
-        <div style="background:#1e2329; border-radius:16px; padding:16px; margin-bottom:12px;
-                    border:1px solid #2a2f36; position:relative;
-                    transition:border-color 0.2s;"
-          onmouseover="this.style.borderColor='rgba(252,213,53,0.3)'"
-          onmouseout="this.style.borderColor='#2a2f36'">
-
-          <!-- Başlık + Sil -->
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
-            <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
-              <div style="width:36px; height:36px; border-radius:10px; background:rgba(252,213,53,0.12);
-                          border:1px solid rgba(252,213,53,0.25); display:flex; align-items:center;
-                          justify-content:center; font-size:18px; flex-shrink:0;">📌</div>
-              <div style="min-width:0;">
-                <div style="font-weight:800; color:#fcd535; font-size:15px;
-                            overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+        <details class="modern-plan-card" style="padding:0; margin-bottom:12px; background:#1e2329; border:1px solid #2a2f36; border-radius:16px; overflow:hidden;">
+          <summary style="list-style:none; outline:none; cursor:pointer; padding:16px;">
+            <div style="display:flex; gap:12px; align-items:flex-start;">
+              <div style="font-size:20px; flex-shrink:0; margin-top:2px;">📍</div>
+              <div style="flex:1; min-width:0;">
+                <div style="font-weight:800; color:#fcd535; font-size:15px; margin-bottom:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
                   ${escapeHtml(addr.baslik)}
                 </div>
-                <div style="font-size:11px; color:#6b7280; margin-top:2px;">🗓️ ${tarih}</div>
+                <div style="font-size:12px; color:#c9d1d9; line-height:1.4;">
+                  ${escapeHtml(adresGosterim)}
+                </div>
               </div>
+              <div style="font-size:10px; color:#6b7280; margin-top:6px;">▼</div>
             </div>
-            <button onclick="AddressModule.deleteAddress('${addr.id}')"
-              style="background:rgba(246,70,93,0.1); border:1px solid rgba(246,70,93,0.2);
-                     color:#f6465d; padding:5px 9px; border-radius:8px; cursor:pointer;
-                     font-size:14px; flex-shrink:0; margin-left:8px;"
-              onmouseover="this.style.background='rgba(246,70,93,0.25)'"
-              onmouseout="this.style.background='rgba(246,70,93,0.1)'">🗑️</button>
-          </div>
+          </summary>
 
-          <!-- Adres Metni -->
-          <div style="font-size:13px; color:#c9d1d9; margin-bottom:12px; line-height:1.5;
-                      padding:10px; background:rgba(255,255,255,0.03); border-radius:10px;
-                      border:1px solid rgba(255,255,255,0.06);">
-            📍 ${escapeHtml(adresGosterim)}
-          </div>
+          <div style="padding:0 16px 16px; border-top:1px solid rgba(255,255,255,0.05); background:rgba(0,0,0,0.1);">
+            <div style="display:flex; gap:10px; margin-top:15px; margin-bottom:15px;">
+              <button onclick="AddressModule.openInGoogleMaps(${addr.enlem}, ${addr.boylam})"
+                style="flex:1; display:flex; align-items:center; justify-content:center; gap:8px; padding:10px; border-radius:10px; border:1px solid #3c4043; background:#1e2329; color:#fff; font-size:11px; font-weight:800; cursor:pointer;">
+                ${GOOGLE_MAPS_SVG} Google
+              </button>
+              <button onclick="AddressModule.openInAppleMaps(${addr.enlem}, ${addr.boylam}, '${escapeHtml(addr.baslik)}')"
+                style="flex:1; display:flex; align-items:center; justify-content:center; gap:8px; padding:10px; border-radius:10px; border:1px solid #3c4043; background:#1e2329; color:#fff; font-size:11px; font-weight:800; cursor:pointer;">
+                ${APPLE_MAPS_SVG} Apple
+              </button>
+            </div>
 
-          <!-- Harita Butonları -->
-          <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-            <button onclick="AddressModule.openInGoogleMaps(${addr.enlem}, ${addr.boylam}, '${escapeHtml(addr.baslik)}')"
-              style="display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:10px 18px; 
-                     border-radius:48px; font-weight:700; font-size:12px; cursor:pointer; transition:all 0.2s ease;
-                     border:1px solid #3c4043; background:#1e2329; color:#eaecef; flex:1; min-width:140px;"
-              onmouseover="this.style.background='#2b3139'; this.style.borderColor='#fcd535';"
-              onmouseout="this.style.background='#1e2329'; this.style.borderColor='#3c4043';">
-              ${GOOGLE_MAPS_SVG}
-              Google Haritalar
-            </button>
-            <button onclick="AddressModule.openInAppleMaps(${addr.enlem}, ${addr.boylam}, '${escapeHtml(addr.baslik)}')"
-              style="display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:10px 18px; 
-                     border-radius:48px; font-weight:700; font-size:12px; cursor:pointer; transition:all 0.2s ease;
-                     border:1px solid #3c4043; background:#1e2329; color:#eaecef; flex:1; min-width:140px;"
-              onmouseover="this.style.background='#2b3139'; this.style.borderColor='#fcd535';"
-              onmouseout="this.style.background='#1e2329'; this.style.borderColor='#3c4043';">
-              ${APPLE_MAPS_SVG}
-              Apple Haritalar
-            </button>
+            <div style="display:flex; gap:10px;">
+              <button onclick="AddressModule.editAddress('${addr.id}')"
+                style="flex:1; background:rgba(252,213,53,0.1); border:1px solid rgba(252,213,53,0.2); color:#fcd535; padding:8px; border-radius:8px; font-size:11px; font-weight:800; cursor:pointer;">✏️ DÜZENLE</button>
+              <button onclick="AddressModule.deleteAddress('${addr.id}')"
+                style="flex:1; background:rgba(246,70,93,0.1); border:1px solid rgba(246,70,93,0.2); color:#f6465d; padding:8px; border-radius:8px; font-size:11px; font-weight:800; cursor:pointer;">🗑️ SİL</button>
+            </div>
           </div>
-        </div>`;
+        </details>`;
     }).join('');
   }
 
@@ -212,9 +186,12 @@ const AddressModule = (() => {
   function showAddressModal(pendingData) {
     const modal = document.getElementById('addressModal');
     const input = document.getElementById('addressTitleInput');
+    const titleEl = modal ? modal.querySelector('h3') : null;
     if (!modal || !input) return;
 
-    input.value = '';
+    input.value = pendingData.existingTitle || '';
+    if (titleEl) titleEl.textContent = pendingData.isEdit ? 'Adresi Düzenle' : 'Adres Başlığı Belirle';
+    
     modal.style.display = 'flex';
     setTimeout(() => input.focus(), 200);
 
@@ -233,16 +210,32 @@ const AddressModule = (() => {
         input.focus();
         return;
       }
-      addAddress(
-        title,
-        pendingData.lat,
-        pendingData.lng,
-        pendingData.il,
-        pendingData.ilce,
-        pendingData.adresTam || ''
-      );
+
+      const addresses = loadAddresses();
+      if (pendingData.isEdit) {
+        const idx = addresses.findIndex(a => a.id === pendingData.editId);
+        if (idx !== -1) {
+          addresses[idx].baslik = title;
+          saveAddresses(addresses);
+        }
+      } else {
+        addresses.push({
+          id: Date.now().toString(),
+          baslik: title,
+          enlem: pendingData.lat,
+          boylam: pendingData.lng,
+          il: pendingData.il || '',
+          ilce: pendingData.ilce || '',
+          adresTam: pendingData.adresTam || '',
+          timestamp: new Date().toISOString()
+        });
+        saveAddresses(addresses);
+      }
+
+      renderAddresses();
       modal.style.display = 'none';
-      if (window.showToast) window.showToast('✅ Adres kaydedildi!', 'success');
+      if (window.showToast) window.showToast(pendingData.isEdit ? '✅ Adres güncellendi!' : '✅ Adres kaydedildi!', 'success');
+      
       const saveAddrBtn = document.getElementById('saveAddressBtn');
       if (saveAddrBtn) saveAddrBtn.style.display = 'none';
     }
@@ -261,6 +254,7 @@ const AddressModule = (() => {
   return {
     init,
     deleteAddress,
+    editAddress,
     openInGoogleMaps,
     openInAppleMaps,
     renderAddresses,
