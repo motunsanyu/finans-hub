@@ -42,50 +42,6 @@
   --text-secondary: #848e9c;
   --text-dark: #000000;
 
-/* Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘ 
-   TEMA SĂ„Â°STEMĂ„Â° Ă˘â‚Źâ€  data-theme="klasik" | "modern"
-   VarsayĂ„Âąlan: klasik (Binance tarzĂ„Âą)
-   KullanĂ„Âąm: document.body.setAttribute('data-theme', 'modern')
-             document.body.setAttribute('data-theme', 'klasik')
-   Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘  */
-
-/* Ă˘â€ â‚ŹĂ˘â€ â‚Ź KLASĂ„Â°K TEMA (Binance tarzĂ„Âą, varsayĂ„Âąlan) Ă˘â€ â‚ŹĂ˘â€ â‚Ź */
-:root,
-[data-theme="klasik"] {
-  --bg-primary: #0b0e11;
-  --bg-secondary: #181a20;
-  --bg-hover: #2b3139;
-  --line: #2b3139;
-  --text-primary: #eaecef;
-  --text-secondary: #848e9c;
-  --text-dark: #000000;
-
-  --brand: #fcd535;
-  --brand-hover: #f0c722;
-  --up: #0ecb81;
-  --down: #f6465d;
-
-  --radius-lg: 16px;
-  --radius-md: 8px;
-  --radius-sm: 4px;
-
-  color-scheme: dark;
-
-  /* Modern temada kullanĂ„Âąlmayan ama mevcut kodun beklediĂ„Ĺ¸i deĂ„Ĺ¸iĂ…Ĺ¸kenler */
-  --card-bg: #181a20;
-  --card-border: #2b3139;
-}
-
-/* Ă˘â€ â‚ŹĂ˘â€ â‚Ź MODERN TEMA (Syne + Space Mono, limon yeĂ…Ĺ¸ili vurgu) Ă˘â€ â‚ŹĂ˘â€ â‚Ź */
-[data-theme="modern"] {
-  --bg-primary: #0b0e11;
-  --bg-secondary: #181a20;
-  --bg-hover: #1e2329;
-  --line: #2b3139;
-  --text-primary: #eaecef;
-  --text-secondary: #848e9c;
-  --text-dark: #000000;
-
   --brand: #fcd535;
   --brand-hover: #f0c722;
   --up: #0ecb81;
@@ -102,7 +58,7 @@
   font-family: 'Manrope', sans-serif;
 }
 
-/* Modern temaya ĂƒÂśzgĂƒÂź font & ek stiller */
+/* Modern temaya ĂÂśzgĂÂź font & ek stiller */
 [data-theme="modern"] body,
 [data-theme="modern"] {
   font-family: 'Manrope', sans-serif;
@@ -126,41 +82,15 @@
 }
 
 /* HERO / WIDGET */
-.total-debt-widget {
-  background: linear-gradient(135deg, rgba(30, 35, 41, 0.95) 0%, rgba(11, 14, 17, 0.98) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 24px;
-  margin: 16px;
-  padding: 24px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.total-debt-widget::before {
-  content: '';
-  position: absolute;
-  top: -100px;
-  right: -100px;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(252, 213, 53, 0.05) 0%, transparent 70%);
-  pointer-events: none;
-}
-
 [data-theme="modern"] .total-debt-widget {
-  background: linear-gradient(135deg, rgba(20, 27, 38, 0.9) 0%, rgba(11, 14, 19, 0.95) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 24px;
+  background: linear-gradient(135deg, #141b26 0%, #0b0e13 100%);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
   margin: 12px;
-  padding: 24px;
+  padding: 16px 20px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 [data-theme="modern"] .total-debt-widget::before {
@@ -193,8 +123,8 @@
   font-size: 12px;
 }
 
-/* MARKETS HEADER Ă˘â‚Źâ€  modern temada gizle (grid kartlar kendi baĂ…Ĺ¸lĂ„ÂąĂ„Ĺ¸Ă„ÂąnĂ„Âą taĂ…Ĺ¸Ă„Âąr) */
-/* MARKETS HEADER — modern temada gizle (grid kartlar kendi baĹŸlÄąÄŸÄąnÄą taĹŸÄąr) */
+/* MARKETS HEADER Ă˘âŹâ modern temada gizle (grid kartlar kendi baĂĹ¸lĂÂąĂĹ¸ĂÂąnĂÂą taĂĹ¸ĂÂąr) */
+/* MARKETS HEADER — modern temada gizle (grid kartlar kendi baĹlÄąÄÄąnÄą taĹÄąr) */
 [data-theme="modern"] .markets-header {
   display: none;
 }
@@ -227,38 +157,16 @@
   background: transparent;
 }
 
-.market-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-}
-
-.market-row:hover {
-  background: rgba(255, 255, 255, 0.02);
-  padding-left: 20px;
-}
-
 [data-theme="modern"] .market-row,
 [data-theme="modern"] .coin-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
+  padding: 12px 16px;
   background: var(--bg-primary);
   border-bottom: 1px solid rgba(255, 255, 255, 0.03);
   margin: 0;
-  min-height: 64px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-[data-theme="modern"] .market-row:hover,
-[data-theme="modern"] .coin-row:hover {
-  background: rgba(255, 255, 255, 0.02);
-  padding-left: 24px;
+  min-height: 60px;
 }
 
 [data-theme="modern"] .market-row:active,
@@ -272,12 +180,12 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, .4);
 }
 
-/* TĂƒÂźm satĂ„Âąrlar artĂ„Âąk hepsi aynĂ„Âą */
+/* TĂÂźm satĂÂąrlar artĂÂąk hepsi aynĂÂą */
 [data-theme="modern"] .market-row:has(#btcUsd) {
   grid-column: auto;
 }
 
-/* m-left Ă˘†’ kart ĂƒÂźst kĂ„ÂąsmĂ„Âą: ikon + baĂ…Ĺ¸lĂ„Âąk yan yana */
+/* m-left Ă˘†’ kart ĂÂźst kĂÂąsmĂÂą: ikon + baĂĹ¸lĂÂąk yan yana */
 [data-theme="modern"] .m-left {
   display: flex;
   align-items: center;
@@ -306,7 +214,7 @@
   font-weight: 600;
 }
 
-/* Piyasa satĂ„ÂąrlarĂ„Âą kesin uniform stil */
+/* Piyasa satĂÂąrlarĂÂą kesin uniform stil */
 [data-theme="modern"] .m-middle {
   flex: 1;
   font-family: 'Space Grotesk', sans-serif;
@@ -317,7 +225,7 @@
   padding-right: 16px;
 }
 
-/* m-right Ă˘†’ deĂ„Ĺ¸iĂ…Ĺ¸im pill */
+/* m-right Ă˘†’ deĂĹ¸iĂĹ¸im pill */
 [data-theme="modern"] .m-right {
   width: 80px;
   display: flex;
@@ -382,31 +290,13 @@
   border-radius: var(--radius-md);
 }
 
-.refresh-badge {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  background: rgba(252, 213, 53, 0.1);
-  color: var(--brand);
-  border: 1px solid rgba(252, 213, 53, 0.2);
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  outline: none;
-  -webkit-tap-highlight-color: transparent;
-  backdrop-filter: blur(4px);
-}
-
-.refresh-badge:hover {
-  background: rgba(252, 213, 53, 0.2);
-  border-color: var(--brand);
-  box-shadow: 0 0 15px rgba(252, 213, 53, 0.2);
-}
-
-.refresh-badge:active {
-  transform: scale(0.9) rotate(45deg);
+[data-theme="modern"] .refresh-badge {
+  background: rgba(200, 255, 87, 0.15);
+  /* Modern yeĂĹ¸il */
+  border-color: rgba(200, 255, 87, 0.3);
+  border-radius: 12px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
 }
 
 /* PIN EKRANI */
@@ -426,7 +316,7 @@
   border-left: 1px solid var(--line);
 }
 
-/* Ă˘â€ â‚ŹĂ˘â€ â‚Ź TEMA DEĂ„ÂžĂ„Â°Ă…ÂžTĂ„Â°RME BUTONU Ă˘â€ â‚ŹĂ˘â€ â‚Ź */
+/* Ă˘ââŹĂ˘ââŹ TEMA DEĂÂĂÂ°ĂÂTĂÂ°RME BUTONU Ă˘ââŹĂ˘ââŹ */
 #themeToggleBtn {
   position: relative;
   background: transparent;
@@ -496,7 +386,7 @@ h3 {
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-/* SPLASH EKRANI (AĂƒâ€ĄILIĂ…Âž TĂƒâ€“RENĂ„Â°) */
+/* SPLASH EKRANI (AĂâĄILIĂÂ TĂâRENĂÂ°) */
 #splashLayer {
   position: absolute;
   inset: 0;
@@ -520,7 +410,7 @@ h3 {
   transform: scale(0.5);
 }
 
-/* ANĂ„Â°MASYONLAR */
+/* ANĂÂ°MASYONLAR */
 .anim-logo-in {
   animation: logoEntry 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
@@ -843,12 +733,12 @@ h3 {
   }
 }
 
-/* Lig sekmesi padding'i yok (kendi iĂƒÂ§ padding'i var) */
+/* Lig sekmesi padding'i yok (kendi iĂÂ§ padding'i var) */
 #superlig.tab-page.active {
   padding: 0;
 }
 
-/* home, school da padding:0 ile baĂ…Ĺ¸lĂ„Âąyor */
+/* home, school da padding:0 ile baĂĹ¸lĂÂąyor */
 #home.tab-page.active,
 #school.tab-page.active {
   padding: 0;
@@ -884,7 +774,7 @@ h3 {
   margin-top: 2px;
 }
 
-/* PĂ„Â°YASALAR */
+/* PĂÂ°YASALAR */
 .markets-header {
   display: flex;
   justify-content: space-between;
@@ -893,6 +783,14 @@ h3 {
   color: var(--text-secondary);
   font-size: 12px;
   font-weight: 700;
+}
+
+.market-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid var(--line);
 }
 
 .m-left {
@@ -1008,6 +906,42 @@ input:focus {
 }
 
 /* BUTONLAR */
+.refresh-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(252, 213, 53, 0.15);
+  /* Klasik sarĂÂą transparan */
+  color: var(--brand);
+  /* Temaya gĂÂśre sarĂÂą veya yeĂĹ¸il */
+  border: 1px solid rgba(252, 213, 53, 0.3);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.refresh-badge svg {
+  transition: transform 0.4s ease;
+}
+
+.refresh-badge:active {
+  transform: scale(0.95);
+  background: var(--brand);
+  color: var(--text-dark);
+}
+
+.refresh-badge:active svg {
+  transform: rotate(180deg);
+}
+
 .btn {
   border: none;
   border-radius: var(--radius-md);
@@ -1151,7 +1085,7 @@ td b {
   right: 0;
 }
 
-/* ALT MENĂƒĹ“ - KESĂ„Â°N YATAY */
+/* ALT MENĂĹ - KESĂÂ°N YATAY */
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -1181,7 +1115,7 @@ td b {
   cursor: pointer;
   flex: 1;
   max-width: 60px;
-  /* Ă„Â°konlar arasĂ„Âą yakĂ„ÂąnlĂ„Âąk */
+  /* ĂÂ°konlar arasĂÂą yakĂÂąnlĂÂąk */
   transition: all 0.2s ease;
   padding: 6px 0;
 }
@@ -1220,9 +1154,9 @@ td b {
   font-weight: 800;
 }
 
-/* Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘ 
-     GENEL SEKME STĂ„Â°LLERĂ„Â° (LĂ„Â°G, MARKET VS.)
-  Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘  */
+/* Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘
+     GENEL SEKME STĂÂ°LLERĂÂ° (LĂÂ°G, MARKET VS.)
+  Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ */
 .detail-tabs {
   display: flex;
   gap: 20px;
@@ -1260,11 +1194,11 @@ td b {
   background: var(--brand);
 }
 
-/* Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘ 
-     SĂƒĹ“PER LĂ„Â°G PUAN TABLOSU STĂ„Â°LLERĂ„Â°
-  Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘  */
+/* Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘
+     SĂĹPER LĂÂ°G PUAN TABLOSU STĂÂ°LLERĂÂ°
+  Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ */
 
-/* Tablo baĂ…Ĺ¸lĂ„Âąk satĂ„ÂąrĂ„Âą */
+/* Tablo baĂĹ¸lĂÂąk satĂÂąrĂÂą */
 .lig-table-header {
   display: flex;
   align-items: center;
@@ -1278,11 +1212,11 @@ td b {
   letter-spacing: 0.4px;
   position: sticky;
   top: 57px;
-  /* topbar yĂƒÂźksekliĂ„Ĺ¸i kadar */
+  /* topbar yĂÂźksekliĂĹ¸i kadar */
   z-index: 10;
 }
 
-/* Tablo veri satĂ„ÂąrĂ„Âą */
+/* Tablo veri satĂÂąrĂÂą */
 .lig-row {
   display: flex;
   align-items: center;
@@ -1295,7 +1229,7 @@ td b {
   background: var(--bg-hover);
 }
 
-/* Kolon geniĂ…Ĺ¸likleri Ă˘â‚Źâ€  sĂ„Âąra / takĂ„Âąm / sayĂ„Âąsal / puan */
+/* Kolon geniĂĹ¸likleri Ă˘âŹâ sĂÂąra / takĂÂąm / sayĂÂąsal / puan */
 .lig-col-rank {
   width: 28px;
   flex-shrink: 0;
@@ -1327,14 +1261,14 @@ td b {
   text-align: center;
 }
 
-/* SĂ„Âąra numarasĂ„Âą */
+/* SĂÂąra numarasĂÂą */
 .lig-rank-num {
   font-size: 12px;
   font-weight: 800;
   font-family: 'Space Grotesk', monospace;
 }
 
-/* TakĂ„Âąm renk noktasĂ„Âą */
+/* TakĂÂąm renk noktasĂÂą */
 .lig-badge {
   width: 8px;
   height: 8px;
@@ -1343,7 +1277,7 @@ td b {
   opacity: 0.9;
 }
 
-/* TakĂ„Âąm adĂ„Âą */
+/* TakĂÂąm adĂÂą */
 .lig-team-name {
   font-size: 13px;
   font-weight: 700;
@@ -1367,7 +1301,7 @@ td b {
   text-align: center;
 }
 
-/* Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘ 
+/* Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘
 /* Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘ 
      SON MAĂƒâ€ĄLAR STĂ„Â°LLERĂ„Â°
   Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘  */
@@ -1526,12 +1460,6 @@ td b {
   font-size: 11px;
   font-weight: 800;
   color: var(--brand);
-}
-
-[data-theme="modern"] .refresh-badge {
-  background: rgba(252, 213, 53, 0.1);
-  border-color: rgba(252, 213, 53, 0.2);
-  border-radius: 50%;
 }
 
 .round-sep {
@@ -1750,11 +1678,11 @@ td b {
   border-bottom: none !important;
 }
 
-/* Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘ 
-   LĂ„Â°G SEKMESĂ„Â° Ă˘â‚Źâ€  MODERN TEMADA DA KLASĂ„Â°K KALSIN
+/* Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘
+   LĂÂ°G SEKMESĂÂ° Ă˘âŹâ MODERN TEMADA DA KLASĂÂ°K KALSIN
    Modern tema aktifken #superlig ve ligLive/ligWeek
-   bĂƒÂślĂƒÂźmlerini klasik renk/font deĂ„Ĺ¸erleriyle kilitle
-   Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘  */
+   bĂÂślĂÂźmlerini klasik renk/font deĂĹ¸erleriyle kilitle
+   Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ */
 [data-theme="modern"] #superlig,
 [data-theme="modern"] #ligLiveList,
 [data-theme="modern"] #ligWeekList,
@@ -1774,7 +1702,7 @@ td b {
   font-family: 'Manrope', sans-serif;
 }
 
-/* market-row grid dĂƒÂśnĂƒÂźĂ…Ĺ¸ĂƒÂźmĂƒÂźnĂƒÂź Lig iĂƒÂ§inde iptal et */
+/* market-row grid dĂÂśnĂÂźĂĹ¸ĂÂźmĂÂźnĂÂź Lig iĂÂ§inde iptal et */
 [data-theme="modern"] #superlig .market-row,
 [data-theme="modern"] #ligLiveList .market-row,
 [data-theme="modern"] #ligWeekList .market-row {
@@ -1789,13 +1717,13 @@ td b {
   border-bottom: 1px solid #2b3139;
 }
 
-/* Lig iĂƒÂ§inde pill'lerin modern override'Ă„ÂąnĂ„Âą kapat */
+/* Lig iĂÂ§inde pill'lerin modern override'ĂÂąnĂÂą kapat */
 [data-theme="modern"] #superlig .pill,
 [data-theme="modern"] #superlig .sch-score-box {
   font-family: 'Space Grotesk', monospace;
 }
 
-/* Lig iĂƒÂ§indeki tab butonlarĂ„Âą da klasik renk alsĂ„Âąn */
+/* Lig iĂÂ§indeki tab butonlarĂÂą da klasik renk alsĂÂąn */
 [data-theme="modern"] #superlig .detail-tab-btn.active {
   color: #fcd535;
 }
@@ -1804,9 +1732,9 @@ td b {
   background: #fcd535;
 }
 
-/* Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘ 
+/* Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘
    MARKET SUB-TABS (Piyasa / Coinler)
-Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘  */
+Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ */
 .market-sub-tabs {
   display: flex;
   border-bottom: 1px solid var(--line);
@@ -1843,9 +1771,9 @@ td b {
   border-radius: 2px;
 }
 
-/* Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘ 
-   COĂ„Â°N LIST ROWS
-Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘  */
+/* Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘
+   COĂÂ°N LIST ROWS
+Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ */
 .coin-row {
   display: flex;
   justify-content: space-between;
@@ -1873,9 +1801,9 @@ td b {
   flex-shrink: 0;
 }
 
-/* Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘ 
-   YAKIT FĂ„Â°YATLARI WIDGET
-Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘  */
+/* Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘
+   YAKIT FĂÂ°YATLARI WIDGET
+Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ */
 .fuel-price-widget {
   background: var(--bg-secondary);
   border-radius: 14px;
@@ -1952,9 +1880,9 @@ td b {
   cursor: pointer;
 }
 
-/* Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘ 
-   NAVĂ„Â°GASYON (ROTA) MODĂƒĹ“LĂƒĹ“ STĂ„Â°LLERĂ„Â°
-Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘  */
+/* Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘
+   NAVĂÂ°GASYON (ROTA) MODĂĹLĂĹ STĂÂ°LLERĂÂ°
+Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ */
 #fuelNavSection .input-modern {
   width: 100%;
   background: var(--bg-primary);
@@ -1974,7 +1902,7 @@ td b {
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-/* Leaflet Override - Binance TemasĂ„Âąyla Uyumluluk */
+/* Leaflet Override - Binance TemasĂÂąyla Uyumluluk */
 .leaflet-container {
   background: var(--bg-primary) !important;
   font-family: 'Manrope', sans-serif !important;
@@ -2005,9 +1933,9 @@ td b {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘ 
-   BOTTOM NAV Ă˘â‚Źâ€  SVG Ă„Â°KON STĂ„Â°LĂ„Â°
-Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘  */
+/* Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘
+   BOTTOM NAV Ă˘âŹâ SVG ĂÂ°KON STĂÂ°LĂÂ°
+Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ */
 .nav-icon {
   display: flex;
   align-items: center;
@@ -2030,14 +1958,14 @@ td b {
   stroke: var(--text-secondary);
 }
 
-/* Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘ 
-   CANLI MAĂƒâ€ĄLAR OTO-YENĂ„Â°LEME BADGE
-Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘Â Ă˘â€˘  */
+/* Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘
+   CANLI MAĂâĄLAR OTO-YENĂÂ°LEME BADGE
+Ă˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ÂĂ˘â˘ */
 .live-refresh-info {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Ă˘†  bu satĂ„Âąr eklendi */
+  /* Ă˘† bu satĂÂąr eklendi */
   gap: 6px;
   font-size: 10px;
   color: var(--text-secondary);
@@ -2068,7 +1996,7 @@ td b {
   }
 }
 
-/* CanlĂ„Âą / Devre ArasĂ„Âą maĂƒÂ§lar iĂƒÂ§in yanĂ„Âąp sĂƒÂśnen dĂ„ÂąĂ…Ĺ¸ kenar */
+/* CanlĂÂą / Devre ArasĂÂą maĂÂ§lar iĂÂ§in yanĂÂąp sĂÂśnen dĂÂąĂĹ¸ kenar */
 .match-card-active {
   border-left: 3px solid var(--active-border);
   animation: borderPulse 1.2s infinite alternate;
@@ -2083,14 +2011,14 @@ td b {
     border-left-color: var(--brand);
   }
 
-  /* sarĂ„Âąya geĂƒÂ§iĂ…Ĺ¸ */
+  /* sarĂÂąya geĂÂ§iĂĹ¸ */
 }
 
 details[id^="match-detail-"] {
   cursor: pointer;
 }
 
-/* ÄŸĹ¸â€”ÂşĂŻÂ¸Â  Navigasyon Ăƒâ€“zel Checkbox TasarĂ„ÂąmĂ„Âą */
+/* ÄĹ¸âÂşĂŻÂ¸Â Navigasyon Ăâzel Checkbox TasarĂÂąmĂÂą */
 .nav-checkbox-label input {
   appearance: none;
   -webkit-appearance: none;
