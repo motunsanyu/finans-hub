@@ -109,12 +109,22 @@ async function fetchLastCommit() {
       let msg = data[0].commit.message;
       // Sadece ilk satırı al (eğer çok satırlıysa)
       msg = msg.split('\n')[0];
+      // Eğer mesajda " - " varsa ve sonrası tarih/saat gibiyse temizle (kullanıcının manuel eklediği tarihleri silmek için)
+      if (msg.includes(' - ')) {
+          const parts = msg.split(' - ');
+          // Eğer son parça tarih veya saat formatına benziyorsa (içinde / veya : varsa) kırp
+          if (parts[parts.length-1].includes('/') || parts[parts.length-1].includes(':')) {
+              msg = parts.slice(0, -1).join(' - ');
+          }
+      }
       // Karakter sınırla
       if (msg.length > 30) msg = msg.substring(0, 27) + '...';
+      
       const d = new Date(data[0].commit.author.date);
       const dateStr = d.toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: '2-digit' });
       const timeStr = d.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-      el.innerHTML = `<div>${msg}</div><div style="font-size:8px; margin-top:2px; opacity:0.7;">${dateStr} - ${timeStr}</div>`;
+      
+      el.innerHTML = `<div style="text-transform:uppercase; margin-bottom:2px;">${msg}</div><div style="font-size:9px; opacity:0.7;">${dateStr} - ${timeStr}</div>`;
     }
   } catch (e) {
     el.textContent = 'VERSİYON: 1.1 PRO';
