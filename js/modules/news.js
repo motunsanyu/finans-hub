@@ -9,8 +9,9 @@ const NewsModule = (() => {
     const ND_API_KEY = 'pub_d5bdbdb66b3946bc9f9d6b0f5f01388d';
     const ND_BASE_URL = 'https://newsdata.io/api/1/news';
 
-    // Daha kararlı bir proxy servisi
-    const PROXY_URL = 'https://corsproxy.io/?';
+    // Proxy servisleri (SSL hatalarını önlemek için alternatifler)
+    const PROXY_GNEWS = 'https://api.codetabs.com/v1/proxy?quest=';
+    const PROXY_NEWSDATA = 'https://api.allorigins.win/raw?url=';
     const containerId = 'newsList';
 
     // Yardımcı fonksiyonlar
@@ -140,22 +141,22 @@ const NewsModule = (() => {
             </div>
         `;
 
-        // GNews URL
+        // GNews URL (Codetabs ile)
         const gnUrl = `${GN_BASE_URL}?category=business&lang=tr&country=tr&max=15&apikey=${GN_API_KEY}&t=${Date.now()}`;
-        const gnFinalUrl = PROXY_URL + encodeURIComponent(gnUrl);
+        const gnFinalUrl = PROXY_GNEWS + encodeURIComponent(gnUrl);
 
-        // NewsData.io URL (Sadeleştirilmiş)
+        // NewsData.io URL (Allorigins ile)
         const ndUrl = `${ND_BASE_URL}?apikey=${ND_API_KEY}&country=tr&category=business&language=tr&size=10`;
-        const ndFinalUrl = PROXY_URL + encodeURIComponent(ndUrl);
+        const ndFinalUrl = PROXY_NEWSDATA + encodeURIComponent(ndUrl);
 
         try {
             const [gnResponse, ndResponse] = await Promise.allSettled([
                 fetch(gnFinalUrl).then(async res => {
-                    if (!res.ok) throw new Error(`GNews HTTP ${res.status}`);
+                    if (!res.ok) throw new Error(`GNews Proxy (${res.status})`);
                     return res.json();
                 }),
                 fetch(ndFinalUrl).then(async res => {
-                    if (!res.ok) throw new Error(`NewsData HTTP ${res.status}`);
+                    if (!res.ok) throw new Error(`NewsData Proxy (${res.status})`);
                     return res.json();
                 })
             ]);
