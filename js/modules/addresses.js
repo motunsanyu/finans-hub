@@ -4,10 +4,10 @@ const AddressModule = (() => {
 
   // ── YEREL İKON YOLLARI ──────────────────────────────────────────
   const GOOGLE_MAPS_ICON = `<img src="assets/icons/google-maps.png" 
-    style="width:18px; height:18px; flex-shrink:0; border-radius:4px; object-fit:contain;" alt="Google">`;
+    style="width:26px; height:26px; flex-shrink:0; border-radius:4px; object-fit:contain;" alt="Google">`;
 
   const APPLE_MAPS_ICON = `<img src="assets/icons/apple-maps.png" 
-    style="width:18px; height:18px; flex-shrink:0; border-radius:4px; object-fit:contain;" alt="Apple">`;
+    style="width:26px; height:26px; flex-shrink:0; border-radius:4px; object-fit:contain;" alt="Apple">`;
 
   // ── YARDIMCI FONKSİYONLAR ────────────────────────────────────────
   function loadAddresses() {

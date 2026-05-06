@@ -4,11 +4,11 @@ const NewsModule = (() => {
     // GNews API (eski kaynak)
     const GN_API_KEY = '12a49b72d238dbdca21ccb74afbd1ec3';
     const GN_BASE_URL = 'https://gnews.io/api/v4/top-headlines';
-    
+
     // NewsData.io API (yeni kaynak)
     const ND_API_KEY = 'pub_d5bdbdb66b3946bc9f9d6b0f5f01388d';
     const ND_BASE_URL = 'https://newsdata.io/api/1/news';
-    
+
     const PROXY_URL = 'https://api.codetabs.com/v1/proxy?quest=';
     const containerId = 'newsList';
 
@@ -19,12 +19,12 @@ const NewsModule = (() => {
             const date = new Date(dateString);
             if (isNaN(date.getTime())) return 'Geçersiz tarih';
             return date.toLocaleDateString('tr-TR', { day: '2-digit', month: 'short', year: 'numeric' });
-        } catch(e) { return 'Tarih hatası'; }
+        } catch (e) { return 'Tarih hatası'; }
     }
 
     function sanitizeText(text) {
         if (!text) return '';
-        return text.replace(/[&<>]/g, function(m) {
+        return text.replace(/[&<>]/g, function (m) {
             if (m === '&') return '&amp;';
             if (m === '<') return '&lt;';
             if (m === '>') return '&gt;';
@@ -118,7 +118,7 @@ const NewsModule = (() => {
     function showError(errorMessage) {
         const container = document.getElementById(containerId);
         if (!container) return;
-        
+
         container.innerHTML = `
             <div style="background:rgba(239,68,68,0.1); border-left:3px solid #ef4444; padding:20px; border-radius:16px; text-align:center; color:#fca5a5;">
                 <div style="font-size:24px; margin-bottom:12px;">⚠️</div>
@@ -191,11 +191,11 @@ const NewsModule = (() => {
             // Tekrarları temizle ve tarihe göre sırala
             const uniqueArticles = deduplicateByTitle(allArticles);
             const sortedArticles = sortByDate(uniqueArticles);
-            
+
             // En fazla 20 haberi göster (isteğe bağlı)
             const finalArticles = sortedArticles.slice(0, 20);
             renderNews(finalArticles);
-            
+
             console.log(`📊 Toplam ${allArticles.length} haber, ${uniqueArticles.length} tekil haber, ${finalArticles.length} gösteriliyor.`);
         } catch (error) {
             console.error('Genel hata:', error);
