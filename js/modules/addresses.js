@@ -1,284 +1,205 @@
-// js/modules/addresses.js — Adres Yönetimi Modülü
-const AddressModule = (() => {
-  const STORAGE_KEY = 'finansHub_addresses';
+// js/modules/news.js - Türkiye Ekonomi Haberleri Modülü (Gelişmiş Hata Yönetimi ve Çoklu Kaynak Desteği)
 
-  // ── SVG İKONLAR (Kullanıcı Tasarımı) ──────────────────────────────
-  const GOOGLE_MAPS_SVG = `<svg class="map-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:20px; height:20px; flex-shrink:0;">
-    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#EA4335"/>
-    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="white" stroke-width="0.5"/>
-    <circle cx="12" cy="9" r="3" fill="#FBBC05"/>
-    <circle cx="12" cy="9" r="1.5" fill="#34A853"/>
-  </svg>`;
+const NewsModule = (() => {
+  // GNews API (eski kaynak)
+  const GN_API_KEY = '12a49b72d238dbdca21ccb74afbd1ec3';
+  const GN_BASE_URL = 'https://gnews.io/api/v4/top-headlines';
 
-  const APPLE_MAPS_SVG = `<svg class="map-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:20px; height:20px; flex-shrink:0;">
-    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#555555"/>
-    <path d="M12 4C8.686 4 6 6.686 6 10c0 4 6 10 6 10s6-6 6-10c0-3.314-2.686-6-6-6z" fill="#A2AAAD"/>
-    <circle cx="12" cy="10" r="2.5" fill="white"/>
-  </svg>`;
+  // NewsData.io API (yeni kaynak)
+  const ND_API_KEY = 'pub_d5bdbdb66b3946bc9f9d6b0f5f01388d';
+  const ND_BASE_URL = 'https://newsdata.io/api/1/news';
 
-  // ── YARDIMCI FONKSİYONLAR ────────────────────────────────────────
-  function loadAddresses() {
+  const PROXY_URL = 'https://api.codetabs.com/v1/proxy?quest=';
+  const containerId = 'newsList';
+
+  // Yardımcı fonksiyonlar
+  function formatDate(dateString) {
+    if (!dateString) return 'Tarih belirsiz';
     try {
-      const data = localStorage.getItem(STORAGE_KEY);
-      return data ? JSON.parse(data) : [];
-    } catch (e) { return []; }
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return 'Geçersiz tarih';
+      return date.toLocaleDateString('tr-TR', { day: '2-digit', month: 'short', year: 'numeric' });
+    } catch (e) { return 'Tarih hatası'; }
   }
 
-  function saveAddresses(addresses) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(addresses));
-  }
-
-  function escapeHtml(str) {
-    if (!str) return '';
-    return String(str).replace(/[&<>"']/g, m => ({
-      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-    }[m]));
-  }
-
-  // Nominatim address objesini kısa/net formata çevir
-  // Çıktı: "Kabil Caddesi No:31 Çankaya / Ankara"
-  function formatNominatimAddress(addrObj) {
-    if (!addrObj) return '';
-    const parts = [];
-
-    // Sokak/Cadde + Numara
-    if (addrObj.road || addrObj.pedestrian || addrObj.footway) {
-      let street = addrObj.road || addrObj.pedestrian || addrObj.footway;
-      if (addrObj.house_number) street += ' No:' + addrObj.house_number;
-      parts.push(street);
-    }
-
-    // İlçe/Mahalle
-    const district = addrObj.suburb
-      || addrObj.neighbourhood
-      || addrObj.city_district
-      || addrObj.district
-      || addrObj.town
-      || addrObj.village
-      || '';
-
-    // Şehir/İl
-    const city = addrObj.province
-      || addrObj.state
-      || addrObj.city
-      || addrObj.county
-      || '';
-
-    if (district && city) {
-      parts.push(district + ' / ' + city);
-    } else if (city) {
-      parts.push(city);
-    } else if (district) {
-      parts.push(district);
-    }
-
-    return parts.join(', ') || '';
-  }
-
-  // ── CRUD FONKSİYONLARI ───────────────────────────────────────────
-  function addAddress(title, lat, lng, il, ilce, adresTam) {
-    const addresses = loadAddresses();
-    addresses.push({
-      id: Date.now().toString(),
-      baslik: title,
-      enlem: lat,
-      boylam: lng,
-      il: il || '',
-      ilce: ilce || '',
-      adresTam: adresTam || '',
-      timestamp: new Date().toISOString()
-    });
-    saveAddresses(addresses);
-    renderAddresses();
-  }
-
-  function editAddress(id) {
-    const addresses = loadAddresses();
-    const addr = addresses.find(a => a.id === id);
-    if (!addr) return;
-
-    showAddressModal({
-      lat: addr.enlem,
-      lng: addr.boylam,
-      il: addr.il,
-      ilce: addr.ilce,
-      adresTam: addr.adresTam,
-      isEdit: true,
-      editId: id,
-      existingTitle: addr.baslik
+  function sanitizeText(text) {
+    if (!text) return '';
+    return text.replace(/[&<>]/g, function (m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
     });
   }
 
-  function deleteAddress(id) {
-    if (typeof window.showCustomConfirm === 'function') {
-      window.showCustomConfirm('Bu adresi silmek istediğinize emin misiniz?', () => {
-        let addresses = loadAddresses().filter(a => a.id !== id);
-        saveAddresses(addresses);
-        renderAddresses();
-        if (window.showToast) window.showToast('Adres silindi.', 'success');
-      });
-    } else {
-      if (confirm('Bu adresi silmek istediğinize emin misiniz?')) {
-        let addresses = loadAddresses().filter(a => a.id !== id);
-        saveAddresses(addresses);
-        renderAddresses();
-      }
-    }
+  function stripHtml(html) {
+    if (!html) return '';
+    return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
   }
 
-  function openInGoogleMaps(lat, lng) {
-    const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
-    window.location.href = url;
+  // NewsData.io'dan gelen veriyi ortak formata dönüştür
+  function convertNewsDataItem(item) {
+    return {
+      title: item.title || 'Başlıksız',
+      url: item.link || '#',
+      publishedAt: item.pubDate ? new Date(item.pubDate).toISOString() : null,
+      description: item.description || '',
+      source: { name: item.source_name || item.source_id || 'NewsData.io' }
+    };
   }
 
-  function openInAppleMaps(lat, lng, address) {
-    const url = `https://maps.apple.com/?ll=${lat},${lng}&q=${encodeURIComponent(address || 'Konum')}`;
-    window.location.href = url;
+  // GNews'ten gelen veri zaten uygun formatta, sadece gerekli alanları al
+  function convertGNewsItem(item) {
+    return {
+      title: item.title || 'Başlıksız',
+      url: item.url || '#',
+      publishedAt: item.publishedAt || null,
+      description: item.description || '',
+      source: { name: item.source?.name || 'GNews' }
+    };
   }
 
-  // ── RENDER ───────────────────────────────────────────────────────
-  function renderAddresses() {
-    const container = document.getElementById('addressesList');
+  // Haberleri tarihe göre sırala (en yeni önce)
+  function sortByDate(articles) {
+    return articles.sort((a, b) => {
+      const dateA = a.publishedAt ? new Date(a.publishedAt) : 0;
+      const dateB = b.publishedAt ? new Date(b.publishedAt) : 0;
+      return dateB - dateA;
+    });
+  }
+
+  // Aynı başlığa sahip haberleri temizle (basit deduplication)
+  function deduplicateByTitle(articles) {
+    const seen = new Set();
+    return articles.filter(article => {
+      const title = article.title?.trim().toLowerCase();
+      if (!title || seen.has(title)) return false;
+      seen.add(title);
+      return true;
+    });
+  }
+
+  function renderNews(articles) {
+    const container = document.getElementById(containerId);
     if (!container) return;
 
-    const addresses = loadAddresses();
-    if (addresses.length === 0) {
+    if (!articles || articles.length === 0) {
       container.innerHTML = `
-        <div style="text-align:center; padding:48px 16px; color:#848e9c;">
-          <div style="font-size:40px; margin-bottom:12px;">📍</div>
-          <div style="font-size:14px; font-weight:700; color:#b0b8c5; margin-bottom:6px;">Kayıtlı adres yok</div>
-          <div style="font-size:12px;">Navigasyon sekmesinden konum kaydedebilirsiniz.</div>
-        </div>`;
+                <div style="text-align:center; padding:40px; background:#1e2329; border-radius:24px; color:#9ca3af;">
+                    📭 Şu anda haber bulunamadı. Lütfen daha sonra tekrar deneyin.
+                </div>
+            `;
       return;
     }
 
-    container.innerHTML = addresses.map(addr => {
-      const adresGosterim = addr.adresTam
-        ? addr.adresTam
-        : (addr.il && addr.ilce)
-          ? `${addr.ilce} / ${addr.il}`
-          : `${parseFloat(addr.enlem).toFixed(5)}, ${parseFloat(addr.boylam).toFixed(5)}`;
+    let html = '';
+    articles.forEach(item => {
+      const title = item.title || 'Başlıksız';
+      const link = item.url || '#';
+      const pubDate = item.publishedAt ? formatDate(item.publishedAt) : '';
+      let description = item.description ? stripHtml(item.description) : '';
+      description = description.length > 120 ? description.substring(0, 120) + '...' : description;
+      const sourceName = item.source?.name || 'Kaynak';
 
-      return `
-        <details class="modern-plan-card" style="padding:0; margin-bottom:12px; background:#1e2329; border:1px solid #2a2f36; border-radius:16px; overflow:hidden;">
-          <summary style="list-style:none; outline:none; cursor:pointer; padding:16px;">
-            <div style="display:flex; gap:12px; align-items:flex-start;">
-              <div style="font-size:20px; flex-shrink:0; margin-top:2px;">📍</div>
-              <div style="flex:1; min-width:0;">
-                <div style="font-weight:800; color:#fcd535; font-size:15px; margin-bottom:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
-                  ${escapeHtml(addr.baslik)}
+      html += `
+                <div class="news-card" onclick="window.open('${link}', '_blank')" style="background:#1e2329; border-radius:20px; padding:18px; border:1px solid #2a2f36; cursor:pointer; transition:0.2s; margin-bottom:16px;">
+                    <div style="font-size:16px; font-weight:700; color:white; line-height:1.4; margin-bottom:10px;">${sanitizeText(title)}</div>
+                    <div style="display:flex; gap:12px; align-items:center; margin-bottom:10px; font-size:11px; font-weight:600;">
+                        <span style="background:rgba(252,213,53,0.12); color:#fcd535; padding:4px 10px; border-radius:20px;">${sanitizeText(sourceName)}</span>
+                        <span style="color:#9ca3af;">${sanitizeText(pubDate)}</span>
+                    </div>
+                    <div style="font-size:13px; color:#b0b8c5; line-height:1.45;">${sanitizeText(description)}</div>
                 </div>
-                <div style="font-size:12px; color:#c9d1d9; line-height:1.4;">
-                  ${escapeHtml(adresGosterim)}
-                </div>
-              </div>
-              <div style="font-size:10px; color:#6b7280; margin-top:6px;">▼</div>
-            </div>
-          </summary>
-
-          <div style="padding:0 16px 16px; border-top:1px solid rgba(255,255,255,0.05); background:rgba(0,0,0,0.1);">
-            <div style="display:flex; gap:10px; margin-top:15px; margin-bottom:15px;">
-              <button onclick="AddressModule.openInGoogleMaps(${addr.enlem}, ${addr.boylam})"
-                style="flex:1; display:flex; align-items:center; justify-content:center; gap:8px; padding:10px; border-radius:10px; border:1px solid #3c4043; background:#1e2329; color:#fff; font-size:11px; font-weight:800; cursor:pointer;">
-                ${GOOGLE_MAPS_SVG} Google
-              </button>
-              <button onclick="AddressModule.openInAppleMaps(${addr.enlem}, ${addr.boylam}, '${escapeHtml(addr.baslik)}')"
-                style="flex:1; display:flex; align-items:center; justify-content:center; gap:8px; padding:10px; border-radius:10px; border:1px solid #3c4043; background:#1e2329; color:#fff; font-size:11px; font-weight:800; cursor:pointer;">
-                ${APPLE_MAPS_SVG} Apple
-              </button>
-            </div>
-
-            <div style="display:flex; gap:10px;">
-              <button onclick="AddressModule.editAddress('${addr.id}')"
-                style="flex:1; background:rgba(252,213,53,0.1); border:1px solid rgba(252,213,53,0.2); color:#fcd535; padding:8px; border-radius:8px; font-size:11px; font-weight:800; cursor:pointer;">✏️ DÜZENLE</button>
-              <button onclick="AddressModule.deleteAddress('${addr.id}')"
-                style="flex:1; background:rgba(246,70,93,0.1); border:1px solid rgba(246,70,93,0.2); color:#f6465d; padding:8px; border-radius:8px; font-size:11px; font-weight:800; cursor:pointer;">🗑️ SİL</button>
-            </div>
-          </div>
-        </details>`;
-    }).join('');
+            `;
+    });
+    container.innerHTML = html;
   }
 
-  // ── ADRES BAŞLIĞI MODALI ─────────────────────────────────────────
-  function showAddressModal(pendingData) {
-    const modal = document.getElementById('addressModal');
-    const input = document.getElementById('addressTitleInput');
-    const titleEl = modal ? modal.querySelector('h3') : null;
-    if (!modal || !input) return;
+  function showError(errorMessage) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
 
-    input.value = pendingData.existingTitle || '';
-    if (titleEl) titleEl.textContent = pendingData.isEdit ? 'Adresi Düzenle' : 'Adres Başlığı Belirle';
-    
-    modal.style.display = 'flex';
-    setTimeout(() => input.focus(), 200);
+    container.innerHTML = `
+            <div style="background:rgba(239,68,68,0.1); border-left:3px solid #ef4444; padding:20px; border-radius:16px; text-align:center; color:#fca5a5;">
+                <div style="font-size:24px; margin-bottom:12px;">⚠️</div>
+                <div style="font-size:13px; margin-bottom:12px;">Haberler yüklenirken bir sorun oluştu:<br><strong>${sanitizeText(errorMessage)}</strong></div>
+                <button onclick="NewsModule.fetchNews()" style="background:#fcd535; color:#0b0e11; border:none; padding:8px 20px; border-radius:30px; font-weight:700; font-size:13px; cursor:pointer;">🔄 TEKRAR DENE</button>
+            </div>
+        `;
+  }
 
-    // Eski handler'ları temizle
-    const saveBtn = document.getElementById('addressModalSave');
-    const cancelBtn = document.getElementById('addressModalCancel');
-    const newSaveBtn = saveBtn.cloneNode(true);
-    const newCancelBtn = cancelBtn.cloneNode(true);
-    saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
-    cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+  async function fetchNews() {
+    const container = document.getElementById(containerId);
+    if (!container) return;
 
-    function doSave() {
-      const title = input.value.trim();
-      if (!title) {
-        if (window.showToast) window.showToast('❌ Lütfen bir başlık girin.', 'error');
-        input.focus();
+    container.innerHTML = `
+            <div style="display:flex; justify-content:center; padding:60px 20px; gap:12px; flex-direction:column; align-items:center; color:#9ca3af;">
+                <div class="spinner"></div>
+                <span style="font-size:13px;">Haberler yükleniyor (2 kaynak)...</span>
+            </div>
+        `;
+
+    // GNews URL (category=business, lang=tr, country=tr)
+    const gnUrl = `${GN_BASE_URL}?category=business&lang=tr&country=tr&max=15&apikey=${GN_API_KEY}&t=${Date.now()}`;
+    const gnFinalUrl = PROXY_URL + encodeURIComponent(gnUrl);
+
+    // NewsData.io URL (country=tr, category=business, language=tr, size=15)
+    const ndUrl = `${ND_BASE_URL}?apikey=${ND_API_KEY}&country=tr&category=business&language=tr&size=15&time=${Date.now()}`;
+    const ndFinalUrl = PROXY_URL + encodeURIComponent(ndUrl);
+
+    try {
+      // Her iki kaynağa da istek gönder, biri başarısız olursa diğeri çalışsın
+      const [gnResponse, ndResponse] = await Promise.allSettled([
+        fetch(gnFinalUrl).then(res => res.json()),
+        fetch(ndFinalUrl).then(res => res.json())
+      ]);
+
+      let allArticles = [];
+
+      // GNews başarılı mı?
+      if (gnResponse.status === 'fulfilled' && gnResponse.value.articles) {
+        const gnArticles = gnResponse.value.articles.map(convertGNewsItem);
+        allArticles.push(...gnArticles);
+        console.log(`✅ GNews: ${gnArticles.length} haber yüklendi.`);
+      } else {
+        console.warn('⚠️ GNews hatası:', gnResponse.reason);
+      }
+
+      // NewsData.io başarılı mı?
+      if (ndResponse.status === 'fulfilled' && ndResponse.value.results && ndResponse.value.results.length > 0) {
+        const ndArticles = ndResponse.value.results.map(convertNewsDataItem);
+        allArticles.push(...ndArticles);
+        console.log(`✅ NewsData.io: ${ndArticles.length} haber yüklendi.`);
+      } else {
+        console.warn('⚠️ NewsData.io hatası:', ndResponse.reason);
+      }
+
+      if (allArticles.length === 0) {
+        // Hiç haber gelmediyse
+        container.innerHTML = `<div style="text-align:center; padding:40px; color:#9ca3af;">⚠️ Şu anda her iki kaynaktan da haber alınamıyor. Lütfen daha sonra tekrar deneyin.</div>`;
         return;
       }
 
-      const addresses = loadAddresses();
-      if (pendingData.isEdit) {
-        const idx = addresses.findIndex(a => a.id === pendingData.editId);
-        if (idx !== -1) {
-          addresses[idx].baslik = title;
-          saveAddresses(addresses);
-        }
-      } else {
-        addresses.push({
-          id: Date.now().toString(),
-          baslik: title,
-          enlem: pendingData.lat,
-          boylam: pendingData.lng,
-          il: pendingData.il || '',
-          ilce: pendingData.ilce || '',
-          adresTam: pendingData.adresTam || '',
-          timestamp: new Date().toISOString()
-        });
-        saveAddresses(addresses);
-      }
+      // Tekrarları temizle ve tarihe göre sırala
+      const uniqueArticles = deduplicateByTitle(allArticles);
+      const sortedArticles = sortByDate(uniqueArticles);
 
-      renderAddresses();
-      modal.style.display = 'none';
-      if (window.showToast) window.showToast(pendingData.isEdit ? '✅ Adres güncellendi!' : '✅ Adres kaydedildi!', 'success');
-      
-      const saveAddrBtn = document.getElementById('saveAddressBtn');
-      if (saveAddrBtn) saveAddrBtn.style.display = 'none';
+      // En fazla 20 haberi göster (isteğe bağlı)
+      const finalArticles = sortedArticles.slice(0, 20);
+      renderNews(finalArticles);
+
+      console.log(`📊 Toplam ${allArticles.length} haber, ${uniqueArticles.length} tekil haber, ${finalArticles.length} gösteriliyor.`);
+    } catch (error) {
+      console.error('Genel hata:', error);
+      showError('Ağ bağlantısı veya genel bir hata oluştu.');
     }
-
-    document.getElementById('addressModalSave').addEventListener('click', doSave);
-    document.getElementById('addressModalCancel').addEventListener('click', () => { modal.style.display = 'none'; });
-    input.onkeydown = (e) => { if (e.key === 'Enter') doSave(); };
-    modal.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
   }
 
   function init() {
-    renderAddresses();
-    console.log('✅ Adres modülü başlatıldı');
+    // Dashboard üzerinden tetiklenecek
   }
 
-  return {
-    init,
-    deleteAddress,
-    editAddress,
-    openInGoogleMaps,
-    openInAppleMaps,
-    renderAddresses,
-    showAddressModal,
-    addAddress,
-    formatNominatimAddress
-  };
+  return { init, fetchNews };
 })();
 
-window.AddressModule = AddressModule;
+window.NewsModule = NewsModule;
