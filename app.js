@@ -111,8 +111,8 @@ async function fetchLastCommit() {
       msg = msg.split('\n')[0];
       // Karakter sınırla
       if (msg.length > 30) msg = msg.substring(0, 27) + '...';
-      const date = new Date(data[0].commit.author.date).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit' });
-      el.textContent = `${msg} • ${date}`;
+      const time = new Date(data[0].commit.author.date).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+      el.textContent = `${msg} • ${time}`;
     }
   } catch (e) {
     el.textContent = 'VERSİYON: 1.1 PRO';
