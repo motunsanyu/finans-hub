@@ -383,6 +383,7 @@ const FuelModule = (() => {
       },
       { enableHighAccuracy: true, timeout: 10000 }
     );
+    }
   }
 
   function clearUserLocation() {
