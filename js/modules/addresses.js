@@ -92,6 +92,23 @@ const AddressModule = (() => {
     renderAddresses();
   }
 
+  function editAddress(id) {
+    const addresses = loadAddresses();
+    const addr = addresses.find(a => a.id === id);
+    if (!addr) return;
+
+    showAddressModal({
+      lat: addr.enlem,
+      lng: addr.boylam,
+      il: addr.il,
+      ilce: addr.ilce,
+      adresTam: addr.adresTam,
+      isEdit: true,
+      editId: id,
+      existingTitle: addr.baslik
+    });
+  }
+
   function deleteAddress(id) {
     if (typeof window.showCustomConfirm === 'function') {
       window.showCustomConfirm('Bu adresi silmek istediğinize emin misiniz?', () => {
