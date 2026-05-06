@@ -1,11 +1,18 @@
-// js/modules/news.js - Türkiye Ekonomi Haberleri Modülü (Gelişmiş Hata Yönetimi ve Proxy Destekli)
+// js/modules/news.js - Türkiye Ekonomi Haberleri Modülü (Gelişmiş Hata Yönetimi ve Çoklu Kaynak Desteği)
 
 const NewsModule = (() => {
-    const API_KEY = '12a49b72d238dbdca21ccb74afbd1ec3';
-    const BASE_URL = 'https://gnews.io/api/v4/top-headlines';
+    // GNews API (eski kaynak)
+    const GN_API_KEY = '12a49b72d238dbdca21ccb74afbd1ec3';
+    const GN_BASE_URL = 'https://gnews.io/api/v4/top-headlines';
+    
+    // NewsData.io API (yeni kaynak)
+    const ND_API_KEY = 'pub_d5bdbdb66b3946bc9f9d6b0f5f01388d';
+    const ND_BASE_URL = 'https://newsdata.io/api/1/news';
+    
     const PROXY_URL = 'https://api.codetabs.com/v1/proxy?quest=';
     const containerId = 'newsList';
 
+    // Yardımcı fonksiyonlar
     function formatDate(dateString) {
         if (!dateString) return 'Tarih belirsiz';
         try {
@@ -28,6 +35,48 @@ const NewsModule = (() => {
     function stripHtml(html) {
         if (!html) return '';
         return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    }
+
+    // NewsData.io'dan gelen veriyi ortak formata dönüştür
+    function convertNewsDataItem(item) {
+        return {
+            title: item.title || 'Başlıksız',
+            url: item.link || '#',
+            publishedAt: item.pubDate ? new Date(item.pubDate).toISOString() : null,
+            description: item.description || '',
+            source: { name: item.source_name || item.source_id || 'NewsData.io' }
+        };
+    }
+
+    // GNews'ten gelen veri zaten uygun formatta, sadece gerekli alanları al
+    function convertGNewsItem(item) {
+        return {
+            title: item.title || 'Başlıksız',
+            url: item.url || '#',
+            publishedAt: item.publishedAt || null,
+            description: item.description || '',
+            source: { name: item.source?.name || 'GNews' }
+        };
+    }
+
+    // Haberleri tarihe göre sırala (en yeni önce)
+    function sortByDate(articles) {
+        return articles.sort((a, b) => {
+            const dateA = a.publishedAt ? new Date(a.publishedAt) : 0;
+            const dateB = b.publishedAt ? new Date(b.publishedAt) : 0;
+            return dateB - dateA;
+        });
+    }
+
+    // Aynı başlığa sahip haberleri temizle (basit deduplication)
+    function deduplicateByTitle(articles) {
+        const seen = new Set();
+        return articles.filter(article => {
+            const title = article.title?.trim().toLowerCase();
+            if (!title || seen.has(title)) return false;
+            seen.add(title);
+            return true;
+        });
     }
 
     function renderNews(articles) {
@@ -86,34 +135,63 @@ const NewsModule = (() => {
         container.innerHTML = `
             <div style="display:flex; justify-content:center; padding:60px 20px; gap:12px; flex-direction:column; align-items:center; color:#9ca3af;">
                 <div class="spinner"></div>
-                <span style="font-size:13px;">Haberler yükleniyor...</span>
+                <span style="font-size:13px;">Haberler yükleniyor (2 kaynak)...</span>
             </div>
         `;
 
-        // Haberleri daha güncel ve kategori bazlı almak için category=business kullanıyoruz
-        // Ayrıca cache-busting için rastgele bir parametre ekliyoruz
-        const targetUrl = `${BASE_URL}?category=business&lang=tr&country=tr&max=15&apikey=${API_KEY}&t=${Date.now()}`;
-        
-        // CORS hatasını aşmak için proxy kullanımı şarttır
-        const finalUrl = PROXY_URL + encodeURIComponent(targetUrl);
+        // GNews URL (category=business, lang=tr, country=tr)
+        const gnUrl = `${GN_BASE_URL}?category=business&lang=tr&country=tr&max=15&apikey=${GN_API_KEY}&t=${Date.now()}`;
+        const gnFinalUrl = PROXY_URL + encodeURIComponent(gnUrl);
+
+        // NewsData.io URL (country=tr, category=business, language=tr, size=15)
+        const ndUrl = `${ND_BASE_URL}?apikey=${ND_API_KEY}&country=tr&category=business&language=tr&size=15&time=${Date.now()}`;
+        const ndFinalUrl = PROXY_URL + encodeURIComponent(ndUrl);
 
         try {
-            const response = await fetch(finalUrl);
-            if (!response.ok) {
-                if (response.status === 401) throw new Error('API anahtarı geçersiz.');
-                if (response.status === 429) throw new Error('Günlük istek sınırı dolmuş.');
-                throw new Error(`HTTP ${response.status}`);
-            }
-            
-            const data = await response.json();
-            if (data.articles && data.articles.length > 0) {
-                renderNews(data.articles);
+            // Her iki kaynağa da istek gönder, biri başarısız olursa diğeri çalışsın
+            const [gnResponse, ndResponse] = await Promise.allSettled([
+                fetch(gnFinalUrl).then(res => res.json()),
+                fetch(ndFinalUrl).then(res => res.json())
+            ]);
+
+            let allArticles = [];
+
+            // GNews başarılı mı?
+            if (gnResponse.status === 'fulfilled' && gnResponse.value.articles) {
+                const gnArticles = gnResponse.value.articles.map(convertGNewsItem);
+                allArticles.push(...gnArticles);
+                console.log(`✅ GNews: ${gnArticles.length} haber yüklendi.`);
             } else {
-                container.innerHTML = `<div style="text-align:center; padding:40px; color:#9ca3af;">⚠️ Şu anda Türkiye ekonomi kategorisinde haber bulunamadı.</div>`;
+                console.warn('⚠️ GNews hatası:', gnResponse.reason);
             }
+
+            // NewsData.io başarılı mı?
+            if (ndResponse.status === 'fulfilled' && ndResponse.value.results && ndResponse.value.results.length > 0) {
+                const ndArticles = ndResponse.value.results.map(convertNewsDataItem);
+                allArticles.push(...ndArticles);
+                console.log(`✅ NewsData.io: ${ndArticles.length} haber yüklendi.`);
+            } else {
+                console.warn('⚠️ NewsData.io hatası:', ndResponse.reason);
+            }
+
+            if (allArticles.length === 0) {
+                // Hiç haber gelmediyse
+                container.innerHTML = `<div style="text-align:center; padding:40px; color:#9ca3af;">⚠️ Şu anda her iki kaynaktan da haber alınamıyor. Lütfen daha sonra tekrar deneyin.</div>`;
+                return;
+            }
+
+            // Tekrarları temizle ve tarihe göre sırala
+            const uniqueArticles = deduplicateByTitle(allArticles);
+            const sortedArticles = sortByDate(uniqueArticles);
+            
+            // En fazla 20 haberi göster (isteğe bağlı)
+            const finalArticles = sortedArticles.slice(0, 20);
+            renderNews(finalArticles);
+            
+            console.log(`📊 Toplam ${allArticles.length} haber, ${uniqueArticles.length} tekil haber, ${finalArticles.length} gösteriliyor.`);
         } catch (error) {
-            console.error('News Fetch Error:', error);
-            showError(error.message);
+            console.error('Genel hata:', error);
+            showError('Ağ bağlantısı veya genel bir hata oluştu.');
         }
     }
 
