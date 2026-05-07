@@ -12,6 +12,12 @@ const NewsModule = (() => {
     // Proxy servisleri (SSL hatalarını önlemek için alternatifler)
     const PROXY_GNEWS = 'https://api.codetabs.com/v1/proxy?quest=';
     const PROXY_NEWSDATA = 'https://api.allorigins.win/raw?url=';
+    
+    // CollectAPI (yeni kaynak 3)
+    const CA_API_KEY = 'apikey 1Ms0EMTXiR26BbyjPKI5tU:1EqlmyGJzXlJe2wM43V7Rb';
+    const CA_BASE_URL = 'https://api.collectapi.com/news/getNews';
+    const PROXY_COLLECT = 'https://api.codetabs.com/v1/proxy?quest='; // Opsiyonel proxy
+
     const containerId = 'newsList';
     const CACHE_KEY = 'finansHub.newsCache.v1';
     const CACHE_MAX_AGE_MS = 1000 * 60 * 60 * 24 * 3;
@@ -88,11 +94,11 @@ const NewsModule = (() => {
         return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
     }
 
-    async function fetchJsonWithTimeout(url, label, timeoutMs = 9000) {
+    async function fetchJsonWithTimeout(url, label, timeoutMs = 9000, options = {}) {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
         try {
-            const res = await fetch(url, { signal: controller.signal });
+            const res = await fetch(url, { ...options, signal: controller.signal });
             if (!res.ok) throw new Error(`${label} (${res.status})`);
             return await res.json();
         } finally {
@@ -110,6 +116,18 @@ const NewsModule = (() => {
             source: { name: item.source_name || item.source_id || 'NewsData.io' }
         };
     }
+
+    // CollectAPI'den gelen veriyi ortak formata dönüştür
+    function convertCollectItem(item) {
+        return {
+            title: item.name || 'Başlıksız',
+            url: item.url || '#',
+            publishedAt: null, // CollectAPI genellikle tarih dönmez veya farklı döner
+            description: item.description || '',
+            source: { name: item.source || 'CollectAPI' }
+        };
+    }
+
 
     // GNews'ten gelen veri zaten uygun formatta, sadece gerekli alanları al
     function convertGNewsItem(item) {
@@ -210,7 +228,7 @@ const NewsModule = (() => {
         container.innerHTML = `
             <div style="display:flex; justify-content:center; padding:60px 20px; gap:12px; flex-direction:column; align-items:center; color:#9ca3af;">
                 <div class="spinner"></div>
-                <span style="font-size:13px;">Haberler yükleniyor (2 kaynak)...</span>
+                <span style="font-size:13px;">Haberler yükleniyor (3 kaynak)...</span>
             </div>
         `;
 
@@ -231,11 +249,20 @@ const NewsModule = (() => {
         const ndUrl = `${ND_BASE_URL}?apikey=${ND_API_KEY}&country=tr&category=business&language=tr&size=10`;
         const ndFinalUrl = PROXY_NEWSDATA + encodeURIComponent(ndUrl);
 
-        try {
-            const [gnResponse, ndResponse] = await Promise.allSettled([
-                fetchJsonWithTimeout(gnFinalUrl, 'GNews Proxy'),
-                fetchJsonWithTimeout(ndFinalUrl, 'NewsData Proxy')
-            ]);
+            // CollectAPI URL (Ekonomi haberi çekiyoruz)
+            const caUrl = `${CA_BASE_URL}?country=tr&tag=economy`;
+
+            try {
+                const [gnResponse, ndResponse, caResponse] = await Promise.allSettled([
+                    fetchJsonWithTimeout(gnFinalUrl, 'GNews Proxy'),
+                    fetchJsonWithTimeout(ndFinalUrl, 'NewsData Proxy'),
+                    fetchJsonWithTimeout(caUrl, 'CollectAPI', 9000, {
+                        headers: {
+                            'authorization': CA_API_KEY,
+                            'content-type': 'application/json'
+                        }
+                    })
+                ]);
 
             let allArticles = [];
 
@@ -258,7 +285,18 @@ const NewsModule = (() => {
                 console.warn('⚠️ NewsData.io hatası:', errorInfo);
             }
 
+            // CollectAPI başarılı mı?
+            if (caResponse.status === 'fulfilled' && caResponse.value && caResponse.value.result) {
+                const caArticles = caResponse.value.result.map(convertCollectItem);
+                allArticles.push(...caArticles);
+                console.log(`✅ CollectAPI: ${caArticles.length} haber yüklendi.`);
+            } else {
+                const errorInfo = caResponse.status === 'rejected' ? caResponse.reason : 'Sonuç bulunamadı';
+                console.warn('⚠️ CollectAPI hatası:', errorInfo);
+            }
+
             if (allArticles.length === 0) {
+
                 if (cached?.articles?.length) {
                     renderNews(cached.articles, {
                         notice: `${getCacheLabel(cached)} gosteriliyor. Haber kaynaklarina su anda ulasilamiyor.`
@@ -267,7 +305,7 @@ const NewsModule = (() => {
                     return;
                 }
                 // Hiç haber gelmediyse
-                container.innerHTML = `<div style="text-align:center; padding:40px; color:#9ca3af;">⚠️ Şu anda her iki kaynaktan da haber alınamıyor. Lütfen daha sonra tekrar deneyin.</div>`;
+                container.innerHTML = `<div style="text-align:center; padding:40px; color:#9ca3af;">⚠️ Şu anda hiçbir kaynaktan haber alınamıyor. Lütfen daha sonra tekrar deneyin.</div>`;
                 isFetching = false;
                 return;
             }
