@@ -10,10 +10,6 @@ const FuelModule = (() => {
   let navActiveRoutes = [];
   let navCurrentSelectedIndex = 0;
 
-  // Weather API (CollectAPI)
-  const WEATHER_API_KEY = 'apikey 1Ms0EMTXiR26BbyjPKI5tU:1EqlmyGJzXlJe2wM43V7Rb';
-  const WEATHER_BASE_URL = 'https://api.collectapi.com/weather/getWeather';
-
   // Supabase client'a kısayol
   function getSB() {
     return window._supabaseClient;
@@ -182,14 +178,9 @@ const FuelModule = (() => {
     if (mainSec) mainSec.style.display = "none";
     if (navSec) navSec.style.display = "none";
     if (addrSec) addrSec.style.display = "none";
-    const weatherSec = document.getElementById("fuelWeatherSection");
-    if (weatherSec) weatherSec.style.display = "none";
-
     if (btnMain) btnMain.classList.remove("active");
     if (btnNav) btnNav.classList.remove("active");
     if (btnAddress) btnAddress.classList.remove("active");
-    const btnWeather = document.getElementById("btnFuelWeather");
-    if (btnWeather) btnWeather.classList.remove("active");
 
     if (tab === 'main') {
       if (mainSec) mainSec.style.display = "block";
@@ -208,10 +199,6 @@ const FuelModule = (() => {
       if (addrSec) addrSec.style.display = "block";
       if (btnAddress) btnAddress.classList.add("active");
       if (typeof AddressModule !== 'undefined') AddressModule.renderAddresses();
-    } else if (tab === 'weather') {
-      if (weatherSec) weatherSec.style.display = "block";
-      if (btnWeather) btnWeather.classList.add("active");
-      fetchWeather();
     }
   };
 
@@ -562,139 +549,14 @@ const FuelModule = (() => {
     selectNavRoute(navCurrentSelectedIndex);
   };
 
-  // ═══════════════ HAVA DURUMU FONKSİYONLARI ═══════════════
-  async function fetchWeather(customCity) {
-    const content = document.getElementById("weatherContent");
-    const citySelect = document.getElementById("weatherCitySelect");
-    if (!content) return;
-
-    const city = customCity || (citySelect ? citySelect.value : "konya");
-
-    content.innerHTML = `
-      <div style="text-align:center; padding:40px; color:var(--text-secondary);">
-        <div class="spinner" style="margin:0 auto 12px;"></div>
-        ${city.toUpperCase()} için hava durumu alınıyor...
-      </div>`;
-
-    try {
-      const url = `${WEATHER_BASE_URL}?lang=tr&city=${city}`;
-      const response = await fetch(url, {
-        headers: {
-          'authorization': WEATHER_API_KEY,
-          'content-type': 'application/json'
-        }
-      });
-
-      if (!response.ok) throw new Error("API Hatası");
-      const data = await response.json();
-
-      if (data.success && data.result) {
-        renderWeather(data.result, city);
-      } else {
-        throw new Error("Veri bulunamadı");
-      }
-    } catch (err) {
-      console.error("Hava durumu hatası:", err);
-      content.innerHTML = `
-        <div style="text-align:center; padding:30px; color:var(--down); background:rgba(246,70,93,0.05); border-radius:12px;">
-          ⚠️ Hava durumu alınamadı.<br>
-          <small>${err.message}</small><br><br>
-          <button onclick="FuelModule.fetchWeather()" class="btn" style="width:auto; font-size:12px; padding:6px 16px;">Tekrar Dene</button>
-        </div>`;
-    }
-  }
-
-  function renderWeather(forecasts, city) {
-    const content = document.getElementById("weatherContent");
-    if (!content) return;
-
-    let html = `
-      <div style="margin-bottom:16px; font-weight:800; color:var(--brand); display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--line); padding-bottom:8px;">
-        <span>📍 ${city.toUpperCase()}</span>
-        <span style="font-size:11px; font-weight:400; color:var(--text-secondary);">7 Günlük Tahmin</span>
-      </div>
-      <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap:12px;">`;
-
-    forecasts.forEach((f, idx) => {
-      const isToday = idx === 0;
-      html += `
-        <div style="background:${isToday ? 'rgba(252,213,53,0.05)' : 'var(--bg-primary)'}; 
-                    border:1px solid ${isToday ? 'var(--brand)' : 'var(--line)'}; 
-                    border-radius:14px; padding:12px; text-align:center; transition:0.2s;">
-          <div style="font-size:11px; font-weight:700; color:${isToday ? 'var(--brand)' : 'var(--text-secondary)'}; margin-bottom:6px;">
-            ${f.day.toUpperCase()}
-          </div>
-          <img src="${f.icon}" style="width:40px; height:40px; margin:4px auto;" alt="${f.status}">
-          <div style="font-size:18px; font-weight:900; color:white; margin:4px 0;">${Math.round(f.degree)}°</div>
-          <div style="font-size:10px; color:var(--text-secondary); margin-bottom:8px; height:24px; display:flex; align-items:center; justify-content:center; line-height:1.2;">
-            ${f.description}
-          </div>
-          <div style="display:flex; justify-content:center; gap:8px; font-size:10px; border-top:1px solid rgba(255,255,255,0.03); padding-top:6px;">
-            <span style="color:var(--up)">↑${Math.round(f.max)}°</span>
-            <span style="color:var(--down)">↓${Math.round(f.min)}°</span>
-          </div>
-        </div>`;
-    });
-
-    html += `</div>`;
-    content.innerHTML = html;
-  }
-
-  async function fetchWeatherByLocation() {
-    if (!navigator.geolocation) {
-      if (window.showToast) window.showToast("Konum özelliği desteklenmiyor.", "error");
-      return;
-    }
-
-    const btn = document.getElementById("weatherUseLocationBtn");
-    const originalText = btn.innerHTML;
-    btn.innerHTML = "⌛ Tespit ediliyor...";
-    btn.disabled = true;
-
-    navigator.geolocation.getCurrentPosition(async (pos) => {
-      try {
-        const lat = pos.coords.latitude;
-        const lng = pos.coords.longitude;
-        
-        // Reverse geocoding to get city name
-        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=tr`);
-        const data = await res.json();
-        
-        const city = data.address.province || data.address.state || data.address.city;
-        if (city) {
-          const cleanCity = city.replace(/ ili/i, "").replace(/ province/i, "").toLowerCase()
-                               .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c');
-          
-          if (window.showToast) window.showToast(`📍 Konum tespit edildi: ${city}`, "success");
-          fetchWeather(cleanCity);
-        } else {
-          throw new Error("Şehir tespit edilemedi");
-        }
-      } catch (err) {
-        console.error("Konum hava durumu hatası:", err);
-        if (window.showToast) window.showToast("Konum bazlı hava durumu alınamadı.", "error");
-      } finally {
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-      }
-    }, (err) => {
-      if (window.showToast) window.showToast("Konum erişimi reddedildi.", "error");
-      btn.innerHTML = originalText;
-      btn.disabled = false;
-    });
-  }
-
   // ═══════════════ BAŞLATMA ═══════════════
   async function init() {
     bindFuel();
-    const weatherLocBtn = document.getElementById("weatherUseLocationBtn");
-    if (weatherLocBtn) weatherLocBtn.onclick = fetchWeatherByLocation;
-
     await renderFuelSummary();
     await renderFuelTable();
     setTimeout(() => { if (typeof window.fetchFuelPrices === 'function') window.fetchFuelPrices(); }, 1200);
     console.log('✅ Yakıt modülü (Supabase) başlatıldı');
   }
 
-  return { init, selectNavRoute, fetchWeather };
+  return { init, selectNavRoute };
 })();

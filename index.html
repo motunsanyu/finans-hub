@@ -1053,7 +1053,6 @@
           <button class="market-sub-btn active" id="btnFuelMain" onclick="switchFuelTab('main')">⛽ Yakıt</button>
           <button class="market-sub-btn" id="btnFuelNav" onclick="switchFuelTab('nav')">🗺️ Navigasyon</button>
           <button class="market-sub-btn" id="btnFuelAddress" onclick="switchFuelTab('address')">📍 Adresler</button>
-          <button class="market-sub-btn" id="btnFuelWeather" onclick="switchFuelTab('weather')">🌤️ Hava Durumu</button>
         </div>
 
         <!-- ════ YAKIT ANA BÖLÜM ════ -->
@@ -1377,55 +1376,6 @@
               <div style="font-size:40px; margin-bottom:12px;">📍</div>
               <div style="font-size:14px; font-weight:700; color:#b0b8c5; margin-bottom:6px;">Kayıtlı adres yok</div>
               <div style="font-size:12px;">Navigasyon sekmesinden konum kaydedebilirsiniz.</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ════ HAVA DURUMU BÖLÜMÜ ════ -->
-        <div id="fuelWeatherSection" style="display:none; padding:16px;">
-          <div class="panel" style="margin-bottom:16px; border:1px solid var(--line);">
-            <div
-              style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
-              <div style="font-size:15px; font-weight:800; color:white; display:flex; align-items:center; gap:8px;">
-                <span style="font-size:20px;">🌤️</span> Hava Durumu Tahmini
-              </div>
-              <button id="weatherUseLocationBtn" class="btn ghost"
-                style="padding:6px 12px; font-size:11px; width:auto; border:1px solid var(--line);">
-                📍 Konumumu Kullan
-              </button>
-            </div>
-
-            <div style="display:flex; gap:10px; margin-bottom:16px;">
-              <select id="weatherCitySelect" class="input-modern" style="flex:1; padding:12px;">
-                <option value="konya" selected>KONYA</option>
-                <option value="istanbul">İSTANBUL</option>
-                <option value="ankara">ANKARA</option>
-                <option value="izmir">İZMİR</option>
-                <option value="bursa">BURSA</option>
-                <option value="antalya">ANTALYA</option>
-                <option value="adana">ADANA</option>
-                <option value="eskisehir">ESKİŞEHİR</option>
-                <option value="kocaeli">KOCAELİ</option>
-                <option value="mersin">MERSİN</option>
-                <option value="gaziantep">GAZİANTEP</option>
-                <option value="samsun">SAMSUN</option>
-                <option value="denizli">DENİZLİ</option>
-                <option value="sakarya">SAKARYA</option>
-                <option value="mugla">MUĞLA</option>
-                <option value="aydin">AYDIN</option>
-                <option value="tekirdag">TEKİRDAĞ</option>
-                <option value="balikesir">BALIKESİR</option>
-                <option value="trabzon">TRABZON</option>
-                <option value="manisa">MANİSA</option>
-              </select>
-              <button onclick="FuelModule.fetchWeather()" class="btn primary"
-                style="width:auto; padding:0 20px;">YENİLE</button>
-            </div>
-
-            <div id="weatherContent">
-              <div style="text-align:center; padding:40px; color:var(--text-secondary);">
-                Hava durumu yükleniyor...
-              </div>
             </div>
           </div>
         </div>
