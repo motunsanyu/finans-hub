@@ -577,7 +577,7 @@ const FuelModule = (() => {
       </div>`;
 
     try {
-      const url = `${WEATHER_BASE_URL}?data.lang=tr&data.city=${city}`;
+      const url = `${WEATHER_BASE_URL}?lang=tr&city=${city}`;
       const response = await fetch(url, {
         headers: {
           'authorization': WEATHER_API_KEY,

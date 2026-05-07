@@ -245,9 +245,9 @@ const NewsModule = (() => {
         const gnUrl = `${GN_BASE_URL}?category=business&lang=tr&country=tr&max=15&apikey=${GN_API_KEY}&t=${Date.now()}`;
         const gnFinalUrl = PROXY_GNEWS + encodeURIComponent(gnUrl);
 
-        // NewsData.io URL (Allorigins ile)
+        // NewsData.io URL (Codetabs ile - Allorigins sorunlu olabiliyor)
         const ndUrl = `${ND_BASE_URL}?apikey=${ND_API_KEY}&country=tr&category=business&language=tr&size=10`;
-        const ndFinalUrl = PROXY_NEWSDATA + encodeURIComponent(ndUrl);
+        const ndFinalUrl = PROXY_GNEWS + encodeURIComponent(ndUrl);
 
             // CollectAPI URL (Ekonomi haberi çekiyoruz)
             const caUrl = `${CA_BASE_URL}?country=tr&tag=economy`;
