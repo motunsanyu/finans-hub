@@ -837,7 +837,6 @@ window.switchMarketTab = function (tab) {
     'coins': { id: 'coinlerSection', btn: 'btnMarketCoinler' },
     'trade': { id: 'tradeSection', btn: 'btnMarketTrade' },
     'portfolio': { id: 'portfolioSection', btn: 'btnMarketPortfolio' },
-    'bist': { id: 'bistSection', btn: 'btnMarketBist' },
     'news': { id: 'newsSection', btn: 'btnMarketNews' }
   };
 
@@ -868,8 +867,6 @@ window.switchMarketTab = function (tab) {
 
     if (tab === 'trade' && typeof TradeModule !== 'undefined') TradeModule.initTradeUI();
     if (tab === 'portfolio' && typeof TradeModule !== 'undefined') TradeModule.renderPortfolio();
-    if (tab === 'bist' && typeof BistModule !== 'undefined') BistModule.start();
-    if (tab !== 'bist' && typeof BistModule !== 'undefined') BistModule.stop();
     if (tab === 'news' && typeof NewsModule !== 'undefined') NewsModule.fetchNews();
     
     window.scrollTo({ top: 0, behavior: 'smooth' });
