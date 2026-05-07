@@ -327,6 +327,18 @@ function calculateMomentum(closes, period = 10) {
   return prev ? ((closes[closes.length - 1] - prev) / prev) * 100 : null;
 }
 
+function formatCoinUsd(value) {
+  if (!Number.isFinite(value)) return '-';
+  return `${value.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} $`;
+}
+
+function renderFibTargetLine(label, value) {
+  return `<div style="display:grid; grid-template-columns:64px 1fr; gap:10px; margin-top:4px;">
+    <span style="color:var(--brand);">-&gt; ${label}</span>
+    <span style="font-family:monospace;">(${formatCoinUsd(value)})</span>
+  </div>`;
+}
+
 function getVolumeStats(klines, period = 20) {
   if (!klines || klines.length < period) return null;
   const recent = klines.slice(-period);
@@ -520,10 +532,18 @@ function generateAdvancedAIComment(klines, timeframe) {
     else { items.push("SuperTrend SAT sinyali aktif."); totalScore -= 2; signals.push("SAT (SuperTrend)"); }
   }
   if (fib) {
-    if (latestPrice >= fib.level0_618 && latestPrice < fib.level0_786) items.push("Fiyat Fibonacci 0.618-0.786 bolgesinde: kritik direnc alani.");
-    else if (latestPrice >= fib.level0_382 && latestPrice < fib.level0_5) items.push("Fiyat Fibonacci 0.382-0.5 bolgesinde: orta destek/direnc alani.");
-    else if (latestPrice < fib.level0_236) items.push("Fiyat Fibonacci 0.236 altinda: derin geri cekilme bolgesi.");
-    items.push(`Fibonacci hedefleri: 0.382 (${fib.level0_382.toFixed(2)}), 0.618 (${fib.level0_618.toFixed(2)}), 1.0 (${fib.level1.toFixed(2)}).`);
+    if (latestPrice >= fib.level0_618 && latestPrice < fib.level0_786) {
+      items.push(`Fiyat Fibonacci<br><span style="color:var(--brand);">-&gt;</span> 0.618-0.786 bolgesinde: kritik direnc alani.`);
+    } else if (latestPrice >= fib.level0_382 && latestPrice < fib.level0_5) {
+      items.push(`Fiyat Fibonacci<br><span style="color:var(--brand);">-&gt;</span> 0.382-0.5 bolgesinde: orta destek/direnc alani.`);
+    } else if (latestPrice < fib.level0_236) {
+      items.push(`Fiyat Fibonacci<br><span style="color:var(--brand);">-&gt;</span> 0.236 altinda: derin geri cekilme bolgesi.`);
+    }
+    items.push(`Fibonacci hedefleri:
+      ${renderFibTargetLine('0.382', fib.level0_382)}
+      ${renderFibTargetLine('0.618', fib.level0_618)}
+      ${renderFibTargetLine('1.0', fib.level1)}
+    `);
   }
   if (momentum !== null) {
     if (momentum > 5) { items.push(`Momentum guclu pozitif (%${momentum.toFixed(1)}).`); totalScore += 1; }
@@ -699,7 +719,7 @@ async function refreshCoinDetailData() {
 
     const selectedTF = document.querySelector('.tf-btn.active')?.dataset?.tf || '1h';
     const klines = await fetchKlines(symbol, selectedTF, 200);
-    const { items, statusEmoji, statusColor, signalSummary, fibLevels, supertrendStatus } = generateAdvancedAIComment(klines, selectedTF);
+    const { items, statusEmoji, statusColor, signalSummary, supertrendStatus } = generateAdvancedAIComment(klines, selectedTF);
     document.getElementById('coinDetailComment').innerHTML = `
       <div style="margin-bottom:16px; padding:12px; background:rgba(0,0,0,0.15); border-radius:10px; border-left:4px solid ${statusColor};">
         <span style="font-weight:800; color:${statusColor}; font-size:16px;">${statusEmoji}</span>
@@ -709,8 +729,7 @@ async function refreshCoinDetailData() {
       </div>
       <ul style="margin:0; padding:0; list-style:none;">
         ${items.map(item => `<li style="margin-bottom:8px; display:flex; align-items:baseline; gap:8px; padding:8px; background:rgba(255,255,255,0.02); border-radius:6px;"><span style="color:var(--brand); font-size:12px;">▸</span> <span style="color:var(--text-primary);">${item}</span></li>`).join('')}
-      </ul>
-      ${fibLevels ? `<div style="margin-top:12px; padding:8px; background:rgba(0,0,0,0.2); border-radius:8px; font-size:11px; color:var(--text-secondary);">FIB: 0.236 ${fibLevels.level0_236.toFixed(2)} | 0.382 ${fibLevels.level0_382.toFixed(2)} | 0.618 ${fibLevels.level0_618.toFixed(2)}</div>` : ''}`;
+      </ul>`;
   } catch (err) { console.error('Coin detay hatası:', err); }
 }
 
