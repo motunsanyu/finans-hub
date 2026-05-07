@@ -13,6 +13,55 @@ const NewsModule = (() => {
     const PROXY_GNEWS = 'https://api.codetabs.com/v1/proxy?quest=';
     const PROXY_NEWSDATA = 'https://api.allorigins.win/raw?url=';
     const containerId = 'newsList';
+    const CACHE_KEY = 'finansHub.newsCache.v1';
+    const CACHE_MAX_AGE_MS = 1000 * 60 * 60 * 24 * 3;
+    let isFetching = false;
+
+    function getCachedNews() {
+        try {
+            const raw = localStorage.getItem(CACHE_KEY);
+            if (!raw) return null;
+            const cache = JSON.parse(raw);
+            if (!cache || !Array.isArray(cache.articles) || cache.articles.length === 0) return null;
+            return cache;
+        } catch (error) {
+            console.warn('Haber cache okunamadi:', error);
+            return null;
+        }
+    }
+
+    function saveCachedNews(articles) {
+        if (!articles || articles.length === 0) return;
+        try {
+            localStorage.setItem(CACHE_KEY, JSON.stringify({
+                savedAt: new Date().toISOString(),
+                articles
+            }));
+        } catch (error) {
+            console.warn('Haber cache kaydedilemedi:', error);
+        }
+    }
+
+    function isCacheFresh(cache) {
+        if (!cache?.savedAt) return false;
+        const savedTime = new Date(cache.savedAt).getTime();
+        return Number.isFinite(savedTime) && Date.now() - savedTime < CACHE_MAX_AGE_MS;
+    }
+
+    function getCacheLabel(cache) {
+        if (!cache?.savedAt) return 'Son kayitli haberler';
+        try {
+            const staleText = isCacheFresh(cache) ? '' : ' (eski kayit)';
+            return `Son kayitli haberler - ${new Date(cache.savedAt).toLocaleString('tr-TR', {
+                day: '2-digit',
+                month: 'short',
+                hour: '2-digit',
+                minute: '2-digit'
+            })}${staleText}`;
+        } catch (error) {
+            return 'Son kayitli haberler';
+        }
+    }
 
     // Yardımcı fonksiyonlar
     function formatDate(dateString) {
@@ -37,6 +86,18 @@ const NewsModule = (() => {
     function stripHtml(html) {
         if (!html) return '';
         return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    }
+
+    async function fetchJsonWithTimeout(url, label, timeoutMs = 9000) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+        try {
+            const res = await fetch(url, { signal: controller.signal });
+            if (!res.ok) throw new Error(`${label} (${res.status})`);
+            return await res.json();
+        } finally {
+            clearTimeout(timeoutId);
+        }
     }
 
     // NewsData.io'dan gelen veriyi ortak formata dönüştür
@@ -81,7 +142,7 @@ const NewsModule = (() => {
         });
     }
 
-    function renderNews(articles) {
+    function renderNews(articles, meta = {}) {
         const container = document.getElementById(containerId);
         if (!container) return;
 
@@ -94,7 +155,11 @@ const NewsModule = (() => {
             return;
         }
 
-        let html = '';
+        let html = meta.notice ? `
+            <div style="font-size:12px; color:#9ca3af; padding:10px 12px; background:rgba(255,255,255,0.04); border:1px solid #2a2f36; border-radius:14px; margin-bottom:4px;">
+                ${sanitizeText(meta.notice)}
+            </div>
+        ` : '';
         articles.forEach(item => {
             const title = item.title || 'Başlıksız';
             const link = item.url || '#';
@@ -121,6 +186,14 @@ const NewsModule = (() => {
         const container = document.getElementById(containerId);
         if (!container) return;
 
+        const cached = getCachedNews();
+        if (cached?.articles?.length) {
+            renderNews(cached.articles, {
+                notice: `${getCacheLabel(cached)} gosteriliyor. Yeni haberler alinamadi: ${errorMessage}`
+            });
+            return;
+        }
+
         container.innerHTML = `
             <div style="background:rgba(239,68,68,0.1); border-left:3px solid #ef4444; padding:20px; border-radius:16px; text-align:center; color:#fca5a5;">
                 <div style="font-size:24px; margin-bottom:12px;">⚠️</div>
@@ -141,6 +214,15 @@ const NewsModule = (() => {
             </div>
         `;
 
+        const cached = getCachedNews();
+        if (cached?.articles?.length) {
+            renderNews(cached.articles, {
+                notice: `${getCacheLabel(cached)} gosteriliyor. Yeni haberler arka planda kontrol ediliyor...`
+            });
+        }
+        if (isFetching) return;
+        isFetching = true;
+
         // GNews URL (Codetabs ile)
         const gnUrl = `${GN_BASE_URL}?category=business&lang=tr&country=tr&max=15&apikey=${GN_API_KEY}&t=${Date.now()}`;
         const gnFinalUrl = PROXY_GNEWS + encodeURIComponent(gnUrl);
@@ -151,14 +233,8 @@ const NewsModule = (() => {
 
         try {
             const [gnResponse, ndResponse] = await Promise.allSettled([
-                fetch(gnFinalUrl).then(async res => {
-                    if (!res.ok) throw new Error(`GNews Proxy (${res.status})`);
-                    return res.json();
-                }),
-                fetch(ndFinalUrl).then(async res => {
-                    if (!res.ok) throw new Error(`NewsData Proxy (${res.status})`);
-                    return res.json();
-                })
+                fetchJsonWithTimeout(gnFinalUrl, 'GNews Proxy'),
+                fetchJsonWithTimeout(ndFinalUrl, 'NewsData Proxy')
             ]);
 
             let allArticles = [];
@@ -183,8 +259,16 @@ const NewsModule = (() => {
             }
 
             if (allArticles.length === 0) {
+                if (cached?.articles?.length) {
+                    renderNews(cached.articles, {
+                        notice: `${getCacheLabel(cached)} gosteriliyor. Haber kaynaklarina su anda ulasilamiyor.`
+                    });
+                    isFetching = false;
+                    return;
+                }
                 // Hiç haber gelmediyse
                 container.innerHTML = `<div style="text-align:center; padding:40px; color:#9ca3af;">⚠️ Şu anda her iki kaynaktan da haber alınamıyor. Lütfen daha sonra tekrar deneyin.</div>`;
+                isFetching = false;
                 return;
             }
 
@@ -194,6 +278,7 @@ const NewsModule = (() => {
 
             // En fazla 20 haberi göster (isteğe bağlı)
             const finalArticles = sortedArticles.slice(0, 20);
+            saveCachedNews(finalArticles);
             renderNews(finalArticles);
 
             console.log(`📊 Toplam ${allArticles.length} haber, ${uniqueArticles.length} tekil haber, ${finalArticles.length} gösteriliyor.`);
@@ -201,6 +286,7 @@ const NewsModule = (() => {
             console.error('Genel hata:', error);
             showError('Ağ bağlantısı veya genel bir hata oluştu.');
         }
+        isFetching = false;
     }
 
     function init() {

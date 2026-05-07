@@ -274,6 +274,299 @@ function generateAdvancedAIComment(klines, timeframe) {
 }
 
 // ─── 3. ARAYÜZ FONKSİYONLARI (Dalgalanmasız listeleme) ───────
+function calculateSMA(closes, period) {
+  if (!closes || closes.length < period) return null;
+  return closes.slice(-period).reduce((sum, close) => sum + close, 0) / period;
+}
+
+function calculateSuperTrend(klines, period = 10, multiplier = 3) {
+  if (!klines || klines.length < period + 1) return null;
+  let trend = 1, upperBand = 0, lowerBand = 0, value = null;
+  for (let i = period; i < klines.length; i++) {
+    const atr = calculateATR(klines.slice(0, i + 1), period);
+    if (!atr) continue;
+    const hl2 = (klines[i].high + klines[i].low) / 2;
+    const upper = hl2 + multiplier * atr;
+    const lower = hl2 - multiplier * atr;
+    if (i === period) {
+      upperBand = upper;
+      lowerBand = lower;
+    } else {
+      const prev = klines[i - 1];
+      upperBand = upper < upperBand || prev.close > upperBand ? upper : upperBand;
+      lowerBand = lower > lowerBand || prev.close < lowerBand ? lower : lowerBand;
+    }
+    if (trend === 1 && klines[i].close <= lowerBand) trend = -1;
+    else if (trend === -1 && klines[i].close >= upperBand) trend = 1;
+    value = trend === 1 ? lowerBand : upperBand;
+  }
+  return value === null ? null : { time: klines[klines.length - 1].time, trend, upper: upperBand, lower: lowerBand, value };
+}
+
+function calculateFibonacciLevels(klines, lookback = 100) {
+  if (!klines || klines.length < 20) return null;
+  const slice = klines.slice(-lookback);
+  const highest = Math.max(...slice.map(k => k.high));
+  const lowest = Math.min(...slice.map(k => k.low));
+  const diff = highest - lowest;
+  if (!isFinite(diff) || diff <= 0) return null;
+  return {
+    level0: lowest,
+    level0_236: lowest + diff * 0.236,
+    level0_382: lowest + diff * 0.382,
+    level0_5: lowest + diff * 0.5,
+    level0_618: lowest + diff * 0.618,
+    level0_786: lowest + diff * 0.786,
+    level1: highest
+  };
+}
+
+function calculateMomentum(closes, period = 10) {
+  if (!closes || closes.length < period + 1) return null;
+  const prev = closes[closes.length - 1 - period];
+  return prev ? ((closes[closes.length - 1] - prev) / prev) * 100 : null;
+}
+
+function getVolumeStats(klines, period = 20) {
+  if (!klines || klines.length < period) return null;
+  const recent = klines.slice(-period);
+  const avgVolume = recent.reduce((sum, k) => sum + k.volume, 0) / period;
+  const lastVolume = klines[klines.length - 1].volume;
+  return avgVolume ? { avgVolume, lastVolume, ratio: lastVolume / avgVolume } : null;
+}
+
+function getVolumeAnomaly(klines) {
+  const stats = getVolumeStats(klines, 20);
+  if (!stats) return null;
+  if (stats.ratio > 2) return `Cok yuksek (${stats.ratio.toFixed(1)}x)`;
+  if (stats.ratio > 1.5) return `Yuksek (${stats.ratio.toFixed(1)}x)`;
+  if (stats.ratio < 0.5) return `Dusuk (${stats.ratio.toFixed(1)}x)`;
+  return `Normal (${stats.ratio.toFixed(1)}x)`;
+}
+
+function getLastChangePercent(closes) {
+  if (!closes || closes.length < 2 || !closes[closes.length - 2]) return 0;
+  return ((closes[closes.length - 1] - closes[closes.length - 2]) / closes[closes.length - 2]) * 100;
+}
+
+function checkBBSqueeze(klines, bollinger, volumeRatioMin = 1.5) {
+  if (!klines || klines.length < 20 || !bollinger || !bollinger.middle) return false;
+  const closes = klines.map(k => k.close);
+  const bandwidth = ((bollinger.upper - bollinger.lower) / bollinger.middle) * 100;
+  const volumeStats = getVolumeStats(klines, 20);
+  return bandwidth > 0 && bandwidth < 20
+    && closes[closes.length - 1] > bollinger.middle
+    && volumeStats && volumeStats.ratio > volumeRatioMin
+    && Math.abs(getLastChangePercent(closes)) < 9.5;
+}
+
+function checkEMASqueeze(klines) {
+  if (!klines || klines.length < 50) return false;
+  const closes = klines.map(k => k.close);
+  const ema5 = calculateEMA(closes, 5);
+  const ema8 = calculateEMA(closes, 8);
+  const ema13 = calculateEMA(closes, 13);
+  const ema20 = calculateEMA(closes, 20);
+  const volumeStats = getVolumeStats(klines, 20);
+  if (!ema5 || !ema8 || !ema13 || !ema20 || !volumeStats) return false;
+  const diff5_8 = Math.abs((ema5 - ema8) / ema8) * 100;
+  const diff5_13 = Math.abs((ema5 - ema13) / ema13) * 100;
+  const diff5_20 = Math.abs((ema5 - ema20) / ema20) * 100;
+  return diff5_8 < 3 && diff5_13 < 3 && diff5_20 < 3
+    && ema5 > ema8 && ema5 > ema13 && ema5 > ema20
+    && closes[closes.length - 1] > ema5
+    && volumeStats.ratio > 2
+    && Math.abs(getLastChangePercent(closes)) < 9.5;
+}
+
+function checkIchimokuGoldenCross(klines) {
+  if (!klines || klines.length < 52) return false;
+  const highs = klines.map(k => k.high);
+  const lows = klines.map(k => k.low);
+  const tenkan = (Math.max(...highs.slice(-9)) + Math.min(...lows.slice(-9))) / 2;
+  const kijun = (Math.max(...highs.slice(-26)) + Math.min(...lows.slice(-26))) / 2;
+  const volumeStats = getVolumeStats(klines, 20);
+  const closes = klines.map(k => k.close);
+  return tenkan > kijun && volumeStats && volumeStats.ratio > 1.5 && Math.abs(getLastChangePercent(closes)) < 9.5;
+}
+
+function calculateMFI(klines, period = 14) {
+  if (!klines || klines.length < period + 1) return null;
+  let positiveFlow = 0, negativeFlow = 0;
+  for (let i = klines.length - period; i < klines.length; i++) {
+    const typical = (klines[i].high + klines[i].low + klines[i].close) / 3;
+    const previousTypical = (klines[i - 1].high + klines[i - 1].low + klines[i - 1].close) / 3;
+    const rawFlow = typical * klines[i].volume;
+    if (typical > previousTypical) positiveFlow += rawFlow;
+    else if (typical < previousTypical) negativeFlow += rawFlow;
+  }
+  if (negativeFlow === 0 && positiveFlow === 0) return 50;
+  if (negativeFlow === 0) return 100;
+  return 100 - (100 / (1 + positiveFlow / negativeFlow));
+}
+
+function checkMFI(klines, volumeRatio = 1.5) {
+  const mfi = calculateMFI(klines, 14);
+  const volumeStats = getVolumeStats(klines, 20);
+  const closes = klines?.map(k => k.close);
+  return mfi !== null && volumeStats && closes
+    && mfi > 50 && volumeStats.ratio > volumeRatio
+    && Math.abs(getLastChangePercent(closes)) < 10;
+}
+
+function generateAdvancedAIComment(klines, timeframe) {
+  if (!klines || klines.length < 50) {
+    return {
+      items: ["Analiz icin yeterli veri yok (en az 50 mum gerekli)."],
+      statusEmoji: "NOTR",
+      statusColor: "var(--text-secondary)",
+      totalScore: 0,
+      signalSummary: "Yeterli veri yok.",
+      fibLevels: null,
+      supertrendStatus: "YOK"
+    };
+  }
+
+  const closes = klines.map(k => k.close);
+  const volumes = klines.map(k => k.volume);
+  const latestPrice = closes[closes.length - 1];
+  const items = [];
+  const signals = [];
+  let totalScore = 0;
+
+  const sma50 = calculateSMA(closes, 50);
+  const sma200 = calculateSMA(closes, 200);
+  const ema5 = calculateEMA(closes, 5);
+  const ema8 = calculateEMA(closes, 8);
+  const ema12 = calculateEMA(closes, 12);
+  const ema13 = calculateEMA(closes, 13);
+  const ema20 = calculateEMA(closes, 20);
+  const ema26 = calculateEMA(closes, 26);
+  const ema84 = calculateEMA(closes, 84);
+  const rsi14 = calculateRSI(closes, 14);
+  const macd = calculateMACD(closes);
+  const adx = calculateADX(klines, 14);
+  const obv = calculateOBV(klines);
+  const bollinger = calculateBollinger(closes, 20, 2);
+  const atr = calculateATR(klines, 14);
+  const supertrend = calculateSuperTrend(klines, 10, 3);
+  const fib = calculateFibonacciLevels(klines, 100);
+  const momentum = calculateMomentum(closes, 10);
+
+  if (sma50 && sma200) {
+    if (sma50 > sma200) { items.push("SMA50 > SMA200: uzun vadeli trend pozitif."); totalScore += 3; signals.push("AL (Uzun Vade)"); }
+    else { items.push("SMA50 < SMA200: uzun vadeli trend zayif."); totalScore -= 2; signals.push("SAT (Uzun Vade)"); }
+  }
+  if (ema12 && ema26) {
+    if (ema12 > ema26) { items.push("EMA12 > EMA26: kisa vadeli momentum pozitif."); totalScore += 2; }
+    else { items.push("EMA12 < EMA26: kisa vadeli momentum negatif."); totalScore -= 1; }
+  }
+  if (ema5 && ema8 && ema13 && ema20) {
+    const spread = ((Math.max(ema5, ema8, ema13, ema20) - Math.min(ema5, ema8, ema13, ema20)) / Math.min(ema5, ema8, ema13, ema20)) * 100;
+    if (spread < 1) items.push(`EMA 5-8-13-20 birbirine cok yakin (%${spread.toFixed(2)}): kirilim izlenmeli.`);
+  }
+  if (ema84) {
+    if (latestPrice > ema84) { items.push("Fiyat EMA84 uzerinde: orta vade destek korunuyor."); totalScore += 1; }
+    else { items.push("Fiyat EMA84 altinda: orta vade direnc baskisi var."); totalScore -= 1; }
+  }
+  if (rsi14) {
+    if (rsi14 > 75) { items.push(`RSI asiri alim bolgesinde (${rsi14.toFixed(1)}): geri cekilme riski var.`); totalScore -= 3; signals.push("SAT (RSI)"); }
+    else if (rsi14 < 25) { items.push(`RSI asiri satim bolgesinde (${rsi14.toFixed(1)}): tepki potansiyeli var.`); totalScore += 3; signals.push("AL (RSI)"); }
+    else if (rsi14 > 55) { items.push(`RSI guclu momentum gosteriyor (${rsi14.toFixed(1)}).`); totalScore += 1; }
+    else if (rsi14 < 45) { items.push(`RSI zayif momentum gosteriyor (${rsi14.toFixed(1)}).`); totalScore -= 1; }
+    else items.push(`RSI notr bolgede (${rsi14.toFixed(1)}).`);
+  }
+  if (macd !== null) {
+    if (macd > 0) { items.push("MACD pozitif: momentum yukari yonlu."); totalScore += 1; }
+    else { items.push("MACD negatif: momentum asagi yonlu."); totalScore -= 1; }
+  }
+  if (adx !== null) {
+    if (adx > 25) { items.push(`ADX guclu trend gosteriyor (${adx.toFixed(1)}).`); totalScore += 1; }
+    else if (adx < 20) { items.push(`ADX dusuk (${adx.toFixed(1)}): piyasa yatay/sikismis olabilir.`); totalScore -= 1; }
+    else items.push(`ADX orta seviyede (${adx.toFixed(1)}).`);
+  }
+
+  const avgVolume = volumes.slice(-10).reduce((a, b) => a + b, 0) / 10;
+  const lastVolume = volumes[volumes.length - 1];
+  if (obv !== null && klines.length > 20) {
+    const prevOBV = calculateOBV(klines.slice(0, -5));
+    if (latestPrice > closes[closes.length - 5] && obv < prevOBV) { items.push("Fiyat yukselirken OBV dusuyor: negatif hacim uyumsuzlugu."); totalScore -= 2; }
+    else if (latestPrice < closes[closes.length - 5] && obv > prevOBV) { items.push("Fiyat duserken OBV yukseliyor: pozitif hacim uyumsuzlugu."); totalScore += 2; }
+  }
+  const volumeStatus = getVolumeAnomaly(klines);
+  if (volumeStatus) items.push(`Hacim durumu: ${volumeStatus}.`);
+  if (lastVolume > avgVolume * 1.5) { items.push("Son hacim kisa ortalamanin uzerinde."); totalScore += 1; }
+  if (volumeStatus?.includes("Cok yuksek")) totalScore += 1;
+  else if (volumeStatus?.includes("Dusuk")) totalScore -= 1;
+
+  if (bollinger) {
+    const bandwidth = ((bollinger.upper - bollinger.lower) / bollinger.middle) * 100;
+    if (latestPrice > bollinger.upper) { items.push("Fiyat ust Bollinger bandinin uzerinde: asiri alim/devam bolgesi."); totalScore -= 1; }
+    else if (latestPrice < bollinger.lower) { items.push("Fiyat alt Bollinger bandinin altinda: asiri satim/tepki bolgesi."); totalScore += 1; }
+    if (bandwidth < 5) items.push("Bollinger bantlari daraliyor: volatilite kirilimi izlenmeli.");
+  }
+  if (atr) {
+    const atrPercent = (atr / latestPrice) * 100;
+    if (atrPercent > 5) items.push(`ATR volatilitesi cok yuksek (%${atrPercent.toFixed(2)}): risk yonetimi onemli.`);
+    else if (atrPercent < 1) items.push(`ATR volatilitesi dusuk (%${atrPercent.toFixed(2)}): sakin piyasa.`);
+  }
+
+  const divergence = detectRSIDivergence(klines);
+  if (divergence === "Boğa" || divergence === "BoÄŸa") { items.push("RSI pozitif uyumsuzluk: trend donusu ihtimali var."); totalScore += 3; signals.push("AL (RSI Uyumsuzluk)"); }
+  else if (divergence === "Ayı" || divergence === "AyÄ±") { items.push("RSI negatif uyumsuzluk: dikkatli olunmali."); totalScore -= 3; signals.push("SAT (RSI Uyumsuzluk)"); }
+
+  if (supertrend) {
+    if (supertrend.trend === 1) { items.push("SuperTrend AL sinyali aktif."); totalScore += 2; signals.push("AL (SuperTrend)"); }
+    else { items.push("SuperTrend SAT sinyali aktif."); totalScore -= 2; signals.push("SAT (SuperTrend)"); }
+  }
+  if (fib) {
+    if (latestPrice >= fib.level0_618 && latestPrice < fib.level0_786) items.push("Fiyat Fibonacci 0.618-0.786 bolgesinde: kritik direnc alani.");
+    else if (latestPrice >= fib.level0_382 && latestPrice < fib.level0_5) items.push("Fiyat Fibonacci 0.382-0.5 bolgesinde: orta destek/direnc alani.");
+    else if (latestPrice < fib.level0_236) items.push("Fiyat Fibonacci 0.236 altinda: derin geri cekilme bolgesi.");
+    items.push(`Fibonacci hedefleri: 0.382 (${fib.level0_382.toFixed(2)}), 0.618 (${fib.level0_618.toFixed(2)}), 1.0 (${fib.level1.toFixed(2)}).`);
+  }
+  if (momentum !== null) {
+    if (momentum > 5) { items.push(`Momentum guclu pozitif (%${momentum.toFixed(1)}).`); totalScore += 1; }
+    else if (momentum < -5) { items.push(`Momentum negatif (%${momentum.toFixed(1)}).`); totalScore -= 1; }
+  }
+
+  const bbSqueezeActive = bollinger && checkBBSqueeze(klines, bollinger, 1.5);
+  const emaSqueezeActive = checkEMASqueeze(klines);
+  const ichimokuActive = checkIchimokuGoldenCross(klines);
+  const mfiValue = calculateMFI(klines, 14);
+  const mfiActive = checkMFI(klines, 1.5);
+  if (bbSqueezeActive) { items.push("TradingView taramasi: Bollinger squeeze aktif, volatilite kirilimi beklenebilir."); totalScore += 2; signals.push("AL (BB Squeeze)"); }
+  if (emaSqueezeActive) { items.push("TradingView taramasi: EMA5-8-13-20 sikismasi ve fiyat EMA5 uzerinde."); totalScore += 2; signals.push("AL (EMA Squeeze)"); }
+  if (ichimokuActive) { items.push("TradingView taramasi: Ichimoku Tenkan > Kijun, pozitif kesismeyi destekliyor."); totalScore += 2; signals.push("AL (Ichimoku)"); }
+  if (mfiActive) { items.push(`MFI(14) ${mfiValue.toFixed(1)} > 50: alim baskisi mevcut.`); totalScore += 1; signals.push("AL (MFI)"); }
+  const activeStrategies = [bbSqueezeActive, emaSqueezeActive, ichimokuActive, mfiActive].filter(Boolean).length;
+  if (activeStrategies >= 2) { items.push(`Coklu tarama stratejisi aktif (${activeStrategies}/4): al sinyali gucleniyor.`); totalScore += 2; }
+
+  if (fib && latestPrice > fib.level0_618) items.push("AI notu: fiyat kritik Fibonacci bolgesini test ediyor; kirilimda 1.0 seviyesi izlenebilir.");
+  else if (fib && latestPrice < fib.level0_236) items.push("AI notu: fiyat derin geri cekilmede; 0.382 tepki hedefi takip edilebilir.");
+
+  let statusEmoji, statusColor;
+  if (totalScore >= 6) { statusEmoji = "GUCLU AL"; statusColor = "var(--up)"; }
+  else if (totalScore >= 3) { statusEmoji = "AL YONLU"; statusColor = "var(--up)"; }
+  else if (totalScore >= 0) { statusEmoji = "NOTR / BEKLE"; statusColor = "var(--brand)"; }
+  else if (totalScore >= -3) { statusEmoji = "SAT YONLU"; statusColor = "var(--down)"; }
+  else { statusEmoji = "GUCLU SAT"; statusColor = "var(--down)"; }
+
+  const uniqueSignals = [...new Set(signals)];
+  return {
+    items,
+    statusEmoji,
+    statusColor,
+    totalScore,
+    signalSummary: uniqueSignals.length ? `Sinyaller: ${uniqueSignals.join(', ')}` : "Belirgin al/sat sinyali yok.",
+    fibLevels: fib,
+    supertrendStatus: supertrend?.trend === 1 ? "AL" : (supertrend?.trend === -1 ? "SAT" : "YOK"),
+    scanner: { bbSqueeze: !!bbSqueezeActive, emaSqueeze: !!emaSqueezeActive, ichimoku: !!ichimokuActive, mfi: !!mfiActive }
+  };
+}
+
+window.generateAdvancedAIComment = generateAdvancedAIComment;
+
 window.isFirstCoinLoad = true;
 
 async function fetchCoinPrices() {
@@ -406,15 +699,18 @@ async function refreshCoinDetailData() {
 
     const selectedTF = document.querySelector('.tf-btn.active')?.dataset?.tf || '1h';
     const klines = await fetchKlines(symbol, selectedTF, 200);
-    const { items, statusEmoji, statusColor } = generateAdvancedAIComment(klines, selectedTF);
+    const { items, statusEmoji, statusColor, signalSummary, fibLevels, supertrendStatus } = generateAdvancedAIComment(klines, selectedTF);
     document.getElementById('coinDetailComment').innerHTML = `
       <div style="margin-bottom:16px; padding:12px; background:rgba(0,0,0,0.15); border-radius:10px; border-left:4px solid ${statusColor};">
         <span style="font-weight:800; color:${statusColor}; font-size:16px;">${statusEmoji}</span>
+        <div style="font-size:11px; color:var(--text-secondary); margin-top:6px;">${signalSummary}</div>
+        <div style="margin-top:8px;"><span style="background:rgba(255,255,255,0.06); padding:2px 8px; border-radius:12px; font-size:11px; color:var(--text-secondary);">SuperTrend: ${supertrendStatus || 'YOK'}</span></div>
         <span style="font-size:11px; color:var(--text-secondary); margin-left:8px;">• ${selectedTF}'lık analiz</span>
       </div>
       <ul style="margin:0; padding:0; list-style:none;">
         ${items.map(item => `<li style="margin-bottom:8px; display:flex; align-items:baseline; gap:8px; padding:8px; background:rgba(255,255,255,0.02); border-radius:6px;"><span style="color:var(--brand); font-size:12px;">▸</span> <span style="color:var(--text-primary);">${item}</span></li>`).join('')}
-      </ul>`;
+      </ul>
+      ${fibLevels ? `<div style="margin-top:12px; padding:8px; background:rgba(0,0,0,0.2); border-radius:8px; font-size:11px; color:var(--text-secondary);">FIB: 0.236 ${fibLevels.level0_236.toFixed(2)} | 0.382 ${fibLevels.level0_382.toFixed(2)} | 0.618 ${fibLevels.level0_618.toFixed(2)}</div>` : ''}`;
   } catch (err) { console.error('Coin detay hatası:', err); }
 }
 
