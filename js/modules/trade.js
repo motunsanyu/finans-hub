@@ -367,15 +367,41 @@ const TradeModule = (() => {
         loadData();
         updateBalanceUI();
 
+        const portfolioEntries = Object.entries(portfolio);
+        if (portfolioEntries.length === 0) {
+            container.innerHTML = '<div style="text-align:center; padding:40px; color:#848e9c;">Varlığınız bulunmuyor.</div>';
+            if (totalValueEl) totalValueEl.textContent = `$${walletBalance.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}`;
+            if (totalPnlEl) {
+                totalPnlEl.innerHTML = '$0.00 (0.00%)';
+                totalPnlEl.style.color = 'var(--text-secondary)';
+            }
+            return;
+        }
+
+        const coins = getCoinList();
+        
+        // Parallel fetch for all prices
+        const pricePromises = portfolioEntries.map(async ([coinKey]) => {
+            try {
+                const coinInfo = coins.find(c => c.base === coinKey);
+                const symbol = coinInfo ? coinInfo.sym : `${coinKey}USDT`;
+                const res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`);
+                const data = await res.json();
+                return { coinKey, price: parseFloat(data.price) || 0 };
+            } catch (e) {
+                return { coinKey, price: 0 };
+            }
+        });
+
+        const priceResults = await Promise.all(pricePromises);
+        const priceMap = Object.fromEntries(priceResults.map(r => [r.coinKey, r.price]));
+
         let assetValueUSD = 0;
         let totalCostUSD = 0;
-        const coins = getCoinList();
         let rows = '';
         
-        for (const [coinKey, data] of Object.entries(portfolio)) {
-            const coinInfo = coins.find(c => c.base === coinKey);
-            const symbol = coinInfo ? coinInfo.sym : `${coinKey}USDT`;
-            const { price: livePrice } = await fetchPriceAndChange(symbol);
+        for (const [coinKey, data] of portfolioEntries) {
+            const livePrice = priceMap[coinKey];
             if (!livePrice) continue;
             
             const currentValue = data.quantity * livePrice;
@@ -385,6 +411,8 @@ const TradeModule = (() => {
             
             assetValueUSD += currentValue;
             totalCostUSD += data.totalCost;
+            
+            const symbol = (coins.find(c => c.base === coinKey))?.sym || `${coinKey}USDT`;
             
             rows += `
                 <div class="portfolio-item" onclick="TradeModule.prepareTrade('${symbol}', 'sell')" style="background:#1e2329; border-radius:16px; padding:16px; border:1px solid #2a2f36; margin-bottom:12px; cursor:pointer;">
@@ -420,6 +448,7 @@ const TradeModule = (() => {
             totalPnlEl.style.color = totalPnl >= 0 ? 'var(--up)' : 'var(--down)';
         }
     }
+
 
     function init() {
         loadData();
