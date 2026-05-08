@@ -181,7 +181,23 @@ const SchoolModule = (() => {
     schoolPlans.forEach((plan, idx) => {
       const totalDebt = plan.totalDebt;
       const installmentCount = plan.installmentCount;
-      const baseAmount = totalDebt / installmentCount;
+      const unevenData = plan.unevenData; // { indices: [], amount: 0 }
+      const lastAmount = plan.lastAmount; // Legacy support
+      
+      let totalUneven = 0;
+      let unevenCount = 0;
+      
+      if (unevenData) {
+        totalUneven = unevenData.indices.length * unevenData.amount;
+        unevenCount = unevenData.indices.length;
+      } else if (lastAmount) {
+        totalUneven = lastAmount;
+        unevenCount = 1;
+      }
+      
+      const normalCount = installmentCount - unevenCount;
+      const baseAmount = normalCount > 0 ? (totalDebt - totalUneven) / normalCount : 0;
+
       const firstDate = new Date(plan.firstDate);
       const card = plan.cardId ? loadCreditCards().find(c => c.id === plan.cardId) : null;
       const paymentType = plan.paymentType === 'card' ? `💳 ${card ? card.name : 'Kart'}` : '💵 Nakit';
@@ -196,7 +212,14 @@ const SchoolModule = (() => {
       for (let i = 0; i < installmentCount; i++) {
         const dueDate = new Date(firstDate);
         dueDate.setMonth(firstDate.getMonth() + i);
-        const amount = (i === installmentCount - 1 && plan.lastAmount) ? plan.lastAmount : baseAmount;
+        
+        let amount = baseAmount;
+        if (unevenData && unevenData.indices.includes(i)) {
+          amount = unevenData.amount;
+        } else if (lastAmount && i === installmentCount - 1) {
+          amount = lastAmount;
+        }
+
         const status = getInstallmentStatus(dueDate, plan.cardId);
 
         if (status === 'Ödendi') {
@@ -341,11 +364,22 @@ const SchoolModule = (() => {
       const correctedDate = new Date(year, month - 1, day);
 
       const unevenWrap = document.getElementById('schoolUnevenWrap');
-      let lastAmount = null;
+      let unevenData = null; // { indices: [], amount: 0 }
       if (unevenWrap && unevenWrap.style.display === 'flex') {
-        let unevenAmount = parseVal(document.getElementById('unevenAmount').value);
+        const unevenNoStr = document.getElementById('unevenNo').value.trim();
+        const unevenAmount = parseVal(document.getElementById('unevenAmount').value);
         if (!isNaN(unevenAmount) && unevenAmount > 0) {
-          lastAmount = unevenAmount;
+          // 12 veya 5/6/7 gibi girişleri yakala
+          const indices = unevenNoStr.split(/[\/\s,]+/)
+            .map(s => parseInt(s.trim()) - 1)
+            .filter(n => !isNaN(n) && n >= 0 && n < instCount);
+          
+          if (indices.length > 0) {
+            unevenData = { indices, amount: unevenAmount };
+          } else {
+            // Eğer numara girilmediyse varsayılan son taksit
+            unevenData = { indices: [instCount - 1], amount: unevenAmount };
+          }
         }
       }
 
@@ -357,7 +391,7 @@ const SchoolModule = (() => {
         firstDate: correctedDate.toISOString(),
         paymentType,
         cardId,
-        lastAmount: lastAmount || null,
+        unevenData: unevenData || null,
         createdAt: new Date().toISOString()
       };
       addPlan(newPlan);
@@ -561,6 +595,40 @@ const SchoolModule = (() => {
       if (btnCash) btnCash.classList.add('active');
       if (btnCard) btnCard.classList.remove('active');
       if (cardGroup) cardGroup.style.display = 'none';
+    }
+
+    const unevenBtn = document.getElementById('schoolUnevenBtn');
+    const unevenWrap = document.getElementById('schoolUnevenWrap');
+    const unevenNoInput = document.getElementById('unevenNo');
+    const unevenAmountInput = document.getElementById('unevenAmount');
+
+    if (plan.unevenData) {
+      if (unevenWrap) unevenWrap.style.display = 'flex';
+      if (unevenBtn) {
+        unevenBtn.style.borderColor = '#fcd535';
+        unevenBtn.style.color = '#fcd535';
+        unevenBtn.textContent = '✅ Farklı Tutar Belirleniyor...';
+      }
+      if (unevenNoInput) unevenNoInput.value = plan.unevenData.indices.map(i => i + 1).join('/');
+      if (unevenAmountInput) unevenAmountInput.value = plan.unevenData.amount.toLocaleString('tr-TR', { minimumFractionDigits: 2 });
+    } else if (plan.lastAmount) {
+      if (unevenWrap) unevenWrap.style.display = 'flex';
+      if (unevenBtn) {
+        unevenBtn.style.borderColor = '#fcd535';
+        unevenBtn.style.color = '#fcd535';
+        unevenBtn.textContent = '✅ Farklı Tutar Belirleniyor...';
+      }
+      if (unevenNoInput) unevenNoInput.value = plan.installmentCount;
+      if (unevenAmountInput) unevenAmountInput.value = plan.lastAmount.toLocaleString('tr-TR', { minimumFractionDigits: 2 });
+    } else {
+      if (unevenWrap) unevenWrap.style.display = 'none';
+      if (unevenBtn) {
+        unevenBtn.style.borderColor = 'rgba(255,255,255,0.1)';
+        unevenBtn.style.color = '#848e9c';
+        unevenBtn.textContent = '📎 Farklı Taksit Tutarı Belirle';
+      }
+      if (unevenNoInput) unevenNoInput.value = '';
+      if (unevenAmountInput) unevenAmountInput.value = '';
     }
 
     schoolPlans.splice(index, 1);
