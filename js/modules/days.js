@@ -85,7 +85,7 @@ const DaysModule = (() => {
 
     const isHidden = body.style.display === 'none';
     body.style.display = isHidden ? 'block' : 'none';
-    icon.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+    icon.textContent = isHidden ? '▲' : '▼';
     
     if (isHidden) renderCalendar();
   }

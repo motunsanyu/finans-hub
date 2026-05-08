@@ -426,9 +426,9 @@ const SchoolModule = (() => {
     const panelHtml = `
             <details id="schoolCreditCardPanel" 
               style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin:0 0 16px 0; border:1px solid var(--binance-border); cursor: pointer;">
-                <summary style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
-                  <span style="display:flex; align-items:center; gap:8px;"><span style="font-size:18px;">💳</span> Kredi Kartlarım</span>
-                  <span style="font-size:12px; color:var(--brand)">Genişlet/Gizle 🔽</span>
+                <summary style="font-size:15px; font-weight:800; list-style:none; display:flex; align-items:center; gap:8px; outline:none; cursor:pointer;">
+                  <span style="font-size:18px;">💳</span> Kredi Kartlarım
+                  <span style="font-size:12px; color:var(--brand); margin-left:auto;">Genişlet/Gizle 🔽</span>
                 </summary>
                 <div style="padding:16px 0 0; cursor: default;">
                   <div id="creditCardList" style="margin-bottom:16px;"></div>

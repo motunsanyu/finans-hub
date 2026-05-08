@@ -2583,17 +2583,27 @@ details[id^="match-detail-"] {
 }
 
 .calendar-today-text {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 800;
     color: var(--text-primary);
-    font-family: 'Syne', sans-serif;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.2px;
 }
 
-.calendar-toggle-icon {
+.toggle-icon-standard {
     font-size: 12px;
     color: var(--brand);
     transition: transform 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Standart details ok işareti */
+details .toggle-icon-standard::after {
+    content: "▼";
+}
+details[open] .toggle-icon-standard::after {
+    content: "▲";
 }
 
 .calendar-body {
