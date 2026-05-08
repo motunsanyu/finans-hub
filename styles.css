@@ -2563,6 +2563,131 @@ details[id^="match-detail-"] {
 .status-paid { background: rgba(14, 203, 129, 0.15); color: var(--binance-green); }
 .status-waiting { background: rgba(246, 70, 93, 0.15); color: var(--binance-red); }
 
+/* PREMIUM WIDGET & iOS CALENDAR */
+.premium-widget {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.calendar-header {
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.calendar-today-text {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-primary);
+    font-family: 'Syne', sans-serif;
+    letter-spacing: -0.5px;
+}
+
+.calendar-toggle-icon {
+    font-size: 12px;
+    color: var(--brand);
+    transition: transform 0.3s ease;
+}
+
+.calendar-body {
+    padding: 0 20px 20px 20px;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-top: 10px;
+}
+
+.cal-nav-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    transition: all 0.2s;
+}
+
+.cal-nav-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.cal-current-month {
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--text-primary);
+    text-transform: capitalize;
+}
+
+.calendar-grid-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.calendar-grid-header span {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--text-secondary);
+    opacity: 0.6;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.cal-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    border-radius: 50%;
+    cursor: default;
+    transition: all 0.2s;
+}
+
+.cal-day.today {
+    background: #ff3b30; /* iOS Red */
+    color: white !important;
+    font-weight: 800;
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.3);
+}
+
+.cal-day.other-month {
+    opacity: 0.2;
+}
+
+.cal-day:not(.other-month):hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
 /* PREMIUM MODAL ANIMATION */
 @keyframes premium-modal-in {
   from { opacity: 0; transform: translateY(20px) scale(0.95); }
