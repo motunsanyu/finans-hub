@@ -9,6 +9,7 @@ const FuelModule = (() => {
   let navUserLocation = null;
   let navActiveRoutes = [];
   let navCurrentSelectedIndex = 0;
+  let navUserMarker = null;
 
   // Supabase client'a kısayol
   function getSB() {
@@ -273,31 +274,6 @@ const FuelModule = (() => {
   }
 
   async function useMyLocation() {
-    if (!navigator.geolocation) {
-      if (window.showToast) window.showToast('❌ Tarayıcınız konum özelliğini desteklemiyor.', 'error');
-      return;
-    }
-
-    const modal = document.getElementById('locationPermissionModal');
-    const allowBtn = document.getElementById('allowLocationBtn');
-    const denyBtn = document.getElementById('denyLocationBtn');
-    const btn = document.getElementById("useMyLocationBtn");
-
-    if (modal && allowBtn && denyBtn) {
-      modal.style.display = 'flex';
-
-      allowBtn.onclick = () => {
-        modal.style.display = 'none';
-        startActualLocationFetch();
-      };
-
-      denyBtn.onclick = () => {
-        modal.style.display = 'none';
-      };
-    } else {
-      startActualLocationFetch();
-    }
-
     async function startActualLocationFetch() {
       if (!navMap) initNavMap();
       const originalText = btn.innerHTML;
@@ -329,9 +305,9 @@ const FuelModule = (() => {
           };
         }
         btn.style.display = "none";
-        if (navMarkers[0]) navMap.removeLayer(navMarkers[0]);
+        if (navUserMarker) navMap.removeLayer(navUserMarker);
         const m = L.marker([lat, lng], { icon: L.divIcon({ className: 'custom-marker', html: '🔵', iconSize: [25, 25] }) }).bindPopup("Konumunuz alınıyor...").addTo(navMap);
-        navMarkers[0] = m;
+        navUserMarker = m;
         navMap.setView([lat, lng], 15);
         try {
           const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=tr`);
@@ -384,7 +360,46 @@ const FuelModule = (() => {
       { enableHighAccuracy: true, timeout: 10000 }
     );
     }
+
+    if (!navigator.geolocation) {
+      if (window.showToast) window.showToast('❌ Tarayıcınız konum özelliğini desteklemiyor.', 'error');
+      return;
+    }
+
+    const modal = document.getElementById('locationPermissionModal');
+    const allowBtn = document.getElementById('allowLocationBtn');
+    const denyBtn = document.getElementById('denyLocationBtn');
+    const btn = document.getElementById("useMyLocationBtn");
+
+    // Permission check to avoid redundant modal
+    if (navigator.permissions && navigator.permissions.query) {
+      try {
+        const result = await navigator.permissions.query({ name: 'geolocation' });
+        if (result.state === 'granted') {
+          startActualLocationFetch();
+          return;
+        }
+      } catch (e) {
+        console.warn('Permission check failed:', e);
+      }
+    }
+
+    if (modal && allowBtn && denyBtn) {
+      modal.style.display = 'flex';
+
+      allowBtn.onclick = () => {
+        modal.style.display = 'none';
+        startActualLocationFetch();
+      };
+
+      denyBtn.onclick = () => {
+        modal.style.display = 'none';
+      };
+    } else {
+      startActualLocationFetch();
+    }
   }
+
 
   function clearUserLocation() {
     navUserLocation = null;
@@ -395,7 +410,11 @@ const FuelModule = (() => {
     // Kaydet butonunu gizle
     const saveAddrBtn = document.getElementById("saveAddressBtn");
     if (saveAddrBtn) saveAddrBtn.style.display = "none";
-    if (navMarkers[0]) navMap.removeLayer(navMarkers[0]);
+
+    if (navMap && navUserMarker) {
+      navMap.removeLayer(navUserMarker);
+      navUserMarker = null;
+    }
   }
 
   async function calculateAndShowNavRoute() {

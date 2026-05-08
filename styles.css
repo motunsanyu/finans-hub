@@ -2562,3 +2562,10 @@ details[id^="match-detail-"] {
 
 .status-paid { background: rgba(14, 203, 129, 0.15); color: var(--binance-green); }
 .status-waiting { background: rgba(246, 70, 93, 0.15); color: var(--binance-red); }
+
+/* PREMIUM MODAL ANIMATION */
+@keyframes premium-modal-in {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
