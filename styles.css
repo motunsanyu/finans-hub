@@ -2587,7 +2587,6 @@ details[id^="match-detail-"] {
     font-size: 15px;
     font-weight: 800;
     color: var(--text-primary);
-    font-family: 'Syne', sans-serif;
     letter-spacing: -0.2px;
 }
 
