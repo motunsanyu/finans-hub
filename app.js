@@ -100,8 +100,14 @@ async function fetchLastCommit() {
   const el = document.getElementById('lastCommitInfo');
   if (!el) return;
   
+  // 1. Önce hafızadaki (cache) versiyonu göster
+  const cachedVersion = localStorage.getItem('githubLastCommit');
+  if (cachedVersion) {
+    el.innerHTML = cachedVersion;
+  }
+  
   try {
-    // GitHub API ile son commit mesajını çek (motunsanyu/finans-hub reposu için)
+    // 2. Arka planda GitHub API ile son durumu çek (motunsanyu/finans-hub reposu için)
     const response = await fetch('https://api.github.com/repos/motunsanyu/finans-hub/commits?per_page=1');
     if (!response.ok) throw new Error();
     const data = await response.json();
@@ -124,10 +130,17 @@ async function fetchLastCommit() {
       const dateStr = d.toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: '2-digit' });
       const timeStr = d.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
       
-      el.innerHTML = `<div style="text-transform:uppercase; margin-bottom:2px;">${msg}</div><div style="font-size:9px; opacity:0.7;">${dateStr} - ${timeStr}</div>`;
+      const newHtml = `<div style="text-transform:uppercase; margin-bottom:2px;">${msg}</div><div style="font-size:9px; opacity:0.7;">${dateStr} - ${timeStr}</div>`;
+      
+      // 3. Ekranda güncelle ve hafızaya kaydet
+      el.innerHTML = newHtml;
+      localStorage.setItem('githubLastCommit', newHtml);
     }
   } catch (e) {
-    el.textContent = 'VERSİYON: 1.1 PRO';
+    // 4. Hata olursa ve hafızada da bir şey yoksa varsayılanı yazdır
+    if (!cachedVersion) {
+      el.textContent = 'VERSİYON: 1.1 PRO';
+    }
   }
 }
 

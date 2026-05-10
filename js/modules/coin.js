@@ -346,11 +346,30 @@ function renderPivotCommentary(klines, latestPrice, ctx = {}) {
 
   const fmt = (v) => {
     if (!isFinite(v)) return '--';
-    return v < 1 ? v.toFixed(6) : v < 100 ? v.toFixed(4) :
-      v.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return v < 1 ? v.toFixed(6) : v < 100 ? v.toFixed(4)
+      : v.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   };
 
-  // Mevcut piyasa durumunu değerlendir
+  // Tüm seviyeleri sıralı dizi olarak tanımla (yüksekten düşüğe)
+  const allLevels = [
+    { label: 'R4', value: pv.r4, type: 'R' },
+    { label: 'R3', value: pv.r3, type: 'R' },
+    { label: 'R2', value: pv.r2, type: 'R' },
+    { label: 'R1', value: pv.r1, type: 'R' },
+    { label: 'PP', value: pv.pivot, type: 'pivot' },
+    { label: 'S1', value: pv.s1, type: 'S' },
+    { label: 'S2', value: pv.s2, type: 'S' },
+    { label: 'S3', value: pv.s3, type: 'S' },
+    { label: 'S4', value: pv.s4, type: 'S' },
+  ];
+
+  // Fiyatın hemen üstündeki ve altındaki seviyeyi bul
+  const above = allLevels.find(l => l.value > latestPrice); // En yakın direnç
+  const below = [...allLevels].reverse().find(l => l.value <= latestPrice); // En yakın destek/pivot
+
+  if (!above && !below) return null;
+
+  // Piyasa koşul değerlendirmesi
   const isBullish = latestPrice > pv.pivot;
   const isStrongMomentum = momentum > 3;
   const isWeakMomentum = momentum < -3;
@@ -358,143 +377,91 @@ function renderPivotCommentary(klines, latestPrice, ctx = {}) {
   const isLowVolume = volumeRatio < 0.7;
   const isOverbought = rsi > 70;
   const isOversold = rsi < 30;
-  const isStrongTrend = adx > 25;
   const isMacdPos = macdPositive === true;
 
-  // Her seviye için akıllı yorum üret
-  function levelComment(level, value, type) {
-    const dist = ((value - latestPrice) / latestPrice) * 100; // + = fiyat üstünde, - = fiyat altında
-    const absDist = Math.abs(dist);
-    const isNear = absDist < 0.5;   // %0.5 yakın
-    const isClose = absDist < 2;    // %2 yakın
-    const isActive = dist >= 0 && dist < 0.1; // fiyat tam bu seviyede
-    const isCurrent = latestPrice >= value * 0.999 && latestPrice <= value * 1.001;
+  // Bir seviyeye mesafe yüzdesi
+  const distPct = (target) => Math.abs(((target - latestPrice) / latestPrice) * 100);
 
-    let tag = '';
-    let comment = '';
-    let tagColor = 'transparent';
-    let rowBg = 'transparent';
+  // Genel yorum üret
+  let generalComment = '';
+  const aboveDist = above ? distPct(above.value) : null;
+  const belowDist = below ? distPct(below.value) : null;
 
-    if (type === 'pivot') {
-      tag = isCurrent ? '● AKTİF' : (latestPrice > value ? '▲ Üstünde' : '▼ Altında');
-      tagColor = latestPrice > value ? 'var(--up)' : 'var(--down)';
-      rowBg = 'rgba(252,213,53,0.07)';
-      if (latestPrice > value) {
-        comment = isStrongMomentum
-          ? `Fiyat pivot üstünde ve momentum güçlü — yükseliş devam edebilir.`
-          : `Fiyat pivot üstünde fakat momentum sınırlı — dikkatli izlenmeli.`;
-      } else if (isCurrent) {
-        comment = `Fiyat pivot noktasında. R1 ya da S1 kırılımı için sinyal beklenmeli.`;
-      } else {
-        comment = isWeakMomentum
-          ? `Fiyat pivot altında ve momentum negatif — destek testine devam edebilir.`
-          : `Fiyat pivot altında — S1 destek bölgesi izlenmeli.`;
-      }
-    } else if (type === 'R') {
-      const labelNum = level;
-      if (latestPrice > value) {
-        // Bu direnci geçti
-        tag = '✔ Kırıldı';
-        tagColor = 'var(--up)';
-        comment = isStrongMomentum
-          ? `${level} direnci kırıldı, momentum güçlü — bir üst hedef izlenmeli.`
-          : `${level} direnci kırıldı, ancak momentum zayıf — sahte kırılım ihtimali var.`;
-      } else if (isNear) {
-        tag = '⚡ Kritik';
-        tagColor = '#ffa500';
-        rowBg = 'rgba(255,165,0,0.06)';
-        if (isHighVolume && isStrongMomentum && !isOverbought) {
-          comment = `${level} direncine yaklaştı — güçlü hacim ve momentum eşliğinde kırılım kuvvetle muhtemel.`;
-        } else if (isOverbought) {
-          comment = `${level} direncine yaklaştı — RSI aşırı alım bölgesinde (${rsi.toFixed(0)}), reddetme riski yüksek.`;
-        } else if (isLowVolume) {
-          comment = `${level} direncine yaklaştı — hacim düşük (${volumeRatio.toFixed(1)}x), kırılım için hacim desteği gerekli.`;
-        } else {
-          comment = `${level} direncine yaklaştı — kırılım için hacim artışı ve RSI (${rsi.toFixed(0)}) konfirmasyonu izlenmeli.`;
-        }
-      } else if (isClose) {
-        tag = '→ Hedef';
-        tagColor = '#aaa';
-        comment = isMacdPos
-          ? `${level} yakın direnç, MACD pozitif — trend bu seviyeye doğru ilerliyor.`
-          : `${level} potansiyel direnç, fiyat yaklaşırken tepki gelebilir.`;
-      } else {
-        tag = '○';
-        tagColor = '#555';
-        comment = `${level} uzak direnç — fiyat önce alt seviyeleri test etmeli.`;
-      }
-    } else if (type === 'S') {
-      if (latestPrice < value) {
-        // Bu destek kırıldı
-        tag = '✘ Kırıldı';
-        tagColor = 'var(--down)';
-        comment = isWeakMomentum
-          ? `${level} desteği kırıldı, momentum negatif — bir alt hedef izlenmeli.`
-          : `${level} desteği kırıldı, ancak satış baskısı sınırlı — geri dönüş ihtimali var.`;
-      } else if (isNear) {
-        tag = '⚡ Kritik';
-        tagColor = '#ffa500';
-        rowBg = 'rgba(255,100,80,0.06)';
-        if (isHighVolume && isWeakMomentum && !isOversold) {
-          comment = `${level} desteğine yaklaştı — hacimli satış baskısı, kırılım riski yüksek.`;
-        } else if (isOversold) {
-          comment = `${level} desteğine yaklaştı — RSI aşırı satım (${rsi.toFixed(0)}), teknik tepki ihtimali güçlü.`;
-        } else if (isLowVolume) {
-          comment = `${level} desteğine yaklaştı — hacim düşük, destek tutabilir; kırılma zor.`;
-        } else {
-          comment = `${level} desteğine yaklaştı — tutarsa geri dönüş hedeflenebilir, kırılırsa ${level.replace('S','S')}→ alt bant.`;
-        }
-      } else if (isClose) {
-        tag = '→ İzle';
-        tagColor = '#aaa';
-        comment = `${level} yakın destek — fiyat gerilerse bu seviye tepki noktası olabilir.`;
-      } else {
-        tag = '○';
-        tagColor = '#555';
-        comment = `${level} uzak destek — ancak güçlü düşüşlerde sığınak bölgesi.`;
-      }
+  if (above && aboveDist < 0.5) {
+    // Dirençe çok yakın
+    if (isHighVolume && isStrongMomentum && !isOverbought) {
+      generalComment = `Fiyat ${above.label} direncine (%${aboveDist.toFixed(2)}) yaklaştı. Güçlü hacim (${volumeRatio.toFixed(1)}x) ve pozitif momentum kırılımı destekliyor — ${above.label} geçilirse bir üst hedef izlenmeli.`;
+    } else if (isOverbought) {
+      generalComment = `Fiyat ${above.label} direncine (%${aboveDist.toFixed(2)}) yaklaştı ancak RSI aşırı alım bölgesinde (${rsi.toFixed(0)}). Direnç reddi ve geri çekilme ihtimali yüksek.`;
+    } else if (isLowVolume) {
+      generalComment = `Fiyat ${above.label} direncine (%${aboveDist.toFixed(2)}) yaklaştı fakat hacim zayıf (${volumeRatio.toFixed(1)}x). Kırılım için hacim artışı şart — hacimsiz kırılım güvenilmez.`;
+    } else {
+      generalComment = `Fiyat ${above.label} direncine (%${aboveDist.toFixed(2)}) yaklaştı. RSI ${rsi.toFixed(0)} — kırılım için momentum ve hacim konfirmasyonu beklenmeli.`;
     }
-
-    return { level, value: fmt(value), tag, tagColor, rowBg, comment };
+  } else if (below && belowDist < 0.5 && below.type === 'S') {
+    // Desteğe çok yakın
+    if (isOversold) {
+      generalComment = `Fiyat ${below.label} desteğine (%${belowDist.toFixed(2)}) yaklaştı. RSI aşırı satım bölgesinde (${rsi.toFixed(0)}) — teknik tepki başlayabilir, ${above?.label || 'PP'} ilk hedef.`;
+    } else if (isHighVolume && isWeakMomentum) {
+      generalComment = `Fiyat ${below.label} desteğine (%${belowDist.toFixed(2)}) yaklaştı. Hacimli satış baskısı (${volumeRatio.toFixed(1)}x) ve zayıf momentum kırılım riskini artırıyor.`;
+    } else if (isLowVolume) {
+      generalComment = `Fiyat ${below.label} desteğine (%${belowDist.toFixed(2)}) yaklaştı. Düşük hacim desteğin tutmasını kolaylaştırır — tepki hareketi gelebilir.`;
+    } else {
+      generalComment = `Fiyat ${below.label} desteğine (%${belowDist.toFixed(2)}) yaklaştı. Destek tutarsa ${above?.label || 'PP'} hedeflenebilir; kırılırsa bir alt destek seviyesine gerilme olası.`;
+    }
+  } else if (isBullish) {
+    // Pivot üstünde normal seyir
+    const toRes = above ? `${above.label}'e %${aboveDist?.toFixed(2)} mesafede` : '';
+    if (isStrongMomentum && isMacdPos) {
+      generalComment = `Fiyat ${below?.label || 'PP'} üstünde seyrediyor, ${toRes}. MACD pozitif ve momentum güçlü — yükseliş trendi devam edebilir.`;
+    } else if (isOverbought) {
+      generalComment = `Fiyat ${below?.label || 'PP'} üstünde ancak RSI aşırı alım bölgesinde (${rsi.toFixed(0)}), ${toRes}. Kısa vadeli düzeltme ihtimaline karşı temkinli olunmalı.`;
+    } else {
+      generalComment = `Fiyat ${below?.label || 'PP'} üstünde, ${toRes}. RSI ${rsi.toFixed(0)} — trend genel olarak olumlu, ancak hacim (${volumeRatio.toFixed(1)}x) takip edilmeli.`;
+    }
+  } else {
+    // Pivot altında
+    const toSup = below ? `${below.label}'e %${belowDist?.toFixed(2)} mesafede` : '';
+    if (isWeakMomentum && !isOversold) {
+      generalComment = `Fiyat pivot altında seyrediyor, ${toSup}. Momentum negatif — satış baskısı devam edebilir, destek seviyeleri yakından takip edilmeli.`;
+    } else if (isOversold) {
+      generalComment = `Fiyat pivot altında ve RSI aşırı satım bölgesinde (${rsi.toFixed(0)}), ${toSup}. Teknik tepki potansiyeli yüksek — pivot geri kazanılırsa toparlanma başlayabilir.`;
+    } else {
+      generalComment = `Fiyat pivot altında, ${toSup}. ADX ${adx.toFixed(0)} — trendin gücü ${adx > 25 ? 'yüksek, kırılım kalıcı olabilir' : 'düşük, yatay hareket sürebilir'}.`;
+    }
   }
 
-  const rows = [
-    levelComment('R4', pv.r4, 'R'),
-    levelComment('R3', pv.r3, 'R'),
-    levelComment('R2', pv.r2, 'R'),
-    levelComment('R1', pv.r1, 'R'),
-    levelComment('PP', pv.pivot, 'pivot'),
-    levelComment('S1', pv.s1, 'S'),
-    levelComment('S2', pv.s2, 'S'),
-    levelComment('S3', pv.s3, 'S'),
-    levelComment('S4', pv.s4, 'S'),
-  ];
+  // Kart renkleri
+  const resColor = 'var(--up)';
+  const supColor = above?.type === 'pivot' || below?.type === 'pivot' ? 'var(--brand)' : 'var(--down)';
 
-  const tableRows = rows.map(r => {
-    const isRes = r.level.startsWith('R');
-    const isSupp = r.level.startsWith('S');
-    const levelColor = r.level === 'PP' ? 'var(--brand)' : isRes ? 'var(--up)' : 'var(--down)';
-    return `<tr style="background:${r.rowBg || 'transparent'}; border-bottom:1px solid rgba(255,255,255,0.04);">
-      <td style="padding:5px 8px; font-weight:800; font-size:11px; color:${levelColor}; white-space:nowrap;">${r.level}</td>
-      <td style="padding:5px 8px; font-family:monospace; font-size:12px; color:var(--text-primary); white-space:nowrap;">${r.value}</td>
-      <td style="padding:5px 8px; white-space:nowrap;"><span style="font-size:10px; font-weight:700; color:${r.tagColor};">${r.tag}</span></td>
-      <td style="padding:5px 8px; font-size:11px; color:var(--text-secondary); line-height:1.4;">${r.comment}</td>
-    </tr>`;
-  }).join('');
+  // Sadece çevreleyen 2 seviyeyi göster — yan yana kart
+  const aboveCard = above ? `
+    <div style="flex:1; background:rgba(14,203,129,0.07); border:1px solid rgba(14,203,129,0.2); border-radius:10px; padding:10px 12px;">
+      <div style="font-size:9px; font-weight:700; color:var(--text-secondary); letter-spacing:0.5px; margin-bottom:4px;">DİRENÇ</div>
+      <div style="font-size:13px; font-weight:800; color:${resColor};">${above.label}</div>
+      <div style="font-family:monospace; font-size:12px; color:var(--text-primary); margin-top:2px;">${fmt(above.value)}</div>
+      <div style="font-size:10px; color:var(--text-secondary); margin-top:4px;">%${aboveDist?.toFixed(2)} uzakta</div>
+    </div>` : '';
 
-  const lines = `<div style="overflow-x:auto; margin-top:4px;">
-  <table style="width:100%; border-collapse:collapse; font-size:12px;">
-    <thead><tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
-      <th style="padding:4px 8px; font-size:10px; font-weight:700; color:var(--text-secondary); text-align:left;">SEVİYE</th>
-      <th style="padding:4px 8px; font-size:10px; font-weight:700; color:var(--text-secondary); text-align:left;">FİYAT</th>
-      <th style="padding:4px 8px; font-size:10px; font-weight:700; color:var(--text-secondary); text-align:left;">DURUM</th>
-      <th style="padding:4px 8px; font-size:10px; font-weight:700; color:var(--text-secondary); text-align:left;">YORUM</th>
-    </tr></thead>
-    <tbody>${tableRows}</tbody>
-  </table>
-</div>`;
+  const belowCard = below ? `
+    <div style="flex:1; background:${below.type === 'pivot' ? 'rgba(252,213,53,0.07)' : 'rgba(246,70,93,0.07)'}; border:1px solid ${below.type === 'pivot' ? 'rgba(252,213,53,0.25)' : 'rgba(246,70,93,0.2)'}; border-radius:10px; padding:10px 12px;">
+      <div style="font-size:9px; font-weight:700; color:var(--text-secondary); letter-spacing:0.5px; margin-bottom:4px;">${below.type === 'pivot' ? 'PIVOT' : 'DESTEK'}</div>
+      <div style="font-size:13px; font-weight:800; color:${below.type === 'pivot' ? 'var(--brand)' : 'var(--down)'};">${below.label}</div>
+      <div style="font-family:monospace; font-size:12px; color:var(--text-primary); margin-top:2px;">${fmt(below.value)}</div>
+      <div style="font-size:10px; color:var(--text-secondary); margin-top:4px;">%${belowDist?.toFixed(2)} uzakta</div>
+    </div>` : '';
 
-  // Zone skoru: pivot üstünde pozitif, altında negatif; güçlü/zayıf momentum etkili
+  const lines = `
+    <div style="display:flex; gap:8px; margin-top:6px;">
+      ${belowCard}
+      ${aboveCard}
+    </div>
+    <div style="margin-top:8px; padding:8px 10px; background:rgba(255,255,255,0.03); border-radius:8px; border-left:3px solid ${isBullish ? 'var(--up)' : 'var(--down)'}; font-size:11px; color:var(--text-secondary); line-height:1.5;">
+      ${generalComment}
+    </div>`;
+
+  // Skor
   let zoneScore = isBullish ? 1 : -1;
   if (isBullish && isStrongMomentum) zoneScore = 2;
   if (isBullish && isOverbought) zoneScore -= 1;
