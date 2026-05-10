@@ -321,6 +321,85 @@ function calculateFibonacciLevels(klines, lookback = 100) {
   };
 }
 
+// ─── KLASİK PIVOT NOKTALARI HESAPLAYICI ──────────────────────
+function calculatePivots(high, low, close) {
+  const pivot = (high + low + close) / 3;
+  const range = high - low;
+  const r1 = (2 * pivot) - low;
+  const r2 = pivot + range;
+  const r3 = high + 2 * (pivot - low);
+  const r4 = r3 + range;
+  const s1 = (2 * pivot) - high;
+  const s2 = pivot - range;
+  const s3 = low - 2 * (high - pivot);
+  const s4 = s3 - range;
+  return { pivot, r1, r2, r3, r4, s1, s2, s3, s4 };
+}
+
+function renderPivotCommentary(klines, latestPrice) {
+  if (!klines || klines.length < 3) return null;
+
+  // Önceki tamamlanmış mum (bir önceki periyot) baz alınır
+  const prev = klines[klines.length - 2];
+  if (!prev) return null;
+
+  const pv = calculatePivots(prev.high, prev.low, prev.close);
+  const fmt = (v) => v < 1 ? v.toFixed(6) : v < 100 ? v.toFixed(4) : v.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+  let zone = '';
+  let zoneScore = 0;
+  let pivotRelation = '';
+
+  if (latestPrice >= pv.r4) {
+    zone = `R4 (${fmt(pv.r4)}) üzerinde — son derece aşırı alım bölgesi, sert geri dönüş riski yüksek.`;
+    zoneScore = -3;
+  } else if (latestPrice >= pv.r3) {
+    zone = `R3 (${fmt(pv.r3)}) — R4 (${fmt(pv.r4)}) arasında — yüksek direnç bölgesi, momentum devam etmezse geri çekilme olası.`;
+    zoneScore = -2;
+  } else if (latestPrice >= pv.r2) {
+    zone = `R2 (${fmt(pv.r2)}) — R3 (${fmt(pv.r3)}) arasında — güçlü direnç bölgesi, dikkatli izlenmeli.`;
+    zoneScore = -1;
+  } else if (latestPrice >= pv.r1) {
+    zone = `R1 (${fmt(pv.r1)}) — R2 (${fmt(pv.r2)}) arasında — ilk direnç bölgesinde, kırılımda R2 hedeflenebilir.`;
+    zoneScore = 0;
+  } else if (latestPrice >= pv.pivot) {
+    zone = `Pivot PP (${fmt(pv.pivot)}) — R1 (${fmt(pv.r1)}) arasında — pivot üzerinde pozitif görünüm, R1 ilk hedef.`;
+    zoneScore = 1;
+  } else if (latestPrice >= pv.s1) {
+    zone = `S1 (${fmt(pv.s1)}) — Pivot PP (${fmt(pv.pivot)}) arasında — pivot altında zayıf görünüm, S1 destek kritik.`;
+    zoneScore = -1;
+  } else if (latestPrice >= pv.s2) {
+    zone = `S1 (${fmt(pv.s1)}) — S2 (${fmt(pv.s2)}) arasında — ikinci destek bölgesinde, kırılımda S3 izlenmeli.`;
+    zoneScore = -2;
+  } else if (latestPrice >= pv.s3) {
+    zone = `S2 (${fmt(pv.s2)}) — S3 (${fmt(pv.s3)}) arasında — derin destek bölgesi, satış baskısı yoğun.`;
+    zoneScore = -2;
+  } else {
+    zone = `S3 (${fmt(pv.s3)}) altında — aşırı satım bölgesi, teknik tepki ihtimali artabilir.`;
+    zoneScore = -1;
+  }
+
+  if (latestPrice > pv.pivot) {
+    const distPct = ((pv.r1 - latestPrice) / latestPrice * 100).toFixed(2);
+    pivotRelation = `Fiyat pivot noktas\u0131n\u0131n ÜSTÜNDE; R1'e yakla\u015f\u0131k %${distPct} mesafede.`;
+  } else if (latestPrice < pv.pivot) {
+    const distPct = ((latestPrice - pv.s1) / latestPrice * 100).toFixed(2);
+    pivotRelation = `Fiyat pivot noktas\u0131n\u0131n ALTINDA; S1'e yakla\u015f\u0131k %${Math.abs(distPct)} mesafede.`;
+  } else {
+    pivotRelation = `Fiyat pivot noktas\u0131yla TAM e\u015fle\u015fiyor; R1 ve S1 k\u0131r\u0131l\u0131m\u0131 izlenmeli.`;
+  }
+
+  const lines = [
+    `<span style="color:var(--brand);">Pivot (PP):</span> ${fmt(pv.pivot)}`,
+    `<span style="color:var(--up);">R1:</span> ${fmt(pv.r1)} &nbsp;<span style="color:var(--up);">R2:</span> ${fmt(pv.r2)} &nbsp;<span style="color:var(--up);">R3:</span> ${fmt(pv.r3)} &nbsp;<span style="color:var(--up);">R4:</span> ${fmt(pv.r4)}`,
+    `<span style="color:var(--down);">S1:</span> ${fmt(pv.s1)} &nbsp;<span style="color:var(--down);">S2:</span> ${fmt(pv.s2)} &nbsp;<span style="color:var(--down);">S3:</span> ${fmt(pv.s3)} &nbsp;<span style="color:var(--down);">S4:</span> ${fmt(pv.s4)}`,
+    `Bulundu\u011fu bölge: ${zone}`,
+    pivotRelation
+  ].join('<br>');
+
+  return { lines, zoneScore, levels: pv };
+}
+
 function calculateMomentum(closes, period = 10) {
   if (!closes || closes.length < period + 1) return null;
   const prev = closes[closes.length - 1 - period];
@@ -464,6 +543,7 @@ function generateAdvancedAIComment(klines, timeframe) {
   const supertrend = calculateSuperTrend(klines, 10, 3);
   const fib = calculateFibonacciLevels(klines, 100);
   const momentum = calculateMomentum(closes, 10);
+  const pivotComment = renderPivotCommentary(klines, latestPrice);
 
   if (sma50 && sma200) {
     if (sma50 > sma200) { items.push("SMA50 > SMA200: uzun vadeli trend pozitif."); totalScore += 3; signals.push("AL (Uzun Vade)"); }
@@ -565,6 +645,14 @@ function generateAdvancedAIComment(klines, timeframe) {
   if (fib && latestPrice > fib.level0_618) items.push("AI notu: fiyat kritik Fibonacci bolgesini test ediyor; kirilimda 1.0 seviyesi izlenebilir.");
   else if (fib && latestPrice < fib.level0_236) items.push("AI notu: fiyat derin geri cekilmede; 0.382 tepki hedefi takip edilebilir.");
 
+  // ─── PİVOT NOKTALARI YORUMU ───────────────────────────────
+  if (pivotComment) {
+    items.push(`Pivot Noktal\u0131:\n${pivotComment.lines}`);
+    totalScore += pivotComment.zoneScore;
+    if (pivotComment.zoneScore >= 1) signals.push("AL (Pivot)");
+    else if (pivotComment.zoneScore <= -2) signals.push("SAT (Pivot)");
+  }
+
   let statusEmoji, statusColor;
   if (totalScore >= 6) { statusEmoji = "GUCLU AL"; statusColor = "var(--up)"; }
   else if (totalScore >= 3) { statusEmoji = "AL YONLU"; statusColor = "var(--up)"; }
@@ -580,6 +668,7 @@ function generateAdvancedAIComment(klines, timeframe) {
     totalScore,
     signalSummary: uniqueSignals.length ? `Sinyaller: ${uniqueSignals.join(', ')}` : "Belirgin al/sat sinyali yok.",
     fibLevels: fib,
+    pivotLevels: pivotComment?.levels || null,
     supertrendStatus: supertrend?.trend === 1 ? "AL" : (supertrend?.trend === -1 ? "SAT" : "YOK"),
     scanner: { bbSqueeze: !!bbSqueezeActive, emaSqueeze: !!emaSqueezeActive, ichimoku: !!ichimokuActive, mfi: !!mfiActive }
   };
