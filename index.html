@@ -1380,10 +1380,7 @@
           </div>
         </div>
 
-        <!-- VERSİYON BİLGİSİ (ANA SAYFA EN ALT) -->
-        <div style="padding:24px 16px; text-align:center; margin-top:20px; border-top:1px solid rgba(255,255,255,0.05);">
-          <div id="lastCommitInfo" style="color:#6b7280; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Versiyon kontrol ediliyor...</div>
-        </div>
+
 
       </section>
 
@@ -1487,31 +1484,45 @@
       <!-- ═════════════════════════ SÜPER LİG SEKMESİ ═════════════════════════ -->
       <section id="superlig" class="tab-page" style="padding:0;">
 
-        <!-- HEADER WIDGET -->
-        <div class="total-debt-widget" style="padding:20px 16px 16px;">
-          <div class="widget-label">
-            <span>🏆 Türkiye Süper Ligi</span>
-            <button id="ligRefreshBtn" class="refresh-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3" />
-              </svg><span>YENİLE</span></button>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:12px; margin-top:8px;">
-            <div>
-              <div id="ligSezon"
-                style="font-size:20px; font-weight:800; font-family:'Space Grotesk', sans-serif; color:var(--text-primary);">
-                2025-26</div>
-              <div id="ligMeta" style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Veriler
-                yükleniyor...</div>
+        <!-- HEADER WIDGET (SCOREBOARD STYLE) -->
+        <div style="background: linear-gradient(135deg, #14351a 0%, #1b5e20 100%); border-bottom: 1px solid rgba(255,255,255,0.1); padding:20px 20px 24px; position: relative; overflow: hidden; box-shadow: 0 4px 24px rgba(27,94,32,0.15);">
+          <!-- Pitch Overlay -->
+          <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: radial-gradient(circle at 50% 120%, transparent 40%, rgba(255,255,255,0.03) 41%, transparent 42%), linear-gradient(to right, transparent 49%, rgba(255,255,255,0.03) 49%, rgba(255,255,255,0.03) 51%, transparent 51%); pointer-events: none;"></div>
+          
+          <!-- Top Row: Title & Refresh -->
+          <div style="display:flex; justify-content:space-between; align-items:center; position: relative; z-index: 1;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:18px;">⚽</span>
+              <span style="font-size:12px; font-weight:800; color:#a5d6a7; text-transform:uppercase; letter-spacing:1.5px;">Süper Lig Puan Durumu</span>
             </div>
+            <button id="ligRefreshBtn" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.1); color:white; padding:5px 12px; border-radius:20px; font-size:10px; font-weight:800; display:flex; align-items:center; gap:4px; cursor:pointer; backdrop-filter:blur(4px); transition:all 0.2s;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3" />
+              </svg><span>YENİLE</span>
+            </button>
+          </div>
+          
+          <!-- Main Content Row -->
+          <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:20px; position: relative; z-index: 1;">
+            <div>
+              <div style="font-size:10px; color:#81c784; text-transform:uppercase; font-weight:700; letter-spacing:0.5px; margin-bottom:2px;">Sezon</div>
+              <div id="ligSezon" style="font-size:28px; font-weight:800; font-family:'Space Grotesk', sans-serif; color:#ffffff; text-shadow:0 2px 8px rgba(0,0,0,0.4); line-height:1;">
+                2025-26
+              </div>
+              <div id="ligMeta" style="font-size:11px; color:#c8e6c9; margin-top:8px; display:flex; align-items:center; gap:4px;">
+                <span style="display:inline-block; width:6px; height:6px; background:#4caf50; border-radius:50%; box-shadow:0 0 6px #4caf50;"></span>
+                Veriler yükleniyor...
+              </div>
+            </div>
+            
             <div style="text-align:right;">
-              <select id="ligSeasonSelect"
-                style="margin-bottom:8px; padding:6px 10px; border-radius:10px; border:1px solid rgba(255,255,255,0.08); background:var(--bg-secondary); color:var(--text-primary); font-size:12px; font-weight:700;">
-                <option value="auto">Otomatik</option>
+              <select id="ligSeasonSelect" style="margin-bottom:12px; padding:4px 8px; border-radius:6px; border:1px solid rgba(255,255,255,0.2); background:rgba(0,0,0,0.3); color:white; font-size:11px; font-weight:700; outline:none; cursor:pointer;">
+                <option value="auto" style="color:#000;">Otomatik Yıl</option>
               </select>
-              <div style="font-size:11px; color:var(--text-secondary);">Lider</div>
-              <div id="ligLeader"
-                style="font-size:15px; font-weight:800; color:var(--brand); font-family:'Space Grotesk';">--</div>
+              <div style="padding:8px 12px; background:rgba(0,0,0,0.2); border-radius:10px; border:1px solid rgba(255,255,255,0.05); min-width:100px;">
+                <div style="font-size:9px; color:#a5d6a7; text-transform:uppercase; font-weight:700; letter-spacing:1px; margin-bottom:4px;">Lider Takım</div>
+                <div id="ligLeader" style="font-size:16px; font-weight:800; color:#fdd835; font-family:'Space Grotesk', sans-serif; text-shadow:0 2px 4px rgba(0,0,0,0.5);">--</div>
+              </div>
             </div>
           </div>
         </div>
