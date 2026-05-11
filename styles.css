@@ -148,7 +148,8 @@
 }
 
 [data-theme="modern"] #financeGrid,
-[data-theme="modern"] #coinlerList {
+[data-theme="modern"] #coinlerList,
+[data-theme="modern"] #daysCards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
@@ -174,10 +175,26 @@
 }
 
 [data-theme="modern"] .market-row:active,
-[data-theme="modern"] .coin-row:active {
+[data-theme="modern"] .coin-row:active,
+[data-theme="modern"] #daysCards .panel:active {
   background: rgba(255, 255, 255, 0.05);
   transform: scale(0.95);
   border-color: rgba(200, 255, 87, 0.3);
+}
+
+[data-theme="modern"] #daysCards .panel {
+  background: rgba(30, 35, 41, 0.4) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 16px !important;
+  margin: 0 !important;
+  padding: 16px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 120px;
+  transition: all 0.3s ease;
 }
 
 
@@ -2712,6 +2729,10 @@ details[open] .toggle-icon-standard::after {
 /* ══════════════════════════════════════════
    MODERN TIME WIDGET (ZAMAN)
    ══════════════════════════════════════════ */
+.time-modern-widget {
+  display: none;
+}
+
 [data-theme="modern"] .time-modern-widget {
   display: flex !important;
   flex-direction: column;
@@ -2856,4 +2877,20 @@ details[open] .toggle-icon-standard::after {
   .tmw-clock {
     font-size: 36px;
   }
+}
+
+[data-theme='modern'] #days {
+  background: #0b0e11 !important;
+  padding-bottom: 80px;
+}
+
+[data-theme='modern'] #days .panel summary {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  color: #fff;
+}
+
+[data-theme='modern'] #days .panel details {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border: 1px dashed rgba(255, 255, 255, 0.1) !important;
 }

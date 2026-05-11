@@ -1387,7 +1387,7 @@
       <!-- ═════════════════════════ GÜN ═════════════════════════ -->
       <section id="days" class="tab-page">
         <!-- MODERN TIME WIDGET -->
-        <div id="daysModernWidget" class="time-modern-widget" style="display:none;">
+        <div id="daysModernWidget" class="time-modern-widget">
           <div class="tmw-header">
             <div class="tmw-clock-wrap">
               <div id="tmwClock" class="tmw-clock">00:00:00</div>
@@ -2456,9 +2456,7 @@
   <script>
     function applyThemeScope() {
       const saved = localStorage.getItem('finans-theme') || 'klasik';
-      const homeTab = document.getElementById('home');
-      const isHome = homeTab && homeTab.classList.contains('active');
-      document.body.setAttribute('data-theme', (saved === 'modern' && isHome) ? 'modern' : 'klasik');
+      document.body.setAttribute('data-theme', saved === 'modern' ? 'modern' : 'klasik');
 
       const icon = document.getElementById('themeIcon');
       const label = document.getElementById('themeLabel');
