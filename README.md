@@ -14,8 +14,6 @@
 ✅ MEVCUT ÖZELLİKLER
 🔐 1. Güvenlik Sistemi
 
-4 haneli PIN ile uygulama kilidi
-İlk açılışta PIN tanımlama
 Splash screen animasyonu
 
 💰 2. Piyasa Takibi (Ana Sayfa)
