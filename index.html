@@ -1386,24 +1386,6 @@
 
       <!-- ═════════════════════════ GÜN ═════════════════════════ -->
       <section id="days" class="tab-page">
-        <div id="daysModernWidget" class="time-modern-widget">
-          <div class="tmw-header" onclick="DaysModule.toggleModernWidget()" style="cursor:pointer; margin-bottom: 0;">
-            <div class="tmw-clock-wrap">
-              <div id="tmwClock" class="tmw-clock">00:00:00</div>
-              <div id="tmwDate" class="tmw-date">-- -- ----</div>
-            </div>
-            <div id="tmwToggleIcon" style="color:var(--text-secondary); font-size:12px; margin-top:8px;">▼</div>
-          </div>
-          
-          <div id="tmwCollapseContent" style="display:none; margin-top:24px; animation: slideDown 0.3s ease-out;">
-            <div id="tmwNextEvent" class="tmw-next-event">
-              <div class="tmw-ne-label">Sıradaki Hedef</div>
-              <div id="tmwNextTitle" class="tmw-ne-title">Yükleniyor...</div>
-              <div id="tmwNextDays" class="tmw-ne-days">-- Gün</div>
-            </div>
-          </div>
-        </div>
-
         <details class="panel"
           style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin-bottom:24px; border:1px dashed var(--line); cursor: pointer;"
           id="newDayDetails">
@@ -2432,7 +2414,9 @@
   <script>
     function applyThemeScope() {
       const saved = localStorage.getItem('finans-theme') || 'klasik';
-      document.body.setAttribute('data-theme', saved === 'modern' ? 'modern' : 'klasik');
+      const homeTab = document.getElementById('home');
+      const isHome = homeTab && homeTab.classList.contains('active');
+      document.body.setAttribute('data-theme', (saved === 'modern' && isHome) ? 'modern' : 'klasik');
 
       const icon = document.getElementById('themeIcon');
       const label = document.getElementById('themeLabel');
