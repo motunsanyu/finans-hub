@@ -1386,45 +1386,21 @@
 
       <!-- ═════════════════════════ GÜN ═════════════════════════ -->
       <section id="days" class="tab-page">
-        <!-- MODERN TIME WIDGET -->
         <div id="daysModernWidget" class="time-modern-widget">
-          <div class="tmw-header">
+          <div class="tmw-header" onclick="DaysModule.toggleModernWidget()" style="cursor:pointer; margin-bottom: 0;">
             <div class="tmw-clock-wrap">
               <div id="tmwClock" class="tmw-clock">00:00:00</div>
               <div id="tmwDate" class="tmw-date">-- -- ----</div>
             </div>
+            <div id="tmwToggleIcon" style="color:var(--text-secondary); font-size:12px; margin-top:8px;">▼</div>
           </div>
           
-          <div class="tmw-progress-grid">
-            <div class="tmw-progress-card">
-              <div class="tmw-pc-label">Günlük İlerleme</div>
-              <div class="tmw-pc-bar-wrap">
-                <div id="tmwDayBar" class="tmw-pc-bar" style="width: 0%; background: var(--brand);"></div>
-              </div>
-              <div id="tmwDayPct" class="tmw-pc-pct">%0</div>
+          <div id="tmwCollapseContent" style="display:none; margin-top:24px; animation: slideDown 0.3s ease-out;">
+            <div id="tmwNextEvent" class="tmw-next-event">
+              <div class="tmw-ne-label">Sıradaki Hedef</div>
+              <div id="tmwNextTitle" class="tmw-ne-title">Yükleniyor...</div>
+              <div id="tmwNextDays" class="tmw-ne-days">-- Gün</div>
             </div>
-            
-            <div class="tmw-progress-card">
-              <div class="tmw-pc-label">Aylık İlerleme</div>
-              <div class="tmw-pc-bar-wrap">
-                <div id="tmwMonthBar" class="tmw-pc-bar" style="width: 0%; background: var(--up);"></div>
-              </div>
-              <div id="tmwMonthPct" class="tmw-pc-pct">%0</div>
-            </div>
-            
-            <div class="tmw-progress-card">
-              <div class="tmw-pc-label">Yıllık İlerleme</div>
-              <div class="tmw-pc-bar-wrap">
-                <div id="tmwYearBar" class="tmw-pc-bar" style="width: 0%; background: #007aff;"></div>
-              </div>
-              <div id="tmwYearPct" class="tmw-pc-pct">%0</div>
-            </div>
-          </div>
-
-          <div id="tmwNextEvent" class="tmw-next-event">
-            <div class="tmw-ne-label">Sıradaki Hedefe Kalan Süre</div>
-            <div id="tmwNextTitle" class="tmw-ne-title">Yükleniyor...</div>
-            <div id="tmwNextDays" class="tmw-ne-days">-- Gün</div>
           </div>
         </div>
 

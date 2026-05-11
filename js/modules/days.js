@@ -249,31 +249,20 @@ const DaysModule = (() => {
     const dateEl = document.getElementById('tmwDate');
     if (clockEl) clockEl.textContent = now.toLocaleTimeString('tr-TR', { hour12: false });
     if (dateEl) dateEl.textContent = now.toLocaleDateString('tr-TR', { day: '2-digit', month: 'long', year: 'numeric' });
-
-    // 2. Progress Calculations
-    // Day Progress
-    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-    const dayProgress = ((now.getTime() - startOfDay) / 86400000) * 100;
-    updateBar('tmwDayBar', 'tmwDayPct', dayProgress);
-
-    // Month Progress
-    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
-    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getTime();
-    const monthProgress = ((now.getTime() - startOfMonth) / (endOfMonth - startOfMonth + 86400000)) * 100;
-    updateBar('tmwMonthBar', 'tmwMonthPct', monthProgress);
-
-    // Year Progress
-    const startOfYear = new Date(now.getFullYear(), 0, 1).getTime();
-    const endOfYear = new Date(now.getFullYear(), 11, 31, 23, 59, 59).getTime();
-    const yearProgress = ((now.getTime() - startOfYear) / (endOfYear - startOfYear)) * 100;
-    updateBar('tmwYearBar', 'tmwYearPct', yearProgress);
   }
 
-  function updateBar(barId, pctId, value) {
-    const bar = document.getElementById(barId);
-    const pct = document.getElementById(pctId);
-    if (bar) bar.style.width = value.toFixed(1) + '%';
-    if (pct) pct.textContent = '%' + value.toFixed(1);
+  function toggleModernWidget() {
+    const content = document.getElementById('tmwCollapseContent');
+    const icon = document.getElementById('tmwToggleIcon');
+    if (!content || !icon) return;
+
+    if (content.style.display === 'none') {
+      content.style.display = 'block';
+      icon.textContent = '▲';
+    } else {
+      content.style.display = 'none';
+      icon.textContent = '▼';
+    }
   }
 
   async function updateNextEvent(records) {
@@ -319,5 +308,9 @@ const DaysModule = (() => {
     console.log('✅ Gün sayacı modülü (Modern & Interactive) başlatıldı');
   }
 
-  return { init, render };
+  return {
+    init,
+    render,
+    toggleModernWidget
+  };
 })();
