@@ -185,6 +185,9 @@ const DaysModule = (() => {
         }))
         .sort((a, b) => a.days - b.days);
 
+      // Update modern widget summary if exists
+      updateNextEvent(activeRecords);
+
       activeRecords.forEach((r, idx) => {
         const isPast = r.days < 0;
         const isZero = r.days === 0;
@@ -234,12 +237,86 @@ const DaysModule = (() => {
     }
   }
 
+  // ─── MODERN WIDGET LOGIC ──────────────────────────────────────
+  function updateModernWidget() {
+    const widget = document.getElementById('daysModernWidget');
+    if (!widget || getComputedStyle(widget).display === 'none') return;
+    
+    const now = new Date();
+    
+    // 1. Clock & Date
+    const clockEl = document.getElementById('tmwClock');
+    const dateEl = document.getElementById('tmwDate');
+    if (clockEl) clockEl.textContent = now.toLocaleTimeString('tr-TR', { hour12: false });
+    if (dateEl) dateEl.textContent = now.toLocaleDateString('tr-TR', { day: '2-digit', month: 'long', year: 'numeric' });
+
+    // 2. Progress Calculations
+    // Day Progress
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    const dayProgress = ((now.getTime() - startOfDay) / 86400000) * 100;
+    updateBar('tmwDayBar', 'tmwDayPct', dayProgress);
+
+    // Month Progress
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getTime();
+    const monthProgress = ((now.getTime() - startOfMonth) / (endOfMonth - startOfMonth + 86400000)) * 100;
+    updateBar('tmwMonthBar', 'tmwMonthPct', monthProgress);
+
+    // Year Progress
+    const startOfYear = new Date(now.getFullYear(), 0, 1).getTime();
+    const endOfYear = new Date(now.getFullYear(), 11, 31, 23, 59, 59).getTime();
+    const yearProgress = ((now.getTime() - startOfYear) / (endOfYear - startOfYear)) * 100;
+    updateBar('tmwYearBar', 'tmwYearPct', yearProgress);
+  }
+
+  function updateBar(barId, pctId, value) {
+    const bar = document.getElementById(barId);
+    const pct = document.getElementById(pctId);
+    if (bar) bar.style.width = value.toFixed(1) + '%';
+    if (pct) pct.textContent = '%' + value.toFixed(1);
+  }
+
+  async function updateNextEvent(records) {
+    const titleEl = document.getElementById('tmwNextTitle');
+    const daysEl = document.getElementById('tmwNextDays');
+    if (!titleEl || !daysEl) return;
+
+    if (!records || records.length === 0) {
+      titleEl.textContent = "Planlanmış Hedef Yok";
+      daysEl.textContent = "0 Gün";
+      return;
+    }
+
+    const todayMillis = new Date().setHours(0, 0, 0, 0);
+    const futureRecords = records
+      .map(r => ({
+        ...r,
+        diff: Math.round((new Date(r.end_date).setHours(0, 0, 0, 0) - todayMillis) / 86400000)
+      }))
+      .filter(r => r.diff >= 0)
+      .sort((a, b) => a.diff - b.diff);
+
+    if (futureRecords.length > 0) {
+      const next = futureRecords[0];
+      titleEl.textContent = next.title;
+      daysEl.textContent = next.diff === 0 ? "Bugün Son Gün!" : next.diff + " Gün Kaldı";
+    } else {
+      titleEl.textContent = "Yakın Tarihli Hedef Yok";
+      daysEl.textContent = "--";
+    }
+  }
+
   // ─── BAŞLATMA ───────────────────────────────────────────────
   async function init() {
     updateTodayDisplay();
     await bindEvents();
     await render();
-    console.log('✅ Gün sayacı modülü (iOS Calendar & Colors) başlatıldı');
+    
+    // Modern widget interval (always run, but checks visibility)
+    updateModernWidget();
+    setInterval(updateModernWidget, 1000);
+
+    console.log('✅ Gün sayacı modülü (Modern & Interactive) başlatıldı');
   }
 
   return { init, render };
