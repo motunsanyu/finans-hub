@@ -265,6 +265,7 @@ const TradeModule = (() => {
         }
 
         const coinKey = currentSymbol.replace('USDT', '');
+        let soldOut = false;
 
         if (tradeMode === 'buy') {
             if (walletBalance < (cost - 0.01)) {
@@ -284,7 +285,20 @@ const TradeModule = (() => {
             const avgCost = portfolio[coinKey].totalCost / portfolio[coinKey].quantity;
             portfolio[coinKey].quantity -= quantity;
             portfolio[coinKey].totalCost -= avgCost * quantity;
-            if (portfolio[coinKey].quantity <= 0.000001) delete portfolio[coinKey];
+            
+            if (portfolio[coinKey].quantity <= 0.000001) {
+                delete portfolio[coinKey];
+                soldOut = true;
+            }
+
+            // 🏦 KASAYA AKTAR (Vault Integration)
+            if (typeof VaultModule !== 'undefined' && VaultModule.addRecord) {
+                const usdTryText = document.getElementById('usdTry')?.textContent || "0";
+                const usdTryPrice = parseFloat(usdTryText.replace(',', '.')) || 32; // Fallback
+                const costTRY = cost * usdTryPrice;
+                const today = new Date().toISOString().split('T')[0];
+                VaultModule.addRecord('income', `Coin Satışı: ${coinKey}`, costTRY, today);
+            }
         }
 
         saveData();
@@ -297,7 +311,21 @@ const TradeModule = (() => {
             updateSliderVisuals(0);
         }
         updateCostPreview();
-        if (document.getElementById('portfolioSection')?.style.display === 'block') renderPortfolio();
+
+        // INSTANT UI UPDATE
+        if (document.getElementById('portfolioSection')?.style.display === 'block' || document.getElementById('portfolioSection')?.classList.contains('active')) {
+            if (soldOut) {
+                const itemEl = document.getElementById(`portfolio-item-${coinKey}`);
+                if (itemEl) {
+                    itemEl.classList.add('exit');
+                    setTimeout(() => renderPortfolio(), 400);
+                } else {
+                    renderPortfolio();
+                }
+            } else {
+                renderPortfolio();
+            }
+        }
     }
 
     function addBalance(amount) {
@@ -415,7 +443,7 @@ const TradeModule = (() => {
             const symbol = (coins.find(c => c.base === coinKey))?.sym || `${coinKey}USDT`;
             
             rows += `
-                <div class="portfolio-item" onclick="TradeModule.prepareTrade('${symbol}', 'sell')" style="background:#1e2329; border-radius:16px; padding:16px; border:1px solid #2a2f36; margin-bottom:12px; cursor:pointer;">
+                <div class="portfolio-item" id="portfolio-item-${coinKey}" onclick="TradeModule.prepareTrade('${symbol}', 'sell')" style="background:#1e2329; border-radius:16px; padding:16px; border:1px solid #2a2f36; margin-bottom:12px; cursor:pointer;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                         <div><strong style="font-size:16px; color:white;">${coinKey}/USDT</strong> <span style="font-size:12px; color:#848e9c;">${data.quantity.toFixed(6)}</span></div>
                         <div style="font-weight:800; color:${pnl >= 0 ? 'var(--up)' : 'var(--down)'}">${pnl >= 0 ? '+' : ''}$${pnl.toFixed(2)} (${pnlPercent.toFixed(2)}%)</div>

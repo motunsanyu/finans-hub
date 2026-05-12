@@ -370,6 +370,27 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* --- PREMIUM BUTTON INTERACTION --- */
+button, .btn, .btn-main, .market-sub-btn, .tab-btn {
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.2s, box-shadow 0.2s !important;
+}
+
+button:active, .btn:active, .btn-main:active, .market-sub-btn:active, .tab-btn:active {
+  transform: scale(0.96) !important;
+  filter: brightness(0.9);
+}
+
+.portfolio-item {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease, margin 0.4s ease !important;
+}
+
+.portfolio-item.exit {
+  transform: translateX(100%) scale(0.9) !important;
+  opacity: 0 !important;
+  margin-top: -80px !important; /* Adjust based on height to collapse space */
+  pointer-events: none;
+}
+
 h1,
 h2,
 h3 {
@@ -642,10 +663,10 @@ h3 {
 .key-btn:active {
   background: var(--brand) !important;
   color: var(--text-dark) !important;
-  transform: scale(0.85) !important;
+  transform: scale(0.92) !important;
   font-weight: 800;
-  transition: none !important;
-  box-shadow: 0 4px 16px rgba(252, 213, 53, 0.5) !important;
+  transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  box-shadow: 0 2px 8px rgba(252, 213, 53, 0.4) !important;
 }
 
 .key-btn.clear-btn {

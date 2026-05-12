@@ -59,6 +59,33 @@ const VaultModule = (() => {
     }
   }
 
+  // ═══════════════ ADD RECORD (Public) ═══════════════
+  async function addRecord(type, title, amount, date, linkedRecId = null) {
+    if (!date || !title || amount <= 0) return false;
+
+    try {
+      const { data: { user } } = await getSB().auth.getUser();
+      if (!user) throw new Error('Oturum açık değil');
+
+      await getSB().from('vault_records').insert({
+        user_id: user.id,
+        date: date,
+        title: title,
+        amount: amount,
+        type: type,
+        linked_rec_id: linkedRecId || null
+      });
+
+      await updateSmartSelector();
+      await render();
+      return true;
+    } catch (err) {
+      console.error('Kasa kaydı eklenemedi:', err.message);
+      if (window.showToast) window.showToast('Kayıt eklenirken bir hata oluştu!', 'error');
+      return false;
+    }
+  }
+
   // ═══════════════ OLAY BAĞLAMA ═══════════════
   function bindEvents() {
     const smartSel = document.getElementById("vaultSmartSelect");
@@ -90,28 +117,11 @@ const VaultModule = (() => {
         const type = document.getElementById("vaultType").value;
         const linkedRecId = smartSel ? smartSel.dataset.pendingLinkedRecId : "";
 
-        if (!date || !title || amount <= 0) return;
-
-        try {
-          await getSB().from('vault_records').insert({
-            user_id: (await getSB().auth.getUser()).data.user.id,
-            date: date,
-            title: title,
-            amount: amount,
-            type: type,
-            linked_rec_id: linkedRecId || null
-          });
-
+        const success = await addRecord(type, title, amount, date, linkedRecId);
+        if (success) {
           form.reset();
           document.getElementById("newVaultDetails").removeAttribute("open");
           if (smartSel) { smartSel.value = ""; smartSel.dataset.pendingLinkedRecId = ""; }
-
-          await updateSmartSelector();
-          await render();
-        } catch (err) {
-          console.error('Kasa kaydı eklenemedi:', err.message);
-          if (window.showToast) window.showToast('Kayıt eklenirken bir hata oluştu!', 'error');
-          else alert('Kayıt eklenirken bir hata oluştu!');
         }
       });
     }
@@ -229,5 +239,5 @@ const VaultModule = (() => {
     console.log('✅ Kasa modülü (Supabase) başlatıldı');
   }
 
-  return { init, render, updateSmartSelector };
+  return { init, render, updateSmartSelector, addRecord };
 })();
