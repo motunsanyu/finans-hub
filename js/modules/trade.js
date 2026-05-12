@@ -290,15 +290,6 @@ const TradeModule = (() => {
                 delete portfolio[coinKey];
                 soldOut = true;
             }
-
-            // 🏦 KASAYA AKTAR (Vault Integration)
-            if (typeof VaultModule !== 'undefined' && VaultModule.addRecord) {
-                const usdTryText = document.getElementById('usdTry')?.textContent || "0";
-                const usdTryPrice = parseFloat(usdTryText.replace(',', '.')) || 32; // Fallback
-                const costTRY = cost * usdTryPrice;
-                const today = new Date().toISOString().split('T')[0];
-                VaultModule.addRecord('income', `Coin Satışı: ${coinKey}`, costTRY, today);
-            }
         }
 
         saveData();

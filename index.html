@@ -923,13 +923,13 @@
                 <div id="totalPortfolioValueTRY"
                   style="font-size:16px; color:#848e9c; font-weight:600; margin-top:4px;">≈ 0.00 ₺</div>
               </div>
-              <div style="display:flex; gap:8px;">
-                <button onclick="TradeModule.convertToBNB()"
-                  style="background:rgba(252,213,53,0.1); border:1px solid rgba(252,213,53,0.2); color:var(--brand); padding:6px 12px; border-radius:8px; font-size:10px; font-weight:800; cursor:pointer; display:flex; align-items:center; gap:4px;">
-                  <span style="font-size:12px;">🪙</span> BNB'ye Dönüştür
-                </button>
+              <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-end;">
                 <button onclick="TradeModule.resetPortfolio()"
                   style="background:rgba(239,83,80,0.1); border:none; color:#ef5350; padding:6px 12px; border-radius:8px; font-size:10px; font-weight:800; cursor:pointer;">SIFIRLA</button>
+                <button onclick="TradeModule.convertToBNB()"
+                  style="background:transparent; border:1px solid rgba(252,213,53,0.3); color:var(--brand); padding:4px 8px; border-radius:6px; font-size:9px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:4px; opacity:0.8;">
+                  <span>🪙</span> BNB'ye Dönüştür
+                </button>
               </div>
             </div>
 
