@@ -26,6 +26,35 @@ const DaysModule = (() => {
     if (el) el.textContent = `${dateStr} - ${dayStr}`;
   }
 
+  function startClock() {
+    const timeEl = document.getElementById('daysClockTime');
+    const dateEl = document.getElementById('daysClockDate');
+    const dayEl = document.getElementById('daysClockDay');
+    if (!timeEl || !dateEl || !dayEl) return;
+
+    const days = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+    const months = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+
+    function update() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      
+      timeEl.textContent = `${h}:${m}:${s}`;
+      
+      const d = now.getDate();
+      const mo = months[now.getMonth()];
+      const y = now.getFullYear();
+      dateEl.textContent = `${d} ${mo} ${y}`;
+      
+      dayEl.textContent = days[now.getDay()];
+    }
+
+    update();
+    setInterval(update, 1000);
+  }
+
   function renderCalendar() {
     const grid = document.getElementById('calendarGrid');
     const monthDisplay = document.getElementById('currentMonthDisplay');
@@ -234,9 +263,9 @@ const DaysModule = (() => {
     }
   }
 
-  // ─── BAŞLATMA ───────────────────────────────────────────────
   async function init() {
     updateTodayDisplay();
+    startClock();
     await bindEvents();
     await render();
     console.log('✅ Gün sayacı modülü (iOS Calendar & Colors) başlatıldı');

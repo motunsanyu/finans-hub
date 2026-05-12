@@ -1400,11 +1400,29 @@
 
       <!-- ═════════════════════════ GÜN ═════════════════════════ -->
       <section id="days" class="tab-page">
+        <!-- Zarif Saat Widget -->
+        <div class="panel" style="padding: 12px 20px; border-radius: 12px; margin-bottom: 24px; border: 1px solid var(--line); 
+            background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.01) 100%); 
+            display: flex; justify-content: space-between; align-items: center; min-height: 56px;">
+          <div style="display: flex; flex-direction: column;">
+            <div id="daysClockTime" style="font-size: 24px; font-weight: 900; font-family: 'Space Grotesk', sans-serif; color: white; line-height: 1.1; letter-spacing: -0.5px;">00:00:00</div>
+            <div id="daysClockDate" style="font-size: 11px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px;">Yükleniyor...</div>
+          </div>
+          <div style="text-align: right;">
+            <div id="daysClockDay" style="font-size: 13px; font-weight: 800; color: var(--brand); text-transform: uppercase;">--</div>
+            <div style="display: flex; gap: 3px; justify-content: flex-end; margin-top: 4px;">
+              <span style="width: 4px; height: 4px; border-radius: 50%; background: var(--up); animation: pulse 2s infinite;"></span>
+              <span style="width: 4px; height: 4px; border-radius: 50%; background: var(--brand); animation: pulse 2s infinite 0.5s;"></span>
+              <span style="width: 4px; height: 4px; border-radius: 50%; background: var(--up); animation: pulse 2s infinite 1s;"></span>
+            </div>
+          </div>
+        </div>
+
         <details class="panel"
           style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin-bottom:24px; border:1px dashed var(--line); cursor: pointer;"
           id="newDayDetails">
           <summary
-            style="font-size:15px; font-weight:800; list-size:none; display:flex; align-items:center; gap:8px; outline:none; cursor:pointer;">
+            style="font-size:15px; font-weight:800; list-style:none; display:flex; align-items:center; gap:8px; outline:none; cursor:pointer;">
             <span style="font-size:18px;">⏱️</span> Hedef &amp; Geri Sayım Ekle
             <span class="toggle-icon-standard" style="margin-left:auto;"></span>
           </summary>
