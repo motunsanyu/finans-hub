@@ -1,4 +1,4 @@
-// js/modules/days.js — Gün Sayacı / Geri Sayım Modülü (Supabase Entegrasyonlu)
+// js/modules/days.js — Gün Sayacı / Geri Sayım Modülü (Real-time Clock & Supabase)
 
 const DaysModule = (() => {
 
