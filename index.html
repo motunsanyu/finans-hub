@@ -873,6 +873,14 @@
                 style="position:absolute; bottom:-18px; left:50%; transform:translateX(-50%); font-size:10px; color:var(--brand); font-weight:800; background:#2b3139; padding:2px 6px; border-radius:4px; border:1px solid rgba(255,255,255,0.1);">
                 0%</div>
             </div>
+
+            <!-- Percentage Shortcut Buttons -->
+            <div style="display:flex; justify-content:space-between; margin-bottom:24px; gap:8px;">
+              <button type="button" onclick="TradeModule.onSliderInput(25); document.getElementById('tradePercentSlider').value=25" class="percent-btn">25%</button>
+              <button type="button" onclick="TradeModule.onSliderInput(50); document.getElementById('tradePercentSlider').value=50" class="percent-btn">50%</button>
+              <button type="button" onclick="TradeModule.onSliderInput(75); document.getElementById('tradePercentSlider').value=75" class="percent-btn">75%</button>
+              <button type="button" onclick="TradeModule.onSliderInput(100); document.getElementById('tradePercentSlider').value=100" class="percent-btn">100%</button>
+            </div>
             <style>
               #tradePercentSlider::-webkit-slider-thumb {
                 appearance: none;
@@ -915,8 +923,14 @@
                 <div id="totalPortfolioValueTRY"
                   style="font-size:16px; color:#848e9c; font-weight:600; margin-top:4px;">≈ 0.00 ₺</div>
               </div>
-              <button onclick="TradeModule.resetPortfolio()"
-                style="background:rgba(239,83,80,0.1); border:none; color:#ef5350; padding:6px 12px; border-radius:8px; font-size:10px; font-weight:800; cursor:pointer;">SIFIRLA</button>
+              <div style="display:flex; gap:8px;">
+                <button onclick="TradeModule.convertToBNB()"
+                  style="background:rgba(252,213,53,0.1); border:1px solid rgba(252,213,53,0.2); color:var(--brand); padding:6px 12px; border-radius:8px; font-size:10px; font-weight:800; cursor:pointer; display:flex; align-items:center; gap:4px;">
+                  <span style="font-size:12px;">🪙</span> BNB'ye Dönüştür
+                </button>
+                <button onclick="TradeModule.resetPortfolio()"
+                  style="background:rgba(239,83,80,0.1); border:none; color:#ef5350; padding:6px 12px; border-radius:8px; font-size:10px; font-weight:800; cursor:pointer;">SIFIRLA</button>
+              </div>
             </div>
 
             <div

@@ -352,6 +352,74 @@ const TradeModule = (() => {
         }
     }
 
+    async function convertToBNB() {
+        loadData();
+        const portfolioEntries = Object.entries(portfolio);
+        if (portfolioEntries.length === 0) {
+            if (window.showToast) window.showToast('ℹ️ Dönüştürülecek varlık bulunmuyor.', 'info');
+            return;
+        }
+
+        if (window.showToast) window.showToast('⏳ Bakiyeler hesaplanıyor...', 'default');
+
+        try {
+            const coins = getCoinList();
+            const threshold = 5; // $5 threshold
+            let totalToConvertUSD = 0;
+            const coinsToRemove = [];
+
+            // 1. Get prices and identify small balances
+            const pricePromises = portfolioEntries.map(async ([coinKey, data]) => {
+                if (coinKey === 'BNB') return null;
+                const coinInfo = coins.find(c => c.base === coinKey);
+                const symbol = coinInfo ? coinInfo.sym : `${coinKey}USDT`;
+                const res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`);
+                const priceData = await res.json();
+                const price = parseFloat(priceData.price) || 0;
+                const value = data.quantity * price;
+
+                if (value < threshold && value > 0) {
+                    return { coinKey, value };
+                }
+                return null;
+            });
+
+            const results = await Promise.all(pricePromises);
+            results.forEach(res => {
+                if (res) {
+                    totalToConvertUSD += res.value;
+                    coinsToRemove.push(res.coinKey);
+                }
+            });
+
+            if (coinsToRemove.length === 0) {
+                if (window.showToast) window.showToast('ℹ️ $5 altı küçük bakiye bulunamadı.', 'info');
+                return;
+            }
+
+            // 2. Fetch BNB price
+            const bnbRes = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=BNBUSDT`);
+            const bnbPriceData = await bnbRes.json();
+            const bnbPrice = parseFloat(bnbPriceData.price) || 600;
+
+            const bnbReceived = totalToConvertUSD / bnbPrice;
+
+            // 3. Update Portfolio
+            coinsToRemove.forEach(ck => delete portfolio[ck]);
+            if (!portfolio['BNB']) portfolio['BNB'] = { quantity: 0, totalCost: 0 };
+            portfolio['BNB'].quantity += bnbReceived;
+            portfolio['BNB'].totalCost += totalToConvertUSD;
+
+            saveData();
+            if (window.showToast) window.showToast(`✅ ${coinsToRemove.length} adet varlık BNB'ye dönüştürüldü!`, 'success');
+            renderPortfolio();
+
+        } catch (error) {
+            console.error('BNB dönüşüm hatası:', error);
+            if (window.showToast) window.showToast('❌ Dönüştürme sırasında bir hata oluştu.', 'error');
+        }
+    }
+
     function populateCoinSelect() {
         const select = document.getElementById('tradeCoinSelect');
         if (!select) return;
@@ -495,5 +563,5 @@ const TradeModule = (() => {
         switchMode(tradeMode);
     }
 
-    return { init, initTradeUI, renderPortfolio, switchMode, updateInputLabel, onSliderInput, prepareTrade, addBalance, resetPortfolio };
+    return { init, initTradeUI, renderPortfolio, switchMode, updateInputLabel, onSliderInput, prepareTrade, addBalance, resetPortfolio, convertToBNB };
 })();
