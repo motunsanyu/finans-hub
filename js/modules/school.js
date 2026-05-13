@@ -178,6 +178,8 @@ const SchoolModule = (() => {
     }
 
     let html = '';
+    let needsSave = false;
+
     schoolPlans.forEach((plan, idx) => {
       const totalDebt = plan.totalDebt;
       const installmentCount = plan.installmentCount;
@@ -209,6 +211,8 @@ const SchoolModule = (() => {
       const borderColors = ['#26a69a', '#ffa726', '#8d6e63', '#66bb6a']; // Daha mat fintech renkleri
       const borderColor = borderColors[idx % borderColors.length];
 
+      if (!plan.recordedInstallments) plan.recordedInstallments = [];
+
       for (let i = 0; i < installmentCount; i++) {
         const dueDate = new Date(firstDate);
         dueDate.setMonth(firstDate.getMonth() + i);
@@ -221,9 +225,19 @@ const SchoolModule = (() => {
         }
 
         const status = getInstallmentStatus(dueDate, plan.cardId);
+        const installmentId = `${plan.id || idx}_${i}`;
 
         if (status === 'Ödendi') {
           paidCount++;
+          // 🏦 KASA ENTEGRASYONU
+          if (!plan.recordedInstallments.includes(installmentId)) {
+            if (typeof VaultModule !== 'undefined' && VaultModule.addRecord) {
+              const recordDate = dueDate.toISOString().split('T')[0];
+              VaultModule.addRecord('expense', `Taksit: ${plan.name} (${i + 1}/${installmentCount})`, amount, recordDate);
+              plan.recordedInstallments.push(installmentId);
+              needsSave = true;
+            }
+          }
         } else {
           remainingDebt += amount;
         }
@@ -281,6 +295,10 @@ const SchoolModule = (() => {
     });
 
     container.innerHTML = html;
+
+    if (needsSave) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(schoolPlans));
+    }
 
     // Silme ve Düzenleme olaylarını bağla
     container.querySelectorAll('.delete-plan-btn').forEach(btn => {
