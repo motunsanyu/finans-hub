@@ -155,6 +155,39 @@ const VaultModule = (() => {
     });
   }
 
+  async function deleteMonth(monthName) {
+    window.showCustomConfirm(`${monthName} ayına ait TÜM kayıtlar silinecek. Emin misiniz?`, async () => {
+      try {
+        const { data: { user } } = await getSB().auth.getUser();
+        if (!user) return;
+
+        // Ay adından ay indexini ve yılı bul
+        const monthsTr = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+        const parts = monthName.split(" ");
+        const mIdx = monthsTr.indexOf(parts[0]);
+        const year = parseInt(parts[1]);
+
+        if (mIdx === -1 || isNaN(year)) throw new Error("Geçersiz ay formatı");
+
+        const startDate = new Date(year, mIdx, 1).toISOString().split('T')[0];
+        const endDate = new Date(year, mIdx + 1, 0).toISOString().split('T')[0];
+
+        await getSB()
+          .from('vault_records')
+          .delete()
+          .eq('user_id', user.id)
+          .gte('date', startDate)
+          .lte('date', endDate);
+
+        if (window.showToast) window.showToast(`${monthName} dökümü temizlendi.`, 'success');
+        await render();
+        await updateSmartSelector();
+      } catch (err) {
+        console.error('Ay silme hatası:', err.message);
+      }
+    });
+  }
+
   // ═══════════════ RENDER ═══════════════
   async function render() {
     let income = 0;
@@ -211,13 +244,25 @@ const VaultModule = (() => {
         }
 
         det.innerHTML = `
-          <summary style="padding:16px; font-weight:800; display:flex; justify-content:space-between; cursor:pointer; outline:none; background:rgba(0,0,0,0.2); list-style:none;">
-            <span>📁 ${gName}</span>
+          <summary style="padding:16px; font-weight:800; display:flex; justify-content:space-between; align-items:center; cursor:pointer; outline:none; background:rgba(0,0,0,0.2); list-style:none;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span>📁 ${gName}</span>
+              <button type="button" class="month-clear-btn" data-month="${gName}" style="background:rgba(239,83,80,0.1); border:none; color:#ef5350; padding:2px 6px; border-radius:4px; font-size:9px; font-weight:800; cursor:pointer;">TEMİZLE</button>
+            </div>
             <span style="color:${netGroup < 0 ? 'var(--down)' : 'var(--up)'}">${netGroup < 0 ? '' : '+'}${formatCurrency(netGroup)}</span>
           </summary>
           <div class="table-wrap" style="border:none; border-radius:0; margin:0;"><table><tbody>${tbodyHtml}</tbody></table></div>`;
         container.appendChild(det);
       }
+
+      // Ay silme butonlarına olay bağla
+      container.querySelectorAll('.month-clear-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          deleteMonth(btn.dataset.month);
+        });
+      });
 
       const net = income - expense;
       const netEl = document.getElementById("vaultNetBalance");
