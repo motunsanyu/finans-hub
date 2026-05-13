@@ -302,7 +302,7 @@ const VaultModule = (() => {
       // Bugün belirtilen günden büyük veya eşitse VE bu ay henüz işlenmemişse
       if (currentDay >= rec.day && !rec.processedMonths.includes(currentMonthYear)) {
         const recordDate = new Date(today.getFullYear(), today.getMonth(), rec.day).toISOString().split('T')[0];
-        const success = await addRecord(rec.type, `🔄 Otomatik: ${rec.title}`, rec.amount, recordDate);
+        const success = await addRecord(rec.type, rec.title, rec.amount, recordDate);
         
         if (success) {
           rec.processedMonths.push(currentMonthYear);
