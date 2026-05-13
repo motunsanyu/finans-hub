@@ -1042,6 +1042,34 @@
           </form>
         </details>
 
+        <!-- DÜZENLİ İŞLEMLER (Maaş, Kira vs.) -->
+        <details id="recurringVaultPanel" class="panel" style="padding:0; overflow:hidden; margin-bottom:16px;">
+          <summary
+            style="padding:16px; font-weight:800; border-bottom:1px solid rgba(255,255,255,0.05); list-style:none; outline:none; display:flex; justify-content:space-between; cursor:pointer;">
+            <span>🔄 Düzenli İşlemler (Maaş, Kira vs.)</span>
+            <span style="font-size:10px; color:var(--brand);">YÖNET</span>
+          </summary>
+          <div style="padding:16px;">
+            <div id="recurringListContainer" style="margin-bottom:16px; display:flex; flex-direction:column; gap:8px;"></div>
+            
+            <div style="background:rgba(255,255,255,0.03); padding:16px; border-radius:12px; border:1px solid rgba(255,255,255,0.05);">
+              <div style="font-size:11px; color:var(--text-secondary); font-weight:800; margin-bottom:12px; text-transform:uppercase;">+ Yeni Düzenli İşlem Ekle</div>
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                <input type="text" id="recTitle" placeholder="İşlem Adı (Örn: Maaş)" style="width:100%; padding:12px; border-radius:8px; background:var(--bg-primary); border:1px solid var(--line); color:white; outline:none;">
+                <div style="display:flex; gap:12px;">
+                  <input type="text" id="recAmount" class="num-mask" placeholder="Tutar" style="flex:1; padding:12px; border-radius:8px; background:var(--bg-primary); border:1px solid var(--line); color:white; outline:none;">
+                  <input type="number" id="recDay" placeholder="Gün (1-31)" min="1" max="31" style="width:100px; padding:12px; border-radius:8px; background:var(--bg-primary); border:1px solid var(--line); color:white; outline:none;">
+                </div>
+                <select id="recType" style="width:100%; padding:12px; border-radius:8px; background:var(--bg-primary); border:1px solid var(--line); color:white; outline:none; font-weight:700;">
+                  <option value="income">Düzenli Gelir (+)</option>
+                  <option value="expense">Düzenli Gider (-)</option>
+                </select>
+                <button type="button" id="addRecurringBtn" class="btn primary" style="width:100%;">OTOMATİK ÖDEME SİSTEMİNE EKLE</button>
+              </div>
+            </div>
+          </div>
+        </details>
+
         <!-- KASA LİSTESİ (GRUPLANDIRILMIŞ) -->
         <details class="panel" style="padding:0; overflow:hidden;" open>
           <summary

@@ -276,13 +276,136 @@ const VaultModule = (() => {
     }
   }
 
-  // ═══════════════ BAŞLATMA ═══════════════
-  async function init() {
-    bindEvents();
-    await updateSmartSelector();
-    await render();
-    console.log('✅ Kasa modülü (Supabase) başlatıldı');
+  // ═══════════════ DÜZENLİ İŞLEMLER (Maaş vb.) ═══════════════
+  const REC_STORAGE_KEY = 'finansApp_vaultRecurring';
+  let recurringTemplates = [];
+
+  function loadRecurring() {
+    const data = localStorage.getItem(REC_STORAGE_KEY);
+    recurringTemplates = data ? JSON.parse(data) : [];
   }
 
-  return { init, render, updateSmartSelector, addRecord };
-})();
+  function saveRecurring() {
+    localStorage.setItem(REC_STORAGE_KEY, JSON.stringify(recurringTemplates));
+    renderRecurring();
+  }
+
+  async function processRecurring() {
+    const today = new Date();
+    const currentDay = today.getDate();
+    const currentMonthYear = `${today.getMonth() + 1}-${today.getFullYear()}`;
+    let changed = false;
+
+    for (const rec of recurringTemplates) {
+      if (!rec.processedMonths) rec.processedMonths = [];
+      
+      // Bugün belirtilen günden büyük veya eşitse VE bu ay henüz işlenmemişse
+      if (currentDay >= rec.day && !rec.processedMonths.includes(currentMonthYear)) {
+        const recordDate = new Date(today.getFullYear(), today.getMonth(), rec.day).toISOString().split('T')[0];
+        const success = await addRecord(rec.type, `🔄 Otomatik: ${rec.title}`, rec.amount, recordDate);
+        
+        if (success) {
+          rec.processedMonths.push(currentMonthYear);
+          changed = true;
+          if (window.showToast) window.showToast(`✅ Otomatik işlem: ${rec.title} kasaya eklendi.`, 'success');
+        }
+      }
+    }
+
+    if (changed) saveRecurring();
+  }
+
+  function renderRecurring() {
+    const container = document.getElementById('recurringListContainer');
+    if (!container) return;
+
+    if (recurringTemplates.length === 0) {
+      container.innerHTML = '<div style="font-size:12px; color:var(--text-secondary); text-align:center; padding:12px;">Henüz düzenli işlem tanımlanmadı.</div>';
+      return;
+    }
+
+    container.innerHTML = recurringTemplates.map((rec, idx) => `
+      <div style="background:rgba(255,255,255,0.05); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-size:13px; font-weight:800; color:white;">${rec.title}</div>
+          <div style="font-size:11px; color:var(--text-secondary);">Her ayın ${rec.day}. günü • ${rec.type === 'income' ? 'Gelir' : 'Gider'}</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:14px; font-weight:800; color:${rec.type === 'income' ? 'var(--up)' : 'var(--text-primary)'}; font-family:'Space Grotesk', monospace;">₺${formatNumber(rec.amount, 0)}</div>
+          <div style="display:flex; gap:6px; justify-content:flex-end; margin-top:4px;">
+            <button onclick="VaultModule.editRecurring(${idx})" style="background:none; border:none; color:var(--brand); font-size:10px; font-weight:800; cursor:pointer;">DÜZENLE</button>
+            <button onclick="VaultModule.deleteRecurring(${idx})" style="background:none; border:none; color:#ef5350; font-size:10px; font-weight:800; cursor:pointer;">SİL</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function addRecurring() {
+    const title = document.getElementById('recTitle').value.trim();
+    const amount = parseVal(document.getElementById('recAmount').value);
+    const day = parseInt(document.getElementById('recDay').value);
+    const type = document.getElementById('recType').value;
+
+    if (!title || isNaN(amount) || amount <= 0 || isNaN(day) || day < 1 || day > 31) {
+      if (window.showToast) window.showToast('Lütfen geçerli bilgiler girin.', 'error');
+      return;
+    }
+
+    recurringTemplates.push({
+      title, amount, day, type,
+      processedMonths: [],
+      createdAt: new Date().toISOString()
+    });
+
+    saveRecurring();
+    processRecurring();
+    
+    document.getElementById('recTitle').value = '';
+    document.getElementById('recAmount').value = '';
+    document.getElementById('recDay').value = '';
+    if (window.showToast) window.showToast('✅ Düzenli işlem kaydedildi.', 'success');
+  }
+
+  function deleteRecurring(idx) {
+    window.showCustomConfirm('Bu düzenli işlemi silmek istediğinize emin misiniz? Gelecek aylar için otomatik kayıt yapılmayacak.', () => {
+      recurringTemplates.splice(idx, 1);
+      saveRecurring();
+    });
+  }
+
+  function editRecurring(idx) {
+    const rec = recurringTemplates[idx];
+    document.getElementById('recTitle').value = rec.title;
+    document.getElementById('recAmount').value = formatNumber(rec.amount, 0);
+    document.getElementById('recDay').value = rec.day;
+    document.getElementById('recType').value = rec.type;
+    
+    // Eski kaydı sil (güncelleme yerine silip tekrar ekle mantığı)
+    recurringTemplates.splice(idx, 1);
+    saveRecurring();
+    
+    document.getElementById('recurringVaultPanel').open = true;
+    document.getElementById('recTitle').focus();
+    if (window.showToast) window.showToast('📝 Düzenleme moduna geçildi.', 'info');
+  }
+
+  // ═══════════════ BAŞLATMA ═══════════════
+  async function init() {
+    loadRecurring();
+    bindEvents();
+    
+    // Düzenli işlem butonunu bağla
+    const addRecBtn = document.getElementById('addRecurringBtn');
+    if (addRecBtn) addRecBtn.onclick = addRecurring;
+
+    await updateSmartSelector();
+    await render();
+    renderRecurring();
+    await processRecurring();
+    
+    console.log('✅ Kasa modülü (Otomatik Ödeme Entegrasyonlu) başlatıldı');
+  }
+
+  return { init, render, updateSmartSelector, addRecord, deleteRecurring, editRecurring };
+})();
