@@ -2,7 +2,7 @@
 
 Bu proje, tüm finansal varlıklarınızı, harcamalarınızı ve hedeflerinizi tek bir merkezden yönetmenize olanak tanıyan profesyonel bir web uygulamasıdır. Cloudflare üzerinden yayınlanmakta olup, PWA (Progressive Web App) desteği ile mobil cihazlarda uygulama konforu sunar.
 
-## 🚀 Başlıca Özellikler
+## 🚀 Başlıca Özellikler_
 
 ### 💰 1. Piyasa ve Portföy Yönetimi
 *   **Canlı Takip:** Döviz (USD, EUR), Altın (Gram, Çeyrek vb.), Kripto Paralar ve Borsa verilerinin anlık takibi.
