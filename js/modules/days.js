@@ -218,7 +218,7 @@ const DaysModule = (() => {
         const isPast = r.days < 0;
         const isZero = r.days === 0;
 
-        let daysText = isPast ? Math.abs(r.days) + " Gün Geçti" : (isZero ? "Bugün Bitiyor!" : r.days + " Gün Kaldı");
+        let daysText = isPast ? Math.abs(r.days) + " Gün Geçti" : (isZero ? r.title + " Günü!" : r.days + " Gün Kaldı");
 
         // Renk paleti seçimi (sırasıyla)
         const paletteColor = cardColors[idx % cardColors.length];
