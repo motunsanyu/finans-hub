@@ -85,10 +85,18 @@ function renderAdminUsers(users) {
     // Status Badges
     const adminBadge = u.is_admin ? `<span style="background:#fbbf24; color:#000; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:800; margin-left:8px;">YÖNETİCİ</span>` : '';
     const bannedBadge = u.is_banned ? `<span style="background:#ef5350; color:#fff; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:800; margin-left:8px;">ENGELLİ</span>` : '';
+    const menuEditorBadge = u.is_menu_editor ? `<span style="background:#10b981; color:#fff; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:800; margin-left:8px;">MENÜ EDİTÖRÜ</span>` : '';
 
     // Action Buttons
     let actions = '';
     if (!isMe) {
+      // Menü yetkisi butonu
+      if (u.is_menu_editor) {
+        actions += `<button onclick="toggleMenuEditorPermission('${u.id}', true)" style="background:rgba(16, 185, 129, 0.1); border:1px solid rgba(16, 185, 129, 0.3); color:#10b981; padding:8px 12px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;">Yetki Al</button>`;
+      } else {
+        actions += `<button onclick="toggleMenuEditorPermission('${u.id}', false)" style="background:rgba(255, 255, 255, 0.05); border:1px solid rgba(255, 255, 255, 0.1); color:#fff; padding:8px 12px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;">Yetki Ver</button>`;
+      }
+      
       if (u.is_banned) {
         actions += `<button onclick="toggleUserBan('${u.id}', false)" style="background:#2b5278; border:none; color:#fff; padding:8px 12px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;">Kaldır</button>`;
       } else {
@@ -195,3 +203,18 @@ async function executeDeleteUser(sb, userId) {
     if (window.showToast) window.showToast('Silme işlemi başarısız. (Auth tabloları silinmemiş olabilir)', 'error');
   }
 }
+
+window.toggleMenuEditorPermission = async function(userId, currentStatus) {
+  const sb = window._supabaseClient;
+  const newStatus = !currentStatus;
+  try {
+    const { error } = await sb.from('profiles').update({ is_menu_editor: newStatus }).eq('id', userId);
+    if (error) throw error;
+    if (window.showToast) window.showToast(`Menü yetkisi ${newStatus ? 'verildi' : 'kaldırıldı'}.`, 'success');
+    loadAdminUsers();
+  } catch (e) {
+    console.error(e);
+    if (window.showToast) window.showToast('İşlem başarısız.', 'error');
+  }
+};
+
