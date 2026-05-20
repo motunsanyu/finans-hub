@@ -998,67 +998,136 @@ const MenuModule = (() => {
 
   let activeCanvasImageSide = 'left';
 
-  window.openCanvasImageModal = function(side) {
+  window.openCanvasImageModal = async function(side) {
     activeCanvasImageSide = side;
     const modal = document.getElementById('canvasImageModal');
     const listContainer = document.getElementById('canvasImageModalList');
     const uploadBtn = document.getElementById('canvasImageModalUploadBtn');
-    
-    if (!modal || !listContainer) return;
-    
-    uploadBtn.onclick = () => {
-      document.getElementById(side === 'left' ? 'canvasImgLeft' : 'canvasImgRight').click();
-      modal.style.display = 'none';
-    };
 
-    let todayIds = [];
-    if (currentDailyMenu && currentDailyMenu.items) {
-      todayIds = currentDailyMenu.items.map(i => i.id);
-    } else {
-      todayIds = Array.from(selectedFoodIds);
-    }
-    
-    const availableItems = masterItems.filter(i => todayIds.includes(i.id) && i.image_url);
-    const fallbackItems = masterItems.filter(i => i.image_url && !todayIds.includes(i.id));
-    
-    const displayItems = [...availableItems, ...fallbackItems];
-
-    if (displayItems.length === 0) {
-      listContainer.innerHTML = '<div style="color:#708499; text-align:center; padding:20px;">Kayıtlı görseli olan yemek bulunamadı. Lütfen yeni görsel yükleyin.</div>';
-    } else {
-      listContainer.innerHTML = displayItems.map(item => `
-        <div onclick="window.selectCanvasImageFromURL('${item.image_url}')" style="display:flex; align-items:center; gap:12px; padding:10px; border-bottom:1px solid #232e3c; cursor:pointer; border-radius:8px; transition:background 0.2s;" onmouseover="this.style.background='#232e3c'" onmouseout="this.style.background='transparent'">
-          <img src="${item.image_url}" style="width:48px; height:48px; border-radius:8px; object-fit:cover; border:1px solid #374151;">
-          <div style="flex:1;">
-            <div style="color:#fff; font-weight:bold; font-size:14px;">${item.name}</div>
-            <div style="color:#708499; font-size:11px;">${todayIds.includes(item.id) ? '<span style="color:#10b981;">Günün Menüsünde</span>' : 'Kayıtlı Yemek'}</div>
-          </div>
-        </div>
-      `).join('');
+    if (!modal || !listContainer) {
+      console.error('canvasImageModal veya canvasImageModalList bulunamadı!');
+      return;
     }
 
+    // Modalı hemen göster, yükleniyor spinner
     modal.style.display = 'flex';
+    listContainer.innerHTML = '<div style="color:#708499; text-align:center; padding:30px; font-size:13px;">⏳ Yemekler yükleniyor...</div>';
+
+    // Upload butonu bağla
+    if (uploadBtn) {
+      uploadBtn.onclick = () => {
+        const fileInputId = side === 'left' ? 'canvasImgLeft' : 'canvasImgRight';
+        const fileInput = document.getElementById(fileInputId);
+        if (fileInput) {
+          fileInput.click();
+        }
+        modal.style.display = 'none';
+      };
+    }
+
+    try {
+      // Her zaman Supabase'den taze veri çek
+      const sb = window._supabaseClient;
+      let allFoods = [];
+
+      if (sb) {
+        const { data, error } = await sb
+          .from('menu_items')
+          .select('id, name, image_url, category')
+          .not('image_url', 'is', null)
+          .neq('image_url', '')
+          .order('name');
+
+        if (error) throw error;
+        allFoods = data || [];
+      } else if (masterItems && masterItems.length > 0) {
+        // Supabase yoksa mevcut masterItems'ı kullan
+        allFoods = masterItems.filter(i => i.image_url);
+      }
+
+      // Bugünkü menüdeki ID'leri belirle
+      let todayIds = [];
+      if (currentDailyMenu && currentDailyMenu.items) {
+        todayIds = currentDailyMenu.items.map(i => i.id);
+      } else {
+        todayIds = Array.from(selectedFoodIds);
+      }
+
+      // Önce günün menüsündekiler, sonra diğerleri
+      const todayFoods = allFoods.filter(i => todayIds.includes(i.id));
+      const otherFoods = allFoods.filter(i => !todayIds.includes(i.id));
+      const displayItems = [...todayFoods, ...otherFoods];
+
+      if (displayItems.length === 0) {
+        listContainer.innerHTML = `
+          <div style="color:#708499; text-align:center; padding:30px;">
+            <div style="font-size:32px; margin-bottom:10px;">🍽️</div>
+            <div style="font-weight:700; margin-bottom:6px;">Kayıtlı görsel bulunamadı</div>
+            <div style="font-size:11px;">Yemek Listesi'nden yemeklere görsel ekleyin,<br>ya da aşağıdaki butonla yeni görsel yükleyin.</div>
+          </div>`;
+      } else {
+        listContainer.innerHTML = displayItems.map(item => {
+          const isToday = todayIds.includes(item.id);
+          const badge = isToday
+            ? '<span style="background:#10b981; color:#fff; font-size:9px; font-weight:800; padding:2px 6px; border-radius:4px; margin-left:4px;">BUGÜN</span>'
+            : '';
+          return `
+            <div onclick="window.selectCanvasImageFromURL('${item.image_url.replace(/'/g, "\\'")}')"
+                 style="display:flex; align-items:center; gap:12px; padding:10px 12px; border-bottom:1px solid #1a2433; cursor:pointer; transition:background 0.15s;"
+                 onmouseover="this.style.background='#1e2d3d'"
+                 onmouseout="this.style.background='transparent'">
+              <img src="${item.image_url}" 
+                   style="width:52px; height:52px; border-radius:10px; object-fit:cover; border:1px solid #374151; flex-shrink:0;"
+                   onerror="this.style.display='none'">
+              <div style="flex:1; min-width:0;">
+                <div style="color:#fff; font-weight:700; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                  ${item.name}${badge}
+                </div>
+                <div style="color:#708499; font-size:11px; margin-top:2px;">${item.category || ''}</div>
+              </div>
+              <div style="color:#10b981; font-size:18px; flex-shrink:0;">›</div>
+            </div>`;
+        }).join('');
+      }
+    } catch (err) {
+      console.error('Modal yükleme hatası:', err);
+      listContainer.innerHTML = `
+        <div style="color:#ef5350; text-align:center; padding:20px; font-size:13px;">
+          ❌ Veriler yüklenemedi: ${err.message}<br>
+          <span style="color:#708499; font-size:11px;">Lütfen aşağıdan görsel yükleyin.</span>
+        </div>`;
+    }
   };
 
   window.selectCanvasImageFromURL = function(url) {
     const side = activeCanvasImageSide;
+    const modal = document.getElementById('canvasImageModal');
+
+    // Modalı hemen kapat
+    if (modal) modal.style.display = 'none';
+
     const img = new Image();
     img.crossOrigin = 'Anonymous';
     img.onload = () => {
       customCanvasImages[side] = img;
+      // Önizleme güncelle
       const previewId = side === 'left' ? 'canvasImgLeftPreview' : 'canvasImgRightPreview';
       const previewEl = document.getElementById(previewId);
       if (previewEl) {
         previewEl.src = url;
         previewEl.style.display = 'block';
       }
-      const modal = document.getElementById('canvasImageModal');
-      if (modal) modal.style.display = 'none';
-      if (window.showToast) window.showToast('Görsel seçildi!', 'success');
+      // Canvas butonunu güncelle
+      const btnLeft = document.querySelector('[onclick*="openCanvasImageModal(\'left\')"]');
+      const btnRight = document.querySelector('[onclick*="openCanvasImageModal(\'right\')"]');
+      if (side === 'left' && btnLeft) btnLeft.style.borderColor = '#10b981';
+      if (side === 'right' && btnRight) btnRight.style.borderColor = '#10b981';
+
+      if (window.showToast) window.showToast('Görsel eklendi! ✓', 'success');
       renderShareTab();
     };
     img.onerror = () => {
-      if (window.showToast) window.showToast('Görsel yüklenemedi!', 'error');
+      if (window.showToast) window.showToast('Görsel yüklenemedi. Farklı bir görsel deneyin.', 'error');
     };
     img.src = url;
   };
