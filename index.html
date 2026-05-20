@@ -331,9 +331,11 @@
     <div style="max-width:540px; margin:0 auto; padding-bottom:40px;">
       <!-- Başlık Bölümü -->
       <div style="text-align:center; margin-bottom:32px; margin-top:20px;">
-        <div style="font-size:28px; margin-bottom:8px;">🥗</div>
-        <h1 style="font-family:'Playfair Display', 'Georgia', serif; font-size:32px; font-weight:900; color:#5c4c38; margin:0; letter-spacing:0.5px;">AĞAÇÖREN</h1>
-        <p style="font-size:12px; color:#7f6d53; text-transform:uppercase; font-weight:800; letter-spacing:3px; margin:6px 0 0;">Ev Yemekleri • Günün Menüsü</p>
+        <div id="publicLogoArea">
+          <div style="font-size:28px; margin-bottom:8px;">🥗</div>
+        </div>
+        <h1 style="font-family:'Playfair Display', 'Georgia', serif; font-size:32px; font-weight:900; color:#5c4c38; margin:0; letter-spacing:0.5px;">YÜKLENİYOR...</h1>
+        <p style="font-size:12px; color:#7f6d53; text-transform:uppercase; font-weight:800; letter-spacing:3px; margin:6px 0 0;">Günün Menüsü</p>
         <div style="width:60px; height:3px; background:#c2410c; margin:16px auto 0; border-radius:2px;"></div>
       </div>
 
@@ -341,14 +343,8 @@
       <div id="publicMenuList" style="display:flex; flex-direction:column; gap:24px;"></div>
 
       <!-- İletişim Bilgileri Footer -->
-      <div style="text-align:center; margin-top:48px; border-top:1px dashed rgba(92, 76, 56, 0.2); padding-top:24px;">
-        <div style="font-size:13px; color:#5c4c38; font-weight:800; display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:10px;">
-          📞 0 545 282 97 34 - 0 530 583 41 62
-        </div>
-        <div style="font-size:12px; color:#7f6d53; font-weight:700; display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:16px;">
-          📸 @agacorenevyemekleri
-        </div>
-        <p style="font-size:11px; color:#a19079; margin:0; font-style:italic;">Afiyet Olsun!</p>
+      <div id="publicContactFooter" style="text-align:center; margin-top:48px; border-top:1px dashed rgba(92, 76, 56, 0.2); padding-top:24px;">
+        <!-- Javascript ile dolacak -->
       </div>
     </div>
   </div>
@@ -2547,11 +2543,11 @@
         }
       </style>
       <div style="display:flex; background:#17212b; border-bottom:1px solid #232e3c; overflow-x:auto; -webkit-overflow-scrolling:touch;">
-        <button class="menu-tab-btn" data-tab="profile" onclick="switchMenuTab('profile')">🏢 Profil</button>
-        <button class="menu-tab-btn active" data-tab="builder" onclick="switchMenuTab('builder')">📅 Günlük Menü</button>
-        <button class="menu-tab-btn" data-tab="adder" onclick="switchMenuTab('adder')">🍱 Yemek Ekle</button>
-        <button class="menu-tab-btn" data-tab="list" onclick="switchMenuTab('list')">📋 Yemek Listesi</button>
-        <button class="menu-tab-btn" data-tab="exporter" onclick="switchMenuTab('exporter')">🎨 QR & Paylaş</button>
+        <button class="menu-tab-btn" data-tab="profile" onclick="switchMenuTab('profile')">Profil</button>
+        <button class="menu-tab-btn active" data-tab="builder" onclick="switchMenuTab('builder')">Günlük Menü</button>
+        <button class="menu-tab-btn" data-tab="adder" onclick="switchMenuTab('adder')">Yemek Ekle</button>
+        <button class="menu-tab-btn" data-tab="list" onclick="switchMenuTab('list')">Yemek Listesi</button>
+        <button class="menu-tab-btn" data-tab="exporter" onclick="switchMenuTab('exporter')">QR & Paylaş</button>
       </div>
 
       <!-- Sekme İçerikleri -->
@@ -2566,12 +2562,12 @@
             </div>
             
             <div>
-              <label style="color:#708499; font-size:12px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:8px;">İşletme Logosu (Canvas ve QR Sayfası Üstü)</label>
+              <label style="color:#708499; font-size:12px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:8px;">İşletme Logosu (QR Sayfası Üstünde Görünür)</label>
               <input type="file" id="profileLogoFile" accept="image/*" style="display:none;" onchange="document.getElementById('logo-upload-name').textContent = this.files[0]?.name || 'Dosya seçilmedi'">
               <div onclick="document.getElementById('profileLogoFile').click()" style="width:100%; border:2px dashed #232e3c; border-radius:10px; padding:20px; text-align:center; color:#708499; cursor:pointer; background:rgba(255,255,255,0.01); transition:border-color 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#232e3c'">
                 <div style="font-size:24px; margin-bottom:6px;">🏢</div>
                 <div id="logo-upload-name" style="font-weight:700; font-size:13px;">Logo Yüklemek İçin Tıklayın</div>
-                <div style="font-size:11px; opacity:0.7; margin-top:2px;">PNG, JPG veya SVG (Max 2MB)</div>
+                <div style="font-size:11px; opacity:0.7; margin-top:2px;">PNG, JPG (Max 2MB) — Sadece QR müşteri sayfasında görünür</div>
               </div>
             </div>
 
@@ -2596,16 +2592,17 @@
 
         <!-- Tab 1: Günlük Menü Oluşturucu -->
         <div id="tabContent-builder" class="menu-tab-content">
-          <div style="margin-bottom:16px;">
-            <label style="color:#708499; font-size:12px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:8px;">Menü Tarihi Seçin</label>
-            <div style="display:flex; gap:12px;">
-              <input type="date" id="menuBuilderDate" class="menu-input-field" style="flex:1;" onchange="loadDailyMenuForDate(this.value)">
-              <button onclick="saveDailyMenu()" class="btn primary" style="background:#10b981; color:white; font-weight:800; padding:12px 24px; border-radius:10px; border:none; cursor:pointer;">💾 Menüyü Kaydet</button>
+          <div style="margin-bottom:12px;">
+            <label style="color:#708499; font-size:11px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:6px;">Menü Tarihi</label>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <input type="date" id="menuBuilderDate" class="menu-input-field" style="flex:1; padding:10px 12px; font-size:13px;" onchange="loadDailyMenuForDate(this.value)">
+              <button onclick="saveDailyMenu()" style="background:#10b981; color:white; font-weight:800; padding:10px 14px; border-radius:10px; border:none; cursor:pointer; font-size:13px; white-space:nowrap;">💾 Kaydet</button>
+              <button onclick="window.clearDailyMenu()" style="background:#2b3a4a; color:#ef5350; font-weight:800; padding:10px 12px; border-radius:10px; border:1px solid rgba(239,83,80,0.2); cursor:pointer; font-size:13px; white-space:nowrap;">🗑 Temizle</button>
             </div>
           </div>
-          <div style="margin-top:10px;">
-            <label style="color:#708499; font-size:12px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:12px;">Menüdeki Yemekleri Seçin</label>
-            <div id="builderFoodList" style="display:flex; flex-direction:column; gap:12px; max-height:45vh; overflow-y:auto; padding-right:4px;">
+          <div style="margin-top:8px;">
+            <label style="color:#708499; font-size:11px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:10px;">Yemekleri Seçin</label>
+            <div id="builderFoodList" style="display:flex; flex-direction:column; gap:10px; height:calc(100vh - 340px); overflow-y:auto; padding-right:4px;">
               <!-- Javascript ile dolacak -->
             </div>
           </div>
@@ -2644,54 +2641,49 @@
 
         <!-- Tab 3: Yemek Listesi -->
         <div id="tabContent-list" class="menu-tab-content" style="display:none;">
-          <div id="menuFoodListGrid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:12px; max-height:55vh; overflow-y:auto; padding-right:4px;">
+          <div id="menuFoodListGrid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:12px; height:calc(100vh - 240px); overflow-y:auto; padding-right:4px;">
             <!-- Javascript ile dolacak -->
           </div>
         </div>
 
         <!-- Tab 4: Görsel & QR Paylaş -->
         <div id="tabContent-exporter" class="menu-tab-content" style="display:none;">
-          <div style="display:flex; flex-direction:column; gap:20px; align-items:center; text-align:center;">
-            
-            <!-- Görsel Seçim Kutuları -->
-            <div style="width:100%; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:12px; background:#17212b; padding:12px; border-radius:12px; border:1px solid #232e3c;">
-              <div style="flex:1; min-width:140px; text-align:left;">
-                <label style="color:#708499; font-size:11px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:6px;">Sol Kutu Görseli</label>
-                <select id="canvasLeftSelect" class="menu-input-field" style="font-weight:700; padding:8px 12px; font-size:12px; background:#0e1621; border-color:#232e3c;" onchange="window.redrawCanvasWithCustomSelections()">
-                  <option value="auto">Otomatik (Resimli İlk Yemek)</option>
-                  <option value="none">Boş Kalsın</option>
-                </select>
+          <div style="display:flex; flex-direction:column; gap:16px;">
+
+            <!-- Şablon Yükleme -->
+            <div style="background:#17212b; border-radius:12px; border:1px solid #232e3c; padding:14px;">
+              <label style="color:#708499; font-size:11px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:10px;">Menü Şablonu (Arkaplan Görseli)</label>
+              <div style="display:flex; gap:10px; align-items:center;">
+                <input type="file" id="templateUploadFile" accept="image/*" style="display:none;" onchange="window.handleTemplateUpload(this.files[0])">
+                <div onclick="document.getElementById('templateUploadFile').click()" style="flex:1; border:2px dashed #232e3c; border-radius:8px; padding:12px; text-align:center; color:#708499; cursor:pointer; transition:border-color 0.2s; font-size:13px; font-weight:700;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#232e3c'">
+                  🖼 Şablon Yükle / Değiştir
+                </div>
+                <button onclick="window.resetTemplate()" style="background:#2b3a4a; color:#708499; border:1px solid #232e3c; padding:12px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer; white-space:nowrap;">Varsayılana Dön</button>
               </div>
-              <div style="flex:1; min-width:140px; text-align:left;">
-                <label style="color:#708499; font-size:11px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:6px;">Sağ Kutu Görseli</label>
-                <select id="canvasRightSelect" class="menu-input-field" style="font-weight:700; padding:8px 12px; font-size:12px; background:#0e1621; border-color:#232e3c;" onchange="window.redrawCanvasWithCustomSelections()">
-                  <option value="auto">Otomatik (Resimli İkinci Yemek)</option>
-                  <option value="none">Boş Kalsın</option>
-                </select>
-              </div>
+              <div id="templateUploadStatus" style="font-size:11px; color:#708499; margin-top:6px; text-align:center;">Mevcut şablon: menu_template.jpg</div>
             </div>
 
-            <!-- Canlı Canvas Önizleme -->
-            <div>
-              <label style="color:#708499; font-size:12px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:8px;">Bugünün Menü Görseli</label>
-              <div style="border: 1px solid #232e3c; border-radius:16px; overflow:hidden; background:#0b0e11; max-width:240px; box-shadow:0 8px 32px rgba(0,0,0,0.5);">
-                <canvas id="menuCanvas" width="576" height="1024" style="width:100%; display:block; max-height:420px; object-fit:contain;"></canvas>
+            <!-- Canvas Önizleme ve İndir -->
+            <div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
+              <label style="color:#708499; font-size:11px; font-weight:800; text-transform:uppercase; align-self:flex-start;">Menü Önizlemesi</label>
+              <div style="border: 1px solid #232e3c; border-radius:16px; overflow:hidden; background:#0b0e11; max-width:240px; width:100%; box-shadow:0 8px 32px rgba(0,0,0,0.5);">
+                <canvas id="menuCanvas" width="576" height="1024" style="width:100%; display:block;"></canvas>
               </div>
-              <button onclick="downloadMenuImage()" class="btn primary" style="background:#10b981; margin-top:12px; font-weight:800; padding:10px 20px; font-size:13px; border-radius:8px; border:none; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
-                📥 Görseli İndir (Paylaş)
+              <button onclick="downloadMenuImage()" style="background:#10b981; color:#fff; font-weight:800; padding:10px 20px; font-size:13px; border-radius:8px; border:none; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+                📥 Görseli İndir
               </button>
             </div>
 
-            <div style="width:100%; height:1px; background:rgba(255,255,255,0.05); margin:10px 0;"></div>
+            <div style="width:100%; height:1px; background:rgba(255,255,255,0.05);"></div>
 
             <!-- Müşteriler İçin QR Kod -->
-            <div>
-              <label style="color:#708499; font-size:12px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:12px;">Masa QR Kodu</label>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
+              <label style="color:#708499; font-size:11px; font-weight:800; text-transform:uppercase;">Masa QR Kodu</label>
               <div id="menuQrContainer" style="display:flex; justify-content:center;">
                 <!-- QR kod görseli JS ile yerleşecek -->
               </div>
             </div>
-            
+
           </div>
         </div>
 
