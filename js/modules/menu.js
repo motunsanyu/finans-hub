@@ -7,6 +7,7 @@ const MenuModule = (() => {
   let customCanvasImages = { left: null, right: null };
   // Canvas Y koordinat ofsetleri (D-pad ile ayarlanabilir)
   let canvasYOffsets = { soups: 0, dishes: 0 };
+  let canvasFontSizes = { soups: 22, dishes: 22 };
 
   let restaurantProfile = {
     name: '',
@@ -224,7 +225,7 @@ const MenuModule = (() => {
     customTemplateSrc = null;
     localStorage.removeItem('menu_custom_template');
     const statusEl = document.getElementById('templateUploadStatus');
-    if (statusEl) statusEl.textContent = 'Varsayılan şablon: menu_template_2.jpg';
+    if (statusEl) statusEl.textContent = 'Varsayılan şablon: menu_template.jpg';
     if (window.showToast) window.showToast('Şablon sıfırlandı.', 'success');
     renderShareTab();
   };
@@ -534,6 +535,31 @@ const MenuModule = (() => {
     }
   };
 
+  window.deleteAllFoods = function() {
+    const doDeleteAll = async () => {
+      const sb = window._supabaseClient;
+      try {
+        const { error } = await sb.from('menu_items').delete().neq('id', -1);
+        if (error) throw error;
+        
+        const todayStr = new Date().toLocaleDateString('tr-TR');
+        await sb.from('daily_menus').update({ items: [] }).eq('menu_date', todayStr);
+        
+        selectedFoodIds.clear();
+        
+        if (window.showToast) window.showToast('Tüm yemekler silindi.', 'success');
+        loadMasterItems();
+      } catch (err) {
+        if (window.showToast) window.showToast('Silinemedi: ' + err.message, 'error');
+      }
+    };
+    if (window.showCustomConfirm) {
+      window.showCustomConfirm('Tüm yemekleri silmek istediğinize emin misiniz? (Günlük menü de temizlenir) Bu işlem geri alınamaz!', doDeleteAll);
+    } else if (confirm('Tüm yemekleri silmek istediğinize emin misiniz? (Günlük menü de temizlenir) Bu işlem geri alınamaz!')) {
+      doDeleteAll();
+    }
+  };
+
   function renderMasterItemsList() {
     const container = document.getElementById('menuFoodListGrid');
     if (!container) return;
@@ -790,7 +816,7 @@ const MenuModule = (() => {
       if (customTemplateSrc) {
         bgImg.src = customTemplateSrc;
       } else {
-        bgImg.src = 'assets/menu_template_2.jpg?' + Date.now();
+        bgImg.src = 'assets/menu_template.jpg?' + Date.now();
       }
 
       await new Promise((res, rej) => {
@@ -879,7 +905,8 @@ const MenuModule = (() => {
       let yPos = baseSoupsY;
       soups.forEach(item => {
         ctx.fillStyle = '#2e1b0e';
-        ctx.font = `bold ${Math.min(22, 600 / item.name.length * 2.2)}px 'Georgia', serif`;
+        const fs = canvasFontSizes.soups || 22;
+        ctx.font = `bold ${Math.min(fs, 600 / item.name.length * (fs/10))}px 'Georgia', serif`;
         ctx.fillText(item.name, canvas.width / 2, yPos);
         yPos += lineH;
       });
@@ -888,7 +915,8 @@ const MenuModule = (() => {
       yPos = Math.max(yPos + 10, baseDishesY);
       dishes.forEach(item => {
         ctx.fillStyle = '#2e1b0e';
-        ctx.font = `bold ${Math.min(22, 600 / item.name.length * 2.2)}px 'Georgia', serif`;
+        const fs = canvasFontSizes.dishes || 22;
+        ctx.font = `bold ${Math.min(fs, 600 / item.name.length * (fs/10))}px 'Georgia', serif`;
         ctx.fillText(item.name, canvas.width / 2, yPos);
         yPos += lineH;
       });
@@ -917,6 +945,18 @@ const MenuModule = (() => {
     canvasYOffsets[section] = 0;
     const el = document.getElementById(`canvasY_${section}_val`);
     if (el) el.textContent = '0px';
+    renderShareTab();
+  };
+
+  window.adjustCanvasFontSize = function(section, delta) {
+    canvasFontSizes[section] = (canvasFontSizes[section] || 26) + delta;
+    if (canvasFontSizes[section] < 12) canvasFontSizes[section] = 12; // min size
+    if (canvasFontSizes[section] > 72) canvasFontSizes[section] = 72; // max size
+    renderShareTab();
+  };
+
+  window.resetCanvasFontSize = function(section) {
+    canvasFontSizes[section] = 22;
     renderShareTab();
   };
 
@@ -954,13 +994,6 @@ const MenuModule = (() => {
     if (window.showToast) window.showToast('Görsel seçildi!', 'success');
   };
 
-  window.selectPredefinedTemplate = function(id) {
-    customTemplateSrc = `assets/menu_template${id === 1 ? '' : '_' + id}.jpg`;
-    const statusEl = document.getElementById('templateUploadStatus');
-    if (statusEl) statusEl.textContent = `${id}. Şablon seçildi.`;
-    if (window.showToast) window.showToast(`${id}. Şablon seçildi.`, 'success');
-    renderShareTab();
-  };
 
   window.handleCanvasImg = function(input, side) {
     const file = input.files[0];

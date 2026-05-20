@@ -2643,8 +2643,12 @@
         </div>
 
         <!-- Tab 3: Yemek Listesi -->
-        <div id="tabContent-list" class="menu-tab-content" style="display:none;">
-          <div id="menuFoodListGrid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:12px; height:calc(100vh - 240px); overflow-y:auto; padding-right:4px;">
+        <div id="tabContent-list" class="menu-tab-content" style="display:none; height: 100%;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <span style="color:#708499; font-size:12px; font-weight:800; text-transform:uppercase;">Mevcut Yemekler</span>
+            <button onclick="window.deleteAllFoods()" style="background:rgba(239,83,80,0.15); color:#ef5350; border:1px solid rgba(239,83,80,0.3); border-radius:6px; padding:6px 12px; font-size:11px; font-weight:800; cursor:pointer;">🗑 Tümünü Sil</button>
+          </div>
+          <div id="menuFoodListGrid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:12px; height:calc(100vh - 160px); overflow-y:auto; padding-right:4px; padding-bottom:40px;">
             <!-- Javascript ile dolacak -->
           </div>
         </div>
@@ -2663,9 +2667,7 @@
                 </div>
               </div>
               <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-                <button onclick="window.selectPredefinedTemplate(1)" style="flex:1; background:#1e293b; color:#fbbf24; border:1px solid rgba(251,191,36,0.3); padding:8px; border-radius:6px; font-size:12px; font-weight:800; cursor:pointer;">1. Şablon</button>
-                <button onclick="window.selectPredefinedTemplate(2)" style="flex:1; background:#1e293b; color:#fbbf24; border:1px solid rgba(251,191,36,0.3); padding:8px; border-radius:6px; font-size:12px; font-weight:800; cursor:pointer;">2. Şablon</button>
-                <button onclick="window.resetTemplate()" style="background:#2b3a4a; color:#ef5350; border:1px solid rgba(239,83,80,0.3); padding:8px 12px; border-radius:6px; font-size:12px; font-weight:800; cursor:pointer;">Varsayılana Dön</button>
+                <button onclick="window.resetTemplate()" style="flex:1; background:#2b3a4a; color:#ef5350; border:1px solid rgba(239,83,80,0.3); padding:8px 12px; border-radius:6px; font-size:12px; font-weight:800; cursor:pointer;">Varsayılan Şablonu Kullan</button>
               </div>
               <div id="templateUploadStatus" style="font-size:11px; color:#708499; margin-top:8px; text-align:center;">Mevcut şablon: menu_template.jpg</div>
             </div>
@@ -2689,43 +2691,61 @@
               </div>
             </div>
 
-            <!-- Konum Ayarları (D-Pad) -->
-            <div style="background:#17212b; border-radius:12px; border:1px solid #232e3c; padding:14px;">
-              <label style="color:#708499; font-size:11px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:12px;">📐 Metin Konumu Ayarı (Y Ekseni)</label>
-              <div style="display:flex; gap:12px;">
-
-                <!-- Çorbalar D-Pad -->
-                <div style="flex:1; display:flex; flex-direction:column; align-items:center; background:#0e1621; padding:12px 8px; border-radius:10px; border:1px solid rgba(251,191,36,0.15);">
-                  <span style="color:#fbbf24; font-size:11px; font-weight:800; margin-bottom:8px; letter-spacing:0.5px;">ÇORBALAR</span>
-                  <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
-                    <button onclick="window.adjustCanvasY('soups', -10)" style="width:44px; height:32px; background:linear-gradient(180deg,#3a4f63,#2b3a4a); color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:6px; cursor:pointer; font-size:16px; font-weight:900; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(0,0,0,0.3); transition:all 0.1s;" onmousedown="this.style.transform='scale(0.92)';this.style.boxShadow='0 1px 2px rgba(0,0,0,0.4)'" onmouseup="this.style.transform='';this.style.boxShadow='0 2px 6px rgba(0,0,0,0.3)'" onmouseleave="this.style.transform='';this.style.boxShadow='0 2px 6px rgba(0,0,0,0.3)'">▲</button>
-                    <div id="canvasY_soups_val" style="color:#10b981; font-size:12px; font-weight:800; min-width:50px; text-align:center; padding:2px 0;">0px</div>
-                    <button onclick="window.adjustCanvasY('soups', 10)" style="width:44px; height:32px; background:linear-gradient(180deg,#3a4f63,#2b3a4a); color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:6px; cursor:pointer; font-size:16px; font-weight:900; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(0,0,0,0.3); transition:all 0.1s;" onmousedown="this.style.transform='scale(0.92)';this.style.boxShadow='0 1px 2px rgba(0,0,0,0.4)'" onmouseup="this.style.transform='';this.style.boxShadow='0 2px 6px rgba(0,0,0,0.3)'" onmouseleave="this.style.transform='';this.style.boxShadow='0 2px 6px rgba(0,0,0,0.3)'">▼</button>
-                  </div>
-                  <button onclick="window.resetCanvasY('soups')" style="margin-top:6px; background:rgba(239,83,80,0.15); color:#ef5350; border:1px solid rgba(239,83,80,0.25); border-radius:5px; padding:3px 10px; font-size:10px; font-weight:800; cursor:pointer;">Sıfırla</button>
-                </div>
-
-                <!-- Yemekler D-Pad -->
-                <div style="flex:1; display:flex; flex-direction:column; align-items:center; background:#0e1621; padding:12px 8px; border-radius:10px; border:1px solid rgba(251,191,36,0.15);">
-                  <span style="color:#fbbf24; font-size:11px; font-weight:800; margin-bottom:8px; letter-spacing:0.5px;">YEMEKLER</span>
-                  <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
-                    <button onclick="window.adjustCanvasY('dishes', -10)" style="width:44px; height:32px; background:linear-gradient(180deg,#3a4f63,#2b3a4a); color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:6px; cursor:pointer; font-size:16px; font-weight:900; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(0,0,0,0.3); transition:all 0.1s;" onmousedown="this.style.transform='scale(0.92)';this.style.boxShadow='0 1px 2px rgba(0,0,0,0.4)'" onmouseup="this.style.transform='';this.style.boxShadow='0 2px 6px rgba(0,0,0,0.3)'" onmouseleave="this.style.transform='';this.style.boxShadow='0 2px 6px rgba(0,0,0,0.3)'">▲</button>
-                    <div id="canvasY_dishes_val" style="color:#10b981; font-size:12px; font-weight:800; min-width:50px; text-align:center; padding:2px 0;">0px</div>
-                    <button onclick="window.adjustCanvasY('dishes', 10)" style="width:44px; height:32px; background:linear-gradient(180deg,#3a4f63,#2b3a4a); color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:6px; cursor:pointer; font-size:16px; font-weight:900; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(0,0,0,0.3); transition:all 0.1s;" onmousedown="this.style.transform='scale(0.92)';this.style.boxShadow='0 1px 2px rgba(0,0,0,0.4)'" onmouseup="this.style.transform='';this.style.boxShadow='0 2px 6px rgba(0,0,0,0.3)'" onmouseleave="this.style.transform='';this.style.boxShadow='0 2px 6px rgba(0,0,0,0.3)'">▼</button>
-                  </div>
-                  <button onclick="window.resetCanvasY('dishes')" style="margin-top:6px; background:rgba(239,83,80,0.15); color:#ef5350; border:1px solid rgba(239,83,80,0.25); border-radius:5px; padding:3px 10px; font-size:10px; font-weight:800; cursor:pointer;">Sıfırla</button>
-                </div>
-
-              </div>
-            </div>
-
-            <!-- Canvas Önizleme ve İndir -->
+            <!-- Canvas Önizleme ve İndir & D-PAD -->
             <div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
-              <label style="color:#708499; font-size:11px; font-weight:800; text-transform:uppercase; align-self:flex-start;">Menü Önizlemesi</label>
-              <div style="border: 1px solid #232e3c; border-radius:16px; overflow:hidden; background:#0b0e11; max-width:240px; width:100%; box-shadow:0 8px 32px rgba(0,0,0,0.5);">
-                <canvas id="menuCanvas" width="576" height="1024" style="width:100%; display:block;"></canvas>
+              <label style="color:#708499; font-size:11px; font-weight:800; text-transform:uppercase; align-self:flex-start;">Menü Önizlemesi & Konum Ayarı</label>
+              
+              <div style="display:flex; justify-content:center; align-items:center; gap:16px; width:100%;">
+                
+                <!-- Çorbalar D-Pad & Punto -->
+                <div style="display:flex; flex-direction:column; align-items:center; background:#0e1621; padding:12px 8px; border-radius:10px; border:1px solid rgba(251,191,36,0.15);">
+                  <span style="color:#fbbf24; font-size:11px; font-weight:800; margin-bottom:8px; letter-spacing:0.5px;">ÇORBALAR</span>
+                  <div style="display:flex; flex-direction:column; align-items:center; gap:4px; margin-bottom: 8px;">
+                    <button onclick="window.adjustCanvasY('soups', -10)" style="width:44px; height:32px; background:linear-gradient(180deg,#3a4f63,#2b3a4a); color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:6px; cursor:pointer; font-size:16px; font-weight:900; box-shadow:0 2px 6px rgba(0,0,0,0.3);">▲</button>
+                    <div id="canvasY_soups_val" style="color:#10b981; font-size:12px; font-weight:800; min-width:50px; text-align:center; padding:2px 0;">0px</div>
+                    <button onclick="window.adjustCanvasY('soups', 10)" style="width:44px; height:32px; background:linear-gradient(180deg,#3a4f63,#2b3a4a); color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:6px; cursor:pointer; font-size:16px; font-weight:900; box-shadow:0 2px 6px rgba(0,0,0,0.3);">▼</button>
+                  </div>
+                  
+                  <!-- Punto Ayarı -->
+                  <div style="border-top: 1px solid #232e3c; padding-top: 8px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                    <span style="color:#708499; font-size:10px; font-weight:800;">PUNTO</span>
+                    <div style="display:flex; gap: 4px;">
+                      <button onclick="window.adjustCanvasFontSize('soups', -2)" style="width:24px; height:24px; background:#2b3a4a; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">-</button>
+                      <button onclick="window.adjustCanvasFontSize('soups', 2)" style="width:24px; height:24px; background:#2b3a4a; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">+</button>
+                    </div>
+                  </div>
+                  
+                  <button onclick="window.resetCanvasY('soups'); window.resetCanvasFontSize('soups');" style="margin-top:8px; background:rgba(239,83,80,0.15); color:#ef5350; border:1px solid rgba(239,83,80,0.25); border-radius:5px; padding:3px 10px; font-size:10px; font-weight:800; cursor:pointer;">Sıfırla</button>
+                </div>
+
+                <!-- Canvas -->
+                <div style="border: 1px solid #232e3c; border-radius:16px; overflow:hidden; background:#0b0e11; max-width:240px; width:100%; box-shadow:0 8px 32px rgba(0,0,0,0.5);">
+                  <canvas id="menuCanvas" width="576" height="1024" style="width:100%; display:block;"></canvas>
+                </div>
+
+                <!-- Yemekler D-Pad & Punto -->
+                <div style="display:flex; flex-direction:column; align-items:center; background:#0e1621; padding:12px 8px; border-radius:10px; border:1px solid rgba(251,191,36,0.15);">
+                  <span style="color:#fbbf24; font-size:11px; font-weight:800; margin-bottom:8px; letter-spacing:0.5px;">YEMEKLER</span>
+                  <div style="display:flex; flex-direction:column; align-items:center; gap:4px; margin-bottom: 8px;">
+                    <button onclick="window.adjustCanvasY('dishes', -10)" style="width:44px; height:32px; background:linear-gradient(180deg,#3a4f63,#2b3a4a); color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:6px; cursor:pointer; font-size:16px; font-weight:900; box-shadow:0 2px 6px rgba(0,0,0,0.3);">▲</button>
+                    <div id="canvasY_dishes_val" style="color:#10b981; font-size:12px; font-weight:800; min-width:50px; text-align:center; padding:2px 0;">0px</div>
+                    <button onclick="window.adjustCanvasY('dishes', 10)" style="width:44px; height:32px; background:linear-gradient(180deg,#3a4f63,#2b3a4a); color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:6px; cursor:pointer; font-size:16px; font-weight:900; box-shadow:0 2px 6px rgba(0,0,0,0.3);">▼</button>
+                  </div>
+
+                  <!-- Punto Ayarı -->
+                  <div style="border-top: 1px solid #232e3c; padding-top: 8px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                    <span style="color:#708499; font-size:10px; font-weight:800;">PUNTO</span>
+                    <div style="display:flex; gap: 4px;">
+                      <button onclick="window.adjustCanvasFontSize('dishes', -2)" style="width:24px; height:24px; background:#2b3a4a; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">-</button>
+                      <button onclick="window.adjustCanvasFontSize('dishes', 2)" style="width:24px; height:24px; background:#2b3a4a; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">+</button>
+                    </div>
+                  </div>
+
+                  <button onclick="window.resetCanvasY('dishes'); window.resetCanvasFontSize('dishes');" style="margin-top:8px; background:rgba(239,83,80,0.15); color:#ef5350; border:1px solid rgba(239,83,80,0.25); border-radius:5px; padding:3px 10px; font-size:10px; font-weight:800; cursor:pointer;">Sıfırla</button>
+                </div>
+
               </div>
-              <button onclick="downloadMenuImage()" style="background:#10b981; color:#fff; font-weight:800; padding:10px 20px; font-size:13px; border-radius:8px; border:none; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+              <button onclick="downloadMenuImage()" style="background:#10b981; color:#fff; font-weight:800; padding:10px 20px; font-size:13px; border-radius:8px; border:none; cursor:pointer; display:inline-flex; align-items:center; gap:6px; margin-top: 10px;">
                 📥 Görseli İndir
               </button>
             </div>
