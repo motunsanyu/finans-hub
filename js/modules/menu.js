@@ -6,8 +6,8 @@ const MenuModule = (() => {
   let customTemplateSrc = null; // localStorage'da saklanan şablon data-url
   let customCanvasImages = { left: null, right: null };
   // Canvas Y koordinat ofsetleri (D-pad ile ayarlanabilir)
-  let canvasYOffsets = { soups: 0, dishes: 0 };
-  let canvasFontSizes = { soups: 22, dishes: 22 };
+  let canvasYOffsets = { soups: -70, dishes: -60 };
+  let canvasFontSizes = { soups: 28, dishes: 28 };
 
   let restaurantProfile = {
     name: '',
@@ -69,11 +69,11 @@ const MenuModule = (() => {
   function updatePublicUIBranding() {
     const headerTitle = document.querySelector('#publicMenuScreen h1');
     if (headerTitle) {
-      headerTitle.textContent = restaurantProfile.name || 'İŞLETME ADI';
+      headerTitle.innerHTML = `<div style="font-size:42px; line-height:1; margin-bottom:4px;">Ağaçören</div><div style="font-size:26px; font-weight:700; color:#c2410c;">Ev Yemekleri</div>`;
     }
     const headerSub = document.querySelector('#publicMenuScreen p');
     if (headerSub) {
-      headerSub.textContent = 'GÜNÜN MENÜSÜ';
+      headerSub.textContent = 'Günün Menüsü';
     }
 
     // Logo — sadece QR müşteri sayfası
@@ -93,8 +93,9 @@ const MenuModule = (() => {
         <div style="font-size:13px; color:#5c4c38; font-weight:800; display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:10px;">
           📞 ${restaurantProfile.phones.length > 0 ? restaurantProfile.phones.join('  -  ') : 'Telefon Eklenmemiş'}
         </div>
-        <div style="font-size:12px; color:#7f6d53; font-weight:700; display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:16px;">
-          📸 ${restaurantProfile.instagram || '@instagram'}
+        <div style="font-size:15px; color:#c2410c; font-weight:800; display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:16px;">
+          <img src="assets/instagram.png" style="width:24px; height:24px; border-radius:6px; object-fit:contain;">
+          @ağaçörenevyemekleri
         </div>
         <p style="font-size:11px; color:#a19079; margin:0; font-style:italic;">Afiyet Olsun!</p>
       `;
@@ -317,8 +318,8 @@ const MenuModule = (() => {
 
         list.forEach(food => {
           const img = food.image_url
-            ? `<div style="width:56px;height:56px;border-radius:10px;overflow:hidden;border:1.5px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,0.06);flex-shrink:0;"><img src="${food.image_url}" style="width:100%;height:100%;object-fit:cover;"></div>`
-            : `<div style="width:56px;height:56px;border-radius:10px;background:#f0e8db;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🍲</div>`;
+            ? `<div style="width:72px;height:72px;border-radius:10px;overflow:hidden;border:1.5px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,0.06);flex-shrink:0;"><img src="${food.image_url}" style="width:100%;height:100%;object-fit:cover;"></div>`
+            : `<div style="width:72px;height:72px;border-radius:10px;background:#f0e8db;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;">🍲</div>`;
 
           const price = food.price
             ? `<div style="font-weight:800;font-size:15px;color:#c2410c;background:rgba(194,65,12,0.07);padding:4px 10px;border-radius:30px;border:1px solid rgba(194,65,12,0.12);white-space:nowrap;">${food.price} ₺</div>`
@@ -571,8 +572,8 @@ const MenuModule = (() => {
 
     container.innerHTML = masterItems.map(item => {
       const img = item.image_url
-        ? `<img src="${item.image_url}" style="width:40px;height:40px;border-radius:8px;object-fit:cover;">`
-        : `<div style="width:40px;height:40px;border-radius:8px;background:#242f3d;display:flex;align-items:center;justify-content:center;font-size:20px;border:1px dashed rgba(255,255,255,0.08);">🍲</div>`;
+        ? `<img src="${item.image_url}" style="width:56px;height:56px;border-radius:8px;object-fit:cover;">`
+        : `<div style="width:56px;height:56px;border-radius:8px;background:#242f3d;display:flex;align-items:center;justify-content:center;font-size:28px;border:1px dashed rgba(255,255,255,0.08);">🍲</div>`;
 
       const priceTag = item.price
         ? `<span style="color:#fbbf24;font-size:12px;font-weight:800;background:rgba(251,191,36,0.08);padding:2px 6px;border-radius:6px;">${item.price} ₺</span>`
@@ -942,21 +943,21 @@ const MenuModule = (() => {
   };
 
   window.resetCanvasY = function(section) {
-    canvasYOffsets[section] = 0;
+    canvasYOffsets[section] = section === 'soups' ? -70 : -60;
     const el = document.getElementById(`canvasY_${section}_val`);
-    if (el) el.textContent = '0px';
+    if (el) el.textContent = canvasYOffsets[section] + 'px';
     renderShareTab();
   };
 
   window.adjustCanvasFontSize = function(section, delta) {
-    canvasFontSizes[section] = (canvasFontSizes[section] || 26) + delta;
+    canvasFontSizes[section] = (canvasFontSizes[section] || 28) + delta;
     if (canvasFontSizes[section] < 12) canvasFontSizes[section] = 12; // min size
     if (canvasFontSizes[section] > 72) canvasFontSizes[section] = 72; // max size
     renderShareTab();
   };
 
   window.resetCanvasFontSize = function(section) {
-    canvasFontSizes[section] = 22;
+    canvasFontSizes[section] = 28;
     renderShareTab();
   };
 
@@ -994,6 +995,73 @@ const MenuModule = (() => {
     if (window.showToast) window.showToast('Görsel seçildi!', 'success');
   };
 
+
+  let activeCanvasImageSide = 'left';
+
+  window.openCanvasImageModal = function(side) {
+    activeCanvasImageSide = side;
+    const modal = document.getElementById('canvasImageModal');
+    const listContainer = document.getElementById('canvasImageModalList');
+    const uploadBtn = document.getElementById('canvasImageModalUploadBtn');
+    
+    if (!modal || !listContainer) return;
+    
+    uploadBtn.onclick = () => {
+      document.getElementById(side === 'left' ? 'canvasImgLeft' : 'canvasImgRight').click();
+      modal.style.display = 'none';
+    };
+
+    let todayIds = [];
+    if (currentDailyMenu && currentDailyMenu.items) {
+      todayIds = currentDailyMenu.items.map(i => i.id);
+    } else {
+      todayIds = Array.from(selectedFoodIds);
+    }
+    
+    const availableItems = masterItems.filter(i => todayIds.includes(i.id) && i.image_url);
+    const fallbackItems = masterItems.filter(i => i.image_url && !todayIds.includes(i.id));
+    
+    const displayItems = [...availableItems, ...fallbackItems];
+
+    if (displayItems.length === 0) {
+      listContainer.innerHTML = '<div style="color:#708499; text-align:center; padding:20px;">Kayıtlı görseli olan yemek bulunamadı. Lütfen yeni görsel yükleyin.</div>';
+    } else {
+      listContainer.innerHTML = displayItems.map(item => `
+        <div onclick="window.selectCanvasImageFromURL('${item.image_url}')" style="display:flex; align-items:center; gap:12px; padding:10px; border-bottom:1px solid #232e3c; cursor:pointer; border-radius:8px; transition:background 0.2s;" onmouseover="this.style.background='#232e3c'" onmouseout="this.style.background='transparent'">
+          <img src="${item.image_url}" style="width:48px; height:48px; border-radius:8px; object-fit:cover; border:1px solid #374151;">
+          <div style="flex:1;">
+            <div style="color:#fff; font-weight:bold; font-size:14px;">${item.name}</div>
+            <div style="color:#708499; font-size:11px;">${todayIds.includes(item.id) ? '<span style="color:#10b981;">Günün Menüsünde</span>' : 'Kayıtlı Yemek'}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    modal.style.display = 'flex';
+  };
+
+  window.selectCanvasImageFromURL = function(url) {
+    const side = activeCanvasImageSide;
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.onload = () => {
+      customCanvasImages[side] = img;
+      const previewId = side === 'left' ? 'canvasImgLeftPreview' : 'canvasImgRightPreview';
+      const previewEl = document.getElementById(previewId);
+      if (previewEl) {
+        previewEl.src = url;
+        previewEl.style.display = 'block';
+      }
+      const modal = document.getElementById('canvasImageModal');
+      if (modal) modal.style.display = 'none';
+      if (window.showToast) window.showToast('Görsel seçildi!', 'success');
+      renderShareTab();
+    };
+    img.onerror = () => {
+      if (window.showToast) window.showToast('Görsel yüklenemedi!', 'error');
+    };
+    img.src = url;
+  };
 
   window.handleCanvasImg = function(input, side) {
     const file = input.files[0];
