@@ -77,51 +77,69 @@ function renderAdminUsers(users) {
     const email = u.email || 'E-posta yok';
     const initial = name.charAt(0).toUpperCase();
     
+    // Son görülme tarihi formatlama
+    const dateStr = u.updated_at 
+      ? new Date(u.updated_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) 
+      : 'Belirsiz';
+
     // Avatar
     const avatarHtml = u.avatar_url 
       ? `<img src="${u.avatar_url}" style="width:100%;height:100%;object-fit:cover;">` 
       : `<span style="font-weight:700; color:#fff;">${initial}</span>`;
 
     // Status Badges
-    const adminBadge = u.is_admin ? `<span style="background:#fbbf24; color:#000; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:800; margin-left:8px;">YÖNETİCİ</span>` : '';
-    const bannedBadge = u.is_banned ? `<span style="background:#ef5350; color:#fff; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:800; margin-left:8px;">ENGELLİ</span>` : '';
-    const menuEditorBadge = u.is_menu_editor ? `<span style="background:#10b981; color:#fff; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:800; margin-left:8px;">MENÜ EDİTÖRÜ</span>` : '';
+    const adminBadge = u.is_admin ? `<span style="background:#fbbf24; color:#000; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:800;">YÖNETİCİ</span>` : '';
+    const bannedBadge = u.is_banned ? `<span style="background:#ef5350; color:#fff; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:800;">ENGELLİ</span>` : '';
+    const menuEditorBadge = u.is_menu_editor ? `<span style="background:#10b981; color:#fff; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:800;">MENÜ EDİTÖRÜ</span>` : '';
 
     // Action Buttons
     let actions = '';
     if (!isMe) {
       // Menü yetkisi butonu
       if (u.is_menu_editor) {
-        actions += `<button onclick="toggleMenuEditorPermission('${u.id}', true)" style="background:rgba(16, 185, 129, 0.1); border:1px solid rgba(16, 185, 129, 0.3); color:#10b981; padding:8px 12px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;">Yetki Al</button>`;
+        actions += `<button onclick="event.stopPropagation(); toggleMenuEditorPermission('${u.id}', true)" style="flex:1; background:rgba(16, 185, 129, 0.1); border:1px solid rgba(16, 185, 129, 0.3); color:#10b981; padding:10px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Yetki Al</button>`;
       } else {
-        actions += `<button onclick="toggleMenuEditorPermission('${u.id}', false)" style="background:rgba(255, 255, 255, 0.05); border:1px solid rgba(255, 255, 255, 0.1); color:#fff; padding:8px 12px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;">Yetki Ver</button>`;
+        actions += `<button onclick="event.stopPropagation(); toggleMenuEditorPermission('${u.id}', false)" style="flex:1; background:rgba(255, 255, 255, 0.05); border:1px solid rgba(255, 255, 255, 0.1); color:#fff; padding:10px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Yetki Ver</button>`;
       }
       
       if (u.is_banned) {
-        actions += `<button onclick="toggleUserBan('${u.id}', false)" style="background:#2b5278; border:none; color:#fff; padding:8px 12px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;">Kaldır</button>`;
+        actions += `<button onclick="event.stopPropagation(); toggleUserBan('${u.id}', false)" style="flex:1; background:#2b5278; border:none; color:#fff; padding:10px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Engeli Kaldır</button>`;
       } else {
-        actions += `<button onclick="toggleUserBan('${u.id}', true)" style="background:rgba(239, 83, 80, 0.1); border:1px solid rgba(239, 83, 80, 0.3); color:#ef5350; padding:8px 12px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;">Engelle</button>`;
+        actions += `<button onclick="event.stopPropagation(); toggleUserBan('${u.id}', true)" style="flex:1; background:rgba(239, 83, 80, 0.1); border:1px solid rgba(239, 83, 80, 0.3); color:#ef5350; padding:10px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Engelle</button>`;
       }
-      actions += `<button onclick="deleteUserProfile('${u.id}')" style="background:#ef5350; border:none; color:#fff; padding:8px 12px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;">Sil</button>`;
+      actions += `<button onclick="event.stopPropagation(); deleteUserProfile('${u.id}')" style="flex:1; background:#ef5350; border:none; color:#fff; padding:10px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Kullanıcıyı Sil</button>`;
     } else {
-      actions += `<span style="font-size:12px; color:#708499; font-weight:600; padding-right:8px;">Siz</span>`;
+      actions += `<span style="font-size:13px; color:#708499; font-weight:800; width:100%; text-align:center; padding:8px 0;">✨ Kendi Hesabınız (Yönetici)</span>`;
     }
 
     return `
-      <div style="background:#17212b; border-radius:16px; padding:16px; display:flex; align-items:center; gap:16px; border:1px solid #232e3c; transition:transform 0.2s;">
-        <div style="width:48px; height:48px; border-radius:50%; background:#2b5278; display:flex; align-items:center; justify-content:center; overflow:hidden; flex-shrink:0;">
-          ${avatarHtml}
-        </div>
-        <div style="flex:1; min-width:0;">
-          <div style="display:flex; align-items:center; gap:4px;">
-            <div style="color:#fff; font-weight:800; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${name}</div>
-            ${adminBadge}
-            ${bannedBadge}
+      <div style="background:#17212b; border-radius:16px; border:1px solid #232e3c; overflow:hidden; transition:all 0.2s;">
+        <!-- Tıklanabilir Üst Bilgi Kartı -->
+        <div onclick="const panel=document.getElementById('actionsPanel-${u.id}'); const chevron=document.getElementById('chevron-${u.id}'); if(panel.style.display==='none'){ panel.style.display='flex'; chevron.textContent='🔼'; } else { panel.style.display='none'; chevron.textContent='🔽'; }" 
+          style="padding:16px; display:flex; align-items:center; gap:14px; cursor:pointer; user-select:none;"
+          onmouseover="this.style.background='rgba(255,255,255,0.01)'"
+          onmouseout="this.style.background='transparent'">
+          
+          <div style="width:48px; height:48px; border-radius:50%; background:#2b5278; display:flex; align-items:center; justify-content:center; overflow:hidden; flex-shrink:0; border:1.5px solid #232e3c;">
+            ${avatarHtml}
           </div>
-          <div style="color:#708499; font-size:12px; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">@${u.username || 'anonim'}</div>
-          <div style="color:#8b9eb3; font-size:11px; margin-top:4px;">${email}</div>
+          
+          <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:3px;">
+            <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+              <span style="color:#fff; font-weight:800; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${name}</span>
+              ${adminBadge}
+              ${menuEditorBadge}
+              ${bannedBadge}
+            </div>
+            <div style="color:#708499; font-size:12px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${email}</div>
+            <div style="color:#8b9eb3; font-size:11px; font-weight:600;">Son Görülme: ${dateStr}</div>
+          </div>
+          
+          <div id="chevron-${u.id}" style="color:#708499; font-size:16px; font-weight:bold; padding:4px; flex-shrink:0;">🔽</div>
         </div>
-        <div style="display:flex; gap:8px; flex-shrink:0; align-items:center;">
+
+        <!-- Açılır İşlem Bölümü -->
+        <div id="actionsPanel-${u.id}" style="display:none; background:#0e1621; border-top:1px solid #232e3c; padding:14px; gap:8px; flex-direction:row; flex-wrap:wrap; justify-content:space-between; align-items:center;">
           ${actions}
         </div>
       </div>

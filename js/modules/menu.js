@@ -13,6 +13,47 @@ const MenuModule = (() => {
     }
   }
 
+  // Client-side image compression helper (Canvas-based)
+  function compressImageHelper(file, maxWidth = 800, maxHeight = 800) {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+          } else {
+            if (height > maxHeight) {
+              width = Math.round((width * maxHeight) / height);
+              height = maxHeight;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          canvas.toBlob((blob) => {
+            resolve(new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".jpg", {
+              type: 'image/jpeg',
+              lastModified: Date.now()
+            }));
+          }, 'image/jpeg', 0.75); // 75% quality compressed JPG
+        };
+      };
+    });
+  }
+
   // ==========================================
   // CUSTOMER VIEW (ŞİFRESİZ KAMU GÖRÜNÜMÜ)
   // ==========================================
@@ -26,7 +67,7 @@ const MenuModule = (() => {
     if (listContainer) {
       listContainer.innerHTML = `
         <div style="text-align:center; padding:60px 0; color: #7f6d53;">
-          <div style="font-size:32px; margin-bottom:12px; class="anim-pulse">🍲</div>
+          <div style="font-size:32px; margin-bottom:12px;" class="anim-pulse">🍲</div>
           <div style="font-weight:700; font-size:16px;">Bugünün Lezzetleri Hazırlanıyor...</div>
         </div>
       `;
@@ -142,7 +183,7 @@ const MenuModule = (() => {
   }
 
   // ==========================================
-  // MANAGEMENT MODAL (ADMIN & EDITOR)
+  // MANAGEMENT PANEL (FULL SCREEN)
   // ==========================================
   async function openEditorModal() {
     const modal = document.getElementById('dailyMenuModal');
@@ -166,6 +207,11 @@ const MenuModule = (() => {
     if (isOpen) {
       modal.style.display = 'none';
       document.body.style.overflow = '';
+      
+      // Reset editing states
+      window.editingFoodItemId = null;
+      const submitBtn = document.querySelector('#tabContent-adder form button[type="submit"]');
+      if (submitBtn) submitBtn.textContent = '➕ Yemek Listesine Ekle';
     } else {
       openEditorModal();
     }
@@ -205,7 +251,7 @@ const MenuModule = (() => {
     }
   }
 
-  // Master yemek ekle
+  // Master yemek ekle veya güncelle
   async function addMasterItem(e) {
     e.preventDefault();
     const sb = window._supabaseClient;
@@ -213,10 +259,12 @@ const MenuModule = (() => {
     const nameInput = document.getElementById('newFoodName');
     const catSelect = document.getElementById('newFoodCategory');
     const fileInput = document.getElementById('newFoodImage');
+    const fileLabel = document.getElementById('file-upload-name');
     
     const name = nameInput?.value?.trim();
     const category = catSelect?.value;
     const file = fileInput?.files[0];
+    const editingId = window.editingFoodItemId;
 
     if (!name || !category) {
       if (window.showToast) window.showToast('Lütfen yemek adını ve kategoriyi girin.', 'error');
@@ -228,36 +276,85 @@ const MenuModule = (() => {
       
       let imageUrl = null;
       if (file) {
-        const fileExt = file.name.split('.').pop();
+        // Otomatik sıkıştırma / boyutlandırma
+        const compressedFile = await compressImageHelper(file);
+        
+        const fileExt = compressedFile.name.split('.').pop();
         const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-        const { error: uploadError } = await sb.storage.from('menu-items').upload(fileName, file);
+        const { error: uploadError } = await sb.storage.from('menu-items').upload(fileName, compressedFile);
         if (uploadError) throw uploadError;
         
         const { data: urlData } = sb.storage.from('menu-items').getPublicUrl(fileName);
         imageUrl = urlData.publicUrl;
       }
 
-      const { error } = await sb.from('menu_items').insert({
-        name,
-        category,
-        image_url: imageUrl
-      });
+      if (editingId) {
+        // UPDATE MODE
+        const payload = { name, category };
+        if (imageUrl) {
+          payload.image_url = imageUrl;
+        }
 
-      if (error) throw error;
+        const { error } = await sb
+          .from('menu_items')
+          .update(payload)
+          .eq('id', editingId);
 
-      if (window.showToast) window.showToast('Yemek başarıyla eklendi!', 'success');
+        if (error) throw error;
+        if (window.showToast) window.showToast('Yemek başarıyla güncellendi!', 'success');
+
+        // Reset editing state
+        window.editingFoodItemId = null;
+        const submitBtn = document.querySelector('#tabContent-adder form button[type="submit"]');
+        if (submitBtn) submitBtn.textContent = '➕ Yemek Listesine Ekle';
+      } else {
+        // INSERT MODE
+        const { error } = await sb.from('menu_items').insert({
+          name,
+          category,
+          image_url: imageUrl
+        });
+
+        if (error) throw error;
+        if (window.showToast) window.showToast('Yemek başarıyla eklendi!', 'success');
+      }
       
       // Reset form
       nameInput.value = '';
       fileInput.value = '';
+      if (fileLabel) fileLabel.textContent = 'Görsel Yüklemek İçin Tıklayın';
       
       loadMasterItems();
+      switchTab('list'); // Yemek listesine dön
     } catch (e) {
       console.error(e);
-      if (window.showToast) window.showToast('Yemek eklenirken hata oluştu.', 'error');
+      if (window.showToast) window.showToast('İşlem sırasında hata oluştu.', 'error');
     }
   }
   window.addMasterFoodItem = addMasterItem;
+
+  // Master yemek düzenle (Prefill and switch tab)
+  window.editMasterFoodItem = function(id) {
+    const item = masterItems.find(i => i.id === id);
+    if (!item) return;
+
+    window.editingFoodItemId = id;
+    
+    const nameInput = document.getElementById('newFoodName');
+    const catSelect = document.getElementById('newFoodCategory');
+    const fileLabel = document.getElementById('file-upload-name');
+    
+    if (nameInput) nameInput.value = item.name;
+    if (catSelect) catSelect.value = item.category;
+    if (fileLabel) {
+      fileLabel.textContent = item.image_url ? 'Mevcut Görsel Korunuyor' : 'Görsel Yüklemek İçin Tıklayın';
+    }
+
+    const submitBtn = document.querySelector('#tabContent-adder form button[type="submit"]');
+    if (submitBtn) submitBtn.textContent = '✏️ Yemeği Güncelle';
+
+    switchTab('adder');
+  };
 
   // Master yemek sil
   async function deleteMasterItem(id) {
@@ -303,13 +400,18 @@ const MenuModule = (() => {
         : `<div style="width:40px; height:40px; border-radius:8px; background:#242f3d; display:flex; align-items:center; justify-content:center; font-size:20px; border:1px dashed rgba(255,255,255,0.1)">🍲</div>`;
       
       return `
-        <div style="background:#17212b; border:1px solid #232e3c; border-radius:12px; padding:12px; display:flex; align-items:center; gap:12px;">
-          ${img}
-          <div style="flex:1; min-width:0;">
-            <div style="font-weight:700; color:#fff; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.name}</div>
-            <div style="color:#708499; font-size:11px; margin-top:2px;">${item.category}</div>
+        <div style="background:#17212b; border:1px solid #232e3c; border-radius:12px; padding:12px; display:flex; align-items:center; justify-content:space-between; gap:12px;">
+          <div style="display:flex; align-items:center; gap:12px; min-width:0; flex:1;">
+            ${img}
+            <div style="flex:1; min-width:0;">
+              <div style="font-weight:700; color:#fff; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.name}</div>
+              <div style="color:#708499; font-size:11px; margin-top:2px;">${item.category}</div>
+            </div>
           </div>
-          <button onclick="deleteMasterFoodItem(${item.id})" style="background:none; border:none; color:#ef5350; font-size:18px; cursor:pointer; padding:6px; transition:transform 0.1s;">✕</button>
+          <div style="display:flex; gap:8px; flex-shrink:0;">
+            <button onclick="editMasterFoodItem(${item.id})" style="background:none; border:none; color:#fbbf24; font-size:15px; cursor:pointer; padding:6px; transition:transform 0.1s;" title="Düzenle">✏️</button>
+            <button onclick="deleteMasterFoodItem(${item.id})" style="background:none; border:none; color:#ef5350; font-size:18px; cursor:pointer; padding:6px; transition:transform 0.1s;" title="Sil">✕</button>
+          </div>
         </div>
       `;
     }).join('');
@@ -358,7 +460,7 @@ const MenuModule = (() => {
               <span style="color:#fff; font-weight:600; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.name}</span>
             </label>
             <div style="display:flex; align-items:center; gap:8px;">
-              <input type="text" placeholder="Fiyat (TL)" class="menu-builder-price" data-id="${item.id}" value="${priceVal}" style="width:80px; padding:6px 10px; border-radius:6px; background:#0e1621; border:1px solid #232e3c; color:#fff; font-size:13px; text-align:right; font-weight:700;">
+              <input type="text" placeholder="Fiyat" class="menu-builder-price" data-id="${item.id}" value="${priceVal}" style="width:80px; padding:6px 10px; border-radius:6px; background:#0e1621; border:1px solid #232e3c; color:#fff; font-size:13px; text-align:right; font-weight:700;">
               <span style="color:#708499; font-weight:700; font-size:13px;">₺</span>
             </div>
           </div>
@@ -464,7 +566,7 @@ const MenuModule = (() => {
     qrContainer.innerHTML = `
       <div style="display:flex; flex-direction:column; align-items:center; gap:12px;">
         <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(publicUrl)}" style="border-radius:16px; border: 4px solid white; box-shadow: 0 4px 20px rgba(0,0,0,0.4); max-width:200px; width:100%; display:block;">
-        <a href="https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=${encodeURIComponent(publicUrl)}" download="menü-qr-kodu.png" target="_blank" class="btn primary" style="padding: 8px 16px; font-size:12px; font-weight:800; border-radius:8px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+        <a href="https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=${encodeURIComponent(publicUrl)}" download="menü-qr-kodu.png" target="_blank" class="btn primary" style="padding: 8px 16px; font-size:12px; font-weight:800; border-radius:8px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; background:#10b981; color:#fff;">
           📥 QR Kodu İndir (Büyük)
         </a>
       </div>
@@ -491,9 +593,9 @@ const MenuModule = (() => {
         bgImg.onerror = reject;
       });
 
-      // Canvas boyutunu görselin orijinal boyutlarına eşitle (1080x1920)
-      canvas.width = bgImg.naturalWidth || 1080;
-      canvas.height = bgImg.naturalHeight || 1920;
+      // Canvas boyutunu boş şablonun tam boyutuna ayarla (576x1024)
+      canvas.width = bgImg.naturalWidth || 576;
+      canvas.height = bgImg.naturalHeight || 1024;
 
       // Arka planı çiz
       ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
@@ -509,57 +611,55 @@ const MenuModule = (() => {
 
       if (!data || !data.items || data.items.length === 0) {
         ctx.fillStyle = '#ff6b6b';
-        ctx.font = 'bold 36px sans-serif';
-        ctx.fillText('BUGÜN İÇİN HENÜZ MENÜ KAYDEDİLMEMİŞ', canvas.width / 2, 700);
+        ctx.font = 'bold 20px sans-serif';
+        ctx.fillText('HENÜZ GÜNLÜK MENÜ KAYDEDİLMEMİŞ', canvas.width / 2, 380);
         ctx.fillStyle = '#888';
-        ctx.font = '28px sans-serif';
-        ctx.fillText('Lütfen "Günlük Menü Oluştur" sekmesinden yemek seçip kaydedin.', canvas.width / 2, 760);
+        ctx.font = '14px sans-serif';
+        ctx.fillText('Lütfen "Günlük Menü" sekmesinden yemek seçip kaydedin.', canvas.width / 2, 420);
         return;
       }
 
       // Kategorilerine göre ayır
       const soups = data.items.filter(i => i.category === 'Çorbalar');
-      const dishes = data.items.filter(i => i.category === 'Yemekler' || i.category === 'Salatalar' || i.category === 'Tatlılar');
+      const dishes = data.items.filter(i => i.category === 'Yemekler' || i.category === 'Salatalar' || i.category === 'Tatlılar' || i.category === 'İçecekler');
 
-      // 2. ÇORBALARI YAZDIR (Çorbalar başlığının altına)
-      // Çorbalar başlığı şablonda ortalama Y=540'dadır. Yazmaya Y=595'den başlayacağız.
+      // 2. ÇORBALARI YAZDIR (Tam Notepad Çorbalar başlığı altına)
       ctx.textAlign = 'center';
-      ctx.fillStyle = '#1e2329'; // Şık koyu füme/antrasit renk tonu
+      ctx.fillStyle = '#1e2329'; // Şık antrasit renk tonu
+      ctx.textBaseline = 'middle';
 
-      let soupY = 595;
+      let soupY = 320; // 576x1024 çözünürlük için mükemmel hizalanmış başlangıç Y koordinatı
       soups.forEach(soup => {
-        ctx.font = "bold 34px sans-serif";
+        ctx.font = "bold 20px sans-serif";
         ctx.fillText(soup.name, canvas.width / 2, soupY);
-        soupY += 50; // satır aralığı
+        soupY += 30; // 576x1024 boyutuna uygun dar satır aralığı
       });
 
-      // 3. YEMEKLERİ YAZDIR (Yemekler başlığının altına)
-      // Yemekler başlığı şablonda ortalama Y=790'dadır. Yazmaya Y=850'den başlayacağız.
-      let dishY = 850;
+      // 3. YEMEKLERİ YAZDIR (Tam Yemekler başlığı altına)
+      let dishY = 465; // 576x1024 çözünürlük için mükemmel hizalanmış başlangıç Y koordinatı
       dishes.forEach(dish => {
-        ctx.font = "bold 34px sans-serif";
+        ctx.font = "bold 20px sans-serif";
         ctx.fillText(dish.name, canvas.width / 2, dishY);
-        dishY += 50; // satır aralığı
+        dishY += 30; // 576x1024 boyutuna uygun dar satır aralığı
       });
 
-      // 4. FOTOĞRAFLARI YERLEŞTİR (En alt sol ve en alt sağ kutular)
-      // Görselde image_url olan ilk iki yemeği al
+      // 4. FOTOĞRAFLARI YERLEŞTİR (Sadece resim yüklenmiş yemekleri alt kutulara sığdır)
       const photosToDraw = data.items.filter(i => i.image_url).slice(0, 2);
       
-      // Pozisyonlar (filled_template referansı ile tam uyumlu):
-      // Sol Pozisyon: X=35, Y=1455, Genişlik=475, Yükseklik=340, Radius=36
-      // Sağ Pozisyon: X=570, Y=1455, Genişlik=475, Yükseklik=340, Radius=36
+      // Pozisyonlar (576x1024 blank şablon için tam oranlanmış kutular):
+      // Sol Pozisyon: X=18, Y=776, Genişlik=253, Yükseklik=181, Radius=19
+      // Sağ Pozisyon: X=304, Y=776, Genişlik=253, Yükseklik=181, Radius=19
       if (photosToDraw[0]) {
-        await drawRoundedImageHelper(ctx, photosToDraw[0].image_url, 35, 1455, 475, 340, 36);
+        await drawRoundedImageHelper(ctx, photosToDraw[0].image_url, 18, 776, 253, 181, 19);
       }
       if (photosToDraw[1]) {
-        await drawRoundedImageHelper(ctx, photosToDraw[1].image_url, 570, 1455, 475, 340, 36);
+        await drawRoundedImageHelper(ctx, photosToDraw[1].image_url, 304, 776, 253, 181, 19);
       }
 
     } catch (e) {
       console.error("Canvas çizim hatası:", e);
       ctx.fillStyle = '#ef5350';
-      ctx.font = '24px sans-serif';
+      ctx.font = '16px sans-serif';
       ctx.fillText('Canvas yüklenirken bir hata oluştu: ' + e.message, canvas.width / 2, canvas.height / 2 + 100);
     }
   }

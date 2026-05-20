@@ -611,8 +611,11 @@
         </a>
         <a href="#" id="dailyMenuBtn" onclick="window.toggleDailyMenuModal(); return false;"
           style="display:none; align-items:center; gap:16px; padding:16px; border-radius:12px; color:#10b981; text-decoration:none; font-weight:700; background:rgba(16, 185, 129, 0.05); border:1px solid rgba(16, 185, 129, 0.1);">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;">
-            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
+            <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path>
+            <path d="M7 2v20"></path>
+            <path d="M21 15V2v0a5 5 0 0 0-5 5v8c0 1.1.9 2 2 2h3Z"></path>
+            <path d="M18 22v-3"></path>
           </svg>
           Günlük Menü
         </a>
@@ -2471,10 +2474,10 @@
   </div>
 
   <!-- GÜNLÜK MENÜ EDİTÖR MODALI -->
-  <div id="dailyMenuModal" class="modal-overlay"
-    style="display:none; justify-content:center; align-items:center; z-index:100000; padding:20px;">
+  <div id="dailyMenuModal"
+    style="display:none; position:fixed; inset:0; z-index:100000; background:#0e1621; overflow-y:auto; flex-direction:column; box-sizing:border-box;">
     <div class="modal-content"
-      style="max-width:600px; width:100%; max-height:90vh; background:#0e1621; padding:0; overflow:hidden; display:flex; flex-direction:column; border-radius:20px; border:1px solid #232e3c; box-shadow:0 12px 48px rgba(0,0,0,0.5);">
+      style="width:100%; min-height:100vh; background:#0e1621; padding:0; display:flex; flex-direction:column; border:none; box-shadow:none; border-radius:0;">
 
       <!-- Başlık Bölümü -->
       <div
