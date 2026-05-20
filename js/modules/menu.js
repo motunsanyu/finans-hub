@@ -5,6 +5,8 @@ const MenuModule = (() => {
   let currentDailyMenu = null;
   let customTemplateSrc = null; // localStorage'da saklanan şablon data-url
   let customCanvasImages = { left: null, right: null };
+  // Canvas Y koordinat ofsetleri (D-pad ile ayarlanabilir)
+  let canvasYOffsets = { soups: 0, dishes: 0 };
 
   let restaurantProfile = {
     name: '',
@@ -64,16 +66,13 @@ const MenuModule = (() => {
   }
 
   function updatePublicUIBranding() {
-    // QR Kamu Görünümü Başlığı
     const headerTitle = document.querySelector('#publicMenuScreen h1');
     if (headerTitle) {
-      headerTitle.textContent = restaurantProfile.name ? restaurantProfile.name.split(' ')[0] : 'İŞLETME ADI';
+      headerTitle.textContent = restaurantProfile.name || 'İŞLETME ADI';
     }
     const headerSub = document.querySelector('#publicMenuScreen p');
     if (headerSub) {
-      headerSub.textContent = (restaurantProfile.name && restaurantProfile.name.includes(' '))
-        ? restaurantProfile.name.substring(restaurantProfile.name.indexOf(' ') + 1) + ' • GÜNÜN MENÜSÜ'
-        : 'Günün Menüsü';
+      headerSub.textContent = 'GÜNÜN MENÜSÜ';
     }
 
     // Logo — sadece QR müşteri sayfası
@@ -225,7 +224,7 @@ const MenuModule = (() => {
     customTemplateSrc = null;
     localStorage.removeItem('menu_custom_template');
     const statusEl = document.getElementById('templateUploadStatus');
-    if (statusEl) statusEl.textContent = 'Varsayılan şablon: menu_template.jpg';
+    if (statusEl) statusEl.textContent = 'Varsayılan şablon: menu_template_2.jpg';
     if (window.showToast) window.showToast('Şablon sıfırlandı.', 'success');
     renderShareTab();
   };
@@ -310,7 +309,7 @@ const MenuModule = (() => {
         html += `<div style="margin-bottom:28px;">
           <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px;">
             <div style="height:1px;flex:1;background:linear-gradient(90deg,transparent,rgba(92,76,56,0.2),transparent);"></div>
-            <h3 style="font-family:'Space Grotesk','Playfair Display',serif;font-size:20px;font-weight:800;color:#5c4c38;letter-spacing:1px;text-transform:uppercase;">${cat}</h3>
+            <h3 style="font-family:'Space Grotesk','Playfair Display',serif;font-size:20px;font-weight:800;color:#5c4c38;letter-spacing:1px;text-transform:uppercase;">${catName}</h3>
             <div style="height:1px;flex:1;background:linear-gradient(90deg,transparent,rgba(92,76,56,0.2),transparent);"></div>
           </div>
           <div style="display:flex;flex-direction:column;gap:12px;">`;
@@ -328,7 +327,7 @@ const MenuModule = (() => {
             ${img}
             <div style="flex:1;min-width:0;">
               <h4 style="font-weight:700;font-size:15px;color:#2e251a;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${food.name}</h4>
-              <p style="font-size:11px;color:#7f6d53;margin:2px 0 0;text-transform:uppercase;font-weight:600;letter-spacing:0.5px;">${cat}</p>
+              <p style="font-size:11px;color:#7f6d53;margin:2px 0 0;text-transform:uppercase;font-weight:600;letter-spacing:0.5px;">${catName}</p>
             </div>
             ${price}
           </div>`;
@@ -722,7 +721,10 @@ const MenuModule = (() => {
       if (error) throw error;
 
       if (window.showToast) window.showToast('Menü kaydedildi!', 'success');
-      loadDailyMenuForDate(dateStr);
+      // Seçimleri otomatik temizle
+      selectedFoodIds.clear();
+      currentDailyMenu = { menu_date: dateStr, items };
+      renderBuilderItemsList();
     } catch (err) {
       console.error(err);
       if (window.showToast) window.showToast('Kayıt hatası: ' + err.message, 'error');
@@ -788,7 +790,7 @@ const MenuModule = (() => {
       if (customTemplateSrc) {
         bgImg.src = customTemplateSrc;
       } else {
-        bgImg.src = 'assets/menu_template.jpg?' + Date.now();
+        bgImg.src = 'assets/menu_template_2.jpg?' + Date.now();
       }
 
       await new Promise((res, rej) => {
@@ -865,13 +867,16 @@ const MenuModule = (() => {
       // Pilavlar yemeklerin hemen sonuna yazılır
       const dishes = [...meals, ...pilavs];
 
-      // ── Yeni Ağaçören şablonuna göre koordinatlar ──
+      // ── Ağaçören şablonuna göre koordinatlar (D-pad ile ayarlanabilir) ──
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
-      // Çorbalar
-      let yPos = 380;
+      const baseSoupsY = 380 + canvasYOffsets.soups;
+      const baseDishesY = 520 + canvasYOffsets.dishes;
       const lineH = 34;
+
+      // Çorbalar
+      let yPos = baseSoupsY;
       soups.forEach(item => {
         ctx.fillStyle = '#2e1b0e';
         ctx.font = `bold ${Math.min(22, 600 / item.name.length * 2.2)}px 'Georgia', serif`;
@@ -880,7 +885,7 @@ const MenuModule = (() => {
       });
 
       // Yemekler ve Pilavlar
-      yPos = Math.max(yPos + 10, 520); // Yemekler kısmının başlangıcını biraz yukarı çektik ki üst üste binmesin
+      yPos = Math.max(yPos + 10, baseDishesY);
       dishes.forEach(item => {
         ctx.fillStyle = '#2e1b0e';
         ctx.font = `bold ${Math.min(22, 600 / item.name.length * 2.2)}px 'Georgia', serif`;
@@ -898,6 +903,22 @@ const MenuModule = (() => {
   }
 
   window.redrawCanvasWithCustomSelections = () => renderShareTab();
+
+  // D-pad Y offset kontrolleri
+  window.adjustCanvasY = function(section, delta) {
+    canvasYOffsets[section] = (canvasYOffsets[section] || 0) + delta;
+    // Gösterge güncelle
+    const el = document.getElementById(`canvasY_${section}_val`);
+    if (el) el.textContent = (canvasYOffsets[section] > 0 ? '+' : '') + canvasYOffsets[section] + 'px';
+    renderShareTab();
+  };
+
+  window.resetCanvasY = function(section) {
+    canvasYOffsets[section] = 0;
+    const el = document.getElementById(`canvasY_${section}_val`);
+    if (el) el.textContent = '0px';
+    renderShareTab();
+  };
 
   function downloadMenuImage() {
     const canvas = document.getElementById('menuCanvas');

@@ -72,11 +72,7 @@ async function initializeSystem() {
   fetchLastCommit();
 
   // 🔄 Finans verilerini 30 saniyede bir otomatik yenile
-  setInterval(() => {
-    console.log("🔄 Finans verileri 30 saniyede bir yenileniyor...");
-    refreshFinanceData();
-    
-    // Heartbeat: Kullanıcı aktifse veritabanındaki son görülme saatini güncelle
+  window.updateLastSeen = function() {
     if (window._supabaseClient) {
       window._supabaseClient.auth.getUser().then(({ data: { user } }) => {
         if (user) {
@@ -84,6 +80,15 @@ async function initializeSystem() {
         }
       });
     }
+  };
+
+  // Uygulama başlarken hemen son görülmeyi güncelle
+  window.updateLastSeen();
+
+  setInterval(() => {
+    console.log("🔄 Finans verileri 30 saniyede bir yenileniyor...");
+    refreshFinanceData();
+    window.updateLastSeen();
   }, 30000);
 
   // 🛡️ Yasal uyarıyı ilk kez göster (LocalStorage kontrolü)
