@@ -76,11 +76,18 @@ function renderAdminUsers(users) {
     const name = u.display_name || u.username || 'İsimsiz';
     const email = u.email || 'E-posta yok';
     const initial = name.charAt(0).toUpperCase();
-    
     // Son görülme tarihi formatlama
-    const dateStr = u.updated_at 
-      ? new Date(u.updated_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) 
-      : 'Belirsiz';
+    let dateStr = 'Belirsiz';
+    if (u.last_seen) {
+      const diffSec = Math.floor((new Date() - new Date(u.last_seen)) / 1000);
+      if (diffSec < 90) {
+        dateStr = '<span style="color:#4ade80;">Çevrimiçi</span>';
+      } else if (diffSec < 3600) {
+        dateStr = `${Math.floor(diffSec / 60)} dk önce`;
+      } else {
+        dateStr = new Date(u.last_seen).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+      }
+    }
 
     // Avatar
     const avatarHtml = u.avatar_url 

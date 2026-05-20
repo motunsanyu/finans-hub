@@ -827,12 +827,6 @@ const MenuModule = (() => {
         ctx.fillStyle = '#2e1b0e';
         ctx.font = `bold ${Math.min(22, 600 / item.name.length * 2.2)}px 'Georgia', serif`;
         ctx.fillText(item.name, canvas.width / 2, yPos);
-        if (item.price) {
-          ctx.fillStyle = '#c2410c';
-          ctx.font = 'bold 16px sans-serif';
-          ctx.fillText(`${item.price} ₺`, canvas.width / 2, yPos + lineH - 8);
-          yPos += lineH + 8;
-        }
         yPos += lineH;
       });
 
@@ -842,12 +836,6 @@ const MenuModule = (() => {
         ctx.fillStyle = '#2e1b0e';
         ctx.font = `bold ${Math.min(22, 600 / item.name.length * 2.2)}px 'Georgia', serif`;
         ctx.fillText(item.name, canvas.width / 2, yPos);
-        if (item.price) {
-          ctx.fillStyle = '#c2410c';
-          ctx.font = 'bold 16px sans-serif';
-          ctx.fillText(`${item.price} ₺`, canvas.width / 2, yPos + lineH - 8);
-          yPos += lineH + 8;
-        }
         yPos += lineH;
       });
 
