@@ -6,6 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Finans Hub</title>
 
+  <!-- Giriş ekranı sıçramalarını engelleyen menü bypass scripti -->
+  <script>
+    if (window.location.search.includes('menu=true') || window.location.hash.includes('menu')) {
+      document.documentElement.classList.add('menu-bypass-mode');
+      window.isPublicMenuMode = true;
+    }
+  </script>
+  <style>
+    .menu-bypass-mode #authScreen,
+    .menu-bypass-mode #pinScreen,
+    .menu-bypass-mode #splashLayer,
+    .menu-bypass-mode .app-shell,
+    .menu-bypass-mode #dailyMenuModal {
+      display: none !important;
+    }
+  </style>
+
   <!-- Supabase JS Client -->
 
   <!-- Yeni Auth Modülü (en üstte olmalı) -->
@@ -2529,7 +2546,8 @@
           border-color: #10b981;
         }
       </style>
-      <div style="display:flex; background:#17212b; border-bottom:1px solid #232e3c;">
+      <div style="display:flex; background:#17212b; border-bottom:1px solid #232e3c; overflow-x:auto; -webkit-overflow-scrolling:touch;">
+        <button class="menu-tab-btn" data-tab="profile" onclick="switchMenuTab('profile')">🏢 Profil</button>
         <button class="menu-tab-btn active" data-tab="builder" onclick="switchMenuTab('builder')">📅 Günlük Menü</button>
         <button class="menu-tab-btn" data-tab="adder" onclick="switchMenuTab('adder')">🍱 Yemek Ekle</button>
         <button class="menu-tab-btn" data-tab="list" onclick="switchMenuTab('list')">📋 Yemek Listesi</button>
@@ -2539,6 +2557,43 @@
       <!-- Sekme İçerikleri -->
       <div style="flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:16px;">
         
+        <!-- Tab 0: Profil Ayarları -->
+        <div id="tabContent-profile" class="menu-tab-content" style="display:none;">
+          <form id="restaurantProfileForm" onsubmit="window.saveRestaurantProfile(event)" style="display:flex; flex-direction:column; gap:16px;">
+            <div>
+              <label style="color:#708499; font-size:12px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:8px;">İşletme Adı</label>
+              <input type="text" id="profileRestName" class="menu-input-field" placeholder="Örn: AĞAÇÖREN EV YEMEKLERİ" required>
+            </div>
+            
+            <div>
+              <label style="color:#708499; font-size:12px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:8px;">İşletme Logosu (Canvas ve QR Sayfası Üstü)</label>
+              <input type="file" id="profileLogoFile" accept="image/*" style="display:none;" onchange="document.getElementById('logo-upload-name').textContent = this.files[0]?.name || 'Dosya seçilmedi'">
+              <div onclick="document.getElementById('profileLogoFile').click()" style="width:100%; border:2px dashed #232e3c; border-radius:10px; padding:20px; text-align:center; color:#708499; cursor:pointer; background:rgba(255,255,255,0.01); transition:border-color 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#232e3c'">
+                <div style="font-size:24px; margin-bottom:6px;">🏢</div>
+                <div id="logo-upload-name" style="font-weight:700; font-size:13px;">Logo Yüklemek İçin Tıklayın</div>
+                <div style="font-size:11px; opacity:0.7; margin-top:2px;">PNG, JPG veya SVG (Max 2MB)</div>
+              </div>
+            </div>
+
+            <div>
+              <label style="color:#708499; font-size:12px; font-weight:800; text-transform:uppercase; display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span>Telefon Numaraları</span>
+                <button type="button" onclick="window.addPhoneInput()" style="background:#10b981; color:#fff; border:none; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:800; cursor:pointer;">➕ Ekle</button>
+              </label>
+              <div id="profilePhoneContainer" style="display:flex; flex-direction:column; gap:8px;">
+                <!-- Dinamik inputlar -->
+              </div>
+            </div>
+
+            <div>
+              <label style="color:#708499; font-size:12px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:8px;">Instagram Kullanıcı Adı</label>
+              <input type="text" id="profileInstagram" class="menu-input-field" placeholder="Örn: @agacorenevyemekleri">
+            </div>
+
+            <button type="submit" class="btn primary" style="background:#10b981; color:#fff; font-weight:800; padding:14px; border-radius:10px; border:none; cursor:pointer; font-size:15px; margin-top:8px;">💾 İşletme Ayarlarını Kaydet</button>
+          </form>
+        </div>
+
         <!-- Tab 1: Günlük Menü Oluşturucu -->
         <div id="tabContent-builder" class="menu-tab-content">
           <div style="margin-bottom:16px;">
@@ -2549,8 +2604,8 @@
             </div>
           </div>
           <div style="margin-top:10px;">
-            <label style="color:#708499; font-size:12px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:12px;">Menüdeki Yemekleri ve Fiyatlarını Seçin</label>
-            <div id="builderFoodList" style="display:flex; flex-direction:column; gap:12px; max-height:40vh; overflow-y:auto; padding-right:4px;">
+            <label style="color:#708499; font-size:12px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:12px;">Menüdeki Yemekleri Seçin</label>
+            <div id="builderFoodList" style="display:flex; flex-direction:column; gap:12px; max-height:45vh; overflow-y:auto; padding-right:4px;">
               <!-- Javascript ile dolacak -->
             </div>
           </div>
@@ -2568,10 +2623,11 @@
               <select id="newFoodCategory" class="menu-input-field" required style="-webkit-appearance:none; font-weight:700;">
                 <option value="Çorbalar">Çorbalar</option>
                 <option value="Yemekler">Yemekler</option>
-                <option value="Salatalar">Salatalar</option>
-                <option value="Tatlılar">Tatlılar</option>
-                <option value="İçecekler">İçecekler</option>
               </select>
+            </div>
+            <div>
+              <label style="color:#708499; font-size:12px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:8px;">Yemek Fiyatı (TL)</label>
+              <input type="number" id="newFoodPrice" class="menu-input-field" placeholder="Örn: 150" step="any" required>
             </div>
             <div>
               <label style="color:#708499; font-size:12px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:8px;">Yemek Görseli (İsteğe Bağlı)</label>
@@ -2597,11 +2653,29 @@
         <div id="tabContent-exporter" class="menu-tab-content" style="display:none;">
           <div style="display:flex; flex-direction:column; gap:20px; align-items:center; text-align:center;">
             
+            <!-- Görsel Seçim Kutuları -->
+            <div style="width:100%; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:12px; background:#17212b; padding:12px; border-radius:12px; border:1px solid #232e3c;">
+              <div style="flex:1; min-width:140px; text-align:left;">
+                <label style="color:#708499; font-size:11px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:6px;">Sol Kutu Görseli</label>
+                <select id="canvasLeftSelect" class="menu-input-field" style="font-weight:700; padding:8px 12px; font-size:12px; background:#0e1621; border-color:#232e3c;" onchange="window.redrawCanvasWithCustomSelections()">
+                  <option value="auto">Otomatik (Resimli İlk Yemek)</option>
+                  <option value="none">Boş Kalsın</option>
+                </select>
+              </div>
+              <div style="flex:1; min-width:140px; text-align:left;">
+                <label style="color:#708499; font-size:11px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:6px;">Sağ Kutu Görseli</label>
+                <select id="canvasRightSelect" class="menu-input-field" style="font-weight:700; padding:8px 12px; font-size:12px; background:#0e1621; border-color:#232e3c;" onchange="window.redrawCanvasWithCustomSelections()">
+                  <option value="auto">Otomatik (Resimli İkinci Yemek)</option>
+                  <option value="none">Boş Kalsın</option>
+                </select>
+              </div>
+            </div>
+
             <!-- Canlı Canvas Önizleme -->
             <div>
               <label style="color:#708499; font-size:12px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:8px;">Bugünün Menü Görseli</label>
               <div style="border: 1px solid #232e3c; border-radius:16px; overflow:hidden; background:#0b0e11; max-width:240px; box-shadow:0 8px 32px rgba(0,0,0,0.5);">
-                <canvas id="menuCanvas" width="1080" height="1920" style="width:100%; display:block; max-height:420px; object-fit:contain;"></canvas>
+                <canvas id="menuCanvas" width="576" height="1024" style="width:100%; display:block; max-height:420px; object-fit:contain;"></canvas>
               </div>
               <button onclick="downloadMenuImage()" class="btn primary" style="background:#10b981; margin-top:12px; font-weight:800; padding:10px 20px; font-size:13px; border-radius:8px; border:none; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
                 📥 Görseli İndir (Paylaş)

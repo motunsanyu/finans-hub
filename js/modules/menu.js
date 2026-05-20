@@ -3,15 +3,245 @@
 const MenuModule = (() => {
   let masterItems = [];
   let currentDailyMenu = null;
+  
+  // Restaurant Profile default configuration
+  let restaurantProfile = {
+    name: 'AĞAÇÖREN EV YEMEKLERİ',
+    logo_url: '',
+    phones: ['0 545 282 97 34', '0 530 583 41 62'],
+    instagram: '@agacorenevyemekleri'
+  };
 
   async function init() {
     console.log("🍱 Günlük Menü Modülü Başlatılıyor...");
     
-    // Eğer müşteri görünümündeysek
+    // Yükleniyor durumunda veya müşteri bypass modundaysak
     if (window.isPublicMenuMode) {
-      return; // auth.js zaten yönlendirecektir
+      await loadProfileSettings(); // Önce profil/iletişim bilgilerini çek
+      showPublicMenu();
+      return;
+    }
+
+    // Admin durumunda profili yükle
+    await loadProfileSettings();
+  }
+
+  // ==========================================
+  // PROFILE SETTINGS DATA LAYER
+  // ==========================================
+  async function loadProfileSettings() {
+    try {
+      const sb = window._supabaseClient;
+      
+      // SQL tablosundan ayarları çekmeyi dene
+      const { data, error } = await sb
+        .from('restaurant_settings')
+        .select('*')
+        .eq('id', 'default')
+        .maybeSingle();
+
+      if (data) {
+        restaurantProfile = {
+          name: data.name || restaurantProfile.name,
+          logo_url: data.logo_url || restaurantProfile.logo_url,
+          phones: Array.isArray(data.phones) ? data.phones : restaurantProfile.phones,
+          instagram: data.instagram || restaurantProfile.instagram
+        };
+      } else {
+        // Tablo henüz yoksa localStorage fallback kullan
+        const localData = localStorage.getItem('restaurant_profile_settings');
+        if (localData) {
+          restaurantProfile = JSON.parse(localData);
+        }
+      }
+    } catch (err) {
+      console.warn("Profil ayarları veritabanından çekilemedi, local/default kullanılıyor:", err);
+      const localData = localStorage.getItem('restaurant_profile_settings');
+      if (localData) {
+        restaurantProfile = JSON.parse(localData);
+      }
+    }
+
+    // UI'daki İletişim Footer ve Header kısımlarını dinamik güncelle
+    updatePublicUIBranding();
+    renderProfileTabInputs();
+  }
+
+  function updatePublicUIBranding() {
+    // QR Kamu Görünümü Başlığı
+    const headerTitle = document.querySelector('#publicMenuScreen h1');
+    if (headerTitle) {
+      headerTitle.textContent = restaurantProfile.name.split(' ')[0] || restaurantProfile.name;
+    }
+    const headerSub = document.querySelector('#publicMenuScreen p');
+    if (headerSub) {
+      headerSub.textContent = restaurantProfile.name.includes(' ') 
+        ? restaurantProfile.name.substring(restaurantProfile.name.indexOf(' ') + 1) + ' • GÜNÜN MENÜSÜ'
+        : 'Ev Yemekleri • Günün Menüsü';
+    }
+
+    // QR Kamu Görünümü Logosu
+    const headerDiv = document.querySelector('#publicMenuScreen style + div > div');
+    if (headerDiv && restaurantProfile.logo_url) {
+      const logoIcon = headerDiv.querySelector('div:first-child');
+      if (logoIcon) {
+        logoIcon.innerHTML = `<img src="${restaurantProfile.logo_url}" style="width:64px; height:64px; border-radius:50%; object-fit:cover; border: 2px solid #c2410c; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">`;
+      }
+    }
+
+    // Kamu Görünümü İletişim Alanı
+    const footerDiv = document.querySelector('#publicMenuScreen style + div > div + div + div');
+    if (footerDiv) {
+      const phonesHtml = restaurantProfile.phones.join(' - ');
+      footerDiv.innerHTML = `
+        <div style="font-size:13px; color:#5c4c38; font-weight:800; display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:10px;">
+          📞 ${phonesHtml}
+        </div>
+        <div style="font-size:12px; color:#7f6d53; font-weight:700; display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:16px;">
+          📸 ${restaurantProfile.instagram}
+        </div>
+        <p style="font-size:11px; color:#a19079; margin:0; font-style:italic;">Afiyet Olsun!</p>
+      `;
     }
   }
+
+  function renderProfileTabInputs() {
+    const restNameInput = document.getElementById('profileRestName');
+    const instaInput = document.getElementById('profileInstagram');
+    const phoneContainer = document.getElementById('profilePhoneContainer');
+
+    if (restNameInput) restNameInput.value = restaurantProfile.name;
+    if (instaInput) instaInput.value = restaurantProfile.instagram;
+
+    // Logo yükleme etiketini güncelle
+    const logoLabel = document.getElementById('logo-upload-name');
+    if (logoLabel && restaurantProfile.logo_url) {
+      logoLabel.textContent = 'Mevcut Logo Yüklü (Değiştirmek İçin Tıklayın)';
+    }
+
+    if (phoneContainer) {
+      phoneContainer.innerHTML = '';
+      restaurantProfile.phones.forEach((phone, idx) => {
+        addPhoneInputField(phone, idx > 0);
+      });
+      if (restaurantProfile.phones.length === 0) {
+        addPhoneInputField('', false);
+      }
+    }
+  }
+
+  function addPhoneInputField(value = '', canDelete = true) {
+    const container = document.getElementById('profilePhoneContainer');
+    if (!container) return;
+
+    const div = document.createElement('div');
+    div.className = 'phone-input-row';
+    div.style.display = 'flex';
+    div.style.gap = '8px';
+    
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'menu-input-field phone-number-entry';
+    input.placeholder = 'Örn: 0 545 282 97 34';
+    input.value = value;
+    input.style.flex = '1';
+
+    div.appendChild(input);
+
+    if (canDelete) {
+      const delBtn = document.createElement('button');
+      delBtn.type = 'button';
+      delBtn.onclick = () => div.remove();
+      delBtn.style.background = '#ef5350';
+      delBtn.style.color = '#fff';
+      delBtn.style.border = 'none';
+      delBtn.style.borderRadius = '10px';
+      delBtn.style.padding = '0 16px';
+      delBtn.style.cursor = 'pointer';
+      delBtn.style.fontWeight = '800';
+      delBtn.textContent = '✕';
+      div.appendChild(delBtn);
+    }
+
+    container.appendChild(div);
+  }
+  window.addPhoneInput = () => addPhoneInputField('', true);
+
+  // İşletme ayarlarını kaydet
+  async function saveRestaurantProfile(e) {
+    e.preventDefault();
+    const sb = window._supabaseClient;
+
+    const restName = document.getElementById('profileRestName')?.value?.trim();
+    const instagram = document.getElementById('profileInstagram')?.value?.trim();
+    const logoFile = document.getElementById('profileLogoFile')?.files[0];
+
+    const phoneEntries = document.querySelectorAll('.phone-number-entry');
+    const phones = [];
+    phoneEntries.forEach(input => {
+      const val = input.value.trim();
+      if (val) phones.push(val);
+    });
+
+    if (!restName) {
+      if (window.showToast) window.showToast('Lütfen işletme adını girin.', 'error');
+      return;
+    }
+
+    try {
+      if (window.showToast) window.showToast('Ayarlar kaydediliyor...', 'default');
+
+      let logoUrl = restaurantProfile.logo_url;
+      if (logoFile) {
+        // Logoyu sıkıştır
+        const compressedLogo = await compressImageHelper(logoFile, 400, 400);
+        const fileName = `logo-${Date.now()}.png`;
+
+        const { error: uploadError } = await sb.storage.from('menu-items').upload(fileName, compressedLogo);
+        if (uploadError) throw uploadError;
+
+        const { data: urlData } = sb.storage.from('menu-items').getPublicUrl(fileName);
+        logoUrl = urlData.publicUrl;
+      }
+
+      const profileData = {
+        name: restName,
+        logo_url: logoUrl,
+        phones,
+        instagram
+      };
+
+      // Supabase'e kaydet (upsert)
+      try {
+        const { error } = await sb
+          .from('restaurant_settings')
+          .upsert({
+            id: 'default',
+            name: restName,
+            logo_url: logoUrl,
+            phones,
+            instagram
+          }, { onConflict: 'id' });
+        
+        if (error) throw error;
+      } catch (dbErr) {
+        console.warn("Veritabanı kaydı başarısız oldu, localStorage'a yedekleniyor:", dbErr);
+      }
+
+      // LocalStorage yedekle
+      localStorage.setItem('restaurant_profile_settings', JSON.stringify(profileData));
+      restaurantProfile = profileData;
+
+      if (window.showToast) window.showToast('Ayarlar başarıyla kaydedildi!', 'success');
+      
+      updatePublicUIBranding();
+      switchTab('builder'); // Günlük menü sekmesine dön
+    } catch (err) {
+      console.error(err);
+      if (window.showToast) window.showToast('Ayarlar kaydedilirken hata oluştu.', 'error');
+    }
+  }
+  window.saveRestaurantProfile = saveRestaurantProfile;
 
   // Client-side image compression helper (Canvas-based)
   function compressImageHelper(file, maxWidth = 800, maxHeight = 800) {
@@ -99,59 +329,54 @@ const MenuModule = (() => {
         return;
       }
 
-      // Menüyü kategorilerine göre grupla
+      // Menüyü Çorbalar ve Yemekler olarak grupla (Kural: Sadece bu ikisi bulunacak)
       const categories = {
         'Çorbalar': [],
-        'Yemekler': [],
-        'Salatalar': [],
-        'Tatlılar': [],
-        'İçecekler': []
+        'Yemekler': []
       };
 
       data.items.forEach(item => {
-        const cat = item.category || 'Diğer';
-        if (!categories[cat]) categories[cat] = [];
+        const cat = item.category === 'Çorbalar' ? 'Çorbalar' : 'Yemekler';
         categories[cat].push(item);
       });
 
       // UI Çizimi
       let html = '';
-      
-      const order = ['Çorbalar', 'Yemekler', 'Salatalar', 'Tatlılar', 'İçecekler'];
+      const order = ['Çorbalar', 'Yemekler'];
       
       order.forEach(catName => {
         const list = categories[catName] || [];
         if (list.length === 0) return;
 
         html += `
-          <div style="margin-bottom:36px; animation: fadeInUp 0.4s ease-out;">
-            <div style="display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:20px;">
+          <div style="margin-bottom:28px; animation: fadeInUp 0.4s ease-out;">
+            <div style="display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:16px;">
               <div style="height:1px; flex:1; background:linear-gradient(90deg, transparent, rgba(92, 76, 56, 0.2), transparent);"></div>
-              <h3 style="font-family:'Playfair Display', serif; font-size:22px; font-weight:800; color:#5c4c38; letter-spacing:1px; text-transform:uppercase;">${catName}</h3>
+              <h3 style="font-family:'Space Grotesk', 'Playfair Display', serif; font-size:20px; font-weight:800; color:#5c4c38; letter-spacing:1px; text-transform:uppercase;">${catName}</h3>
               <div style="height:1px; flex:1; background:linear-gradient(90deg, transparent, rgba(92, 76, 56, 0.2), transparent);"></div>
             </div>
-            <div style="display:flex; flex-direction:column; gap:16px;">
+            <div style="display:flex; flex-direction:column; gap:12px;">
         `;
 
         list.forEach(food => {
           const imgHtml = food.image_url 
-            ? `<div style="width:70px; height:70px; border-radius:12px; overflow:hidden; border:2px solid #fff; box-shadow:0 4px 12px rgba(0,0,0,0.06); flex-shrink:0;">
+            ? `<div style="width:56px; height:56px; border-radius:10px; overflow:hidden; border:1.5px solid #fff; box-shadow:0 3px 8px rgba(0,0,0,0.06); flex-shrink:0;">
                  <img src="${food.image_url}" style="width:100%; height:100%; object-fit:cover;">
                </div>`
-            : `<div style="width:70px; height:70px; border-radius:12px; background:#f0e8db; display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; border:2px dashed rgba(92,76,56,0.15); color:rgba(92,76,56,0.4)">🍲</div>`;
+            : `<div style="width:56px; height:56px; border-radius:10px; background:#f0e8db; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; border:1.5px dashed rgba(92,76,56,0.15); color:rgba(92,76,56,0.4)">🍲</div>`;
 
           const priceHtml = food.price 
-            ? `<div style="font-family:'Playfair Display', serif; font-weight:900; font-size:18px; color:#c2410c; background:rgba(194, 65, 12, 0.05); padding:6px 12px; border-radius:30px; border:1px solid rgba(194, 65, 12, 0.1); white-space:nowrap;">
+            ? `<div style="font-family:'Space Grotesk', serif; font-weight:800; font-size:15px; color:#c2410c; background:rgba(194, 65, 12, 0.05); padding:4px 10px; border-radius:30px; border:1px solid rgba(194, 65, 12, 0.1); white-space:nowrap;">
                  ${food.price} ₺
                </div>`
             : '';
 
           html += `
-            <div style="display:flex; align-items:center; gap:16px; background:#fff; padding:12px 16px; border-radius:18px; box-shadow:0 6px 18px rgba(92,76,56,0.04); border:1px solid rgba(92,76,56,0.03); transition: transform 0.2s;">
+            <div style="display:flex; align-items:center; gap:12px; background:#fff; padding:10px 14px; border-radius:14px; box-shadow:0 4px 12px rgba(92,76,56,0.03); border:1px solid rgba(92,76,56,0.02);">
               ${imgHtml}
               <div style="flex:1; min-width:0;">
-                <h4 style="font-weight:700; font-size:16px; color:#2e251a; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${food.name}</h4>
-                <p style="font-size:12px; color:#7f6d53; margin:4px 0 0; text-transform:uppercase; font-weight:600; letter-spacing:0.5px;">${catName}</p>
+                <h4 style="font-weight:700; font-size:15px; color:#2e251a; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${food.name}</h4>
+                <p style="font-size:11px; color:#7f6d53; margin:2px 0 0; text-transform:uppercase; font-weight:600; letter-spacing:0.5px;">${catName}</p>
               </div>
               ${priceHtml}
             </div>
@@ -183,7 +408,7 @@ const MenuModule = (() => {
   }
 
   // ==========================================
-  // MANAGEMENT PANEL (FULL SCREEN)
+  // MANAGEMENT PANEL
   // ==========================================
   async function openEditorModal() {
     const modal = document.getElementById('dailyMenuModal');
@@ -192,10 +417,9 @@ const MenuModule = (() => {
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
     
-    // Tabları ilkle
     switchTab('builder');
     
-    // Verileri çek
+    await loadProfileSettings();
     loadMasterItems();
     loadDailyMenuForDate(new Date().toISOString().split('T')[0]);
   }
@@ -208,7 +432,6 @@ const MenuModule = (() => {
       modal.style.display = 'none';
       document.body.style.overflow = '';
       
-      // Reset editing states
       window.editingFoodItemId = null;
       const submitBtn = document.querySelector('#tabContent-adder form button[type="submit"]');
       if (submitBtn) submitBtn.textContent = '➕ Yemek Listesine Ekle';
@@ -258,11 +481,13 @@ const MenuModule = (() => {
     
     const nameInput = document.getElementById('newFoodName');
     const catSelect = document.getElementById('newFoodCategory');
+    const priceInput = document.getElementById('newFoodPrice');
     const fileInput = document.getElementById('newFoodImage');
     const fileLabel = document.getElementById('file-upload-name');
     
     const name = nameInput?.value?.trim();
     const category = catSelect?.value;
+    const price = parseFloat(priceInput?.value?.replace(',', '.')) || 0;
     const file = fileInput?.files[0];
     const editingId = window.editingFoodItemId;
 
@@ -276,9 +501,7 @@ const MenuModule = (() => {
       
       let imageUrl = null;
       if (file) {
-        // Otomatik sıkıştırma / boyutlandırma
         const compressedFile = await compressImageHelper(file);
-        
         const fileExt = compressedFile.name.split('.').pop();
         const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
         const { error: uploadError } = await sb.storage.from('menu-items').upload(fileName, compressedFile);
@@ -290,7 +513,7 @@ const MenuModule = (() => {
 
       if (editingId) {
         // UPDATE MODE
-        const payload = { name, category };
+        const payload = { name, category, price };
         if (imageUrl) {
           payload.image_url = imageUrl;
         }
@@ -303,7 +526,6 @@ const MenuModule = (() => {
         if (error) throw error;
         if (window.showToast) window.showToast('Yemek başarıyla güncellendi!', 'success');
 
-        // Reset editing state
         window.editingFoodItemId = null;
         const submitBtn = document.querySelector('#tabContent-adder form button[type="submit"]');
         if (submitBtn) submitBtn.textContent = '➕ Yemek Listesine Ekle';
@@ -312,6 +534,7 @@ const MenuModule = (() => {
         const { error } = await sb.from('menu_items').insert({
           name,
           category,
+          price,
           image_url: imageUrl
         });
 
@@ -321,6 +544,7 @@ const MenuModule = (() => {
       
       // Reset form
       nameInput.value = '';
+      priceInput.value = '';
       fileInput.value = '';
       if (fileLabel) fileLabel.textContent = 'Görsel Yüklemek İçin Tıklayın';
       
@@ -342,10 +566,12 @@ const MenuModule = (() => {
     
     const nameInput = document.getElementById('newFoodName');
     const catSelect = document.getElementById('newFoodCategory');
+    const priceInput = document.getElementById('newFoodPrice');
     const fileLabel = document.getElementById('file-upload-name');
     
     if (nameInput) nameInput.value = item.name;
     if (catSelect) catSelect.value = item.category;
+    if (priceInput) priceInput.value = item.price || '';
     if (fileLabel) {
       fileLabel.textContent = item.image_url ? 'Mevcut Görsel Korunuyor' : 'Görsel Yüklemek İçin Tıklayın';
     }
@@ -399,13 +625,18 @@ const MenuModule = (() => {
         ? `<img src="${item.image_url}" style="width:40px; height:40px; border-radius:8px; object-fit:cover;">`
         : `<div style="width:40px; height:40px; border-radius:8px; background:#242f3d; display:flex; align-items:center; justify-content:center; font-size:20px; border:1px dashed rgba(255,255,255,0.1)">🍲</div>`;
       
+      const priceDisplay = item.price ? `<span style="color:#fbbf24; font-size:12px; font-weight:800; background:rgba(251,191,36,0.1); padding:2px 6px; border-radius:6px; margin-top:2px; display:inline-block;">${item.price} ₺</span>` : '<span style="color:#708499; font-size:11px;">Fiyat girmediniz</span>';
+
       return `
         <div style="background:#17212b; border:1px solid #232e3c; border-radius:12px; padding:12px; display:flex; align-items:center; justify-content:space-between; gap:12px;">
           <div style="display:flex; align-items:center; gap:12px; min-width:0; flex:1;">
             ${img}
             <div style="flex:1; min-width:0;">
               <div style="font-weight:700; color:#fff; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.name}</div>
-              <div style="color:#708499; font-size:11px; margin-top:2px;">${item.category}</div>
+              <div style="display:flex; flex-direction:column; gap:1px;">
+                <span style="color:#708499; font-size:11px;">${item.category}</span>
+                ${priceDisplay}
+              </div>
             </div>
           </div>
           <div style="display:flex; gap:8px; flex-shrink:0;">
@@ -417,7 +648,7 @@ const MenuModule = (() => {
     }).join('');
   }
 
-  // Günlük menü için yemek seçim listesi çizimi
+  // Günlük menü için yemek seçim listesi çizimi (Tik Kutusundaki Hatalar Çözüldü & Renk Kodlaması)
   function renderBuilderItemsList() {
     const container = document.getElementById('builderFoodList');
     if (!container) return;
@@ -427,7 +658,6 @@ const MenuModule = (() => {
       return;
     }
 
-    // Kategorilerine göre ayır
     const categorized = {};
     masterItems.forEach(item => {
       if (!categorized[item.category]) categorized[item.category] = [];
@@ -435,32 +665,49 @@ const MenuModule = (() => {
     });
 
     let html = '';
-    const cats = ['Çorbalar', 'Yemekler', 'Salatalar', 'Tatlılar', 'İçecekler'];
+    const cats = ['Çorbalar', 'Yemekler'];
     
     cats.forEach(cat => {
       const items = categorized[cat] || [];
       if (items.length === 0) return;
 
       html += `
-        <div style="margin-bottom:20px;">
-          <div style="color:#fbbf24; font-size:12px; font-weight:800; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:6px; margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px;">${cat}</div>
-          <div style="display:flex; flex-direction:column; gap:10px;">
+        <div style="margin-bottom:12px;">
+          <div style="color:#10b981; font-size:12px; font-weight:800; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:6px; margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px;">${cat}</div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
       `;
 
       items.forEach(item => {
-        // Zaten menüde mi?
+        // Zaten günlük menüde seçilmiş mi?
         const activeInMenu = currentDailyMenu?.items?.find(i => i.id === item.id);
         const checkedAttr = activeInMenu ? 'checked' : '';
-        const priceVal = activeInMenu?.price || '';
+        
+        // Fiyat alanı: Eğer günlük menüde özel bir fiyat kaydedildiyse onu, yoksa Master fiyatını prefill et!
+        const priceVal = activeInMenu?.price || item.price || 0;
+
+        // Seçilmiş ise sarı parıltılı border ve arka plan
+        const rowBg = activeInMenu ? 'rgba(251, 191, 36, 0.08)' : 'rgba(255,255,255,0.02)';
+        const rowBorder = activeInMenu ? 'rgba(251, 191, 36, 0.3)' : 'rgba(255,255,255,0.03)';
 
         html += `
-          <div style="display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.02); padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.03);">
-            <label style="display:flex; align-items:center; gap:10px; cursor:pointer; flex:1; min-width:0; margin:0;">
-              <input type="checkbox" class="menu-builder-check" data-id="${item.id}" ${checkedAttr} style="width:18px; height:18px; cursor:pointer; accent-color:#fbbf24;">
+          <div class="menu-builder-row" style="display:flex; align-items:center; justify-content:space-between; background:${rowBg}; padding:10px 14px; border-radius:10px; border:1px solid ${rowBorder}; transition: all 0.2s;">
+            <label style="display:flex; align-items:center; gap:12px; cursor:pointer; flex:1; min-width:0; margin:0; user-select:none;">
+              <input type="checkbox" class="menu-builder-check" data-id="${item.id}" ${checkedAttr} 
+                style="width:20px; height:20px; cursor:pointer; accent-color:#fbbf24; border: 1.5px solid #708499; border-radius: 4px; display:inline-block;"
+                onchange="
+                  const row = this.closest('.menu-builder-row');
+                  if (this.checked) {
+                    row.style.background = 'rgba(251, 191, 36, 0.08)';
+                    row.style.borderColor = 'rgba(251, 191, 36, 0.3)';
+                  } else {
+                    row.style.background = 'rgba(255,255,255,0.02)';
+                    row.style.borderColor = 'rgba(255,255,255,0.03)';
+                  }
+                ">
               <span style="color:#fff; font-weight:600; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.name}</span>
             </label>
             <div style="display:flex; align-items:center; gap:8px;">
-              <input type="text" placeholder="Fiyat" class="menu-builder-price" data-id="${item.id}" value="${priceVal}" style="width:80px; padding:6px 10px; border-radius:6px; background:#0e1621; border:1px solid #232e3c; color:#fff; font-size:13px; text-align:right; font-weight:700;">
+              <input type="number" placeholder="Fiyat" class="menu-builder-price" data-id="${item.id}" value="${priceVal}" style="width:75px; padding:6px 8px; border-radius:6px; background:#0e1621; border:1px solid #232e3c; color:#fbbf24; font-size:13px; text-align:right; font-weight:800;">
               <span style="color:#708499; font-weight:700; font-size:13px;">₺</span>
             </div>
           </div>
@@ -507,7 +754,6 @@ const MenuModule = (() => {
       return;
     }
 
-    // Seçili yemekleri derle
     const selectedItems = [];
     const checkBoxes = document.querySelectorAll('.menu-builder-check:checked');
     
@@ -516,7 +762,7 @@ const MenuModule = (() => {
       const master = masterItems.find(i => i.id === id);
       if (master) {
         const priceInput = document.querySelector(`.menu-builder-price[data-id="${id}"]`);
-        const price = parseFloat(priceInput?.value?.replace(',', '.')) || 0;
+        const price = parseFloat(priceInput?.value?.replace(',', '.')) || master.price || 0;
         selectedItems.push({
           ...master,
           price
@@ -535,7 +781,6 @@ const MenuModule = (() => {
         created_by: user?.id || null
       };
 
-      // Upsert
       const { error } = await sb
         .from('daily_menus')
         .upsert(menuPayload, { onConflict: 'menu_date' });
@@ -559,13 +804,16 @@ const MenuModule = (() => {
   async function renderShareTab() {
     const canvas = document.getElementById('menuCanvas');
     const qrContainer = document.getElementById('menuQrContainer');
+    const leftSelect = document.getElementById('canvasLeftSelect');
+    const rightSelect = document.getElementById('canvasRightSelect');
+
     if (!canvas || !qrContainer) return;
 
     // QR Kodu Çiz
     const publicUrl = window.location.origin + window.location.pathname + '?menu=true';
     qrContainer.innerHTML = `
       <div style="display:flex; flex-direction:column; align-items:center; gap:12px;">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(publicUrl)}" style="border-radius:16px; border: 4px solid white; box-shadow: 0 4px 20px rgba(0,0,0,0.4); max-width:200px; width:100%; display:block;">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(publicUrl)}" style="border-radius:16px; border: 4px solid white; box-shadow: 0 4px 20px rgba(0,0,0,0.4); max-width:180px; width:100%; display:block;">
         <a href="https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=${encodeURIComponent(publicUrl)}" download="menü-qr-kodu.png" target="_blank" class="btn primary" style="padding: 8px 16px; font-size:12px; font-weight:800; border-radius:8px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; background:#10b981; color:#fff;">
           📥 QR Kodu İndir (Büyük)
         </a>
@@ -576,11 +824,10 @@ const MenuModule = (() => {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Yükleniyor Göstergesi
     ctx.fillStyle = '#17212b';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = '#fff';
-    ctx.font = 'bold 24px sans-serif';
+    ctx.font = 'bold 20px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('🎨 Menü Görseli Hazırlanıyor...', canvas.width / 2, canvas.height / 2);
 
@@ -593,11 +840,8 @@ const MenuModule = (() => {
         bgImg.onerror = reject;
       });
 
-      // Canvas boyutunu boş şablonun tam boyutuna ayarla (576x1024)
       canvas.width = bgImg.naturalWidth || 576;
       canvas.height = bgImg.naturalHeight || 1024;
-
-      // Arka planı çiz
       ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
 
       // Verileri al
@@ -611,50 +855,89 @@ const MenuModule = (() => {
 
       if (!data || !data.items || data.items.length === 0) {
         ctx.fillStyle = '#ff6b6b';
-        ctx.font = 'bold 20px sans-serif';
+        ctx.font = 'bold 18px sans-serif';
         ctx.fillText('HENÜZ GÜNLÜK MENÜ KAYDEDİLMEMİŞ', canvas.width / 2, 380);
         ctx.fillStyle = '#888';
-        ctx.font = '14px sans-serif';
+        ctx.font = '13px sans-serif';
         ctx.fillText('Lütfen "Günlük Menü" sekmesinden yemek seçip kaydedin.', canvas.width / 2, 420);
         return;
+      }
+
+      // Dropdownları doldur (İlk kez doldurma)
+      const resimliYemekler = data.items.filter(i => i.image_url);
+      
+      if (leftSelect && rightSelect && leftSelect.options.length <= 2) {
+        // Dropdown sıfırla ama ilk iki seçeneği koru (auto, none)
+        leftSelect.innerHTML = `<option value="auto">Otomatik (Resimli İlk Yemek)</option><option value="none">Boş Kalsın</option>`;
+        rightSelect.innerHTML = `<option value="auto">Otomatik (Resimli İkinci Yemek)</option><option value="none">Boş Kalsın</option>`;
+        
+        resimliYemekler.forEach(item => {
+          const opt1 = document.createElement('option');
+          opt1.value = item.image_url;
+          opt1.textContent = item.name;
+          leftSelect.appendChild(opt1);
+
+          const opt2 = document.createElement('option');
+          opt2.value = item.image_url;
+          opt2.textContent = item.name;
+          rightSelect.appendChild(opt2);
+        });
       }
 
       // Kategorilerine göre ayır
       const soups = data.items.filter(i => i.category === 'Çorbalar');
       const dishes = data.items.filter(i => i.category === 'Yemekler' || i.category === 'Salatalar' || i.category === 'Tatlılar' || i.category === 'İçecekler');
 
-      // 2. ÇORBALARI YAZDIR (Tam Notepad Çorbalar başlığı altına)
+      // 2. ÇORBALARI YAZDIR (Notepad başlığının altına)
       ctx.textAlign = 'center';
-      ctx.fillStyle = '#1e2329'; // Şık antrasit renk tonu
+      ctx.fillStyle = '#1e2329';
       ctx.textBaseline = 'middle';
 
-      let soupY = 320; // 576x1024 çözünürlük için mükemmel hizalanmış başlangıç Y koordinatı
+      let soupY = 320;
       soups.forEach(soup => {
         ctx.font = "bold 20px sans-serif";
         ctx.fillText(soup.name, canvas.width / 2, soupY);
-        soupY += 30; // 576x1024 boyutuna uygun dar satır aralığı
+        soupY += 30;
       });
 
-      // 3. YEMEKLERİ YAZDIR (Tam Yemekler başlığı altına)
-      let dishY = 465; // 576x1024 çözünürlük için mükemmel hizalanmış başlangıç Y koordinatı
+      // 3. YEMEKLERİ YAZDIR (Yemekler başlığının altına)
+      let dishY = 465;
       dishes.forEach(dish => {
         ctx.font = "bold 20px sans-serif";
         ctx.fillText(dish.name, canvas.width / 2, dishY);
-        dishY += 30; // 576x1024 boyutuna uygun dar satır aralığı
+        dishY += 30;
       });
 
-      // 4. FOTOĞRAFLARI YERLEŞTİR (Sadece resim yüklenmiş yemekleri alt kutulara sığdır)
-      const photosToDraw = data.items.filter(i => i.image_url).slice(0, 2);
+      // 4. ŞABLONDAN SEÇİLEN FOTOĞRAFLARI YERLEŞTİR (En alt sol ve en alt sağ kutular)
+      let leftImgUrl = leftSelect ? leftSelect.value : 'auto';
+      let rightImgUrl = rightSelect ? rightSelect.value : 'auto';
+
+      if (leftImgUrl === 'auto') {
+        leftImgUrl = resimliYemekler[0]?.image_url || 'none';
+      }
+      if (rightImgUrl === 'auto') {
+        rightImgUrl = resimliYemekler[1]?.image_url || 'none';
+      }
+
+      if (leftImgUrl !== 'none') {
+        await drawRoundedImageHelper(ctx, leftImgUrl, 18, 776, 253, 181, 19);
+      }
+      if (rightImgUrl !== 'none') {
+        await drawRoundedImageHelper(ctx, rightImgUrl, 304, 776, 253, 181, 19);
+      }
+
+      // 5. İŞLETME LOGOSUNU EN ÜSTE ÇİZ (Notepad en üst dairesel alan)
+      if (restaurantProfile.logo_url) {
+        await drawCircularLogoHelper(ctx, restaurantProfile.logo_url, canvas.width / 2, 140, 34);
+      }
+
+      // 6. EN ALT GRİ ALANA İLETİŞİM BİLGİLERİNİ ÇİZ
+      ctx.fillStyle = '#000000';
+      ctx.font = "bold 15px sans-serif";
       
-      // Pozisyonlar (576x1024 blank şablon için tam oranlanmış kutular):
-      // Sol Pozisyon: X=18, Y=776, Genişlik=253, Yükseklik=181, Radius=19
-      // Sağ Pozisyon: X=304, Y=776, Genişlik=253, Yükseklik=181, Radius=19
-      if (photosToDraw[0]) {
-        await drawRoundedImageHelper(ctx, photosToDraw[0].image_url, 18, 776, 253, 181, 19);
-      }
-      if (photosToDraw[1]) {
-        await drawRoundedImageHelper(ctx, photosToDraw[1].image_url, 304, 776, 253, 181, 19);
-      }
+      const phoneText = restaurantProfile.phones.join('  -  ');
+      ctx.fillText("📞  " + phoneText, canvas.width / 2, 960);
+      ctx.fillText("📸  " + restaurantProfile.instagram, canvas.width / 2, 995);
 
     } catch (e) {
       console.error("Canvas çizim hatası:", e);
@@ -664,11 +947,49 @@ const MenuModule = (() => {
     }
   }
 
+  // Dışarıdan tetiklenebilecek canvas yenileme tetikleyicisi
+  window.redrawCanvasWithCustomSelections = function() {
+    renderShareTab();
+  };
+
+  // Dairesel logo çizimi
+  async function drawCircularLogoHelper(ctx, url, cx, cy, radius) {
+    try {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.src = url;
+      await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+      });
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2, true);
+      ctx.closePath();
+      ctx.clip();
+
+      ctx.drawImage(img, cx - radius, cy - radius, radius * 2, radius * 2);
+      ctx.restore();
+
+      // Dışına ince dairesel çerçeve ekle
+      ctx.save();
+      ctx.strokeStyle = '#c2410c';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2, true);
+      ctx.stroke();
+      ctx.restore();
+    } catch (err) {
+      console.warn("Logo çizilemedi:", err);
+    }
+  }
+
   // Rounded image çizici yardımı
   async function drawRoundedImageHelper(ctx, url, x, y, width, height, radius) {
     try {
       const img = new Image();
-      img.crossOrigin = 'anonymous'; // CORS hatasını engellemek için kritik
+      img.crossOrigin = 'anonymous';
       img.src = url;
       await new Promise((resolve, reject) => {
         img.onload = resolve;
@@ -689,7 +1010,6 @@ const MenuModule = (() => {
       ctx.closePath();
       ctx.clip();
       
-      // Resmi orantılı sığdırma (cover gibi)
       const imgRatio = img.width / img.height;
       const targetRatio = width / height;
       let sx, sy, sWidth, sHeight;
@@ -740,7 +1060,6 @@ const MenuModule = (() => {
   };
 })();
 
-// Sayfa yüklendiğinde ilkle
 document.addEventListener("DOMContentLoaded", () => {
   MenuModule.init();
 });
