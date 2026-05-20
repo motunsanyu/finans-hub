@@ -330,13 +330,13 @@
   <div id="publicMenuScreen" style="display:none; min-height:100vh; background:#f5f0e6; font-family:'Outfit', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding:24px 16px; color:#2e251a; position:relative; box-sizing:border-box;">
     <div style="max-width:540px; margin:0 auto; padding-bottom:40px;">
       <!-- Başlık Bölümü -->
-      <div style="text-align:center; margin-bottom:32px; margin-top:20px;">
-        <div id="publicLogoArea">
-          <div style="font-size:28px; margin-bottom:8px;">🥗</div>
+      <div style="text-align:center; margin-bottom:32px; margin-top:20px; display:flex; flex-direction:column; align-items:center;">
+        <div id="publicLogoArea" style="margin-bottom:8px;">
+          <div style="font-size:28px;">🥗</div>
         </div>
-        <h1 style="font-family:'Playfair Display', 'Georgia', serif; font-size:32px; font-weight:900; color:#5c4c38; margin:0; letter-spacing:0.5px;">YÜKLENİYOR...</h1>
-        <p style="font-size:12px; color:#7f6d53; text-transform:uppercase; font-weight:800; letter-spacing:3px; margin:6px 0 0;">Günün Menüsü</p>
-        <div style="width:60px; height:3px; background:#c2410c; margin:16px auto 0; border-radius:2px;"></div>
+        <h1 style="font-family:'Playfair Display', 'Georgia', serif; font-size:32px; font-weight:900; color:#5c4c38; margin:0; letter-spacing:0.5px; text-align:center;">YÜKLENİYOR...</h1>
+        <p style="font-size:16px; color:#7f6d53; text-transform:uppercase; font-weight:800; letter-spacing:3px; margin:6px 0 0; text-align:center;">Günün Menüsü</p>
+        <div style="width:140px; height:3px; background:#c2410c; margin:16px auto 0; border-radius:2px;"></div>
       </div>
 
       <!-- Menü İçerik Listesi -->
@@ -2563,9 +2563,10 @@
             
             <div>
               <label style="color:#708499; font-size:12px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:8px;">İşletme Logosu (QR Sayfası Üstünde Görünür)</label>
-              <input type="file" id="profileLogoFile" accept="image/*" style="display:none;" onchange="document.getElementById('logo-upload-name').textContent = this.files[0]?.name || 'Dosya seçilmedi'">
+              <input type="file" id="profileLogoFile" accept="image/*" style="display:none;" onchange="window.handleImageSelect(this, 'profileLogoPreview', 'logo-upload-name')">
               <div onclick="document.getElementById('profileLogoFile').click()" style="width:100%; border:2px dashed #232e3c; border-radius:10px; padding:20px; text-align:center; color:#708499; cursor:pointer; background:rgba(255,255,255,0.01); transition:border-color 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#232e3c'">
-                <div style="font-size:24px; margin-bottom:6px;">🏢</div>
+                <img id="profileLogoPreview" src="" style="display:none; max-width:100px; max-height:100px; border-radius:8px; margin:0 auto 10px;">
+                <div id="profileLogoIcon" style="font-size:24px; margin-bottom:6px;">🏢</div>
                 <div id="logo-upload-name" style="font-weight:700; font-size:13px;">Logo Yüklemek İçin Tıklayın</div>
                 <div style="font-size:11px; opacity:0.7; margin-top:2px;">PNG, JPG (Max 2MB) — Sadece QR müşteri sayfasında görünür</div>
               </div>
@@ -2620,6 +2621,7 @@
               <select id="newFoodCategory" class="menu-input-field" required style="-webkit-appearance:none; font-weight:700;">
                 <option value="Çorbalar">Çorbalar</option>
                 <option value="Yemekler">Yemekler</option>
+                <option value="Pilavlar - Makarnalar">Pilavlar - Makarnalar</option>
               </select>
             </div>
             <div>
@@ -2628,9 +2630,10 @@
             </div>
             <div>
               <label style="color:#708499; font-size:12px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:8px;">Yemek Görseli (İsteğe Bağlı)</label>
-              <input type="file" id="newFoodImage" accept="image/*" style="display:none;" onchange="document.getElementById('file-upload-name').textContent = this.files[0]?.name || 'Dosya seçilmedi'">
+              <input type="file" id="newFoodImage" accept="image/*" style="display:none;" onchange="window.handleImageSelect(this, 'newFoodImagePreview', 'file-upload-name')">
               <div onclick="document.getElementById('newFoodImage').click()" style="width:100%; border:2px dashed #232e3c; border-radius:10px; padding:24px; text-align:center; color:#708499; cursor:pointer; background:rgba(255,255,255,0.01); transition:border-color 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#232e3c'">
-                <div style="font-size:28px; margin-bottom:8px;">📷</div>
+                <img id="newFoodImagePreview" src="" style="display:none; max-width:120px; max-height:120px; border-radius:8px; margin:0 auto 10px;">
+                <div id="newFoodImageIcon" style="font-size:28px; margin-bottom:8px;">📷</div>
                 <div id="file-upload-name" style="font-weight:700; font-size:13px;">Görsel Yüklemek İçin Tıklayın</div>
                 <div style="font-size:11px; opacity:0.7; margin-top:4px;">PNG, JPG (Max 2MB)</div>
               </div>
@@ -2653,14 +2656,37 @@
             <!-- Şablon Yükleme -->
             <div style="background:#17212b; border-radius:12px; border:1px solid #232e3c; padding:14px;">
               <label style="color:#708499; font-size:11px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:10px;">Menü Şablonu (Arkaplan Görseli)</label>
-              <div style="display:flex; gap:10px; align-items:center;">
+              <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
                 <input type="file" id="templateUploadFile" accept="image/*" style="display:none;" onchange="window.handleTemplateUpload(this.files[0])">
                 <div onclick="document.getElementById('templateUploadFile').click()" style="flex:1; border:2px dashed #232e3c; border-radius:8px; padding:12px; text-align:center; color:#708499; cursor:pointer; transition:border-color 0.2s; font-size:13px; font-weight:700;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#232e3c'">
-                  🖼 Şablon Yükle / Değiştir
+                  🖼 Özel Şablon Yükle
                 </div>
-                <button onclick="window.resetTemplate()" style="background:#2b3a4a; color:#708499; border:1px solid #232e3c; padding:12px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer; white-space:nowrap;">Varsayılana Dön</button>
               </div>
-              <div id="templateUploadStatus" style="font-size:11px; color:#708499; margin-top:6px; text-align:center;">Mevcut şablon: menu_template.jpg</div>
+              <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                <button onclick="window.selectPredefinedTemplate(1)" style="flex:1; background:#1e293b; color:#fbbf24; border:1px solid rgba(251,191,36,0.3); padding:8px; border-radius:6px; font-size:12px; font-weight:800; cursor:pointer;">1. Şablon</button>
+                <button onclick="window.selectPredefinedTemplate(2)" style="flex:1; background:#1e293b; color:#fbbf24; border:1px solid rgba(251,191,36,0.3); padding:8px; border-radius:6px; font-size:12px; font-weight:800; cursor:pointer;">2. Şablon</button>
+                <button onclick="window.resetTemplate()" style="background:#2b3a4a; color:#ef5350; border:1px solid rgba(239,83,80,0.3); padding:8px 12px; border-radius:6px; font-size:12px; font-weight:800; cursor:pointer;">Varsayılana Dön</button>
+              </div>
+              <div id="templateUploadStatus" style="font-size:11px; color:#708499; margin-top:8px; text-align:center;">Mevcut şablon: menu_template.jpg</div>
+            </div>
+
+            <!-- Alt Yemek Görselleri -->
+            <div style="background:#17212b; border-radius:12px; border:1px solid #232e3c; padding:14px;">
+              <label style="color:#708499; font-size:11px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:10px;">Alt Bölüm Yemek Görselleri</label>
+              <div style="display:flex; gap:10px;">
+                <div style="flex:1;">
+                  <input type="file" id="canvasImgLeft" accept="image/*" style="display:none;" onchange="window.handleCanvasImg(this, 'left')">
+                  <div onclick="document.getElementById('canvasImgLeft').click()" style="border:2px dashed #232e3c; border-radius:8px; padding:12px; text-align:center; color:#708499; cursor:pointer; font-size:12px; font-weight:700;">
+                    📷 1. Görsel (Sol)
+                  </div>
+                </div>
+                <div style="flex:1;">
+                  <input type="file" id="canvasImgRight" accept="image/*" style="display:none;" onchange="window.handleCanvasImg(this, 'right')">
+                  <div onclick="document.getElementById('canvasImgRight').click()" style="border:2px dashed #232e3c; border-radius:8px; padding:12px; text-align:center; color:#708499; cursor:pointer; font-size:12px; font-weight:700;">
+                    📷 2. Görsel (Sağ)
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- Canvas Önizleme ve İndir -->
@@ -2677,11 +2703,15 @@
             <div style="width:100%; height:1px; background:rgba(255,255,255,0.05);"></div>
 
             <!-- Müşteriler İçin QR Kod -->
-            <div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:10px; margin-bottom:20px;">
               <label style="color:#708499; font-size:11px; font-weight:800; text-transform:uppercase;">Masa QR Kodu</label>
-              <div id="menuQrContainer" style="display:flex; justify-content:center;">
+              <div id="menuQrContainer" style="display:flex; justify-content:center; flex-direction:column; align-items:center;">
                 <!-- QR kod görseli JS ile yerleşecek -->
               </div>
+              <div style="height:10px;"></div>
+              <button onclick="window.open(window.location.origin + window.location.pathname + '?menu=true', '_blank')" style="background:#2481cc; color:#fff; font-weight:800; padding:10px 20px; font-size:13px; border-radius:8px; border:none; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+                👀 Menüyü Görüntüle
+              </button>
             </div>
 
           </div>

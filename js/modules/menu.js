@@ -4,6 +4,7 @@ const MenuModule = (() => {
   let masterItems = [];
   let currentDailyMenu = null;
   let customTemplateSrc = null; // localStorage'da saklanan şablon data-url
+  let customCanvasImages = { left: null, right: null };
 
   let restaurantProfile = {
     name: '',
@@ -290,14 +291,20 @@ const MenuModule = (() => {
         return;
       }
 
-      const groups = { 'Çorbalar': [], 'Yemekler': [] };
+      // Menüyü grupla
+      const groups = { 'Çorbalar': [], 'Yemekler': [], 'Pilavlar - Makarnalar': [] };
+
       data.items.forEach(item => {
-        (groups[item.category] || groups['Yemekler']).push(item);
+        const cat = item.category === 'Çorbalar' ? 'Çorbalar' : (item.category === 'Pilavlar - Makarnalar' ? 'Pilavlar - Makarnalar' : 'Yemekler');
+        groups[cat].push(item);
       });
 
+      // UI Çizimi
       let html = '';
-      ['Çorbalar', 'Yemekler'].forEach(cat => {
-        const list = groups[cat] || [];
+      const order = ['Çorbalar', 'Yemekler', 'Pilavlar - Makarnalar'];
+      
+      order.forEach(catName => {
+        const list = groups[catName] || [];
         if (!list.length) return;
 
         html += `<div style="margin-bottom:28px;">
@@ -579,13 +586,14 @@ const MenuModule = (() => {
       return;
     }
 
-    const groups = { 'Çorbalar': [], 'Yemekler': [] };
+    const groups = { 'Çorbalar': [], 'Yemekler': [], 'Pilavlar - Makarnalar': [] };
     masterItems.forEach(item => {
-      (groups[item.category] || groups['Yemekler']).push(item);
+      const cat = item.category === 'Çorbalar' ? 'Çorbalar' : (item.category === 'Pilavlar - Makarnalar' ? 'Pilavlar - Makarnalar' : 'Yemekler');
+      groups[cat].push(item);
     });
 
     let html = '';
-    ['Çorbalar', 'Yemekler'].forEach(cat => {
+    ['Çorbalar', 'Yemekler', 'Pilavlar - Makarnalar'].forEach(cat => {
       const list = groups[cat] || [];
       if (!list.length) return;
 
@@ -792,6 +800,47 @@ const MenuModule = (() => {
       canvas.height = bgImg.naturalHeight || 1024;
       ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
 
+      // Alt bölge görselleri
+      function drawRoundedImage(context, img, x, y, width, height, radius) {
+        context.save();
+        context.beginPath();
+        context.moveTo(x + radius, y);
+        context.lineTo(x + width - radius, y);
+        context.quadraticCurveTo(x + width, y, x + width, y + radius);
+        context.lineTo(x + width, y + height - radius);
+        context.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        context.lineTo(x + radius, y + height);
+        context.quadraticCurveTo(x, y + height, x, y + height - radius);
+        context.lineTo(x, y + radius);
+        context.quadraticCurveTo(x, y, x + radius, y);
+        context.closePath();
+        context.clip();
+        
+        const imgRatio = img.width / img.height;
+        const boxRatio = width / height;
+        let sWidth, sHeight, sX, sY;
+        if (imgRatio > boxRatio) {
+          sHeight = img.height;
+          sWidth = img.height * boxRatio;
+          sY = 0;
+          sX = (img.width - sWidth) / 2;
+        } else {
+          sWidth = img.width;
+          sHeight = img.width / boxRatio;
+          sX = 0;
+          sY = (img.height - sHeight) / 2;
+        }
+        context.drawImage(img, sX, sY, sWidth, sHeight, x, y, width, height);
+        context.restore();
+      }
+
+      if (customCanvasImages.left) {
+        drawRoundedImage(ctx, customCanvasImages.left, 24, 820, 240, 180, 15);
+      }
+      if (customCanvasImages.right) {
+        drawRoundedImage(ctx, customCanvasImages.right, 312, 820, 240, 180, 15);
+      }
+
       // Bugünün menüsünü veritabanından çek
       const todayStr = new Date().toISOString().split('T')[0];
       const sb = window._supabaseClient;
@@ -810,18 +859,18 @@ const MenuModule = (() => {
       }
 
       const soups = data.items.filter(i => i.category === 'Çorbalar');
-      const dishes = data.items.filter(i => i.category !== 'Çorbalar');
+      const meals = data.items.filter(i => i.category === 'Yemekler');
+      const pilavs = data.items.filter(i => i.category === 'Pilavlar - Makarnalar');
+      
+      // Pilavlar yemeklerin hemen sonuna yazılır
+      const dishes = [...meals, ...pilavs];
 
       // ── Yeni Ağaçören şablonuna göre koordinatlar ──
-      // Şablon: 576×1024 px
-      // Çorbalar bölgesi: Y≈370 civarı başlar
-      // Yemekler bölgesi: Y≈570 civarı başlar
-
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
       // Çorbalar
-      let yPos = 375;
+      let yPos = 380;
       const lineH = 34;
       soups.forEach(item => {
         ctx.fillStyle = '#2e1b0e';
@@ -830,8 +879,8 @@ const MenuModule = (() => {
         yPos += lineH;
       });
 
-      // Yemekler
-      yPos = Math.max(yPos + 20, 565);
+      // Yemekler ve Pilavlar
+      yPos = Math.max(yPos + 10, 520); // Yemekler kısmının başlangıcını biraz yukarı çektik ki üst üste binmesin
       dishes.forEach(item => {
         ctx.fillStyle = '#2e1b0e';
         ctx.font = `bold ${Math.min(22, 600 / item.name.length * 2.2)}px 'Georgia', serif`;
@@ -865,6 +914,54 @@ const MenuModule = (() => {
     }
   }
   window.downloadMenuImage = downloadMenuImage;
+
+  window.handleImageSelect = function(input, previewId, labelId) {
+    const file = input.files[0];
+    if (!file) return;
+    document.getElementById(labelId).textContent = file.name;
+    const preview = document.getElementById(previewId);
+    if (preview) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+        const icon = document.getElementById(previewId.replace('Preview', 'Icon'));
+        if (icon) icon.style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    }
+    if (window.showToast) window.showToast('Görsel seçildi!', 'success');
+  };
+
+  window.selectPredefinedTemplate = function(id) {
+    customTemplateSrc = `assets/menu_template${id === 1 ? '' : '_' + id}.jpg`;
+    const statusEl = document.getElementById('templateUploadStatus');
+    if (statusEl) statusEl.textContent = `${id}. Şablon seçildi.`;
+    if (window.showToast) window.showToast(`${id}. Şablon seçildi.`, 'success');
+    renderShareTab();
+  };
+
+  window.handleCanvasImg = function(input, side) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        customCanvasImages[side] = img;
+        const previewId = side === 'left' ? 'canvasImgLeftPreview' : 'canvasImgRightPreview';
+        const previewEl = document.getElementById(previewId);
+        if (previewEl) {
+          previewEl.src = e.target.result;
+          previewEl.style.display = 'block';
+        }
+        if (window.showToast) window.showToast('Görsel tuvale eklendi!', 'success');
+        renderShareTab();
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
 
   // ──────────────────────────────────────────
   // PUBLIC EXPORT
