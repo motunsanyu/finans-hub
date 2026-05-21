@@ -151,9 +151,9 @@ function renderAdminUsers(users) {
           </div>
           
           <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:3px;">
-            <div style="display:flex; align-items:flex-start; gap:8px; width:100%;">
+            <div style="display:grid; grid-template-columns:minmax(0, 1fr) auto; align-items:center; gap:8px; width:100%;">
               <span style="color:#fff; font-weight:800; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${name}</span>
-              <div style="margin-left:auto; display:flex; align-items:center; justify-content:flex-end; gap:6px; flex-wrap:wrap; max-width:52%; flex-shrink:0;">
+              <div style="display:flex; align-items:center; justify-content:flex-end; gap:6px; flex-wrap:nowrap; white-space:nowrap; flex-shrink:0;">
                 ${statusBadges}
               </div>
             </div>
@@ -312,13 +312,24 @@ async function executeDeleteUser(sb, userId) {
 window.toggleMenuEditorPermission = async function(userId, currentStatus) {
   const sb = window._supabaseClient;
   const newStatus = !currentStatus;
-  try {
-    const { error } = await sb.from('profiles').update({ is_menu_editor: newStatus }).eq('id', userId);
-    if (error) throw error;
-    if (window.showToast) window.showToast(`Menü yetkisi ${newStatus ? 'verildi' : 'kaldırıldı'}.`, 'success');
-    loadAdminUsers();
-  } catch (e) {
-    console.error(e);
-    if (window.showToast) window.showToast('İşlem başarısız.', 'error');
+  const message = newStatus
+    ? 'Bu kullanıcıya menü yetkisi vermek istediğinize emin misiniz?'
+    : 'Bu kullanıcının menü yetkisini kaldırmak istediğinize emin misiniz?';
+  const run = async () => {
+    try {
+      const { error } = await sb.from('profiles').update({ is_menu_editor: newStatus }).eq('id', userId);
+      if (error) throw error;
+      if (window.showToast) window.showToast(`Menü yetkisi ${newStatus ? 'verildi' : 'kaldırıldı'}.`, 'success');
+      loadAdminUsers();
+    } catch (e) {
+      console.error(e);
+      if (window.showToast) window.showToast('İşlem başarısız.', 'error');
+    }
+  };
+
+  if (window.showCustomConfirm) {
+    window.showCustomConfirm(message, run, { okText: 'Evet', okColor: newStatus ? '#10b981' : '#f59e0b' });
+  } else if (confirm(message)) {
+    run();
   }
 };
