@@ -168,7 +168,7 @@ const MenuModule = (() => {
   function updatePublicUIBranding() {
     const headerTitle = document.querySelector('#publicMenuScreen h1');
     if (headerTitle) {
-      headerTitle.innerHTML = `<div style="font-size:42px; line-height:1; margin-bottom:4px;">Ağaçören</div><div style="font-size:26px; font-weight:700; color:#c2410c;">Ev Yemekleri</div>`;
+      headerTitle.innerHTML = `<div style="font-size:26px; font-weight:700; color:#c2410c; line-height:1.2;">Ağaçören Ev Yemekleri</div>`;
     }
     const headerSub = document.querySelector('#publicMenuScreen p');
     if (headerSub) {
@@ -213,11 +213,18 @@ const MenuModule = (() => {
     const instaEl = document.getElementById('profileInstagram');
     const container = document.getElementById('profilePhoneContainer');
     const logoLabel = document.getElementById('logo-upload-name');
+    const logoPreview = document.getElementById('profileLogoPreview');
+    const logoIcon = document.getElementById('profileLogoIcon');
 
     if (nameEl) nameEl.value = restaurantProfile.name;
     if (instaEl) instaEl.value = restaurantProfile.instagram;
     if (logoLabel && restaurantProfile.logo_url) {
       logoLabel.textContent = 'Mevcut Logo Yüklü (Değiştirmek için tıklayın)';
+    }
+    if (logoPreview && restaurantProfile.logo_url) {
+      logoPreview.src = restaurantProfile.logo_url;
+      logoPreview.style.display = 'block';
+      if (logoIcon) logoIcon.style.display = 'none';
     }
 
     if (container) {
