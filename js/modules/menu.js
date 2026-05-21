@@ -29,6 +29,8 @@ const MenuModule = (() => {
   const TEMPLATE_SLOTS_KEY = 'menu_template_slots_v2';
   const ACTIVE_TEMPLATE_KEY = 'menu_active_template_key';
   const TEMPLATE_TEXT_SETTINGS_KEY = 'menu_template_text_settings_v2';
+  const DESIGN_CANVAS_WIDTH = 576;
+  const DESIGN_CANVAS_HEIGHT = 1024;
   const DEFAULT_CANVAS_Y_OFFSETS = { soups: -70, dishes: -60 };
   const DEFAULT_CANVAS_FONT_SIZES = { soups: 28, dishes: 28 };
 
@@ -977,6 +979,9 @@ const MenuModule = (() => {
       canvas.width = bgImg.naturalWidth || 576;
       canvas.height = bgImg.naturalHeight || 1024;
       ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+      const scaleX = canvas.width / DESIGN_CANVAS_WIDTH;
+      const scaleY = canvas.height / DESIGN_CANVAS_HEIGHT;
+      const scale = Math.min(scaleX, scaleY);
 
       // Alt bölge görselleri
       function drawRoundedImage(context, img, x, y, width, height, radius) {
@@ -1013,19 +1018,19 @@ const MenuModule = (() => {
       }
 
       if (customCanvasImages.left) {
-        let sizeL = imgSizes.left || 240;
-        let xL = 24 + (imgOffsetsX.left || 0);
-        let yL = 820 + (imgOffsetsY.left || 0);
+        let sizeL = (imgSizes.left || 240) * scaleX;
+        let xL = (24 + (imgOffsetsX.left || 0)) * scaleX;
+        let yL = (820 + (imgOffsetsY.left || 0)) * scaleY;
         // keep aspect ratio, original height was 180 for 240 width (3:4 ratio roughly, exactly 4:3 is 240x180)
-        let hL = sizeL * (180/240); 
-        drawRoundedImage(ctx, customCanvasImages.left, xL, yL, sizeL, hL, 15);
+        let hL = ((imgSizes.left || 240) * (180/240)) * scaleY;
+        drawRoundedImage(ctx, customCanvasImages.left, xL, yL, sizeL, hL, 15 * scale);
       }
       if (customCanvasImages.right) {
-        let sizeR = imgSizes.right || 240;
-        let xR = 312 + (imgOffsetsX.right || 0);
-        let yR = 820 + (imgOffsetsY.right || 0);
-        let hR = sizeR * (180/240);
-        drawRoundedImage(ctx, customCanvasImages.right, xR, yR, sizeR, hR, 15);
+        let sizeR = (imgSizes.right || 240) * scaleX;
+        let xR = (312 + (imgOffsetsX.right || 0)) * scaleX;
+        let yR = (820 + (imgOffsetsY.right || 0)) * scaleY;
+        let hR = ((imgSizes.right || 240) * (180/240)) * scaleY;
+        drawRoundedImage(ctx, customCanvasImages.right, xR, yR, sizeR, hR, 15 * scale);
       }
 
       // Bugünün menüsünü veritabanından çek
@@ -1039,7 +1044,7 @@ const MenuModule = (() => {
 
       if (!data?.items?.length) {
         ctx.fillStyle = 'rgba(0,0,0,0.5)';
-        ctx.font = 'bold 16px sans-serif';
+        ctx.font = `bold ${16 * scale}px sans-serif`;
         ctx.textAlign = 'center';
         ctx.fillText('Bugün için menü kaydedilmemiş.', canvas.width / 2, canvas.height / 2);
         return;
@@ -1056,16 +1061,16 @@ const MenuModule = (() => {
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
-      const baseSoupsY = 380 + canvasYOffsets.soups;
-      const baseDishesY = 520 + canvasYOffsets.dishes;
-      const lineH = 34;
+      const baseSoupsY = (380 + canvasYOffsets.soups) * scaleY;
+      const baseDishesY = (520 + canvasYOffsets.dishes) * scaleY;
+      const lineH = 34 * scaleY;
 
       // Çorbalar
       let yPos = baseSoupsY;
       soups.forEach(item => {
         ctx.fillStyle = '#2e1b0e';
-        const fs = canvasFontSizes.soups || 22;
-        ctx.font = `bold ${Math.min(fs, 600 / item.name.length * (fs/10))}px 'Georgia', serif`;
+        const fs = (canvasFontSizes.soups || 22) * scale;
+        ctx.font = `bold ${Math.min(fs, (600 * scaleX) / item.name.length * (fs/10))}px 'Georgia', serif`;
         ctx.fillText(item.name, canvas.width / 2, yPos);
         yPos += lineH;
       });
@@ -1074,8 +1079,8 @@ const MenuModule = (() => {
       yPos = Math.max(yPos + 10, baseDishesY);
       dishes.forEach(item => {
         ctx.fillStyle = '#2e1b0e';
-        const fs = canvasFontSizes.dishes || 22;
-        ctx.font = `bold ${Math.min(fs, 600 / item.name.length * (fs/10))}px 'Georgia', serif`;
+        const fs = (canvasFontSizes.dishes || 22) * scale;
+        ctx.font = `bold ${Math.min(fs, (600 * scaleX) / item.name.length * (fs/10))}px 'Georgia', serif`;
         ctx.fillText(item.name, canvas.width / 2, yPos);
         yPos += lineH;
       });
