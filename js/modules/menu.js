@@ -13,7 +13,7 @@ const MenuModule = (() => {
   const ASSET_TEMPLATES = {
     default: { name: 'Varsayılan Şablon', src: 'assets/menu_template.jpg' },
     template1: { name: 'Menü Şablonu 1', src: 'assets/menu_template1.jpg' },
-    template2: { name: 'Menü Şablonu 2', src: 'assets/menu_template2.jpg' }
+    template2: { name: 'Menü Şablonu 2', src: 'assets/menu_template2.jpg', preset: { y: { soups: -10, dishes: 0 } } }
   };
   let customCanvasImages = { left: null, right: null };
   let canvasYOffsets = { soups: -70, dishes: -60 };
@@ -90,8 +90,9 @@ const MenuModule = (() => {
   function loadTemplateTextSettings() {
     const all = getTemplateTextSettings();
     const current = all[activeTemplateKey] || {};
-    canvasYOffsets = { ...DEFAULT_CANVAS_Y_OFFSETS, ...(current.y || {}) };
-    canvasFontSizes = { ...DEFAULT_CANVAS_FONT_SIZES, ...(current.font || {}) };
+    const preset = ASSET_TEMPLATES[activeTemplateKey]?.preset || {};
+    canvasYOffsets = { ...DEFAULT_CANVAS_Y_OFFSETS, ...(preset.y || {}), ...(current.y || {}) };
+    canvasFontSizes = { ...DEFAULT_CANVAS_FONT_SIZES, ...(preset.font || {}), ...(current.font || {}) };
     updateCanvasTextControlLabels();
   }
 
@@ -111,16 +112,38 @@ const MenuModule = (() => {
   function updateTemplateSelectorUI() {
     const select = document.getElementById('templateSelect');
     if (select) {
-      ['slot1', 'slot2', 'slot3'].forEach((slot, index) => {
-        const opt = select.querySelector(`option[value="${slot}"]`);
-        if (opt) opt.textContent = `${index + 1}. Şablon${templateSlots[slot]?.name ? ' - ' + templateSlots[slot].name : ''}`;
-      });
+      const customOptionId = 'templateSelectCustomOption';
+      const existingCustomOpt = select.querySelector(`#${customOptionId}`);
+      if (activeTemplateKey.startsWith('slot') && templateSlots[activeTemplateKey]) {
+        if (!existingCustomOpt) {
+          const opt = document.createElement('option');
+          opt.id = customOptionId;
+          select.appendChild(opt);
+        }
+        const currentOpt = select.querySelector(`#${customOptionId}`);
+        if (currentOpt) {
+          currentOpt.value = activeTemplateKey;
+          currentOpt.textContent = `Özel Şablon - ${templateSlots[activeTemplateKey].name}`;
+        }
+      } else if (existingCustomOpt) {
+        existingCustomOpt.remove();
+      }
+
+      if (activeTemplateKey.startsWith('slot') && !templateSlots[activeTemplateKey]) {
+        activeTemplateKey = 'default';
+        customTemplateSrc = null;
+      }
       select.value = activeTemplateKey;
     }
 
     const statusEl = document.getElementById('templateUploadStatus');
     if (statusEl) {
       statusEl.textContent = `Mevcut şablon: ${getTemplateName(activeTemplateKey)}`;
+    }
+
+    const deleteBtn = document.getElementById('templateDeleteButton');
+    if (deleteBtn) {
+      deleteBtn.style.display = (activeTemplateKey.startsWith('slot') && templateSlots[activeTemplateKey]) ? 'inline-flex' : 'none';
     }
   }
 
@@ -372,6 +395,29 @@ const MenuModule = (() => {
     updateTemplateSelectorUI();
     if (window.showToast) window.showToast('Varsayılan şablon seçildi.', 'success');
     renderShareTab();
+  };
+
+  window.deleteSelectedTemplate = function() {
+    if (!activeTemplateKey.startsWith('slot') || !templateSlots[activeTemplateKey]) {
+      if (window.showToast) window.showToast('Silinebilecek bir özel şablon seçili değil.', 'error');
+      return;
+    }
+    const proceed = () => {
+      templateSlots[activeTemplateKey] = null;
+      saveTemplateSlots();
+      activeTemplateKey = 'default';
+      customTemplateSrc = null;
+      localStorage.setItem(ACTIVE_TEMPLATE_KEY, activeTemplateKey);
+      loadTemplateTextSettings();
+      updateTemplateSelectorUI();
+      renderShareTab();
+      if (window.showToast) window.showToast('Özel şablon silindi.', 'success');
+    };
+    if (window.showCustomConfirm) {
+      window.showCustomConfirm('Seçili özel şablonu silmek istediğinize emin misiniz?', proceed, { okText: 'Sil', okColor: '#ef5350' });
+    } else if (confirm('Seçili özel şablonu silmek istediğinize emin misiniz?')) {
+      proceed();
+    }
   };
 
   // ──────────────────────────────────────────
@@ -989,6 +1035,8 @@ const MenuModule = (() => {
     const qrContainer = document.getElementById('menuQrContainer');
     if (!canvas) return;
 
+    updateCanvasImageSelectionUI();
+
     // QR kodu üret
     if (qrContainer) {
       const publicUrl = window.location.origin + window.location.pathname + '?menu=true';
@@ -1280,6 +1328,7 @@ const MenuModule = (() => {
         preview.style.display = 'block';
         const icon = document.getElementById(previewId.replace('Preview', 'Icon'));
         if (icon) icon.style.display = 'none';
+        updateCanvasImageSelectionUI();
       };
       reader.readAsDataURL(file);
     }
@@ -1288,6 +1337,46 @@ const MenuModule = (() => {
 
 
   let activeCanvasImageSide = 'left';
+
+  function updateCanvasImageSelectionUI() {
+    const leftCard = document.getElementById('canvasImgLeftCard');
+    const rightCard = document.getElementById('canvasImgRightCard');
+    const label = document.getElementById('selectedCanvasImageLabel');
+    const xVal = document.getElementById('selected_img_x_val');
+    const yVal = document.getElementById('selected_img_y_val');
+    const sizeVal = document.getElementById('selected_img_size_val');
+    const leftBtn = document.getElementById('canvasImageLeftSelector');
+    const rightBtn = document.getElementById('canvasImageRightSelector');
+
+    if (leftCard) leftCard.style.borderColor = activeCanvasImageSide === 'left' ? '#10b981' : '#232e3c';
+    if (rightCard) rightCard.style.borderColor = activeCanvasImageSide === 'right' ? '#10b981' : '#232e3c';
+    if (leftBtn) leftBtn.style.background = activeCanvasImageSide === 'left' ? '#10b981' : '#2b3a4a';
+    if (rightBtn) rightBtn.style.background = activeCanvasImageSide === 'right' ? '#10b981' : '#2b3a4a';
+    if (label) label.textContent = activeCanvasImageSide === 'left' ? '1. Görsel Sol' : '2. Görsel Sağ';
+    if (xVal) xVal.textContent = (imgOffsetsX[activeCanvasImageSide] || 0) + 'px';
+    if (yVal) yVal.textContent = (imgOffsetsY[activeCanvasImageSide] || 0) + 'px';
+    if (sizeVal) sizeVal.textContent = (imgSizes[activeCanvasImageSide] || 240) + 'px';
+  }
+
+  window.selectCanvasImageSide = function(side) {
+    activeCanvasImageSide = side === 'right' ? 'right' : 'left';
+    updateCanvasImageSelectionUI();
+  };
+
+  window.adjustSelectedCanvasImgPos = function(axis, delta) {
+    window.adjustImgPos(activeCanvasImageSide, axis, delta);
+    updateCanvasImageSelectionUI();
+  };
+
+  window.adjustSelectedCanvasImgSize = function(delta) {
+    window.adjustImgSize(activeCanvasImageSide, delta);
+    updateCanvasImageSelectionUI();
+  };
+
+  window.resetSelectedImg = function() {
+    window.resetImg(activeCanvasImageSide);
+    updateCanvasImageSelectionUI();
+  };
 
   window.openCanvasImageModal = function(side) {
     activeCanvasImageSide = side;
@@ -1406,8 +1495,8 @@ const MenuModule = (() => {
         previewEl.style.display = 'block';
       }
       // Canvas butonunu güncelle
-      const btnLeft = document.querySelector('[onclick*="openCanvasImageModal(\'left\')"]');
-      const btnRight = document.querySelector('[onclick*="openCanvasImageModal(\'right\')"]');
+      const btnLeft = document.getElementById('canvasImgLeftCard');
+      const btnRight = document.getElementById('canvasImgRightCard');
       if (side === 'left' && btnLeft) btnLeft.style.borderColor = '#10b981';
       if (side === 'right' && btnRight) btnRight.style.borderColor = '#10b981';
 
