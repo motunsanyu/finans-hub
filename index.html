@@ -2658,12 +2658,18 @@
           <div style="display:flex; flex-direction:column; gap:16px;">
 
             <!-- Şablon Yükleme -->
-            <div style="background:#17212b; border-radius:12px; border:1px solid #232e3c; padding:14px;">
+            <div style="background:#17212b; border-radius:12px; border:1px solid #232e3c; padding:14px; order:1;">
               <label style="color:#708499; font-size:11px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:10px;">Menü Şablonu (Arkaplan Görseli)</label>
+              <select id="templateSelect" onchange="window.selectTemplate(this.value)" style="width:100%; margin-bottom:10px; padding:10px 12px; border-radius:8px; background:#0e1621; color:#fff; border:1px solid #232e3c; font-size:13px; font-weight:700;">
+                <option value="default">Varsayılan Şablon</option>
+                <option value="slot1">1. Şablon</option>
+                <option value="slot2">2. Şablon</option>
+                <option value="slot3">3. Şablon</option>
+              </select>
               <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
                 <input type="file" id="templateUploadFile" accept="image/*" style="display:none;" onchange="window.handleTemplateUpload(this.files[0])">
                 <div onclick="document.getElementById('templateUploadFile').click()" style="flex:1; border:2px dashed #232e3c; border-radius:8px; padding:12px; text-align:center; color:#708499; cursor:pointer; transition:border-color 0.2s; font-size:13px; font-weight:700;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#232e3c'">
-                  🖼 Özel Şablon Yükle
+                  🖼 Seçili Slota Şablon Yükle
                 </div>
               </div>
               <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
@@ -2673,7 +2679,7 @@
             </div>
 
             <!-- Alt Yemek Görselleri -->
-            <div style="background:#17212b; border-radius:12px; border:1px solid #232e3c; padding:14px;">
+            <div style="background:#17212b; border-radius:12px; border:1px solid #232e3c; padding:14px; order:3;">
               <label style="color:#708499; font-size:11px; font-weight:800; text-transform:uppercase; display:block; margin-bottom:10px;">Alt Bölüm Yemek Görselleri</label>
               <div style="display:flex; gap:10px;">
                 <div style="flex:1;">
@@ -2734,7 +2740,7 @@
             </div>
 
             <!-- Canvas Önizleme ve İndir & D-PAD -->
-            <div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:10px; order:2;">
               <label style="color:#708499; font-size:11px; font-weight:800; text-transform:uppercase; align-self:flex-start;">Menü Önizlemesi & Konum Ayarı</label>
               
               <div style="display:flex; justify-content:center; align-items:flex-start; gap:12px; width:100%; overflow-x:hidden; padding-bottom:4px;">
@@ -2799,10 +2805,10 @@
               </div>
             </div>
 
-            <div style="width:100%; height:1px; background:rgba(255,255,255,0.05);"></div>
+            <div style="width:100%; height:1px; background:rgba(255,255,255,0.05); order:4;"></div>
 
             <!-- Müşteriler İçin QR Kod -->
-            <div style="display:flex; flex-direction:column; align-items:center; gap:10px; margin-bottom:20px;">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:10px; margin-bottom:20px; order:5;">
               <label style="color:#708499; font-size:11px; font-weight:800; text-transform:uppercase;">Masa QR Kodu</label>
               <div id="menuQrContainer" style="display:flex; justify-content:center; flex-direction:column; align-items:center;">
                 <!-- QR kod görseli JS ile yerleşecek -->

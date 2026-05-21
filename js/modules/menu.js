@@ -3,7 +3,13 @@
 const MenuModule = (() => {
   let masterItems = [];
   let currentDailyMenu = null;
-  let customTemplateSrc = null; // localStorage'da saklanan şablon data-url
+  let customTemplateSrc = null; // Aktif özel şablon data-url
+  let activeTemplateKey = 'default';
+  let templateSlots = {
+    slot1: null,
+    slot2: null,
+    slot3: null
+  };
   let customCanvasImages = { left: null, right: null };
   let canvasYOffsets = { soups: -70, dishes: -60 };
   let canvasFontSizes = { soups: 28, dishes: 28 };
@@ -20,16 +26,102 @@ const MenuModule = (() => {
     instagram: ''
   };
 
+  const TEMPLATE_SLOTS_KEY = 'menu_template_slots_v2';
+  const ACTIVE_TEMPLATE_KEY = 'menu_active_template_key';
+  const TEMPLATE_TEXT_SETTINGS_KEY = 'menu_template_text_settings_v2';
+  const DEFAULT_CANVAS_Y_OFFSETS = { soups: -70, dishes: -60 };
+  const DEFAULT_CANVAS_FONT_SIZES = { soups: 28, dishes: 28 };
+
   // Seçili yemek id'leri (JS ile yönetiliyor, checkbox hack yok)
   let selectedFoodIds = new Set();
+
+  function loadTemplateState() {
+    try {
+      const savedSlots = JSON.parse(localStorage.getItem(TEMPLATE_SLOTS_KEY) || '{}');
+      templateSlots = { ...templateSlots, ...savedSlots };
+    } catch {}
+
+    const legacyTemplate = localStorage.getItem('menu_custom_template');
+    if (legacyTemplate && !templateSlots.slot1) {
+      templateSlots.slot1 = { name: 'Eski özel şablon', src: legacyTemplate };
+      localStorage.setItem(TEMPLATE_SLOTS_KEY, JSON.stringify(templateSlots));
+      localStorage.removeItem('menu_custom_template');
+    }
+
+    activeTemplateKey = localStorage.getItem(ACTIVE_TEMPLATE_KEY) || 'default';
+    if (activeTemplateKey !== 'default' && !templateSlots[activeTemplateKey]) {
+      activeTemplateKey = 'default';
+    }
+    customTemplateSrc = activeTemplateKey === 'default' ? null : templateSlots[activeTemplateKey]?.src || null;
+    loadTemplateTextSettings();
+  }
+
+  function saveTemplateSlots() {
+    localStorage.setItem(TEMPLATE_SLOTS_KEY, JSON.stringify(templateSlots));
+  }
+
+  function getTemplateTextSettings() {
+    try {
+      return JSON.parse(localStorage.getItem(TEMPLATE_TEXT_SETTINGS_KEY) || '{}');
+    } catch {
+      return {};
+    }
+  }
+
+  function saveTemplateTextSettings() {
+    const all = getTemplateTextSettings();
+    all[activeTemplateKey] = {
+      y: { ...canvasYOffsets },
+      font: { ...canvasFontSizes }
+    };
+    localStorage.setItem(TEMPLATE_TEXT_SETTINGS_KEY, JSON.stringify(all));
+  }
+
+  function loadTemplateTextSettings() {
+    const all = getTemplateTextSettings();
+    const current = all[activeTemplateKey] || {};
+    canvasYOffsets = { ...DEFAULT_CANVAS_Y_OFFSETS, ...(current.y || {}) };
+    canvasFontSizes = { ...DEFAULT_CANVAS_FONT_SIZES, ...(current.font || {}) };
+    updateCanvasTextControlLabels();
+  }
+
+  function updateCanvasTextControlLabels() {
+    ['soups', 'dishes'].forEach(section => {
+      const yEl = document.getElementById(`canvasY_${section}_val`);
+      if (yEl) yEl.textContent = (canvasYOffsets[section] > 0 ? '+' : '') + canvasYOffsets[section] + 'px';
+    });
+  }
+
+  function updateTemplateSelectorUI() {
+    const select = document.getElementById('templateSelect');
+    if (select) {
+      ['slot1', 'slot2', 'slot3'].forEach((slot, index) => {
+        const opt = select.querySelector(`option[value="${slot}"]`);
+        if (opt) opt.textContent = `${index + 1}. Şablon${templateSlots[slot]?.name ? ' - ' + templateSlots[slot].name : ''}`;
+      });
+      select.value = activeTemplateKey;
+    }
+
+    const statusEl = document.getElementById('templateUploadStatus');
+    if (statusEl) {
+      statusEl.textContent = activeTemplateKey === 'default'
+        ? 'Mevcut şablon: menu_template.jpg'
+        : (templateSlots[activeTemplateKey]?.name
+          ? `Mevcut şablon: ${templateSlots[activeTemplateKey].name}`
+          : 'Bu şablon slotu boş. Yükle butonuyla doldurabilirsiniz.');
+    }
+  }
+
+  function getUploadTargetSlot() {
+    if (activeTemplateKey !== 'default') return activeTemplateKey;
+    return ['slot1', 'slot2', 'slot3'].find(slot => !templateSlots[slot]) || 'slot1';
+  }
 
   // ──────────────────────────────────────────
   // INIT
   // ──────────────────────────────────────────
   async function init() {
-    // Şablon localStorage'dan yükle
-    const savedTpl = localStorage.getItem('menu_custom_template');
-    if (savedTpl) customTemplateSrc = savedTpl;
+    loadTemplateState();
 
     await loadProfileSettings();
 
@@ -216,22 +308,39 @@ const MenuModule = (() => {
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (e) => {
+      const targetSlot = getUploadTargetSlot();
+      templateSlots[targetSlot] = {
+        name: file.name,
+        src: e.target.result
+      };
+      activeTemplateKey = targetSlot;
       customTemplateSrc = e.target.result;
-      localStorage.setItem('menu_custom_template', customTemplateSrc);
-      const statusEl = document.getElementById('templateUploadStatus');
-      if (statusEl) statusEl.textContent = `Yeni şablon yüklendi: ${file.name}`;
+      saveTemplateSlots();
+      localStorage.setItem(ACTIVE_TEMPLATE_KEY, activeTemplateKey);
+      loadTemplateTextSettings();
+      updateTemplateSelectorUI();
       if (window.showToast) window.showToast('Şablon güncellendi!', 'success');
-      renderShareTab(); // Canvas'ı yenile
+      renderShareTab();
     };
     reader.readAsDataURL(file);
   };
 
+  window.selectTemplate = function(templateKey) {
+    activeTemplateKey = templateKey || 'default';
+    customTemplateSrc = activeTemplateKey === 'default' ? null : templateSlots[activeTemplateKey]?.src || null;
+    localStorage.setItem(ACTIVE_TEMPLATE_KEY, activeTemplateKey);
+    loadTemplateTextSettings();
+    updateTemplateSelectorUI();
+    renderShareTab();
+  };
+
   window.resetTemplate = function() {
+    activeTemplateKey = 'default';
     customTemplateSrc = null;
-    localStorage.removeItem('menu_custom_template');
-    const statusEl = document.getElementById('templateUploadStatus');
-    if (statusEl) statusEl.textContent = 'Varsayılan şablon: menu_template.jpg';
-    if (window.showToast) window.showToast('Şablon sıfırlandı.', 'success');
+    localStorage.setItem(ACTIVE_TEMPLATE_KEY, activeTemplateKey);
+    loadTemplateTextSettings();
+    updateTemplateSelectorUI();
+    if (window.showToast) window.showToast('Varsayılan şablon seçildi.', 'success');
     renderShareTab();
   };
 
@@ -382,7 +491,11 @@ const MenuModule = (() => {
     document.querySelectorAll('.menu-tab-content').forEach(el => {
       el.style.display = el.id === `tabContent-${tabId}` ? 'block' : 'none';
     });
-    if (tabId === 'exporter') renderShareTab();
+    if (tabId === 'exporter') {
+      updateTemplateSelectorUI();
+      loadTemplateTextSettings();
+      renderShareTab();
+    }
   }
   window.switchMenuTab = switchTab;
 
@@ -752,15 +865,7 @@ const MenuModule = (() => {
       if (error) throw error;
 
       if (window.showToast) window.showToast('Menü kaydedildi!', 'success');
-      
-      // Kayıt sonrası her şeyi temizle (Temiz Sayfa)
-      selectedFoodIds.clear();
-      currentDailyMenu = null;
-      document.getElementById('menuBuilderDate').value = '';
-      
-      // NOT: Kullanıcının canvas tasarımını indirebilmesi için 
-      // QR & Paylaş sekmesindeki (canvas) ayarları otomatik SIFIRLAMIYORUZ.
-      
+      currentDailyMenu = { menu_date: dateStr, items };
       renderBuilderItemsList();
 
     } catch (err) {
@@ -771,8 +876,9 @@ const MenuModule = (() => {
   window.saveDailyMenu = saveDailyMenu;
 
   window.resetShareMenu = function() {
+    activeTemplateKey = 'default';
     customTemplateSrc = null;
-    localStorage.removeItem('menu_custom_template');
+    localStorage.setItem(ACTIVE_TEMPLATE_KEY, activeTemplateKey);
     customCanvasImages = { left: null, right: null };
     
     // Preview'leri temizle
@@ -781,9 +887,7 @@ const MenuModule = (() => {
     if (pL) { pL.src = ''; pL.style.display = 'none'; }
     if (pR) { pR.src = ''; pR.style.display = 'none'; }
     
-    // Status text
-    const tStat = document.getElementById('templateUploadStatus');
-    if (tStat) tStat.textContent = 'Mevcut şablon: menu_template.jpg';
+    updateTemplateSelectorUI();
     
     // Konum ve Boyutları Sıfırla
     if (window.resetImg) {
@@ -804,6 +908,8 @@ const MenuModule = (() => {
 
   window.clearDailyMenu = function() {
     selectedFoodIds.clear();
+    const dateStr = document.getElementById('menuBuilderDate')?.value;
+    currentDailyMenu = { menu_date: dateStr || '', items: [] };
     // Tüm satırları pasif görünüme döndür
     document.querySelectorAll('.menu-builder-row').forEach(row => {
       const id = parseInt(row.dataset.id);
@@ -991,13 +1097,15 @@ const MenuModule = (() => {
     // Gösterge güncelle
     const el = document.getElementById(`canvasY_${section}_val`);
     if (el) el.textContent = (canvasYOffsets[section] > 0 ? '+' : '') + canvasYOffsets[section] + 'px';
+    saveTemplateTextSettings();
     renderShareTab();
   };
 
   window.resetCanvasY = function(section) {
-    canvasYOffsets[section] = section === 'soups' ? -70 : -60;
+    canvasYOffsets[section] = DEFAULT_CANVAS_Y_OFFSETS[section];
     const el = document.getElementById(`canvasY_${section}_val`);
     if (el) el.textContent = canvasYOffsets[section] + 'px';
+    saveTemplateTextSettings();
     renderShareTab();
   };
 
@@ -1005,11 +1113,13 @@ const MenuModule = (() => {
     canvasFontSizes[section] = (canvasFontSizes[section] || 28) + delta;
     if (canvasFontSizes[section] < 12) canvasFontSizes[section] = 12; // min size
     if (canvasFontSizes[section] > 72) canvasFontSizes[section] = 72; // max size
+    saveTemplateTextSettings();
     renderShareTab();
   };
 
   window.resetCanvasFontSize = function(section) {
-    canvasFontSizes[section] = 28;
+    canvasFontSizes[section] = DEFAULT_CANVAS_FONT_SIZES[section];
+    saveTemplateTextSettings();
     renderShareTab();
   };
 
