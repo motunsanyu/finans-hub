@@ -5,9 +5,13 @@ const MenuModule = (() => {
   let currentDailyMenu = null;
   let customTemplateSrc = null; // localStorage'da saklanan şablon data-url
   let customCanvasImages = { left: null, right: null };
-  // Canvas Y koordinat ofsetleri (D-pad ile ayarlanabilir)
   let canvasYOffsets = { soups: -70, dishes: -60 };
   let canvasFontSizes = { soups: 28, dishes: 28 };
+  
+  // Görsel konum ve boyut ayarları
+  let imgOffsetsX = { left: 0, right: 0 };
+  let imgOffsetsY = { left: 0, right: 0 };
+  let imgSizes = { left: 240, right: 240 };
 
   let restaurantProfile = {
     name: '',
@@ -80,7 +84,7 @@ const MenuModule = (() => {
     const logoArea = document.getElementById('publicLogoArea');
     if (logoArea) {
       if (restaurantProfile.logo_url) {
-        logoArea.innerHTML = `<img src="${restaurantProfile.logo_url}" style="width:72px; height:72px; border-radius:50%; object-fit:cover; border:2.5px solid #c2410c; box-shadow:0 4px 16px rgba(0,0,0,0.1); margin-bottom:4px;">`;
+        logoArea.innerHTML = `<img src="${restaurantProfile.logo_url}" style="width:96px; height:96px; border-radius:50%; object-fit:cover; border:2.5px solid #c2410c; box-shadow:0 4px 16px rgba(0,0,0,0.15); margin-bottom:4px;">`;
       } else {
         logoArea.innerHTML = `<div style="font-size:32px; margin-bottom:8px;">🥗</div>`;
       }
@@ -95,7 +99,7 @@ const MenuModule = (() => {
         </div>
         <div style="font-size:15px; color:#c2410c; font-weight:800; display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:16px;">
           <img src="assets/instagram.png" style="width:24px; height:24px; border-radius:6px; object-fit:contain;">
-          @ağaçörenevyemekleri
+          @agacorenevyemekleri
         </div>
         <p style="font-size:11px; color:#a19079; margin:0; font-style:italic;">Afiyet Olsun!</p>
       `;
@@ -748,16 +752,55 @@ const MenuModule = (() => {
       if (error) throw error;
 
       if (window.showToast) window.showToast('Menü kaydedildi!', 'success');
-      // Seçimleri otomatik temizle
+      
+      // Kayıt sonrası her şeyi temizle (Temiz Sayfa)
       selectedFoodIds.clear();
-      currentDailyMenu = { menu_date: dateStr, items };
+      currentDailyMenu = null;
+      document.getElementById('menuBuilderDate').value = '';
+      
+      // NOT: Kullanıcının canvas tasarımını indirebilmesi için 
+      // QR & Paylaş sekmesindeki (canvas) ayarları otomatik SIFIRLAMIYORUZ.
+      
       renderBuilderItemsList();
+
     } catch (err) {
       console.error(err);
       if (window.showToast) window.showToast('Kayıt hatası: ' + err.message, 'error');
     }
   }
   window.saveDailyMenu = saveDailyMenu;
+
+  window.resetShareMenu = function() {
+    customTemplateSrc = null;
+    localStorage.removeItem('menu_custom_template');
+    customCanvasImages = { left: null, right: null };
+    
+    // Preview'leri temizle
+    const pL = document.getElementById('canvasImgLeftPreview');
+    const pR = document.getElementById('canvasImgRightPreview');
+    if (pL) { pL.src = ''; pL.style.display = 'none'; }
+    if (pR) { pR.src = ''; pR.style.display = 'none'; }
+    
+    // Status text
+    const tStat = document.getElementById('templateUploadStatus');
+    if (tStat) tStat.textContent = 'Mevcut şablon: menu_template.jpg';
+    
+    // Konum ve Boyutları Sıfırla
+    if (window.resetImg) {
+      window.resetImg('left');
+      window.resetImg('right');
+    }
+    if (window.resetCanvasY) {
+      window.resetCanvasY('soups');
+      window.resetCanvasY('dishes');
+    }
+    if (window.resetCanvasFontSize) {
+      window.resetCanvasFontSize('soups');
+      window.resetCanvasFontSize('dishes');
+    }
+    
+    renderShareTab();
+  };
 
   window.clearDailyMenu = function() {
     selectedFoodIds.clear();
@@ -864,10 +907,19 @@ const MenuModule = (() => {
       }
 
       if (customCanvasImages.left) {
-        drawRoundedImage(ctx, customCanvasImages.left, 24, 820, 240, 180, 15);
+        let sizeL = imgSizes.left || 240;
+        let xL = 24 + (imgOffsetsX.left || 0);
+        let yL = 820 + (imgOffsetsY.left || 0);
+        // keep aspect ratio, original height was 180 for 240 width (3:4 ratio roughly, exactly 4:3 is 240x180)
+        let hL = sizeL * (180/240); 
+        drawRoundedImage(ctx, customCanvasImages.left, xL, yL, sizeL, hL, 15);
       }
       if (customCanvasImages.right) {
-        drawRoundedImage(ctx, customCanvasImages.right, 312, 820, 240, 180, 15);
+        let sizeR = imgSizes.right || 240;
+        let xR = 312 + (imgOffsetsX.right || 0);
+        let yR = 820 + (imgOffsetsY.right || 0);
+        let hR = sizeR * (180/240);
+        drawRoundedImage(ctx, customCanvasImages.right, xR, yR, sizeR, hR, 15);
       }
 
       // Bugünün menüsünü veritabanından çek
@@ -958,6 +1010,45 @@ const MenuModule = (() => {
 
   window.resetCanvasFontSize = function(section) {
     canvasFontSizes[section] = 28;
+    renderShareTab();
+  };
+
+  // Görsel (Sol/Sağ) Ayarları
+  window.adjustImgPos = function(side, axis, delta) {
+    if (axis === 'x') imgOffsetsX[side] = (imgOffsetsX[side] || 0) + delta;
+    if (axis === 'y') imgOffsetsY[side] = (imgOffsetsY[side] || 0) + delta;
+    
+    const elX = document.getElementById(`img_${side}_x_val`);
+    const elY = document.getElementById(`img_${side}_y_val`);
+    if (elX) elX.textContent = imgOffsetsX[side] + 'px';
+    if (elY) elY.textContent = imgOffsetsY[side] + 'px';
+    
+    renderShareTab();
+  };
+
+  window.adjustImgSize = function(side, delta) {
+    imgSizes[side] = (imgSizes[side] || 240) + delta;
+    if (imgSizes[side] < 50) imgSizes[side] = 50; // min size
+    if (imgSizes[side] > 500) imgSizes[side] = 500; // max size
+    
+    const el = document.getElementById(`img_${side}_size_val`);
+    if (el) el.textContent = imgSizes[side] + 'px';
+    
+    renderShareTab();
+  };
+
+  window.resetImg = function(side) {
+    imgOffsetsX[side] = 0;
+    imgOffsetsY[side] = 0;
+    imgSizes[side] = 240;
+    
+    const elX = document.getElementById(`img_${side}_x_val`);
+    const elY = document.getElementById(`img_${side}_y_val`);
+    const elS = document.getElementById(`img_${side}_size_val`);
+    if (elX) elX.textContent = '0px';
+    if (elY) elY.textContent = '0px';
+    if (elS) elS.textContent = '240px';
+    
     renderShareTab();
   };
 

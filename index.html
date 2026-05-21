@@ -2682,12 +2682,52 @@
                     <span id="canvasImgLeftIcon">📷 1. Görsel (Sol)</span>
                     <img id="canvasImgLeftPreview" src="" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:1; border-radius:6px;">
                   </div>
+                  <!-- 1. Görsel Ayarları -->
+                  <div style="margin-top:8px; padding:8px; background:#0e1621; border:1px solid #232e3c; border-radius:8px; display:flex; flex-direction:column; gap:8px;">
+                    <div style="color:#708499; font-size:10px; font-weight:800; text-align:center;">KONUM (X / Y)</div>
+                    <div style="display:flex; justify-content:center; gap:4px;">
+                      <button onclick="window.adjustImgPos('left', 'x', -10)" style="width:28px; height:28px; background:#2b3a4a; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">◀</button>
+                      <button onclick="window.adjustImgPos('left', 'x', 10)" style="width:28px; height:28px; background:#2b3a4a; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">▶</button>
+                      <button onclick="window.adjustImgPos('left', 'y', -10)" style="width:28px; height:28px; background:#2b3a4a; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">▲</button>
+                      <button onclick="window.adjustImgPos('left', 'y', 10)" style="width:28px; height:28px; background:#2b3a4a; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">▼</button>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; font-size:10px; color:#10b981; font-weight:bold;">
+                      <span id="img_left_x_val">0px</span> <span id="img_left_y_val">0px</span>
+                    </div>
+                    <div style="color:#708499; font-size:10px; font-weight:800; text-align:center; border-top:1px solid #232e3c; padding-top:4px;">BOYUT</div>
+                    <div style="display:flex; justify-content:center; gap:4px; align-items:center;">
+                      <button onclick="window.adjustImgSize('left', -10)" style="width:28px; height:28px; background:#2b3a4a; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">-</button>
+                      <span id="img_left_size_val" style="color:#10b981; font-size:11px; font-weight:bold; min-width:36px; text-align:center;">240px</span>
+                      <button onclick="window.adjustImgSize('left', 10)" style="width:28px; height:28px; background:#2b3a4a; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">+</button>
+                    </div>
+                    <button onclick="window.resetImg('left')" style="width:100%; background:rgba(239,83,80,0.15); color:#ef5350; border:1px solid rgba(239,83,80,0.25); border-radius:4px; padding:4px; font-size:10px; font-weight:800; cursor:pointer;">Sıfırla</button>
+                  </div>
                 </div>
                 <div style="flex:1;">
                   <input type="file" id="canvasImgRight" accept="image/*" style="display:none;" onchange="window.handleCanvasImg(this, 'right')">
                   <div id="btnRight" onclick="document.getElementById('canvasImgRight').click()" style="border:2px dashed #232e3c; border-radius:8px; padding:12px; text-align:center; color:#708499; cursor:pointer; font-size:12px; font-weight:700; position:relative; overflow:hidden; min-height:80px; display:flex; flex-direction:column; align-items:center; justify-content:center; transition:border-color 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#232e3c'">
                     <span id="canvasImgRightIcon">📷 2. Görsel (Sağ)</span>
                     <img id="canvasImgRightPreview" src="" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:1; border-radius:6px;">
+                  </div>
+                  <!-- 2. Görsel Ayarları -->
+                  <div style="margin-top:8px; padding:8px; background:#0e1621; border:1px solid #232e3c; border-radius:8px; display:flex; flex-direction:column; gap:8px;">
+                    <div style="color:#708499; font-size:10px; font-weight:800; text-align:center;">KONUM (X / Y)</div>
+                    <div style="display:flex; justify-content:center; gap:4px;">
+                      <button onclick="window.adjustImgPos('right', 'x', -10)" style="width:28px; height:28px; background:#2b3a4a; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">◀</button>
+                      <button onclick="window.adjustImgPos('right', 'x', 10)" style="width:28px; height:28px; background:#2b3a4a; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">▶</button>
+                      <button onclick="window.adjustImgPos('right', 'y', -10)" style="width:28px; height:28px; background:#2b3a4a; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">▲</button>
+                      <button onclick="window.adjustImgPos('right', 'y', 10)" style="width:28px; height:28px; background:#2b3a4a; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">▼</button>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; font-size:10px; color:#10b981; font-weight:bold;">
+                      <span id="img_right_x_val">0px</span> <span id="img_right_y_val">0px</span>
+                    </div>
+                    <div style="color:#708499; font-size:10px; font-weight:800; text-align:center; border-top:1px solid #232e3c; padding-top:4px;">BOYUT</div>
+                    <div style="display:flex; justify-content:center; gap:4px; align-items:center;">
+                      <button onclick="window.adjustImgSize('right', -10)" style="width:28px; height:28px; background:#2b3a4a; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">-</button>
+                      <span id="img_right_size_val" style="color:#10b981; font-size:11px; font-weight:bold; min-width:36px; text-align:center;">240px</span>
+                      <button onclick="window.adjustImgSize('right', 10)" style="width:28px; height:28px; background:#2b3a4a; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">+</button>
+                    </div>
+                    <button onclick="window.resetImg('right')" style="width:100%; background:rgba(239,83,80,0.15); color:#ef5350; border:1px solid rgba(239,83,80,0.25); border-radius:4px; padding:4px; font-size:10px; font-weight:800; cursor:pointer;">Sıfırla</button>
                   </div>
                 </div>
               </div>
@@ -2746,10 +2786,14 @@
                   <button onclick="window.resetCanvasY('dishes'); window.resetCanvasFontSize('dishes');" style="margin-top:8px; background:rgba(239,83,80,0.15); color:#ef5350; border:1px solid rgba(239,83,80,0.25); border-radius:5px; padding:3px 10px; font-size:10px; font-weight:800; cursor:pointer;">Sıfırla</button>
                 </div>
 
+              <div style="display:flex; gap:10px; margin-top:10px;">
+                <button onclick="downloadMenuImage()" style="flex:1; background:#10b981; color:#fff; font-weight:800; padding:10px 20px; font-size:13px; border-radius:8px; border:none; cursor:pointer; display:inline-flex; justify-content:center; align-items:center; gap:6px;">
+                  📥 Görseli İndir
+                </button>
+                <button onclick="window.resetShareMenu()" style="flex:1; background:rgba(239,83,80,0.15); color:#ef5350; border:1px solid rgba(239,83,80,0.25); font-weight:800; padding:10px 20px; font-size:13px; border-radius:8px; cursor:pointer; display:inline-flex; justify-content:center; align-items:center; gap:6px;">
+                  🔄 Tüm Ayarları Sıfırla
+                </button>
               </div>
-              <button onclick="downloadMenuImage()" style="background:#10b981; color:#fff; font-weight:800; padding:10px 20px; font-size:13px; border-radius:8px; border:none; cursor:pointer; display:inline-flex; align-items:center; gap:6px; margin-top: 10px;">
-                📥 Görseli İndir
-              </button>
             </div>
 
             <div style="width:100%; height:1px; background:rgba(255,255,255,0.05);"></div>
