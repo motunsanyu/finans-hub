@@ -141,7 +141,7 @@ function renderAdminUsers(users) {
     return `
       <div style="background:#17212b; border-radius:16px; border:1px solid #232e3c; overflow:hidden; transition:all 0.2s;">
         <!-- Tıklanabilir Üst Bilgi Kartı -->
-        <div onclick="const panel=document.getElementById('actionsPanel-${u.id}'); const chevron=document.getElementById('chevron-${u.id}'); if(panel.style.display==='none'){ panel.style.display='flex'; chevron.textContent='🔼'; } else { panel.style.display='none'; chevron.textContent='🔽'; }" 
+        <div onclick="const panel=document.getElementById('actionsPanel-${u.id}'); const chevron=document.getElementById('chevron-${u.id}'); if(panel.style.display==='none'){ panel.style.display='flex'; chevron.textContent='▲'; } else { panel.style.display='none'; chevron.textContent='▼'; }" 
           style="padding:16px; display:flex; align-items:center; gap:14px; cursor:pointer; user-select:none;"
           onmouseover="this.style.background='rgba(255,255,255,0.01)'"
           onmouseout="this.style.background='transparent'">
@@ -150,18 +150,19 @@ function renderAdminUsers(users) {
             ${avatarHtml}
           </div>
           
-          <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:3px;">
+          <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:8px;">
             <div style="display:grid; grid-template-columns:minmax(0, 1fr) auto; align-items:center; gap:8px; width:100%;">
               <span style="color:#fff; font-weight:800; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${name}</span>
-              <div style="display:flex; align-items:center; justify-content:flex-end; gap:6px; flex-wrap:nowrap; white-space:nowrap; flex-shrink:0;">
+              <div style="display:flex; align-items:center; justify-content:flex-end; gap:6px; flex-wrap:wrap; white-space:nowrap; flex-shrink:0; width:100%; text-align:right;">
                 ${statusBadges}
               </div>
             </div>
-            <div style="color:#708499; font-size:12px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${email}</div>
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; width:100%;">
+              <div style="color:#708499; font-size:12px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${email}</div>
+              <div id="chevron-${u.id}" style="color:#708499; font-size:16px; font-weight:bold; padding:4px; flex-shrink:0;">▼</div>
+            </div>
             <div style="color:#8b9eb3; font-size:11px; font-weight:600;">Son Görülme: ${dateStr}</div>
           </div>
-          
-          <div id="chevron-${u.id}" style="color:#708499; font-size:16px; font-weight:bold; padding:4px; flex-shrink:0;">🔽</div>
         </div>
 
         <!-- Açılır İşlem Bölümü -->
