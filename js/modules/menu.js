@@ -191,10 +191,10 @@ const MenuModule = (() => {
         <div style="font-size:13px; color:#5c4c38; font-weight:800; display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:10px;">
           📞 ${restaurantProfile.phones.length > 0 ? restaurantProfile.phones.join('  -  ') : 'Telefon Eklenmemiş'}
         </div>
-        <div style="font-size:15px; color:#c2410c; font-weight:800; display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:16px;">
+        <a href="https://www.instagram.com/agacorenevyemekleri?igsh=MW44YTZyZzJjOWx5eQ==" target="_blank" rel="noopener noreferrer" style="font-size:15px; color:#c2410c; font-weight:800; display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:16px; text-decoration:none;">
           <img src="assets/instagram.png" style="width:24px; height:24px; border-radius:6px; object-fit:contain;">
           @agacorenevyemekleri
-        </div>
+        </a>
         <p style="font-size:11px; color:#a19079; margin:0; font-style:italic;">Afiyet Olsun!</p>
       `;
     }
@@ -867,8 +867,10 @@ const MenuModule = (() => {
       if (error) throw error;
 
       if (window.showToast) window.showToast('Menü kaydedildi!', 'success');
-      currentDailyMenu = { menu_date: dateStr, items };
+      selectedFoodIds.clear();
+      currentDailyMenu = { menu_date: dateStr, items: [] };
       renderBuilderItemsList();
+      switchTab('exporter');
 
     } catch (err) {
       console.error(err);
