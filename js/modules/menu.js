@@ -36,6 +36,7 @@ const MenuModule = (() => {
 
   // Seçili yemek id'leri (JS ile yönetiliyor, checkbox hack yok)
   let selectedFoodIds = new Set();
+  let selectedCanvasImageIds = [];
 
   function loadTemplateState() {
     try {
@@ -172,6 +173,13 @@ const MenuModule = (() => {
     const headerSub = document.querySelector('#publicMenuScreen p');
     if (headerSub) {
       headerSub.textContent = 'Günün Menüsü';
+    }
+    const dateEl = document.getElementById('publicMenuDate');
+    if (dateEl) {
+      const today = new Date();
+      const datePart = today.toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      const dayPart = today.toLocaleDateString('tr-TR', { weekday: 'long' });
+      dateEl.textContent = `${datePart} - ${dayPart.charAt(0).toUpperCase()}${dayPart.slice(1)}`;
     }
 
     // Logo — sadece QR müşteri sayfası
@@ -483,6 +491,7 @@ const MenuModule = (() => {
       const dateInput = document.getElementById('menuBuilderDate');
       if (dateInput) { dateInput.value = today; }
       selectedFoodIds.clear();
+      selectedCanvasImageIds = [];
       currentDailyMenu = { menu_date: today, items: [] };
       renderBuilderItemsList();
     }
@@ -754,6 +763,11 @@ const MenuModule = (() => {
         const isActive = selectedFoodIds.has(item.id);
         const savedItem = currentDailyMenu?.items?.find(i => i.id === item.id);
         const priceVal = savedItem?.price ?? (item.price ?? 0);
+        const canvasSlot = selectedCanvasImageIds.indexOf(item.id) + 1;
+        const imagePickHtml = canvasSlot
+          ? `<span style="color:#000;font-size:11px;font-weight:900;">${canvasSlot}</span>`
+          : '<span style="color:#708499;font-size:13px;">📷</span>';
+        const imagePickTitle = item.image_url ? 'QR canvas görseli seç' : 'Bu yemeğin görseli yok';
 
         html += `
           <div id="builder-row-${item.id}" 
@@ -765,6 +779,9 @@ const MenuModule = (() => {
               <div id="check-${item.id}" style="width:22px;height:22px;border-radius:5px;border:2px solid ${isActive ? '#fbbf24' : '#3a4b5c'};background:${isActive ? '#fbbf24' : 'transparent'};display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s;">
                 ${isActive ? '<span style="color:#000;font-size:13px;font-weight:900;">✓</span>' : ''}
               </div>
+              <button type="button" id="canvas-pick-${item.id}" title="${imagePickTitle}" onclick="event.stopPropagation(); window.toggleCanvasImageSelection(${item.id})" style="width:28px;height:28px;border-radius:7px;border:1px solid ${canvasSlot ? '#10b981' : '#3a4b5c'};background:${canvasSlot ? '#10b981' : 'transparent'};display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;padding:0;">
+                ${imagePickHtml}
+              </button>
               <span style="color:#fff;font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.name}</span>
             </div>
             <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;" onclick="event.stopPropagation()">
@@ -792,23 +809,36 @@ const MenuModule = (() => {
   window.toggleFoodSelection = function(id) {
     if (selectedFoodIds.has(id)) {
       selectedFoodIds.delete(id);
+      selectedCanvasImageIds = selectedCanvasImageIds.filter(selectedId => selectedId !== id);
     } else {
       selectedFoodIds.add(id);
     }
 
-    const row = document.getElementById(`builder-row-${id}`);
-    const check = document.getElementById(`check-${id}`);
-    const isNowActive = selectedFoodIds.has(id);
+    renderBuilderItemsList();
+  };
 
-    if (row) {
-      row.style.background = isNowActive ? 'rgba(251,191,36,0.08)' : 'rgba(255,255,255,0.02)';
-      row.style.borderColor = isNowActive ? 'rgba(251,191,36,0.35)' : 'rgba(255,255,255,0.04)';
+  window.toggleCanvasImageSelection = function(id) {
+    const item = masterItems.find(i => i.id === id);
+    if (!item?.image_url) {
+      if (window.showToast) window.showToast('Bu yemeğin görseli yok. Önce Yemek Listesi sekmesinden görsel ekleyin.', 'error');
+      return;
     }
-    if (check) {
-      check.style.background = isNowActive ? '#fbbf24' : 'transparent';
-      check.style.borderColor = isNowActive ? '#fbbf24' : '#3a4b5c';
-      check.innerHTML = isNowActive ? '<span style="color:#000;font-size:13px;font-weight:900;">✓</span>' : '';
+    if (!selectedFoodIds.has(id)) {
+      if (window.showToast) window.showToast('Önce yemeği günlük menüye ekleyin.', 'error');
+      return;
     }
+
+    if (selectedCanvasImageIds.includes(id)) {
+      selectedCanvasImageIds = selectedCanvasImageIds.filter(selectedId => selectedId !== id);
+    } else {
+      if (selectedCanvasImageIds.length >= 2) {
+        if (window.showToast) window.showToast('QR canvas için en fazla 2 yemek görseli seçilebilir.', 'error');
+        return;
+      }
+      selectedCanvasImageIds.push(id);
+    }
+
+    renderBuilderItemsList();
   };
 
   // ──────────────────────────────────────────
@@ -830,6 +860,10 @@ const MenuModule = (() => {
 
       // Seçili id'leri kayıttan yükle
       selectedFoodIds = new Set((currentDailyMenu.items || []).map(i => i.id));
+      selectedCanvasImageIds = (currentDailyMenu.items || [])
+        .filter(i => i.canvas_image_slot)
+        .sort((a, b) => a.canvas_image_slot - b.canvas_image_slot)
+        .map(i => i.id);
 
       renderBuilderItemsList();
     } catch (err) {
@@ -849,12 +883,16 @@ const MenuModule = (() => {
     }
 
     const items = [];
+    const hasAutoCanvasSelections = selectedCanvasImageIds.length > 0;
     selectedFoodIds.forEach(id => {
       const master = masterItems.find(i => i.id === id);
       if (master) {
         const priceEl = document.getElementById(`price-${id}`);
         const price = parseFloat(priceEl?.value?.replace(',', '.')) || master.price || 0;
-        items.push({ ...master, price });
+        const canvasSlotIndex = selectedCanvasImageIds.indexOf(id);
+        const itemPayload = { ...master, price };
+        if (canvasSlotIndex !== -1) itemPayload.canvas_image_slot = canvasSlotIndex + 1;
+        items.push(itemPayload);
       }
     });
 
@@ -869,7 +907,9 @@ const MenuModule = (() => {
       if (error) throw error;
 
       if (window.showToast) window.showToast('Menü kaydedildi!', 'success');
+      if (hasAutoCanvasSelections) customCanvasImages = { left: null, right: null };
       selectedFoodIds.clear();
+      selectedCanvasImageIds = [];
       currentDailyMenu = { menu_date: dateStr, items: [] };
       renderBuilderItemsList();
       setTimeout(() => switchTab('exporter'), 900);
@@ -914,25 +954,10 @@ const MenuModule = (() => {
 
   window.clearDailyMenu = function() {
     selectedFoodIds.clear();
+    selectedCanvasImageIds = [];
     const dateStr = document.getElementById('menuBuilderDate')?.value;
     currentDailyMenu = { menu_date: dateStr || '', items: [] };
-    // Tüm satırları pasif görünüme döndür
-    document.querySelectorAll('.menu-builder-row').forEach(row => {
-      const id = parseInt(row.dataset.id);
-      row.style.background = 'rgba(255,255,255,0.02)';
-      row.style.borderColor = 'rgba(255,255,255,0.04)';
-      const check = document.getElementById(`check-${id}`);
-      if (check) {
-        check.style.background = 'transparent';
-        check.style.borderColor = '#3a4b5c';
-        check.innerHTML = '';
-      }
-      const priceEl = document.getElementById(`price-${id}`);
-      if (priceEl) {
-        const master = masterItems.find(i => i.id === id);
-        if (priceEl) priceEl.value = master?.price || '';
-      }
-    });
+    renderBuilderItemsList();
     if (window.showToast) window.showToast('Seçimler temizlendi.', 'success');
   };
 
@@ -1021,6 +1046,16 @@ const MenuModule = (() => {
         context.restore();
       }
 
+      function loadCanvasImage(url) {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.crossOrigin = 'Anonymous';
+          img.onload = () => resolve(img);
+          img.onerror = reject;
+          img.src = url;
+        });
+      }
+
       if (customCanvasImages.left) {
         let sizeL = (imgSizes.left || 240) * scaleX;
         let xL = (24 + (imgOffsetsX.left || 0)) * scaleX;
@@ -1052,6 +1087,32 @@ const MenuModule = (() => {
         ctx.textAlign = 'center';
         ctx.fillText('Bugün için menü kaydedilmemiş.', canvas.width / 2, canvas.height / 2);
         return;
+      }
+
+      const savedCanvasItems = (data.items || [])
+        .filter(i => i.canvas_image_slot && i.image_url)
+        .sort((a, b) => a.canvas_image_slot - b.canvas_image_slot)
+        .slice(0, 2);
+
+      if (!customCanvasImages.left && savedCanvasItems[0]?.image_url) {
+        try {
+          const autoLeft = await loadCanvasImage(savedCanvasItems[0].image_url);
+          let sizeL = (imgSizes.left || 240) * scaleX;
+          let xL = (24 + (imgOffsetsX.left || 0)) * scaleX;
+          let yL = (820 + (imgOffsetsY.left || 0)) * scaleY;
+          let hL = ((imgSizes.left || 240) * (180/240)) * scaleY;
+          drawRoundedImage(ctx, autoLeft, xL, yL, sizeL, hL, 15 * scale);
+        } catch {}
+      }
+      if (!customCanvasImages.right && savedCanvasItems[1]?.image_url) {
+        try {
+          const autoRight = await loadCanvasImage(savedCanvasItems[1].image_url);
+          let sizeR = (imgSizes.right || 240) * scaleX;
+          let xR = (312 + (imgOffsetsX.right || 0)) * scaleX;
+          let yR = (820 + (imgOffsetsY.right || 0)) * scaleY;
+          let hR = ((imgSizes.right || 240) * (180/240)) * scaleY;
+          drawRoundedImage(ctx, autoRight, xR, yR, sizeR, hR, 15 * scale);
+        } catch {}
       }
 
       const soups = data.items.filter(i => i.category === 'Çorbalar');
