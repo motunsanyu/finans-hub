@@ -39,6 +39,13 @@ const MenuModule = (() => {
   const DEFAULT_CANVAS_Y_OFFSETS = { soups: -70, dishes: -60 };
   const DEFAULT_CANVAS_FONT_SIZES = { soups: 28, dishes: 28 };
 
+  function getLocalIsoDate(date = new Date()) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   // Seçili yemek id'leri (JS ile yönetiliyor, checkbox hack yok)
   let selectedFoodIds = new Set();
   let selectedCanvasImageIds = [];
@@ -466,7 +473,7 @@ const MenuModule = (() => {
 
     try {
       const sb = window._supabaseClient;
-      const todayStr = new Date().toISOString().split('T')[0];
+      const todayStr = getLocalIsoDate();
 
       const { data, error } = await sb
         .from('daily_menus')
@@ -538,7 +545,7 @@ const MenuModule = (() => {
   // ──────────────────────────────────────────
   // MODAL OPEN/CLOSE
   // ──────────────────────────────────────────
-  window.toggleDailyMenuModal = function() {
+  window.toggleDailyMenuModal = async function() {
     const modal = document.getElementById('dailyMenuModal');
     if (!modal) return;
     const isOpen = modal.style.display === 'flex';
@@ -553,13 +560,13 @@ const MenuModule = (() => {
       document.body.style.overflow = 'hidden';
       switchTab('builder');
       loadMasterItems();
-      const today = new Date().toISOString().split('T')[0];
+      const today = getLocalIsoDate();
       const dateInput = document.getElementById('menuBuilderDate');
       if (dateInput) { dateInput.value = today; }
       selectedFoodIds.clear();
       selectedCanvasImageIds = [];
       currentDailyMenu = { menu_date: today, items: [] };
-      renderBuilderItemsList();
+      await loadDailyMenuForDate(today);
     }
   };
 
@@ -916,6 +923,9 @@ const MenuModule = (() => {
   async function loadDailyMenuForDate(dateStr) {
     if (!dateStr) return;
     const sb = window._supabaseClient;
+    const dateInput = document.getElementById('menuBuilderDate');
+    if (dateInput) dateInput.value = dateStr;
+
     try {
       const { data, error } = await sb
         .from('daily_menus')
@@ -935,6 +945,7 @@ const MenuModule = (() => {
         .map(i => i.id);
 
       renderBuilderItemsList();
+      if (window.renderShareTab) window.renderShareTab();
     } catch (err) {
       console.error(err);
       if (window.showToast) window.showToast('Menü yüklenemedi.', 'error');
@@ -952,7 +963,6 @@ const MenuModule = (() => {
     }
 
     const items = [];
-    const hasAutoCanvasSelections = selectedCanvasImageIds.length > 0;
     selectedFoodIds.forEach(id => {
       const master = masterItems.find(i => i.id === id);
       if (master) {
@@ -968,18 +978,17 @@ const MenuModule = (() => {
     try {
       if (window.showToast) window.showToast('Menü kaydediliyor...', 'default');
 
-      const { data: { user } } = await sb.auth.getUser();
+      const { data: authData, error: authError } = await sb.auth.getUser();
+      if (authError) throw authError;
+      const userId = authData?.user?.id || null;
       const { error } = await sb.from('daily_menus').upsert(
-        { menu_date: dateStr, items, created_by: user?.id || null },
+        { menu_date: dateStr, items, created_by: userId },
         { onConflict: 'menu_date' }
       );
       if (error) throw error;
 
       if (window.showToast) window.showToast('Menü kaydedildi!', 'success');
-      if (hasAutoCanvasSelections) customCanvasImages = { left: null, right: null };
-      selectedFoodIds.clear();
-      selectedCanvasImageIds = [];
-      currentDailyMenu = { menu_date: dateStr, items: [] };
+      currentDailyMenu = { menu_date: dateStr, items };
       renderBuilderItemsList();
       setTimeout(() => switchTab('exporter'), 900);
 
@@ -1144,19 +1153,19 @@ const MenuModule = (() => {
       }
 
       // Bugünün menüsünü veritabanından çek
-      const todayStr = new Date().toISOString().split('T')[0];
+      const selectedDate = document.getElementById('menuBuilderDate')?.value || getLocalIsoDate();
       const sb = window._supabaseClient;
       const { data } = await sb
         .from('daily_menus')
         .select('*')
-        .eq('menu_date', todayStr)
+        .eq('menu_date', selectedDate)
         .maybeSingle();
 
       if (!data?.items?.length) {
         ctx.fillStyle = 'rgba(0,0,0,0.5)';
         ctx.font = `bold ${16 * scale}px sans-serif`;
         ctx.textAlign = 'center';
-        ctx.fillText('Bugün için menü kaydedilmemiş.', canvas.width / 2, canvas.height / 2);
+        ctx.fillText(`${selectedDate} için menü kaydedilmemiş.`, canvas.width / 2, canvas.height / 2);
         return;
       }
 
