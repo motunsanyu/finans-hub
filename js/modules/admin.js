@@ -114,24 +114,24 @@ function renderAdminUsers(users) {
     let actions = '';
     if (!isMe) {
       if (u.is_approved === false) {
-        actions += `<button onclick="event.stopPropagation(); approveUser('${u.id}')" style="flex:1; background:#10b981; border:none; color:#fff; padding:10px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Onayla</button>`;
-        actions += `<button onclick="event.stopPropagation(); rejectUserApproval('${u.id}')" style="flex:1; background:rgba(239, 83, 80, 0.1); border:1px solid rgba(239, 83, 80, 0.3); color:#ef5350; padding:10px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Reddet</button>`;
+        actions += `<button onclick="event.stopPropagation(); approveUser('${u.id}')" style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.1; background:#10b981; border:none; color:#fff; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Onayla</button>`;
+        actions += `<button onclick="event.stopPropagation(); rejectUserApproval('${u.id}')" style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.1; background:rgba(239, 83, 80, 0.1); border:1px solid rgba(239, 83, 80, 0.3); color:#ef5350; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Reddet</button>`;
       } else if (u.is_approved === true) {
-        actions += `<button onclick="event.stopPropagation(); revokeUserApproval('${u.id}')" style="flex:1; background:rgba(245, 158, 11, 0.1); border:1px solid rgba(245, 158, 11, 0.35); color:#f59e0b; padding:10px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Onayı Kaldır</button>`;
+        actions += `<button onclick="event.stopPropagation(); revokeUserApproval('${u.id}')" style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.1; background:rgba(245, 158, 11, 0.1); border:1px solid rgba(245, 158, 11, 0.35); color:#f59e0b; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Onayı Kaldır</button>`;
       }
       // Menü yetkisi butonu
       if (u.is_menu_editor) {
-        actions += `<button onclick="event.stopPropagation(); toggleMenuEditorPermission('${u.id}', true)" style="flex:1; background:rgba(16, 185, 129, 0.1); border:1px solid rgba(16, 185, 129, 0.3); color:#10b981; padding:10px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Yetki Al</button>`;
+        actions += `<button onclick="event.stopPropagation(); toggleMenuEditorPermission('${u.id}', true)" style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.1; background:rgba(16, 185, 129, 0.1); border:1px solid rgba(16, 185, 129, 0.3); color:#10b981; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Yetki Al</button>`;
       } else {
-        actions += `<button onclick="event.stopPropagation(); toggleMenuEditorPermission('${u.id}', false)" style="flex:1; background:rgba(255, 255, 255, 0.05); border:1px solid rgba(255, 255, 255, 0.1); color:#fff; padding:10px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Yetki Ver</button>`;
+        actions += `<button onclick="event.stopPropagation(); toggleMenuEditorPermission('${u.id}', false)" style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.1; background:rgba(255, 255, 255, 0.05); border:1px solid rgba(255, 255, 255, 0.1); color:#fff; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Yetki Ver</button>`;
       }
       
       if (u.is_banned) {
-        actions += `<button onclick="event.stopPropagation(); toggleUserBan('${u.id}', false)" style="flex:1; background:#2b5278; border:none; color:#fff; padding:10px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Engeli Kaldır</button>`;
+        actions += `<button onclick="event.stopPropagation(); toggleUserBan('${u.id}', false)" style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.1; background:#2b5278; border:none; color:#fff; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Engeli Kaldır</button>`;
       } else {
-        actions += `<button onclick="event.stopPropagation(); toggleUserBan('${u.id}', true)" style="flex:1; background:rgba(239, 83, 80, 0.1); border:1px solid rgba(239, 83, 80, 0.3); color:#ef5350; padding:10px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Engelle</button>`;
+        actions += `<button onclick="event.stopPropagation(); toggleUserBan('${u.id}', true)" style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.1; background:rgba(239, 83, 80, 0.1); border:1px solid rgba(239, 83, 80, 0.3); color:#ef5350; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Engelle</button>`;
       }
-      actions += `<button onclick="event.stopPropagation(); deleteUserProfile('${u.id}')" style="flex:1; background:#ef5350; border:none; color:#fff; padding:10px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Kullanıcıyı Sil</button>`;
+      actions += `<button onclick="event.stopPropagation(); deleteUserProfile('${u.id}')" style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.1; background:#ef5350; border:none; color:#fff; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Kullanıcıyı Sil</button>`;
     } else {
       actions += `<span style="font-size:13px; color:#708499; font-weight:800; width:100%; text-align:center; padding:8px 0;">✨ Kendi Hesabınız (Yönetici)</span>`;
     }

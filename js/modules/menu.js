@@ -717,7 +717,7 @@ const MenuModule = (() => {
         : `<span style="color:#708499;font-size:11px;">—</span>`;
 
       return `
-        <div style="background:#17212b;border:1px solid #232e3c;border-radius:12px;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+        <div style="height:112px;box-sizing:border-box;background:#17212b;border:1px solid #232e3c;border-radius:12px;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
           <div style="display:flex;align-items:center;gap:12px;min-width:0;flex:1;">
             ${img}
             <div style="flex:1;min-width:0;">
