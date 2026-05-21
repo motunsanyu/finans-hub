@@ -568,7 +568,10 @@ const MenuModule = (() => {
       btn.classList.toggle('active', btn.dataset.tab === tabId);
     });
     document.querySelectorAll('.menu-tab-content').forEach(el => {
-      el.style.display = el.id === `tabContent-${tabId}` ? 'block' : 'none';
+      el.style.display = el.id === `tabContent-${tabId}` ? 'flex' : 'none';
+      if (el.style.display === 'flex') {
+        el.style.flexDirection = 'column';
+      }
     });
     if (tabId === 'exporter') {
       updateTemplateSelectorUI();
