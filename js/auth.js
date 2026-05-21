@@ -20,13 +20,36 @@
   async function updateSidebarProfile(user) {
     // Profili veritabanından çek
     const { data: prof } = await sb.from('profiles').select('*').eq('id', user.id).maybeSingle();
+
+    if (!prof) {
+      await sb.from('profiles').upsert({
+        id: user.id,
+        email: user.email || null,
+        display_name: user?.user_metadata?.full_name || null,
+        is_approved: false,
+        is_banned: false
+      });
+      if (window.showToast) window.showToast('Hesabınız yönetici onayı bekliyor.', 'warning');
+      else alert('Hesabınız yönetici onayı bekliyor. Onaylandığında giriş yapabilirsiniz.');
+      await sb.auth.signOut();
+      return false;
+    }
     
     // Engelleme Kontrolü
     if (prof?.is_banned) {
       if (window.showToast) window.showToast('Hesabınız sistem yöneticisi tarafından engellenmiştir.', 'error');
       await sb.auth.signOut();
       window.location.reload();
-      return;
+      return false;
+    }
+
+    // Yonetici onayi bekleyen hesaplar uygulamaya alinmaz.
+    // Eski kayitlarda alan yoksa sadece acikca false olanlari engelliyoruz.
+    if (prof?.is_approved === false && !prof?.is_admin) {
+      if (window.showToast) window.showToast('Hesabınız yönetici onayı bekliyor.', 'warning');
+      else alert('Hesabınız yönetici onayı bekliyor. Onaylandığında giriş yapabilirsiniz.');
+      await sb.auth.signOut();
+      return false;
     }
 
     // Admin Paneli Butonu Kontrolü
@@ -78,6 +101,7 @@
     }
 
     updateSidebarAvatar(user, prof);
+    return true;
   }
 
   function updateSidebarAvatar(user, prof = null) {
@@ -145,7 +169,12 @@
 
       if (user) {
         window.currentUser = user;
-        updateSidebarProfile(user);
+        const canEnter = await updateSidebarProfile(user);
+        if (!canEnter) {
+          if (appShell) appShell.style.display = 'none';
+          if (authScreen) authScreen.style.display = 'flex';
+          return false;
+        }
       }
 
       // Eğer giriş ekranı görünüyorsa (ilk açılış veya yeni login), animasyonu oynat
@@ -190,6 +219,16 @@
       }
     });
     if (error) throw error;
+    if (data?.user?.id) {
+      const { error: profileError } = await sb.from('profiles').upsert({
+        id: data.user.id,
+        email,
+        display_name: fullName || null,
+        is_approved: false,
+        is_banned: false
+      });
+      if (profileError) throw profileError;
+    }
     return data;
   }
 
@@ -441,7 +480,7 @@
 
     try {
       await signUpWithEmail(email, password, fullName);
-      alert('Kayıt başarılı. E-posta doğrulaması gerekiyorsa gelen kutunuzu kontrol edin.');
+      alert('Başvurunuz alındı. Yönetici onayından sonra giriş yapabilirsiniz.');
       switchToLogin();
     } catch (error) {
       alert('Kayıt hatası: ' + (error.message || 'Bilinmeyen hata'));

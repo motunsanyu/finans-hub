@@ -33,7 +33,10 @@ async function loadAdminUsers() {
     if (error) throw error;
 
     adminUsersCache = users || [];
-    if (statsEl) statsEl.textContent = `Kayıtlı Kullanıcı: ${adminUsersCache.length}`;
+    if (statsEl) {
+      const pendingCount = adminUsersCache.filter(u => u.is_approved === false && !u.is_banned).length;
+      statsEl.textContent = `Kayıtlı Kullanıcı: ${adminUsersCache.length} | Onay bekleyen: ${pendingCount}`;
+    }
     renderAdminUsers(adminUsersCache);
   } catch (e) {
     console.error('Yönetici paneli yükleme hatası:', e);
@@ -62,6 +65,11 @@ function renderAdminUsers(users) {
     // Diğer adminleri ikinci sırada tut
     if (a.is_admin && !b.is_admin) return -1;
     if (!a.is_admin && b.is_admin) return 1;
+
+    const pendingA = a.is_approved === false && !a.is_banned;
+    const pendingB = b.is_approved === false && !b.is_banned;
+    if (pendingA && !pendingB) return -1;
+    if (!pendingA && pendingB) return 1;
 
     // Normal alfabetik sıralama
     const nameA = a.display_name || a.username || '';
@@ -98,10 +106,19 @@ function renderAdminUsers(users) {
     const adminBadge = u.is_admin ? `<span style="background:#fbbf24; color:#000; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:800;">YÖNETİCİ</span>` : '';
     const bannedBadge = u.is_banned ? `<span style="background:#ef5350; color:#fff; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:800;">ENGELLİ</span>` : '';
     const menuEditorBadge = u.is_menu_editor ? `<span style="background:#10b981; color:#fff; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:800;">MENÜ EDİTÖRÜ</span>` : '';
+    const approvalBadge = (u.is_approved === false && !u.is_banned)
+      ? `<span style="background:#f59e0b; color:#111827; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:800;">ONAY BEKLİYOR</span>`
+      : (u.is_approved === true ? `<span style="background:#2563eb; color:#fff; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:800;">ONAYLI</span>` : '');
 
     // Action Buttons
     let actions = '';
     if (!isMe) {
+      if (u.is_approved === false) {
+        actions += `<button onclick="event.stopPropagation(); approveUser('${u.id}')" style="flex:1; background:#10b981; border:none; color:#fff; padding:10px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Onayla</button>`;
+        actions += `<button onclick="event.stopPropagation(); rejectUserApproval('${u.id}')" style="flex:1; background:rgba(239, 83, 80, 0.1); border:1px solid rgba(239, 83, 80, 0.3); color:#ef5350; padding:10px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Reddet</button>`;
+      } else if (u.is_approved === true) {
+        actions += `<button onclick="event.stopPropagation(); revokeUserApproval('${u.id}')" style="flex:1; background:rgba(245, 158, 11, 0.1); border:1px solid rgba(245, 158, 11, 0.35); color:#f59e0b; padding:10px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Onayı Kaldır</button>`;
+      }
       // Menü yetkisi butonu
       if (u.is_menu_editor) {
         actions += `<button onclick="event.stopPropagation(); toggleMenuEditorPermission('${u.id}', true)" style="flex:1; background:rgba(16, 185, 129, 0.1); border:1px solid rgba(16, 185, 129, 0.3); color:#10b981; padding:10px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Yetki Al</button>`;
@@ -135,6 +152,7 @@ function renderAdminUsers(users) {
             <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
               <span style="color:#fff; font-weight:800; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${name}</span>
               ${adminBadge}
+              ${approvalBadge}
               ${menuEditorBadge}
               ${bannedBadge}
             </div>
@@ -203,6 +221,67 @@ async function executeToggleBan(sb, userId, banStatus) {
   }
 }
 
+window.approveUser = async function(userId) {
+  const sb = window._supabaseClient;
+  try {
+    const { error } = await sb
+      .from('profiles')
+      .update({ is_approved: true, is_banned: false })
+      .eq('id', userId);
+    if (error) throw error;
+    if (window.showToast) window.showToast('Kullanıcı onaylandı.', 'success');
+    loadAdminUsers();
+  } catch (e) {
+    console.error(e);
+    if (window.showToast) window.showToast('Onay işlemi başarısız.', 'error');
+  }
+};
+
+window.revokeUserApproval = async function(userId) {
+  const sb = window._supabaseClient;
+  const run = async () => {
+    try {
+      const { error } = await sb.from('profiles').update({ is_approved: false }).eq('id', userId);
+      if (error) throw error;
+      if (window.showToast) window.showToast('Kullanıcı onayı kaldırıldı.', 'success');
+      loadAdminUsers();
+    } catch (e) {
+      console.error(e);
+      if (window.showToast) window.showToast('İşlem başarısız.', 'error');
+    }
+  };
+
+  if (window.showCustomConfirm) {
+    window.showCustomConfirm('Bu kullanıcının onayını kaldırmak istediğinize emin misiniz?', run);
+  } else if (confirm('Bu kullanıcının onayını kaldırmak istediğinize emin misiniz?')) {
+    run();
+  }
+};
+
+window.rejectUserApproval = async function(userId) {
+  const sb = window._supabaseClient;
+  const run = async () => {
+    try {
+      const { error } = await sb
+        .from('profiles')
+        .update({ is_approved: false, is_banned: true })
+        .eq('id', userId);
+      if (error) throw error;
+      if (window.showToast) window.showToast('Başvuru reddedildi ve kullanıcı engellendi.', 'success');
+      loadAdminUsers();
+    } catch (e) {
+      console.error(e);
+      if (window.showToast) window.showToast('Reddetme işlemi başarısız.', 'error');
+    }
+  };
+
+  if (window.showCustomConfirm) {
+    window.showCustomConfirm('Bu başvuruyu reddetmek ve kullanıcıyı engellemek istediğinize emin misiniz?', run);
+  } else if (confirm('Bu başvuruyu reddetmek ve kullanıcıyı engellemek istediğinize emin misiniz?')) {
+    run();
+  }
+};
+
 window.deleteUserProfile = async function(userId) {
   const sb = window._supabaseClient;
   
@@ -242,4 +321,3 @@ window.toggleMenuEditorPermission = async function(userId, currentStatus) {
     if (window.showToast) window.showToast('İşlem başarısız.', 'error');
   }
 };
-
