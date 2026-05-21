@@ -110,6 +110,8 @@ function renderAdminUsers(users) {
       ? `<span style="background:#f59e0b; color:#111827; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:800;">ONAY BEKLİYOR</span>`
       : (u.is_approved === true ? `<span style="background:#2563eb; color:#fff; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:800;">ONAYLI</span>` : '');
 
+    const statusBadges = [adminBadge, approvalBadge, menuEditorBadge, bannedBadge].filter(Boolean).join('');
+
     // Action Buttons
     let actions = '';
     if (!isMe) {
@@ -149,12 +151,11 @@ function renderAdminUsers(users) {
           </div>
           
           <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:3px;">
-            <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+            <div style="display:flex; align-items:flex-start; gap:8px; width:100%;">
               <span style="color:#fff; font-weight:800; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${name}</span>
-              ${adminBadge}
-              ${approvalBadge}
-              ${menuEditorBadge}
-              ${bannedBadge}
+              <div style="margin-left:auto; display:flex; align-items:center; justify-content:flex-end; gap:6px; flex-wrap:wrap; max-width:52%; flex-shrink:0;">
+                ${statusBadges}
+              </div>
             </div>
             <div style="color:#708499; font-size:12px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${email}</div>
             <div style="color:#8b9eb3; font-size:11px; font-weight:600;">Son Görülme: ${dateStr}</div>
@@ -201,7 +202,7 @@ window.toggleUserBan = async function(userId, banStatus) {
   if (window.showCustomConfirm) {
     window.showCustomConfirm(`Bu kullanıcının ${actionText} istediğinize emin misiniz?`, async () => {
       executeToggleBan(sb, userId, banStatus);
-    });
+    }, { okText: 'Evet', okColor: banStatus ? '#ef5350' : '#2b5278' });
   } else {
     if (confirm(`Bu kullanıcının ${actionText} istediğinize emin misiniz?`)) {
       executeToggleBan(sb, userId, banStatus);
@@ -252,7 +253,7 @@ window.revokeUserApproval = async function(userId) {
   };
 
   if (window.showCustomConfirm) {
-    window.showCustomConfirm('Bu kullanıcının onayını kaldırmak istediğinize emin misiniz?', run);
+    window.showCustomConfirm('Bu kullanıcının onayını kaldırmak istediğinize emin misiniz?', run, { okText: 'Evet', okColor: '#f59e0b' });
   } else if (confirm('Bu kullanıcının onayını kaldırmak istediğinize emin misiniz?')) {
     run();
   }
@@ -276,7 +277,7 @@ window.rejectUserApproval = async function(userId) {
   };
 
   if (window.showCustomConfirm) {
-    window.showCustomConfirm('Bu başvuruyu reddetmek ve kullanıcıyı engellemek istediğinize emin misiniz?', run);
+    window.showCustomConfirm('Bu başvuruyu reddetmek ve kullanıcıyı engellemek istediğinize emin misiniz?', run, { okText: 'Evet', okColor: '#ef5350' });
   } else if (confirm('Bu başvuruyu reddetmek ve kullanıcıyı engellemek istediğinize emin misiniz?')) {
     run();
   }

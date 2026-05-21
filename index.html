@@ -2844,7 +2844,7 @@
     }
   </style>
   <script>
-    window.showCustomConfirm = function (msg, onConfirm) {
+    window.showCustomConfirm = function (msg, onConfirm, options = {}) {
       const modal = document.getElementById('customConfirmModal');
       const text = document.getElementById('customConfirmText');
       const btnCancel = document.getElementById('customConfirmCancel');
@@ -2854,6 +2854,9 @@
         return;
       }
       text.innerHTML = msg;
+      btnCancel.textContent = options.cancelText || 'İptal';
+      btnOk.textContent = options.okText || 'Sil';
+      btnOk.style.background = options.okColor || '#ef5350';
       modal.style.display = 'flex';
 
       btnCancel.onclick = function () { modal.style.display = 'none'; };
