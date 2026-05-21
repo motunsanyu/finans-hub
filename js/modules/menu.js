@@ -482,7 +482,9 @@ const MenuModule = (() => {
       const today = new Date().toISOString().split('T')[0];
       const dateInput = document.getElementById('menuBuilderDate');
       if (dateInput) { dateInput.value = today; }
-      loadDailyMenuForDate(today);
+      selectedFoodIds.clear();
+      currentDailyMenu = { menu_date: today, items: [] };
+      renderBuilderItemsList();
     }
   };
 
@@ -870,7 +872,7 @@ const MenuModule = (() => {
       selectedFoodIds.clear();
       currentDailyMenu = { menu_date: dateStr, items: [] };
       renderBuilderItemsList();
-      switchTab('exporter');
+      setTimeout(() => switchTab('exporter'), 900);
 
     } catch (err) {
       console.error(err);
