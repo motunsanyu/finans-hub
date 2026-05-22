@@ -862,34 +862,53 @@ const MenuModule = (() => {
       return;
     }
 
-    container.innerHTML = masterItems.map(item => {
-      const img = item.image_url
-        ? `<img src="${item.image_url}" style="width:56px;height:56px;border-radius:8px;object-fit:cover;">`
-        : `<div style="width:56px;height:56px;border-radius:8px;background:#242f3d;display:flex;align-items:center;justify-content:center;font-size:28px;border:1px dashed rgba(255,255,255,0.08);">🍲</div>`;
+    // Kategorilere göre gruplama
+    const groups = { 'Çorbalar': [], 'Yemekler': [], 'Pilavlar - Makarnalar': [] };
+    masterItems.forEach(item => {
+      const cat = item.category === 'Çorbalar' ? 'Çorbalar' : (item.category === 'Pilavlar - Makarnalar' ? 'Pilavlar - Makarnalar' : 'Yemekler');
+      groups[cat].push(item);
+    });
 
-      const priceTag = item.price
-        ? `<span style="color:#fbbf24;font-size:12px;font-weight:800;background:rgba(251,191,36,0.08);padding:2px 6px;border-radius:6px;">${item.price} ₺</span>`
-        : `<span style="color:#708499;font-size:11px;">—</span>`;
+    let html = '';
+    ['Çorbalar', 'Yemekler', 'Pilavlar - Makarnalar'].forEach(cat => {
+      const list = groups[cat] || [];
+      if (!list.length) return;
 
-      return `
-        <div style="height:112px;box-sizing:border-box;background:#17212b;border:1px solid #232e3c;border-radius:12px;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
-          <div style="display:flex;align-items:center;gap:12px;min-width:0;flex:1;">
-            ${img}
-            <div style="flex:1;min-width:0;">
-              <div style="font-weight:700;color:#fff;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.name}</div>
-              <div style="display:flex;flex-direction:column;gap:2px;">
-                <span style="color:#708499;font-size:11px;">${item.category}</span>
-                ${priceTag}
+      // Kategori başlığı
+      html += `<div style="grid-column:1/-1;color:#10b981;font-size:13px;font-weight:800;border-bottom:2px solid rgba(16,185,129,0.2);padding-bottom:8px;margin-top:16px;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.5px;">${cat}</div>`;
+
+      // Kategori içinde yemekler
+      html += list.map(item => {
+        const img = item.image_url
+          ? `<img src="${item.image_url}" style="width:56px;height:56px;border-radius:8px;object-fit:cover;">`
+          : `<div style="width:56px;height:56px;border-radius:8px;background:#242f3d;display:flex;align-items:center;justify-content:center;font-size:28px;border:1px dashed rgba(255,255,255,0.08);">🍲</div>`;
+
+        const priceTag = item.price
+          ? `<span style="color:#fbbf24;font-size:12px;font-weight:800;background:rgba(251,191,36,0.08);padding:2px 6px;border-radius:6px;">${item.price} ₺</span>`
+          : `<span style="color:#708499;font-size:11px;">—</span>`;
+
+        return `
+          <div style="height:112px;box-sizing:border-box;background:#17212b;border:1px solid #232e3c;border-radius:12px;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+            <div style="display:flex;align-items:center;gap:12px;min-width:0;flex:1;">
+              ${img}
+              <div style="flex:1;min-width:0;">
+                <div style="font-weight:700;color:#fff;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.name}</div>
+                <div style="display:flex;flex-direction:column;gap:2px;">
+                  <span style="color:#708499;font-size:11px;">${item.category}</span>
+                  ${priceTag}
+                </div>
               </div>
             </div>
+            <div style="display:flex;gap:6px;flex-shrink:0;">
+              <button onclick="editMasterFoodItem(${item.id})" style="background:none;border:none;color:#fbbf24;font-size:16px;cursor:pointer;padding:6px;" title="Düzenle">✏️</button>
+              <button onclick="deleteMasterFoodItem(${item.id})" style="background:none;border:none;color:#ef5350;font-size:18px;cursor:pointer;padding:6px;" title="Sil">✕</button>
+            </div>
           </div>
-          <div style="display:flex;gap:6px;flex-shrink:0;">
-            <button onclick="editMasterFoodItem(${item.id})" style="background:none;border:none;color:#fbbf24;font-size:16px;cursor:pointer;padding:6px;" title="Düzenle">✏️</button>
-            <button onclick="deleteMasterFoodItem(${item.id})" style="background:none;border:none;color:#ef5350;font-size:18px;cursor:pointer;padding:6px;" title="Sil">✕</button>
-          </div>
-        </div>
-      `;
-    }).join('');
+        `;
+      }).join('');
+    });
+
+    container.innerHTML = html;
   }
 
   // ──────────────────────────────────────────
