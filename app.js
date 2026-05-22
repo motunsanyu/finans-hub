@@ -853,8 +853,6 @@ window.switchMarketTab = function (tab) {
   const sections = {
     'market': { id: 'piyasaSection', btn: 'btnMarketPiyasa' },
     'coins': { id: 'coinlerSection', btn: 'btnMarketCoinler' },
-    'trade': { id: 'tradeSection', btn: 'btnMarketTrade' },
-    'portfolio': { id: 'portfolioSection', btn: 'btnMarketPortfolio' },
     'news': { id: 'newsSection', btn: 'btnMarketNews' }
   };
 
@@ -883,8 +881,7 @@ window.switchMarketTab = function (tab) {
       if (coinRefreshInterval) { clearInterval(coinRefreshInterval); coinRefreshInterval = null; }
     }
 
-    if (tab === 'trade' && typeof TradeModule !== 'undefined') TradeModule.initTradeUI();
-    if (tab === 'portfolio' && typeof TradeModule !== 'undefined') TradeModule.renderPortfolio();
+    // 'trade' and 'portfolio' tabs removed; no-op for those modules here
     if (tab === 'news' && typeof NewsModule !== 'undefined') NewsModule.fetchNews();
     
     window.scrollTo({ top: 0, behavior: 'smooth' });
