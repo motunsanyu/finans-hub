@@ -376,11 +376,16 @@ const FuelModule = (() => {
       try {
         const result = await navigator.permissions.query({ name: 'geolocation' });
         if (result.state === 'granted') {
-          startActualLocationFetch();
+          await startActualLocationFetch();
+          return;
+        } else if (result.state === 'denied') {
+          if (window.showToast) window.showToast('❌ Konum izni reddedildi. Tarayıcı ayarlarından izin verin.', 'error');
           return;
         }
+        // else: 'prompt' — show modal
       } catch (e) {
         console.warn('Permission check failed:', e);
+        // Fall through to modal
       }
     }
 
