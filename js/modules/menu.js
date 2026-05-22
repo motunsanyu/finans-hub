@@ -875,10 +875,10 @@ const MenuModule = (() => {
       if (!list.length) return;
 
       // Kategori başlığı
-      html += `<div style="grid-column:1/-1;color:#10b981;font-size:13px;font-weight:800;border-bottom:1px solid rgba(16,185,129,0.2);padding-bottom:4px;margin-top:2px;margin-bottom:4px;text-align:center;text-transform:uppercase;letter-spacing:0.5px;">${cat}</div>`;
+      html += `<div style="grid-column:1/-1;color:#10b981;font-size:13px;font-weight:800;border-bottom:1px solid rgba(16,185,129,0.2);padding:0;margin:0;text-align:center;text-transform:uppercase;letter-spacing:0.5px;">${cat}</div>`;
 
       // Kategori içinde yemekler
-      html += list.map(item => {
+      html += list.map((item, idx) => {
         const img = item.image_url
           ? `<img src="${item.image_url}" style="width:56px;height:56px;border-radius:8px;object-fit:cover;">`
           : `<div style="width:56px;height:56px;border-radius:8px;background:#242f3d;display:flex;align-items:center;justify-content:center;font-size:28px;border:1px dashed rgba(255,255,255,0.08);">🍲</div>`;
@@ -887,8 +887,11 @@ const MenuModule = (() => {
           ? `<span style="color:#fbbf24;font-size:12px;font-weight:800;background:rgba(251,191,36,0.08);padding:2px 6px;border-radius:6px;">${item.price} ₺</span>`
           : `<span style="color:#708499;font-size:11px;">—</span>`;
 
+        // İlk kart başlık hemen altında (negative margin grid gap kapat)
+        const mtStyle = idx === 0 ? 'margin-top:-6px;' : '';
+
         return `
-          <div style="height:112px;box-sizing:border-box;background:#17212b;border:1px solid #232e3c;border-radius:12px;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+          <div style="height:112px;box-sizing:border-box;background:#17212b;border:1px solid #232e3c;border-radius:12px;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;${mtStyle}">
             <div style="display:flex;align-items:center;gap:12px;min-width:0;flex:1;">
               ${img}
               <div style="flex:1;min-width:0;">
