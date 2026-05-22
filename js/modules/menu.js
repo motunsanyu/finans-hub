@@ -430,6 +430,15 @@ const MenuModule = (() => {
   // ──────────────────────────────────────────
   // IMAGE COMPRESSION
   // ──────────────────────────────────────────
+  // Basit toast helper: eğer global toast yoksa console'a düşsün
+  function toast(msg, type = 'default') {
+    if (window.showToast) {
+      try { window.showToast(msg, type); } catch (e) { console.log('[toast error]', e); }
+    } else {
+      console.log('[toast]', type, msg);
+    }
+  }
+
   function compressImage(file, maxW = 800, maxH = 800) {
     return new Promise((resolve) => {
       const reader = new FileReader();
@@ -619,14 +628,17 @@ const MenuModule = (() => {
 
   async function uploadFoodImage(file) {
     const sb = window._supabaseClient;
+    console.debug('uploadFoodImage start', file && file.name, file && file.size);
     const compressed = await compressImage(file);
     const ext = compressed.name.split('.').pop();
     const fileName = `food-${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
 
     try {
       const { error: upErr } = await sb.storage.from('menu-items').upload(fileName, compressed);
+      console.debug('upload result', { upErr });
       if (upErr) throw upErr;
       const { data: urlData, error: urlErr } = sb.storage.from('menu-items').getPublicUrl(fileName);
+      console.debug('getPublicUrl', { urlData, urlErr });
       if (urlErr || !urlData?.publicUrl) throw urlErr || new Error('Public URL alınamadı');
       return urlData.publicUrl;
     } catch (err) {
@@ -655,12 +667,12 @@ const MenuModule = (() => {
     const editingId = window.editingFoodItemId;
 
     if (!name || !category) {
-      if (window.showToast) window.showToast('Yemek adı ve kategori zorunludur.', 'error');
+      toast('Yemek adı ve kategori zorunludur.', 'error');
       return;
     }
 
     try {
-      if (window.showToast) window.showToast('Kaydediliyor...', 'default');
+      toast('Kaydediliyor...', 'default');
 
       let imageUrl = null;
 
@@ -669,23 +681,45 @@ const MenuModule = (() => {
           imageUrl = await uploadFoodImage(file);
         } catch (uploadErr) {
           console.error('Görsel yükleme hatası:', uploadErr);
-          if (window.showToast) window.showToast('Görsel yüklenemedi: ' + uploadErr.message, 'error');
+          toast('Görsel yüklenemedi: ' + uploadErr.message, 'error');
           imageUrl = null;
         }
       }
 
       if (editingId) {
         // Güncelleme
-        const payload = { name, category, price };
+        let payload = { name, category, price };
         if (imageUrl) payload.image_url = imageUrl;
 
-        const { error } = await sb
-          .from('menu_items')
-          .update(payload)
-          .eq('id', editingId);
+        console.debug('update payload', { editingId, payload });
 
-        if (error) throw error;
-        if (window.showToast) window.showToast('Yemek güncellendi!', 'success');
+        try {
+          const { error } = await sb
+            .from('menu_items')
+            .update(payload)
+            .eq('id', editingId);
+
+          if (error) {
+            console.debug('update error', error);
+            // Eğer price kolonu yoksa, price olmadan tekrar dene
+            const msg = (error.message || '').toLowerCase();
+            if (error.code === 'PGRST204' || /column .* does not exist/.test(msg) || /column .*unknown/.test(msg)) {
+              const payload2 = { name, category };
+              if (imageUrl) payload2.image_url = imageUrl;
+              console.debug('retrying update without price', { editingId, payload2 });
+              const { error: e2 } = await sb.from('menu_items').update(payload2).eq('id', editingId);
+              if (e2) throw e2;
+            } else {
+              throw error;
+            }
+          }
+        } catch (upErr) {
+          console.error('Güncelleme başarısız:', upErr);
+          toast('Güncelleme hatası: ' + (upErr.message || upErr), 'error');
+          throw upErr;
+        }
+
+        toast('Yemek güncellendi!', 'success');
         window.editingFoodItemId = null;
         const btn = document.querySelector('#tabContent-adder form button[type="submit"]');
         if (btn) btn.textContent = '➕ Yemek Listesine Ekle';
@@ -1398,7 +1432,7 @@ const MenuModule = (() => {
       };
       reader.readAsDataURL(file);
     }
-    if (window.showToast) window.showToast('Görsel seçildi!', 'success');
+    toast('Görsel seçildi!', 'success');
   };
 
 
@@ -1566,11 +1600,11 @@ const MenuModule = (() => {
       if (side === 'left' && btnLeft) btnLeft.style.borderColor = '#10b981';
       if (side === 'right' && btnRight) btnRight.style.borderColor = '#10b981';
 
-      if (window.showToast) window.showToast('Görsel eklendi! ✓', 'success');
+      toast('Görsel eklendi! ✓', 'success');
       renderShareTab();
     };
     img.onerror = () => {
-      if (window.showToast) window.showToast('Görsel yüklenemedi. Farklı bir görsel deneyin.', 'error');
+      toast('Görsel yüklenemedi. Farklı bir görsel deneyin.', 'error');
     };
     img.src = url;
   };
@@ -1589,7 +1623,7 @@ const MenuModule = (() => {
           previewEl.src = e.target.result;
           previewEl.style.display = 'block';
         }
-        if (window.showToast) window.showToast('Görsel tuvale eklendi!', 'success');
+        toast('Görsel tuvale eklendi!', 'success');
         renderShareTab();
       };
       img.src = e.target.result;
