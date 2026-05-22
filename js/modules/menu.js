@@ -647,7 +647,11 @@ const MenuModule = (() => {
     const category = document.getElementById('newFoodCategory')?.value;
     const priceRaw = document.getElementById('newFoodPrice')?.value?.replace(',', '.');
     const price = parseFloat(priceRaw) || 0;
-    const file = document.getElementById('newFoodImage')?.files[0];
+    let file = document.getElementById('newFoodImage')?.files[0];
+    // Eğer input.files boş geliyorsa (bazı tarayıcı durumları) önceki seçimi fallback olarak kullan
+    if (!file && window._lastSelectedMasterFoodImage) {
+      file = window._lastSelectedMasterFoodImage;
+    }
     const editingId = window.editingFoodItemId;
 
     if (!name || !category) {
@@ -713,6 +717,8 @@ const MenuModule = (() => {
       document.getElementById('newFoodPrice').value = '';
       const fileInput = document.getElementById('newFoodImage');
       if (fileInput) fileInput.value = '';
+      // Fallback olarak saklanan dosyayı temizle
+      if (window._lastSelectedMasterFoodImage) window._lastSelectedMasterFoodImage = null;
       const fileLabel = document.getElementById('file-upload-name');
       if (fileLabel) fileLabel.textContent = 'Görsel Yüklemek İçin Tıklayın';
       const previewEl = document.getElementById('newFoodImagePreview');
@@ -748,6 +754,8 @@ const MenuModule = (() => {
     if (priceEl) priceEl.value = item.price || '';
     const fileInput = document.getElementById('newFoodImage');
     if (fileInput) fileInput.value = '';
+    // Önceki seçimi temizle ki aynı dosya tekrar seçildiğinde onchange tetiklensin
+    if (window._lastSelectedMasterFoodImage) window._lastSelectedMasterFoodImage = null;
     if (fileLabel) fileLabel.textContent = item.image_url ? 'Mevcut Görsel Korunuyor — yeni görsel seçebilirsiniz' : 'Görsel Yüklemek İçin Tıklayın';
 
     const previewEl = document.getElementById('newFoodImagePreview');
@@ -1375,6 +1383,8 @@ const MenuModule = (() => {
   window.handleImageSelect = function(input, previewId, labelId) {
     const file = input.files[0];
     if (!file) return;
+    // Son seçilen dosyayı global olarak sakla; bazı durumlarda input.files okunamayabiliyor
+    window._lastSelectedMasterFoodImage = file;
     document.getElementById(labelId).textContent = file.name;
     const preview = document.getElementById(previewId);
     if (preview) {
