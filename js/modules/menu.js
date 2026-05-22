@@ -608,6 +608,37 @@ const MenuModule = (() => {
     }
   }
 
+  function readFileAsDataURL(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function uploadFoodImage(file) {
+    const sb = window._supabaseClient;
+    const compressed = await compressImage(file);
+    const ext = compressed.name.split('.').pop();
+    const fileName = `food-${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+    try {
+      const { error: upErr } = await sb.storage.from('menu-items').upload(fileName, compressed);
+      if (upErr) throw upErr;
+      const { data: urlData, error: urlErr } = sb.storage.from('menu-items').getPublicUrl(fileName);
+      if (urlErr || !urlData?.publicUrl) throw urlErr || new Error('Public URL alınamadı');
+      return urlData.publicUrl;
+    } catch (err) {
+      console.warn('Storage upload failed, fallback to data URL:', err);
+      // Eğer depolama yapılamıyorsa bile görseli doğrudan base64 URL olarak kaydetmeyi dene
+      if (file.size <= 2_500_000) {
+        return await readFileAsDataURL(file);
+      }
+      throw err;
+    }
+  }
+
   async function addMasterItem(e) {
     e.preventDefault();
     const sb = window._supabaseClient;
@@ -630,21 +661,12 @@ const MenuModule = (() => {
       let imageUrl = null;
 
       if (file) {
-        const compressed = await compressImage(file);
-        const ext = compressed.name.split('.').pop();
-        const fileName = `food-${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-
-        const { error: upErr } = await sb.storage
-          .from('menu-items')
-          .upload(fileName, compressed);
-
-        if (upErr) {
-          console.error('Görsel yükleme hatası:', upErr);
-          if (window.showToast) window.showToast('Görsel yüklenemedi: ' + upErr.message, 'error');
-          // Görsel olmadan devam et
-        } else {
-          const { data: urlData } = sb.storage.from('menu-items').getPublicUrl(fileName);
-          imageUrl = urlData.publicUrl;
+        try {
+          imageUrl = await uploadFoodImage(file);
+        } catch (uploadErr) {
+          console.error('Görsel yükleme hatası:', uploadErr);
+          if (window.showToast) window.showToast('Görsel yüklenemedi: ' + uploadErr.message, 'error');
+          imageUrl = null;
         }
       }
 
@@ -689,9 +711,17 @@ const MenuModule = (() => {
       // Formu sıfırla
       document.getElementById('newFoodName').value = '';
       document.getElementById('newFoodPrice').value = '';
-      document.getElementById('newFoodImage').value = '';
+      const fileInput = document.getElementById('newFoodImage');
+      if (fileInput) fileInput.value = '';
       const fileLabel = document.getElementById('file-upload-name');
       if (fileLabel) fileLabel.textContent = 'Görsel Yüklemek İçin Tıklayın';
+      const previewEl = document.getElementById('newFoodImagePreview');
+      if (previewEl) {
+        previewEl.src = '';
+        previewEl.style.display = 'none';
+      }
+      const iconEl = document.getElementById('newFoodImageIcon');
+      if (iconEl) iconEl.style.display = 'block';
 
       loadMasterItems();
       switchTab('list');
@@ -716,7 +746,21 @@ const MenuModule = (() => {
     if (nameEl) nameEl.value = item.name;
     if (catEl) catEl.value = item.category;
     if (priceEl) priceEl.value = item.price || '';
-    if (fileLabel) fileLabel.textContent = item.image_url ? 'Mevcut Görsel Korunuyor' : 'Görsel Yüklemek İçin Tıklayın';
+    const fileInput = document.getElementById('newFoodImage');
+    if (fileInput) fileInput.value = '';
+    if (fileLabel) fileLabel.textContent = item.image_url ? 'Mevcut Görsel Korunuyor — yeni görsel seçebilirsiniz' : 'Görsel Yüklemek İçin Tıklayın';
+
+    const previewEl = document.getElementById('newFoodImagePreview');
+    const iconEl = document.getElementById('newFoodImageIcon');
+    if (item.image_url && previewEl) {
+      previewEl.src = item.image_url;
+      previewEl.style.display = 'block';
+      if (iconEl) iconEl.style.display = 'none';
+    } else if (previewEl) {
+      previewEl.src = '';
+      previewEl.style.display = 'none';
+      if (iconEl) iconEl.style.display = 'block';
+    }
 
     const btn = document.querySelector('#tabContent-adder form button[type="submit"]');
     if (btn) btn.textContent = '✏️ Yemeği Güncelle';
