@@ -875,7 +875,7 @@ const MenuModule = (() => {
       if (!list.length) return;
 
       // Kategori başlığı
-      html += `<div style="grid-column:1/-1;color:#10b981;font-size:13px;font-weight:800;border-bottom:2px solid rgba(16,185,129,0.2);padding-bottom:8px;margin-top:8px;margin-bottom:8px;text-align:center;text-transform:uppercase;letter-spacing:0.5px;">${cat}</div>`;
+      html += `<div style="grid-column:1/-1;color:#10b981;font-size:13px;font-weight:800;border-bottom:1px solid rgba(16,185,129,0.2);padding-bottom:4px;margin-top:2px;margin-bottom:4px;text-align:center;text-transform:uppercase;letter-spacing:0.5px;">${cat}</div>`;
 
       // Kategori içinde yemekler
       html += list.map(item => {
