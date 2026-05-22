@@ -874,8 +874,8 @@ const MenuModule = (() => {
       const list = groups[cat] || [];
       if (!list.length) return;
 
-      // Kategori başlığı
-      html += `<div style="grid-column:1/-1;color:#10b981;font-size:13px;font-weight:800;border-bottom:1px solid rgba(16,185,129,0.2);padding:0;margin:0;text-align:center;text-transform:uppercase;letter-spacing:0.5px;">${cat}</div>`;
+      // Kategori başlığı — kart gibi davran, yazı aşağıya
+      html += `<div style="grid-column:1/-1;height:40px;background:#17212b;border:1px solid #232e3c;border-radius:12px;display:flex;align-items:flex-end;justify-content:center;padding:8px;color:#10b981;font-size:13px;font-weight:800;text-align:center;text-transform:uppercase;letter-spacing:0.5px;margin:0;">${cat}</div>`;
 
       // Kategori içinde yemekler
       html += list.map((item, idx) => {
