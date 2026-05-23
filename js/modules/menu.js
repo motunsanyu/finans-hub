@@ -856,6 +856,7 @@ const MenuModule = (() => {
   function renderMasterItemsList() {
     const container = document.getElementById('menuFoodListGrid');
     if (!container) return;
+    container.style.gap = '0px';
 
     if (!masterItems.length) {
       container.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#708499;">Kayıtlı yemek yok.</div>';
@@ -874,8 +875,8 @@ const MenuModule = (() => {
       const list = groups[cat] || [];
       if (!list.length) return;
 
-      // Kategori başlığı — kart gibi davran, yazı aşağıya
-      html += `<div style="grid-column:1/-1;height:40px;background:#17212b;border:1px solid #232e3c;border-radius:12px;display:flex;align-items:flex-end;justify-content:center;padding:8px;color:#10b981;font-size:13px;font-weight:800;text-align:center;text-transform:uppercase;letter-spacing:0.5px;margin:0;">${cat}</div>`;
+      // Kategori başlığı — alt çizgili ve altında hemen yemekler başlasın
+      html += `<div style="grid-column:1/-1;padding:8px 0;margin:0;color:#10b981;font-size:13px;font-weight:800;text-align:center;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid rgba(16,185,129,0.2);">${cat}</div>`;
 
       // Kategori içinde yemekler
       html += list.map((item, idx) => {
@@ -887,11 +888,8 @@ const MenuModule = (() => {
           ? `<span style="color:#fbbf24;font-size:12px;font-weight:800;background:rgba(251,191,36,0.08);padding:2px 6px;border-radius:6px;">${item.price} ₺</span>`
           : `<span style="color:#708499;font-size:11px;">—</span>`;
 
-        // İlk kart başlık hemen altında (negative margin grid gap kapat)
-        const mtStyle = idx === 0 ? 'margin-top:-6px;' : '';
-
         return `
-          <div style="height:112px;box-sizing:border-box;background:#17212b;border:1px solid #232e3c;border-radius:12px;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;${mtStyle}">
+          <div style="height:112px;box-sizing:border-box;background:#17212b;border:1px solid #232e3c;border-radius:12px;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
             <div style="display:flex;align-items:center;gap:12px;min-width:0;flex:1;">
               ${img}
               <div style="flex:1;min-width:0;">
