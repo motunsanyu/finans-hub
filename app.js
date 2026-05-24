@@ -34,6 +34,9 @@ async function initializeSystem() {
   if (typeof FriendsChatModule !== 'undefined') FriendsChatModule.init();
   if (typeof AddressModule !== 'undefined') AddressModule.init();
 
+  // Her gece yarısı sistemi otomatik yenile (Geri sayımlar ve günlük işler için)
+  scheduleMidnightRefresh();
+
   try {
     const { data: { user } } = await getSB().auth.getUser();
     if (user) {
@@ -887,3 +890,22 @@ window.switchMarketTab = function (tab) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 };
+
+// ═════════════════════════ GECE YARISI OTOMATİK YENİLEME ═════════════════════════
+function scheduleMidnightRefresh() {
+  const now = new Date();
+  const nextMidnight = new Date();
+  
+  // Gece 00:00'ı (bir sonraki günü) ayarla
+  nextMidnight.setHours(24, 0, 0, 0);
+  
+  // Gece yarısına kalan süre (artı işi sağlama almak için 1 saniye)
+  const timeUntilMidnight = nextMidnight.getTime() - now.getTime() + 1000;
+  
+  console.log(`[Sistem] Uygulama ${Math.floor(timeUntilMidnight/1000/60)} dakika sonra gece yarısı otomatik yenilenecek.`);
+  
+  setTimeout(() => {
+    console.log("[Sistem] Gece yarısı oldu! Günlük verilerin güncellenmesi için sayfa yenileniyor...");
+    window.location.reload();
+  }, timeUntilMidnight);
+}
