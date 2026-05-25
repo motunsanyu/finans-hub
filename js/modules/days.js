@@ -201,13 +201,15 @@ const DaysModule = (() => {
   async function render() {
     const container = document.getElementById("daysCards");
     if (!container) return;
-    container.innerHTML = "";
 
     try {
       const { data: records } = await getSB()
         .from('day_records')
         .select('*')
         .order('end_date', { ascending: true });
+
+      // Veritabanı sorgusu bittikten sonra DOM'u temizle (Çoğalma/Race Condition hatasını önler)
+      container.innerHTML = "";
 
       if (!records || records.length === 0) {
         container.innerHTML = '<div style="text-align:center;padding:32px;color:var(--text-secondary);">Henüz bir hedef eklenmedi.</div>';
