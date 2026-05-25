@@ -164,6 +164,33 @@ const SchoolModule = (() => {
     return 'Bekleniyor';
   }
 
+  function getInstallmentAmount(plan, index) {
+    const unevenData = plan.unevenData;
+    const lastAmount = plan.lastAmount;
+
+    let totalUneven = 0;
+    let unevenCount = 0;
+
+    if (unevenData) {
+      totalUneven = unevenData.indices.length * unevenData.amount;
+      unevenCount = unevenData.indices.length;
+    } else if (lastAmount) {
+      totalUneven = lastAmount;
+      unevenCount = 1;
+    }
+
+    const normalCount = plan.installmentCount - unevenCount;
+    const baseAmount = normalCount > 0 ? (plan.totalDebt - totalUneven) / normalCount : 0;
+
+    if (unevenData && unevenData.indices.includes(index)) {
+      return unevenData.amount;
+    }
+    if (lastAmount && index === plan.installmentCount - 1) {
+      return lastAmount;
+    }
+    return baseAmount;
+  }
+
   function renderPlans() {
     const container = document.getElementById('schoolPlansContainer');
     if (!container) return;
@@ -185,20 +212,6 @@ const SchoolModule = (() => {
       const installmentCount = plan.installmentCount;
       const unevenData = plan.unevenData; // { indices: [], amount: 0 }
       const lastAmount = plan.lastAmount; // Legacy support
-      
-      let totalUneven = 0;
-      let unevenCount = 0;
-      
-      if (unevenData) {
-        totalUneven = unevenData.indices.length * unevenData.amount;
-        unevenCount = unevenData.indices.length;
-      } else if (lastAmount) {
-        totalUneven = lastAmount;
-        unevenCount = 1;
-      }
-      
-      const normalCount = installmentCount - unevenCount;
-      const baseAmount = normalCount > 0 ? (totalDebt - totalUneven) / normalCount : 0;
 
       const firstDate = new Date(plan.firstDate);
       const card = plan.cardId ? loadCreditCards().find(c => c.id === plan.cardId) : null;
@@ -217,12 +230,7 @@ const SchoolModule = (() => {
         const dueDate = new Date(firstDate);
         dueDate.setMonth(firstDate.getMonth() + i);
         
-        let amount = baseAmount;
-        if (unevenData && unevenData.indices.includes(i)) {
-          amount = unevenData.amount;
-        } else if (lastAmount && i === installmentCount - 1) {
-          amount = lastAmount;
-        }
+        const amount = getInstallmentAmount(plan, i);
 
         const status = getInstallmentStatus(dueDate, plan.cardId);
         const installmentId = `${plan.id || idx}_${i}`;
@@ -324,15 +332,13 @@ const SchoolModule = (() => {
     let grandTotalWaitingCount = 0;
 
     schoolPlans.forEach(plan => {
-      const totalDebt = plan.totalDebt;
       const installmentCount = plan.installmentCount;
-      const baseAmount = totalDebt / installmentCount;
       const firstDate = new Date(plan.firstDate);
 
       for (let i = 0; i < installmentCount; i++) {
         const dueDate = new Date(firstDate);
         dueDate.setMonth(firstDate.getMonth() + i);
-        const amount = (i === installmentCount - 1 && plan.lastAmount) ? plan.lastAmount : baseAmount;
+        const amount = getInstallmentAmount(plan, i);
         const status = getInstallmentStatus(dueDate, plan.cardId);
         
         if (status !== 'Ödendi') {
@@ -671,5 +677,11 @@ const SchoolModule = (() => {
     return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
   }
 
-  return { init };
+  function refresh() {
+    loadPlans();
+    renderCreditCardSelect();
+    renderCreditCardList();
+  }
+
+  return { init, refresh };
 })();

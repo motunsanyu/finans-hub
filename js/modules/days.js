@@ -16,6 +16,15 @@ const DaysModule = (() => {
     return window._supabaseClient;
   }
 
+  async function cleanupExpiredRecords() {
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      await getSB().from('day_records').delete().lt('end_date', today);
+    } catch (e) {
+      console.warn('Eski kayitlar temizlenemedi:', e.message);
+    }
+  }
+
   // ─── TAKVİM MANTIĞI ──────────────────────────────────────────
   function updateTodayDisplay() {
     const today = new Date();
@@ -271,5 +280,13 @@ const DaysModule = (() => {
     console.log('✅ Gün sayacı modülü (iOS Calendar & Colors) başlatıldı');
   }
 
-  return { init, render };
+  async function refresh() {
+    updateTodayDisplay();
+    calCurrentDate = new Date();
+    await cleanupExpiredRecords();
+    renderCalendar();
+    await render();
+  }
+
+  return { init, render, refresh };
 })();

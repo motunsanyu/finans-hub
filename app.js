@@ -35,6 +35,7 @@ async function initializeSystem() {
   if (typeof AddressModule !== 'undefined') AddressModule.init();
 
   // Her gece yarısı sistemi otomatik yenile (Geri sayımlar ve günlük işler için)
+  checkDailyRollover(false);
   scheduleMidnightRefresh();
 
   try {
@@ -103,6 +104,68 @@ async function initializeSystem() {
     }, 800);
   }
 }
+
+let midnightRefreshTimer = null;
+
+function getLocalDateKey(date = new Date()) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function refreshDailyModules() {
+  if (typeof DaysModule !== 'undefined' && typeof DaysModule.refresh === 'function') {
+    DaysModule.refresh();
+  }
+  if (typeof SchoolModule !== 'undefined' && typeof SchoolModule.refresh === 'function') {
+    SchoolModule.refresh();
+  }
+}
+
+function checkDailyRollover(forceReload = false) {
+  const todayKey = getLocalDateKey();
+  const lastKey = localStorage.getItem('financeApp.lastDailyRefreshDate');
+
+  if (!lastKey) {
+    localStorage.setItem('financeApp.lastDailyRefreshDate', todayKey);
+    return false;
+  }
+
+  if (lastKey !== todayKey) {
+    localStorage.setItem('financeApp.lastDailyRefreshDate', todayKey);
+    console.log(`[Sistem] Gun degisti (${lastKey} -> ${todayKey}). Gunluk veriler yenileniyor...`);
+    refreshDailyModules();
+
+    if (forceReload) {
+      window.location.reload();
+    }
+    return true;
+  }
+
+  if (forceReload) {
+    refreshDailyModules();
+  }
+
+  return false;
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) {
+    checkDailyRollover(true);
+    scheduleMidnightRefresh();
+  }
+});
+
+window.addEventListener('focus', () => {
+  checkDailyRollover(true);
+  scheduleMidnightRefresh();
+});
+
+window.addEventListener('pageshow', () => {
+  checkDailyRollover(true);
+  scheduleMidnightRefresh();
+});
 
 async function fetchLastCommit() {
   const el = document.getElementById('lastCommitInfo');
@@ -892,7 +955,7 @@ window.switchMarketTab = function (tab) {
 };
 
 // ═════════════════════════ GECE YARISI OTOMATİK YENİLEME ═════════════════════════
-function scheduleMidnightRefresh() {
+function legacyScheduleMidnightRefreshOld() {
   const now = new Date();
   const nextMidnight = new Date();
   
@@ -908,4 +971,20 @@ function scheduleMidnightRefresh() {
     console.log("[Sistem] Gece yarısı oldu! Günlük verilerin güncellenmesi için sayfa yenileniyor...");
     window.location.reload();
   }, timeUntilMidnight);
+}
+
+function scheduleMidnightRefresh() {
+  if (midnightRefreshTimer) clearTimeout(midnightRefreshTimer);
+
+  const now = new Date();
+  const nextRun = new Date(now);
+  nextRun.setHours(24, 0, 1, 0);
+  const delay = Math.max(1000, nextRun.getTime() - now.getTime());
+
+  console.log(`[Sistem] Gunluk yenileme ${Math.ceil(delay / 60000)} dakika sonra kontrol edilecek.`);
+
+  midnightRefreshTimer = setTimeout(() => {
+    checkDailyRollover(true);
+    scheduleMidnightRefresh();
+  }, delay);
 }
