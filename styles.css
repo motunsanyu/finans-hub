@@ -648,6 +648,11 @@ h3 {
   animation: blink 1s infinite;
 }
 
+.days-countdown-alert {
+  color: var(--down) !important;
+  animation: blink 1s infinite;
+}
+
 @keyframes blink {
   50% {
     opacity: 0.5;

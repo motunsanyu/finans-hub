@@ -226,12 +226,15 @@ const DaysModule = (() => {
       activeRecords.forEach((r, idx) => {
         const isPast = r.days < 0;
         const isZero = r.days === 0;
+        const isTomorrow = r.days === 1;
+        const isAlertDay = isZero || isTomorrow;
 
-        let daysText = isPast ? Math.abs(r.days) + " Gün Geçti" : (isZero ? r.title + " Günü!" : r.days + " Gün Kaldı");
+        let daysText = isPast ? Math.abs(r.days) + " Gün Geçti" : (isZero ? "Bugün" : (isTomorrow ? "Yarın" : r.days + " Gün Kaldı"));
 
         // Renk paleti seçimi (sırasıyla)
         const paletteColor = cardColors[idx % cardColors.length];
-        let color = isPast ? "var(--down)" : (isZero ? "rgba(252,213,53,1)" : paletteColor);
+        let color = isPast ? "var(--down)" : (isAlertDay ? "var(--down)" : paletteColor);
+        const daysTextClass = isAlertDay ? ' class="days-countdown-alert"' : '';
 
         const createdDate = r.created_at ? new Date(r.created_at).setHours(0, 0, 0, 0) : new Date(r.end_date).setHours(0, 0, 0, 0) - 14 * 86400000;
         const targetMillis = new Date(r.end_date).setHours(0, 0, 0, 0);
@@ -257,7 +260,7 @@ const DaysModule = (() => {
               <div style="font-size:12px; color:var(--text-secondary);">Hedef: ${new Date(r.end_date).toLocaleDateString('tr-TR')}</div>
             </div>
             <div style="text-align:right;">
-              <div style="color:${color}; font-size:16px; font-weight:800;">${daysText}</div>
+              <div${daysTextClass} style="color:${color}; font-size:16px; font-weight:800;">${daysText}</div>
               <button class="badge unpaid btn-del-day" data-id="${r.id}" style="margin-top:4px;">Sil</button>
             </div>
           </div>
