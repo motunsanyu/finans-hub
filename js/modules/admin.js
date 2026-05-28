@@ -138,6 +138,16 @@ function renderAdminUsers(users) {
       actions += `<span style="font-size:13px; color:#708499; font-weight:800; width:100%; text-align:center; padding:8px 0;">✨ Kendi Hesabınız (Yönetici)</span>`;
     }
 
+    const locBtn = (u.last_lat && u.last_lng)
+      ? '<button onclick="event.stopPropagation(); window.showUserLocation(' +
+          JSON.stringify(String(u.last_lat)) + ',' +
+          JSON.stringify(String(u.last_lng)) + ',' +
+          JSON.stringify(u.display_name || u.username || 'Kullanıcı') + ',' +
+          JSON.stringify((u.last_city || '') + (u.last_country ? ', ' + u.last_country : '')) + ',' +
+          JSON.stringify(u.last_location_time || '') +
+        ')" style="background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.3); color:#60a5fa; border-radius:6px; padding:2px 8px; font-size:10px; font-weight:800; cursor:pointer;">📍 Konumu Gör</button>'
+      : '<span style="color:#4b5563;font-size:10px;">📍 Konum yok</span>';
+
     return `
       <div style="background:#17212b; border-radius:16px; border:1px solid #232e3c; overflow:hidden; transition:all 0.2s;">
         <!-- Tıklanabilir Üst Bilgi Kartı -->
@@ -163,7 +173,7 @@ function renderAdminUsers(users) {
             </div>
             <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
               <div style="color:#8b9eb3; font-size:11px; font-weight:600;">Son Görülme: ${dateStr}</div>
-              ${u.last_lat && u.last_lng ? `<button onclick="event.stopPropagation(); showUserLocation('${u.last_lat}','${u.last_lng}','${(u.display_name||u.username||'Kullanıcı').replace(/'/g,\"\\'\")}',' ${u.last_city ? u.last_city+',' : ''} ${u.last_country || ''}', '${u.last_location_time || ''}')" style="background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.3); color:#60a5fa; border-radius:6px; padding:2px 8px; font-size:10px; font-weight:800; cursor:pointer;">📍 Konumu Gör</button>` : '<span style="color:#4b5563;font-size:10px;">📍 Konum yok</span>'}
+              ${locBtn}
             </div>
           </div>
         </div>
