@@ -856,7 +856,6 @@ const MenuModule = (() => {
   function renderMasterItemsList() {
     const container = document.getElementById('menuFoodListGrid');
     if (!container) return;
-    container.style.gap = '0px';
 
     if (!masterItems.length) {
       container.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#708499;">Kayıtlı yemek yok.</div>';
