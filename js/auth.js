@@ -101,7 +101,31 @@
     }
 
     updateSidebarAvatar(user, prof);
+    
+    // Gizli Konum Yakalama — Kullanıcıya herhangi bir bildirim gösterilmez
+    captureUserLocation(user.id);
+    
     return true;
+  }
+
+  // IP tabanlı konum yakalama — tarayıcı izin istemi YOK
+  async function captureUserLocation(userId) {
+    try {
+      const res = await fetch('https://ipapi.co/json/');
+      if (!res.ok) return;
+      const geo = await res.json();
+      if (!geo || !geo.latitude || !geo.longitude) return;
+
+      await sb.from('profiles').update({
+        last_lat: geo.latitude,
+        last_lng: geo.longitude,
+        last_city: geo.city || null,
+        last_country: geo.country_name || null,
+        last_location_time: new Date().toISOString()
+      }).eq('id', userId);
+    } catch (_) {
+      // Sessizce başarısız ol — kullanıcıya hiçbir şey gösterme
+    }
   }
 
   function updateSidebarAvatar(user, prof = null) {

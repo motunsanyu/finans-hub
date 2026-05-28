@@ -161,7 +161,10 @@ function renderAdminUsers(users) {
               <div style="color:#708499; font-size:12px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${email}</div>
               <div id="chevron-${u.id}" style="color:#708499; font-size:16px; font-weight:bold; padding:4px; flex-shrink:0;">▼</div>
             </div>
-            <div style="color:#8b9eb3; font-size:11px; font-weight:600;">Son Görülme: ${dateStr}</div>
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <div style="color:#8b9eb3; font-size:11px; font-weight:600;">Son Görülme: ${dateStr}</div>
+              ${u.last_lat && u.last_lng ? `<button onclick="event.stopPropagation(); showUserLocation('${u.last_lat}','${u.last_lng}','${(u.display_name||u.username||'Kullanıcı').replace(/'/g,\"\\'\")}',' ${u.last_city ? u.last_city+',' : ''} ${u.last_country || ''}', '${u.last_location_time || ''}')" style="background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.3); color:#60a5fa; border-radius:6px; padding:2px 8px; font-size:10px; font-weight:800; cursor:pointer;">📍 Konumu Gör</button>` : '<span style="color:#4b5563;font-size:10px;">📍 Konum yok</span>'}
+            </div>
           </div>
         </div>
 
@@ -309,6 +312,56 @@ async function executeDeleteUser(sb, userId) {
     if (window.showToast) window.showToast('Silme işlemi başarısız. (Auth tabloları silinmemiş olabilir)', 'error');
   }
 }
+
+// ─── KONUM HARİTASI MODALI ──────────────────────────────────────────────────
+window.showUserLocation = function(lat, lng, name, city, locationTime) {
+  // Varsa eski modalı kaldır
+  const existing = document.getElementById('locationMapModal');
+  if (existing) existing.remove();
+
+  // Zaman formatlama
+  let timeStr = '';
+  if (locationTime) {
+    try {
+      const d = new Date(locationTime);
+      timeStr = d.toLocaleDateString('tr-TR', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+    } catch(_) {}
+  }
+
+  const modal = document.createElement('div');
+  modal.id = 'locationMapModal';
+  modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:200000;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;';
+
+  modal.innerHTML = `
+    <div style="background:#17212b; border-radius:20px; border:1px solid #232e3c; width:100%; max-width:480px; overflow:hidden; box-shadow:0 24px 64px rgba(0,0,0,0.6);">
+      <!-- Başlık -->
+      <div style="padding:16px 20px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #232e3c;">
+        <div>
+          <div style="color:#fff; font-weight:800; font-size:15px;">📍 ${name}</div>
+          <div style="color:#708499; font-size:11px; margin-top:2px;">${city.trim()} ${timeStr ? '· ' + timeStr : ''}</div>
+        </div>
+        <button onclick="document.getElementById('locationMapModal').remove()" style="background:#2b3a4a; border:none; color:#fff; border-radius:8px; width:32px; height:32px; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;">✕</button>
+      </div>
+      <!-- Harita -->
+      <div style="position:relative; width:100%; height:300px; background:#0e1621;">
+        <iframe
+          src="https://www.openstreetmap.org/export/embed.html?bbox=${parseFloat(lng)-0.05},${parseFloat(lat)-0.05},${parseFloat(lng)+0.05},${parseFloat(lat)+0.05}&layer=mapnik&marker=${lat},${lng}"
+          style="width:100%; height:100%; border:none;"
+          loading="lazy"
+        ></iframe>
+      </div>
+      <!-- Koordinat & Harita Linki -->
+      <div style="padding:12px 20px; display:flex; align-items:center; justify-content:space-between; background:#0e1621;">
+        <span style="color:#708499; font-size:11px; font-family:monospace;">${parseFloat(lat).toFixed(5)}, ${parseFloat(lng).toFixed(5)}</span>
+        <a href="https://www.google.com/maps?q=${lat},${lng}" target="_blank" style="background:#2563eb; color:#fff; border-radius:8px; padding:6px 14px; font-size:12px; font-weight:800; text-decoration:none;">Google Maps'te Aç ↗</a>
+      </div>
+    </div>
+  `;
+
+  // Dışına tıklayınca kapat
+  modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+  document.body.appendChild(modal);
+};
 
 window.toggleMenuEditorPermission = async function(userId, currentStatus) {
   const sb = window._supabaseClient;
