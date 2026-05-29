@@ -42,4 +42,3 @@ Bu proje, tüm finansal varlıklarınızı, harcamalarınızı ve hedeflerinizi 
 *   **Güvenlik:** Supabase ile bulut tabanlı veri senkronizasyonu ve splash screen koruması.
 
 ---
-*Proje (muzaf@hotmail.com) kişisine aittir. Tüm hakları saklıdır.*
