@@ -79,6 +79,20 @@ function renderAdminUsers(users) {
 
   const currentUserId = window.currentUser?.id;
 
+  // Konum verisini güvenli şekilde sakla — onclick'te tırnak sorunu olmadan erişilir
+  window._adminLocData = {};
+  users.forEach(u => {
+    if (u.last_lat && u.last_lng) {
+      window._adminLocData[u.id] = {
+        lat: u.last_lat,
+        lng: u.last_lng,
+        name: u.display_name || u.username || 'Kullanıcı',
+        city: (u.last_city || '') + (u.last_country ? ', ' + u.last_country : ''),
+        time: u.last_location_time || ''
+      };
+    }
+  });
+
   const html = sortedUsers.map(u => {
     const isMe = u.id === currentUserId;
     const name = u.display_name || u.username || 'İsimsiz';
@@ -134,19 +148,15 @@ function renderAdminUsers(users) {
         actions += `<button onclick="event.stopPropagation(); toggleUserBan('${u.id}', true)" style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.1; background:rgba(239, 83, 80, 0.1); border:1px solid rgba(239, 83, 80, 0.3); color:#ef5350; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Engelle</button>`;
       }
       actions += `<button onclick="event.stopPropagation(); deleteUserProfile('${u.id}')" style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.1; background:#ef5350; border:none; color:#fff; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Kullanıcıyı Sil</button>`;
+      // Konum butonu — actions paneline eklenir, tırnak sorunu yok
+      if (u.last_lat && u.last_lng) {
+        actions += `<button onclick="event.stopPropagation(); window.showUserLocationById('${u.id}')" style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.1; background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.3); color:#60a5fa; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">📍 Konumu Gör</button>`;
+      } else {
+        actions += `<span style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; color:#4b5563; font-size:12px; font-weight:700;">📍 Konum yok</span>`;
+      }
     } else {
       actions += `<span style="font-size:13px; color:#708499; font-weight:800; width:100%; text-align:center; padding:8px 0;">✨ Kendi Hesabınız (Yönetici)</span>`;
     }
-
-    const locBtn = (u.last_lat && u.last_lng)
-      ? '<button onclick="event.stopPropagation(); window.showUserLocation(' +
-          JSON.stringify(String(u.last_lat)) + ',' +
-          JSON.stringify(String(u.last_lng)) + ',' +
-          JSON.stringify(u.display_name || u.username || 'Kullanıcı') + ',' +
-          JSON.stringify((u.last_city || '') + (u.last_country ? ', ' + u.last_country : '')) + ',' +
-          JSON.stringify(u.last_location_time || '') +
-        ')" style="background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.3); color:#60a5fa; border-radius:6px; padding:2px 8px; font-size:10px; font-weight:800; cursor:pointer;">📍 Konumu Gör</button>'
-      : '<span style="color:#4b5563;font-size:10px;">📍 Konum yok</span>';
 
     return `
       <div style="background:#17212b; border-radius:16px; border:1px solid #232e3c; overflow:hidden; transition:all 0.2s;">
@@ -171,10 +181,7 @@ function renderAdminUsers(users) {
               <div style="color:#708499; font-size:12px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${email}</div>
               <div id="chevron-${u.id}" style="color:#708499; font-size:16px; font-weight:bold; padding:4px; flex-shrink:0;">▼</div>
             </div>
-            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-              <div style="color:#8b9eb3; font-size:11px; font-weight:600;">Son Görülme: ${dateStr}</div>
-              ${locBtn}
-            </div>
+            <div style="color:#8b9eb3; font-size:11px; font-weight:600;">Son Görülme: ${dateStr}</div>
           </div>
         </div>
 
@@ -371,6 +378,16 @@ window.showUserLocation = function(lat, lng, name, city, locationTime) {
   // Dışına tıklayınca kapat
   modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
   document.body.appendChild(modal);
+};
+
+// ID ile konum göster — onclick içinde tırnak sorunu yaşatmaz
+window.showUserLocationById = function(userId) {
+  const d = window._adminLocData && window._adminLocData[userId];
+  if (!d) {
+    if (window.showToast) window.showToast('Bu kullanıcı için konum verisi bulunamadı.', 'warning');
+    return;
+  }
+  window.showUserLocation(d.lat, d.lng, d.name, d.city, d.time);
 };
 
 window.toggleMenuEditorPermission = async function(userId, currentStatus) {
