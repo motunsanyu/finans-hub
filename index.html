@@ -256,6 +256,20 @@
       transform: translateY(-1px);
     }
 
+    #authScreen .btn-google {
+      transition: transform 0.18s ease, filter 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+    }
+    #authScreen .btn-google:hover {
+      filter: brightness(1.12);
+      transform: translateY(-2px);
+      background: #353d47 !important;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+    }
+    #authScreen .btn-google:active {
+      transform: translateY(0px);
+      filter: brightness(0.95);
+    }
+
     #sidebar {
       position: fixed;
       top: 0;
@@ -405,6 +419,7 @@
       </div>
 
       <button onclick="signInWithGoogle(); return false;"
+        class="btn-google"
         style="width:100%; background:#2b3139; border:1px solid #374151; padding:16px; border-radius:16px; display:flex; align-items:center; justify-content:center; gap:12px; cursor:pointer;">
         <svg width="20" height="20" viewBox="0 0 24 24">
           <path fill="#EA4335"
