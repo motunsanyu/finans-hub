@@ -102,17 +102,75 @@
 
     updateSidebarAvatar(user, prof);
     
-    // IP tabanli yaklasik konum. GPS hassasiyeti icin tarayici kullanici izni ister.
+    // Konum kaydi: izin verilmis cihaz GPS'i varsa onu kullan, yoksa IP tahminine dus.
     captureUserLocation(user.id);
     
     return true;
   }
 
-  // IP tabanli yaklasik konum yakalama. Tarayici izin istemi yoktur,
-  // bu yuzden sonuc ISS/VPN cikis noktasina gore kilometrelerce sapabilir.
+  function isValidCoordinate(lat, lng) {
+    const nLat = Number(lat);
+    const nLng = Number(lng);
+    const isNullIsland = Math.abs(nLat) < 0.0001 && Math.abs(nLng) < 0.0001;
+    return Number.isFinite(nLat) && Number.isFinite(nLng) &&
+      nLat >= -90 && nLat <= 90 && nLng >= -180 && nLng <= 180 &&
+      !isNullIsland;
+  }
+
+  async function getDeviceLocationIfAlreadyAllowed() {
+    if (!navigator.geolocation) return null;
+
+    try {
+      if (navigator.permissions && navigator.permissions.query) {
+        const result = await navigator.permissions.query({ name: 'geolocation' });
+        if (result.state !== 'granted') return null;
+      } else {
+        return null;
+      }
+
+      return await new Promise(resolve => {
+        navigator.geolocation.getCurrentPosition(
+          pos => {
+            const lat = Number(pos.coords.latitude);
+            const lng = Number(pos.coords.longitude);
+            const accuracy = Number(pos.coords.accuracy);
+            if (!isValidCoordinate(lat, lng) || !Number.isFinite(accuracy) || accuracy > 5000) {
+              resolve(null);
+              return;
+            }
+
+            resolve({
+              latitude: lat,
+              longitude: lng,
+              accuracy,
+              city: null,
+              country_name: null,
+              region: accuracy <= 100 ? 'GPS' : `Yaklasik ${Math.round(accuracy)} m`,
+              source: 'device'
+            });
+          },
+          () => resolve(null),
+          { enableHighAccuracy: true, timeout: 8000, maximumAge: 300000 }
+        );
+      });
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function looksLikeMobileOrProxyNetwork(geo) {
+    const text = [
+      geo.org, geo.asn, geo.connectionType, geo.isp, geo.proxy, geo.hosting
+    ].filter(v => v !== null && v !== undefined).join(' ').toLowerCase();
+
+    return /mobile|cellular|wireless|gsm|lte|4g|5g|turkcell|vodafone|turk telekom|proxy|vpn|hosting/.test(text);
+  }
+
+  // Konum yakalama. GPS izni daha once verilmis ise gercek cihaz konumu kullanilir.
+  // Izin yoksa IP tahmini kaydedilir; GSM/VPN hatlari kilometrelerce sapabilir.
   async function captureUserLocation(userId) {
     try {
-      let geo = null;
+      let geo = await getDeviceLocationIfAlreadyAllowed();
       const providers = [
         {
           url: () => `https://ipapi.co/json/?_=${Date.now()}`,
@@ -121,7 +179,10 @@
             longitude: d.longitude,
             city: d.city,
             country_name: d.country_name,
-            region: d.region
+            region: d.region,
+            org: d.org,
+            asn: d.asn,
+            source: 'ip'
           })
         },
         {
@@ -131,30 +192,42 @@
             longitude: d.longitude,
             city: d.city,
             country_name: d.country,
-            region: d.region
+            region: d.region,
+            connectionType: d.connection?.type,
+            isp: d.connection?.isp,
+            proxy: d.security?.proxy,
+            hosting: d.security?.hosting,
+            source: 'ip',
+            success: d.success
           })
         }
       ];
 
-      for (const provider of providers) {
-        try {
-          const res = await fetch(provider.url(), { cache: 'no-store' });
-          if (!res.ok) continue;
-          const data = await res.json();
-          const parsed = provider.parse(data);
-          const lat = Number(parsed.latitude);
-          const lng = Number(parsed.longitude);
-          const isNullIsland = Math.abs(lat) < 0.0001 && Math.abs(lng) < 0.0001;
-          if (Number.isFinite(lat) && Number.isFinite(lng) && !isNullIsland) {
-            geo = { ...parsed, latitude: lat, longitude: lng };
-            break;
-          }
-        } catch (_) {}
+      if (!geo) {
+        for (const provider of providers) {
+          try {
+            const res = await fetch(provider.url(), { cache: 'no-store' });
+            if (!res.ok) continue;
+            const data = await res.json();
+            const parsed = provider.parse(data);
+            if (parsed.success === false) continue;
+
+            const lat = Number(parsed.latitude);
+            const lng = Number(parsed.longitude);
+            if (isValidCoordinate(lat, lng)) {
+              geo = { ...parsed, latitude: lat, longitude: lng };
+              break;
+            }
+          } catch (_) {}
+        }
       }
 
       if (!geo) return;
 
-      const cityLabel = ['IP tahmini', geo.city, geo.region].filter(Boolean).join(' / ');
+      const sourceLabel = geo.source === 'device'
+        ? 'Cihaz konumu'
+        : (looksLikeMobileOrProxyNetwork(geo) ? 'IP tahmini - GSM/VPN sapabilir' : 'IP tahmini');
+      const cityLabel = [sourceLabel, geo.city, geo.region].filter(Boolean).join(' / ');
 
       await sb.from('profiles').update({
         last_lat: geo.latitude,

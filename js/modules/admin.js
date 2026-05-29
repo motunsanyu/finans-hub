@@ -15,6 +15,16 @@ function hasShowableLocation(user) {
   return Boolean(user?.last_seen) && hasValidCoordinate(user?.last_lat, user?.last_lng);
 }
 
+function getLocationPrecision(city) {
+  const label = String(city || '').toLowerCase();
+  const isDevice = label.includes('cihaz konumu') || label.includes('cihaz gps');
+  const isLowConfidenceIp = label.includes('gsm') || label.includes('vpn') || label.includes('ip tahmini');
+
+  if (isDevice) return { delta: 0.02, zoom: 14 };
+  if (isLowConfidenceIp) return { delta: 0.6, zoom: 9 };
+  return { delta: 0.12, zoom: 11 };
+}
+
 window.toggleAdminModal = function() {
   const modal = document.getElementById('adminModal');
   if (!modal) return;
@@ -363,11 +373,12 @@ window.showUserLocation = function(lat, lng, name, city, locationTime) {
     } catch(_) {}
   }
 
-  // IP tabanli konum sokak hassasiyetinde degildir; daha genis zoom yanilmayi azaltir.
-  const delta = 0.12;
+  // IP tabanli konum sokak hassasiyetinde degildir; GSM/VPN icin daha genis zoom kullan.
+  const precision = getLocationPrecision(city);
+  const delta = precision.delta;
   const bbox = `${lng - delta},${lat - delta},${lng + delta},${lat + delta}`;
   const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lng}`;
-  const gmapsUrl = `https://www.google.com/maps?q=${lat},${lng}&z=11`;
+  const gmapsUrl = `https://www.google.com/maps?q=${lat},${lng}&z=${precision.zoom}`;
 
   const modal = document.createElement('div');
   modal.id = 'locationMapModal';
