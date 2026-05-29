@@ -111,15 +111,37 @@
   // IP tabanlı konum yakalama — tarayıcı izin istemi YOK
   async function captureUserLocation(userId) {
     try {
-      const res = await fetch('https://ipapi.co/json/');
-      if (!res.ok) return;
-      const geo = await res.json();
-      if (!geo || !geo.latitude || !geo.longitude) return;
+      // ip-api.com: daha doğru sonuçlar verir (iliçe/mahalle düzeyi)
+      let geo = null;
+      try {
+        const r1 = await fetch('http://ip-api.com/json/?fields=status,lat,lon,city,country,regionName');
+        if (r1.ok) {
+          const d1 = await r1.json();
+          if (d1.status === 'success' && d1.lat && d1.lon) {
+            geo = { latitude: d1.lat, longitude: d1.lon, city: d1.city, country_name: d1.country, region: d1.regionName };
+          }
+        }
+      } catch (_) {}
+
+      // Yedek: ipapi.co
+      if (!geo) {
+        const r2 = await fetch('https://ipapi.co/json/');
+        if (r2.ok) {
+          const d2 = await r2.json();
+          if (d2.latitude && d2.longitude) {
+            geo = { latitude: d2.latitude, longitude: d2.longitude, city: d2.city, country_name: d2.country_name, region: d2.region };
+          }
+        }
+      }
+
+      if (!geo) return;
+
+      const cityLabel = [geo.city, geo.region].filter(Boolean).join(' / ');
 
       await sb.from('profiles').update({
         last_lat: geo.latitude,
         last_lng: geo.longitude,
-        last_city: geo.city || null,
+        last_city: cityLabel || null,
         last_country: geo.country_name || null,
         last_location_time: new Date().toISOString()
       }).eq('id', userId);

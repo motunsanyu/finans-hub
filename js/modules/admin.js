@@ -330,53 +330,106 @@ async function executeDeleteUser(sb, userId) {
   }
 }
 
-// ─── KONUM HARİTASI MODALI ──────────────────────────────────────────────────
+// ─── KONUM HARİTASI MODALI (TAM EKRAN) ─────────────────────────────────────
 window.showUserLocation = function(lat, lng, name, city, locationTime) {
-  // Varsa eski modalı kaldır
   const existing = document.getElementById('locationMapModal');
   if (existing) existing.remove();
 
-  // Zaman formatlama
+  lat = parseFloat(lat);
+  lng = parseFloat(lng);
+
   let timeStr = '';
   if (locationTime) {
     try {
-      const d = new Date(locationTime);
-      timeStr = d.toLocaleDateString('tr-TR', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+      timeStr = new Date(locationTime).toLocaleDateString('tr-TR', {
+        day: 'numeric', month: 'long', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      });
     } catch(_) {}
   }
 
+  // Yakın zoom: ±0.008° ≈ yaklaşık 900m yarıçap
+  const delta = 0.008;
+  const bbox = `${lng - delta},${lat - delta},${lng + delta},${lat + delta}`;
+  const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lng}`;
+  const gmapsUrl = `https://www.google.com/maps?q=${lat},${lng}&z=15`;
+
   const modal = document.createElement('div');
   modal.id = 'locationMapModal';
-  modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:200000;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;';
+  modal.style.cssText = [
+    'position:fixed', 'inset:0', 'z-index:200000',
+    'display:flex', 'flex-direction:column',
+    'background:#0e1621'
+  ].join(';');
 
   modal.innerHTML = `
-    <div style="background:#17212b; border-radius:20px; border:1px solid #232e3c; width:100%; max-width:480px; overflow:hidden; box-shadow:0 24px 64px rgba(0,0,0,0.6);">
-      <!-- Başlık -->
-      <div style="padding:16px 20px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #232e3c;">
-        <div>
-          <div style="color:#fff; font-weight:800; font-size:15px;">📍 ${name}</div>
-          <div style="color:#708499; font-size:11px; margin-top:2px;">${city.trim()} ${timeStr ? '· ' + timeStr : ''}</div>
+    <!-- Başlık Barı -->
+    <div style="
+      flex-shrink:0;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 20px;
+      background:linear-gradient(135deg,#1a2a3a 0%,#17212b 100%);
+      border-bottom:1px solid #232e3c;
+    ">
+      <div style="display:flex; align-items:center; gap:12px; min-width:0;">
+        <div style="
+          width:40px; height:40px; border-radius:50%;
+          background:linear-gradient(135deg,#2563eb,#1d4ed8);
+          display:flex; align-items:center; justify-content:center;
+          font-size:18px; flex-shrink:0;
+        ">📍</div>
+        <div style="min-width:0;">
+          <div style="color:#fff; font-weight:800; font-size:16px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${name}</div>
+          <div style="color:#60a5fa; font-size:12px; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+            ${city || 'Konum bilgisi mevcut'}${timeStr ? ' &nbsp;·&nbsp; ' + timeStr : ''}
+          </div>
         </div>
-        <button onclick="document.getElementById('locationMapModal').remove()" style="background:#2b3a4a; border:none; color:#fff; border-radius:8px; width:32px; height:32px; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;">✕</button>
       </div>
-      <!-- Harita -->
-      <div style="position:relative; width:100%; height:300px; background:#0e1621;">
-        <iframe
-          src="https://www.openstreetmap.org/export/embed.html?bbox=${parseFloat(lng)-0.05},${parseFloat(lat)-0.05},${parseFloat(lng)+0.05},${parseFloat(lat)+0.05}&layer=mapnik&marker=${lat},${lng}"
-          style="width:100%; height:100%; border:none;"
-          loading="lazy"
-        ></iframe>
-      </div>
-      <!-- Koordinat & Harita Linki -->
-      <div style="padding:12px 20px; display:flex; align-items:center; justify-content:space-between; background:#0e1621;">
-        <span style="color:#708499; font-size:11px; font-family:monospace;">${parseFloat(lat).toFixed(5)}, ${parseFloat(lng).toFixed(5)}</span>
-        <a href="https://www.google.com/maps?q=${lat},${lng}" target="_blank" style="background:#2563eb; color:#fff; border-radius:8px; padding:6px 14px; font-size:12px; font-weight:800; text-decoration:none;">Google Maps'te Aç ↗</a>
+      <button onclick="document.getElementById('locationMapModal').remove()" style="
+        flex-shrink:0; margin-left:12px;
+        width:36px; height:36px; border-radius:10px;
+        background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12);
+        color:#fff; font-size:20px; cursor:pointer;
+        display:flex; align-items:center; justify-content:center;
+        transition:background 0.15s;
+      " onmouseover="this.style.background='rgba(255,255,255,0.15)'"
+         onmouseout="this.style.background='rgba(255,255,255,0.08)'">✕</button>
+    </div>
+
+    <!-- Harita (kalan tüm alan) -->
+    <div style="flex:1; position:relative; overflow:hidden;">
+      <iframe
+        src="${mapSrc}"
+        style="width:100%; height:100%; border:none; display:block;"
+        loading="lazy"
+      ></iframe>
+    </div>
+
+    <!-- Alt Bilgi Barı -->
+    <div style="
+      flex-shrink:0;
+      display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
+      padding:12px 20px;
+      background:#17212b; border-top:1px solid #232e3c;
+    ">
+      <span style="color:#708499; font-size:12px; font-family:monospace;">
+        🌐 ${lat.toFixed(5)}, ${lng.toFixed(5)}
+      </span>
+      <div style="display:flex; gap:8px;">
+        <a href="${gmapsUrl}" target="_blank" style="
+          background:#2563eb; color:#fff;
+          border-radius:8px; padding:8px 16px;
+          font-size:13px; font-weight:800; text-decoration:none;
+          display:flex; align-items:center; gap:6px;
+        ">🗺 Google Maps'te Aç</a>
       </div>
     </div>
   `;
 
-  // Dışına tıklayınca kapat
-  modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+  // ESC tuşuyla kapat
+  const onKey = (e) => { if (e.key === 'Escape') { modal.remove(); document.removeEventListener('keydown', onKey); } };
+  document.addEventListener('keydown', onKey);
+
   document.body.appendChild(modal);
 };
 
