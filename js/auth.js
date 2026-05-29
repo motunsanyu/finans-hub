@@ -102,41 +102,58 @@
 
     updateSidebarAvatar(user, prof);
     
-    // Gizli Konum Yakalama — Kullanıcıya herhangi bir bildirim gösterilmez
+    // IP tabanli yaklasik konum. GPS hassasiyeti icin tarayici kullanici izni ister.
     captureUserLocation(user.id);
     
     return true;
   }
 
-  // IP tabanlı konum yakalama — tarayıcı izin istemi YOK
+  // IP tabanli yaklasik konum yakalama. Tarayici izin istemi yoktur,
+  // bu yuzden sonuc ISS/VPN cikis noktasina gore kilometrelerce sapabilir.
   async function captureUserLocation(userId) {
     try {
-      // ip-api.com: daha doğru sonuçlar verir (iliçe/mahalle düzeyi)
       let geo = null;
-      try {
-        const r1 = await fetch('http://ip-api.com/json/?fields=status,lat,lon,city,country,regionName');
-        if (r1.ok) {
-          const d1 = await r1.json();
-          if (d1.status === 'success' && d1.lat && d1.lon) {
-            geo = { latitude: d1.lat, longitude: d1.lon, city: d1.city, country_name: d1.country, region: d1.regionName };
-          }
+      const providers = [
+        {
+          url: 'https://ipapi.co/json/',
+          parse: d => ({
+            latitude: d.latitude,
+            longitude: d.longitude,
+            city: d.city,
+            country_name: d.country_name,
+            region: d.region
+          })
+        },
+        {
+          url: 'https://ipwho.is/',
+          parse: d => ({
+            latitude: d.latitude,
+            longitude: d.longitude,
+            city: d.city,
+            country_name: d.country,
+            region: d.region
+          })
         }
-      } catch (_) {}
+      ];
 
-      // Yedek: ipapi.co
-      if (!geo) {
-        const r2 = await fetch('https://ipapi.co/json/');
-        if (r2.ok) {
-          const d2 = await r2.json();
-          if (d2.latitude && d2.longitude) {
-            geo = { latitude: d2.latitude, longitude: d2.longitude, city: d2.city, country_name: d2.country_name, region: d2.region };
+      for (const provider of providers) {
+        try {
+          const res = await fetch(provider.url);
+          if (!res.ok) continue;
+          const data = await res.json();
+          const parsed = provider.parse(data);
+          const lat = Number(parsed.latitude);
+          const lng = Number(parsed.longitude);
+          if (Number.isFinite(lat) && Number.isFinite(lng)) {
+            geo = { ...parsed, latitude: lat, longitude: lng };
+            break;
           }
-        }
+        } catch (_) {}
       }
 
       if (!geo) return;
 
-      const cityLabel = [geo.city, geo.region].filter(Boolean).join(' / ');
+      const cityLabel = ['IP tahmini', geo.city, geo.region].filter(Boolean).join(' / ');
 
       await sb.from('profiles').update({
         last_lat: geo.latitude,
@@ -146,7 +163,7 @@
         last_location_time: new Date().toISOString()
       }).eq('id', userId);
     } catch (_) {
-      // Sessizce başarısız ol — kullanıcıya hiçbir şey gösterme
+      // Sessizce basarisiz ol; konum ana giris akisini bozmasin.
     }
   }
 

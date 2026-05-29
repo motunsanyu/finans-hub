@@ -2,6 +2,13 @@
 
 let adminUsersCache = [];
 
+function hasValidCoordinate(lat, lng) {
+  const nLat = Number(lat);
+  const nLng = Number(lng);
+  return Number.isFinite(nLat) && Number.isFinite(nLng) &&
+    nLat >= -90 && nLat <= 90 && nLng >= -180 && nLng <= 180;
+}
+
 window.toggleAdminModal = function() {
   const modal = document.getElementById('adminModal');
   if (!modal) return;
@@ -82,10 +89,10 @@ function renderAdminUsers(users) {
   // Konum verisini güvenli şekilde sakla — onclick'te tırnak sorunu olmadan erişilir
   window._adminLocData = {};
   users.forEach(u => {
-    if (u.last_lat && u.last_lng) {
+    if (hasValidCoordinate(u.last_lat, u.last_lng)) {
       window._adminLocData[u.id] = {
-        lat: u.last_lat,
-        lng: u.last_lng,
+        lat: Number(u.last_lat),
+        lng: Number(u.last_lng),
         name: u.display_name || u.username || 'Kullanıcı',
         city: (u.last_city || '') + (u.last_country ? ', ' + u.last_country : ''),
         time: u.last_location_time || ''
@@ -149,8 +156,8 @@ function renderAdminUsers(users) {
       }
       actions += `<button onclick="event.stopPropagation(); deleteUserProfile('${u.id}')" style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.1; background:#ef5350; border:none; color:#fff; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Kullanıcıyı Sil</button>`;
       // Konum butonu — actions paneline eklenir, tırnak sorunu yok
-      if (u.last_lat && u.last_lng) {
-        actions += `<button onclick="event.stopPropagation(); window.showUserLocationById('${u.id}')" style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.1; background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.3); color:#60a5fa; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">📍 Konumu Gör</button>`;
+      if (hasValidCoordinate(u.last_lat, u.last_lng)) {
+        actions += `<button onclick="event.stopPropagation(); window.showUserLocationById('${u.id}')" style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.1; background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.3); color:#60a5fa; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">📍 Yaklaşık Konum</button>`;
       } else {
         actions += `<span style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; color:#4b5563; font-size:12px; font-weight:700;">📍 Konum yok</span>`;
       }
@@ -337,6 +344,10 @@ window.showUserLocation = function(lat, lng, name, city, locationTime) {
 
   lat = parseFloat(lat);
   lng = parseFloat(lng);
+  if (!hasValidCoordinate(lat, lng)) {
+    if (window.showToast) window.showToast('Konum koordinatları geçersiz.', 'warning');
+    return;
+  }
 
   let timeStr = '';
   if (locationTime) {
@@ -348,11 +359,11 @@ window.showUserLocation = function(lat, lng, name, city, locationTime) {
     } catch(_) {}
   }
 
-  // Yakın zoom: ±0.008° ≈ yaklaşık 900m yarıçap
-  const delta = 0.008;
+  // IP tabanli konum sokak hassasiyetinde degildir; daha genis zoom yanilmayi azaltir.
+  const delta = 0.12;
   const bbox = `${lng - delta},${lat - delta},${lng + delta},${lat + delta}`;
   const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lng}`;
-  const gmapsUrl = `https://www.google.com/maps?q=${lat},${lng}&z=15`;
+  const gmapsUrl = `https://www.google.com/maps?q=${lat},${lng}&z=11`;
 
   const modal = document.createElement('div');
   modal.id = 'locationMapModal';
@@ -381,7 +392,7 @@ window.showUserLocation = function(lat, lng, name, city, locationTime) {
         <div style="min-width:0;">
           <div style="color:#fff; font-weight:800; font-size:16px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${name}</div>
           <div style="color:#60a5fa; font-size:12px; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-            ${city || 'Konum bilgisi mevcut'}${timeStr ? ' &nbsp;·&nbsp; ' + timeStr : ''}
+            ${city || 'Yaklaşık IP konumu'}${timeStr ? ' &nbsp;·&nbsp; ' + timeStr : ''}
           </div>
         </div>
       </div>
@@ -416,7 +427,7 @@ window.showUserLocation = function(lat, lng, name, city, locationTime) {
         🌐 ${lat.toFixed(5)}, ${lng.toFixed(5)}
       </span>
       <div style="display:flex; gap:8px;">
-        <a href="${gmapsUrl}" target="_blank" style="
+        <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" style="
           background:#2563eb; color:#fff;
           border-radius:8px; padding:8px 16px;
           font-size:13px; font-weight:800; text-decoration:none;
