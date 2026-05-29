@@ -5,8 +5,14 @@ let adminUsersCache = [];
 function hasValidCoordinate(lat, lng) {
   const nLat = Number(lat);
   const nLng = Number(lng);
+  const isNullIsland = Math.abs(nLat) < 0.0001 && Math.abs(nLng) < 0.0001;
   return Number.isFinite(nLat) && Number.isFinite(nLng) &&
-    nLat >= -90 && nLat <= 90 && nLng >= -180 && nLng <= 180;
+    nLat >= -90 && nLat <= 90 && nLng >= -180 && nLng <= 180 &&
+    !isNullIsland;
+}
+
+function hasShowableLocation(user) {
+  return Boolean(user?.last_seen) && hasValidCoordinate(user?.last_lat, user?.last_lng);
 }
 
 window.toggleAdminModal = function() {
@@ -89,7 +95,7 @@ function renderAdminUsers(users) {
   // Konum verisini güvenli şekilde sakla — onclick'te tırnak sorunu olmadan erişilir
   window._adminLocData = {};
   users.forEach(u => {
-    if (hasValidCoordinate(u.last_lat, u.last_lng)) {
+    if (hasShowableLocation(u)) {
       window._adminLocData[u.id] = {
         lat: Number(u.last_lat),
         lng: Number(u.last_lng),
@@ -156,10 +162,8 @@ function renderAdminUsers(users) {
       }
       actions += `<button onclick="event.stopPropagation(); deleteUserProfile('${u.id}')" style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.1; background:#ef5350; border:none; color:#fff; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Kullanıcıyı Sil</button>`;
       // Konum butonu — actions paneline eklenir, tırnak sorunu yok
-      if (hasValidCoordinate(u.last_lat, u.last_lng)) {
-        actions += `<button onclick="event.stopPropagation(); window.showUserLocationById('${u.id}')" style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.1; background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.3); color:#60a5fa; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">📍 Yaklaşık Konum</button>`;
-      } else {
-        actions += `<span style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; color:#4b5563; font-size:12px; font-weight:700;">📍 Konum yok</span>`;
+      if (hasShowableLocation(u)) {
+        actions += `<button onclick="event.stopPropagation(); window.showUserLocationById('${u.id}')" style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.1; background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.3); color:#60a5fa; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">📍 Konum</button>`;
       }
     } else {
       actions += `<span style="font-size:13px; color:#708499; font-weight:800; width:100%; text-align:center; padding:8px 0;">✨ Kendi Hesabınız (Yönetici)</span>`;

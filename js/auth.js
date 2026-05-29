@@ -115,7 +115,7 @@
       let geo = null;
       const providers = [
         {
-          url: 'https://ipapi.co/json/',
+          url: () => `https://ipapi.co/json/?_=${Date.now()}`,
           parse: d => ({
             latitude: d.latitude,
             longitude: d.longitude,
@@ -125,7 +125,7 @@
           })
         },
         {
-          url: 'https://ipwho.is/',
+          url: () => `https://ipwho.is/?_=${Date.now()}`,
           parse: d => ({
             latitude: d.latitude,
             longitude: d.longitude,
@@ -138,13 +138,14 @@
 
       for (const provider of providers) {
         try {
-          const res = await fetch(provider.url);
+          const res = await fetch(provider.url(), { cache: 'no-store' });
           if (!res.ok) continue;
           const data = await res.json();
           const parsed = provider.parse(data);
           const lat = Number(parsed.latitude);
           const lng = Number(parsed.longitude);
-          if (Number.isFinite(lat) && Number.isFinite(lng)) {
+          const isNullIsland = Math.abs(lat) < 0.0001 && Math.abs(lng) < 0.0001;
+          if (Number.isFinite(lat) && Number.isFinite(lng) && !isNullIsland) {
             geo = { ...parsed, latitude: lat, longitude: lng };
             break;
           }
