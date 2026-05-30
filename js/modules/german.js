@@ -74,20 +74,37 @@ window.GermanModule = (function () {
 
       if (line.includes('A1 Kelime Listesi')) { currentLvl = 'A1'; continue; }
       if (line.includes('A2 Kelime Listesi')) { currentLvl = 'A2'; continue; }
-      if (line.includes('B1 Kelime Listesi')) { currentLvl = 'B1'; continue; }
-      if (line.includes('---')) continue;
+      if (line.includes('B1 Kelime Listesi') || line.includes('B1 Kelimeler')) { currentLvl = 'B1'; continue; }
+      if (line.includes('---') || line.includes('Almanca Kelime')) continue;
 
-      const match = line.match(/^\d+\s+(.*?)\s+\((.*?)\)$/);
       let gWord = "", tMeaning = "";
-      if (match) {
-        gWord = match[1].trim(); tMeaning = match[2].trim();
+      
+      if (currentLvl === 'A1') {
+        const match = line.match(/^\d+\s+(.*?)\s+\((.*?)\)$/);
+        if (match) {
+          gWord = match[1].trim(); tMeaning = match[2].trim();
+        } else {
+          const parts = line.split('\t');
+          if (parts.length >= 2) {
+              const wordPart = parts[1].split('(');
+              if(wordPart.length > 1) {
+                  gWord = wordPart[0].trim(); tMeaning = wordPart[1].replace(')','').trim();
+              }
+          }
+        }
       } else {
-        const parts = line.split('\t');
-        if (parts.length >= 2) {
-            const wordPart = parts[1].split('(');
-            if(wordPart.length > 1) {
-                gWord = wordPart[0].trim(); tMeaning = wordPart[1].replace(')','').trim();
-            }
+        // A2 and B1 Format: "word – Verb Fiil Meaning"
+        const dashSplit = line.split(/ – | - /);
+        if (dashSplit.length >= 2) {
+           gWord = dashSplit[0].trim();
+           // The right side has types (Verb, Substantiv vs) and Turkish meaning at the end.
+           const rest = dashSplit.slice(1).join(' - ').trim();
+           const parts = rest.split(/\t+/);
+           if (parts.length > 0) {
+               tMeaning = parts[parts.length - 1].trim();
+           } else {
+               tMeaning = rest;
+           }
         }
       }
       
