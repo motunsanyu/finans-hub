@@ -138,7 +138,7 @@ window.GermanModule = (function () {
       title: 'sein & haben Çekimleri',
       subtitle: 'En önemli iki yardımcı fiilin çekim tablosu',
       level: 'A1',
-      tableHeaders: ['Şahıs', 'sein (olmak)', 'haben (sahip olmak)'],
+      tableHeaders: ['Şahıs', 'sein\nolmak', 'haben\nsahip olmak'],
       tableRows: [
         ['ich',          'bin',   'habe'],
         ['du',           'bist',  'hast'],
@@ -578,7 +578,10 @@ window.GermanModule = (function () {
   function renderGramTable() {
     const t = grammarTopics[_gramTopicIdx];
     if (!t) { renderHome(); return; }
-    const thCells = t.tableHeaders.map(h => `<th>${h}</th>`).join('');
+    const thCells = t.tableHeaders.map(h => {
+      const parts = String(h).split('\n');
+      return `<th>${parts[0]}${parts[1] ? `<span style="display:block;font-size:11px;font-weight:700;opacity:.9;margin-top:2px;">${parts[1]}</span>` : ''}</th>`;
+    }).join('');
     const rows = t.tableRows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('');
     const pct = Math.round((_gramTopicIdx + 1) / grammarTopics.length * 100);
 
@@ -959,6 +962,58 @@ window.GermanModule = (function () {
 
   function showTopicGuide() {
     let activeLvl = 'A1';
+    let activeDetail = null;
+
+    function getTopicDetail(topic, sectionTitle) {
+      const plainTopic = topic.replace(/^[^\wÄÖÜäöüßÇĞİÖŞÜçğıöşü]+/u, '').trim();
+      const lower = plainTopic.toLowerCase();
+      const grammarLike = /(gramer|artikel|akkusativ|dativ|nominativ|genitiv|präteritum|perfekt|konjunktiv|passiv|nebens|relativ|fiil|verb|modal|futur|adjektiv|präposition|edat|bağlaç|olumsuz|soru|zaman|çekim|sein|haben)/i.test(plainTopic);
+      let summary = grammarLike
+        ? `${plainTopic} konusu, cümlede kelimelerin hangi sırada ve hangi eklerle kullanılacağını netleştirir. Önce kuralı kısa tut, sonra aynı yapıyla 5-6 örnek cümle kur.`
+        : `${plainTopic} konusu, günlük konuşmada hazır kalıplarla kendini daha rahat ifade etmeye yarar. Önce en sık kullanılan ifadeleri öğren, sonra kısa diyaloglara çevir.`;
+      let examples = ['Ich lerne Deutsch.', 'Das ist wichtig.', 'Kannst du mir helfen?'];
+      let practice = ['3 örnek cümleyi sesli oku.', 'Aynı cümleyi kendi hayatına göre değiştir.', 'Yeni kelimeleri küçük kartlara ayır.'];
+
+      if (lower.includes('sein') || lower.includes('haben')) {
+        summary = 'sein ve haben Almancanın en temel iki yardımcı fiilidir. Kimden bahsettiğine göre fiil değişir: ich bin, du bist, ich habe, du hast.';
+        examples = ['Ich bin müde. = Yorgunum.', 'Du hast Zeit. = Zamanın var.', 'Wir sind zu Hause. = Evdeyiz.'];
+        practice = ['ich, du, er/sie/es, wir, ihr, sie/Sie için tabloyu kapatıp tekrar yaz.', 'Her kişi için bir sein ve bir haben cümlesi kur.', 'Cümleleri yüksek sesle oku.'];
+      } else if (lower.includes('artikel')) {
+        summary = 'Artikel, ismin cinsiyetini ve cümledeki görevini gösterir. A1-A2 seviyesinde der, die, das ve ein/eine/kein kullanımı temel önceliktir.';
+        examples = ['der Tisch = masa', 'die Tasche = çanta', 'das Haus = ev'];
+        practice = ['10 yeni ismi artikeliyle birlikte yaz.', 'Her isimle “Das ist ...” cümlesi kur.', 'Maskulin isimlerde Akkusativ değişimini ayrıca işaretle.'];
+      } else if (lower.includes('akkusativ') || lower.includes('dativ') || lower.includes('nominativ') || lower.includes('genitiv')) {
+        summary = 'İsmin halleri, ismin cümlede özne mi, doğrudan nesne mi, yönelme nesnesi mi olduğunu gösterir. Almancada bu görev çoğu zaman artikel değişimiyle görünür.';
+        examples = ['Der Mann sieht den Hund.', 'Ich helfe dem Kind.', 'Das Auto des Vaters ist neu.'];
+        practice = ['Cümlede özneyi ve nesneyi farklı renkle işaretle.', 'Wen/was ve wem sorularını sor.', 'Aynı ismi Nominativ, Akkusativ ve Dativ ile yaz.'];
+      } else if (lower.includes('perfekt') || lower.includes('präteritum') || lower.includes('plusquamperfekt')) {
+        summary = 'Geçmiş zaman konuları, bitmiş olayları anlatmak için kullanılır. Günlük konuşmada Perfekt çok yaygındır; Präteritum özellikle sein, haben ve modal fiillerde sık görülür.';
+        examples = ['Ich habe gelernt.', 'Ich war müde.', 'Er hatte schon gegessen.'];
+        practice = ['Bugün yaptığın 5 şeyi Perfekt ile yaz.', 'sein/haben geçmişlerini ayrıca ezberle.', 'Düzensiz fiillerin Partizip II hallerini listele.'];
+      } else if (lower.includes('nebens') || lower.includes('relativ') || lower.includes('wenn') || lower.includes('weil') || lower.includes('dass')) {
+        summary = 'Yan cümlelerde çekimli fiil genellikle sona gider. Bu konu, daha uzun ve doğal Almanca cümle kurmanın anahtarıdır.';
+        examples = ['Ich lerne, weil ich in Deutschland arbeiten möchte.', 'Das ist der Mann, der hier wohnt.', 'Ich weiß, dass du kommst.'];
+        practice = ['Bir ana cümle yaz ve weil ile uzat.', 'Fiilin sonda olup olmadığını kontrol et.', 'Aynı fikri dass ve wenn ile yeniden kur.'];
+      } else if (lower.includes('konjunktiv')) {
+        summary = 'Konjunktiv, kibar istekleri, varsayımları ve dolaylı anlatımı kurmak için kullanılır. B1-B2 seviyesinde yazılı ve resmi dil için çok değerlidir.';
+        examples = ['Ich hätte gern einen Kaffee.', 'Wenn ich Zeit hätte, würde ich kommen.', 'Er sagt, er sei krank.'];
+        practice = ['3 kibar rica cümlesi yaz.', 'würde + Infinitiv yapısını kullan.', 'Dolaylı anlatımda fiili nasıl değiştirdiğini işaretle.'];
+      } else if (lower.includes('passiv')) {
+        summary = 'Passiv, işi yapan kişiden çok yapılan işe odaklanır. Özellikle resmi metinlerde, haberlerde ve açıklamalarda sık kullanılır.';
+        examples = ['Das Auto wird repariert.', 'Der Brief wurde geschrieben.', 'Hier wird Deutsch gesprochen.'];
+        practice = ['Aktiv bir cümleyi Passiv cümleye çevir.', 'werden çekimini kontrol et.', 'Yapan kişi önemli değilse cümleden çıkar.'];
+      } else if (lower.includes('selam') || lower.includes('tanış') || lower.includes('adın') || lower.includes('nereli')) {
+        summary = 'Tanışma konuları, ilk konuşmayı başlatmak ve kendini kısa biçimde tanıtmak için kullanılır. En yararlı bölüm hazır kalıpları otomatik hale getirmektir.';
+        examples = ['Hallo, ich heiße Ali.', 'Ich komme aus der Türkei.', 'Wie geht es dir?'];
+        practice = ['Kendini 4 cümleyle tanıt.', 'Resmi ve samimi iki farklı selamlaşma yaz.', 'Cümleleri sesli tekrar et.'];
+      } else if (lower.includes('sayı') || lower.includes('saat') || lower.includes('tarih') || lower.includes('gün') || lower.includes('ay')) {
+        summary = 'Sayı ve zaman ifadeleri randevu, alışveriş, yol tarifi ve günlük planlarda sürekli kullanılır. Hedef, hızlı anlayıp hızlı söyleyebilmek olmalı.';
+        examples = ['Es ist halb acht.', 'Heute ist Montag.', 'Der Termin ist am 12. Juni.'];
+        practice = ['Bugünün tarihini Almanca yaz.', '5 farklı saat söyle.', 'Telefon numaranı rakam rakam oku.'];
+      }
+
+      return { title: plainTopic, section: sectionTitle, summary, examples, practice };
+    }
 
     function renderModal() {
       const lvlData = CURRICULUM.find(c => c.level === activeLvl);
@@ -969,21 +1024,44 @@ window.GermanModule = (function () {
           color:${c.level === activeLvl ? c.color : 'var(--g-text-muted)'};
           cursor:pointer; transition:all .15s;">${c.level}</button>`).join('');
 
-      const sections = lvlData.sections.map(s => `
+      const sections = lvlData.sections.map((s, si) => `
         <div style="margin-bottom:18px;">
           <div style="font-size:15px;font-weight:800;color:var(--g-text);margin-bottom:10px;
                       padding:8px 12px;background:${lvlData.bg};border-radius:10px;
                       border-left:4px solid ${lvlData.color};">${s.title}</div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;padding:0 4px;">
-            ${s.topics.map(t => `
-              <div style="display:flex;align-items:flex-start;gap:6px;font-size:13px;color:var(--g-text);line-height:1.4;">
+            ${s.topics.map((t, ti) => `
+              <button onclick="window.GermanModule._topicGuideDetail(${si},${ti})" style="display:flex;align-items:flex-start;gap:6px;font-size:13px;color:var(--g-text);line-height:1.4;text-align:left;background:#fff;border:1px solid transparent;border-radius:8px;padding:6px;cursor:pointer;">
                 <span style="color:${lvlData.color};font-size:10px;margin-top:4px;flex-shrink:0;">●</span>
-                ${t}
-              </div>`).join('')}
+                <span>${t}</span>
+              </button>`).join('')}
           </div>
         </div>`).join('');
 
       const totalTopics = lvlData.sections.reduce((a, s) => a + s.topics.length, 0);
+      let content = sections;
+      if (activeDetail) {
+        const section = lvlData.sections[activeDetail.sectionIdx];
+        const topic = section?.topics?.[activeDetail.topicIdx];
+        if (topic) {
+          const detail = getTopicDetail(topic, section.title);
+          content = `
+            <button onclick="window.GermanModule._topicGuideBack()" style="display:inline-flex;align-items:center;gap:6px;background:#fff;border:2px solid var(--g-border);border-bottom:4px solid var(--g-border-bot);border-radius:12px;padding:8px 12px;font-weight:800;color:var(--g-text-muted);cursor:pointer;margin-bottom:14px;">← Konulara Dön</button>
+            <div style="border:2px solid var(--g-border);border-bottom:4px solid var(--g-border-bot);border-radius:18px;padding:18px;background:#fff;">
+              <div style="font-size:12px;font-weight:800;color:${lvlData.color};text-transform:uppercase;margin-bottom:6px;">${activeLvl} • ${detail.section}</div>
+              <div style="font-size:22px;font-weight:800;color:var(--g-text);margin-bottom:10px;line-height:1.25;">${detail.title}</div>
+              <p style="font-size:14px;line-height:1.55;color:var(--g-text);margin:0 0 16px;">${detail.summary}</p>
+              <div style="font-size:14px;font-weight:800;color:var(--g-text);margin-bottom:8px;">Örnekler</div>
+              <div style="display:grid;gap:8px;margin-bottom:16px;">
+                ${detail.examples.map(e => `<div style="background:${lvlData.bg};border-left:4px solid ${lvlData.color};border-radius:10px;padding:10px 12px;font-size:14px;color:var(--g-text);">${e}</div>`).join('')}
+              </div>
+              <div style="font-size:14px;font-weight:800;color:var(--g-text);margin-bottom:8px;">Çalışma adımı</div>
+              <div style="display:grid;gap:7px;">
+                ${detail.practice.map((p, i) => `<div style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--g-text);line-height:1.45;"><span style="background:${lvlData.color};color:#fff;border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;">${i + 1}</span>${p}</div>`).join('')}
+              </div>
+            </div>`;
+        }
+      }
 
       const modal = document.getElementById('gTopicModal');
       modal.innerHTML = `
@@ -993,13 +1071,8 @@ window.GermanModule = (function () {
                       max-width:640px;max-height:90vh;display:flex;flex-direction:column;
                       box-shadow:0 -8px 40px rgba(0,0,0,0.25);">
 
-            <!-- Handle -->
-            <div style="display:flex;justify-content:center;padding:12px 0 4px;">
-              <div style="width:40px;height:4px;background:var(--g-border);border-radius:2px;"></div>
-            </div>
-
             <!-- Header -->
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 20px 12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:18px 20px 12px;">
               <div>
                 <div style="font-size:20px;font-weight:800;color:var(--g-text);">🗺️ Konu Rehberi</div>
                 <div style="font-size:13px;color:var(--g-text-muted);">${activeLvl} • ${lvlData.sections.length} bölüm • ${totalTopics} konu</div>
@@ -1010,10 +1083,10 @@ window.GermanModule = (function () {
 
             <!-- Level Tabs -->
             <div style="display:flex;border-top:1px solid var(--g-border);border-bottom:2px solid var(--g-border);
-                        padding:0 12px;overflow-x:auto;">${tabs}</div>
+                        padding:0 12px;overflow:hidden;">${tabs}</div>
 
             <!-- Content -->
-            <div style="overflow-y:auto;padding:16px 20px 32px;">${sections}</div>
+            <div style="overflow-y:auto;padding:16px 20px 32px;">${content}</div>
 
           </div>
         </div>`;
@@ -1022,6 +1095,17 @@ window.GermanModule = (function () {
     // Expose tab switcher globally for onclick
     window.GermanModule._topicGuideTab = function(lvl) {
       activeLvl = lvl;
+      activeDetail = null;
+      renderModal();
+    };
+
+    window.GermanModule._topicGuideDetail = function(sectionIdx, topicIdx) {
+      activeDetail = { sectionIdx, topicIdx };
+      renderModal();
+    };
+
+    window.GermanModule._topicGuideBack = function() {
+      activeDetail = null;
       renderModal();
     };
 
