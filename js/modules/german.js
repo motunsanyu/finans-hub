@@ -332,6 +332,7 @@ window.GermanModule = (function () {
       padding:28px 24px;
       box-shadow:0 4px 0 var(--g-border-bot);
       margin-bottom:20px;
+      overflow:hidden;
     }
 
     /* Teach word card */
@@ -406,9 +407,10 @@ window.GermanModule = (function () {
     .g-home-icon { font-size:38px; }
 
     /* Grammar table */
-    .g-table { width:100%; border-collapse:collapse; margin-top:14px; border-radius:12px; overflow:hidden; }
+    .g-table-wrap { width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; border-radius:12px; margin-top:14px; }
+    .g-table { width:100%; border-collapse:collapse; table-layout:fixed; }
     .g-table th { background:var(--g-green); color:#fff; padding:10px 14px; font-size:14px; text-align:left; }
-    .g-table td { padding:10px 14px; font-size:15px; border-bottom:1px solid var(--g-border); color:var(--g-text); }
+    .g-table td { padding:10px 14px; font-size:15px; border-bottom:1px solid var(--g-border); color:var(--g-text); overflow-wrap:anywhere; }
     .g-table tr:nth-child(even) td { background:var(--g-table-alt); }
     .g-table td:first-child { font-weight:700; color:var(--g-blue); }
 
@@ -434,6 +436,14 @@ window.GermanModule = (function () {
     }
     .g-level-pill.active { background:var(--g-green); color:#fff; border-color:var(--g-green-dark); }
     .g-level-pill.inactive { background:var(--g-surface); color:var(--g-text-muted); border-color:var(--g-border); }
+
+    @media (max-width: 480px) {
+      .g-body { padding:14px; }
+      .g-card { padding:20px 14px; }
+      .g-home-card { padding:15px 14px; gap:12px; }
+      .g-table th { padding:9px 8px; font-size:12px; line-height:1.25; }
+      .g-table td { padding:9px 8px; font-size:13px; line-height:1.3; }
+    }
   `;
 
   function injectStyles() {
@@ -523,6 +533,17 @@ window.GermanModule = (function () {
                       onclick="window.GermanModule.startGrammarTables()">Gör</button>
             </div>
 
+            <div class="g-home-card">
+              <div style="display:flex;align-items:center;gap:14px;">
+                <div class="g-home-icon">🗺️</div>
+                <div>
+                  <div style="font-size:17px;font-weight:800;color:var(--g-text);">Konu Rehberi</div>
+                  <div style="color:var(--g-text-muted);font-size:13px;">A1'den B2'ye seviye seviye yol haritası</div>
+                </div>
+              </div>
+              <button class="g-btn ghost" onclick="window.GermanModule.showTopicGuide()">Aç</button>
+            </div>
+
             <div class="g-progress-section">
               <h3 style="color:var(--g-text);margin:0 0 10px;font-size:15px;">
                 İlerlemen — <span style="color:var(--g-green);">${currentLevel}</span>
@@ -580,10 +601,12 @@ window.GermanModule = (function () {
                           text-transform:uppercase;letter-spacing:.5px;">${t.level || 'A1'}</div>
               <div style="font-size:22px;font-weight:800;color:var(--g-text);margin-bottom:4px;">${t.title}</div>
               <div style="font-size:14px;color:var(--g-text-muted);margin-bottom:16px;">${t.subtitle}</div>
-              <table class="g-table">
-                <thead><tr>${thCells}</tr></thead>
-                <tbody>${rows}</tbody>
-              </table>
+              <div class="g-table-wrap">
+                <table class="g-table">
+                  <thead><tr>${thCells}</tr></thead>
+                  <tbody>${rows}</tbody>
+                </table>
+              </div>
             </div>
 
             <div style="display:flex;gap:12px;margin-top:4px;">
@@ -888,6 +911,8 @@ window.GermanModule = (function () {
     {
       level: 'A1', color: '#58cc02', bg: '#f0fff0',
       sections: [
+        { title: 'A1 Çekirdek Gramer', topics: ['Selamlaşma ve vedalaşma kalıpları', 'Alfabe ve telaffuz', 'Kişi zamirleri', 'Sayılar', 'Nominativ, Akkusativ ve Dativ ile tanışma', 'Düzenli ve düzensiz fiil çekimleri', 'Modal fiillere giriş', 'Emir cümleleri'] },
+        { title: 'A1 Cümle & Günlük Konular', topics: ['Artikeller: der, die, das / ein, eine / kein', 'İyelik sıfatları: mein, dein, sein', 'Sıfat, zarf ve temel edatlar', 'Präsens ve geçmiş zamana giriş', 'Olumsuz cümleler', 'Ja/Nein soruları ve W-Fragen', 'Aile, ev, yiyecek, günler, aylar, renkler'] },
         { title: '👋 Tanışma & Selamlaşma', topics: ['Merhaba / Güle güle (Hallo / Tschüss)', 'Nasılsın? (Wie geht es dir?)', 'Adın ne? (Wie heißt du?)', 'Nereli­sin? (Woher kommst du?)', 'Kendini tanıtma'] },
         { title: '🔤 Temel Dil Bilgisi', topics: ['Şahıs zamirleri (ich, du, er/sie/es…)', 'sein çekimi (bin, bist, ist…)', 'haben çekimi (habe, hast, hat…)', 'Düzenli fiil çekimleri (-en eki)', 'Artikeller: der / die / das', 'Belirtisiz artikel: ein / eine', 'Tekil ve çoğul isimler'] },
         { title: '🔢 Sayılar & Zaman', topics: ['Sayılar 1–100', 'Saat sorma ve söyleme', 'Haftanın günleri', 'Aylar ve mevsimler', 'Tarih ifade etme'] },
@@ -898,6 +923,8 @@ window.GermanModule = (function () {
     {
       level: 'A2', color: '#1cb0f6', bg: '#f0f8ff',
       sections: [
+        { title: 'A2 Gramer Genişletme', topics: ['Perfekt ve Präteritum', 'Modal fiillerin geçmiş zamanı', 'Reflexive ve reziproke fiiller', 'Wechselpräpositionen', 'Lokale ve temporale Präpositionen', 'Nominativ, Akkusativ, Dativ kullanımı'] },
+        { title: 'A2 Bağlaçlar & Kelime Yapımı', topics: ['Komparativ ve Superlativ', 'Position 0 ve Position 1 bağlaçları', 'Nebensätze: weil, dass, wenn', 'Yer ve yön zarfları', 'Partikeln: ja, doch, mal, denn', 'Komposita ve -chen, -lein, -ung gibi eklerle kelime türetme'] },
         { title: '🏡 Günlük Rutinler', topics: ['Sabah rutini (aufwachen, frühstücken…)', 'Sıklık zarfları (immer, oft, manchmal)', 'İş ve okul hayatı', 'Hobiler ve boş zaman'] },
         { title: '🗺️ Yön & Ulaşım', topics: ['Yön tarifi (links, rechts, geradeaus)', 'Toplu taşıma (Bus, Bahn, U-Bahn)', 'Bilet alma diyalogları', 'Şehirde yerler (Bahnhof, Post, Apotheke)'] },
         { title: '🛒 Alışveriş & Yemek', topics: ['Mağazada alışveriş diyaloğu', 'Restoranda sipariş verme', 'Fiyat sormak ve pazarlık', 'Yiyecek-içecek isimleri ve miktarlar'] },
@@ -908,6 +935,8 @@ window.GermanModule = (function () {
     {
       level: 'B1', color: '#ff9500', bg: '#fffaf0',
       sections: [
+        { title: 'B1 Yapılar', topics: ['Präteritum ve Plusquamperfekt', 'Reflexivpronomen im Dativ', 'Trennbare ve untrennbare Verben', 'Verben mit Präpositionen', 'Präpositionaladverbien', 'Konjunktiv II formları ve kullanımı', 'Passiv temel ve geçmiş zaman'] },
+        { title: 'B1 Yan Cümleler & Çekimler', topics: ['Futur I ve werden kullanımları', 'lassen fiili', 'Positions- ve Direktionsverben', 'Genitiv ve n-Deklination', 'Infinitiv mit/ohne zu', 'Relativsätze', 'Temporale Nebensätze', 'Finalsätze', 'Doppelkonnektoren', 'Adjektivdeklination'] },
         { title: '✈️ Seyahat & Konaklama', topics: ['Otel rezervasyonu', 'Havaalanı ve sınır kapısı', 'Turistik geziler planlama', 'Sorun bildirme (şikayet)'] },
         { title: '💼 İş & Eğitim', topics: ['CV ve iş başvurusu', 'İş görüşmesi diyaloğu', 'Meslekler ve görevler', 'Okul sistemi ve eğitim'] },
         { title: '📰 Medya & Toplum', topics: ['Haber okuma ve yorumlama', 'İnternet ve sosyal medya', 'Çevre ve sürdürülebilirlik', 'Kültür ve sanat'] },
@@ -918,6 +947,8 @@ window.GermanModule = (function () {
     {
       level: 'B2', color: '#ff4b4b', bg: '#fff5f5',
       sections: [
+        { title: 'B2 İleri Gramer', topics: ['Konnektoren: als, bevor, bis, seitdem, während, wenn', 'sobald ve solange', 'Verben und Ergänzungen', 'Geçmiş ve gelecek zaman kipleri', 'Futur mit werden', 'Angaben im Satz', 'nicht ve olumsuzluk kelimeleri'] },
+        { title: 'B2 Stil & Karmaşık Cümle', topics: ['Passiv Präteritum', 'Konjunktiv II der Vergangenheit', 'Konjunktiv II + Modalverben', 'einander zamirleri', 'Weiterführende Nebensätze', 'Genitiv edatları', 'je ... desto/umso', 'Nomen-Verb-Verbindungen', 'Sonuç bağlaçları', 'Relativsätze im Genitiv', 'Konjunktiv I ile dolaylı anlatım'] },
         { title: '🎓 Akademik & Profesyonel', topics: ['Akademik metin okuma/yazma', 'Sunum yapma (Vortrag halten)', 'Resmi yazışmalar ve e-posta', 'Özet çıkarma ve parafraz'] },
         { title: '⚖️ Tartışma & Eleştiri', topics: ['Avantaj-dezavantaj analizi', 'Etik ve felsefi tartışmalar', 'Medya eleştirisi', 'Politika ve ekonomi dili'] },
         { title: '🤝 Sosyal & Kültürel', topics: ['Almanca konuşulan ülke kültürleri', 'Deyimler ve kalıp ifadeler (Redewendungen)', 'Edebi metinler ve şiir', 'Mizah ve ironi anlama'] },
@@ -943,7 +974,7 @@ window.GermanModule = (function () {
           <div style="font-size:15px;font-weight:800;color:var(--g-text);margin-bottom:10px;
                       padding:8px 12px;background:${lvlData.bg};border-radius:10px;
                       border-left:4px solid ${lvlData.color};">${s.title}</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 4px;">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;padding:0 4px;">
             ${s.topics.map(t => `
               <div style="display:flex;align-items:flex-start;gap:6px;font-size:13px;color:var(--g-text);line-height:1.4;">
                 <span style="color:${lvlData.color};font-size:10px;margin-top:4px;flex-shrink:0;">●</span>
