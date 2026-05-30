@@ -734,6 +734,8 @@
           <!-- 'İşlemler' ve 'Portföy' sekmeleri uygulamadan kaldırıldı -->
           <button class="market-sub-btn" id="btnMarketNews" onclick="window.switchMarketTab('news')"
             style="flex:none; padding:6px 12px; font-size:12px; font-weight:700;">Haberler</button>
+          <button class="market-sub-btn" id="btnMarketGerman" onclick="if(window.GermanModule) window.GermanModule.openApp();"
+            style="flex:none; padding:6px 12px; font-size:12px; font-weight:700; color: #58cc02; border: 1px solid #58cc02;">Almanca</button>
         </div>
 
         <!-- PIYASA BOLUMU -->
@@ -2253,6 +2255,13 @@
     </div>
   </div>
 
+  <!-- ════ ALMANCA APP OVERLAY (DUOLINGO TARZI) ════ -->
+  <div id="germanAppScreen" style="display:none; position:fixed; inset:0; z-index:100000; background:#ffffff; color:#3c3c3c; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-y:auto; overflow-x:hidden;">
+    <div id="germanAppContent">
+      <!-- JS tarafından doldurulacak -->
+    </div>
+  </div>
+
   <!-- 1. KÜTÜPHANELER -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/utils.js"></script>
@@ -2276,6 +2285,7 @@
   <script src="js/modules/coin.js"></script>
   <script src="js/modules/trade.js"></script>
   <script src="js/modules/news.js?v=3"></script>
+  <script src="js/modules/german.js"></script>
   <script src="js/modules/menu.js"></script>
 
   <script src="app.js?v=2"></script>

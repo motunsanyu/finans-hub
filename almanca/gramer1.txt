@@ -1,0 +1,1477 @@
+1. Fiil Nedir? (Was ist ein Verb?)
+Fiiller, cümlelerdeki eylemleri veya durumları ifade eden sözcüklerdir. Almancada tüm fiiller mastar (Infinitiv) halindeyken “-en” veya “-n” ile biter:
+
+Almanca	Türkçe	Örnek Cümle
+machen	yapmak	Ich mache meine Hausaufgaben.
+gehen	gitmek	Wir gehen zur Schule.
+lernen	öğrenmek	Sie lernt Deutsch.
+2. Fiil Çeşitleri (Arten von Verben)
+A) Düzenli Fiiller (Regelmäßige Verben)
+Düzenli fiiller, çekimlenirken kökleri değişmeyen fiillerdir:
+
+ich mache	ben yaparım
+du machst	sen yaparsın
+er/sie/es macht	o yapar
+wir machen	biz yaparız
+ihr macht	siz yaparsınız
+sie/Sie machen	onlar yaparlar/siz yaparsınız
+Bunların çekimlemelerini adım adım şu konuya (Almanca Fiil Çekimleri) göz atabilirsiniz.
+
+B) Düzensiz Fiiller (Unregelmäßige Verben)
+Düzensiz fiiller, çekimlenirken kökleri değişen fiillerdir. Özellikle geçmiş zamanda belirgin değişiklikler gösterirler:
+
+Şimdiki Zaman	Geçmiş Zaman	Türkçe
+gehen	ging	gitmek
+sehen	sah	görmek
+sprechen	sprach	konuşmak
+3. Yardımcı Fiiller (Hilfsverben)
+Almancada üç temel yardımcı fiil vardır:
+
+sein (olmak)	Geçmiş zaman ve durum bildirme
+haben (sahip olmak)	Geçmiş zaman yapımı
+werden (olacak)	Gelecek zaman ve edilgen yapı
+✅haben Yardımcı Fiili Alan Fiiller
+✅sein Yardımcı Fiili Alan Fiiller
+4. Modal Fiiller (Modalverben)
+Modal fiiller (Modalverben), diğer fiillere süper güçler katan fiillerdir.
+
+Modal Fiil	Anlamı	Örnek
+können	-ebilmek	Ich kann schwimmen.
+müssen	zorunda olmak	Ich muss arbeiten.
+dürfen	izinli olmak	Du darfst spielen.
+wollen	istemek	Wir wollen lernen.
+sollen	-meli/-malı	Du sollst schlafen.
+mögen	hoşlanmak	Ich mag Musik.
+Modal fiilleri kullanırken altın kural:
+
+Modal fiil 2. sırada ve çekimli
+Asıl fiil EN SONDA ve mastar halinde (-en/-n ile)
+5. Ayrılabilen Fiiller (Trennbare Verben)
+Bu fiiller, ön ek ve ana fiilden oluşur:
+
+aufstehen	auf + stehen	kalkmak
+ankommen	an + kommen	varmak
+einkaufen	ein + kaufen	alışveriş yapmak
+Daha fazla bilgi: Almanca Ayrılabilen Fiiller Konusu (Trennbare Verben) ve Almanca Ayrılabilen Fiiller Listesi (480 Trennbare Verben)
+
+6. Yan Cümlele Filler
+Yan cümlelerde fiiller biraz farklı çalışır: dass, weil, wenn gibi bağlaçlardan sonra;
+
+Fiil EN SONA gider
+Özneye göre çekimlenmiş halde olur.
+Ich weiß, dass er morgen kommt
+Wenn ich Zeit habe, rufe ich dich an
+Önemli Kurallar ve İpuçları ⭐
+Fiil Pozisyonu: – Normal cümlede → 2. sırada – Yan cümlede → sonda – Modal fiille → Modal 2. sırada, asıl fiil sonda
+Geçmiş Zaman Yardımcı Fiil Seçimi: – Hareket fiilleri → sein – Durum değişikliği → sein – Diğer tüm fiiller → haben
+Alıştırmalar ve Örnekler 📝
+Fiilleri doğru kullanmayı öğrenmek için günlük hayattan örnekler:
+
+✅ Ich stehe um 7 Uhr auf.	Saat 7’de kalkarım.
+✅ Ich kann nach Hause gehen.	Eve gidebilirim.
+✅ Wenn ich Zeit habe, rufe ich dich an.	Zamanım olduğunda seni ararım.
+Pratik İpuçları: Püf Noktaları!
+Fiil Pozisyonu için Süper Formül:
+Normal cümle = Fiil HEP 2. SIRADA
+Yan cümle = Fiil HEP EN SONDA
+Modal varsa = Modal 2. sırada, diğer fiil sonda
+Geçmiş Zaman için Kolay Yol:
+Hareket = sein
+Değişim = sein
+Diğerleri = haben
+En Sık Yapılan Hatalar ve Çözümleri:
+❌ Ich aufstehe um 7 Uhr (YANLIŞ!)
+✅ Ich stehe um 7 Uhr auf (DOĞRU!) Neden? Çünkü ayrılabilen fiillerde ön ek sona gider!
+❌ Ich kann gehen nach Hause (YANLIŞ!)
+✅ Ich kann nach Hause gehen (DOĞRU!) Neden? Çünkü modal fiille kullanılan asıl fiil sonda olmalı!
+Öğrenme Stratejileri 🎯
+Fiilleri bağlam içinde öğrenin
+Düzenli pratik yapın
+Günlük konuşma diyalogları oluşturun
+Kendinize ait cümleler kurun
+
+Almanca Fiil Çekimleri (Konjugation der Verben)
+Almanca fiil çekimi, fiilin mastar halinden (-en eki) kökü ayırarak özneye uygun ek getirmektir. Düzenli fiillerde kök değişmez: lernen → ich lerne, du lernst, er lernt. Düzensiz fiillerde kök değişir: sprechen → ich spreche, du sprichst. Almancada 5 fiil türü vardır: düzenli, düzensiz, modal, ayrılabilen ve ayrılamayan fiiller. Bu rehberde tüm zamanlar (Präsens, Perfekt, Präteritum, Futur) için çekim tablolarını ve kurallarını bulacaksınız.
+
+Almanca Fiil Türleri ve Özellikleri
+Almancada fiiller çekim özelliklerine göre 5 ana gruba ayrılır. Her birinin kendine özgü kuralları ve dikkat edilmesi gereken noktaları vardır:
+
+Düzenli Fiiller (Regelmäßige Verben) – Kök değişmez, standart ekler alır
+Düzensiz Fiiller (Unregelmäßige Verben) – Kök değişir, ezber gerektirir
+Modal Fiiller (Modalverben) – Yetenek, zorunluluk, izin bildirir
+Ayrılabilen Fiiller (Trennbare Verben) – Önek cümle sonuna gider
+Ayrılamayan Fiiller (Untrennbare Verben) – Önek fiile bağlı kalır, ge- almaz
+Başlamadan önce bilmeniz gereken en önemli nokta: Almancada fiiller, cümleyi kuran kişiye (özneye veya şahıs zamirlerine) ve eylemin gerçekleştiği zamana (Almanca zamanlara) göre değişiklik gösterir.
+
+Özet:
+
+kommen: Örnek fiilimizin adı kommen. Türkçede “gelmek” anlamına gelir. Almanca fiillerin mastar hali genellikle -en ile biter (-en=-mek/-mak).
+komm: Fiilin kök kısmıdır. Mastar eki olan -en atıldığında fiil kökü bulunur. Tıpkı Türkçedeki “gelmek” fiilinden “-mek” ekini atınca “gel” kökünü bulduğumuz gibi. Bu kök, aynı zamanda emir kipi (“Komm!” – “Gel!”) olarak da kullanılabilir.
+Cümle kurarken fiili özneye göre çekimleriz. İşte şahıs zamirlerinin şimdiki zamanda (Präsens) düzenli fiillerle aldığı temel çekim ekleri:
+ich (ben): kök + e → ich komme (geliyorum)
+du (sen): kök + st → du kommst (geliyorsun)
+er/sie/es (o): kök + t → er kommt (geliyor)
+wir (biz): kök + en → wir kommen (geliyoruz)
+ihr (siz): kök + t → ihr kommt (geliyorsunuz)
+sie/Sie (onlar/Siz): kök + en → sie kommen (geliyorlar)
+Nasıl Çalışır?
+
+“kommen” tek başına “gelmek” demektir (mastar hali).
+“Ich komme” dediğinizde ise “Ben geliyorum” demiş olursunuz. İşte fiilin özneye ve zamana göre bu şekilde değiştirilmesi işlemine Almanca fiil çekimi diyoruz.
+
+Fiiller (Verb), cümlelerde eylemleri (koşmak, yemek), durumları (olmak, sahip olmak) veya oluşları (büyümek, değişmek) ifade eden kelimelerdir. Almancada fiillerin çekimlenmemiş, yalın haline mastar (Infinitiv) denir ve genellikle “-en” (kommen, spielen) veya nadiren “-n” (wandern, segeln) ekleriyle biter. Bu, Türkçedeki “-mek, -mak” eklerine benzer bir işlev görür. Türkçedeki “-mek, –mak” mastar eklerine benzer şekilde, Almanca “-en” eki de fiile mastar anlamı katar.
+
+Örnekler:
+
+kommen (gelmek)
+spielen (oynamak)
+lesen (okumak)
+sein (olmak)
+haben (sahip olmak)
+
+Almanca fiil çekimi (Die Konjugation), bir fiilin cümledeki özneye (kimin yaptığına) ve zamana (ne zaman yapıldığına) göre aldığı farklı biçimlerdir. Fiiller, cümledeki özneye uyum sağlamak için “çekime girer”. Bu işlem, genellikle fiil köküne belirli çekim ekleri eklenerek yapılır, ancak bazen fiil kökünde de değişiklikler olabilir (özellikle düzensiz fiillerde).
+
+Almanca Fiil Kökü Nasıl Bulunur?
+
+Fiil kökü (Verbstamm), fiilin mastar halinden sona gelen “-en” veya “-n” eki atıldığında geriye kalan kısımdır. Örnekler:
+
+lernen → Fiil kökü: lern-
+spielen → Fiil kökü: spiel-
+machen → Fiil kökü: mach-
+kommen → Fiil kökü: komm-
+wandern → Fiil kökü: wander-
+Almanca Fiil Türleri/Çeşitleri Nelerdir?
+Almancada fiiller, çekim özelliklerine göre temel olarak beş ana gruba ayrılır. Her grubun kendine özgü kuralları vardır:
+
+Düzenli Fiiller (Regelmäßige Verben / Schwache Verben – Zayıf Fiiller): Almancadaki fiillerin çoğunluğunu oluştururlar. Çekimleri belirli, öngörülebilir kurallara göre yapılır. Fiil kökü genellikle değişmez ve standart çekim eklerini alırlar (–e, –st, –t, –en, –t, –en). Öğrenmesi en kolay gruptur. Örnekler: lernen (öğrenmek), machen (yapmak), spielen (oynamak), arbeiten (çalışmak). Detaylar için: Düzenli Fiiller Listesi ve Düzenli Fiil Çekimleri Konusu
+
+Düzensiz Fiiller (Unregelmäßige Verben / Starke Verben – Güçlü Fiiller): Çekimleri belirli bir kurala sıkı sıkıya bağlı değildir. “Du” (sen) ve er (o, erkek), sie (o, kadın/kız), es (o, bebek veya cisim) zamirlerine göre değişir. Özellikle şimdiki zaman (Präsens) ve geçmiş zaman (Präteritum) çekimlerinde fiil kökündeki sesli harf değişebilir (a→ä, e→i/ie gibi). Almancada en sık kullanılan fiillerin çoğu (örneğin sein – olmak, haben – sahip olmak, sprechen – konuşmak, fahren – gitmek/sürmek) bu gruptadır ve çekimlerinin ezberlenmesi gerekir.
+
+Modal Fiiller (Modalverben): Cümleye yetenek, zorunluluk, izin, istek gibi ek anlamlar katan özel yardımcı fiillerdir (können, müssen, dürfen, sollen, wollen, mögen/möchten). Kendilerine özgü çekim kuralları vardır ve genellikle başka bir fiille (mastar halinde) kullanılırlar. Detaylar için: Modal Fiiller Konusu.
+
+Ayrılabilen Fiiller (Trennbare Verben): Belirli önekler (örneğin an-, auf-, aus-, ein-, mit-) alırlar. Bu önekler, fiil çekimlendiğinde (özellikle Präsens ve Präteritum’da) fiilden ayrılarak cümlenin sonuna gider. Örnekler: anfangen (başlamak), aufstehen (kalkmak), einkaufen (alışveriş yapmak).
+
+Ayrılmayan Fiiller (Untrennbare Verben): Belirli önekler (örneğin be-, ge-, er-, ver-, zer-, ent-, emp-, miss-) alırlar. Bu önekler fiilden hiçbir zaman ayrılmaz ve fiille bitişik kalır. Partizip II formları da farklıdır (“ge-” almazlar). Örnekler: bekommen (almak), verstehen (anlamak), erzählen (anlatmak).
+
+Önemli Notlar:
+
+Kökü Belirleme: Almanca fiiller sözlükte mastar halinde (-en veya -n ile) bulunur. Mastarın son eki atıldığında geriye fiil kökü kalır (örn. arbeiten – arbeit-),
+Kişi Zamirleri: Almancada kişi zamirleri şöyledir: ich (ben), du (sen), er (o-erkek), sie (o-dişi), es (o-nötr), wir (biz), ihr (siz), sie/Sie (o-çoğul, siz).
+Sözlük Kullanımı: Almanca sözlüklerden fiillerin çekimlerini kontrol edebilirsiniz.
+
+1️ Düzenli Fiil Çekimleri
+Almanca Düzenli Fiiller (Regelmäßige Verben), Almanca öğrenirken ilk karşılaşacağınız ve en sık rastlanan fiil türü budur. Almanca fiillerin büyük bir çoğunluğunu oluştururlar ve “zayıf fiiller” (schwache Verben) olarak da adlandırılırlar çünkü çekim sırasında köklerinde bir değişikliğe uğramazlar. Çekimleri oldukça öngörülebilir ve belirli kurallara göre yapılır. Fiil kökünü bulduktan sonra (yani mastar halinden -en ekini attıktan sonra), hangi şahıs zamiri ve zaman söz konusuysa ona uygun standart çekim eklerini köke eklersiniz. Bu yüzden öğrenilmesi genellikle en kolay fiil grubudur.
+
+Örnekler: lernen (öğrenmek), machen (yapmak), spielen (oynamak), fragen (sormak), arbeiten (çalışmak), wohnen (ikamet etmek), kaufen (satın almak).
+
+a) Präsens Fiil Çekimi
+Präsens (Şimdiki Zaman / Geniş Zaman), hem şu anda gerçekleşen eylemleri (Ich lerne Deutsch. – Almanca öğreniyorum.) hem de genel geçer durumları ve alışkanlıkları (Die Sonne scheint. – Güneş parlar. / Er spielt jeden Tag Fußball. – O her gün futbol oynar.) ifade etmek için kullanılır.
+
+Kural: Fiil Kökü + Şahıs Zamirine Uygun Çekim Eki
+
+Şahıs Zamiri	Çekim Eki	lernen Fiil Çekimi	Türkçe Anlamı (Yaklaşık)
+ich (ben)	–e	ich lerne	öğreniyorum / öğrenirim
+du (sen)	–st	du lernst	öğreniyorsun / öğrenirsin
+er/sie/es (o)	–t	er/sie/es lernt	öğreniyor / öğrenir
+wir (biz)	–en	wir lernen	öğreniyoruz / öğreniriz
+ihr (siz [samimi])	–t	ihr lernt	öğreniyorsunuz / öğrenirsiniz
+sie/Sie (onlar/Siz [resmi])	–en	sie/Sie lernen	öğreniyorlar / öğrenirler
+Örnek Cümleler (Präsens):
+
+Wir wohnen in Hamburg. (Hamburg’da yaşıyoruz/ikamet ediyoruz.)
+Was machst du gerade? (Şu anda ne yapıyorsun?)
+Ihr spielt sehr gut Klavier. (Siz çok iyi piyano çalıyorsunuz.)
+⚠️ Präsens Çekiminde İstisnalar (Telaffuz Kolaylığı İçin):
+
+Fiil kökü -t, -d, -chn, -ffn, -tm ile bitiyorsa: “du”, “er/sie/es” ve “ihr” şahıslarında fiil kökü ile çekim eki arasına bir e kaynaştırma harfi gelir. Bu, yan yana gelen sert sessizlerin telaffuzunu kolaylaştırır.
+
+arbeiten (çalışmak) → Kök: arbeit-
+du arbeitest (arbeitst değil)
+er/sie/es arbeitet (arbeitt değil)
+ihr arbeitet (arbeitt değil)
+baden (banyo yapmak, suya girmek) → Kök: bad-
+du badest
+er/sie/es badet
+öffnen (açmak) → Kök: öffn-
+du öffnest
+er/sie/es öffnet
+Fiil kökü -s, -ss, -ß, -x, -z ile bitiyorsa: “du” şahsında zaten ‘s’ sesi olduğu için tekrar “-st” eki eklenmez, sadece t eki alır.
+
+reisen (seyahat etmek) → Kök: reis- → du reist (reisst değil)
+heißen (adı olmak) → Kök: heiß- → du heißt (heißst değil – zaten ß ‘ss’ gibidir)
+tanzen (dans etmek) → Kök: tanz- → du tanzt (tanzst değil – z ‘ts’ sesi içerir)
+Fiiller -eln veya -ern ile bitiyorsa: Bu fiillerin mastar eki aslında sadece -n‘dir.
+
+-eln ile biten fiillerde: “ich” şahsında genellikle kökteki “e” düşer ve sadece “-le” eki alır (lächeln → ich lächle). “wir” ve “sie/Sie” çekimleri “-eln” şeklinde kalır (wir lächeln).
+-ern ile biten fiillerde: “ich” şahsında normal “-e” alır (ändern → ich ändere). “wir” ve “sie/Sie” çekimleri “-ern” şeklinde kalır (wir ändern).
+b) Präteritum Fiil Çekimi
+Präteritum (Geçmiş Zaman – Hikaye Anlatımı), geçmişte olup bitmiş olayları anlatmak için kullanılır. Özellikle yazılı dilde (romanlar, hikayeler, raporlar) ve resmi anlatımlarda sıkça tercih edilir. Günlük konuşmalarda genellikle Perfekt zamanı daha yaygındır.
+
+Kural: Fiil Kökü + -te- + Şahıs Zamirine Uygun Çekim Eki (Präsens eklerinden biraz farklıdır)
+
+Şahıs Zamiri	Çekim Eki	lernen Fiil Çekimi	Türkçe Anlamı (Yaklaşık)
+ich	-te	ich lernte	öğrendim
+du	-test	du lerntest	öğrendin
+er/sie/es	-te	er/sie/es lernte	öğrendi
+wir	-ten	wir lernten	öğrendik
+ihr	-tet	ihr lerntet	öğrendiniz
+sie/Sie	-ten	sie/Sie lernten	öğrendiler
+💡 Önemli Not: Düzenli fiillerin Präteritum çekiminde “ich” ve “er/sie/es” şahıslarının çekimleri her zaman aynıdır.
+
+Örnek Cümleler (Präteritum):
+
+Ich wohnte früher in München. (Eskiden Münih’te yaşadım/oturuyordum.)
+Er fragte nach dem Weg. (Yolu sordu.)
+Wir machten unsere Hausaufgaben. (Ödevlerimizi yaptık.)
+⚠️ Präteritum Çekiminde İstisna: Tıpkı Präsens’te olduğu gibi, fiil kökü -t, -d, -chn, -ffn, -tm ile bitiyorsa, telaffuz kolaylığı için “-te-” ekinden önce bir e kaynaştırma harfi gelir. Yani köke -ete- eklenir.
+
+arbeiten → ich arbeitete, du arbeitetest, er arbeitete, wir arbeiteten, ihr arbeitetet, sie arbeiteten
+antworten (cevaplamak) → er antwortete
+c) Perfekt Fiil Çekimi
+Perfekt (Yakın Geçmiş Zaman / “Di’li Geçmiş Zaman”), Almancada günlük konuşma dilinde geçmiş zamanı ifade etmek için en sık kullanılan zamandır. Geçmişte tamamlanmış ve genellikle sonucu şimdiki zamanla bağlantılı olan eylemleri anlatır (Örn: “Ich habe gegessen.” – “Yedim.” [ve şu an tokum]). İki temel unsurdan oluşur: yardımcı fiil (haben veya sein) ve ana fiilin Partizip II (geçmiş zaman ortacı) hali.
+
+Kural: Yardımcı Fiil (haben veya sein) Präsens Çekimi + Ana Fiilin Partizip II Hali (cümlenin en sonunda)
+
+Yardımcı Fiil Seçimi (haben/sein):
+
+haben: Düzenli fiillerin çok büyük bir kısmı ve birçok düzensiz fiil, Perfekt zamanda yardımcı fiil olarak haben alır. Bu, en yaygın durumdur.
+sein: Genellikle bir yerden bir yere hareket veya konum değişikliği bildiren fiiller (örn: reisen – seyahat etmek), bir durum değişikliği bildiren fiiller (örn: aufwachen – uyanmak [düzensiz]) ve birkaç özel fiil (sein, bleiben, werden) yardımcı fiil olarak sein alır. Düzenli fiiller arasında sein ile kullanılanlar daha azdır, en bilinen örneği reisen‘dır.
+Düzenli Fiillerin Partizip II Formu:
+
+Çoğu düzenli fiil için Partizip II formülü şöyledir: ge- + Fiil Kökü + -t
+
+düzenli düzensiz geçmiş zaman çekim ekleri
+lernen → gelernt
+machen → gemacht
+kaufen → gekauft
+hören → gehört
+⚠️ Partizip II İstisnası (Telaffuz): Fiil kökü -t, -d, -chn, -ffn, -tm gibi sert sessizlerle bitiyorsa, “-t” yerine -et eki gelir.
+
+arbeiten → gearbeitet
+baden → gebadet
+öffnen → geöffnet
+antworten → geantwortet
+Perfekt Çekimi: Yardımcı Fiil “haben” ile
+Örnek fiilimiz machen (yapmak) olsun. Partizip II: gemacht.
+
+Şahıs Zamiri	haben (Präsens)	Partizip II	Türkçe Anlamı (Yaklaşık)
+ich	habe	gemacht	yaptım
+du	hast	gemacht	yaptın
+er/sie/es	hat	gemacht	yaptı
+wir	haben	gemacht	yaptık
+ihr	habt	gemacht	yaptınız
+sie/Sie	haben	gemacht	yaptılar
+Örnek Cümleler (“haben” ile):
+
+Ich habe meine Hausaufgaben gemacht. (Ödevlerimi yaptım.)
+Was hast du am Wochenende geplant? (Hafta sonu ne planladın?) – Partizip II: geplant
+Wir haben gestern Pizza bestellt. (Dün pizza sipariş ettik.) – Partizip II: bestellt (ayrılmayan fiil, ge- almaz)
+Ihr habt aber lange gearbeitet! (Ama uzun süre çalıştınız!) – Partizip II: gearbeitet
+Perfekt Çekimi: Yardımcı Fiil “sein” ile
+Örnek fiilimiz reisen (seyahat etmek) olsun. Hareket bildirdiği için sein ile kullanılır. Partizip II: gereist.
+
+Şahıs Zamiri	sein (Präsens)	Partizip II	Türkçe Anlamı (Yaklaşık)
+ich	bin	gereist	seyahat ettim
+du	bist	gereist	seyahat ettin
+er/sie/es	ist	gereist	seyahat etti
+wir	sind	gereist	seyahat ettik
+ihr	seid	gereist	seyahat ettiniz
+sie/Sie	sind	gereist	seyahat ettiler
+Örnek Cümleler (“sein” ile):
+
+Ich bin letztes Jahr nach Deutschland gereist. (Geçen yıl Almanya’ya seyahat ettim.)
+Seid ihr schon einmal nach Asien gereist? (Hiç Asya’ya seyahat ettiniz mi?)
+Der Vogel ist weggeflogen. (Kuş uçup gitti.) – fliegen düzensiz fiildir, örnek amaçlı eklenmiştir.
+Was ist hier passiert? (Burada ne oldu?) – passieren (olmak, meydana gelmek) fiili de sein ile kullanılır. Partizip II: passiert (ge- almaz çünkü -ieren ile biter).
+Unutmayın: Perfekt zamanını doğru kurmak için hem yardımcı fiili (haben/sein) doğru seçmek hem de ana fiilin Partizip II formunu doğru oluşturmak gerekir. Şüpheye düştüğünüzde bir Almanca-Türkçe sözlüğe başvurmak her zaman iyi bir fikirdir.
+
+d) Plusquamperfekt Fiil Çekimi
+Plusquamperfekt (Miş’li Geçmiş Zaman / “Geçmişin de Geçmişi”), geçmişteki bir olaydan daha önce gerçekleşmiş bir başka eylemi anlatmak için kullanılır. Plusquamperfekt Almancada “Vorvergangenheit” yani “ön geçmiş zaman” olarak da bilinir. Genellikle, bir hikayede veya anlatımda, ana olayın (Präteritum veya Perfekt ile ifade edilen) öncesindeki bir arka plan bilgisini vermek için tercih edilir. Türkçedeki “-mişti’li geçmiş zaman” yapısına benzer.
+
+Kural: Yardımcı Fiil (haben veya sein fiilinin Präteritum Hali) + Ana Fiilin Partizip II Hali (cümlenin sonunda)
+
+Hangi yardımcı fiilin (hatte mi, war mı) kullanılacağı, ana fiilin Perfekt zamanda hangi yardımcı fiili (haben mi, sein mi) aldığına bağlıdır:
+
+Perfekt zamanda yardımcı fiil olarak haben alan fiiller, Plusquamperfekt zamanda hatte (haben‘in Präteritum hali) alırlar. (Çoğu düzenli fiil bu gruba girer.)
+Perfekt zamanda yardımcı fiil olarak sein alan fiiller (genellikle hareket veya durum değişikliği bildirenler), Plusquamperfekt zamanda war (sein‘in Präteritum hali) alırlar. (Düzenli fiiller arasında reisen – seyahat etmek gibi az sayıda fiil bu gruba girer.)
+Düzenli fiillerin Partizip II formu genellikle ge- + Fiil Kökü + -t (veya kök -t, -d ile bitiyorsa -et) şeklindedir.
+
+Plusquamperfekt Çekimi: Yardımcı Fiil “hatte” ile
+Örnek fiilimiz lernen (öğrenmek) olsun. Perfekt’te “ich habe gelernt” şeklinde haben aldığı için Plusquamperfekt’te hatte alır. Partizip II: gelernt.
+
+Şahıs Zamiri	hatte (Präteritum)	Partizip II	Türkçe Anlamı (Yaklaşık)
+ich	hatte	gelernt	öğrenmiştim
+du	hattest	gelernt	öğrenmiştin
+er/sie/es	hatte	gelernt	öğrenmişti
+wir	hatten	gelernt	öğrenmiştik
+ihr	hattet	gelernt	öğrenmiştiniz
+sie/Sie	hatten	gelernt	öğrenmişlerdi
+Örnek Cümleler (“hatte” ile):
+
+Bevor ich den Film sah, hatte ich das Buch schon gelesen. (Filmi izlemeden önce kitabı çoktan okumuştum.) – lesen düzensiz bir fiildir, Partizip II: gelesen.
+Er bestand die Prüfung, weil er sehr gut gelernt hatte. (Sınavı geçti çünkü çok iyi çalışmıştı/öğrenmişti.)
+Nachdem wir das Essen bestellt hatten, warteten wir lange. (Yemeği sipariş ettikten sonra uzun süre bekledik.) – bestellen düzenli fiildir, Partizip II: bestellt.
+Plusquamperfekt Çekimi: Yardımcı Fiil “war” ile
+Örnek fiilimiz reisen (seyahat etmek) olsun. Bu düzenli bir fiildir (Präteritum: ich reiste). Hareket bildirdiği için Perfekt’te “ich bin gereist” şeklinde sein alır, dolayısıyla Plusquamperfekt’te war alır. Partizip II: gereist.
+
+Şahıs Zamiri	war (Präteritum)	Partizip II	Türkçe Anlamı (Yaklaşık)
+ich	war	gereist	seyahat etmiştim
+du	warst	gereist	seyahat etmiştin
+er/sie/es	war	gereist	seyahat etmişti
+wir	waren	gereist	seyahat etmiştik
+ihr	wart	gereist	seyahat etmiştiniz
+sie/Sie	waren	gereist	seyahat etmişlerdi
+Örnek Cümleler (“war” ile):
+
+Als ich ihn traf, war er gerade aus Italien zurückgekehrt. (Onunla tanıştığımda, İtalya’dan yeni dönmüştü.) – zurückkehren (geri dönmek) düzenli, ayrılabilen bir fiildir ve hareket bildirdiği için sein alır. Partizip II: zurückgekehrt.
+Nachdem der Zug abgefahren war, bemerkte ich, dass ich meine Tasche vergessen hatte. (Tren hareket ettikten sonra çantamı unuttuğumu fark ettim.) – abfahren ayrılabilen, düzensiz bir fiildir ve hareket bildirdiği için sein alır. Partizip II: abgefahren. (Bu örnekte düzensiz fiil kullanıldı, çünkü düzenli hareket fiilleri sein ile daha azdır.)
+Bevor sie nach Berlin gereist war, hatte sie Deutsch gelernt. (Berlin’e seyahat etmeden önce Almanca öğrenmişti.)
+Genel Örnek Cümle (Hem “hatte” hem de “war” içeren bir durum): Er erzählte uns von seinem Urlaub. Er war nach Spanien geflogen (uçmuştu – fliegen düzensiz, sein ile) und hatte dort viele Städte besichtigt (ziyaret etmişti – besichtigen düzenli, ayrılmayan, haben ile). (Bize tatilini anlattı. İspanya’ya uçmuştu ve orada birçok şehri ziyaret etmişti.)
+
+e) Futur I Fiil Çekimi
+Futur I (Gelecek Zaman), Almancada gelecekte gerçekleşecek eylemleri, niyetleri, planları, vaatleri veya tahminleri ifade etmek için kullanılır. Türkçedeki “-ecek/-acak” ekine karşılık gelir. Yapısı oldukça basittir ve bir yardımcı fiil ile ana fiilin mastar halinden oluşur. Futur I hakkında daha detaylı bilgiyi ilgili konumuzda bulabilirsiniz.
+
+Kural: Yardımcı Fiil werden (Präsens Çekimi) + Ana Fiilin Mastar Hali (cümlenin en sonunda)
+
+Unutmayın, Futur I’de ana fiil (örneğin lernen, machen, spielen) her zaman mastar (-en) halinde ve cümlenin en sonunda yer alır. Çekimlenen tek kısım yardımcı fiil olan werden‘dir.
+
+Yardımcı Fiil “werden”in Präsens Çekimi:
+
+Şahıs Zamiri	werden Çekimi
+ich	werde
+du	wirst
+er/sie/es	wird
+wir	werden
+ihr	werdet
+sie/Sie	werden
+Şimdi, örnek fiilimiz lernen (öğrenmek) ile Futur I çekim tablosunu inceleyelim:
+
+Şahıs Zamiri	werden (Präsens)	Ana Fiil (Mastar)	Türkçe Anlamı (Yaklaşık)
+ich	werde	lernen	öğreneceğim
+du	wirst	lernen	öğreneceksin
+er/sie/es	wird	lernen	öğrenecek
+wir	werden	lernen	öğreneceğiz
+ihr	werdet	lernen	öğreneceksiniz
+sie/Sie	werden	lernen	öğrenecekler / öğreneceksiniz (resmi)
+Örnek Cümleler (Futur I – Düzenli Fiillerle):
+
+Ich werde morgen meine Oma besuchen. (Yarın büyükannemi ziyaret edeceğim.)
+Was wirst du am Wochenende machen? (Hafta sonu ne yapacaksın?)
+Er wird das Auto später reparieren. (Arabayı daha sonra tamir edecek.)
+Wir werden nächstes Jahr nach Deutschland reisen. (Gelecek yıl Almanya’ya seyahat edeceğiz.)
+Ihr werdet die Prüfung sicher bestehen. (Sınavı kesinlikle geçeceksiniz.) – bestehen ayrılmayan bir fiildir, mastar olarak kullanılır.
+Sie werden uns bestimmt bald antworten. (Bize kesinlikle yakında cevap verecekler.)
+Es wird heute Abend wahrscheinlich nicht regnen. (Bu akşam muhtemelen yağmur yağmayacak.) – Tahmin
+💡 Önemli İpuçları:
+
+Futur I, özellikle planlanmış veya kesinleşmiş gelecek eylemleri için kullanılır.
+Bazen, özellikle zaman zarfı (morgen, nächste Woche vb.) varsa, gelecek anlamını ifade etmek için Präsens zamanı da kullanılabilir: Ich besuche morgen meine Oma. Ancak Futur I kullanımı daha net bir gelecek ifadesi sunar.
+werden yardımcı fiilinin çekimini (özellikle du wirst, er/sie/es wird) doğru yapmak önemlidir.
+f) Futur II Fiil Çekimi
+Futur II (Gelecek Zamanın Geçmişi/Gelecekte Tamamlanmış Olacaklar), gelecekte belirli bir zamana kadar tamamlanmış olacağı varsayılan bir eylemi ifade eder. Günlük dilde çok sık kullanılmaz, daha çok yazılı dilde veya kesin bir tahminde bulunurken karşımıza çıkar.
+
+Kural: Yardımcı Fiil werden Präsens Çekimi + Ana Fiilin Partizip II Hali + Yardımcı Fiil (haben veya sein) Mastar Hali (cümlenin sonunda)
+
+Futur II Çekimi (lernen fiili ile – Partizip II: gelernt, yardımcı fiil: haben):
+
+Şahıs Zamiri	werden (Präsens)	Partizip II + haben/sein (Mastar)	Türkçe Anlamı (Yaklaşık)
+ich	werde	gelernt haben	öğrenmiş olacağım
+du	wirst	gelernt haben	öğrenmiş olacaksın
+er/sie/es	wird	gelernt haben	öğrenmiş olacak
+wir	werden	gelernt haben	öğrenmiş olacağız
+ihr	werdet	gelernt haben	öğrenmiş olacaksınız
+sie/Sie	werden	gelernt haben	öğrenmiş olacaklar
+Örnek Cümleler (Futur II):
+
+Bis nächstes Jahr werde ich Deutsch perfekt gelernt haben. (Gelecek yıla kadar Almancayı mükemmel öğrenmiş olacağım.)
+Wenn du ankommst, werden wir schon gegessen haben. (Sen vardığında, biz çoktan yemiş olacağız.)
+In einer Stunde wird er angekommen sein. (Bir saat içinde varmış olacak.) – ankommen (varmak) sein ile Perfekt yaptığı için Futur II’de de sein mastarı kullanılır.
+Önemli Not: Başlangıç ve orta seviyede Futur II’ye aşırı odaklanmak yerine, diğer zaman kiplerini (özellikle Präsens, Perfekt ve Präteritum) sağlamlaştırmak daha önceliklidir.
+
+2️ Düzensiz Fiil Çekimleri
+
+Düzensiz fiillerin (Unregelmäßige Verben) çekimleri ezber gerektirir çünkü kökleri ve bazen ekleri beklenmedik şekilde değişir. En sık kullanılan fiiller bu gruptadır.
+
+a) Düzensiz Fiillerin Temel Özellikleri
+Kök Değişikliği: En belirgin özellikleri, fiil kökündeki sesli harfin değişmesidir (örneğin a → ä, e → i, e → ie).
+Ezber Gerektirir: Çekim kalıpları düzenli fiiller gibi öngörülebilir olmadığından, bu fiillerin temel çekim formları (Infinitiv, Präsens 3. tekil kişi, Präteritum 3. tekil kişi, Partizip II) ezberlenmelidir.
+b) Düzensiz Fiillerin Präsens Çekimi
+Präsens’te düzensiz fiiller genellikle “du” ve “er/sie/es” şahıslarında kök değişikliğine uğrar. “ich, wir, ihr, sie/Sie” şahısları çoğunlukla düzenli fiil eklerini alır (kök değişmiş olsa bile).
+
+Yaygın Kök Değişimleri:
+
+e → i: Örnek: sprechen (konuşmak) → du sprichst, er/sie/es spricht
+e → ie: Örnek: lesen (okumak) → du liest, er/sie/es liest
+a → ä: Örnek: fahren (araç sürmek/gitmek) → du fährst, er/sie/es fährt
+Örnek Çekim Tabloları (Präsens):
+
+Şahıs	sprechen (e→i)	lesen (e→ie)	fahren (a→ä)
+ich	spreche	lese	fahre
+du	sprichst	liest	fährst
+er/sie/es	spricht	liest	fährt
+wir	sprechen	lesen	fahren
+ihr	sprecht	lest	fahrt
+sie/Sie	sprechen	lesen	fahren
+En önemli düzensiz fiillerden sein (olmak) ve haben (sahip olmak) fiillerinin Präsens çekimleri tamamen kendilerine özgüdür:
+
+Şahıs	sein (olmak)	haben (sahip olmak)
+ich	bin	habe
+du	bist	hast
+er/sie/es	ist	hat
+wir	sind	haben
+ihr	seid	habt
+sie/Sie	sind	haben
+c) Düzensiz Fiillerin Präteritum Çekimi
+Düzensiz fiillerin Präteritum çekimleri de genellikle kök değişikliği gösterir ve düzenli fiillerdeki “-te-” kuralına uymaz. Ekler de farklılık gösterebilir. “ich” ve “er/sie/es” şahısları genellikle aynı çekime sahip olur ve ek almazlar.
+
+Örnek Çekim Tabloları (Präteritum):
+
+Şahıs		sprechen → sprach	lesen → las	fahren → fuhr	sein → war	haben → hatte
+ich		sprach	las	fuhr	war	hatte
+du		sprachst	last	fuhrst	warst	hattest
+er/sie/es	sprach	las	fuhr	war	hatte
+wir		sprachen	lasen	fuhren	waren	hatten
+ihr		spracht	last	fuhrt	wart	hattet
+sie/Sie		sprachen	lasen	fuhren	waren	hatten
+
+d) Düzensiz Fiillerin Perfekt Çekimi
+Perfekt çekimi için yine haben veya sein yardımcı fiili ve ana fiilin Partizip II formu kullanılır. Düzensiz fiillerin Partizip II formları da genellikle düzensizdir:
+
+Düzensiz Fiillerin Partizip II Oluşumu: Genellikle ge- + değişmiş fiil kökü + -en (nadiren -t)
+
+düzenli düzensiz geçmiş zaman çekim ekleri
+sprechen → gesprochen
+lesen → gelesen
+fahren → gefahren (sein ile kullanılır)
+sein → gewesen (sein ile kullanılır)
+haben → gehabt (haben ile kullanılır)
+essen (yemek) → gegessen
+Örnek Cümleler (Perfekt):
+
+Ich habe Deutsch gesprochen. (Almanca konuştum.)
+Er hat das Buch gelesen. (O kitabı okudu.)
+Wir sind nach Berlin gefahren. (Berlin’e gittik/sürdük.)
+Ich bin gestern krank gewesen. (Dün hastaydım.)
+Sie hat viel Glück gehabt. (Onun çok şansı vardı.)
+e) Diğer Zamanlar (Plusquamperfekt, Futur I, Futur II)
+Bu zamanların yapısı düzenli fiillerle aynıdır, ancak düzensiz fiilin ilgili Präteritum kökü veya düzensiz Partizip II formu kullanılır.
+
+Plusquamperfekt: Ich hatte gesprochen. (Konuşmuştum.) / Ich war gefahren. (Gitmiştim.)
+Futur I: Ich werde sprechen. (Konuşacağım.) / Ich werde fahren. (Gideceğim.)
+Futur II: Ich werde gesprochen haben. (Konuşmuş olacağım.) / Ich werde gefahren sein. (Gitmiş olacağım.)
+
+3 Modal Fiil Çekimleri
+Modal fiiller (Modalverben), cümleye yetenek, zorunluluk, izin, istek, olasılık gibi özel anlamlar katarlar. Genellikle mastar halindeki başka bir ana fiille birlikte kullanılırlar ve bu ana fiil cümlenin en sonuna gider. Modal fiillerin Präsens (şimdiki zaman) çekimleri genellikle düzensizdir.
+
+Almancadaki temel modal fiiller şunlardır:
+
+müssen: zorunda olmak, -meli/-malı (içsel veya dışsal zorunluluk)
+können: yapabilmek, -ebilmek (yetenek, olasılık, bazen izin)
+dürfen: izinli olmak, -ebilmek (izin, yasaklama [nicht dürfen])
+sollen: gerekli olmak, -meli/-malı (bir başkasının isteği, tavsiye, görev)
+wollen: istemek (kesin ve güçlü irade)
+mögen: hoşlanmak, sevmek
+möchten: istemek (daha kibar bir istek, mögen fiilinin Konjunktiv II halidir ve yaygın olarak Präsens gibi kullanılır. Präteritum formu yoktur, geçmiş zamanda istek için wollte kullanılır.)
+a) Modal Fiil Präsens
+Modal fiilin kendisi özneye göre çekimlenir, ana fiil ise mastar (Infinitiv) halde cümlenin sonunda yer alır. Tekil şahıslarda (ich, du, er/sie/es) kök ünlüsü çoğunlukla değişir (sollen hariç). ich ve er/sie/es çekimleri aynıdır.
+
+Şahıs	können	müssen	dürfen	wollen	sollen	mögen	möchten*
+ich	kann	muss	darf	will	soll	mag	möchte
+du	kannst	musst	darfst	willst	sollst	magst	möchtest
+er/sie/es	kann	muss	darf	will	soll	mag	möchte
+wir	können	müssen	dürfen	wollen	sollen	mögen	möchten
+ihr	könnt	müsst	dürft	wollt	sollt	mögt	möchtet
+sie/Sie	können	müssen	dürfen	wollen	sollen	mögen	möchten
+möchten, mögen fiilinin Konjunktiv II formudur ancak şimdiki zamanda bir istek belirtmek için yaygın olarak kullanılır.
+
+Örnek Cümleler (Präsens):
+
+Ich kann Deutsch sprechen. (Almanca konuşabilirim.)
+Du musst jetzt gehen. (Şimdi gitmek zorundasın.)
+Er darf heute Kino gehen. (O bugün sinemaya gidebilir/gitmesine izin var.)
+Sie will ein Buch lesen. (O bir kitap okumak istiyor.)
+Wir sollen mehr Sport machen. (Daha fazla spor yapmalıyız. [örn: doktor tavsiyesi])
+Ich mag Schokolade. (Çikolata severim.)
+Ich möchte einen Kaffee trinken. (Bir kahve içmek istiyorum.)
+b) Modal Fiil Präteritum
+Modal fiilin kökündeki umlaut (ä, ö, ü) (varsa) kalkar (können -> konnte, müssen -> musste, dürfen -> durfte). Düzenli fiillerin Präteritum eklerini alırlar (-te, -test, -te, -ten, -tet, -ten). Ana fiil yine mastar halde cümlenin sonunda kalır. ich ve er/sie/es çekimleri aynıdır.
+
+💡 Önemli Not: Almancada geçmiş zaman anlatımlarında, özellikle konuşma dilinde, yardımcı fiiller (sein, haben) ve modal fiiller için Perfekt yerine Präteritum kullanımı daha yaygındır.
+
+Şahıs	können	müssen	dürfen	wollen	sollen
+ich	konnte	musste	durfte	wollte	sollte
+du	konntest	musstest	durftest	wolltest	solltest
+er/sie/es	konnte	musste	durfte	wollte	sollte
+wir	konnten	mussten	durften	wollten	sollten
+ihr	konntet	musstet	durftet	wolltet	solltet
+sie/Sie	konnten	mussten	durften	wollten	sollten
+Not: mögen fiilinin Präteritum’u mochte şeklindedir. Ancak möchten (istemek) anlamında geçmiş zaman için wollte kullanılır.
+
+Gestern wollte ich ein Bier trinken. (Dün bir bira içmek istedim.)
+Als Kind mochte ich keinen Spinat. (Çocukken ıspanak sevmezdim.)
+Örnek Cümleler (Präteritum):
+
+Ich musste gestern viel arbeiten. (Dün çok çalışmak zorundaydım.)
+Als Kind konnte ich jeden Tag ins Kino gehen. (Çocukken her gün sinemaya gidebiliyordum.)
+Wir durften keinen Alkohol trinken. (Alkol içmemize izin yoktu.)
+Sie wollte keine Kinder. (O çocuk istemiyordu.)
+Er sollte Medizin studieren (hat sein Vater gesagt). (Tıp okuması gerekiyordu (babası öyle demişti).)
+c) Modal Fiil Perfekt
+Modal fiillerin Perfekt zamanı iki farklı şekilde kurulur:
+
+1. Modal Fiil + Ana Fiil (Çift Mastar / Doppelinfinitiv): Eğer cümlede modal fiil ile birlikte mastar halinde bir ana fiil varsa, Perfekt yardımcı fiil haben ile kurulur ve modal fiil de mastar halinde cümlenin en sonunda yer alır. Ana fiil, modal fiilden hemen önce gelir. Yapı: haben (çekimli) + Ana Fiil (Mastar) + Modal Fiil (Mastar)
+
+Ich habe Deutsch sprechen können. (Almanca konuşabildim.)
+Du hast früh aufstehen müssen. (Erken kalkmak zorunda kaldın.)
+Er hat uns nicht sehen wollen. (Bizi görmek istemedi.)
+Wir haben nicht ins Kino gehen dürfen. (Sinemaya gitmemize izin verilmedi.)
+Ihr habt das machen sollen. (Bunu yapmanız gerekirdi.)
+2. Modal Fiil Tek Başına (Ana Fiil Yoksa): Eğer modal fiil cümlede tek başına ana fiil görevindeyse (yani başka bir mastar fiil yoksa), Perfekt normal şekilde haben yardımcı fiili ve modal fiilin Partizip II formu (ge- + kök + -t) ile yapılır. Yapı: haben (çekimli) + Modal Fiil (Partizip II)
+
+Ich habe das nicht gekonnt. (Bunu yapamadım.)
+Wir haben das nicht gewollt. (Bunu istemedik.)
+Er hat das gemusst. (Bunu yapmak zorundaydı.)
+Sie hat das nicht gedurft. (Buna izni yoktu.)
+Du hast das gesollt. (Bunu yapman gerekirdi.)
+Ich habe dich schon immer gemocht. (Seni her zaman sevdim.)
+Not: Konuşma dilinde modal fiillerin geçmiş zamanı için genellikle Präteritum tercih edilir. Perfekt formu daha çok yazı dilinde veya belirli vurgular için kullanılır.
+
+d) Modal Fiil Plusquamperfekt
+Perfekt’teki yapıya benzer, sadece yardımcı fiil haben yerine onun Präteritum formu olan hatten çekimlenir.
+
+Modal Fiil + Ana Fiil: Yapı: hatten (çekimli) + Ana Fiil (Mastar) + Modal Fiil (Mastar)
+
+Ich hatte Deutsch sprechen können. (Almanca konuşabilmiştim.)
+Du hattest früh aufstehen müssen. (Erken kalkmak zorunda kalmıştın.)
+Modal Fiil Tek Başına: Yapı: hatten (çekimli) + Modal Fiil (Partizip II)
+
+Ich hatte das nicht gekonnt. (Bunu yapamamıştım.)
+e) Modal Fiil Futur I
+Yardımcı fiil werden özneye göre çekimlenir. Ana fiil ve modal fiil, her ikisi de mastar halde cümlenin sonuna gider. Modal fiil en sonda yer alır.
+Yapı: werden (çekimli) + Ana Fiil (Mastar) + Modal Fiil (Mastar)
+
+Ich werde Deutsch sprechen können. (Almanca konuşabileceğim.)
+Du wirst früh aufstehen müssen. (Erken kalkmak zorunda kalacaksın.)
+Er wird uns nicht sehen wollen. (Bizi görmek istemeyecek.)
+f) Modal Fiil Futur II
+Bu zaman kipi günlük dilde ve özellikle modal fiillerle birlikte çok nadiren kullanılır. Genellikle bir varsayımı ifade eder.
+
+Modal Fiil + Ana Fiil ile (Çok Nadir):
+Yapı: werden (çekimli) + Ana Fiil (Mastar) + Modal Fiil (Mastar) + haben
+Örnek: Er wird die Prüfung bestanden haben können. (Sınavı geçmiş olabilmiş olacak.) (Bu yapı çok karmaşıktır ve genellikle kaçınılır.)
+
+Modal Fiil Tek Başına (Daha yaygın, yine de nadir):
+Yapı: werden (çekimli) + Modal Fiil (Partizip II) + haben
+Örnek: Er wird das gekonnt haben. (Bunu yapabilmiş olacaktır / Muhtemelen yapabilmiştir.)
+
+Genel Kullanım İpucu (Geçmiş Zamanlar İçin):
+Görsel 2’de belirtildiği gibi:
+
+Çoğu fiil geçmiş zamanda Perfekt ile kullanılır.
+
+Yardımcı fiiller (sein, haben) ve modal fiiller ise geçmiş zamanda (özellikle konuşma dilinde) daha sık Präteritum ile ifade edilir. Bu, A2 seviyesi için önemli ve pratik bir bilgidir.
+
+Gestern war ich müde. (Sein -> Präteritum)
+Ich hatte keine Zeit. (Haben -> Präteritum)
+Ich konnte nicht kommen. (Modalverb -> Präteritum)
+Ich habe gestern Fußball gespielt. (Normales Verb -> Perfekt)
+
+4 Ayrılabilen Fiil Çekimleri
+Bu fiiller, bir önek (Präfix) ve bir ana fiilden oluşur. Belirli zamanlarda ve cümle türlerinde önek fiilden ayrılarak cümlenin sonuna gider. Almanca öğrenirken ayrılabilen fiiller (Trennbare Verben) konusunu anlamak, cümle yapısını doğru kurmanız için oldukça önemli.
+
+Yaygın Ayrılabilen Önekler: ab-, an-, auf-, aus-, bei-, ein-, fest-, her-, hin-, los-, mit-, nach-, statt-, teil-, um-, vor-, weg-, weiter-, zu-, zurück-. Daha kapsamlı bir liste ve detaylı bilgi için Ayrılabilen Fiiller Listesi sayfamıza göz atabilirsiniz.
+
+Örnek Ayrılabilen Fiiller:
+
+anrufen (telefon etmek) (Ana fiil: rufen – düzensiz)
+aufstehen (ayağa kalkmak, uyanmak) (Ana fiil: stehen – düzensiz, Perfekt’te sein ile)
+einkaufen (alışveriş yapmak) (Ana fiil: kaufen – düzenli)
+a) Präsens Ayrılabilen Fiil Çekimleri
+Präsens’te, ayrılabilen fiilin öneki ana cümlede daima cümlenin sonuna gider. Ana fiil kısmı ise özneye göre çekimlenerek cümlenin başında (soru cümlesinde) veya öznenin ardından (düz cümlede) yer alır.
+
+Örnekler:
+
+anrufen: Ich rufe dich später an. (Seni sonra ararım.)
+Du rufst mich an. Er ruft sie an.
+aufstehen: Wir stehen um 7 Uhr auf. (Saat 7’de kalkarız.)
+Stehst du früh auf? (Erken mi kalkarsın? – Soru cümlesinde de önek sonda)
+einkaufen: Sie kauft im Supermarkt ein. (Süpermarkette alışveriş yapıyor.)
+Yan Cümlede: Önek fiilden ayrılmaz; fiil, önekiyle birlikte çekimli halde yan cümlenin en sonunda yer alır.
+
+Ich weiß, dass er dich später anruft. (Onun seni sonra arayacağını biliyorum.)
+
+b) Präteritum Ayrılabilen Fiil Çekimleri
+Präteritum’da da, tıpkı Präsens’te olduğu gibi, ayrılabilen fiilin öneki ana cümlede cümlenin sonuna gider. Ana fiil kısmı ise Präteritum kurallarına göre çekimlenir.
+
+Örnekler:
+
+anrufen: Ich rief dich gestern an. (Seni dün aradım.)
+Du riefst mich an. Er rief sie an.
+aufstehen: Wir standen früh auf. (Erken kalktık.)
+einkaufen: Sie kaufte Obst ein. (Meyve satın aldı.)
+Yan Cümlede: Önek fiilden ayrılmaz; fiil, önekiyle birlikte Präteritum’a göre çekimli halde yan cümlenin en sonunda yer alır.
+
+Er sagte, dass er dich gestern anrief. (Seni dün aradığını söyledi.)
+
+c) Perfekt Ayrılabilen Fiil Çekimleri
+düzenli düzensiz geçmiş zaman çekim ekleri
+Perfekt zamanda ayrılabilen fiillerin Partizip II formu özel bir yapıya sahiptir: ayrılabilen önek + ge- + ana fiil kökü + -t (düzenli fiillerde) / -en (düzensiz fiillerde). Yardımcı fiil (haben veya sein) özneye göre çekimlenir ve cümlenin ikinci pozisyonunda yer alırken, bu özel Partizip II formu cümlenin en sonuna gider. Hangi fiilin hangi yardımcı fiili aldığı ve Partizip II oluşumu hakkında detaylı bilgi için Perfekt Zaman Konusu sayfamızı inceleyebilirsiniz.
+
+Örnekler:
+
+anrufen (Partizip II: angerufen, yardımcı fiil: haben): Ich habe dich angerufen. (Seni aradım.)
+aufstehen (Partizip II: aufgestanden, yardımcı fiil: sein): Wir sind früh aufgestanden. (Erken kalktık.)
+einkaufen (Partizip II: eingekauft, yardımcı fiil: haben): Sie hat im Supermarkt eingekauft. (Süpermarkette alışveriş yaptı.)
+d) Plusquamperfekt Ayrılabilen Fiil Çekimleri
+Plusquamperfekt zamanda, Perfekt’teki Partizip II formu (ayrılabilen önek + ge- + kök + son ek) kullanılır. Tek fark, yardımcı fiilin (haben veya sein) Präteritum formunda (hatte veya war) çekimlenmesidir.
+
+Örnekler:
+
+anrufen: Ich hatte dich angerufen. (Seni aramıştım.)
+aufstehen: Wir waren früh aufgestanden. (Erken kalkmıştık.)
+einkaufen: Sie hatte schon eingekauft. (Çoktan alışveriş yapmıştı.)
+e) Futur I Ayrılabilen Fiil Çekimleri
+Futur I’de yardımcı fiil werden özneye göre çekimlenir. Ayrılabilen fiil ise önekiyle birleşik halde mastar (Infinitiv) olarak cümlenin en sonunda yer alır. Önek bu durumda fiilden ayrılmaz.
+
+Örnekler:
+
+anrufen: Ich werde dich morgen anrufen. (Seni yarın arayacağım.)
+aufstehen: Wir werden spät aufstehen. (Geç kalkacağız.)
+einkaufen: Sie wird heute Nachmittag einkaufen. (Bugün öğleden sonra alışveriş yapacak.)
+f) Futur II Ayrılabilen Fiil Çekimleri
+Futur II’de yardımcı fiil werden yine özneye göre çekimlenir. Cümlenin sonunda ise ayrılabilen fiilin Perfekt’teki Partizip II formu ve bu Partizip II’nin ait olduğu yardımcı fiilin (haben veya sein) mastar hali yer alır.
+
+Yapı: werden (çekimli) + Partizip II (ayrılabilen fiilin) + haben/sein (mastar)
+
+Örnekler:
+
+anrufen: Ich werde dich bis dahin angerufen haben. (O zamana kadar seni aramış olacağım.)
+aufstehen: Wir werden dann schon aufgestanden sein. (O zaman çoktan kalkmış olacağız.)
+einkaufen: Sie wird bis Mittag eingekauft haben. (Öğlene kadar alışveriş yapmış olacak.)
+
+5 Ayrılamayan Fiil Çekimleri
+Ayrılmayan fiiller (Untrennbare Verben), be-, ge-, er-, ver-, zer-, ent-, emp-, miss- gibi ayrılmayan önekler alan fiillerdir. Bu önekler fiilden ayrılmaz ve fiil çekimlenirken önek fiile bağlı kalır.
+
+Ayrılmayan Fiillerin Özellikleri:
+
+Ayrılmayan Önekler: be-, ge-, er-, ver-, zer-, ent-, emp-, miss-
+Önek Ayrılmaz: Çekim sırasında önek fiilden ayrılmaz, fiile bağlı kalır.
+Partizip II Oluşumu: Partizip II formunda “ge-” öneki kullanılmaz. Partizip II formu: “öneki + fiil kökü + -t/en”.
+Ayrılmayan fiiller, düzenli veya düzensiz fiil çekim kurallarına göre çekilirler. Temel fark, Partizip II formunda “ge-” önekinin kullanılmamasıdır.
+
+Almanca Fiil Çekimlerinde En Sık Yapılan 6 Hata
+Almanca öğrenenler fiil çekimlerinde sık sık aynı hataları yapar. Bu hataları ve çözümlerini önceden bilmek, öğrenme sürecinizi hızlandırır:
+
+1. “du” çekiminde –st yerine –t kullanma hatası
+❌ Yanlış: du heißst, du tanzst
+✅ Doğru: du heißt, du tanzt
+
+Kural: Kök -s, -ss, -ß, -x, -z ile bitiyorsa “du” için -st değil sadece -t eklenir.
+
+💡 Neden böyle? “heißt” ifadesindeki ß harfi aslında ss demektir. Almancada “-sst” gibi üç ünsüz yan yana gelmez, telaffuzu zorlaştırır. Bu yüzden bir “s” düşer.
+
+2. Kaynaştırma –e harfini unutma
+❌ Yanlış: du arbeitst, er arbeitt
+✅ Doğru: du arbeitest, er arbeitet
+
+Kural: Kök -t, -d, -chn, -ffn, -tm ile bitiyorsa “du/er-sie-es/ihr” için köke -e- eklenir.
+
+💡 Neden böyle? “arbeitt” veya “arbeitst” telaffuzu imkansıza yakındır. Kaynaştırma -e- sesi kolaylaştırır.
+
+3. Partizip II’de gereksiz “ge-” ekleme
+❌ Yanlış: gestudiert, geverstanden
+✅ Doğru: studiert, verstanden
+
+Kural: -ieren ile biten ve ayrılmayan önekli (be-, ge-, er-, ver-, zer-, ent-, emp-, miss-) fiiller ge– almaz.
+
+💡 Neden böyle? Bu önekler zaten vurgusuz heceledir. “ge-” de vurgusuz olduğundan, iki vurgusuz hece peş peşe gelmez.
+
+4. Ayrılabilen öneği yanlış yere koyma
+❌ Yanlış: Ich anrufe dich später.
+✅ Doğru: Ich rufe dich später an.
+
+Kural: Ana cümlede önek cümlenin sonuna gider. Yan cümlede ise fiile bitişik kalır: …, dass er mich anruft.
+
+💡 Neden böyle? Almancada ana cümlelerde fiil 2. pozisyonda, diğer fiil unsurları sonda olmalıdır. Yan cümlelerde ise fiil en sonda birleşik kalır.
+
+5. haben/sein yardımcı fiil seçimi hatası
+❌ Yanlış: Ich habe nach Berlin gereist.
+✅ Doğru: Ich bin nach Berlin gereist.
+
+Kural: Hareket/konum değişikliği bildiren fiiller + sein/bleiben/werden → sein ile. Diğerleri çoğunlukla haben ile.
+
+💡 Neden böyle? Hareket fiilleri bir yerden bir yere geçişi (durum değişikliğini) ifade eder. Bu “olmak” (sein) kavramıyla ilişkilidir, “sahip olmak” (haben) ile değil.
+
+6. Modal fiil Perfekt’te yanlış sıralama
+❌ Yanlış: Ich habe können sprechen.
+✅ Doğru: Ich habe sprechen können.
+
+Kural: Perfekt’te çift mastar yapısı: haben + Ana Fiil (mastar) + Modal (mastar, en sonda).
+
+Neden böyle? Modal fiil anlam olarak ana fiili yönetir, bu yüzden en sona yerleşir. Bu, Almanca cümle yapısının genel mantığıyla tutarlıdır.
+
+En Sık Kullanılan 20 Almanca Fiil
+Bu 20 fiil, Almancanın bel kemiğidir. Bunları adınız gibi bilmelisiniz.
+
+Kelimeler:
+
+sein (olmak)
+haben (sahip olmak)
+werden (olmak, dönüşmek, … hale gelmek)
+können (-ebilmek)
+müssen (zorunda olmak)
+wollen (istemek – niyet)
+machen (yapmak)
+gehen (gitmek)
+kommen (gelmek)
+sehen (görmek)
+essen (yemek yemek)
+trinken (içmek)
+schlafen (uyumak)
+kaufen (satın almak)
+geben (vermek)
+sagen (söylemek)
+wissen (bilmek)
+denken (düşünmek)
+nehmen (almak/seçmek)
+finden (bulmak; fikrinde olmak/sanmak)
+Örnek Cümleler:
+
+Ich bin müde. (Yorgunum.)
+Hast du Zeit? (Zamanın var mı?)
+Er wird Arzt. (O doktor olacak.)
+Ich kann Deutsch sprechen. (Almanca konuşabilirim.)
+Ich muss arbeiten. (Çalışmak zorundayım.)
+Ich will nach Hause gehen. (Eve gitmek istiyorum.)
+Was machst du heute? (Bugün ne yapıyorsun?)
+Wir gehen ins Kino. (Sinemaya gidiyoruz.)
+Woher kommst du? (Nerelisin? / Nereden geliyorsun?)
+Ich sehe dich. (Seni görüyorum.)
+Ich esse eine Pizza. (Bir pizza yiyorum.)
+Trinkst du Kaffee? (Kahve içer misin?)
+Das Baby schläft. (Bebek uyuyor.)
+Ich kaufe ein neues Auto. (Yeni bir araba alıyorum.)
+Gib mir bitte das Buch. (Lütfen kitabı bana ver.)
+Was hast du gesagt? (Ne dedin?)
+Ich weiß es nicht. (Bilmiyorum.)
+Ich denke an dich. (Seni düşünüyorum.)
+Ich nehme den Bus. (Otobüsü alıyorum.)
+Wie findest du Berlin? (Berlin’i nasıl buluyorsun?)
+Kritik Konu: Almanca Hareket ve Durum Fiilleri (Wohin? vs. Wo?)
+Almancada “koymak” ve “durmak” fiilleri Türkçeden farklıdır. Eşyanın dikey (ayakta) mi yoksa yatay (yatık) mı durduğu fiili değiştirir. Ayrıca, bir şeyi bir yere koyuyor musunuz (Hareket/Akkusativ) yoksa eşya orada duruyor mu (Durum/Dativ) ayrımı çok önemlidir.
+
+Kelimeler:
+
+stellen (dik koymak)
+stehen (dik durmak)
+legen (yatay koymak)
+liegen (yatay durmak)
+setzen (oturtmak)
+sitzen (oturmak)
+hängen (asmak – aksiyon)
+hängen (asılı olmak – durum)
+Örnek Cümleler:
+
+Ich stelle die Vase auf den Tisch. (Vazoyu masaya koyuyorum.)
+Die Vase steht auf dem Tisch. (Vazo masada duruyor.)
+Ich lege das Buch auf den Tisch. (Kitabı masanın üzerine koyuyorum.)
+Das Buch liegt auf dem Tisch. (Kitap masanın üzerinde duruyor.)
+Die Frau setzt das Baby auf den Stuhl. (Kadın bebeği sandalyeye oturtuyor.)
+Das Baby sitzt auf dem Stuhl. (Bebek sandalyede oturuyor.)
+Ich hänge das Bild an die Wand. (Resmi duvara asıyorum.)
+Das Bild hängt an der Wand. (Resim duvarda asılı duruyor.)
+💡 Not: Hareket bildirenler (stellen, legen, setzen) düzenli; Durum bildirenler (stehen, liegen, sitzen) düzensiz fiillerdir.
+
+⚠️ Dikkat: “Yalancı Eşdeğerler”
+Almanca öğrenenlerin en sık yaptığı hatalardan kaçının! Bazı kelimeler İngilizceye benzer ama anlamları tamamen farklıdır.
+
+🚨 bekommen ≠ become (olmak)
+Doğrusu: bekommen = almak, edinmek, elde etmek demektir.
+Ich bekomme ein Geschenk. (Bir hediye alıyorum/ediniyorum.)
+(İngilizcedeki ‘become’ Almancada ‘werden’dir.)
+🚨 Wer? ≠ Where? (Nerede?)
+Doğrusu: Wer = Kim? demektir.
+(İngilizcedeki ‘Where’ Almancada ‘Wo’dur.)
+Sık Kullanılan Diğer Almanca Fiiller (21-100)
+Günlük hayatta karşılaşacağınız diğer önemli fiiller ve doğru kullanım örnekleri:
+
+Kelimeler:
+
+bleiben (kalmak)
+lassen (bırakmak, izin vermek)
+liegen (yatmak/durmak – yatay)
+heißen (adı … olmak)
+tun (yapmak – eylem)
+halten (tutmak, durmak)
+nennen (adlandırmak, isimlendirmek)
+mögen (sevmek, beğenmek)
+zeigen (göstermek)
+führen (yönetmek, götürmek)
+sprechen (konuşmak)
+bringen (getirmek)
+leben (yaşamak – hayat)
+fahren (sürmek, gitmek – araçla)
+meinen (kastetmek, fikrinde olmak)
+fragen (sormak)
+kennen (tanımak – kişi/yer, bilmek/aşina olmak)
+gelten (geçerli olmak)
+stellen (koymak – dikey)
+spielen (oynamak)
+arbeiten (çalışmak)
+brauchen (ihtiyacı olmak)
+folgen (takip etmek)
+lernen (öğrenmek)
+bestehen (geçmek – sınav / oluşmak)
+verstehen (anlamak)
+sich setzen (oturmak – eylem)
+sitzen (oturmak – durum)
+bekommen (almak, edinmek, elde etmek)
+beginnen (başlamak)
+erzählen (anlatmak)
+versuchen (denemek)
+schreiben (yazmak)
+laufen (yürümek / koşmak)
+erklären (açıklamak)
+entsprechen (uymak, karşılık gelmek)
+ziehen (çekmek / taşınmak)
+scheinen (parlamak / görünmek)
+fallen (düşmek)
+gehören (ait olmak)
+entstehen (oluşmak, meydana gelmek)
+erhalten (almak – *bekommen* fiilinden daha resmi)
+treffen (buluşmak / rastlamak)
+suchen (aramak)
+legen (koymak – yatay)
+vorstellen (tanıtmak / hayal etmek)
+handeln (davranmak / ticaret yapmak)
+erreichen (ulaşmak)
+tragen (taşımak / giymek)
+schaffen (başarmak / yaratmak)
+lesen (okumak)
+verlieren (kaybetmek)
+darstellen (tasvir etmek / canlandırmak)
+erkennen (tanımak – fark etmek)
+entwickeln (geliştirmek)
+reden (konuşmak – sohbet etmek/laflamak)
+aussehen (görünmek)
+erscheinen (görünmek / yayınlanmak)
+bilden (oluşturmak / eğitmek)
+anfangen (başlamak)
+erwarten (beklemek – ummak)
+wohnen (ikamet etmek)
+betreffen (ilgilendirmek)
+warten (beklemek – durmak)
+vergehen (geçmek – zaman)
+helfen (yardım etmek)
+gewinnen (kazanmak – maç/şans)
+schließen (kapatmak)
+fühlen (hissetmek)
+bieten (sunmak)
+interessieren (ilgilendirmek)
+erinnern (hatırlamak/hatırlatmak)
+ergeben (sonuç vermek)
+anbieten (teklif etmek)
+studieren (üniversite okumak)
+verbinden (bağlamak)
+ansehen (bakmak / izlemek)
+fehlen (eksik olmak / özlemek)
+bedeuten (anlamına gelmek)
+vergleichen (karşılaştırmak)
+Örnek Cümleler:
+
+Ich bleibe heute zu Hause. (Bugün evde kalıyorum.)
+Lass mich in Ruhe! (Beni rahat bırak!)
+Das Buch liegt auf dem Tisch. (Kitap masada duruyor.)
+Wie heißt du? (Adın ne?)
+Es tut mir leid. (Üzgünüm.)
+Der Bus hält hier. (Otobüs burada duruyor.)
+Nenn mir drei Beispiele! (Bana üç örnek söyle!)
+Ich mag Schokolade. (Çikolata severim.)
+Zeig mir bitte den Weg. (Lütfen bana yolu göster.)
+Wohin führt dieser Weg? (Bu yol nereye gidiyor?)
+Sprichst du Deutsch? (Almanca konuşuyor musun?)
+Bring mir bitte ein Wasser. (Bana bir su getir lütfen.)
+Wir leben in der Türkei. (Türkiye’de yaşıyoruz.)
+Ich fahre zur Arbeit. (İşe [arabayla/araçla] gidiyorum.)
+Was meinst du damit? (Bununla neyi kastediyorsun?)
+Darf ich dich etwas fragen? (Sana bir şey sorabilir miyim?)
+Kennst du ihn? (Onu tanıyor musun?)
+Das Ticket gilt nicht mehr. (Bilet artık geçerli değil.)
+Stell die Flasche auf den Tisch. (Şişeyi masaya koy.)
+Die Kinder spielen im Garten. (Çocuklar bahçede oynuyor.)
+Er arbeitet bei Siemens. (O Siemens’te çalışıyor.)
+Ich brauche Hilfe. (Yardıma ihtiyacım var.)
+Folgen Sie mir bitte. (Lütfen beni takip edin.)
+Wir lernen Deutsch. (Almanca öğreniyoruz.)
+Ich habe die Prüfung bestanden. (Sınavı geçtim.)
+Ich verstehe dich. (Seni anlıyorum.)
+Setz dich doch! (Otursana!) (Not: Hareket bildirir)
+Er sitzt auf dem Stuhl. (O sandalyede oturuyor.) (Not: Durum bildirir)
+Hast du meine E-Mail bekommen? (E-postamı aldın mı?)
+Der Kurs beginnt morgen. (Kurs yarın başlıyor.)
+Erzähl mir alles! (Bana her şeyi anlat!)
+Ich versuche es. (Deniyorum.)
+Schreib mir eine Nachricht. (Bana bir mesaj yaz.)
+Wir laufen nach Hause. (Eve yürüyoruz.)
+Kannst du das erklären? (Bunu açıklayabilir misin?)
+Das entspricht der Wahrheit. (Bu gerçeğe uyuyor.)
+Wir ziehen nach Berlin. (Berlin’e taşınıyoruz.)
+Die Sonne scheint. (Güneş parlıyor.)
+Das Glas fällt auf den Boden. (Bardak yere düşüyor.)
+Wem gehört das Auto? (Bu araba kime ait?)
+Hier entsteht ein neues Haus. (Burada yeni bir ev yapılıyor.)
+Sie erhalten eine Bestätigung. (Bir onay alacaksınız.)
+Ich treffe meine Freunde. (Arkadaşlarımla buluşuyorum.)
+Was suchst du? (Ne arıyorsun?)
+Leg das Handy weg. (Telefonu kenara koy.)
+Darf ich mich vorstellen? (Kendimi tanıtabilir miyim?)
+Er handelt klug. (O akıllıca davranıyor.)
+Wann kann ich dich erreichen? (Sana ne zaman ulaşabilirim?)
+Sie trägt eine Brille. (O gözlük takıyor.)
+Wir schaffen das! (Bunu başaracağız!)
+Ich lese gerne Bücher. (Kitap okumayı severim.)
+Ich habe meinen Job verloren. (İşimi kaybettim.)
+Das stellt ein Problem dar. (Bu bir sorun teşkil ediyor.)
+Ich habe dich sofort erkannt. (Seni hemen tanıdım.)
+Die Firma entwickelt Software. (Firma yazılım geliştiriyor.)
+Wir müssen reden. (Konuşmalıyız.)
+Du siehst müde aus. (Yorgun görünüyorsun.)
+Das Buch erscheint bald. (Kitap yakında çıkıyor.)
+Wir bilden einen Kreis. (Bir daire oluşturuyoruz.)
+Wann fängst du an? (Ne zaman başlıyorsun?)
+Ich erwarte Besuch. (Misafir bekliyorum.)
+Wo wohnst du? (Nerede oturuyorsun?)
+Das betrifft uns alle. (Bu hepimizi ilgilendiriyor.)
+Warte auf mich! (Beni bekle!)
+Die Zeit vergeht schnell. (Zaman çabuk geçiyor.)
+Hilf mir bitte! (Lütfen bana yardım et!)
+Wir wollen gewinnen. (Kazanmak istiyoruz.)
+Der Laden schließt um 20 Uhr. (Dükkan saat 20.00’de kapanıyor.)
+Wie fühlst du dich? (Nasıl hissediyorsun?)
+Das Haus bietet viel Platz. (Ev çok alan sunuyor.)
+Fußball interessiert mich nicht. (Futbol ilgimi çekmiyor.)
+Ich erinnere mich an dich. (Seni hatırlıyorum.)
+Die Studie ergab nichts Neues. (Çalışma yeni bir sonuç vermedi.)
+Kann ich dir etwas anbieten? (Sana bir şey ikram edebilir miyim?)
+Er studiert in München. (O Münih’te okuyor.)
+Was verbindet euch? (Sizi birbirinize bağlayan ne?)
+Wir sehen uns den Film an. (Filmi izliyoruz.)
+Du fehlst mir. (Seni özlüyorum.)
+Was bedeutet dieses Wort? (Bu kelime ne anlama geliyor?)
+Vergleiche die Preise! (Fiyatları karşılaştır!)
+100 Ekstra Fiil: Kelime Hazinenizi İkiye Katlayın
+Temel fiilleri öğrendiniz. Şimdi Almancanızı bir üst seviyeye taşıyacak, günlük yaşamı, duyguları ve iş hayatını kapsayan 100 yeni fiil ile devam edelim.
+
+Almanca İletişim ve Düşünce Fiilleri
+antworten (cevap vermek)
+beschreiben (tasvir etmek)
+diskutieren (tartışmak)
+entschuldigen (özür dilemek)
+mitteilen (bildirmek, haber vermek)
+glauben (inanmak / sanmak)
+hoffen (ummak)
+lachen (gülmek)
+lächeln (gülümsemek)
+planen (planlamak)
+raten (tavsiye etmek / tahmin etmek)
+streiten (kavga etmek)
+telefonieren (telefonlaşmak)
+träumen (hayal etmek / rüya görmek)
+vergessen (unutmak)
+versprechen (söz vermek)
+vorschlagen (önermek)
+wiederholen (tekrarlamak)
+wundern (şaşırmak)
+zweifeln (şüphe etmek)
+Örnek Cümleler:
+
+Bitte antworte mir. (Lütfen bana cevap ver.)
+Kannst du den Weg beschreiben? (Yolu tarif edebilir misin?)
+Wir diskutieren über Politik. (Siyaset hakkında tartışıyoruz.)
+Ich entschuldige mich. (Özür dilerim.)
+Teil mir bitte deine Adresse mit. (Lütfen adresini bana bildir.)
+Ich glaube dir. (Sana inanıyorum.)
+Ich hoffe, es geht dir gut. (Umarım iyisindir.)
+Wir lachen viel zusammen. (Birlikte çok gülüyoruz.)
+Sie lächelt immer. (O her zaman gülümsüyor.)
+Wir planen eine Reise. (Bir seyahat planlıyoruz.)
+Rate mal! (Tahmin et!)
+Hört auf zu streiten! (Kavga etmeyi bırakın!)
+Ich telefoniere mit meiner Mutter. (Annemle telefonla konuşuyorum.)
+Ich träume von einem Haus. (Bir ev hayal ediyorum.)
+Vergiss mich nicht! (Beni unutma!)
+Ich verspreche es dir. (Sana söz veriyorum.)
+Was schlägst du vor? (Ne öneriyorsun?)
+Können Sie das wiederholen? (Bunu tekrarlayabilir misiniz?)
+Mich wundert das nicht. (Bu beni şaşırtmıyor.)
+Ich zweifle daran. (Bundan şüphe ediyorum.)
+Günlük Rutin ve Ev İşleri
+aufstehen (uyanıp kalkmak)
+aufwachen (uyanmak – gözünü açmak)
+anziehen (giyinmek)
+ausziehen (soyunmak / taşınmak)
+duschen (duş almak)
+waschen (yıkamak)
+putzen (temizlemek)
+aufräumen (toplamak/düzenlemek)
+kochen (pişirmek)
+backen (fırında pişirmek)
+braten (kızartmak)
+schneiden (kesmek)
+frühstücken (kahvaltı etmek)
+probieren (denemek – tadına bakmak)
+benutzen (kullanmak)
+verwenden (kullanmak – *benutzen* ile eş anlamlı)
+funktionieren (çalışmak – işlemek, fonksiyonel olmak)
+reparieren (tamir etmek)
+öffnen (açmak – kapı/pencere/kutu)
+feiern (kutlamak)
+Örnek Cümleler:
+
+Ich stehe um 7 Uhr auf. (Saat 7’de kalkıyorum.)
+Ich wache früh auf. (Erken uyanıyorum.)
+Zieh deine Jacke an. (Ceketini giy.)
+Zieh die Schuhe aus. (Ayakkabılarını çıkar.)
+Ich dusche jeden Morgen. (Her sabah duş alırım.)
+Ich wasche meine Hände. (Ellerimi yıkıyorum.)
+Wir putzen das Haus. (Evi temizliyoruz.)
+Räum dein Zimmer auf! (Odanı topla!)
+Was kochst du heute? (Bugün ne pişiriyorsun?)
+Wir backen einen Kuchen. (Bir kek yapıyoruz.)
+Ich brate das Fleisch. (Eti kızartıyorum.)
+Aua, ich habe mich geschnitten. (Ah, kendimi kestim.)
+Wir frühstücken zusammen. (Birlikte kahvaltı yapıyoruz.)
+Probier mal! (Tadına bak!)
+Darf ich dein Handy benutzen? (Telefonunu kullanabilir miyim?)
+Welches Öl verwendest du? (Hangi yağı kullanıyorsun?)
+Das Handy funktioniert nicht. (Telefon çalışmıyor.)
+Kannst du das reparieren? (Bunu tamir edebilir misin?)
+Öffne das Fenster bitte. (Lütfen pencereyi aç.) [Fiziksel Açmak]
+Wir feiern meinen Geburtstag. (Doğum günümü kutluyoruz.)
+Seyahat ve Hareket Fiilleri
+abfahren (hareket etmek – araç)
+abfliegen (uçakla kalkmak)
+ankommen (varmak)
+aussteigen (inmek – araçtan)
+einsteigen (binmek – araca)
+umsteigen (aktarma yapmak)
+besuchen (ziyaret etmek)
+besichtigen (gezip görmek – turistik)
+fliegen (uçmak)
+reisen (seyahat etmek)
+passieren (olmak / meydana gelmek)
+rennen (hızlı koşmak / yarışmak)
+springen (zıplamak)
+schwimmen (yüzmek)
+tanzen (dans etmek)
+wandern (doğa yürüyüşü yapmak)
+spazieren (gezmek – yürüyüş)
+parken (park etmek)
+abbiegen (dönmek/sapmak)
+überqueren (karşıya geçmek)
+Örnek Cümleler:
+
+Der Zug fährt gleich ab. (Tren şimdi kalkıyor.)
+Das Flugzeug fliegt um 9 Uhr ab. (Uçak saat 9’da kalkıyor.)
+Wann kommst du an? (Ne zaman varıyorsun?)
+Wir müssen hier aussteigen. (Burada inmeliyiz.)
+Steig schnell ein! (Çabuk bin!)
+Wir müssen in Köln umsteigen. (Köln’de aktarma yapmalıyız.)
+Besuch mich mal! (Beni ziyaret et!)
+Wir besichtigen das Museum. (Müzeyi geziyoruz.)
+Wir fliegen nach Deutschland. (Almanya’ya uçuyoruz.)
+Ich reise gerne. (Seyahat etmeyi severim.)
+Was ist passiert? (Ne oldu?)
+Er rennt sehr schnell. (O çok hızlı koşuyor.)
+Das Kind springt ins Wasser. (Çocuk suya atlıyor.)
+Kannst du schwimmen? (Yüzebilir misin?)
+Wollen wir tanzen? (Dans edelim mi?)
+Wir wandern in den Alpen. (Alplerde doğa yürüyüşü yapıyoruz.)
+Wir gehen im Park spazieren. (Parkta yürüyüşe çıkıyoruz.)
+Hier darf man nicht parken. (Buraya park edilmez.)
+Biegen Sie links ab. (Sola dönün.)
+Wir überqueren die Straße. (Yolu geçiyoruz.)
+Alışveriş ve Para Fiilleri
+bezahlen (ödemek)
+kosten (fiyatı olmak)
+bestellen (sipariş etmek)
+verkaufen (satmak)
+sparen (biriktirmek / tasarruf etmek)
+leihen (ödünç vermek/almak)
+tauschen (değiştirmek / takas etmek)
+umtauschen (değiştirmek – mağazada iade)
+anbieten (teklif etmek)
+ausgeben (harcamak)
+verdienen (kazanmak – para/hak etmek)
+überweisen (havale etmek)
+abheben (para çekmek)
+schmecken (tadı … olmak / lezzetli gelmek)
+riechen (kokmak [genel], koklamak)
+auswählen (seçmek)
+anprobieren (denemek – kıyafet)
+passen (uymak – beden/zaman)
+stehen (yakışmak – kıyafet)
+wiegen (tartmak / ağırlığında olmak)
+Örnek Cümleler:
+
+Ich bezahle bar. (Nakit ödüyorum.)
+Was kostet das? (Bu ne kadar tutuyor?)
+Ich habe eine Pizza bestellt. (Bir pizza sipariş ettim.)
+Ich verkaufe mein Auto. (Arabamı satıyorum.)
+Ich spare für den Urlaub. (Tatil için biriktiriyorum.)
+Kannst du mir Geld leihen? (Bana borç para verebilir misin?)
+Wollen wir tauschen? (Değişelim mi?)
+Ich möchte das Kleid umtauschen. (Elbiseyi değiştirmek istiyorum.)
+Wir bieten auch Lieferservice an. (Teslimat servisi de sunuyoruz.)
+Er gibt viel Geld aus. (O çok para harcıyor.)
+Sie verdient gut. (O iyi kazanıyor.)
+Ich überweise das Geld. (Parayı havale ediyorum.)
+Ich muss Geld abheben. (Para çekmem lazım.)
+Das schmeckt gut. (Bunun tadı güzel.)
+Es riecht nach Kuchen. (Kek kokuyor.)
+Wählen Sie bitte aus. (Lütfen seçiminizi yapın.)
+Darf ich das anprobieren? (Bunu deneyebilir miyim?)
+Die Hose passt mir nicht. (Pantolon bana uymuyor.)
+Die Farbe steht dir gut. (Bu renk sana çok yakışıyor.)
+Wie viel wiegt das? (Bunun ağırlığı ne kadar?)
+Teknoloji, İş ve Soyut Kavramlar
+anrufen (aramak – telefonla)
+aufhören (bitmek / bırakmak)
+anfangen (başlamak – iş/mesai)
+öffnen (açmak – dosya/dükkan/hesap)
+schließen (kapatmak)
+drucken (yazdırmak)
+speichern (kaydetmek – dijital)
+senden (göndermek)
+empfangen (almak / karşılamak)
+teilnehmen (katılmak)
+üben (alıştırma yapmak)
+kennenlernen (tanışmak)
+bemerken (fark etmek)
+behalten (saklamak / tutmak)
+gefallen (hoşuna gitmek)
+lieben (sevmek – aşk)
+hassen (nefret etmek)
+vermissen (özlemek)
+vertrauen (güvenmek)
+verzeihen (affetmek)
+Örnek Cümleler:
+
+Ruf mich an! (Beni ara!)
+Hör auf damit! (Kes şunu!)
+Die Arbeit fängt um 8 Uhr an. (İş saat 8’de başlıyor.)
+Öffnen Sie das Buch / die Datei. (Kitabı/Dosyayı açın.) [Mecazi/Dijital]
+Die Tür schließt automatisch. (Kapı otomatik kapanıyor.)
+Ich muss das Dokument drucken. (Belgeyi yazdırmam lazım.)
+Hast du die Datei gespeichert? (Dosyayı kaydettin mi?)
+Ich sende dir eine E-Mail. (Sana bir e-posta gönderiyorum.)
+Ich habe die Nachricht empfangen. (Mesajı aldım.)
+Ich nehme am Kurs teil. (Kursa katılıyorum.)
+Wir müssen mehr üben. (Daha fazla alıştırma yapmalıyız.)
+Ich möchte dich kennenlernen. (Seninle tanışmak istiyorum.)
+Hast du das bemerkt? (Bunu fark ettin mi?)
+Du kannst das Buch behalten. (Kitabı tutabilirsin/sende kalabilir.)
+Das gefällt mir. (Bu hoşuma gidiyor.)
+Ich liebe dich. (Seni seviyorum.)
+Ich hasse Regen. (Yağmurdan nefret ederim.)
+Ich vermisse dich. (Seni özlüyorum.)
+Vertrau mir! (Bana güven!)
+Verzeih mir bitte. (Lütfen beni affet.)
+Sıra Sizde: Öğrendiklerinizi Test Edin
+Bakalım fiil ayrımlarını ne kadar iyi kavradınız? Cevabı görmek için soruların üzerine tıklayın.
+
+1. Ich ______ das Buch auf den Tisch. (legen / liegen?)
+2. Ich ______ Arzt. (werden / bekommen?)
+3. ______ du diesen Mann? (Wissen / Kennen?)
+4. Die Flasche ______ auf dem Tisch. (stehen / stellen?)
+5. Ich ______ eine E-Mail. (bekommen / werden?)
+
+Almanca Hem Akkusativ Hem Dativ Alan Fiiller | Kelimeler (Verben mit Akkusativ und Dativ)
+Almancada cümleler derinleştikçe, bazı fiillerin sahneye iki oyuncu birden davet ettiğini fark edeceksiniz: biri Akkusativ, diğeri Dativ. Bu fiiller, “birine bir şeyi vermek”, “birine bir şeyi açıklamak” gibi, eylemden doğrudan etkilenen bir nesnenin (-i hali) ve eylemin yöneldiği bir şahsın (-e hali) olduğu durumları anlatır. Bu konuyu anlamak, Almanca’da akıcı ve doğru cümleler kurmanın anahtarıdır.
+
+Bu rehbere dalmadan önce, Almanca’daki fiillerin nesnelerle nasıl farklı ilişkiler kurduğunu anlamak önemlidir.
+
+Sadece Nominativ ve Akkusativ gerektiren fiiller: Bu fiiller “kimi?” ve “neyi?” sorularına cevap verir. Örnek: “trinken” (içmek). Der Kellner trinkt einen Saft. (Garson bir meyve suyu içiyor.) Kim içiyor? Garson (Nominativ). Neyi içiyor? Bir meyve suyunu (Akkusativ).
+Hem Nominativ, hem Akkusativ, hem de Dativ gerektiren fiiller: Bu rehberin ana konusu olan bu fiiller, “kim?”, “kime?” ve “neyi?” sorularının üçüne birden cevap verir. Örnek: “schenken” (hediye etmek).
+Sadece Dativ gerektiren fiiller: Bu fiillerde eylemden doğrudan etkilenen bir “nesne” yoktur, eylemin yöneldiği bir “şahıs” vardır. Örnek: “helfen” (yardım etmek). Ich helfe dir. (Sana yardım ediyorum.) Kime yardım ediyorum? Sana (Dativ).
+Ne Akkusativ ne de Dativ gerektiren fiiller: Bu fiillerin bir nesneye ihtiyacı yoktur, sadece özne (Nominativ) ile kullanılırlar. Örnek: “lachen” (gülmek). Er lacht. (O gülüyor.)
+Sihirli Sorular: Wer? Wem? Was?
+nominativ, akkusativ ve dativ için örnek almanca cümle
+Bir cümlenin öğelerini doğru halde kullanmak için fiile sormanız gereken üç sihirli soru vardır. “schenken” (hediye etmek) fiiliyle bir örnek yapalım:
+
+Der Mann schenkt der Frau die Blumen.
+(Adam kadına çiçekleri hediye ediyor.)
+
+Wer schenkt? (Kim hediye ediyor?) → Der Mann. (Adam.) → Bu bizim öznemizdir ve her zaman Nominativ‘dir.
+Wem schenkt er? (Kime hediye ediyor?) → der Frau. (Kadına.) → Bu bizim dolaylı nesnemizdir ve her zaman Dativ‘dir.
+Was schenkt er? (Neyi hediye ediyor?) → die Blumen. (Çiçekleri.) → Bu bizim doğrudan nesnemizdir ve her zaman Akkusativ‘dir.
+Hem Akkusativ Hem de Dativ Alan Fiiller
+anbieten (önermek, sunmak)
+bestellen (sipariş vermek)
+bezahlen (ödemek)
+bringen (getirmek)
+empfehlen (tavsiye etmek)
+erklären (açıklamak)
+erzählen (anlatmak)
+geben (vermek)
+holen (almak, getirmek)
+kaufen (satın almak)
+kochen (yemek pişirmek)
+leihen (ödünç vermek/almak)
+liefern (teslim etmek)
+mitbringen (yanında getirmek)
+renovieren (yenilemek)
+reparieren (tamir etmek)
+reservieren (rezerve etmek)
+sagen (söylemek)
+schenken (hediye etmek)
+schicken (göndermek)
+schneiden (kesmek)
+schreiben (yazmak)
+servieren (servis yapmak)
+verkaufen (satmak)
+wünschen (dilemek)
+zeigen (göstermek)
+Örnek Cümleler
+Darf ich Ihnen einen Tee anbieten? (Size bir çay ikram edebilir miyim?)
+Er hat uns die Getränke bezahlt. (Bize içecekleri ödedi.)
+Er hat uns Kaffee bestellt. (Bize kahve sipariş etti.)
+Bitte bringen Sie mir einen Kaffee. (Lütfen bana bir kahve getirin.)
+Ich kann Ihnen ein Restaurant empfehlen. (Size bir restoran tavsiye edebilirim.)
+Können Sie mir das Problem erklären? (Bana sorunu açıklayabilir misiniz?)
+Meine Oma hat uns immer schöne Geschichten erzählt. (Büyükannem bize her zaman güzel hikayeler anlatırdı.)
+Bitte geben Sie mir die Rechnung. (Lütfen bana faturayı verin.)
+Er holt uns die Getränke. (Bize içecekleri alıyor.)
+Ich möchte meinem Sohn einen Laptop kaufen. (Oğluma bir dizüstü bilgisayar almak istiyorum.)
+Wer kocht uns heute das Mittagessen? (Bugün bize öğle yemeğini kim pişiriyor?)
+Sie hat ihm ein Buch geliehen. (Ona bir kitap ödünç verdi.)
+Die Firma liefert uns die Möbel am Freitag. (Firma bize mobilyaları Cuma günü teslim edecek.)
+Sie bringen ihm aus dem Urlaub ein Souvenir mit. (Ona tatilden bir hatıra getiriyorlar.)
+Wir renovieren unseren Freunden die Wohnung. (Arkadaşlarımızın dairesini yeniliyoruz.)
+Die Werkstatt kann uns das Auto erst nächste Woche reparieren. (Tamirhane arabayı ancak gelecek hafta tamir edebilir.)
+Bitte reservieren Sie uns einen Tisch für 20:00 Uhr. (Lütfen bize saat 20:00 için bir masa ayırtın.)
+Hast du ihm die Neuigkeit gesagt? (Ona haberi söyledin mi?)
+Sie schenkt ihrem Vater eine Krawatte. (Babasına bir kravat hediye ediyor.)
+Können Sie uns bitte Informationen schicken? (Bize lütfen bilgi gönderebilir misiniz?)
+Der Friseur hat ihr die Haare super geschnitten. (Berber onun saçını çok iyi kesti.)
+Sie schreibt ihm eine E-Mail. (Ona bir e-posta yazıyor.)
+Sie serviert ihren Gästen Kaffee und Kuchen. (Misafirlerine kahve ve pasta servis ediyor.)
+Er verkauft seinem kleinen Bruder seinen alten iPod. (Küçük kardeşine eski iPod’unu satıyor.)
+Ich wünsche dir viel Glück! (Sana bol şans diliyorum!)
+Die Frau zeigt ihnen die Sehenswürdigkeiten in der Stadt. (Kadın onlara şehirdeki turistik yerleri gösteriyor.)
+
+Akkusativ
+Almanca Akkusativ, cümlede fiilden doğrudan etkilenen kişi ya da şeyi gösteren hâldir. Türkçedeki ismin -i hâline en yakın yapıdır. Özellikle maskulin isimlerde artikel değişir: der → den, ein → einen, kein → keinen. Bu sayfada Akkusativ’i hangi sorularla bulacağınızı ve temel mantığını örneklerle göreceksiniz.
+
+Almancada isimlerin 4 hâli vardır ve Akkusativ bunlardan biridir:
+
+der Nominativ (ismin yalın hâli)
+der Akkusativ (belirtme hâli / ismin -i hâli)
+der Dativ (ismin -e hâline en yakın yapı)
+der Genitiv (tamlayan hâli)
+Bilmeniz gereken temel noktalar:
+
+Bir cümlede Akkusativ olup olmadığını çoğu zaman Akkusativ alan fiiller veya Akkusativ edatlar belirler.
+Kişiler için wen (kimi), nesneler için was (neyi/ne) sorusu yol gösterir.
+Yön bildiren bazı hareket yapılarında wohin (nereye) sorusu da Akkusativ’i gösterebilir.
+En kritik değişim maskulin yapılarda görülür: der/ein/kein → den/einen/keinen.
+Akkusativ’i bulurken en çok şu sorular işimize yarar:
+
+Almanca Akkusativ "Wen", "Was" ve "Wohin" Soruları İle Bulunur.
+Kişilere (insanlara) Wen? (kimi) sorusunu sorarız. Aldığınız cevap çoğu zaman Akkusativ olur.
+Nesnelere Was? (neyi/ne) sorusunu sorarız. Örneğin: Kitabı okuyorum, çiçeği alıyorum.
+Yön bildiren hareketlerde Wohin? (nereye) sorusu da önemlidir. Örneğin: kasabaya gidiyorum, parka gidiyorum gibi.
+Türkçede çoğu zaman “-i” ekiyle kurduğumuz bu ilişki, Almancada genellikle artikel değişimi ile görünür. Özellikle maskulin isimlerde der → den ve ein → einen dönüşümü temel mantığı kurar; das, die ve çoğu dişil/nötr yapı ise aynı kalır.
+
+Aşağıdaki artikeller tablosuna önce Nominativ, sonra Akkusativ satırı üzerinden bakın. Böylece hangi yapının değiştiğini ve hangisinin aynı kaldığını daha net görebilirsiniz.
+
+Almanca Artikeller Tablosu (der, die, das, ein, eine)
+Not: Yukarıdaki tabloyu referans olarak okuyun. Akkusativ’de en belirgin değişim maskulinde görülür: der → den, ein → einen, kein → keinen.
+
+die, das ve çoğul die ise temel örneklerde aynı kalır. Daha ayrıntılı tekrar için artikeller tablosuna bakabilirsiniz.
+
+Dativ
+Almanca yolculuğunuzda Dativ konusuna hoş geldiniz. Başta biraz karmaşık gelebilir, ama endişelenmeyin – adım adım, örneklerle ve pratik ipuçlarıyla kolayca öğreneceksiniz. Hazırsanız başlayalım!
+
+Almanca “Dativ” (Datif), “ismin -e hali” veya “Yönelme Hâli” anlamına gelir. Dativ aşağıdaki sorularla bulunur.
+
+Wem (kime) sorusu için Yönelme Hali (-e, -a) anlamına gelir. Hans’a, Ahmet’e, Aylin’e, Kübra’ya, Lina’ya gibi…
+Wo (nerede) sorusu için Bulunma Hali (-de, –da) anlamını verir. Örneğin: Evde, arabada, okulda gibi…
+Başka bir deyişle;
+
+İsmin -e hali anlamına gelmekte,
+Cümlede eylemin kime yapıldığını belirtmekte (yani fiilden etkilenen kişiyi veya nesneyi göstermekte),
+Ve artikellerin değişikliğiyle elde edilmektedir. Örneğin, Nominativ’i “der” artikel, Dativ halinde “dem” şeklini alır. Herhangi bir cümlede, Dativ’in olup olmamasını fiiller veya Dativ alan edatlar belirler. Ayrıca artikeller ile doğrudan bağlantılı bir konudur.
+Kelimeleri belirtme, yönelme, bulunma ve ayırma bakımından tanımlayan durumlara “isimin halleri” diyoruz ve Dativ de onlardan biri. İşte Almancada ismin 4 hali: ⬇️
+
+der Nominativ (ismin yalın hali / sözlüklerdeki görünen hali (normal hali)
+der Akkusativ (belirtme hali / ismin -i hali)
+Buradasınız: der Dativ (yönelme hali / ismin -e hali)
+der Genitiv (tamlayan durumu / ismin -in hali)
+
+Akkusativ & Dativ Arasındaki Fark (Örnek Cümleler, Dat. Akk. Alan Fiiller)
+İsimlerin 4 hali var. Dativ ve Akkusativ’de onlardan ikisi. Bu konu Artikeller ile ilgilidir. Sayfanın en altında dativ akkusativ farklarını anlatan birçok örnek cümle bulacaksınız.
+
+Akkusativ ve Dativ, Almanca’da bir ismin (Nomen) veya zamirin (Personalpronomen) görevini belirtmek için kullanılan iki farklı dilbilgisi durumudur.
+
+Akkusativ, bir cümlenin içindeki bir ismin veya zamirin nesne görevini belirtmek için kullanılır. Örneğin, “Ich kaufe einen Apfel.” (Bir elma satın alıyorum) cümlesinde “einen Apfel” (bir elma) kelimesi akkusativdir.
+Dativ ise, bir cümlenin içindeki bir ismin veya zamirin dolaylı nesne görevini belirtmek için kullanılır. Örneğin, “Ich gebe meinem Freund ein Geschenk” (Arkadaşıma bir hediye veriyorum) cümlesinde “meinem Freund” (arkadaşıma) kelimesi dativdir.
+Akkusativ ve Dativ arasındaki fark, bir ismin veya zamirin cümlenin içindeki görevine bağlıdır. Akkusativ, bir ismin veya zamirin doğrudan nesne olduğu durumlarda kullanılırken, Dativ, bir ismin veya zamirin dolaylı nesne olduğu durumlarda kullanılır.
+
+Akkusativ ve Dativ Soruları:
+Akkusativ (i Hali veya Belirtme Hali / Dolaysız nesne): den, das, die, einen, ein, eine, keinen, kein, keine
+
+👤Kişilere: Wen (kimi)
+📦Nesnelere: Was (neyi, ne)
+🚩Konum/durum:  Wohin (nereye)
+Dativ (e-Hali / Dolaylı nesne): dem, der, den …n, einem, einer, keinem, keiner
+
+👥 Kişilere: wem: kime
+🚩Konum/durum: wo: nerede, neresi
+En aşağıda daha fazla örnek bulacaksınız ancak buraya da Dativ Akkusativ farkını görmeniz için basit örnekler yazıyorum:
+
+almanca artikeller der die das ein eine nominativ dativ genitiv tablosu güncel
+Almanca Artikeller Tablosu
+die Küche (mutfak):
+
+Wo sorusu ile Dativ bulunur: Ich bin in der Küche. (Mutfaktayım.)
+Wohin sorusu ile Akkusativ bulunur: Ich gehe in die Küche. (Mutfağa gidiyorum.)
+das Auto (araba):
+
+Wo sorusu ile Dativ bulunur: Ich sitze im Auto. (Arabada oturuyorum.)
+Wohin sorusu ile Akkusativ bulunur: Ich gehe zum (zu dem) Auto. (Arabaya gidiyorum.)
+das Bad (banyo):
+
+Wo sorusu ile Dativ bulunur: Ich bin im Bad. (Banyodayım.)
+Wohin sorusu ile Akkusativ bulunur: Ich gehe ins (in das) Bad. (Banyoya gidiyorum.)
+Spanien (İspanya): (Bu artikelsiz bir ülkedir. Artikeli olan ülkeler için bakınız: Artikeli olan ülkeler)
+
+Woher sorusu ile Dativ bulunur: Ich komme aus Spanien. (İspanya’dan geliyorum.)
+Wo sorusu ile Dativ bulunur: Ich bin in Spanien. (İspanya’dayım.)
+Wohin sorusu ile Akkusativ bulunur: Ich fliege nach Spanien. (İspanya’ya uçuyorum.)
+neben dir (yanında): (Bkz: Edat)
+
+Wohin sorusu ile Akkusativ bulunur: Ich setze mich neben dich. (Yanına oturuyorum.)
+Wo sorusu ile Dativ bulunur: Ich sitze neben dir. (Yanında oturuyorum.)
+der Fenster (pencerede):
+
+Wo sorusu ile Dativ bulunur: Ich stehe am (an dem) Fenster. (Pencerede duruyorum.)
+Wohin sorusu ile Akkusativ bulunur: Ich gehe zum (zu dem) Fenster. (Pencereye gidiyorum.)
+nach Hause (eve):
+
+Wohin sorusu ile Akkusativ bulunur: Ich fahre nach Hause. (Eve gidiyorum.)
+Wo sorusu ile Dativ bulunur: Ich bin zu Hause. (Evdeyim.)
+Woher sorusu ile Dativ bulunur: Ich komme von zu Hause. (Evden geliyorum.)
+der Garten (bahçe):
+
+Wo sorusu ile Dativ bulunur: Ich spiele im (in dem) Garten. (Bahçede oynuyorum.)
+Wohin sorusu ile Akkusativ bulunur: Ich gehe in den Garten. (Bahçeye gidiyorum.)
+vor der Tür (kapının önünde):
+
+Wo sorusu ile Dativ bulunur: Ich stehe vor der Tür. (Kapının önünde duruyorum.)
+Wohin sorusu ile Akkusativ bulunur: Ich gehe vor die Tür. (Kapının önüne gidiyorum.)
+das Auto (arabadan):
+
+Woher sorusu ile Dativ bulunur: Ich steige aus dem Auto. (Arabadan iniyorum.)
+Woher sorusu ile Dativ bulunur: Ich hole es aus dem Auto. (Onu arabadan alıyorum.)
+das Auto (arabaya):
+
+Wohin sorusu ile Akkusativ bulunur: Ich lege es ins (in das) Auto. (Onu arabaya koyuyorum.)
+der Laden (dükkan):
+
+Woher sorusu ile Dativ bulunur: Ich komme aus dem Laden. (Dükkanından çıkıyorum.)
+Wohin sorusu ile Akkusativ bulunur: Ich gehe in den Laden. (Dükkana giriyorum.)
+der Tisch (masada):
+
+Wo sorusu ile Dativ bulunur: Ich sitze am (an dem) Tisch. (Masada oturuyorum.)
+Wohin sorusu ile Akkusativ bulunur: Ich setze mich an den Tisch. (Masaya oturuyorum.)
+Dativ ve Akkusativ Öncelik Durumları
+dativ akkusativ almanca öncelik durumu
+Almanca’da Dativ ve Akkusativ öncelik durumları şöyle (Görsel):
+
+Eğer bir cümle de hem Akkusativ hem Dativ nesne varsa ve ikisi de isim olursa.
+
+Ich schenke meiner Schwester einen Ring. Önce Dativ Sonra Akkusativ yer alır.
+
+Ich schenke ihr (Dativ) einen Ring. Ich schenke ihn (Akkusativ) meiner Schwester.
+
+Eğer biri zamirse önce zamir gelir.
+
+Ich schenke ihn (Akkusativ) ihr (Dativ). ikisi de zamirse önce Akkusativ gelir.
+
+Akkusativ hal (doğrudan), bir eylemi yapmakta olan nesnenin kim olduğunu ifade etmek için kullanılır. Yani eylemi gerçekleştiren kişinin nesne olarak etkilediği kişi veya şeyi ifade eder.
+
+Örneğin “Ich sehe den Mann” (Ben adamı görüyorum) cümlesinde “den Mann” (adam) Akkusativ haldedir ve eylemi gerçekleştiren kişi olan “Ich” (ben) Nominativ tarafından doğrudan etkilenmektedir.
+Dativ hal (dolaylı) ise bir eylemi yapmakta olan nesnenin nerede olduğunu veya kiminle olduğunu ifade etmek için kullanılır. Yani eylemi gerçekleştiren kişinin nesnenin nereye yapıldığını veya neye yapıldığını ifade eder.
+
+Örneğin “Ich gebe dem Mann das Buch” (Ben adamın kitabını veriyorum) cümlesinde “dem Mann” (adam) Dativ haldedir ve eylem olan “vermek” (geben) nereye yapıldığını ifade eder.
+Aşağıya Türkçe ve Almanca dillerinde akkusativ ve dativ hal kullanımını gösteren örnek tabloları ekledim:
+
+Türkçe	Almanca
+Ben kitabı okuyorum.	Ich lese das Buch. (Akkusativ)
+Ben arkadaşıma kitap veriyorum.	Ich gebe meinem Freund das Buch. (Dativ) (Akkusativ)
+Ayrıca zamirleri kısaltabiliyoruz. İşte kısa hali için örnekler;
+
+Hali	Türkçe	Almanca
+Akuativ	Okuyorum.	Ich lese es.
+Datif+Akkusativ	(Onu) arkadaşıma veriyorum.	Ich gebe es meinem Freund.
+Personalpronomen (Kişi Zamirleri) Dativ & Akkusativ
+Personalpronomen Almanca Şahıs/Kişi Zamirleri ve İsmin Hallerine Göre Çekimleri
+Burada da Akkusativ ve Dativ ile ilgili Almanca Şahıs Zamirleri var.
+
+Hem Akkusativ hem Dativ Alan Fiiller (Wichtige Verben mit Akkusativ und Dativ)
+Almanca	Türkçe Açıklama
+anbieten	teklif etmek; sunmak
+bezahlen	ödemek
+bestellen	sipariş vermek
+bringen	getirmek
+empfehlen	önermek
+erklären	açıklamak
+erzählen	anlatmak
+geben	vermek
+holen	getirmek; almak
+kaufen	satın almak
+kochen	pişirmek; yemek yapmak
+leihen	ödünç almak
+liefern	teslim etmek
+mitbringen	getirmek; beraber getirmek
+renovieren	yenilemek; restore etmek
+reparieren	tamir etmek
+reservieren	rezervasyon yapmak
+sagen	söylemek
+schenken	hediye vermek
+schicken	göndermek
+schneiden	kesmek
+schreiben	yazmak
+servieren	servis yapmak; sunmak
+verkaufen	satmak
+wünschen	dilemek
+zeigen	göstermek
+Akkusativ ve Dativ Alan Fiillere Örnek Cümleler
+Darf ich Ihnen einen Tee anbieten? (Size bir çay teklif edebilir miyim?)
+Er hat uns die Getränke bezahlt. (Bize içecekleri ödedi.)
+Er hat uns Kaffee bestellt. (Bize kahve sipariş etti.)
+Bitte bringen Sie mir einen Kaffee. (Lütfen bana bir kahve getirin.)
+Ich kann Ihnen ein Restaurant empfehlen. (Size bir restoran önerebilirim.)
+Können Sie mir das Problem erklären? (Bana bu sorunu açıklayabilir misiniz?)
+Meine Oma hat uns immer schöne Geschichten erzählt. (Büyükannem bize her zaman güzel hikayeler anlatırdı.)
+Bitte geben Sie mir die Rechnung. (Lütfen bana -bu- hesabı verin.)
+Er holt uns die Getränke. (Bize içecekleri getiriyor.)
+Ich möchte meinem Sohn einen Laptop kaufen. (Oğluma bir dizüstü bilgisayar almak istiyorum.)
+Wer kocht uns heute das Mittagessen? (Bugün öğle yemeğimizi kim yapacak?)
+Sie hat ihm ein Buch geliehen. (Ona bir kitap ödünç verdi.)
+Die Firma liefert uns die Möbel am Freitag. (Şirket cuma günü bize mobilyaları teslim edecek.)
+Sie bringen ihm aus dem Urlaub ein Souvenir mit. (Ona tatilden bir hatıra getiriyorlar.)
+Wir renovieren unseren Freunden die Wohnung. (Arkadaşlarımızın evini yeniliyoruz.)
+Die Werkstatt kann uns das Auto erst nächste Woche reparieren. (Tamirhane aracımızı ancak gelecek hafta tamir edebilir.)
+Bitte reservieren Sie uns einen Tisch für 21:00 Uhr. – Lütfen bize saat 21:00 için bir masa ayırtın.)
+Hast du ihm die Neuigkeit gesagt? (Ona haber verdin mi?)
+Sie schenkt ihrem Vater eine Krawatte. (Babasına bir kravat hediye ediyor.)
+Könnten Sie uns bitte Informationen schicken? (Bize lütfen bilgi gönderebilir misiniz?)
+Der Friseur hat ihr die Haare super geschnitten. (Kuaför saçlarını harika kesmiş.)
+Sie schreibt ihm eine E-Mail. (Ona bir e-posta yazıyor.)
+Sie servieren ihren Gästen Kaffee und Kuchen. (Misafirlerine kahve ve pasta servis ediyorlar.)
+Er verkauft seinem kleinen Bruder seinen alten iPod. (Küçük kardeşine eski iPod’unu satıyor.)
+Ich wünsche dir viel Glück! (Sana bol şans dilerim!)
+Die Frau zeigt ihnen die Sehenswürdigkeiten in der Stadt. (Kadın, onlara şehirdeki görülmeye değer yerleri gösteriyor.)
+

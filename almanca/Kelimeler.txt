@@ -1,0 +1,3286 @@
+	Almanca A1 Kelime Listesi
+--------------------------------------------------------------------------------------------
+1	ab (-den itibaren, -den sonra, -den başlayarak)
+2	der Abend, die Abende (akşam, akşamlar)
+3	aber (ama, fakat, lakin)
+4	abfahren, fährt ab, fuhr ab, ist abgefahren (hareket etmek [araç için], kalkmak)
+5	die Abfahrt, die Abfahrten (kalkış, hareket [araç için])
+6	abfliegen, fliegt ab, flog ab, ist abgeflogen (havalanmak [uçak için], uçuşa geçmek)
+7	der Abflug, die Abflüge (kalkış [uçak için], uçuş)
+8	abgeben, gibt ab, gab ab, hat abgegeben (teslim etmek, vermek; [oy] kullanmak)
+9	abholen, holt ab, holte ab, hat abgeholt ((gidip) almak, karşılamak [birini/bir şeyi])
+10	der Absender, die Absender (gönderen)
+11	acht (sekiz)
+12	die Achtung (dikkat; saygı)
+13	achtzehn (on sekiz)
+14	achtzig (seksen)
+15	die Adresse, die Adressen (adres)
+16	all- (tüm, bütün, hepsi)
+17	alle (herkes, hepsi)
+18	allein (yalnız, tek başına)
+19	alleine (tek başına, yalnız)
+20	alles (her şey)
+21	also (o halde, yani, demek ki, öyleyse)
+22	alt, älter, am ältesten (eski; yaşlı)
+23	das Alter, die Alter (yaş)
+24	am (-de/-da [belirli günlerde, günün bölümlerinde, tarihlerde])
+25	an (yanında, -e/-a; -de/-da; ilgili, hakkında)
+26	anbieten, bietet an, bot an, hat angeboten (teklif etmek, sunmak, ikram etmek)
+27	ander- (diğer, başka)
+28	der Anfang, die Anfänge (başlangıç)
+29	anfangen, fängt an, fing an, hat angefangen (başlamak)
+30	das Angebot, die Angebote (teklif, sunum; indirim, kampanya)
+31	anklicken, klickt an, klickte an, hat angeklickt (tıklamak)
+32	ankommen, kommt an, kam an, ist angekommen (varmak, ulaşmak; bağlı olmak)
+33	ankreuzen, kreuzt an, kreuzte an, hat angekreuzt (çarpı [X] ile işaretlemek)
+34	die Ankunft, die Ankünfte (varış, geliş)
+35	anmachen, macht an, machte an, hat angemacht (açmak [ışık, cihaz vb.]; hazırlamak)
+36	(sich) anmelden, meldet an, meldete an, hat angemeldet (kaydolmak, kayıt yaptırmak; başvurmak)
+37	die Anmeldung, die Anmeldungen (kayıt, başvuru)
+38	die Anrede, die Anreden (hitap)
+39	der Anruf, die Anrufe ((telefon) arama(sı))
+40	der Anrufbeantworter, die Anrufbeantworter (telesekreter)
+41	anrufen, ruft an, rief an, hat angerufen ((telefonla) aramak)
+42	die Ansage, die Ansagen (anons, duyuru)
+43	der Anschluss, die Anschlüsse (bağlantı; aktarma; telefon hattı)
+44	die Antwort, die Antworten (cevap, yanıt)
+45	antworten, antwortet, antwortete, hat geantwortet (cevaplamak, yanıtlamak)
+46	die Anzeige, die Anzeigen (ilan, reklam; şikayet, ihbar)
+47	(sich) anziehen, zieht an, zog an, hat angezogen (giymek; giyinmek; çekmek, cezbetmek)
+48	das Apartment, die Apartments (daire, apartman dairesi)
+49	der Apfel, die Äpfel (elma)
+50	der Appetit (iştah)
+51	der April, die Aprile (Nisan)
+52	die Arbeit, die Arbeiten (iş, çalışma; ödev, eser)
+53	arbeiten, arbeitet, arbeitete, hat gearbeitet (çalışmak)
+54	arbeitslos (işsiz)
+55	der Arbeitsplatz, die Arbeitsplätze (iş yeri, çalışma yeri; iş kadrosu)
+56	der Arm, die Arme (kol; sıfat olunca küçük yazılır ve fakir anlamına gelir)
+57	der Arzt, die Ärzte / die Ärztin, die Ärztinnen (doktor)
+58	auch (-de, -da; ayrıca; hem de; bile)
+59	auf (üzerinde, üstünde; -e/-a; açık)
+60	auf sein, ist auf, war auf, ist auf gewesen (açık olmak; ayakta olmak, uyanık olmak)
+61	die Aufgabe, die Aufgaben (görev, ödev; sorun; gönderme)
+62	aufhören, hört auf, hörte auf, hat aufgehört (kesmek, bırakmak, sona erdirmek)
+63	aufstehen, steht auf, stand auf, ist aufgestanden (kalkmak; direnmek)
+64	der Aufzug, die Aufzüge (asansör; perde)
+65	das Auge, die Augen (göz)
+66	der August, die Auguste (Ağustos)
+67	aus (-den/-dan)
+68	aus sein, ist aus, war aus, ist aus gewesen (kapalı olmak; bitmiş olmak; dışarıda olmak)
+69	der Ausflug, die Ausflüge ((kısa) gezi, piknik)
+70	ausfüllen, füllt aus, füllte aus, hat ausgefüllt (doldurmak)
+71	der Ausgang, die Ausgänge (çıkış; sonuç)
+72	die Auskunft, die Auskünfte (bilgi, danışma)
+73	das Ausland (yurt dışı)
+74	der Ausländer, die Ausländer / die Ausländerin, die Ausländerinnen (yabancı)
+75	ausländisch (yabancı)
+76	ausmachen, macht aus, machte aus, hat ausgemacht (kapatmak; kararlaştırmak; tutmak; fark etmek)
+77	die Aussage, die Aussagen (ifade, beyan, demeç; önerme)
+78	aussehen, sieht aus, sah aus, hat ausgesehen (görünmek)
+79	aussteigen, steigt aus, stieg aus, ist ausgestiegen (inmek; ayrılmak)
+80	der Ausweis, die Ausweise (kimlik kartı, belge)
+81	(sich) ausziehen, zieht aus, zog aus, hat ausgezogen (soyunmak, çıkarmak; taşınmak)
+82	das Auto, die Autos (araba, otomobil)
+83	die Autobahn, die Autobahnen (otoyol)
+84	der Automat, die Automaten (otomat, makine)
+85	automatisch (otomatik, kendiliğinden)
+86	das Baby, die Babys (bebek)
+87	das Bad, die Bäder (banyo)
+88	baden, badet, badete, hat gebadet (yıkanmak)
+89	die Bahn, die Bahnen (tren, demiryolu)
+90	der Bahnhof, die Bahnhöfe (istasyon, gar)
+91	der Bahnsteig, die Bahnsteige (peron, platform)
+92	bald (yakında)
+93	der Balkon, die Balkone (balkon)
+94	die Banane, die Bananen (muz)
+95	die Bank, die Bänke (bank, oturak)
+96	die Bank, die Banken (banka)
+97	bar (nakit)
+98	der Bauch, die Bäuche (karın)
+99	der Baum, die Bäume (ağaç)
+100	der Beamte, die Beamten / die Beamtin, die Beamtinnen (memur/kamu görevlisi)
+101	bedeuten, bedeutet, bedeutete, hat bedeutet (anlamına gelmek)
+102	beginnen, beginnt, begann, hat begonnen (başlamak)
+103	bei (yanında, -de/-da)
+104	beide (her ikisi)
+105	das Bein, die Beine (bacak)
+106	das Beispiel, die Beispiele (örnek)
+107	bekannt (tanınmış, bilinen)
+108	der/die Bekannte, die Bekannten (tanıdık)
+109	bekommen, bekommt, bekam, hat bekommen (-birinden-almak; başka biri size veriyor)
+110	benutzen, benutzt, benutzte, hat benutzt (kullanmak)
+111	der Beruf, die Berufe (meslek)
+112	besetzt (dolu, meşgul)
+113	besichtigen, besichtigt, besichtigte, hat besichtigt (gezmek, ziyaret etmek)
+114	besser (gut, besser, am besten) (daha iyi)
+115	best- (gut, besser, am besten) (en iyi)
+116	bestellen, bestellt, bestellte, hat bestellt (sipariş etmek / sipariş vermek)
+117	besuchen, besucht, besuchte, hat besucht (ziyaret etmek)
+118	das Bett, die Betten (yatak)
+119	bezahlen, bezahlt, bezahlte, hat bezahlt (ödemek)
+120	das Bier, die Biere (bira)
+121	das Bild, die Bilder (resim, fotoğraf)
+122	billig, billiger, am billigsten (ucuz)
+123	die Birne, die Birnen (armut)
+124	bis (-e kadar)
+125	bisschen (biraz)
+126	die Bitte, die Bitten (rica, istek)
+127	bitte (lütfen)
+128	bitten, bittet, bat, hat gebeten (rica etmek)
+129	bitter (acı)
+130	blau (mavi)
+131	bleiben, bleibt, blieb, ist geblieben (kalmak)
+132	der Bleistift, die Bleistifte (kurşun kalem)
+133	der Blick, die Blicke (bakış, manzara)
+134	die Blume, die Blumen (çiçek)
+135	der Bogen, die Bögen (kağıt, form; yay)
+136	brauchen, braucht, brauchte, hat gebraucht (ihtiyaç duymak)
+137	braun (kahverengi)
+138	breit (geniş)
+139	der Brief, die Briefe (mektup)
+140	die Briefmarke, die Briefmarken (posta pulu)
+141	bringen, bringt, brachte, hat gebracht (getirmek)
+142	das Brot, die Brote (ekmek)
+143	der Bruder, die Brüder (erkek kardeş)
+144	das Brötchen, die Brötchen (küçük ekmek)
+145	das Buch, die Bücher (kitap)
+146	der Buchstabe, die Buchstaben (harf)
+147	buchstabieren, buchstabiert, buchstabierte, hat buchstabiert (hecelemek)
+148	der Bus, die Busse (otobüs)
+149	die Butter (tereyağı)
+150	die Bäckerei, die Bäckereien (fırın)
+151	bös (kötü)
+152	böse (kızgın, öfkeli)
+153	das Café, die Cafés (kafe)
+154	die CD, die CDs (CD)
+155	der Cent, die Cents (sent)
+156	der Chef, die Chefs (şef, patron (erkek))
+157	die Chefin, die Chefinnen (şef, patron (kadın))
+158	circa/ca. (yaklaşık)
+159	der Computer, die Computer (bilgisayar)
+160	da (orada, burada; o anda, o sırada)
+161	da (çünkü, -dığı için)
+162	daneben (yanında, onun yanında)
+163	der Dank (teşekkür)
+164	danke (teşekkür ederim, sağ ol)
+165	danken, dankt, dankte, hat gedankt (teşekkür etmek)
+166	dann (o zaman, sonra, ardından)
+167	das (şu, bu, o [artikeli ‘das’ olan nesneler için])
+168	das Datum, die Daten (tarih)
+169	dauern, dauert, dauerte, hat gedauert (sürmek [zaman olarak])
+170	dein, deine (senin)
+171	denn (çünkü, o halde, peki)
+172	der (şu, bu, o [artikeli ‘der’ olan nesneler için])
+173	deutsch (Alman, Almanca)
+174	der/die Deutsche, die Deutschen (Alman)
+175	Deutschland (Almanya)
+176	der Dezember, die Dezember (Aralık)
+177	dich (seni, sana)
+178	die (şu, bu, o [artikeli ‘die’ olan nesneler veya çoğullar için])
+179	der Dienstag, die Dienstage (Salı)
+180	dir (sana)
+181	der Doktor, die Doktoren (doktor)
+182	der Donnerstag, die Donnerstage (Perşembe)
+183	das Doppelzimmer, die Doppelzimmer (çift kişilik oda)
+184	das Dorf, die Dörfer (köy)
+185	dort (orada)
+186	draußen (dışarıda)
+187	drei (üç)
+188	dreizehn (on üç)
+189	dreißig (otuz)
+190	dritte (üçüncü)
+191	drucken, druckt, druckte, hat gedruckt (yazdırmak, basmak)
+192	der Drucker, die Drucker (yazıcı)
+193	drücken, drückt, drückte, hat gedrückt (basmak, sıkmak)
+194	durch (içinden, arasından; -den dolayı)
+195	die Durchsage, die Durchsagen (anons, duyuru)
+196	der Durst (susuzluk)
+197	die Dusche, die Duschen (duş)
+198	(sich) duschen, duscht, duschte, hat geduscht (duş almak)
+199	dürfen, darf, durfte, hat gedurft (izinli olmak, -ebilmek)
+200	die E-Mail, die E-Mails (e-posta)
+201	die Ecke, die Ecken (köşe)
+202	die Ehefrau, die Ehefrauen (eş, karı)
+203	der Ehemann, die Ehemänner (eş, koca)
+204	das Ei, die Eier (yumurta)
+205	eilig (acele)
+206	ein (bir [der/das artikelli isimler için belirsiz artikel])
+207	eine (bir [die artikelli isimler için belirsiz artikel])
+208	einfach (basit, kolay)
+209	einfach (sadece, yalnızca)
+210	der Eingang, die Eingänge (giriş)
+211	einhundert (yüz)
+212	einkaufen, kauft ein, kaufte ein, hat eingekauft (alışveriş yapmak)
+213	einladen, lädt ein, lud ein, hat eingeladen (davet etmek)
+214	die Einladung, die Einladungen (davet, davetiye)
+215	eins (bir [sayı olarak])
+216	einsteigen, steigt ein, stieg ein, ist eingestiegen (binmek [araca])
+217	eintausend (bin)
+218	der Eintritt, die Eintritte (giriş; giriş ücreti)
+219	das Einzelzimmer, die Einzelzimmer (tek kişilik oda)
+220	elf (on bir)
+221	die Eltern (çoğul) (ebeveynler, anne-baba)
+222	empfehlen, empfiehlt, empfahl, hat empfohlen (tavsiye etmek, önermek)
+223	der Empfänger, die Empfänger (alıcı)
+224	das Ende, die Enden (son)
+225	enden, endet, endete, hat geendet (bitmek, sonlanmak)
+226	entschuldigen, entschuldigt, entschuldigte, hat entschuldigt (özür dilemek, affetmek)
+227	die Entschuldigung, die Entschuldigungen (özür, mazeret)
+228	er (o [erkek])
+229	das Ergebnis, die Ergebnisse (sonuç, netice)
+230	erklären, erklärt, erklärte, hat erklärt (açıklamak, izah etmek)
+231	erlauben, erlaubt, erlaubte, hat erlaubt (izin vermek, müsaade etmek)
+232	erste (birinci, ilk)
+233	der/die Erwachsene, die Erwachsenen (yetişkin)
+234	erzählen, erzählt, erzählte, hat erzählt (anlatmak, hikaye etmek)
+235	es (o [nötr])
+236	das Essen, die Essen (yemek)
+237	essen, isst, aß, hat gegessen (yemek yemek)
+238	euer, eure (sizin)
+239	der Euro, die Euros (avro)
+240	Europa (Avrupa)
+241	der Europäer, die Europäer / die Europäerin, die Europäerinnen (Avrupalı)
+242	europäisch (Avrupa’ya ait, Avrupalı)
+243	fahren, fährt, fuhr, ist gefahren (gitmek [araçla], sürmek)
+244	der Fahrer, die Fahrer (sürücü, şoför)
+245	die Fahrkarte, die Fahrkarten (bilet)
+246	das Fahrrad, die Fahrräder (bisiklet)
+247	falsch (yanlış, hatalı)
+248	die Familie, die Familien (aile)
+249	der Familienname, die Familiennamen (soyadı)
+250	der Familienstand (medeni hal)
+251	die Farbe, die Farben (renk)
+252	das Fax, die Faxe (faks)
+253	der Februar
+254	fehlen, fehlt, fehlte, hat gefehlt (eksik olmak, olmamak)
+255	der Fehler, die Fehler (hata, yanlış)
+256	der Feierabend, die Feierabende (iş çıkışı)
+257	feiern, feiert, feierte, hat gefeiert (kutlamak)
+258	der Feiertag, die Feiertage (resmi tatil günü)
+259	fernsehen, sieht fern, sah fern, hat ferngesehen (televizyon izlemek)
+260	fertig (bitmiş, hazır)
+261	das Feuer, die Feuer (ateş)
+262	das Fieber (ateş, yüksek sıcaklık)
+263	der Film, die Filme (film)
+264	finden, findet, fand, hat gefunden (bulmak)
+265	die Firma, die Firmen (şirket, firma)
+266	der Fisch, die Fische (balık)
+267	die Flasche, die Flaschen (şişe)
+268	das Fleisch (et)
+269	fliegen, fliegt, flog, ist geflogen (uçmak)
+270	der Flughafen, die Flughäfen (havaalanı)
+271	das Flugzeug, die Flugzeuge (uçak)
+272	das Formular, die Formulare (form)
+273	das Foto, die Fotos (fotoğraf)
+274	die Frage, die Fragen (soru)
+275	fragen, fragt, fragte, hat gefragt (sormak)
+276	die Frau, die Frauen (kadın; eş; bayan)
+277	frei (boş; ücretsiz; serbest)
+278	der Freitag, die Freitage (Cuma)
+279	die Freizeit (boş zaman)
+280	fremd (yabancı, bilinmeyen)
+281	(sich) freuen, freut, freute, hat gefreut (sevinmek)
+282	der Freund, die Freunde / die Freundin, die Freundinnen (arkadaş)
+283	früher (eskiden, daha önce)
+284	das Frühjahr (ilkbahar)
+285	der Frühling, die Frühlinge (ilkbahar)
+286	das Frühstück, die Frühstücke (kahvaltı)
+287	frühstücken, frühstückt, frühstückte, hat gefrühstückt (kahvaltı yapmak)
+288	der Fuß, die Füße (ayak)
+289	der Fußball, die Fußbälle (futbol)
+290	die Führung, die Führungen (rehberli tur, rehberlik)
+291	fünf (beş)
+292	fünfzehn (on beş)
+293	fünfzig (elli)
+294	für (için)
+295	der Garten, die Gärten (bahçe)
+296	der Gast, die Gäste (misafir, konuk)
+297	geben, gibt, gab, hat gegeben (vermek)
+298	geboren (doğmuş)
+299	das Geburtsjahr, die Geburtsjahre (doğum yılı)
+300	der Geburtsort, die Geburtsorte (doğum yeri)
+301	der Geburtstag, die Geburtstage (doğum günü)
+302	gefallen, gefällt, gefiel, hat gefallen (hoşuna gitmek, beğenmek)
+303	gegen (karşı; civarında, sularında)
+304	gehen, geht, ging, ist gegangen (gitmek; olmak, mümkün olmak; nasılsın?)
+305	gehören, gehört, gehörte, hat gehört (ait olmak)
+306	gelb (sarı)
+307	das Geld (para)
+308	das Gemüse, die Gemüse (sebze)
+309	das Gepäck (bagaj, valiz)
+310	gerade (şu anda, tam o sırada; düz)
+311	geradeaus (dümdüz, dosdoğru)
+312	gern/gerne (severek, memnuniyetle)
+313	das Geschenk, die Geschenke (hediye, armağan)
+314	geschlossen (kapalı)
+315	die Geschwister (çoğul) (kardeşler)
+316	das Geschäft, die Geschäfte (mağaza, dükkan; iş)
+317	das Gespräch, die Gespräche (konuşma, sohbet)
+318	gestern (dün)
+319	das Getränk, die Getränke (içecek)
+320	das Gewicht, die Gewichte (ağırlık)
+321	gewinnen, gewinnt, gewann, hat gewonnen (kazanmak)
+322	das Glas, die Gläser (bardak; cam)
+323	glauben, glaubt, glaubte, hat geglaubt (inanmak; sanmak)
+324	gleich (hemen, şimdi; aynı; eşit)
+325	das Gleis, die Gleise (ray; peron hattı)
+326	das Glück (şans, mutluluk)
+327	glücklich (mutlu)
+328	der Glückwunsch, die Glückwünsche (tebrik)
+329	der Grad, die Grade (derece)
+330	das Gramm (gram)
+331	gratulieren, gratuliert, gratulierte, hat gratuliert (tebrik etmek)
+332	grau (gri)
+333	grillen, grillt, grillte, hat gegrillt (ızgara yapmak)
+334	groß, größer, am größten (büyük, uzun boylu)
+335	die Großeltern (çoğul) (büyükanne ve büyükbaba)
+336	die Großmutter, die Großmütter (büyükanne, nine)
+337	der Großvater, die Großväter (büyükbaba, dede)
+338	die Gruppe, die Gruppen (grup)
+339	der Gruß, die Grüße (selam)
+340	die Größe, die Größen (boyut, büyüklük; beden numarası)
+341	grün (yeşil)
+342	gut, besser, am besten (iyi)
+343	gültig (geçerli)
+344	günstig (uygun fiyatlı, ekonomik)
+345	das Haar, die Haare (saç, kıl)
+346	haben, hat, hatte, hat gehabt (sahip olmak)
+347	halb (yarım, buçuk)
+348	die Halbpension (yarım pansiyon)
+349	die Halle, die Hallen (salon, büyük salon)
+350	hallo (merhaba, alo)
+351	halten, hält, hielt, hat gehalten (durmak; tutmak)
+352	die Haltestelle, die Haltestellen (durak)
+353	die Hand, die Hände (el)
+354	das Handy, die Handys (cep telefonu)
+355	das Haus, die Häuser (ev)
+356	die Hausaufgabe, die Hausaufgaben (ev ödevi)
+357	die Hausfrau, die Hausfrauen (ev hanımı)
+358	der Hausmann, die Hausmänner (ev erkeği)
+359	die Heimat (memleket, anavatan)
+360	heiraten, heiratet, heiratete, hat geheiratet (evlenmek)
+361	heißen, heißt, hieß, hat geheißen (adı olmak, … denmek)
+362	helfen, hilft, half, hat geholfen (yardım etmek)
+363	hell (aydınlık, parlak; açık [renk])
+364	der Herbst (sonbahar)
+365	der Herd, die Herde (ocak, fırın)
+366	der Herr, die Herren (bay, beyefendi)
+367	herzlich (içten, samimi, kalpten)
+368	heut’ (bugün [konuşma dilinde bazen: heut kısaltması kullanılır])
+369	heute (bugün)
+370	hier (burada, burası)
+371	die Hilfe, die Hilfen (yardım, imdat)
+372	hinten (arkada, geride)
+373	das Hobby, die Hobbys (hobi)
+374	hoch, höher, am höchsten (yüksek)
+375	die Hochzeit, die Hochzeiten (düğün)
+376	holen, holt, holte, hat geholt (almak, getirmek, gidip almak)
+377	das Hotel, die Hotels (otel)
+378	der Hund, die Hunde (köpek)
+379	hundert (yüz)
+380	der Hunger (açlık)
+381	das Hähnchen, die Hähnchen (tavuk [yemek])
+382	hören, hört, hörte, hat gehört (duymak, dinlemek)
+383	ich (ben)
+384	ihm
+	1. ona (eril/tekil – Dativ)
+	2. ona (nötr/tekil – Dativ)
+385	ihn (onu [eril akkusativ])
+386	ihr
+	(1. siz [çoğul]
+	2. ona [kadın]
+	3. onun [kadın/iyelik]
+	4. onların [iyelik])
+387	Ihr, Ihre / ihr, ihre
+	1. Sizin (resmi/tekil-çoğul)
+	2. onun (dişil/tekil – iyelik)
+	3. onların (çoğul – iyelik)
+388	immer (her zaman, daima)
+389	in (içinde, -de/-da; -e/-a [yönelme])
+390	die Information, die Informationen (bilgi, enformasyon)
+391	international (uluslararası)
+392	das Internet (internet)
+393	ja (evet)
+394	die Jacke, die Jacken (ceket)
+395	das Jahr, die Jahre (yıl, sene)
+396	der Januar (Ocak)
+397	jede (her, her bir [dişil])
+398	jeder (her, her bir [eril])
+399	jedes (her, her bir [nötr])
+400	jetzt (şimdi, şu anda)
+401	der Job, die Jobs (iş, meslek)
+402	der/die Jugendliche, die Jugendlichen (genç)
+403	der Juli (Temmuz)
+404	jung, jünger, am jüngsten (genç)
+405	der Junge, die Jungen (erkek çocuk)
+406	der Juni (Haziran)
+407	der Kaffee, die Kaffees (kahve)
+408	kaputt (bozuk, kırık)
+409	die Karte, die Karten (kart; bilet; menü; harita)
+410	die Kartoffel, die Kartoffeln (patates)
+411	die Kasse, die Kassen (kasa)
+412	kaufen, kauft, kaufte, hat gekauft (satın almak)
+413	kein, keine (hiçbir; değil [isimleri olumsuzlamak için])
+414	kennen, kennt, kannte, hat gekannt (tanımak, bilmek)
+415	kennenlernen, lernt kennen, lernte kennen, hat kennengelernt (tanışmak)
+416	das Kilo (kilo)
+417	das Kilogramm (kilogram)
+418	der Kilometer, die Kilometer (kilometre)
+419	das Kind, die Kinder (çocuk)
+420	der Kindergarten, die Kindergärten (anaokulu)
+421	das Kino, die Kinos (sinema)
+422	der Kiosk, die Kioske (büfe, kiosk)
+423	klar (açık, net; elbette)
+424	die Klasse, die Klassen (sınıf)
+425	die Kleidung (giysi, kıyafet)
+426	klein, kleiner, am kleinsten (küçük)
+427	kochen, kocht, kochte, hat gekocht (yemek pişirmek)
+428	der Koffer, die Koffer (bavul, valiz)
+429	der Kollege, die Kollegen / die Kollegin, die Kolleginnen (meslektaş, iş arkadaşı)
+430	kommen, kommt, kam, ist gekommen (gelmek)
+431	das Konto, die Konten (hesap [banka])
+432	der Kopf, die Köpfe (baş, kafa)
+433	kosten, kostet, kostete, hat gekostet (fiyatı olmak, mal olmak)
+434	krank (hasta)
+435	die Kreditkarte, die Kreditkarten (kredi kartı)
+436	kriegen, kriegt, kriegte, hat gekriegt (almak, elde etmek [konuşma dili])
+437	der Kuchen, die Kuchen (kek, pasta)
+438	der Kugelschreiber, die Kugelschreiber (tükenmez kalem)
+439	kulturell (kültürel)
+440	der Kunde, die Kunden (müşteri [erkek])
+441	die Kundin, die Kundinnen (müşteri [kadın])
+442	der Kurs, die Kurse (kurs)
+443	kurz, kürzer, am kürzesten (kısa)
+444	können, kann, konnte, hat gekonnt (yapabilmek, -ebilmek)
+445	die Küche, die Küchen (mutfak)
+446	der Kühlschrank, die Kühlschränke (buzdolabı)
+447	(sich) kümmern (um), kümmert, kümmerte, hat gekümmert ilgilenmek, birine/bir şeye bakmak)
+448	lachen, lacht, lachte, hat gelacht (gülmek)
+449	der Laden, die Läden (dükkan, mağaza)
+450	das Land, die Länder (ülke; kırsal alan)
+451	lang, länger, am längsten (uzun)
+452	lange (uzun süre)
+453	langsam (yavaş)
+454	laufen, läuft, lief, ist gelaufen (koşmak, yürümek)
+455	laut (yüksek sesli, gürültülü)
+456	leben, lebt, lebte, hat gelebt (yaşamak)
+457	das Leben (hayat, yaşam)
+458	das Lebensmittel, die Lebensmittel (gıda, besin maddesi)
+459	ledig (bekar)
+460	legen, legt, legte, hat gelegt (koymak, yerleştirmek [yatay])
+461	der Lehrer, die Lehrer / die Lehrerin, die Lehrerinnen (öğretmen)
+462	leicht (kolay; hafif)
+463	leider (maalesef, ne yazık ki)
+464	leise (alçak sesli, sessiz)
+465	lernen, lernt, lernte, hat gelernt (öğrenmek)
+466	lesen, liest, las, hat gelesen (okumak)
+467	letzt- (son, geçen)
+468	die Leute (çoğul) (insanlar, halk)
+469	das Licht, die Lichter (ışık)
+470	lieb
+	1. Sevgili (mektup/e-posta hitabı)
+	2. Uslu, cici (çocuk/hayvan için)
+	3. Nazik, sempatik (insan için)
+471	lieben, liebt, liebte, hat geliebt (sevmek)
+472	lieber (daha çok, tercihen)
+473	das Lied, die Lieder (şarkı)
+474	liegen, liegt, lag, hat gelegen (yatmak, uzanmak; bulunmak)
+475	links (sol, solda)
+476	der Liter (litre)
+477	der Lkw, die Lkws (kamyon) [Lastkraftwagen’ın kısaltması]
+478	das Lokal, die Lokale (mekan, lokal, restoran)
+479	lustig (eğlenceli, komik)
+480	die Lösung, die Lösungen (çözüm)
+481	machen, macht, machte, hat gemacht (yapmak, etmek)
+482	der Mai (Mayıs)
+483	man (insan, biri [genel özne])
+484	der Mann, die Männer (adam, erkek; koca)
+485	die Maschine, die Maschinen (makine)
+486	das Meer, die Meere (deniz)
+487	mehr (daha fazla)
+488	mein, meine (benim)
+489	meist- (çoğunlukla, genellikle)
+490	der Mensch, die Menschen (insan)
+491	der Meter (metre)
+492	die Miete, die Mieten (kira)
+493	mieten, mietet, mietete, hat gemietet (kiralamak)
+494	die Milch (süt)
+495	die Milliarde, die Milliarden (milyar)
+496	die Million, die Millionen (milyon)
+497	die Minute, die Minuten (dakika)
+498	mit (ile, birlikte)
+499	mitbringen, bringt mit, brachte mit, hat mitgebracht (yanında getirmek)
+500	mitkommen, kommt mit, kam mit, ist mitgekommen (birlikte gelmek)
+501	mitmachen, macht mit, machte mit, hat mitgemacht (katılmak, birlikte yapmak)
+502	mitnehmen, nimmt mit, nahm mit, hat mitgenommen (yanına almak, birlikte götürmek)
+503	der Mittag (öğle)
+504	die Mitte, die Mitten (orta, merkez)
+505	der Mittwoch (Çarşamba)
+506	der Moment, die Momente (an, saniye, bir an)
+507	der Montag (Pazartesi)
+508	morgen (yarın)
+509	der Morgen (sabah)
+510	der Mund, die Münder (ağız)
+511	die Mutter, die Mütter (anne)
+512	das Mädchen, die Mädchen (kız çocuğu)
+513	männlich (eril, erkek)
+514	der März (Mart)
+515	die Möbel (mobilyalar)
+516	mögen, mag, mochte, hat gemocht (sevmek, hoşlanmak)
+517	möglich (mümkün, olanaklı)
+518	müde (yorgun, uykulu)
+519	müssen, muss, musste, hat gemusst (zorunda olmak, -meli/-malı)
+520	nach (-e/-a [yönelme]; sonra; göre)
+521	der Nachmittag, die Nachmittage (öğleden sonra)
+522	der Name, die Namen (isim, ad)
+523	nehmen, nimmt, nahm, hat genommen (almak)
+524	nein (hayır)
+525	neu, neuer, am neuesten (yeni)
+526	neun (dokuz)
+527	neunzehn (on dokuz)
+528	neunzig (doksan)
+529	nicht (değil [fiilleri, sıfatları vb. olumsuz yapar])
+530	nichts (hiçbir şey)
+531	nie (asla, hiçbir zaman)
+532	noch (daha, hala)
+533	der Norden (kuzey)
+534	normal (normal, olağan)
+535	der November (Kasım)
+536	die Nummer, die Nummern (numara, sayı)
+537	nur (sadece, yalnızca)
+538	nächst- (gelecek, bir sonraki, en yakın)
+539	oben (yukarıda, üstte)
+540	das Obst (meyve)
+541	oder (veya, ya da)
+542	oft (sık sık, çoğunlukla)
+543	ohne (-sız, -siz)
+544	der Oktober (Ekim)
+545	die Oma, die Omas (büyükanne, nine)
+546	der Opa, die Opas (büyükbaba, dede)
+547	die Ordnung (düzen, tertip)
+548	der Ort, die Orte (yer, mekan, bölge)
+549	der Osten (doğu)
+550	das Papier, die Papiere (kağıt)
+551	der Partner, die Partner (partner, ortak [erkek])
+552	die Partnerin, die Partnerinnen (partner, ortak [kadın])
+553	die Party, die Partys (parti)
+554	der Pass, die Pässe (pasaport)
+555	die Pause, die Pausen (mola, ara)
+556	das Pfund (yarım kilo)
+557	der Plan, die Pläne (plan)
+558	der Platz, die Plätze (yer; meydan)
+559	die Polizei (polis)
+560	die Pommes frites (çoğul) (patates kızartması)
+561	die Post (posta, postane)
+562	die Postleitzahl, die Postleitzahlen (posta kodu)
+563	das Praktikum, die Praktika (staj)
+564	die Praxis, die Praxen (muayenehane; pratik, uygulama)
+565	der Preis, die Preise (fiyat; ödül)
+566	das Problem, die Probleme (sorun, problem)
+567	der Prospekt, die Prospekte (broşür)
+568	das Prozent (yüzde)
+569	die Prüfung, die Prüfungen (sınav, imtihan)
+570	pünktlich (dakik, zamanında)
+571	Rad fahren, fährt Rad, fuhr Rad, ist Rad gefahren (bisiklet sürmek)
+572	rauchen, raucht, rauchte, hat geraucht (sigara içmek)
+573	der Raum, die Räume (oda, mekan, alan)
+574	die Rechnung, die Rechnungen (hesap, fatura)
+575	rechts (sağ, sağda)
+576	der Regen (yağmur)
+577	regnen, es regnet, es regnete, es hat geregnet (yağmur yağmak)
+578	der Reis (pirinç, pilav)
+579	die Reise, die Reisen (seyahat, yolculuk)
+580	das Reisebüro, die Reisebüros (seyahat acentesi)
+581	der Reiseführer, die Reiseführer (seyahat rehberi [kitap veya kişi])
+582	reisen, reist, reiste, ist gereist (seyahat etmek)
+583	die Reparatur, die Reparaturen (tamir, onarım)
+584	reparieren, repariert, reparierte, hat repariert (tamir etmek)
+585	das Restaurant, die Restaurants (restoran, lokanta)
+586	die Rezeption, die Rezeptionen (resepsiyon)
+587	richtig (doğru)
+588	riechen, riecht, roch, hat gerochen (kokmak, koklamak)
+589	rot (kırmızı)
+590	ruhig (sakin, sessiz)
+591	die S-Bahn, die S-Bahnen (banliyö treni)
+592	der Saft, die Säfte (meyve suyu)
+593	sagen, sagt, sagte, hat gesagt (söylemek, demek)
+594	der Salat, die Salate (salata)
+595	das Salz (tuz)
+596	der Samstag, die Samstage (Cumartesi)
+597	der Satz, die Sätze (cümle)
+598	scheinen, scheint, schien, hat geschienen (görünmek, parlamak)
+599	schicken, schickt, schickte, hat geschickt (göndermek)
+600	das Schild, die Schilder (tabela, levha)
+601	der Schinken, die Schinken (jambon)
+602	schlafen, schläft, schlief, hat geschlafen (uyumak)
+603	schlecht, schlechter, am schlechtesten (kötü)
+604	schließen, schließt, schloss, hat geschlossen (kapatmak)
+605	der Schluss, die Schlüsse (son, bitiş)
+606	der Schlüssel, die Schlüssel (anahtar)
+607	schmecken, schmeckt, schmeckte, hat geschmeckt (tadı … olmak, lezzeti … olmak)
+608	schnell, schneller, am schnellsten (hızlı, çabuk)
+609	schon (zaten, çoktan, bile)
+610	der Schrank, die Schränke (dolap)
+611	schreiben, schreibt, schrieb, hat geschrieben (yazmak)
+612	der Schuh, die Schuhe (ayakkabı)
+613	die Schule, die Schulen (okul)
+614	schwarz (siyah)
+615	schwer (ağır; zor)
+616	die Schwester, die Schwestern (kız kardeş, hemşire)
+617	das Schwimmbad, die Schwimmbäder (yüzme havuzu)
+618	schwimmen, schwimmt, schwamm, ist geschwommen (yüzmek)
+619	schön, schöner, am schönsten (güzel)
+620	der Schüler, die Schüler / die Schülerin, die Schülerinnen (öğrenci)
+621	sechs (altı)
+622	sechzehn (on altı)
+623	sechzig (altmış)
+624	der See, die Seen (göl, Not: Artikeli ‘die’ olursa deniz anlamına gelir)
+625	sehen, sieht, sah, hat gesehen (görmek, izlemek)
+626	die Sehenswürdigkeit, die Sehenswürdigkeiten (görülecek yer, turistik mekan)
+627	sehr (çok, pek)
+628	sein, ist, war, ist gewesen (olmak)
+629	sein, seine (onun [eril/nötr])
+630	seit (-den beri)
+631	die Sekunde, die Sekunden (saniye)
+632	selbstständig (bağımsız, serbest meslek sahibi)
+633	der September (Eylül)
+634	sich (kendini, kendine)
+635	Sie (siz [resmi]; onlar)
+636	sie (o [dişil]; onlar)
+637	sieben (yedi)
+638	siebzig (yetmiş)
+639	siebzehn (on yedi)
+640	sitzen, sitzt, saß, hat gesessen (oturmak)
+641	so (böyle, öyle, o kadar)
+642	das Sofa, die Sofas (kanepe, koltuk)
+643	sofort (hemen, derhal)
+644	der Sohn, die Söhne (oğul, erkek evlat)
+645	sollen, soll, sollte, hat gesollt (-meli, -malı [gereklilik, tavsiye])
+646	der Sommer (yaz)
+647	der Sonnabend, die Sonnabende (Cumartesi)
+648	die Sonne (güneş)
+649	der Sonntag (Pazar)
+650	die Speisekarte, die Speisekarten (menü)
+651	spielen, spielt, spielte, hat gespielt (oynamak; çalmak [enstrüman])
+652	der Sport (spor)
+653	die Sprache, die Sprachen (dil, lisan)
+654	sprechen, spricht, sprach, hat gesprochen (konuşmak)
+655	spät, später, am spätesten (geç)
+656	später (daha sonra)
+657	die Stadt, die Städte (şehir, kent)
+658	stehen, steht, stand, hat gestanden (durmak, ayakta durmak)
+659	die Stelle, die Stellen (yer; pozisyon, iş)
+660	stellen, stellt, stellte, hat gestellt (koymak, yerleştirmek [dikey])
+661	der Stock, die Stöcke (kat [bina])
+662	die Straße, die Straßen (cadde, sokak)
+663	die Straßenbahn, die Straßenbahnen (tramvay)
+664	der Student, die Studenten / die Studentin, die Studentinnen (üniversite öğrencisi)
+665	studieren, studiert, studierte, hat studiert (üniversitede okumak)
+666	das Studium, die Studien (üniversite eğitimi)
+667	die Stunde, die Stunden (saat [süre olarak])
+668	suchen, sucht, suchte, hat gesucht (aramak)
+669	der Süden (güney)
+670	der Tag, die Tage (gün)
+671	tanzen, tanzt, tanzte, hat getanzt (dans etmek)
+672	die Tasche, die Taschen (çanta; cep)
+673	tausend (bin)
+674	das Taxi, die Taxis (taksi)
+675	der Tee, die Tees (çay)
+676	der Teil, die Teile (bölüm, kısım)
+677	das Telefon, die Telefone (telefon)
+678	telefonieren, telefoniert, telefonierte, hat telefoniert (telefon etmek)
+679	der Termin, die Termine (randevu)
+680	der Test, die Tests (test, sınav)
+681	teuer, teurer, am teuersten (pahalı)
+682	der Text, die Texte (metin, yazı)
+683	das Thema, die Themen (konu, tema)
+684	das Ticket, die Tickets (bilet)
+685	der Tisch, die Tische (masa)
+686	die Tochter, die Töchter (kız evlat)
+687	die Toilette, die Toiletten (tuvalet)
+688	die Tomate, die Tomaten (domates)
+689	tot (ölü)
+690	(sich) treffen, trifft, traf, hat getroffen
+	1. buluşmak (sich treffen)
+	2. rastlamak/karşılaşmak (jemanden treffen)
+691	die Treppe, die Treppen (merdiven)
+692	trinken, trinkt, trank, hat getrunken (içmek)
+693	tun, tut, tat, hat getan (yapmak, etmek)
+694	die Uhr, die Uhren (saat [noktasal zaman]; saat [nesne])
+695	um (-de, -da [saatler için]; etrafında)
+696	umziehen, zieht um, zog um, ist umgezogen
+	1. taşınmak (ist umgezogen)
+	2. üstünü değiştirmek (hat sich umgezogen)
+697	und (ve)
+698	unser, unsere (bizim)
+699	unten (aşağıda, altta)
+700	unter (altında)
+701	der Unterricht (ders, öğretim)
+702	unterschreiben, unterschreibt, unterschrieb, hat unterschrieben (imzalamak)
+703	die Unterschrift, die Unterschriften (imza)
+704	der Urlaub, die Urlaube (tatil, izin)
+705	der Vater, die Väter (baba)
+706	verboten (yasak)
+707	verdienen, verdient, verdiente, hat verdient (para kazanmak, hak etmek)
+708	der Verein, die Vereine (dernek, kulüp)
+709	verkaufen, verkauft, verkaufte, hat verkauft (satmak)
+710	der Verkäufer, die Verkäufer / die Verkäuferin, die Verkäuferinnen (satıcı, tezgahtar)
+711	vermieten, vermietet, vermietete, hat vermietet (kiraya vermek)
+712	der Vermieter, die Vermieter / die Vermieterin, die Vermieterinnen (ev sahibi, kiraya veren)
+713	verstehen, versteht, verstand, hat verstanden (anlamak)
+714	der/die Verwandte, die Verwandten (akraba)
+715	viel, mehr, am meisten (çok [sayılamayanlar için])
+716	vielleicht (belki, galiba)
+717	vier (dört)
+718	vierte (dördüncü)
+719	das Viertel, die Viertel (çeyrek; semt, mahalle)
+720	vierzehn (on dört)
+721	vierzig (kırk)
+722	von (-den, -dan; -nın, -nin)
+723	vor (önünde; -den önce; kala [saatler için])
+724	der Vormittag (öğleden önce)
+725	der Vorname, die Vornamen (isim, ad)
+726	die Vorsicht (dikkat, tedbir)
+727	(sich) vorstellen, stellt vor, stellte vor, hat vorgestellt (tanıtmak; kendini tanıtmak)
+728	die Vorwahl, die Vorwahlen (alan kodu)
+729	der Wagen, die Wagen (araba; vagon)
+730	wandern, wandert, wanderte, ist gewandert (doğa yürüyüşü yapmak)
+731	wann (ne zaman)
+732	warten, wartet, wartete, hat gewartet (beklemek)
+733	warum (neden, niçin)
+734	was (ne?)
+735	(sich) waschen, wäscht, wusch, hat gewaschen (yıkamak; yıkanmak)
+736	das Wasser (su)
+737	weg sein, ist weg, war weg, ist weg gewesen (gitmiş olmak, kaybolmak)
+738	wehtun, tut weh, tat weh, hat wehgetan (ağrımak, acımak)
+739	weiblich (dişi, kadın)
+740	der Wein, die Weine (şarap)
+741	weit (uzak; geniş)
+742	weiter (devam; daha ileri)
+743	weiß (beyaz)
+744	welche (hangi [dişil/çoğul])
+745	welcher (hangi [eril])
+746	welches (hangi [nötr])
+747	die Welt, die Welten (dünya)
+748	wenig (az)
+749	wer (kim?)
+750	werden, wird, wurde, ist geworden (olmak; haline gelmek)
+751	der Westen (batı)
+752	das Wetter (hava durumu)
+753	wichtig (önemli)
+754	wie (nasıl; gibi)
+755	wie viel (ne kadar [sayılamayanlar için])
+756	wiederholen, wiederholt, wiederholte, hat wiederholt (tekrarlamak)
+757	das Wiederhören (tekrar görüşmek [telefonda])
+758	das Wiedersehen (tekrar görüşmek [yüz yüze])
+759	willkommen (hoş geldiniz)
+760	der Wind, die Winde (rüzgar)
+761	der Winter, die Winter (kış)
+762	wir (biz)
+763	wissen, weiß, wusste, hat gewusst (bilmek)
+764	wo (nerede)
+765	die Woche, die Wochen (hafta)
+766	das Wochenende, die Wochenenden (hafta sonu)
+767	der Wochentag, die Wochentage (hafta içi günü)
+768	woher (nereden)
+769	wohin (nereye)
+770	wohnen, wohnt, wohnte, hat gewohnt (ikamet etmek, oturmak)
+771	die Wohnung, die Wohnungen (daire, ev)
+772	wollen, will, wollte, hat gewollt (istemek)
+773	wunderbar (harika, muhteşem)
+774	zahlen, zahlt, zahlte, hat gezahlt (ödemek)
+775	zehn (on)
+776	die Zeit, die Zeiten (zaman, vakit)
+777	die Zeitung, die Zeitungen (gazete)
+778	der Zentimeter (santimetre)
+779	die Zigarette, die Zigaretten (sigara)
+780	das Zimmer, die Zimmer (oda)
+781	zirka/circa (yaklaşık, takriben)
+782	der Zoll, die Zölle (gümrük idaresi/kurumu)
+783	zu (-e, -a [yönelme]; için)
+784	zu (çok, fazla [bir sıfatın önünde])
+785	zu sein, ist zu, war zu, ist zu gewesen (kapalı olmak)
+786	zufrieden (memnun, hoşnut)
+787	der Zug, die Züge (tren)
+788	zurzeit (şu anda, bu sıralar)
+789	zurück (geri)
+790	zusammen (birlikte)
+791	zwanzig (yirmi)
+792	zwei (iki)
+793	zweihundert (iki yüz)
+794	zweite (ikinci)
+795	zwischen (arasında)
+796	zwölf (on iki)
+797	öffnen, öffnet, öffnete, hat geöffnet (açmak)
+798	das Öl, die Öle (yağ [sıvı])
+799	über (üzerinde [temassız]; hakkında; aracılığıyla)
+800	übernachten, übernachtet, übernachtete, hat übernachtet (gecelemek, konaklamak)
+801	überweisen, überweist, überwies, hat überwiesen (para transfer etmek, havale yapmak)
+
+	Almanca A2 Kelime Listesi
+--------------------------------------------------------------------------------------
+Almanca Kelime / 		İfade			Tür	Türkçe Açıklama
+
+abschließen – 			Verb			Fiil	Kapatmak, bitirmek, kilitlemek
+Ahnung, die – 			Substantiv		İsim	Fikir, sezgi
+aktiv – 			Adjektiv		Sıfat	Aktif
+aktuell – 			Adjektiv		Sıfat	Güncel
+als – 				Konjunktion		Bağlaç	-ken, olarak
+Ampel, die – 			Substantiv		İsim	Trafik ışığı
+anders – 			Adverb			Zarf	Başka, farklı
+Angst, die – 			Substantiv		İsim	Korku
+ansehen – 			Verb Fiil		Bakmak, izlemek
+Anzug, der – 			Substantiv		İsim	Takım elbise
+Apotheke, die – 		Substantiv		İsim	Eczane
+Apparat, der – 			Substantiv		İsim	Alet, cihaz
+arm – 				Adjektiv		Sıfat	Fakir
+Artikel, der – 			Substantiv		İsim	Madde, ürün, makale
+auf jeden Fall – 		Mehrwortausdruck	İfade	Her halükarda
+auf keinen Fall – 		Mehrwortausdruck	İfade	Hiçbir şekilde
+aufmachen – 			Verb			Fiil	Açmak
+aufpassen – 			Verb			Fiil	Dikkat etmek
+aufregen – 			Verb			Fiil	Sinirlendirmek, heyecanlandırmak
+aufräumen – 			Verb			Fiil	Toplamak, düzenlemek
+Ausbildung, die – 		Substantiv		İsim	Mesleki eğitim programı (3 Yıllık)
+ausgeben – 			Verb			Fiil	Harcamak (para)
+ausgehen – 			Verb			Fiil	Dışarı çıkmak
+auspacken – 			Verb			Fiil	Paketi açmak
+ausruhen – 			Verb			Fiil	Dinlenmek
+aussprechen – 			Verb			Fiil	Söylemek, telaffuz etmek
+Ausstellung, die – 		Substantiv		İsim	Sergi
+austauschen – 			Verb			Fiil	Değiştirmek, takas etmek
+austragen – 			Verb			Fiil	Dağıtmak (gazete, mektup)
+außer – 			Präposition		Edat	Dışında, haricinde
+außerdem – 			Adverb			Zarf	Ayrıca, bunun yanı sıra
+außerhalb – 			Adverb			Zarf	Dışında, dışarıda
+
+Babysitter, der – Substantiv	İsim	Bebek bakıcısı
+backen – Verb	Fiil	Pişirmek (fırında, özellikle ekmek veya pasta)
+Ball, der – Substantiv	İsim	Top
+Band, die – Substantiv	İsim	Grup, bant
+Basketball, der/das – Substantiv	İsim	Basketbol
+basteln – Verb	Fiil	El işi yapmak, uğraşmak
+bauen – Verb	Fiil	İnşa etmek, yapmak
+Baustelle, die – Substantiv	İsim	İnşaat alanı
+beantworten – Verb	Fiil	Cevaplamak
+bedanken – Verb	Fiil	Teşekkür etmek
+beeilen – Verb	Fiil	Acele etmek
+beenden – Verb	Fiil	Sonlandırmak, bitirmek
+begründen – Verb	Fiil	Gerekçelendirmek, sebep göstermek
+beliebt – Adjektiv	Sıfat	Popüler, sevilen
+bequem – Adjektiv	Sıfat	Rahat
+beraten – Verb	Fiil	Tavsiye etmek, danışmanlık yapmak
+Berg, der – Substantiv	İsim	Dağ
+berichten – Verb	Fiil	Bildirmek, rapor etmek
+berühmt – Adjektiv	Sıfat	Ünlü
+Bescheid, der – Substantiv	İsim	Bilgi, haber
+beschreiben – Verb	Fiil	Tanımlamak, betimlemek
+beschweren – Verb	Fiil	Şikayet etmek
+besonders – Adverb	Zarf	Özellikle
+bestehen – Verb	Fiil	Geçmek, başarmak
+bestätigen – Verb	Fiil	Onaylamak, doğrulamak
+Besuch, der – Substantiv	İsim	Ziyaret
+besucht – Adjektiv	Sıfat	Ziyaret edilen
+bewerben – Verb	Fiil	Başvurmak
+Bewerbung, die – Substantiv	İsim	Başvuru, dilekçe
+bewölkt – Adjektiv	Sıfat	Bulutlu
+Bibliothek, die – Substantiv	İsim	Kütüphane
+Blatt, das – Substantiv	İsim	Yaprak, kağıt sayfası
+Blog, das/der – Substantiv	İsim	Blog
+blond – Adjektiv	Sıfat	Sarı (saç için)
+Bluse, die – Substantiv	İsim	Bluz
+blöd – Adjektiv	Sıfat	Aptalca, saçma
+Bohne, die – Substantiv	İsim	Fasulye
+braten – Verb	Fiil	Kızartmak, ızgara yapmak
+Brille, die – Substantiv	İsim	Gözlük
+Brücke, die – Substantiv	İsim	Köprü
+buchen – Verb	Fiil	Rezervasyon yapmak, kayıt olmak
+bunt – Adjektiv	Sıfat	Renkli, cıvıl cıvıl
+Büro, das – Substantiv	İsim	Ofis, büro
+
+Cafeteria, die – Substantiv	İsim	Kafeterya
+chatten – Verb	Fiil	Sohbet etmek (internet üzerinden)
+Chefin, die – Substantiv	İsim	Kadın şef, kadın yönetici
+Comic, der – Substantiv	İsim	Çizgi roman
+Creme, Crème, die – Substantiv	İsim	Krem
+
+dabei – Pronominaladverb	Zarfsı Zamir	Bu sırada, yanında
+dafür – Pronominaladverb	Zarfsı Zamir	Bunun için, bu yüzden
+dagegen – Pronominaladverb	Zarfsı Zamir	Buna karşın
+damals – Adverb	Zarf	O zamanlar
+Dame, die – Substantiv	İsim	Bayan, kadın
+darauf – Pronominaladverb	Zarfsı Zamir	Bunun üzerine
+darüber – Pronominaladverb	Zarfsı Zamir	Bunun hakkında
+dass – Konjunktion	Bağlaç	Ki (yan cümlecikleri bağlar)
+Datei, die – Substantiv	İsim	Dosya
+denken – Verb	Fiil	Düşünmek
+deshalb – Konjunktion	Bağlaç	Bu yüzden
+deutlich – Adjektiv	Sıfat	Açık, belirgin
+dick – Adjektiv	Sıfat	Kalın, şişman
+Ding, das – Substantiv	İsim	Şey, nesne
+direkt – Adjektiv	Sıfat	Direkt, doğrudan
+Disco, Disko, die – Substantiv	İsim	Disko
+diskutieren – Verb	Fiil	Tartışmak
+doch – Adverb	Zarf	Ancak, yine de
+dorther – Pronominaladverb	Zarfsı Zamir	Oradan
+dorthin – Pronominaladverb	Zarfsı Zamir	Oraya
+dringend – Adjektiv	Sıfat	Acil
+drinnen – Adverb	Zarf	İçeride
+drüben – Adverb	Zarf	Karşıda, öte
+dumm – Adjektiv	Sıfat	Aptal
+dunkel – Adjektiv	Sıfat	Karanlık
+dünn – Adjektiv	Sıfat	İnce
+
+E-Book, das – Substantiv	İsim	E-kitap
+echt – Adjektiv	Sıfat	Gerçek, sahici
+egal – Adjektiv	Sıfat	Fark etmez, önemsiz
+Ehepartner, der – Substantiv	İsim	Eş, evlilik partneri
+eigen – Adjektiv	Sıfat	Özel, kendi
+eigentlich – Adjektiv	Sıfat	Aslında, gerçekte
+ein Mal, einmal – Adverb	Zarf	Bir kere, bir defa
+einige – Indefinitpronomen	Belirsiz Zamir	Birkaç, bazı
+Einkaufszentrum, das – Substantiv	İsim	Alışveriş merkezi
+einpacken – Verb	Fiil	Paketlemek, sarmak
+eintragen – Verb	Fiil	Kaydetmek, yazmak
+einverstanden – Adjektiv	Sıfat	Anlaşmış, razı
+einzeln – Adjektiv	Sıfat	Tek, bireysel
+einziehen – Verb	Fiil	Taşınmak (bir yere yerleşmek)
+Eis, das – Substantiv	İsim	Dondurma; buz
+endlich – Adverb	Zarf	Sonunda, nihayet
+eng – Adjektiv	Sıfat	Dar
+Erdgeschoss, das – Substantiv	İsim	Zemin kat
+Erfahrung, die – Substantiv	İsim	Tecrübe, deneyim
+erinnern – Verb	Fiil	Hatırlamak
+Erlaubnis, die – Substantiv	İsim	İzin
+Ermäßigung, die – Substantiv	İsim	İndirim
+erreichen – Verb	Fiil	Ulaşmak, erişmek
+erst – Adverb	Zarf	Henüz, daha
+etwas – Indefinitpronomen	Belirsiz Zamir	Bir şey, biraz
+
+Gabel, die – Substantiv	İsim	Çatal
+ganz – Adjektiv	Sıfat	Bütün, tam
+Garage, die – Substantiv	İsim	Garaj
+gefährlich – Adjektiv	Sıfat	Tehlikeli
+Gegenteil, das – Substantiv	İsim	Zıt, karşıt
+gegenüber – Präposition	Edat	Karşısında
+gegenüber – Adverb	Zarf	Karşıda, karşı tarafta
+Gehalt, das/der – Substantiv	İsim	Maaş
+Geldbörse, die – Substantiv	İsim	Cüzdan
+genau – Adjektiv	Sıfat	Kesin, doğru
+genug	Adverb	Yeterli
+Gericht, das – Substantiv	İsim	Yemek; mahkeme
+Gerät, das – Substantiv	İsim	Alet, cihaz
+Geschichte, die – Substantiv	İsim	Hikaye; tarih
+Geschirr, das – Substantiv	İsim	Bulaşık, yemek takımı
+gesund – Adjektiv	Sıfat	Sağlıklı
+Gesundheit, die – Substantiv	İsim	Sağlık
+Gewitter, das – Substantiv	İsim	Fırtına, gök gürültülü sağanak
+Gitarre, die – Substantiv	İsim	Gitar
+Grippe, die – Substantiv	İsim	Grip
+
+Hals, der – Substantiv	İsim	Boyun
+Hamburger, der – Substantiv	İsim	Hamburger
+Handtuch, das – Substantiv	İsim	Havlu
+hart – Adjektiv	Sıfat	Sert
+Hauptstadt, die – Substantiv	İsim	Başkent
+Haushalt, der – Substantiv	İsim	Ev halkı; bütçe
+Heft, das – Substantiv	İsim	Defter
+Heizung, die – Substantiv	İsim	Isıtma
+heiß – Adjektiv	Sıfat	Sıcak
+Hemd, das – Substantiv	İsim	Gömlek
+her – Adverb	Zarf	Buraya doğru
+her- – Affix	Önek	Bir yere doğru hareketi belirten önek
+heraus – Adverb	Zarf	Dışarı, dışarıya doğru
+herein – Adverb	Zarf	İçeri, içeriye doğru
+herstellen – Verb	Fiil	Üretmek, yapmak
+herunterladen – Verb	Fiil	İndirmek (bilgisayar)
+Himmel, der – Substantiv	İsim	Gökyüzü
+hin – Adverb	Zarf	Oraya doğru
+hin- – Affix	Önek	Bir yere doğru hareketi belirten önek
+hinter – Präposition	Edat	Arkasında
+hoffen – Verb	Fiil	Ummak, umut etmek
+hoffentlich – Adverb	Zarf	Umarım
+Homepage, die – Substantiv	İsim	Ana sayfa, web sitesi
+Hose, die – Substantiv	İsim	Pantolon
+husten – Verb	Fiil	Öksürmek
+Händetuch, das – Substantiv	İsim	El havlusu (Handtuch ile aynı)
+hängen – Verb	Fiil	Asmak; asılı olmak
+hässlich – Adjektiv	Sıfat	Çirkin
+
+Idee, die – Substantiv	İsim	Fikir
+informieren – Verb	Fiil	Bilgilendirmek, informasyon vermek
+Insel, die – Substantiv	İsim	Ada
+Instrument, das – Substantiv	İsim	Enstrüman, alet
+intelligent – Adjektiv	Sıfat	Zeki
+Interesse, das – Substantiv	İsim	İlgi, alaka
+interessieren – Verb	Fiil	İlgilenmek
+Interview, das – Substantiv	İsim	Röportaj, mülakat
+
+Jeans, die – Substantiv	İsim	Kot pantolon
+jemand – Indefinitpronomen	Belirsiz Zamir	Birisi, biri
+joggen – Verb	Fiil	Koşu yapmak, jogging yapmak
+Jugendherberge, die – Substantiv	İsim	Gençlik yurdu
+
+Kalender, der – Substantiv	İsim	Takvim
+kalt – Adjektiv	Sıfat	Soğuk
+Kamera, die – Substantiv	İsim	Kamera
+Katze, die – Substantiv	İsim	Kedi
+Kaufhaus, das – Substantiv	İsim	Alışveriş merkezi
+Keller, der – Substantiv	İsim	Bodrum, kiler
+Kenntnis, die – Substantiv	İsim	Bilgi, beceri
+Kette, die – Substantiv	İsim	Zincir; kolye
+Kirche, die – Substantiv	İsim	Kilise
+klappen – Verb	Fiil	İşlemek, başarılı olmak
+Klavier, das – Substantiv	İsim	Piyano
+Kleid, das – Substantiv	İsim	Elbise
+Klub, Club, der – Substantiv	İsim	Kulüp
+klug – Adjektiv	Sıfat	Akıllı
+Kollegin, die – Substantiv	İsim	Kadın meslektaş
+komisch – Adjektiv	Sıfat	Garip, komik
+Kontakt, der – Substantiv	İsim	İletişim, bağlantı
+kontrollieren – Verb	Fiil	Kontrol etmek
+Konzert, das – Substantiv	İsim	Konser
+Kosmetik, die – Substantiv	İsim	Kozmetik
+kostenlos – Adjektiv	Sıfat	Ücretsiz
+Krankenhaus, das – Substantiv	İsim	Hastane
+Krankenkasse, die – Substantiv	İsim	Sağlık sigortası
+Krankheit, die – Substantiv	İsim	Hastalık
+Kredit, der – Substantiv	İsim	Kredi
+Kreuzung, die – Substantiv	İsim	Kavşak
+Krimi, der – Substantiv	İsim	Polisiye (roman, film)
+Kultur, die – Substantiv	İsim	Kültür
+Kunst, die – Substantiv	İsim	Sanat
+Käse, der – Substantiv	İsim	Peynir
+Körper, der – Substantiv	İsim	Vücut
+kühl – Adjektiv	Sıfat	Serin
+kündigen – Verb	Fiil	İşten çıkarmak; istifa etmek, (sözleşme vb.) iptal etmek
+
+Lampe, die – Substantiv	İsim	Lamba
+Landschaft, die – Substantiv	İsim	Manzara, peyzaj
+langweilig – Adjektiv	Sıfat	Sıkıcı
+Laptop, der/das – Substantiv	İsim	Laptop
+lassen – Verb	Fiil	Bırakmak; izin vermek
+leer – Adjektiv	Sıfat	Boş
+leidtun – Verb	Fiil	Üzgün olmak, üzülmek
+leihen – Verb	Fiil	Ödünç almak, ödünç vermek
+Liebe, die – Substantiv	İsim	Aşk
+liefern – Verb	Fiil	Teslim etmek, sağlamak
+Link, der/das – Substantiv	İsim	Link, bağlantı adresi
+Lust, die – Substantiv	İsim	İstek, arzu
+Löffel, der – Substantiv	İsim	Kaşık
+Lüge, die – Substantiv	İsim	Yalan
+lügen – Verb	Fiil	Yalan söylemek
+
+Magen, der – Substantiv	İsim	Mide
+Mail, die/das – Substantiv	İsim	E-posta
+Mailbox, die – Substantiv	İsim	Posta kutusu, sesli mesaj kutusu
+mal – Adverb	Zarf	Bir kere, defa (konuşma dilinde)
+malen – Verb	Fiil	Resim yapmak, boyamak
+manch – Indefinitpronomen	Belirsiz Zamir	Bazı, birçok
+manchmal – Adverb	Zarf	Bazen, ara sıra
+Mannschaft, die – Substantiv	İsim	Takım
+Mantel, der – Substantiv	İsim	Paltó
+Markt, der – Substantiv	İsim	Pazar, market
+Medikament, das – Substantiv	İsim	İlaç
+meinen – Verb	Fiil	Demek istemek, kastetmek
+Meinung, die – Substantiv	İsim	Görüş, fikir
+meistens – Adverb	Zarf	Çoğunlukla
+Menge, die – Substantiv	İsim	Miktar, çokluk
+merken – Verb	Fiil	Fark etmek, hatırlamak
+Messe, die – Substantiv	İsim	Fuar
+Messer, das – Substantiv	İsim	Bıçak
+mindestens – Adverb	Zarf	En azından
+Mineralwasser, das – Substantiv	İsim	Maden suyu
+Mitarbeiter, der – Substantiv	İsim	Çalışan, personel
+Mittagessen, das – Substantiv	İsim	Öğle yemeği
+Mittel, das – Substantiv	İsim	Araç, yöntem; orta
+Mobiltelefon, das – Substantiv	İsim	Cep telefonu
+Mode, die – Substantiv	İsim	Moda
+modern – Adjektiv	Sıfat	Modern
+Motor, der – Substantiv	İsim	Motor
+Motorroller, der – Substantiv	İsim	Motorlu scooter
+Museum, das – Substantiv	İsim	Müze
+Musik, die – Substantiv	İsim	Müzik
+Müll, der – Substantiv	İsim	Çöp
+Mütze, die – Substantiv	İsim	Bere, şapka
+
+Nachbar, der – Substantiv	İsim	Komşu (erkek)
+Nachbarin, die – Substantiv	İsim	Komşu (kadın)
+Nachricht, die – Substantiv	İsim	Haber, mesaj
+nass – Adjektiv	Sıfat	Islak
+Natur, die – Substantiv	İsim	Doğa
+natürlich – Adjektiv	Sıfat	Doğal; elbette
+nebelig – Adjektiv	Sıfat	Sisli
+neben – Präposition	Edat	Yanında
+nebenan – Adverb	Zarf	Bitişikte, yan tarafta
+neblig – Adjektiv	Sıfat	Sisli (nebelig ile aynı)
+nennen – Verb	Fiil	Adlandırmak, söylemek
+nervös – Adjektiv	Sıfat	Sinirli, gergin
+nett – Adjektiv	Sıfat	Kibar, hoş
+niemand – Indefinitpronomen	Belirsiz Zamir	Hiç kimse
+nirgends – Adverb	Zarf	Hiçbir yerde
+Note, die – Substantiv	İsim	Not, derece
+notieren – Verb	Fiil	Not almak
+Notiz, die – Substantiv	İsim	Not
+notwendig – Adjektiv	Sıfat	Gerekli, zorunlu
+Nudel, die – Substantiv	İsim	Makarna
+Nächste, nächste, der/die – Substantiv	İsim	Sonraki, en yakın
+Nähe, die – Substantiv	İsim	Yakınlık
+nützlich – Adjektiv	Sıfat	Faydalı, yararlı
+
+offen – Adjektiv	Sıfat	Açık
+Ohr, das – Substantiv	İsim	Kulak
+online – Adverb	Zarf	Çevrimiçi
+Orange, die – Substantiv	İsim	Portakal
+organisieren – Verb	Fiil	Organize etmek
+
+paar – Indefinitpronomen	Belirsiz Zamir	Birkaç
+Paar, das – Substantiv	İsim	Çift
+packen – Verb	Fiil	Paketlemek, toplamak
+Paket, das – Substantiv	İsim	Paket
+Parfüm, Parfum, das – Substantiv	İsim	Parfüm
+Park, der – Substantiv	İsim	Park
+parken – Verb	Fiil	Park etmek
+passen – Verb	Fiil	Uymak, uygun olmak
+passieren – Verb	Fiil	Olmak, meydana gelmek
+Passwort, das – Substantiv	İsim	Şifre
+Person, die – Substantiv	İsim	Kişi
+Pferd, das – Substantiv	İsim	At
+Pflanze, die – Substantiv	İsim	Bitki
+photographieren – Verb	Fiil	Fotoğraf çekmek
+Pizza, die – Substantiv	İsim	Pizza
+Plakat, das – Substantiv	İsim	Afiş
+planen – Verb	Fiil	Planlamak
+plötzlich – Adjektiv	Sıfat	Ani, beklenmedik
+Portion, die – Substantiv	İsim	Porsiyon
+Poster, das/der – Substantiv	İsim	Poster
+Postkarte, die – Substantiv	İsim	Posta kartı
+praktisch – Adjektiv	Sıfat	Pratik
+preiswert – Adjektiv	Sıfat	Uygun fiyatlı
+privat – Adjektiv	Sıfat	Özel, kişisel
+pro – Präposition	Edat	Başına, her biri için
+probieren – Verb	Fiil	Denemek, tadına bakmak
+Produkt, das – Substantiv	İsim	Ürün
+Programm, das – Substantiv	İsim	Program
+Projekt, das – Substantiv	İsim	Proje
+prüfen – Verb	Fiil	Denetlemek, sınamak
+Pullover, der – Substantiv	İsim	Kazak
+putzen – Verb	Fiil	Temizlemek
+
+Qualität, die – Substantiv	İsim	Kalite
+Quiz, das – Substantiv	İsim	Bilgi yarışması, quiz
+
+Rad, das – Substantiv	İsim	Bisiklet
+Radio, das/der – Substantiv	İsim	Radyo
+raten (1) – Verb	Fiil	Tavsiye etmek
+raten (2) – Verb	Fiil	Tahmin etmek
+Rathaus, das – Substantiv	İsim	Belediye binası
+raus – Adverb	Zarf	Dışarı, dışarıya (konuşma dilinde)
+rechnen – Verb	Fiil	Hesap yapmak
+recht – Adjektiv	Sıfat	Haklı, doğru
+reden – Verb	Fiil	Konuşmak
+reich – Adjektiv	Sıfat	Zengin
+Reifen, der – Substantiv	İsim	Lastik (araba)
+Reihe, die – Substantiv	İsim	Sıra, dizi
+rein – Adverb	Zarf	İçeri (konuşma dilinde)
+Reinigung, die – Substantiv	İsim	Temizlik; kuru temizleme
+reiten – Verb	Fiil	Ata binmek
+renovieren – Verb	Fiil	Yenilemek, tadilat yapmak
+Rentner, der – Substantiv	İsim	Emekli (erkek)
+Rentnerin, die – Substantiv	İsim	Emekli (kadın)
+reservieren – Verb	Fiil	Rezerve etmek
+Rest, der – Substantiv	İsim	Kalan, arta kalan
+Rezept, das – Substantiv	İsim	Reçete; tarif
+Rind, das – Substantiv	İsim	Sığır
+Ring, der – Substantiv	İsim	Yüzük
+Rock, der – Substantiv	İsim	Etek
+romantisch – Adjektiv	Sıfat	Romantik
+Rose, die – Substantiv	İsim	Gül
+Rucksack, der – Substantiv	İsim	Sırt çantası
+rufen – Verb	Fiil	Çağırmak
+Ruhe, die – Substantiv	İsim	Sakinlik, huzur
+rund – Adjektiv	Sıfat	Yuvarlak; yaklaşık
+Rundgang, der – Substantiv	İsim	Tur, dolaşma
+Rätsel, das – Substantiv	İsim	Bulmaca
+Rücken, der – Substantiv	İsim	Sırt
+
+Sache, die – Substantiv	İsim	Şey, eşya
+sammeln – Verb	Fiil	Toplamak, biriktirmek
+sauber – Adjektiv	Sıfat	Temiz
+sauer – Adjektiv	Sıfat	Ekşi; kızgın
+schade – Adjektiv	Sıfat	Yazık, üzücü
+schaffen – Verb	Fiil	Başarmak, yapmak
+scharf – Adjektiv	Sıfat	Keskin; baharatlı
+schenken – Verb	Fiil	Hediye etmek
+Schere, die – Substantiv	İsim	Makas
+Schiff, das – Substantiv	İsim	Gemi
+schimpfen – Verb	Fiil	Azarlamak, söylenmek
+Schirm, der – Substantiv	İsim	Şemsiye
+Schlafzimmer, das – Substantiv	İsim	Yatak odası
+schlimm – Adjektiv	Sıfat	Kötü, fena
+Schloss (1), das – Substantiv	İsim	Kilit
+Schloss (2), das – Substantiv	İsim	Şato
+Schmerz, der – Substantiv	İsim	Ağrı, sancı
+schmutzig – Adjektiv	Sıfat	Kirli
+Schnee, der – Substantiv	İsim	Kar
+schneiden – Verb	Fiil	Kesmek
+schneien – Verb	Fiil	Kar yağmak
+Schokolade, die – Substantiv	İsim	Çikolata
+schrecklich – Adjektiv	Sıfat	Korkunç, berbat
+schriftlich – Adjektiv	Sıfat	Yazılı
+schwach – Adjektiv	Sıfat	Zayıf
+schwanger – Adjektiv	Sıfat	Hamile
+Schwein, das – Substantiv	İsim	Domuz
+schwierig – Adjektiv	Sıfat	Zor, güç
+schädlich – Adjektiv	Sıfat	Zararlı
+Schülerin, die – Substantiv	İsim	Öğrenci (kadın)
+Seife, die – Substantiv	İsim	Sabun
+Seite, die – Substantiv	İsim	Sayfa; taraf
+selbst – Pronomen	Zamir	Kendi
+Sendung, die – Substantiv	İsim	Yayın, program
+Service, der/das – Substantiv	İsim	Servis, hizmet
+setzen – Verb	Fiil	Oturtmak; yerleştirmek
+singen – Verb	Fiil	Şarkı söylemek
+Situation, die – Substantiv	İsim	Durum, vaziyet
+sogar – Adverb	Zarf	Hatta, bile
+sonnig – Adjektiv	Sıfat	Güneşli
+sonst – Adverb	Zarf	Aksi takdirde; başka
+spannend – Adjektiv	Sıfat	Heyecanlı
+sparen – Verb	Fiil	Tasarruf etmek
+Spass, Spaß, der – Substantiv	İsim	Eğlence, şaka
+spazieren – Verb	Fiil	Yürüyüş yapmak
+Spaziergang, der – Substantiv	İsim	Yürüyüş
+Spiel, das – Substantiv	İsim	Oyun
+sportlich – Adjektiv	Sıfat	Sportif
+Sportplatz, der – Substantiv	İsim	Spor alanı
+Sprechstunde, die – Substantiv	İsim	Muayene saati
+Stadtplan, der – Substantiv	İsim	Şehir haritası
+Star, der – Substantiv	İsim	Yıldız, ünlü
+stark – Adjektiv	Sıfat	Güçlü
+stattfinden – Verb	Fiil	Gerçekleşmek, olmak
+sterben – Verb	Fiil	Ölmek
+Stiefel, der – Substantiv	İsim	Bot
+Stift, der – Substantiv	İsim	Kalem
+Stipendium, das – Substantiv	İsim	Burs
+Stockwerk, das – Substantiv	İsim	Kat
+Strand, der – Substantiv	İsim	Plaj
+streiten – Verb	Fiil	Tartışmak, kavga etmek
+streng – Adjektiv	Sıfat	Sert, katı
+Stress, der – Substantiv	İsim	Stres
+stressig – Adjektiv	Sıfat	Stresli
+Studentin, die – Substantiv	İsim	Öğrenci (üniversite, kadın)
+Stuhl, der – Substantiv	İsim	Sandalye
+stören – Verb	Fiil	Rahatsız etmek
+Stück, das – Substantiv	İsim	Parça
+super – Adjektiv	Sıfat	Harika
+Supermarkt, der – Substantiv	İsim	Süpermarket
+Suppe, die – Substantiv	İsim	Çorba
+surfen – Verb	Fiil	Sörf yapmak; internet’te dolaşmak
+sympathisch – Adjektiv	Sıfat	Sevimli, sempatik
+süß – Adjektiv	Sıfat	Tatlı
+Süßigkeit, die – Substantiv	İsim	Şeker, tatlı şeyler
+
+T-Shirt, das – Substantiv	İsim	Tişört
+Tablet, das/der – Substantiv	İsim	Tablet
+Tablette, die – Substantiv	İsim	Tablet, hap
+Tafel, die – Substantiv	İsim	Tahta (okul)
+Taschengeld, das – Substantiv	İsim	Harçlık
+Tasse, die – Substantiv	İsim	Fincan
+tauschen – Verb	Fiil	Takas etmek
+Team, das – Substantiv	İsim	Takım
+teilen – Verb	Fiil	Paylaşmak
+teilnehmen – Verb	Fiil	Katılmak
+Teller, der – Substantiv	İsim	Tabak
+Tennis, das – Substantiv	İsim	Tenis
+Theater, das – Substantiv	İsim	Tiyatro
+tief – Adjektiv	Sıfat	Derin
+Tier, das – Substantiv	İsim	Hayvan
+Tipp, der – Substantiv	İsim	İpucu
+Titel, der – Substantiv	İsim	Başlık, unvan
+toll – Adjektiv	Sıfat	Harika
+Topf, der – Substantiv	İsim	Tencere
+Torte, die – Substantiv	İsim	Pasta
+total – Adjektiv	Sıfat	Tamamen
+Tour, die – Substantiv	İsim	Tur
+Tourist, der – Substantiv	İsim	Turist (erkek)
+Touristin, die – Substantiv	İsim	Turist (kadın)
+tragen – Verb	Fiil	Taşımak, giymek
+trainieren – Verb	Fiil	Antrenman yapmak
+Training, das – Substantiv	İsim	Antrenman, eğitim
+Traum, der – Substantiv	İsim	Rüya
+traurig – Adjektiv	Sıfat	Üzgün
+trocken – Adjektiv	Sıfat	Kuru
+träumen – Verb	Fiil	Rüya görmek
+Tschüss – Interjektion	Ünlem	Hoşça kal
+tschüss – Interjektion	Ünlem	Hoşça kal (Tschüss ile aynı)
+typisch – Adjektiv	Sıfat	Tipik, özgün
+Tür, die – Substantiv	İsim	Kapı
+
+umsteigen – Verb	Fiil	Aktarma yapmak, başka bir taşıma aracına geçmek
+Umzug, der – Substantiv	İsim	Taşınma; geçit töreni
+unbedingt – Adjektiv	Sıfat	Mutlaka, kesinlikle
+Unfall, der – Substantiv	İsim	Kaza
+Universität, die – Substantiv	İsim	Üniversite
+unterhalten (1) – Verb	Fiil	Sohbet etmek, eğlendirmek
+unterhalten (2) – Verb	Fiil	Bakmak, geçimini sağlamak
+Unterkunft, die – Substantiv	İsim	Konaklama yeri
+unternehmen – Verb	Fiil	Yapmak, girişimde bulunmak
+Unterschied, der – Substantiv	İsim	Fark, ayrım
+untersuchen – Verb	Fiil	İncelemek, araştırmak
+unterwegs – Adverb	Zarf	Yolda, seyahatte
+
+verabreden – Verb	Fiil	Randevulaşmak, anlaşmak
+Veranstaltung, die – Substantiv	İsim	Etkinlik, organizasyon
+verbieten – Verb	Fiil	Yasaklamak
+vereinbaren – Verb	Fiil	Anlaşmak, kararlaştırmak
+vergessen – Verb	Fiil	Unutmak
+vergleichen – Verb	Fiil	Karşılaştırmak
+Verkehr, der – Substantiv	İsim	Trafik
+Verkehrsmittel, das – Substantiv	İsim	Ulaşım aracı
+verletzen – Verb	Fiil	Yaralamak, incitmek
+verlieben – Verb	Fiil	Aşık olmak
+verlieren – Verb	Fiil	Kaybetmek
+Vermieterin, die – Substantiv	İsim	Kiraya veren (kadın)
+verpassen – Verb	Fiil	Kaçırmak (fırsat, araç vb.)
+verreisen – Verb	Fiil	Seyahate çıkmak
+verschieben – Verb	Fiil	Ertelemek, kaydırmak
+verschieden – Adjektiv	Sıfat	Farklı, çeşitli
+Verspätung, die – Substantiv	İsim	Gecikme
+versuchen – Verb	Fiil	Denemek, tecrübe etmek
+Vertrag, der – Substantiv	İsim	Sözleşme, anlaşma
+Vogel, der – Substantiv	İsim	Kuş
+voll – Adjektiv	Sıfat	Dolu
+Volleyball, das/der – Substantiv	İsim	Voleybol
+vorbei – Adverb	Zarf	Geçmiş, sona ermiş
+vorbereiten – Verb	Fiil	Hazırlamak
+vorgestern – Adverb	Zarf	Evvelsi gün
+vorher – Adverb	Zarf	Önceden, daha önce
+vorn – Adverb	Zarf	Önde
+vorne – Adverb	Zarf	Ön tarafta
+Vorschlag, der – Substantiv	İsim	Öneri, teklif
+vorwärts – Adverb	Zarf	İleri, ileriye doğru
+
+wach – Adjektiv	Sıfat	Uyanık
+wahr – Adjektiv	Sıfat	Doğru, gerçek
+wahrscheinlich – Adjektiv	Sıfat	Muhtemelen
+Wald, der – Substantiv	İsim	Orman
+warm – Adjektiv	Sıfat	Ilık, sıcak
+Webseite, Web-Seite, die – Substantiv	İsim	Web sitesi
+wechseln – Verb	Fiil	Değiştirmek
+wecken – Verb	Fiil	Uyandırmak
+Weg, der – Substantiv	İsim	Yol
+weg – Adverb	Zarf	Uzak, gitti
+wegen – Präposition	Edat	-den dolayı
+weich – Adjektiv	Sıfat	Yumuşak
+weil – Konjunktion	Bağlaç	Çünkü
+weinen – Verb	Fiil	Ağlamak
+wenigstens – Adverb	Zarf	En azından
+wenn – Konjunktion	Bağlaç	Eğer
+Werkstatt, die – Substantiv	İsim	Atölye
+Wettbewerb, der – Substantiv	İsim	Yarışma
+wieder – Adverb	Zarf	Yeniden
+windig – Adjektiv	Sıfat	Rüzgarlı
+wirklich – Adjektiv	Sıfat	Gerçekten
+Witz, der – Substantiv	İsim	Şaka
+witzig – Adjektiv	Sıfat	Komik
+Wohnzimmer, das – Substantiv	İsim	Oturma odası
+Wolke, die – Substantiv	İsim	Bulut
+Workshop, der – Substantiv	İsim	Atölye, çalıştay
+Wunsch, der – Substantiv	İsim	Dilek, istek
+wurscht – Adjektiv	Sıfat	Fark etmez (konuşma dilinde, genellikle “egal” ile aynı anlamda kullanılır)
+wurst – Adjektiv	Sıfat	Umursamaz, ilgisiz (konuşma dilinde, genellikle “egal” ile aynı anlamda kullanılır)
+Wurst, die – Substantiv	İsim	Sosis
+wählen – Verb	Fiil	Seçmek
+Wäsche, die – Substantiv	İsim	Çamaşır
+wünschen – Verb	Fiil	Dilemek, istemek
+
+Zahl, die – Substantiv	İsim	Sayı
+Zahn, der – Substantiv	İsim	Diş
+zeichnen – Verb	Fiil	Çizmek
+zeigen – Verb	Fiil	Göstermek
+Zeitschrift, die – Substantiv	İsim	Dergi
+Zelt, das – Substantiv	İsim	Çadır
+Zentrum, das – Substantiv	İsim	Merkez
+Zettel, der – Substantiv	İsim	Not kağıdı
+Zeugnis, das – Substantiv	İsim	Karnet, belge
+ziehen – Verb	Fiil	Çekmek
+Ziel, das – Substantiv	İsim	Hedef, amaç
+Zirkus, Circus, der – Substantiv	İsim	Sirk
+Zitrone, die – Substantiv	İsim	Limon
+Zoo, der – Substantiv	İsim	Hayvanat bahçesi
+Zucker, der – Substantiv	İsim	Şeker
+zuerst – Adverb	Zarf	İlk olarak
+zuhören – Verb	Fiil	Dinlemek
+zuletzt – Adverb	Zarf	En son
+zum Beispiel – Mehrwortausdruck	İfade	Örneğin
+zumachen – Verb	Fiil	Kapatmak (kapı, pencere vb.)
+zurück- – Affix	Önek	Geriye dönük eylemleri belirten önek
+zurückfahren – Verb	Fiil	Geri dönmek (taşıtla)
+zurückgeben – Verb	Fiil	Geri vermek
+zurückgehen – Verb	Fiil	Geri gitmek
+zurückkommen – Verb	Fiil	Geri dönmek
+zurücklaufen – Verb	Fiil	Geri koşmak
+
+ändern – Verb	Fiil	Değiştirmek, değişmek
+ärgern – Verb	Fiil	Sinirlendirmek, kızdırmak; sinirlenmek
+
+üben – Verb	Fiil	Pratik yapmak, çalışmak
+überall – Adverb	Zarf	Her yerde
+übermorgen – Adverb	Zarf	Yarından sonraki gün
+übersetzen – Verb	Fiil	Çevirmek (dil)
+Übersetzung, die – Substantiv	İsim	Çeviri
+
+Almanca B1 Kelimeler
+-----------------------------------------------------------------------
+
+Almanca Kelime / İfade	Tür	Türkçe Açıklama
+abbiegen – Verb	Fiil	Dönmek (yol)
+Abbildung, die – Substantiv	İsim	Resim, illüstrasyon
+Abenteuer, das – Substantiv	İsim	Macera
+Abfall, der – Substantiv	İsim	Çöp
+Abfalleimer, der – Substantiv	İsim	Çöp kutusu
+Abgas, das – Substantiv	İsim	Egzoz gazı
+abhängen – Verb	Fiil	Bağlı olmak; takılmak (argoda)
+abheben – Verb	Fiil	Para çekmek (bankadan); kalkmak (uçak)
+abhängig – Adjektiv	Sıfat	Bağımlı
+Abitur, das – Substantiv	İsim	Lise bitirme sınavı, yüksek öğretime geçiş sınavı
+ablehnen – Verb	Fiil	Reddetmek
+abmachen – Verb	Fiil	Anlaşmak, kararlaştırmak
+abnehmen – Verb	Fiil	Azalmak; kilo vermek
+Abonnement, das – Substantiv	İsim	Abonelik
+abonnieren – Verb	Fiil	Abone olmak
+absagen – Verb	Fiil	İptal etmek
+Abschied, der – Substantiv	İsim	Veda
+Abschluss, der – Substantiv	İsim	Mezuniyet, bitirme
+Abschnitt, der – Substantiv	İsim	Bölüm, kısım
+abschreiben – Verb	Fiil	Kopya çekmek
+Absenderin, die – Substantiv	İsim	Gönderen (kadın)
+absolut – Adjektiv	Sıfat	Mutlak, kesin
+abstimmen – Verb	Fiil	Oylamak, uyum sağlamak
+Abt, der – Substantiv	İsim	Manastır başkanı
+Abteilung, die – Substantiv	İsim	Bölüm, departman
+Abwart, der – Substantiv	İsim	Kapıcı, hademe
+Abwartin, die – Substantiv	İsim	Kadın kapıcı, hademe
+abwaschen – Verb	Fiil	Yıkamak (bulaşık)
+abwesend – Adjektiv	Sıfat	Yok, mevcut değil
+abwärts – Adverb	Zarf	Aşağıya doğru
+achten – Verb	Fiil	Saygı göstermek, dikkat etmek
+Aktion, die – Substantiv	İsim	Kampanya, hareket
+Aktivität, die – Substantiv	İsim	Aktivite
+akzeptieren – Verb	Fiil	Kabul etmek
+Alarm, der – Substantiv	İsim	Alarm
+Alkohol, der – Substantiv	İsim	Alkol
+allerbest – Adjektiv	Sıfat	En iyi
+allerdings – Adverb	Zarf	Ancak, ne var ki
+allerschönst – Adjektiv	Sıfat	En güzel
+allgemein – Adjektiv	Sıfat	Genel
+Alltag, der – Substantiv	İsim	Günlük yaşam
+alltäglich – Adjektiv	Sıfat	Günlük, sıradan
+Alphabet, das – Substantiv	İsim	Alfabe
+Altenheim, das – Substantiv	İsim	Huzurevi
+alternativ – Adjektiv	Sıfat	Alternatif
+Alternative, die – Substantiv	İsim	Alternatif
+Altersheim, das – Substantiv	İsim	Yaşlılar evi
+Amt, das – Substantiv	İsim	Daire, ofis
+amüsieren – Verb	Fiil	Eğlenmek
+analysieren – Verb	Fiil	Analiz etmek
+Anbieter, der – Substantiv	İsim	Sağlayıcı, sunucu
+andererseits – Adverb	Zarf	Öte yandan
+anerkennen – Verb	Fiil	Tanımak, kabul etmek
+anfangs – Adverb	Zarf	Başlangıçta
+Angabe, die – Substantiv	İsim	Bilgi, beyan
+angeben – Verb	Fiil	Belirtmek, hava atmak
+Angehörige, der/die – Substantiv	İsim	Aile üyesi, yakın
+angenehm – Adjektiv	Sıfat	Hoş, keyifli
+Angestellte, der/die – Substantiv	İsim	Memur, çalışan
+anhaben – Verb	Fiil	Giymek, üzerinde olmak
+ankündigen – Verb	Fiil	Duyurmak, bildirmek
+Anlage, die – Substantiv	İsim	Tesis, düzenek
+Anleitung, die – Substantiv	İsim	Kılavuz, yönerge
+annehmen – Verb	Fiil	Kabul etmek, varsaymak
+Annonce, die – Substantiv	İsim	İlan
+anschaffen – Verb	Fiil	Satın almak
+anschließen – Verb	Fiil	Bağlamak, katılmak
+anschnallen – Verb	Fiil	Emniyet kemeri takmak
+ansprechen – Verb	Fiil	Hitap etmek, etkilemek
+Anspruch, der – Substantiv	İsim	Hak, talep
+anstellen – Verb	Fiil	İşe almak; sıraya girmek
+anstrengen – Verb	Fiil	Zorlamak, çaba göstermek
+anstrengend – Adjektiv	Sıfat	Yorucu
+Antrag, der – Substantiv	İsim	Başvuru, dilekçe
+Anwalt, der – Substantiv	İsim	Avukat
+anwenden – Verb	Fiil	Uygulamak
+anwesend – Adjektiv	Sıfat	Hazır, mevcut
+Anwältin, die – Substantiv	İsim	Kadın avukat
+Anzahl, die – Substantiv	İsim	Sayı, miktar
+anzeigen – Verb	Fiil	Bildirmek, ilan etmek
+Aprikose, die – Substantiv	İsim	Kayısı
+Arbeiter, der – Substantiv	İsim	İşçi (erkek)
+Arbeiterin, die – Substantiv	İsim	İşçi (kadın)
+Arbeitserlaubnis, die – Substantiv	İsim	Çalışma izni
+Arbeitslosigkeit, die – Substantiv	İsim	İşsizlik
+Arbeitsstelle, die – Substantiv	İsim	İş yeri
+Architekt, der – Substantiv	İsim	Mimar (erkek)
+Architektin, die – Substantiv	İsim	Mimar (kadın)
+Art, die – Substantiv	İsim	Tür, çeşit
+Asyl, das – Substantiv	İsim	Sığınma
+Atem, der – Substantiv	İsim	Nefes
+atmen – Verb	Fiil	Nefes almak
+Aufenthalt, der – Substantiv	İsim	İkamet, duraklama
+auffallen – Verb	Fiil	Dikkat çekmek
+auffordern – Verb	Fiil	Davet etmek, talep etmek
+Aufforderung, die – Substantiv	İsim	Çağrı, talep
+aufführen – Verb	Fiil	Sahnelemek, göstermek
+aufgeben – Verb	Fiil	Vazgeçmek, postalamak
+aufhalten – Verb	Fiil	Durdurmak, engellemek
+aufheben – Verb	Fiil	Kaldırmak, iptal etmek
+aufladen – Verb	Fiil	Şarj etmek
+auflösen – Verb	Fiil	Çözmek, feshetmek
+aufmerksam – Adjektiv	Sıfat	Dikkatli
+Aufnahme, die – Substantiv	İsim	Kayıt, alım
+aufnehmen – Verb	Fiil	Kaydetmek, kabul etmek
+aufschreiben – Verb	Fiil	Yazmak, not almak
+Auftrag, der – Substantiv	İsim	Görev, sipariş
+auftreten – Verb	Fiil	Sahneye çıkmak, ortaya çıkmak
+Auftritt, der – Substantiv	İsim	Sahne performansı
+aufwachen – Verb	Fiil	Uyanmak
+aufwärts – Adverb	Zarf	Yukarı doğru
+Augenblick, der – Substantiv	İsim	An, göz açıp kapayıncaya kadar
+ausbilden – Verb	Fiil	Eğitmek
+Ausdruck, der – Substantiv	İsim	İfade, baskı
+ausdrucken – Verb	Fiil	Yazdırmak (bilgisayardan)
+auseinander – Adverb	Zarf	Birbirinden ayrı
+Ausfahrt, die – Substantiv	İsim	Çıkış (otoyol)
+ausfallen – Verb	Fiil	İptal olmak, çalışmamak
+Ausgabe, die – Substantiv	İsim	Harcama, baskı
+ausgezeichnet – Adjektiv	Sıfat	Mükemmel
+Aushilfe, die – Substantiv	İsim	Yardımcı, geçici eleman
+Ausländerin, die – Substantiv	İsim	Yabancı (kadın)
+Ausnahme, die – Substantiv	İsim	İstisna
+ausreichen – Verb	Fiil	Yeterli olmak
+ausrichten – Verb	Fiil	İletmek, düzenlemek
+ausschließen – Verb	Fiil	Hariç tutmak, dışlamak
+ausschließlich – Adverb	Zarf	Sadece, yalnızca
+Aussprache, die – Substantiv	İsim	Telaffuz, konuşma
+ausstellen – Verb	Fiil	Sergilemek
+aussuchen – Verb	Fiil	Seçmek, ayırmak
+Auswahl, die – Substantiv	İsim	Seçim, çeşit
+auswählen – Verb	Fiil	Seçmek
+Autor, der – Substantiv	İsim	Yazar (erkek)
+Autorin, die – Substantiv	İsim	Yazar (kadın)
+außen – Adverb	Zarf	Dışarıda
+
+Backofen, der – Substantiv	İsim	Fırın
+Backrohr, das – Substantiv	İsim	Fırın (Backofen ile aynı)
+Badewanne, die – Substantiv	İsim	Küvet
+Ballett, das – Substantiv	İsim	Bale
+Bancomat, der – Substantiv	İsim	ATM (Bankamatik)
+Bancomatkarte, die – Substantiv	İsim	Banka kartı
+Bankleitzahl, die – Substantiv	İsim	Banka kodu
+Bankomat, der – Substantiv	İsim	ATM (Bankamatik)
+Bankomatkarte, die – Substantiv	İsim	Banka kartı
+Bar, die – Substantiv	İsim	Bar
+Bargeld, das – Substantiv	İsim	Nakit para
+Bart, der – Substantiv	İsim	Sakal
+Batterie, die – Substantiv	İsim	Pil
+Bau, der – Substantiv	İsim	İnşaat
+Bauer, der – Substantiv	İsim	Çiftçi
+Bauernhof, der – Substantiv	İsim	Çiftlik
+beachten – Verb	Fiil	Dikkate almak, göz önünde bulundurmak
+Beamtin, die – Substantiv	İsim	Memur (kadın)
+beantragen – Verb	Fiil	Başvurmak
+Bedarf, der – Substantiv	İsim	İhtiyaç
+Bedeutung, die – Substantiv	İsim	Anlam
+bedienen – Verb	Fiil	Hizmet etmek, kullanmak
+Bedienungsanleitung, die – Substantiv	İsim	Kullanım kılavuzu
+Bedingung, die – Substantiv	İsim	Koşul
+beeinflussen – Verb	Fiil	Etkilemek
+befinden – Verb	Fiil	Bulunmak
+befreit – Adjektiv	Sıfat	Muaf
+befriedigend – Adjektiv	Sıfat	Tatmin edici
+begegnen – Verb	Fiil	Karşılaşmak
+begeistert – Adjektiv	Sıfat	Heyecanlı, coşkulu
+Beginn, der – Substantiv	İsim	Başlangıç
+begleiten – Verb	Fiil	Eşlik etmek
+begrenzt – Adjektiv	Sıfat	Sınırlı
+Begründung, die – Substantiv	İsim	Gerekçe
+begrüßen – Verb	Fiil	Selamlamak
+behalten – Verb	Fiil	Saklamak, muhafaza etmek
+behandeln – Verb	Fiil	Tedavi etmek, ele almak
+behaupten – Verb	Fiil	İddia etmek
+behindern – Verb	Fiil	Engel olmak
+Behörde, die – Substantiv	İsim	Resmi daire
+beinah – Adverb	Zarf	Neredeyse
+beinahe – Adverb	Zarf	Neredeyse
+Beitrag, der – Substantiv	İsim	Katkı, makale
+beißen – Verb	Fiil	Isırmak
+bekanntgeben – Verb	Fiil	Duyurmak
+Beleg, der – Substantiv	İsim	Belge, fiş
+beleidigen – Verb	Fiil	Hakaret etmek
+bemerken – Verb	Fiil	Fark etmek
+bemühen – Verb	Fiil	Çaba göstermek
+Benzin, das – Substantiv	İsim	Benzin
+benötigen – Verb	Fiil	İhtiyaç duymak
+beobachten – Verb	Fiil	Gözlemlemek
+Beratung, die – Substantiv	İsim	Danışmanlık
+berechnen – Verb	Fiil	Hesaplamak
+Bereich, der – Substantiv	İsim	Alan, bölge
+bereit – Adjektiv	Sıfat	Hazır
+bereits – Adverb	Zarf	Zaten, çoktan
+Bericht, der – Substantiv	İsim	Rapor, haber
+beruflich – Adjektiv	Sıfat	Mesleki
+berufstätig – Adjektiv	Sıfat	Meslek sahibi, çalışan
+beruhigen – Verb	Fiil	Sakinleştirmek
+beschließen – Verb	Fiil	Karar vermek
+Beschreibung, die – Substantiv	İsim	Tanım, açıklama
+beschränken – Verb	Fiil	Sınırlamak
+beschädigen – Verb	Fiil	Zarar vermek
+beschäftigen – Verb	Fiil	Meşgul etmek
+Beschäftigung, die – Substantiv	İsim	İş, uğraş
+besetzen – Verb	Fiil	İşgal etmek
+besonder – Adjektiv	Sıfat	Özel
+besorgen – Verb	Fiil	Temin etmek
+besprechen – Verb	Fiil	Görüşmek, tartışmak
+Besprechung, die – Substantiv	İsim	Toplantı, görüşme
+Besserung, die – Substantiv	İsim	İyileşme
+bestimmt – Adjektiv	Sıfat	Belirli
+bestrafen – Verb	Fiil	Cezalandırmak
+Bestätigung, die – Substantiv	İsim	Onay
+beteiligen – Verb	Fiil	Katılmak, iştirak etmek
+Betrag, der – Substantiv	İsim	Miktar, tutar
+betreuen – Verb	Fiil	Bakmak, ilgilenmek
+Betreuer, der – Substantiv	İsim	Bakıcı, danışman
+Betreuerin, die – Substantiv	İsim	Bakıcı, danışman (kadın)
+Betreuung, die – Substantiv	İsim	Bakım, gözetim
+Betrieb, der – Substantiv	İsim	İşletme, faaliyet
+Betriebsrat, der – Substantiv	İsim	İşçi temsilcisi
+Betriebsrätin, die – Substantiv	İsim	İşçi temsilcisi (kadın)
+betrunken – Adjektiv	Sıfat	Sarhoş
+betrügen – Verb	Fiil	Aldatmak
+bevor – Konjunktion	Bağlaç	-den önce
+Bevölkerung, die – Substantiv	İsim	Nüfus
+Bewegung, die – Substantiv	İsim	Hareket
+Beweis, der – Substantiv	İsim	Kanıt
+beweisen – Verb	Fiil	Kanıtlamak
+Bewohner, der – Substantiv	İsim	Sakin, oturan kişi
+Bewohnerin, die – Substantiv	İsim	Sakin, oturan kişi (kadın)
+Beziehung, die – Substantiv	İsim	İlişki
+bieten – Verb	Fiil	Sunmak, teklif etmek
+Bildschirm, der – Substantiv	İsim	Ekran
+Billett, das – Substantiv	İsim	Bilet
+bio – Adjektiv	Sıfat	Organik
+Bio- – Affix	Önek	Organik (önek olarak)
+Biologie, die – Substantiv	İsim	Biyoloji
+biologisch – Adjektiv	Sıfat	Biyolojik, organik
+bisher – Adverb	Zarf	Şimdiye kadar
+blass – Adjektiv	Sıfat	Solgun
+blind – Adjektiv	Sıfat	Kör
+Blitz, der – Substantiv	İsim	Şimşek
+blitzen – Verb	Fiil	Şimşek çakmak
+bloß – Adverb	Zarf	Sadece, yalnızca
+bluten – Verb	Fiil	Kanamak
+blühen – Verb	Fiil	Çiçek açmak
+Boden, der – Substantiv	İsim	Zemin, toprak
+Boot, das – Substantiv	İsim	Bot, tekne
+Botschaft, die – Substantiv	İsim	Büyükelçilik; mesaj
+Braten, der – Substantiv	İsim	Kızartma, rosto
+brechen – Verb	Fiil	Kırmak, çatlamak
+Bremse, die – Substantiv	İsim	Fren
+bremsen – Verb	Fiil	Fren yapmak
+brennen – Verb	Fiil	Yanmak
+Briefkasten, der – Substantiv	İsim	Posta kutusu
+Brieftasche, die – Substantiv	İsim	Cüzdan
+Briefträger, der – Substantiv	İsim	Postacı (erkek)
+Briefträgerin, die – Substantiv	İsim	Postacı (kadın)
+Briefumschlag, der – Substantiv	İsim	Zarf
+Broschüre, die – Substantiv	İsim	Broşür
+Brust, die – Substantiv	İsim	Göğüs
+Brötli, das – Substantiv	İsim	Küçük ekmek, sandviç ekmeği
+Bub, der – Substantiv	İsim	Oğlan, çocuk (İsviçre Almancası’nda)
+Buchhandlung, die – Substantiv	İsim	Kitapçı
+Buffet, das – Substantiv	İsim	Büfe
+Burg, die – Substantiv	İsim	Kale
+Büchse, die – Substantiv	İsim	Kutu, teneke
+Büfett, das – Substantiv	İsim	Büfe
+Bühne, die – Substantiv	İsim	Sahne
+Bürger, der – Substantiv	İsim	Vatandaş (erkek)
+Bürgerin, die – Substantiv	İsim	Vatandaş (kadın)
+Bürste, die – Substantiv	İsim	Fırça
+
+Chance, die – Substantiv	İsim	Şans, fırsat
+Chipkarte, die – Substantiv	İsim	Çip kartı
+Coiffeur, der – Substantiv	İsim	Erkek kuaförü
+Coiffeuse, die – Substantiv	İsim	Kadın kuaförü
+Couch, die – Substantiv	İsim	Koltuk, kanape
+Cousin, der – Substantiv	İsim	Erkek kuzen
+Cousine, Kusine, die – Substantiv	İsim	Kadın kuzen
+Couvert, das – Substantiv	İsim	Mektup zarfı ve içeriği; restoranda kullanılan tabak çatal bıçak seti
+
+Dach, das – Substantiv	İsim	Çatı
+daher – Pronominaladverb	Zarf	Bu yüzden, bu nedenle
+dahin – Pronominaladverb	Zarf	Oraya, o yere
+damit – Pronominaladverb	Zarf	Bununla, bu ile
+damit – Konjunktion	Bağlaç	-sı için, amacıyla
+danach – Pronominaladverb	Zarf	Sonra, ondan sonra
+dankbar – Adjektiv	Sıfat	Minnettar
+darstellen – Verb	Fiil	Temsil etmek, göstermek
+Darstellung, die – Substantiv	İsim	Temsil, gösterim
+dasselbe – Demonstrativpronomen	İşaret Zamiri	Aynı şey
+Daten – Substantiv	İsim	Veriler
+Dauer, die – Substantiv	İsim	Süre
+dauernd – Adjektiv	Sıfat	Sürekli
+Decke, die – Substantiv	İsim	Tavan; battaniye
+dekorieren – Verb	Fiil	Dekore etmek
+Denkmal, das – Substantiv	İsim	Anıt
+derselbe – Demonstrativpronomen	İşaret Zamiri	Aynı
+Dessert, das – Substantiv	İsim	Tatlı
+desto – Konjunktion	Bağlaç	-dıkça, -dikçe
+deswegen – Konjunktion	Bağlaç	Bu yüzden
+Detail, das – Substantiv	İsim	Detay
+Dialekt, der – Substantiv	İsim	Lehçe, diyalekt
+Dialog, der – Substantiv	İsim	Diyalog
+dicht – Adjektiv	Sıfat	Yoğun; sıkı
+Dieb, der – Substantiv	İsim	Hırsız
+dienen – Verb	Fiil	Hizmet etmek
+Dienst, der – Substantiv	İsim	Hizmet, görev
+dies – Demonstrativpronomen	İşaret Zamiri	Bu
+diese – Demonstrativpronomen	İşaret Zamiri	Bu
+dieselbe – Demonstrativpronomen	İşaret Zamiri	Aynı (kadın/çoğul için)
+dieser – Demonstrativpronomen	İşaret Zamiri	Bu
+dieses – Demonstrativpronomen	İşaret Zamiri	Bu
+diesmal – Adverb	Zarf	Bu sefer, bu kez
+digital – Adjektiv	Sıfat	Dijital
+Diplom, das – Substantiv	İsim	Diploma
+Direktor, der – Substantiv	İsim	Müdür
+Direktorin, die – Substantiv	İsim	Müdür (kadın)
+Diskothek, die – Substantiv	İsim	Disko
+Diskussion, die – Substantiv	İsim	Tartışma
+Distanz, die – Substantiv	İsim	Mesafe
+Diät, die – Substantiv	İsim	Diyet
+Doktorin, die – Substantiv	İsim	Doktor (kadın)
+Dokument, das – Substantiv	İsim	Belge
+Donner, der – Substantiv	İsim	Gök gürültüsü
+donnern – Verb	Fiil	Gök gürlemek
+doppel- – Affix	Önek	Çift, iki kat
+doppelt – Adjektiv	Sıfat	İki kat, çift
+Dose, die – Substantiv	İsim	Kutu
+Dreck, der – Substantiv	İsim	Kir, pislik
+drehen – Verb	Fiil	Döndürmek
+drin – Pronominaladverb	Zarf	İçinde
+Droge, die – Substantiv	İsim	Uyuşturucu
+Drogerie, die – Substantiv	İsim	Eczane, drogeri
+Druck, der – Substantiv	İsim	Baskı
+durcheinander – Adverb	Zarf	Karışık, düzensiz
+Durchschnitt, der – Substantiv	İsim	Ortalama
+durchschnittlich – Adjektiv	Sıfat	Ortalama
+durstig – Adjektiv	Sıfat	Susamış
+duzen – Verb	Fiil	Sen diye hitap etmek
+
+eben – Adverb	Zarf	Tam olarak, az önce
+ebenfalls – Konjunktion	Bağlaç	Aynı şekilde
+ebenso – Adverb	Zarf	Aynı şekilde
+EC-Karte, die – Substantiv	İsim	Banka kartı
+Eck, das – Substantiv	İsim	Köşe
+eckig – Adjektiv	Sıfat	Köşeli
+Ehe, die – Substantiv	İsim	Evlilik
+Ehepaar, das – Substantiv	İsim	Evli çift
+eher – Komparativ	Sıfat	Daha ziyade
+ehrlich – Adjektiv	Sıfat	Dürüst
+eignen – Verb	Fiil	Uygun olmak
+Eile, die – Substantiv	İsim	Acele
+eilen – Verb	Fiil	Acele etmek
+ein paar – Indefinitpronomen	Zamir	Birkaç
+Einbahnstraße, die – Substantiv	İsim	Tek yönlü sokak
+einbrechen – Verb	Fiil	Zorla girmek
+Einbrecher, der – Substantiv	İsim	Hırsız
+Einbrecherin, die – Substantiv	İsim	Hırsız (kadın)
+Einbruch, der – Substantiv	İsim	Hırsızlık, zorla giriş
+eindeutig – Adjektiv	Sıfat	Açık, belirgin
+Eindruck, der – Substantiv	İsim	İzlenim
+einerseits – Adverb	Zarf	Bir yandan
+Einfahrt, die – Substantiv	İsim	Giriş (araç için)
+Einfall, der – Substantiv	İsim	Fikir, aklına gelme
+einfallen – Verb	Fiil	Aklına gelmek
+Einfluss, der – Substantiv	İsim	Etki
+einfügen – Verb	Fiil	Eklemek, yerleştirmek
+einführen – Verb	Fiil	Tanıtmak, başlatmak
+Einführung, die – Substantiv	İsim	Giriş, tanıtım
+einheitlich – Adjektiv	Sıfat	Birleşik, tek tip
+einigen – Verb	Fiil	Anlaşmak
+Einkauf, der – Substantiv	İsim	Alışveriş
+Einkommen, das – Substantiv	İsim	Gelir
+Einnahme, die – Substantiv	İsim	Gelir, kazanç
+einnehmen – Verb	Fiil	Almak (ilaç vb.), işgal etmek
+einrichten – Verb	Fiil	Düzenlemek, kurmak
+Einrichtung, die – Substantiv	İsim	Düzenek, kurum
+einsam – Adjektiv	Sıfat	Yalnız
+einschalten – Verb	Fiil	Açmak (elektronik cihaz)
+einschließlich – Präposition	Edat	Dahil
+Einschreiben, das – Substantiv	İsim	Taahhütlü mektup
+einsetzen – Verb	Fiil	Göreve başlatmak, kullanmak
+einstellen – Verb	Fiil	Ayarlamak, işe almak
+eintreten – Verb	Fiil	Girmek, meydana gelmek
+Einwohner, der – Substantiv	İsim	Sakin, nüfus
+Einwohnerin, die – Substantiv	İsim	Sakin (kadın)
+einzahlen – Verb	Fiil	Para yatırmak
+Einzahlung, die – Substantiv	İsim	Para yatırma
+Einzelheit, die – Substantiv	İsim	Detay
+einzig – Adjektiv	Sıfat	Tek, benzersiz
+Eisenbahn, die – Substantiv	İsim	Demiryolu
+elegant – Adjektiv	Sıfat	Şık
+elektrisch – Adjektiv	Sıfat	Elektrikli
+Elektro- – Affix	Önek	Elektrikle ilgili (önek)
+elektronisch – Adjektiv	Sıfat	Elektronik
+Empfang, der – Substantiv	İsim	Resepsiyon, alım
+empfangen – Verb	Fiil	Karşılamak, almak (sinyal, misafir)
+Empfehlung, die – Substantiv	İsim	Tavsiye
+endgültig – Adjektiv	Sıfat	Nihai, kesin
+Energie, die – Substantiv	İsim	Enerji
+Enkel, der – Substantiv	İsim	Torun (erkek)
+Enkelin, die – Substantiv	İsim	Torun (kadın)
+entdecken – Verb	Fiil	Keşfetmek
+entfernen – Verb	Fiil	Uzaklaştırmak, çıkarmak
+Entfernung, die – Substantiv	İsim	Mesafe
+entgegenkommen – Verb	Fiil	Karşılamak, yardımcı olmak
+enthalten – Verb	Fiil	İçermek
+entlang – Präposition	Edat	Boyunca
+entlassen – Verb	Fiil	İşten çıkarmak, serbest bırakmak
+Entlassung, die – Substantiv	İsim	İşten çıkarma, serbest bırakma
+entscheiden – Verb	Fiil	Karar vermek
+Entscheidung, die – Substantiv	İsim	Karar
+entschließen – Verb	Fiil	Karar vermek
+entschlossen – Adjektiv	Sıfat	Kararlı
+entsorgen – Verb	Fiil	Atık bertaraf etmek
+entspannen – Verb	Fiil	Rahatlamak
+entstehen – Verb	Fiil	Meydana gelmek
+enttäuschen – Verb	Fiil	Hayal kırıklığına uğratmak
+Enttäuschung, die – Substantiv	İsim	Hayal kırıklığı
+entweder – Konjunktion	Bağlaç	Ya … ya da
+entwickeln – Verb	Fiil	Geliştirmek
+Entwicklung, die – Substantiv	İsim	Gelişim, evrim
+Erdapfel, der – Substantiv	İsim	Patates (Avusturya ve Güney Almanya’da kullanım)
+Erde, die – Substantiv	İsim	Toprak, dünya
+ereignen – Verb	Fiil	Meydana gelmek, olmak
+Ereignis, das – Substantiv	İsim	Olay
+erfahren – Verb	Fiil	Öğrenmek, tecrübe etmek
+erfinden – Verb	Fiil	İcat etmek
+Erfindung, die – Substantiv	İsim	İcat
+Erfolg, der – Substantiv	İsim	Başarı
+erfolgreich – Adjektiv	Sıfat	Başarılı
+erforderlich – Adjektiv	Sıfat	Gerekli
+erfordern – Verb	Fiil	Gerektirmek
+erfüllen – Verb	Fiil	Yerine getirmek, tatmin etmek
+ergänzen – Verb	Fiil	Tamamlamak
+erhalten – Verb	Fiil	Almak, korumak
+erholen – Verb	Fiil	Dinlenmek, iyileşmek
+Erholung, die – Substantiv	İsim	Dinlenme, iyileşme
+erhöhen – Verb	Fiil	Artırmak, yükseltmek
+Erhöhung, die – Substantiv	İsim	Artış, yükselme
+Erinnerung, die – Substantiv	İsim	Anı, hatıra
+erkennen – Verb	Fiil	Tanımak, fark etmek
+Erklärung, die – Substantiv	İsim	Açıklama
+erkundigen – Verb	Fiil	Soruşturmak, bilgi almak
+erkälten – Verb	Fiil	Soğuk algınlığına yakalanmak
+Erkältung, die – Substantiv	İsim	Soğuk algınlığı
+erleben – Verb	Fiil	Deneyimlemek, yaşamak
+Erlebnis, das – Substantiv	İsim	Deneyim, yaşantı
+erledigen – Verb	Fiil	Halletmek, tamamlamak
+erleichtern – Verb	Fiil	Kolaylaştırmak, rahatlatmak
+ernst – Adjektiv	Sıfat	Ciddi
+ernsthaft – Adjektiv	Sıfat	Ciddi
+Ernte, die – Substantiv	İsim	Hasat
+ernähren – Verb	Fiil	Beslemek
+Ernährung, die – Substantiv	İsim	Beslenme
+Ersatz, der – Substantiv	İsim	Yedek, yerine geçen
+erschrecken – Verb	Fiil	Korkutmak
+erschöpft – Adjektiv	Sıfat	Bitkin, yorgun
+ersetzen – Verb	Fiil	Yerine koymak, değiştirmek
+erstellen – Verb	Fiil	Oluşturmak, hazırlamak
+erwachsen – Adjektiv	Sıfat	Yetişkin
+erwarten – Verb	Fiil	Beklemek, ummak
+erziehen – Verb	Fiil	Eğitmek, yetiştirmek
+Erziehung, die – Substantiv	İsim	Eğitim, terbiye
+Erzählung, die – Substantiv	İsim	Anlatı, hikaye
+eröffnen – Verb	Fiil	Açmak (iş yeri, sergi vb.)
+Eröffnung, die – Substantiv	İsim	Açılış
+Essig, der – Substantiv	İsim	Sirke
+Etage, die – Substantiv	İsim	Kat
+etwa – Adverb	Zarf	Yaklaşık, aşağı yukarı
+eventuell – Adjektiv	Sıfat	Belki, muhtemelen
+ewig – Adjektiv	Sıfat	Sonsuz, bitmez tükenmez
+Experte, der – Substantiv	İsim	Uzman
+Export, der – Substantiv	İsim	İhracat
+extra – Adverb	Zarf	Ekstra, özellikle
+extrem – Adjektiv	Sıfat	Aşırı
+
+Fabrik, die – Substantiv	İsim	Fabrika
+Fachfrau, die – Substantiv	İsim	Uzman (kadın)
+Fachleute – Substantiv	İsim	Uzmanlar
+Fachmann, der – Substantiv	İsim	Uzman
+Fahrbahn, die – Substantiv	İsim	Yol (trafikte)
+Fahrzeug, das – Substantiv	İsim	Araç
+fair – Adjektiv	Sıfat	Adil
+Faktor, der – Substantiv	İsim	Faktör
+Fall, der – Substantiv	İsim	Durum, olay
+falls – Konjunktion	Bağlaç	Eğer
+fangen – Verb	Fiil	Yakalamak
+Fantasie, die – Substantiv	İsim	Hayal gücü
+farbig – Adjektiv	Sıfat	Renkli
+Faschierte, das – Substantiv	İsim	Kıyma (Avusturya’da)
+Fasching, der – Substantiv	İsim	Karnaval
+Fasnacht, die – Substantiv	İsim	Karnaval (İsviçre)
+fassen – Verb	Fiil	Tutmak, kavramak
+faulenzen – Verb	Fiil	Tembellik etmek
+Fauteuil, der – Substantiv	İsim	Koltuk
+Feber, der – Substantiv	İsim	Şubat (Avusturya’da)
+Feld, das – Substantiv	İsim	Tarla, alan
+Fernbedienung, die – Substantiv	İsim	Uzaktan kumanda
+Fernsehen, das – Substantiv	İsim	Televizyon (kurum olarak)
+Fernseher, der – Substantiv	İsim	Televizyon (cihaz olarak)
+fest – Adjektiv	Sıfat	Sıkı, katı
+festhalten – Verb	Fiil	Tutmak, kaydetmek
+festlegen – Verb	Fiil	Belirlemek
+festnehmen – Verb	Fiil	Tutuklamak
+Festplatte, die – Substantiv	İsim	Sabit disk
+festsetzen – Verb	Fiil	Belirlemek, tespit etmek
+feststehen – Verb	Fiil	Kesinleşmek
+feststellen – Verb	Fiil	Tespit etmek
+Fett, das – Substantiv	İsim	Yağ
+feucht – Adjektiv	Sıfat	Nemli
+Feuerwehr, die – Substantiv	İsim	İtfaiye
+Feuerzeug, das – Substantiv	İsim	Çakmak
+Figur, die – Substantiv	İsim	Figür, şekil
+finanziell – Adjektiv	Sıfat	Finansal
+finanzieren – Verb	Fiil	Finanse etmek
+Finger, der – Substantiv	İsim	Parmak
+flach – Adjektiv	Sıfat	Düz, yassı
+Fleck, der – Substantiv	İsim	Lek, benek
+Fleischhauer, der – Substantiv	İsim	Kasap (Avusturya’da)
+flexibel – Adjektiv	Sıfat	Esnek
+fliehen – Verb	Fiil	Kaçmak
+fließen – Verb	Fiil	Akmak
+fließend – Adjektiv	Sıfat	Akıcı
+Flucht, die – Substantiv	İsim	Kaçış
+Flur, der – Substantiv	İsim	Koridor
+Fläche, die – Substantiv	İsim	Yüzey, alan
+Flöte, die – Substantiv	İsim	Flüt
+Flüssigkeit, die – Substantiv	İsim	Sıvı
+Folge, die – Substantiv	İsim	Bölüm, sonuç
+folgen – Verb	Fiil	Takip etmek
+folgend – Adjektiv	Sıfat	İzleyen, sonraki
+fordern – Verb	Fiil	Talep etmek
+Forderung, die – Substantiv	İsim	Talep
+Form, die – Substantiv	İsim	Form, şekil
+Forschung, die – Substantiv	İsim	Araştırma
+Fortbildung, die – Substantiv	İsim	Mesleki eğitim
+Fortschritt, der – Substantiv	İsim	İlerleme
+fortsetzen – Verb	Fiil	Devam ettirmek
+Fortsetzung, die – Substantiv	İsim	Devam, sürdürme
+Forum, das – Substantiv	İsim	Forum
+Fotograf, der – Substantiv	İsim	Fotoğrafçı
+Fotografie, die – Substantiv	İsim	Fotoğrafçılık
+frech – Adjektiv	Sıfat	Yüzsüz, saygısız
+Freiheit, die – Substantiv	İsim	Özgürlük
+Fremdsprache, die – Substantiv	İsim	Yabancı dil
+fressen – Verb	Fiil	(Hayvan için) Yemek
+Freude, die – Substantiv	İsim	Sevinç
+Freundschaft, die – Substantiv	İsim	Arkadaşlık
+Friede, der – Substantiv	İsim	Barış
+frieren – Verb	Fiil	Üşümek
+Friseur, der – Substantiv	İsim	Berber, kuaför
+Frist, die – Substantiv	İsim	Süre, mühlet
+Frisur, die – Substantiv	İsim	Saç şekli
+Frucht, die – Substantiv	İsim	Meyve
+fröhlich – Adjektiv	Sıfat	Neşeli
+Fundbüro, das – Substantiv	İsim	Kayıp eşya bürosu
+funktionieren – Verb	Fiil	İşlemek, çalışmak
+Fußgänger, der – Substantiv	İsim	Yaya
+Fußgängerin, die – Substantiv	İsim	Yaya (kadın)
+Fußgängerzone, die – Substantiv	İsim	Yaya bölgesi
+Fähigkeit, die – Substantiv	İsim	Yetenek
+Fähre, die – Substantiv	İsim	Feribot
+fällig – Adjektiv	Sıfat	Vadesi dolmuş
+färbig – Adjektiv	Sıfat	Renkli
+fördern – Verb	Fiil	Desteklemek, teşvik etmek
+führen – Verb	Fiil	Yönetmek, sürdürmek
+Führerausweis, der – Substantiv	İsim	Ehliyet
+fürchten – Verb	Fiil	Korkmak
+füttern – Verb	Fiil	Beslemek
+
+Galerie, die – Substantiv	İsim	Galeri
+Gang, der – Substantiv	İsim	Koridor, yürüyüş
+gar – Adjektiv / Adverb	Sıfat / Zarf	Hiç, kesinlikle
+Garantie, die – Substantiv	İsim	Garanti
+garantieren – Verb	Fiil	Garanti etmek
+Garderobe, die – Substantiv	İsim	Gardırop, soyunma odası
+Gas, das – Substantiv	İsim	Gaz
+Gasthaus, das – Substantiv	İsim	Misafirhane, lokanta
+Gaststätte, die – Substantiv	İsim	Lokanta, restoran
+Gebiet, das – Substantiv	İsim	Alan, bölge
+Gebirge, das – Substantiv	İsim	Dağlar, sıradağlar
+gebrauchen – Verb	Fiil	Kullanmak, ihtiyaç duymak
+Gebrauchsanweisung, die – Substantiv	İsim	Kullanma talimatı
+Geburt, die – Substantiv	İsim	Doğum
+Gebäck, das – Substantiv	İsim	Hamur işi, pastane ürünleri
+Gebäude, das – Substantiv	İsim	Bina
+Gebühr, die – Substantiv	İsim	Ücret, harç
+Gedanke, der – Substantiv	İsim	Düşünce
+Gedicht, das – Substantiv	İsim	Şiir
+Geduld, die – Substantiv	İsim	Sabır
+geeignet – Adjektiv	Sıfat	Uygun
+Gefahr, die – Substantiv	İsim	Tehlike
+Gefängnis, das – Substantiv	İsim	Hapishane
+Gefühl, das – Substantiv	İsim	Duygu
+Gegend, die – Substantiv	İsim	Çevre, bölge
+Gegensatz, der – Substantiv	İsim	Zıtlık, karşıtlık
+Gegenstand, der – Substantiv	İsim	Nesne, obje
+Gegner, der – Substantiv	İsim	Rakip, düşman
+geheim – Adjektiv	Sıfat	Gizli
+Geheimnis, das – Substantiv	İsim	Sır
+Gehsteig, der – Substantiv	İsim	Kaldırım
+Geldautomat, der – Substantiv	İsim	ATM
+Gelegenheit, die – Substantiv	İsim	Fırsat, olanak
+gelingen – Verb	Fiil	Başarmak
+gelten – Verb	Fiil	Geçerli olmak
+gemeinsam – Adjektiv	Sıfat	Ortak, birlikte
+Gemeinschaft, die – Substantiv	İsim	Topluluk, birlik
+gemütlich – Adjektiv	Sıfat	Rahat, konforlu
+genauso – Adverb	Zarf	Tıpkı, aynı şekilde
+genehmigen – Verb	Fiil	Onaylamak
+Generation, die – Substantiv	İsim	Nesil, kuşak
+genießen – Verb	Fiil	Tadını çıkarmak
+genügen – Verb	Fiil	Yeterli olmak
+gerecht – Adjektiv	Sıfat	Adil
+gering – Adjektiv	Sıfat	Az, küçük
+gesamt – Adjektiv	Sıfat	Toplam, bütün
+geschehen – Verb	Fiil	Olmak, meydana gelmek
+geschieden – Adjektiv	Sıfat	Boşanmış
+Geschlecht, das – Substantiv	İsim	Cinsiyet
+Geschmack, der – Substantiv	İsim	Tat, lezzet
+Geschwindigkeit, die – Substantiv	İsim	Hız
+Geschwindigkeitsbeschränkung, die – Substantiv	İsim	Hız limiti
+Gesellschaft, die – Substantiv	İsim	Toplum, şirket
+Gesetz, das – Substantiv	İsim	Kanun, yasa
+gespannt – Adjektiv	Sıfat	Meraklı, gergin
+getrennt – Adjektiv	Sıfat	Ayrı
+Gewalt, die – Substantiv	İsim	Şiddet, güç
+Gewerkschaft, die – Substantiv	İsim	Sendika
+Gewinn, der – Substantiv	İsim	Kazanç, kar
+Gewissen, das – Substantiv	İsim	Vicdan
+Gewohnheit, die – Substantiv	İsim	Alışkanlık
+gewohnt – Adjektiv	Sıfat	Alışkın
+gewöhnen – Verb	Fiil	Alıştırmak
+gewöhnlich – Adjektiv	Sıfat	Olağan, sıradan
+Gewürz, das – Substantiv	İsim	Baharat
+gießen – Verb	Fiil	Sulamak, dökmek
+Gift, das – Substantiv	İsim	Zehir
+giftig – Adjektiv	Sıfat	Zehirli
+Girokonto, das – Substantiv	İsim	Vadesiz hesap
+Glace, die – Substantiv	İsim	Dondurma (İsviçre Almanca’sında)
+glatt – Adjektiv	Sıfat	Kaygan, düz
+gleichberechtigt – Adjektiv	Sıfat	Eşit haklara sahip
+gleichfalls – Konjunktion	Bağlaç	Aynı şekilde
+gleichzeitig – Adjektiv	Sıfat	Eş zamanlı
+Gold, das – Substantiv	İsim	Altın
+Golf, das – Substantiv	İsim	Golf (spor)
+Gott, der – Substantiv	İsim	Tanrı
+Grafik, die – Substantiv	İsim	Grafik
+Gras, das – Substantiv	İsim	Çim, ot
+gratis – Adverb	Zarf	Bedava, ücretsiz
+Gratulation, die – Substantiv	İsim	Tebrik
+greifen – Verb	Fiil	El uzatmak, tutmak
+Grenze, die – Substantiv	İsim	Sınır
+Grill, der – Substantiv	İsim	Izgara
+grillieren – Verb	Fiil	Izgara yapmak (İsviçre Almanca’sında)
+Grund, der – Substantiv	İsim	Sebep, zemin
+Grundstück, das – Substantiv	İsim	Arsa, mülk
+gründen – Verb	Fiil	Kurmak
+gründlich – Adjektiv	Sıfat	Titiz, detaylı
+grüßen – Verb	Fiil	Selamlaşmak
+gucken – Verb	Fiil	Bakmak, göz atmak
+Gymnastik, die – Substantiv	İsim	Jimnastik
+
+Hackfleisch, das – Substantiv	İsim	Kıyma
+Hafen, der – Substantiv	İsim	Liman
+hageln – Verb	Fiil	Dolu yağmak
+halbtags – Adverb	Zarf	Yarım gün
+Hallenbad, das – Substantiv	İsim	Kapalı yüzme havuzu
+Halt, der – Substantiv	İsim	Durak, tutunma
+halt – Partikel	Partikül	İşte, o halde (durumu kabullenme)
+haltbar – Adjektiv	Sıfat	Dayanıklı, saklanabilir
+Hammer, der – Substantiv	İsim	Çekiç
+Handel, der – Substantiv	İsim	Ticaret
+handeln – Verb	Fiil	Davranmak, işlem yapmak
+Handwerker, der – Substantiv	İsim	Zanaatkar, esnaf
+hassen – Verb	Fiil	Nefret etmek
+haupt- – Affix	Önek	Ana-, baş-
+Hauptbahnhof, der – Substantiv	İsim	Ana tren istasyonu
+Hausmeister, der – Substantiv	İsim	Kapıcı, bina yöneticisi
+Hausmeisterin, die – Substantiv	İsim	Kapıcı (kadın), bina yöneticisi (kadın)
+Haustier, das – Substantiv	İsim	Evcil hayvan
+Haut, die – Substantiv	İsim	Deri, cilt
+heben – Verb	Fiil	Kaldırmak
+heim – Adverb	Zarf	Eve, yuvaya
+Heim, das – Substantiv	İsim	Ev, yuva
+heimlich – Adjektiv	Sıfat	Gizli
+Heimweh, das – Substantiv	İsim	Yurt özlemi
+heizen – Verb	Fiil	Isıtmak
+Held, der – Substantiv	İsim	Kahraman
+Heldin, die – Substantiv	İsim	Kahraman (kadın)
+Henderl, das – Substantiv	İsim	Tavuk (Avusturya’da)
+Hendl, das – Substantiv	İsim	Tavuk (Bavyera ve Avusturya’da)
+herausfinden – Verb	Fiil	Bulmak, keşfetmek
+Herausforderung, die – Substantiv	İsim	Meydan okuma, zorluk
+herein- – Affix	Önek	İçeri-
+Herkunft, die – Substantiv	İsim	Köken, menşei
+Hersteller, der – Substantiv	İsim	Üretici
+herunterfahren – Verb	Fiil	Kapatmak (bilgisayar), yavaşlatmak
+Herz, das – Substantiv	İsim	Kalp
+hieher – Pronominaladverb	Zarf	Bu yana, buraya
+hierher – Pronominaladverb	Zarf	Buraya
+hinter- – Affix	Önek	Arkasına, gerisine
+hinterher – Adverb	Zarf	Arkasından, peşinden
+hinterlassen – Verb	Fiil	Miras bırakmak
+Hinweis, der – Substantiv	İsim	İpucu, işaret
+hinweisen – Verb	Fiil	İşaret etmek, dikkat çekmek
+historisch – Adjektiv	Sıfat	Tarihi
+Hitze, die – Substantiv	İsim	Sıcak, hararet
+hochladen – Verb	Fiil	Yüklemek (internet)
+Hof, der – Substantiv	İsim	Avlu, çiftlik
+Hoffnung, die – Substantiv	İsim	Umut
+Holz, das – Substantiv	İsim	Odun, ahşap
+Honig, der – Substantiv	İsim	Bal
+Humor, der – Substantiv	İsim	Mizah
+hungrig – Adjektiv	Sıfat	Aç
+hupen – Verb	Fiil	Korna çalmak
+Husten, der – Substantiv	İsim	Öksürük
+Hut, der – Substantiv	İsim	Şapka
+Hälfte, die – Substantiv	İsim	Yarısı
+Händler, der – Substantiv	İsim	Satıcı, tüccar
+Händlerin, die – Substantiv	İsim	Satıcı (kadın), tüccar (kadın)
+häufig – Adjektiv	Sıfat	Sık, yaygın
+höchstens – Adverb	Zarf	En fazla
+höflich – Adjektiv	Sıfat	Nazik, kibar
+Höhe, die – Substantiv	İsim	Yükseklik
+Hörer, der – Substantiv	İsim	Dinleyici
+Hörerin, die – Substantiv	İsim	Dinleyici (kadın)
+hübsch – Adjektiv	Sıfat	Güzel, hoş
+Hügel, der – Substantiv	İsim	Tepe
+Hühnchen, das – Substantiv	İsim	Piliç
+Hütte, die – Substantiv	İsim	Kulübe, dağ evi
+
+ideal – Adjektiv	Sıfat	İdeal
+illegal – Adjektiv	Sıfat	Yasadışı, illegal
+Imbiss, der – Substantiv	İsim	Atıştırmalık, fast food dükkanı
+Import, der – Substantiv	İsim	İthalat
+indem – Konjunktion	Bağlaç	-erek, -arak (zaman ya da sebep belirten cümlelerde)
+individuell – Adjektiv	Sıfat	Bireysel, kişisel
+Industrie, die – Substantiv	İsim	Endüstri
+Infektion, die – Substantiv	İsim	Enfeksiyon
+Ingenieur, der – Substantiv	İsim	Mühendis
+Inhalt, der – Substantiv	İsim	İçerik
+inklusive – Präposition	Edat	Dahil, içinde
+innen – Adverb	Zarf	İçeride
+inner – Adjektiv	Sıfat	İç, dahili
+innerhalb – Präposition	Edat	-ın içinde, dahilinde
+Inserat, das – Substantiv	İsim	İlan
+insgesamt – Adverb	Zarf	Toplamda, hepsi birden
+installieren – Verb	Fiil	Kurmak, yüklemek (yazılım vb.)
+Institut, das – Substantiv	İsim	Enstitü
+Integration, die – Substantiv	İsim	Entegrasyon, bütünleşme
+integrieren – Verb	Fiil	Bütünleştirmek, entegre etmek
+Intelligenz, die – Substantiv	İsim	Zeka
+intensiv – Adjektiv	Sıfat	Yoğun
+Intensivkurs, der – Substantiv	İsim	Yoğun kurs
+interessant – Adjektiv	Sıfat	İlginç
+interessiert – Adjektiv	Sıfat	İlgili, meraklı
+interkulturell – Adjektiv	Sıfat	Kültürler arası
+inzwischen – Adverb	Zarf	Bu arada, o zamandan beri
+irgendein – Indefinitpronomen	Zamir	Herhangi bir
+irgendwann – Adverb	Zarf	Herhangi bir zaman
+irren – Verb	Fiil	Yanılmak, hata yapmak
+
+Jause, die – Substantiv	İsim	Atıştırmalık, ara öğün (Avusturya’da kullanılır)
+je – Konjunktion	Bağlaç	-dığı kadar, her
+jederzeit – Adverb	Zarf	Her zaman, daima
+jedes Mal – Adverb	Zarf	Her seferinde
+jedoch – Konjunktion	Bağlaç	Ancak, yine de
+jemals – Adverb	Zarf	Hiç, şimdiye kadar
+jeweils – Adverb	Zarf	Her biri, her seferinde
+Journalist, der – Substantiv	İsim	Gazeteci
+Journalistin, die – Substantiv	İsim	Gazeteci (kadın)
+Jugend, die – Substantiv	İsim	Gençlik
+
+Kabel, das – Substantiv	İsim	Kablo
+Kabine, die – Substantiv	İsim	Kabin
+Kaffeehaus, das – Substantiv	İsim	Kahve evi
+Kakao, der – Substantiv	İsim	Kakao
+Kampf, der – Substantiv	İsim	Mücadele, savaş
+Kanal, der – Substantiv	İsim	Kanal
+Kandidat, der – Substantiv	İsim	Aday
+Kanne, die – Substantiv	İsim	Sürahi, demlik
+Kantine, die – Substantiv	İsim	Kantin
+Kapitel, das – Substantiv	İsim	Bölüm, kısım
+kaputtgehen – Verb	Fiil	Bozulmak, kırılmak
+kaputtmachen – Verb	Fiil	Bozmak, zarar vermek
+Karneval, der – Substantiv	İsim	Karnaval
+Karotte, die – Substantiv	İsim	Havuç
+Karriere, die – Substantiv	İsim	Kariyer
+Kassette, die – Substantiv	İsim	Kaset
+Kasten, der – Substantiv	İsim	Kutu, sandık
+Katalog, der – Substantiv	İsim	Katalog
+Katastrophe, die – Substantiv	İsim	Felaket
+Kauf, der – Substantiv	İsim	Satın alma
+kaum – Adverb	Zarf	Hemen hemen hiç, zar zor
+Kautsch, die – Substantiv	İsim	Kanepe
+Kellner, der – Substantiv	İsim	Garson
+Kellnerin, die – Substantiv	İsim	Garson (kadın)
+Kennzeichen, das – Substantiv	İsim	Plaka, işaret
+Kerze, die – Substantiv	İsim	Mum
+Kindheit, die – Substantiv	İsim	Çocukluk
+Kissen, das – Substantiv	İsim	Yastık
+Kiste, die – Substantiv	İsim	Sandık, kutu
+klagen – Verb	Fiil	Şikayet etmek
+klasse – Adjektiv	Sıfat	Harika, sınıf
+Klassenarbeit, die – Substantiv	İsim	Sınıf çalışması, sınav
+kleben – Verb	Fiil	Yapıştırmak
+klettern – Verb	Fiil	Tırmanmak
+Klick, das – Substantiv	İsim	Tıklama
+klicken – Verb	Fiil	Tıklamak
+Klima, das – Substantiv	İsim	İklim, klima
+Klimaanlage, die – Substantiv	İsim	Klima cihazı
+Klingel, die – Substantiv	İsim	Zil
+klingeln – Verb	Fiil	Zil çalmak
+klingen – Verb	Fiil	Kulağa hoş gelmek, çınlamak
+Klinik, die – Substantiv	İsim	Klinik
+klopfen – Verb	Fiil	Tıklamak, vurmak
+Kloß, der – Substantiv	İsim	Topak, püre topu
+klären – Verb	Fiil	Açıklığa kavuşturmak
+knapp – Adjektiv	Sıfat	Yetersiz, sınırlı
+Kneipe, die – Substantiv	İsim	Bar, meyhane
+Knie, das – Substantiv	İsim	Diz
+Knochen, der – Substantiv	İsim	Kemik
+Knopf, der – Substantiv	İsim	Düğme
+Knödel, der – Substantiv	İsim	Mantı, knödel
+Koch, der – Substantiv	İsim	Aşçı
+Kommunikation, die – Substantiv	İsim	İletişim
+komplett – Adjektiv	Sıfat	Tam, eksiksiz
+kompliziert – Adjektiv	Sıfat	Karmaşık
+Kompromiss, der – Substantiv	İsim	Uzlaşma
+Konferenz, die – Substantiv	İsim	Konferans
+Konfitüre, die – Substantiv	İsim	Reçel
+Konflikt, der – Substantiv	İsim	Çatışma
+Konkurrenz, die – Substantiv	İsim	Rekabet
+Konsulat, das – Substantiv	İsim	Konsolosluk
+Konsum, der – Substantiv	İsim	Tüketim
+konsumieren – Verb	Fiil	Tüketmek
+Kontrolle, die – Substantiv	İsim	Kontrol
+konzentrieren – Verb	Fiil	Odaklanmak
+Kopie, die – Substantiv	İsim	Kopya
+kopieren – Verb	Fiil	Kopyalamak
+Kopierer, der – Substantiv	İsim	Fotokopi makinesi
+korrekt – Adjektiv	Sıfat	Doğru, düzgün
+Korridor, der – Substantiv	İsim	Koridor
+korrigieren – Verb	Fiil	Düzeltmek
+Kosten – Substantiv	İsim	Maliyet, ücret
+Kostüm, das – Substantiv	İsim	Kostüm
+Kraft, die – Substantiv	İsim	Güç
+Kraftfahrzeug, das – Substantiv	İsim	Motorlu taşıt
+Kraftwerk, das – Substantiv	İsim	Elektrik santrali
+Kranke, der/die – Substantiv	İsim	Hasta
+Krankenpfleger, der – Substantiv	İsim	Erkek hemşire
+Krankenschwester, die – Substantiv	İsim	Hemşire
+Krankenwagen, der – Substantiv	İsim	Ambulans
+kreativ – Adjektiv	Sıfat	Yaratıcı
+Kreis, der – Substantiv	İsim	Çember, daire
+Kreuz, das – Substantiv	İsim	Haç
+Krieg, der – Substantiv	İsim	Savaş
+kriminal- – Affix	Önek	Suçla ilgili
+Kriminalpolizei, die – Substantiv	İsim	Kriminal polis
+Krise, die – Substantiv	İsim	Kriz
+Kritik, die – Substantiv	İsim	Eleştiri
+kritisch – Adjektiv	Sıfat	Eleştirel
+kritisieren – Verb	Fiil	Eleştirmek
+kräftig – Adjektiv	Sıfat	Güçlü, kuvvetli
+Kuli, der – Substantiv	İsim	Tükenmez kalem
+Kunststoff, der – Substantiv	İsim	Plastik
+Kursleiter, der – Substantiv	İsim	Kurs öğretmeni
+Kursleiterin, die – Substantiv	İsim	Kurs öğretmeni (kadın)
+Kurve, die – Substantiv	İsim	Viraj
+Kuss, der – Substantiv	İsim	Öpücük
+Kuvert, das – Substantiv	İsim	Zarf
+Kälte, die – Substantiv	İsim	Soğuk
+kämpfen – Verb	Fiil	Mücadele etmek, savaşmak
+Käufer, der – Substantiv	İsim	Alıcı
+Käuferin, die – Substantiv	İsim	Alıcı (kadın)
+Köchin, die – Substantiv	İsim	Kadın aşçı
+König, der – Substantiv	İsim	Kral
+körperlich – Adjektiv	Sıfat	Fiziksel
+Kündigung, die – Substantiv	İsim	İstifa, fesih
+Künstler, der – Substantiv	İsim	Sanatçı
+Künstlerin, die – Substantiv	İsim	Sanatçı (kadın)
+künstlich – Adjektiv	Sıfat	Yapay
+kürzlich – Adverb	Zarf	Yakın zamanda
+küssen – Verb	Fiil	Öpmek
+Küste, die – Substantiv	İsim	Kıyı
+
+Lage, die – Substantiv	İsim	Durum, konum
+Lager, das – Substantiv	İsim	Depo, ambar
+landen – Verb	Fiil	İnmek, varmak
+Landung, die – Substantiv	İsim	İniş
+Landwirtschaft, die – Substantiv	İsim	Tarım
+Langeweile, die – Substantiv	İsim	Can sıkıntısı
+langweilen – Verb	Fiil	Sıkmak, canını sıkmak
+Laster, der – Substantiv	İsim	Kamyon, yük taşıma aracı
+Laufwerk, das – Substantiv	İsim	Sürücü (bilgisayar)
+Laune, die – Substantiv	İsim	Ruhsal durum, keyif
+Lautsprecher, der – Substantiv	İsim	Hoparlör
+Lebenslauf, der – Substantiv	İsim	Özgeçmiş
+lecker – Adjektiv	Sıfat	Lezzetli
+Leder, das – Substantiv	İsim	Deri
+Lehre, die – Substantiv	İsim	Öğretim, çıraklık
+Lehrerin, die – Substantiv	İsim	Öğretmen (kadın)
+Lehrling, der – Substantiv	İsim	Çırak
+Lehrstelle, die – Substantiv	İsim	Çıraklık eğitimi yeri
+leiden – Verb	Fiil	Acı çekmek, katlanmak
+leisten – Verb	Fiil	Yapmak, başarmak
+Leistung, die – Substantiv	İsim	Performans, başarı
+leiten – Verb	Fiil	Yönetmek
+Leiter, die/der – Substantiv	İsim	Merdiven / Yönetici
+Leiterin, die – Substantiv	İsim	Yönetici (kadın)
+Leitung, die – Substantiv	İsim	Yönetim, hat
+Lerner, der – Substantiv	İsim	Öğrenen kişi
+Lernerin, die – Substantiv	İsim	Öğrenen kişi (kadın)
+Leser, der – Substantiv	İsim	Okuyucu
+Leserin, die – Substantiv	İsim	Okuyucu (kadın)
+Lexikon, das – Substantiv	İsim	Ansiklopedi
+Lieferung, die – Substantiv	İsim	Teslimat
+Lift, der – Substantiv	İsim	Asansör
+Limonade, die – Substantiv	İsim	Limonata
+Linie, die – Substantiv	İsim	Hat, çizgi
+link – Adjektiv	Sıfat	Sol
+Lippe, die – Substantiv	İsim	Dudak
+Liste, die – Substantiv	İsim	Liste
+Literatur, die – Substantiv	İsim	Edebiyat
+loben – Verb	Fiil	Övmek
+Loch, das – Substantiv	İsim	Delik
+locker – Adjektiv	Sıfat	Gevşek, rahat
+Lohn, der – Substantiv	İsim	Ücret
+lohnen – Verb	Fiil	Değmek, yarar sağlamak
+los – Adverb	Zarf	Başla, harekete geç
+losfahren – Verb	Fiil	Yola çıkmak
+Luft, die – Substantiv	İsim	Hava
+lächeln – Verb	Fiil	Gülümsemek
+Länge, die – Substantiv	İsim	Uzunluk
+längst – Adverb	Zarf	Çoktan
+Lärm, der – Substantiv	İsim	Gürültü
+löschen – Verb	Fiil	Silmek (bilgisayar), söndürmek (ateş)
+lösen – Verb	Fiil	Çözmek, ayırmak
+
+Magazin, das – Substantiv	İsim	Dergi
+mager – Adjektiv	Sıfat	Yağsız, zayıf
+Mahlzeit, die – Substantiv	İsim	Yemek zamanı, öğün
+Mahnung, die – Substantiv	İsim	İhtar, uyarı
+Mal, das – Substantiv	İsim	Defa, kere
+Maler, der – Substantiv	İsim	Ressam
+Malerin, die – Substantiv	İsim	Ressam (kadın)
+Mangel, der – Substantiv	İsim	Eksiklik, kusur
+Mappe, die – Substantiv	İsim	Dosya, klasör
+Margarine, die – Substantiv	İsim	Margarin
+Marille, die – Substantiv	İsim	Kayısı (Avusturya)
+Marke, die – Substantiv	İsim	Marka, pul
+markieren – Verb	Fiil	İşaretlemek
+Marmelade, die – Substantiv	İsim	Reçel
+Material, das – Substantiv	İsim	Malzeme
+Matura, die – Substantiv	İsim	Olgunluk sınavı (Avusturya, İsviçre)
+Mauer, die – Substantiv	İsim	Duvar
+maximal – Adjektiv	Sıfat	Maksimal, en fazla
+Mechaniker, der – Substantiv	İsim	Mekanikçi
+Mechanikerin, die – Substantiv	İsim	Mekanikçi (kadın)
+Medium, das – Substantiv	İsim	Medya, araç
+Medizin, die – Substantiv	İsim	Tıp, ilaç
+Mehl, das – Substantiv	İsim	Un
+mehrere – Indefinitpronomen	Zamir	Birkaç
+Mehrheit, die – Substantiv	İsim	Çoğunluk
+Mehrwertsteuer, die – Substantiv	İsim	Katma Değer Vergisi
+meinetwegen – Adverb	Zarf	Benim için, bana göre
+Meister, der – Substantiv	İsim	Usta, şampiyon
+melden – Verb	Fiil	Bildirmek, kaydolmak
+Meldung, die – Substantiv	İsim	Haber, duyuru
+Mensa, die – Substantiv	İsim	Yemekhane, öğrenci yemekhanesi
+menschlich – Adjektiv	Sıfat	İnsani
+Menü, das – Substantiv	İsim	Menü
+merkwürdig – Adjektiv	Sıfat	Garip, tuhaf
+messen – Verb	Fiil	Ölçmek
+Metall, das – Substantiv	İsim	Metal
+Methode, die – Substantiv	İsim	Yöntem
+Metropole, die – Substantiv	İsim	Metropol, büyük şehir
+Metzger, der – Substantiv	İsim	Kasap
+Mieter, der – Substantiv	İsim	Kiracı
+Mieterin, die – Substantiv	İsim	Kiracı (kadın)
+Migrant, der – Substantiv	İsim	Göçmen
+Migrantin, die – Substantiv	İsim	Göçmen (kadın)
+Migration, die – Substantiv	İsim	Göç
+mild – Adjektiv	Sıfat	Yumuşak, hafif (iklim veya lezzet açısından)
+Minderheit, die – Substantiv	İsim	Azınlık
+minimal – Adjektiv	Sıfat	Minimal, en az
+mischen – Verb	Fiil	Karıştırmak
+Mitarbeiterin, die – Substantiv	İsim	Çalışan (kadın)
+miteinander – Adverb	Zarf	Birbiriyle
+Mitglied, das – Substantiv	İsim	Üye
+mitteilen – Verb	Fiil	Bildirmek, iletmek
+mitten – Adverb	Zarf	Ortasında
+mittler – Adjektiv	Sıfat	Orta, ara
+mittlerweile – Adverb	Zarf	Bu arada, o zamandan beri
+mobil – Adjektiv	Sıfat	Mobil, hareketli
+Mobilbox, die – Substantiv	İsim	Sesli mesaj kutusu
+Mobilität, die – Substantiv	İsim	Hareketlilik
+Modell, das – Substantiv	İsim	Model
+Mond, der – Substantiv	İsim	Ay
+Monitor, der – Substantiv	İsim	Monitör
+Motorrad, das – Substantiv	İsim	Motosiklet
+musikalisch – Adjektiv	Sıfat	Müzikal, müziğe yatkın
+Musiker, der – Substantiv	İsim	Müzisyen
+Musikerin, die – Substantiv	İsim	Müzisyen (kadın)
+Muskel, der – Substantiv	İsim	Kas
+Mut, der – Substantiv	İsim	Cesaret
+mutig – Adjektiv	Sıfat	Cesur
+Muttersprache, die – Substantiv	İsim	Anadil
+Märchen, das – Substantiv	İsim	Masal
+möbliert – Adjektiv	Sıfat	Mobilyalı
+möglicherweise – Adverb	Zarf	Muhtemelen
+Möglichkeit, die – Substantiv	İsim	İmkan, olanak
+möglichst – Adverb	Zarf	Mümkün olduğunca
+Möhre, die – Substantiv	İsim	Havuç
+Müesli, das – Substantiv	İsim	Müsli (İsviçre Almanca’sında)
+Mühe, die – Substantiv	İsim	Çaba, emek
+Müllabfuhr, die – Substantiv	İsim	Çöp toplama hizmeti
+Mülltonne, die – Substantiv	İsim	Çöp kutusu
+mündlich – Adjektiv	Sıfat	Sözlü
+Münze, die – Substantiv	İsim	Madeni para
+Müsli, das – Substantiv	İsim	Müsli
+
+nachdem – Konjunktion	Bağlaç	-dıktan sonra
+nachdenken – Verb	Fiil	Düşünmek, üzerinde düşünmek
+Nachfrage, die – Substantiv	İsim	Talep
+nachher – Adverb	Zarf	Sonra, daha sonra
+Nachhilfe, die – Substantiv	İsim	Özel ders, takviye kursu
+nachschlagen – Verb	Fiil	Sözlükte aramak, kontrol etmek
+Nachspeise, die – Substantiv	İsim	Tatlı (yemek sonrası)
+Nacht, die – Substantiv	İsim	Gece
+Nachteil, der – Substantiv	İsim	Dezavantaj, sakınca
+Nachwuchs, der – Substantiv	İsim	Yeni nesil, genç kuşak
+Nadel, die – Substantiv	İsim	İğne
+Nagel, der – Substantiv	İsim	Çivi / Tırnak
+nah – Adjektiv	Sıfat	Yakın
+nahe – Adjektiv	Sıfat	Yakın
+Nahrungsmittel, das – Substantiv	İsim	Gıda maddesi
+Nase, die – Substantiv	İsim	Burun
+national – Adjektiv	Sıfat	Ulusal
+Nebel, der – Substantiv	İsim	Sis
+nebenbei – Adverb	Zarf	Bunun yanı sıra, ek olarak
+Neffe, der – Substantiv	İsim	Yeğen (erkek)
+negativ – Adjektiv	Sıfat	Negatif
+Nerv, der – Substantiv	İsim	Sinir
+Netz, das – Substantiv	İsim	Ağ
+Netzwerk, das – Substantiv	İsim	Ağ, network
+neugierig – Adjektiv	Sıfat	Meraklı
+Neuigkeit, die – Substantiv	İsim	Yenilik, haber
+neulich – Adverb	Zarf	Geçenlerde, yakın zamanda
+Nichte, die – Substantiv	İsim	Yeğen (kadın)
+Nichtraucher, der – Substantiv	İsim	Sigara içmeyen
+Nichtraucherin, die – Substantiv	İsim	Sigara içmeyen (kadın)
+niedrig – Adjektiv	Sıfat	Düşük, alçak
+nirgendwo – Adverb	Zarf	Hiçbir yerde
+noch mal / nochmal – Adverb	Zarf	Bir kez daha, tekrar
+nochmals – Adverb	Zarf	Yeniden, bir kez daha
+Nordsee – Eigenname	Özel isim	Kuzey Denizi
+normalerweise – Adverb	Zarf	Normalde, genellikle
+Not, die – Substantiv	İsim	Sıkıntı, zorluk
+Notaufnahme, die – Substantiv	İsim	Acil servis
+Notausgang, der – Substantiv	İsim	Acil çıkış
+Notfall, der – Substantiv	İsim	Acil durum
+Notruf, der – Substantiv	İsim	Acil çağrı
+nun – Adverb	Zarf	Şimdi, artık
+nutzen – Verb	Fiil	Kullanmak, yararlanmak
+nähen – Verb	Fiil	Dikmek
+nähern – Verb	Fiil	Yaklaşmak
+nämlich – Konjunktion	Bağlaç	Yani, demek ki
+nötig – Adjektiv	Sıfat	Gerekli, zorunlu
+nützen – Verb	Fiil	Fayda sağlamak
+
+ob – Konjunktion	Bağlaç	-ip -mediği
+Ober, der – Substantiv	İsim	Garson
+ober- – Affix	Önek	Üst, üstteki
+Obers, das – Substantiv	İsim	Krema (Avusturya’da kullanım)
+obwohl – Konjunktion	Bağlaç	-e rağmen
+Ofen, der – Substantiv	İsim	Fırın, soba
+offenbar – Adjektiv	Sıfat	Açıkça, bariz
+offiziell – Adjektiv	Sıfat	Resmi
+Onkel, der – Substantiv	İsim	Amca, dayı
+Oper, die – Substantiv	İsim	Opera
+Operation, die – Substantiv	İsim	Operasyon, cerrahi müdahale
+operieren – Verb	Fiil	Ameliyat etmek, operasyon yapmak
+Opfer, das – Substantiv	İsim	Kurban
+optimistisch – Adjektiv	Sıfat	İyimser
+Orchester, das – Substantiv	İsim	Orkestra
+ordentlich – Adjektiv	Sıfat	Düzenli, tertipli
+Ordination, die – Substantiv	İsim	Doktor muayenehanesi (Avusturya’da kullanım)
+ordnen – Verb	Fiil	Düzenlemek
+Ordner, der – Substantiv	İsim	Klasör, dosya
+Organisation, die – Substantiv	İsim	Organizasyon
+original – Adjektiv	Sıfat	Orijinal
+Original, das – Substantiv	İsim	Orijinal, asıl
+Ostsee – Eigenname	Özel isim	Baltık Denizi
+Ozean, der – Substantiv	İsim	Okyanus
+
+Panne, die – Substantiv	İsim	Arıza, bozulma
+Paradeiser, der – Substantiv	İsim	Domates (Avusturya)
+parallel – Adjektiv	Sıfat	Paralel
+parkieren – Verb	Fiil	Park etmek (İsviçre)
+Passagier, der – Substantiv	İsim	Yolcu
+Passagierin, die – Substantiv	İsim	Yolcu (kadın)
+passiv – Adjektiv	Sıfat	Pasif
+Patient, der – Substantiv	İsim	Hasta
+Patientin, die – Substantiv	İsim	Hasta (kadın)
+pauschal – Adjektiv	Sıfat	Genel, toptan
+Pech, das – Substantiv	İsim	Şanssızlık, talihsizlik
+peinlich – Adjektiv	Sıfat	Utanç verici, sıkıcı
+Pension, die – Substantiv	İsim	Emeklilik / Konukevi
+pensionieren – Verb	Fiil	Emekliye ayırmak
+Pensionist, der – Substantiv	İsim	Emekli
+Pensionistin, die – Substantiv	İsim	Emekli (kadın)
+per – Präposition	Edat	Vasıtasıyla, -aracılığıyla
+perfekt – Adjektiv	Sıfat	Mükemmel
+Perron, der/das – Substantiv	İsim	Peron
+Personal, das – Substantiv	İsim	Personel
+Personalie, die – Substantiv	İsim	Kişisel bilgi
+Personenstand, der – Substantiv	İsim	Medeni hal
+persönlich – Adjektiv	Sıfat	Kişisel, şahsi
+Pfanne, die – Substantiv	İsim	Tava
+Pfeffer, der – Substantiv	İsim	Karabiber
+pflanzen – Verb	Fiil	Dikmek, ekmek (bitki)
+Pflaster, das – Substantiv	İsim	Yara bandı / Kaldırım taşı
+Pflaume, die – Substantiv	İsim	Erik
+pflegen – Verb	Fiil	Bakım yapmak, ilgilenmek
+Pfleger, der – Substantiv	İsim	Bakıcı
+Pflegerin, die – Substantiv	İsim	Bakıcı (kadın)
+Pflicht, die – Substantiv	İsim	Görev, yükümlülük
+Picknick, das – Substantiv	İsim	Piknik
+Pille, die – Substantiv	İsim	Hap, ilaç
+Pilz, der – Substantiv	İsim	Mantar
+Planung, die – Substantiv	İsim	Planlama
+Plastik, das/der – Substantiv	İsim	Plastik
+Politik, die – Substantiv	İsim	Politika
+Politiker, der – Substantiv	İsim	Politikacı
+Politikerin, die – Substantiv	İsim	Politikacı (kadın)
+politisch – Adjektiv	Sıfat	Politik, siyasi
+Polizist, der – Substantiv	İsim	Polis memuru
+Polizistin, die – Substantiv	İsim	Polis memuru (kadın)
+populär – Adjektiv	Sıfat	Popüler
+Portemonnaie, das – Substantiv	İsim	Cüzdan
+positiv – Adjektiv	Sıfat	Pozitif
+Poulet, das – Substantiv	İsim	Tavuk eti
+Praktikant, der – Substantiv	İsim	Stajyer
+Praktikantin, die – Substantiv	İsim	Stajyer (kadın)
+prima – Adjektiv	Sıfat	Harika, mükemmel
+Produktion, die – Substantiv	İsim	Üretim
+produzieren – Verb	Fiil	Üretmek
+Professor, der – Substantiv	İsim	Profesör
+Professorin, die – Substantiv	İsim	Profesör (kadın)
+Profi, der – Substantiv	İsim	Profesyonel
+Profisportler, der – Substantiv	İsim	Profesyonel sporcu
+Profisportlerin, die – Substantiv	İsim	Profesyonel sporcu (kadın)
+prost – Interjektion	Ünlem	Şerefe!
+Protest, der – Substantiv	İsim	Protesto
+protestieren – Verb	Fiil	Protesto etmek
+Prozess, der – Substantiv	İsim	Süreç, dava
+Präsentation, die – Substantiv	İsim	Sunum
+präsentieren – Verb	Fiil	Sunmak
+Publikum, das – Substantiv	İsim	İzleyici, halk
+Punkt, der – Substantiv	İsim	Nokta, puan
+Puppe, die – Substantiv	İsim	Bebek (oyuncak)
+
+Qualifikation, die – Substantiv	İsim	Yeterlilik, nitelik
+Quartier, das – Substantiv	İsim	Konaklama yeri, mahalle
+quer – Adverb	Zarf	Enine, çapraz
+Quittung, die – Substantiv	İsim	Makbuz, fiş
+
+Rabatt, der – Substantiv	İsim	İndirim
+Radfahrer, der – Substantiv	İsim	Bisikletçi (erkek)
+Radfahrerin, die – Substantiv	İsim	Bisikletçi (kadın)
+Rahm, der – Substantiv	İsim	Krema
+Rand, der – Substantiv	İsim	Kenar, sınır
+Rasen, der – Substantiv	İsim	Çimen
+rasieren – Verb	Fiil	Tıraş olmak
+Rat, der – Substantiv	İsim	Tavsiye, öğüt
+Ratschlag, der – Substantiv	İsim	Tavsiye
+Raucher, der – Substantiv	İsim	Sigara içen kişi
+Raucherin, die – Substantiv	İsim	Sigara içen kişi (kadın)
+rauf – Adverb	Zarf	Yukarı, üst
+rauf- – Affix	Önek	Yukarıya doğru
+raus- – Affix	Önek	Dışarıya doğru
+reagieren – Verb	Fiil	Tepki göstermek
+Reaktion, die – Substantiv	İsim	Tepki
+realisieren – Verb	Fiil	Gerçekleştirmek
+realistisch – Adjektiv	Sıfat	Gerçekçi
+Realität, die – Substantiv	İsim	Gerçeklik
+Recherche, die – Substantiv	İsim	Araştırma
+Rechner, der – Substantiv	İsim	Bilgisayar, hesap makinesi
+Recht, das – Substantiv	İsim	Hak, hukuk
+recht – Adjektiv	Sıfat	Doğru, adil
+rechtlich – Adjektiv	Sıfat	Hukuki
+rechtzeitig – Adjektiv	Sıfat	Zamanında
+Rede, die – Substantiv	İsim	Konuşma, söylev
+reduzieren – Verb	Fiil	Azaltmak
+Referat, das – Substantiv	İsim	Sunum, referat
+Reform, die – Substantiv	İsim	Reform
+Regal, das – Substantiv	İsim	Raf
+Regel, die – Substantiv	İsim	Kural
+regelmäßig – Adjektiv	Sıfat	Düzenli
+regeln – Verb	Fiil	Düzenlemek, ayarlamak
+Region, die – Substantiv	İsim	Bölge
+regional – Adjektiv	Sıfat	Bölgesel
+reichen – Verb	Fiil	Yeterli olmak, uzatmak
+reif – Adjektiv	Sıfat	Olgun
+Reihenfolge, die – Substantiv	İsim	Sıralama
+reinigen – Verb	Fiil	Temizlemek
+Reklame, die – Substantiv	İsim	Reklam
+Rekord, der – Substantiv	İsim	Rekor
+relativ – Adjektiv	Sıfat	Göreceli
+Religion, die – Substantiv	İsim	Din
+rennen – Verb	Fiil	Koşmak
+Rente, die – Substantiv	İsim	Emeklilik aylığı, rente
+Reportage, die – Substantiv	İsim	Röportaj, haber reportajı
+Reporter, der – Substantiv	İsim	Muhabir
+Reporterin, die – Substantiv	İsim	Muhabir (kadın)
+Reservierung, die – Substantiv	İsim	Rezervasyon
+Respekt, der – Substantiv	İsim	Saygı
+retten – Verb	Fiil	Kurtarmak
+Richter, der – Substantiv	İsim	Yargıç
+Richterin, die – Substantiv	İsim	Yargıç (kadın)
+Richtung, die – Substantiv	İsim	Yön
+riesig – Adjektiv	Sıfat	Devasa, çok büyük
+Risiko, das – Substantiv	İsim	Risk
+roh – Adjektiv	Sıfat	Çiğ
+Rohr, das – Substantiv	İsim	Boru
+Rolle, die – Substantiv	İsim	Rol, makara
+Roman, der – Substantiv	İsim	Roman
+Rufnummer, die – Substantiv	İsim	Telefon numarası
+Runde, die – Substantiv	İsim	Tur, dönüş
+Rundfahrt, die – Substantiv	İsim	Tur, gezinti
+runterwerfen – Verb	Fiil	Aşağı atmak
+rück- – Affix	Önek	Geriye doğru
+Rückfahrt, die – Substantiv	İsim	Dönüş yolculuğu
+Rückkehr, die – Substantiv	İsim	Dönüş, geri dönüş
+rückwärts – Adverb	Zarf	Geriye doğru
+
+Saal, der – Substantiv	İsim	Salon
+Sack, der – Substantiv	İsim	Çuval
+Sahne, die – Substantiv	İsim	Sahne / Krema
+Saison, die – Substantiv	İsim	Sezon
+Salbe, die – Substantiv	İsim	Merhem
+Salon, der – Substantiv	İsim	Salon
+salzig – Adjektiv	Sıfat	Tuzlu
+Sand, der – Substantiv	İsim	Kum
+satt – Adjektiv	Sıfat	Tok
+Schachtel, die – Substantiv	İsim	Kutu
+Schade, der – Substantiv	İsim	Zarar
+Schaden, der – Substantiv	İsim	Hasar
+schaden – Verb	Fiil	Zarar vermek
+schalten – Verb	Fiil	Değiştirmek (viteste) / Açıp kapamak (elektronik cihaz)
+Schatten, der – Substantiv	İsim	Gölge
+schauen – Verb	Fiil	Bakmak
+Schaufenster, das – Substantiv	İsim	Vitrin
+Schauspieler, der – Substantiv	İsim	Aktör
+Schauspielerin, die – Substantiv	İsim	Aktris
+Scheibe, die – Substantiv	İsim	Dilim / Cam
+scheiden – Verb	Fiil	Ayırmak / Boşanmak
+Scheidung, die – Substantiv	İsim	Boşanma
+Schein, der – Substantiv	İsim	Belge / Para
+schick / chic – Adjektiv	Sıfat	Şık
+schieben – Verb	Fiil	İtmek
+schief – Adjektiv	Sıfat	Eğri
+schießen – Verb	Fiil	Ateş etmek
+Schlaf, der – Substantiv	İsim	Uyku
+Schlagobers, das – Substantiv	İsim	Kremşanti
+Schlagrahm, der – Substantiv	İsim	Çırpılmış krema
+Schlagsahne, die – Substantiv	İsim	Çırpılmış krema
+Schlange, die – Substantiv	İsim	Yılan / Sıra
+schlank – Adjektiv	Sıfat	Zayıf, ince
+schließlich – Adverb	Zarf	Sonunda
+schmal – Adjektiv	Sıfat	Dar
+Schmerzmittel, das – Substantiv	İsim	Ağrı kesici
+schminken – Verb	Fiil	Makyaj yapmak
+Schmuck, der – Substantiv	İsim	Takı
+Schmutz, der – Substantiv	İsim	Kir
+Schnitzel, das – Substantiv	İsim	Şnitzel
+Schnupfen, der – Substantiv	İsim	Nezle
+Schreck, der – Substantiv	İsim	Korku
+Schrecken, der – Substantiv	İsim	Dehşet
+Schreiben, das – Substantiv	İsim	Yazı
+schreien – Verb	Fiil	Bağırmak
+Schrift, die – Substantiv	İsim	Yazı
+Schriftsteller, der – Substantiv	İsim	Yazar
+Schriftstellerin, die – Substantiv	İsim	Yazar (kadın)
+Schritt, der – Substantiv	İsim	Adım
+Schularbeit, die – Substantiv	İsim	Okul ödevi
+Schuld, die – Substantiv	İsim	Suç / Borç
+schuld – Adjektiv	Sıfat	Borçlu
+schuldig – Adjektiv	Sıfat	Suçlu
+Schulter, die – Substantiv	İsim	Omuz
+Schutz, der – Substantiv	İsim	Koruma
+Schwammerl, das – Substantiv	İsim	Mantar (Avusturya ve Bavyera)
+Schwangerschaft, die – Substantiv	İsim	Hamilelik
+schweigen – Verb	Fiil	Susmak
+Schwierigkeit, die – Substantiv	İsim	Zorluk
+schwitzen – Verb	Fiil	Terlemek
+schätzen – Verb	Fiil	Tahmin etmek / Değerlendirmek
+Schüssel, die – Substantiv	İsim	Kase
+schütteln – Verb	Fiil	Sallamak
+schützen – Verb	Fiil	Korumak
+seitdem – Konjunktion	Zaman zarfı	O zamandan beri
+Sekretär, der – Substantiv	İsim	Sekreter (erkek)
+Sekretärin, die – Substantiv	İsim	Sekreter (kadın)
+selb – Demonstrativpronomen	Zamir	Kendi (kendisi)
+selber – Demonstrativpronomen	Zamir	Kendi (kendisi)
+selbstverständlich – Adjektiv	Sıfat	Elbette, tabii ki
+selten – Adjektiv	Sıfat	Nadir
+seltsam – Adjektiv	Sıfat	Tuhaf
+Semester, das – Substantiv	İsim	Dönem, yarıyıl
+Seminar, das – Substantiv	İsim	Seminer
+Semmel, die – Substantiv	İsim	Ekmek (Avusturya ve Bavyera)
+senden – Verb	Fiil	Göndermek
+Sender, der – Substantiv	İsim	Yayıncı kuruluş
+Senior, der – Substantiv	İsim	Yaşlı erkek
+Seniorin, die – Substantiv	İsim	Yaşlı kadın
+senkrecht – Adjektiv	Sıfat	Dik, dikey
+Serie, die – Substantiv	İsim	Dizi, seri
+Serviceangestellte, der/die – Substantiv	İsim	Servis personeli
+Sessel, der – Substantiv	İsim	Koltuk
+sicher – Adjektiv	Sıfat	Güvenli
+Sicherheit, die – Substantiv	İsim	Güvenlik
+sichern – Verb	Fiil	Güvence altına almak
+sichtbar – Adjektiv	Sıfat	Görünür
+Sieg, der – Substantiv	İsim	Zafer
+siegen – Verb	Fiil	Kazanmak, galip gelmek
+Sieger, der – Substantiv	İsim	Kazanan, galip
+Siegerin, die – Substantiv	İsim	Kazanan, galip (kadın)
+siezen – Verb	Fiil	Siz diye hitap etmek
+sinken – Verb	Fiil	Batmak, düşmek
+Sinn, der – Substantiv	İsim	Anlam, mana
+sinnlos – Adjektiv	Sıfat	Anlamsız
+sinnvoll – Adjektiv	Sıfat	Anlamlı
+Sitz, der – Substantiv	İsim	Oturak, koltuk
+Ski, der – Substantiv	İsim	Kayak
+so viel – Konjunktion / Indefinitpronomen	Bağlaç / Zamir	O kadar, bu kadar
+sobald – Konjunktion	Bağlaç	Olur olmaz, yapar yapmaz
+Socke, die – Substantiv	İsim	Çorap
+sodass, so dass – Konjunktion	Bağlaç	Öyle ki
+sogenannt – Adjektiv	Sıfat	Sözde, öyle denilen
+solange – Konjunktion	Bağlaç	-dığı sürece
+solch – Demonstrativpronomen	Zamir	Öyle, böyle
+sonder- – Affix	Önek	Özel, ayrı
+Sonderangebot, das – Substantiv	İsim	Özel teklif
+sondern – Konjunktion	Bağlaç	Ama, fakat
+Sorge, die – Substantiv	İsim	Endişe, kaygı
+sorgen – Verb	Fiil	Kaygılanmak, ilgilenmek
+Souvenir, das – Substantiv	İsim	Hatıra
+sowieso – Partikel	Partikül	Zaten, her halükarda
+sowohl – Konjunktion	Bağlaç	Hem … hem de
+sozial – Adjektiv	Sıfat	Sosyal
+Sozialarbeiter, der – Substantiv	İsim	Sosyal çalışmacı (erkek)
+Sozialarbeiterin, die – Substantiv	İsim	Sosyal çalışmacı (kadın)
+Soße, die – Substantiv	İsim	Sos
+sparsam – Adjektiv	Sıfat	Tutumlu, idareli
+spazieren gehen – Verb	Fiil	Yürüyüşe çıkmak
+Speise, die – Substantiv	İsim	Yemek
+Speisewagen, der – Substantiv	İsim	Yemek vagonu
+spezial- – Affix	Önek	Özel
+Spezialist, der – Substantiv	İsim	Uzman
+Spezialistin, die – Substantiv	İsim	Uzman (kadın)
+speziell – Adjektiv	Sıfat	Özel
+Spiegel, der – Substantiv	İsim	Ayna
+Spieler, der – Substantiv	İsim	Oyuncu (erkek)
+Spielerin, die – Substantiv	İsim	Oyuncu (kadın)
+Spielplatz, der – Substantiv	İsim	Oyun alanı
+Spielzeug, das – Substantiv	İsim	Oyuncak
+spitz – Adjektiv	Sıfat	Sivri
+Sportart, die – Substantiv	İsim	Spor dalı
+Sportler, der – Substantiv	İsim	Sporcu (erkek)
+Sportlerin, die – Substantiv	İsim	Sporcu (kadın)
+springen – Verb	Fiil	Atlamak
+Spritze, die – Substantiv	İsim	Şırınga
+Spur, die – Substantiv	İsim	İz, yol
+spätestens – Adverb	Zarf	En geç
+spülen – Verb	Fiil	Yıkamak (bulaşık)
+spüren – Verb	Fiil	Hissetmek
+Stadion, das – Substantiv	İsim	Stadyum
+stammen – Verb	Fiil	-den gelmek, soyundan gelmek
+Standpunkt, der – Substantiv	İsim	Görüş, bakış açısı
+Start, der – Substantiv	İsim	Başlangıç, start
+starten – Verb	Fiil	Başlamak, harekete geçmek
+Station, die – Substantiv	İsim	İstasyon, durak
+Statistik, die – Substantiv	İsim	İstatistik
+statistisch – Adjektiv	Sıfat	İstatistiksel
+statt – Präposition	Edat	-ın yerine
+Stau, der – Substantiv	İsim	Trafik sıkışıklığı
+Staub, der – Substantiv	İsim	Toz
+Staub saugen – Verb	Fiil	Elektrik süpürgesiyle temizlemek
+staubsaugen – Verb	Fiil	Elektrik süpürgesiyle temizlemek
+stechen – Verb	Fiil	Batırmak, sokmak
+Steckdose, die – Substantiv	İsim	Priz
+stecken – Verb	Fiil	Sokmak, yerleştirmek
+Stecker, der – Substantiv	İsim	Fiş
+stehenbleiben – Verb	Fiil	Durmak
+stehlen – Verb	Fiil	Çalmak
+steigen – Verb	Fiil	Yükselmek, binmek
+steil – Adjektiv	Sıfat	Dik
+Stein, der – Substantiv	İsim	Taş
+Stempel, der – Substantiv	İsim	Damga
+Stern, der – Substantiv	İsim	Yıldız
+Steuer, die – Substantiv	İsim	Vergi
+Steward, der – Substantiv	İsim	Uçuş görevlisi (erkek)
+Stewardess, die – Substantiv	İsim	Uçuş görevlisi (kadın)
+Stiege, die – Substantiv	İsim	Merdiven
+Stiegenhaus, das – Substantiv	İsim	Merdiven evi
+Stil, der – Substantiv	İsim	Stil
+stilistisch – Adjektiv	Sıfat	Stilistik, üslupla ilgili
+still – Adjektiv	Sıfat	Sessiz
+Stimme, die – Substantiv	İsim	Ses
+stimmen – Verb	Fiil	Doğru olmak, uymak
+Stimmung, die – Substantiv	İsim	Ruhsal durum, atmosfer
+stinken – Verb	Fiil	Kötü kokmak
+Stoff, der – Substantiv	İsim	Kumaş, madde
+stolz – Adjektiv	Sıfat	Gururlu
+stoppen – Verb	Fiil	Durdurmak
+strafbar – Adjektiv	Sıfat	Ceza gerektiren, suç teşkil eden
+Strafe, die – Substantiv	İsim	Ceza
+Strafzettel, der – Substantiv	İsim	Ceza makbuzu
+Strecke, die – Substantiv	İsim	Mesafe, yol
+Streichholz, das – Substantiv	İsim	Kibrit
+Streik, der – Substantiv	İsim	Grev
+streiken – Verb	Fiil	Grev yapmak
+Streit, der – Substantiv	İsim	Tartışma, kavga
+Strom, der – Substantiv	İsim	Elektrik
+Strumpf, der – Substantiv	İsim	Çorap
+Studie, die – Substantiv	İsim	Çalışma, araştırma
+Studierende, der/die – Substantiv	İsim	Üniversite öğrencisi
+Studio, das – Substantiv	İsim	Stüdyo
+Stufe, die – Substantiv	İsim	Seviye, basamak
+stumm – Adjektiv	Sıfat	Dilsiz, sessiz
+Sturm, der – Substantiv	İsim	Fırtına
+städtisch – Adjektiv	Sıfat	Şehre ait, belediye
+ständig – Adjektiv	Sıfat	Sürekli
+Störung, die – Substantiv	İsim	Bozukluk, kesinti
+stürzen – Verb	Fiil	Düşmek, devrilmek
+Sucht, die – Substantiv	İsim	Bağımlılık
+Suchtmittel, das – Substantiv	İsim	Bağımlılık yapıcı madde
+Summe, die – Substantiv	İsim	Toplam, miktar
+Symbol, das – Substantiv	İsim	Sembol
+System, das – Substantiv	İsim	Sistem
+Szene, die – Substantiv	İsim	Sahne, olay yeri
+sämtlich – Indefinitpronomen	Zamir	Tüm, hepsi
+Sänger, der – Substantiv	İsim	Şarkıcı (erkek)
+Sängerin, die – Substantiv	İsim	Şarkıcı (kadın)
+süchtig – Adjektiv	Sıfat	Bağımlı
+
+Tabelle, die	İsim	Tablo
+Tagesablauf, der	İsim	Günlük rutin
+Tal, das	İsim	Vadi
+Talent, das	İsim	Yetenek
+tanken	Fiil	Yakıt almak
+Tankstelle, die	İsim	Benzin istasyonu
+Tante, die	İsim	Teyze, hala
+Tanz, der	İsim	Dans
+Taschentuch, das	İsim	Mendil
+Tastatur, die	İsim	Klavye
+Taste, die	İsim	Tuş
+Tat, die	İsim	Eylem, fiil
+Tatsache, die	İsim	Gerçek, olgu
+tatsächlich	Adjektiv	Gerçekten
+taub	Adjektiv	Sağır
+tauchen	Fiil	Dalış yapmak
+Technik, die	İsim	Teknik
+technisch	Adjektiv	Teknik
+Technologie, die	İsim	Teknoloji
+Teilnahme, die	İsim	Katılım
+Teilnehmer, der	İsim	Katılımcı (erkek)
+Teilnehmerin, die	İsim	Katılımcı (kadın)
+teilweise	Adjektiv	Kısmen
+Teilzeit, die	İsim	Yarı zamanlı
+Temperatur, die	İsim	Sıcaklık
+Tempo, das	İsim	Hız
+Teppich, der	İsim	Halı
+Terminkalender, der	İsim	Ajanda
+Terrasse, die	İsim	Teras
+testen	Fiil	Test etmek
+theoretisch	Adjektiv	Teorik
+Theorie, die	İsim	Teori
+Therapie, die	İsim	Terapi
+Tierpark, der	İsim	Hayvanat bahçesi
+tippen	Fiil	Yazmak, dokunmak
+Tod, der	İsim	Ölüm
+tolerant	Adjektiv	Hoşgörülü
+Tor, das	İsim	Kapı; gol
+Tote, der/die	İsim	Ölü kişi
+Tourismus, der	İsim	Turizm
+Tradition, die	İsim	Gelenek
+traditionell	Adjektiv	Geleneksel
+Trainer, der	İsim	Antrenör (erkek)
+Trainerin, die	İsim	Antrenör (kadın)
+Tram, die/das	İsim	Tramvay
+Transport, der	İsim	Taşıma, nakliye
+transportieren	Fiil	Taşımak
+Treffpunkt, der	İsim	Buluşma noktası
+treiben	Fiil	Yapmak, itmek
+trennen	Fiil	Ayırmak
+Trennung, die	İsim	Ayrılık
+Treppenhaus, das	İsim	Merdiven boşluğu
+treten	Fiil	Bas-, tekmelemek
+treu	Adjektiv	Sadık
+Trinkgeld, das	İsim	Bahşiş
+trocknen	Fiil	Kurutmak
+Tropfen, der	İsim	Damla
+Trottoir, das	İsim	Kaldırım
+trotz	Präposition	-e rağmen
+trotzdem	Konjunktion	Yine de, buna rağmen
+Träne, die	İsim	Gözyaşı
+Tuch, das	İsim	Bez, kumaş
+Turm, der	İsim	Kule
+twittern	Fiil	Twitter’da tweet atmak
+Typ, der	İsim	Tip, tür
+Täter, der	İsim	Suçlu (erkek)
+Täterin, die	İsim	Suçlu (kadın)
+Tätigkeit, die	İsim	Faaliyet, etkinlik
+tödlich	Adjektiv	Ölümcül
+Tüte, die	İsim	Poşet, torba
+
+U-Bahn, die	İsim	Metro
+Ufer, das	İsim	Kıyı
+umarmen	Fiil	Sarılmak
+umdrehen	Fiil	Dönmek, çevirmek
+Umfrage, die	İsim	Anket
+Umgebung, die	İsim	Çevre
+umgehen	Fiil	Başa çıkmak, dolaşmak
+umgekehrt	Adjektiv	Ters, aksi
+Umleitung, die	İsim	Yol değişikliği, dolambaç
+umso	Konjunktion	O kadar
+umsonst	Adverb	Bedava, boşuna
+Umtausch, der	İsim	Değişim, değiştirme
+umtauschen	Fiil	Değiştirmek, bozdurmak
+Umwelt, die	İsim	Çevre
+Umweltschutz, der	İsim	Çevre koruma
+Umweltverschmutzung, die	İsim	Çevre kirliliği
+un-	Affix	Olumsuzluk öneki
+unentschieden	Adjektiv	Berabere, kararsız
+ungefähr	Adjektiv	Yaklaşık, aşağı yukarı
+ungewöhnlich	Adjektiv	Alışılmadık
+unglaublich	Adjektiv	İnanılmaz
+Unglück, das	İsim	Talihsizlik, felaket
+unheimlich	Adjektiv	Ürkütücü, korkunç
+Uniform, die	İsim	Üniforma
+unter-	Affix	Alt-
+unterbrechen	Fiil	Kesmek, ara vermek
+Unterhaltung, die	İsim	Sohbet, eğlence
+Unterlage, die	İsim	Belgeler, altlık
+unterlassen	Fiil	Yapmamak, bırakmak
+Unternehmer, der	İsim	Girişimci, işletmeci
+Unternehmerin, die	İsim	Girişimci (kadın), işletmeci
+unterrichten	Fiil	Öğretmek
+unterscheiden	Fiil	Ayırt etmek
+unterschiedlich	Adjektiv	Farklı
+unterstreichen	Fiil	Altını çizmek, vurgulamak
+unterstützen	Fiil	Desteklemek
+Unterstützung, die	İsim	Destek
+Untersuchung, die	İsim	Araştırma, inceleme
+Urkunde, die	İsim	Belge, sertifika
+Ursache, die	İsim	Sebep, neden
+ursprünglich	Adjektiv	Asıl, orijinal
+Urteil, das	İsim	Karar, yargı
+
+Vase, die	İsim	Vazo
+vegetarisch	Adjektiv	Vejetaryen
+Velo, das	İsim	Bisiklet (İsviçre Almancası)
+Verabredung, die	İsim	Randevu, buluşma
+verabschieden	Fiil	Veda etmek
+verantwortlich	Adjektiv	Sorumlu
+Verantwortung, die	İsim	Sorumluluk
+verbessern	Fiil	İyileştirmek, düzeltmek
+verbinden	Fiil	Bağlamak, birleştirmek
+Verbindung, die	İsim	Bağlantı
+Verbot, das	İsim	Yasa
+verbrauchen	Fiil	Tüketmek
+Verbrecher, der	İsim	Suçlu (erkek)
+Verbrecherin, die	İsim	Suçlu (kadın)
+verbrennen	Fiil	Yakmak
+verbringen	Fiil	Geçirmek (zaman)
+Verdacht, der	İsim	Şüphe
+verdächtig	Adjektiv	Şüpheli
+Vergangenheit, die	İsim	Geçmiş
+vergeblich	Adjektiv	Boşuna
+Vergleich, der	İsim	Karşılaştırma
+Vergnügen, das	İsim	Eğlence
+vergnügen	Fiil	Eğlendirmek, keyif almak
+vergnügt	Adjektiv	Neşeli, keyifli
+vergrößern	Fiil	Büyütmek
+verhaften	Fiil	Tutuklamak
+Verhalten, das	İsim	Davranış
+verhalten	Fiil	Davranmak
+verhindern	Fiil	Engellenmek, önlemek
+Verhältnis, das	İsim	İlişki, oran
+Verkehrszeichen, das	İsim	Trafik işareti
+Verkäuferin, die	İsim	Satıcı (kadın)
+Verlag, der	İsim	Yayınevi
+verlangen	Fiil	İstemek, talep etmek
+verlassen	Fiil	Terk etmek
+verlaufen	Fiil	Kaybolmak, saptamak
+Verletzung, die	İsim	Yaralanma
+verliebt	Adjektiv	Aşık
+Verlierer, der	İsim	Kaybeden
+Verlust, der	İsim	Kayıp
+verlängern	Fiil	Uzatmak
+vermeiden	Fiil	Kaçınmak
+Vermietung, die	İsim	Kiralama
+vermissen	Fiil	Özlemek
+Vermittlung, die	İsim	Aracılık
+vermuten	Fiil	Tahmin etmek, sanmak
+vermutlich	Adjektiv	Muhtemelen
+vernünftig	Adjektiv	Mantıklı, akılcı
+verpacken	Fiil	Paketlemek
+verpflegen	Fiil	Bakmak, beslenmek
+verpflichten	Fiil	Yükümlendirmek
+verraten	Fiil	İhanet etmek, sırrını açıklamak
+verrückt	Adjektiv	Deli, çılgın
+Versammlung, die	İsim	Toplantı, meclis
+verschmutzen	Fiil	Kirletmek
+verschreiben	Fiil	Reçete yazmak
+verschwinden	Fiil	Kaybolmak
+versichern	Fiil	Sigorta yapmak, temin etmek
+Versichertenkarte, die	İsim	Sigortalı kartı
+Versicherung, die	İsim	Sigorta
+versprechen	Fiil	Söz vermek
+verstecken	Fiil	Saklamak
+verständlich	Adjektiv	Anlaşılır
+Verständnis, das	İsim	Anlayış
+Versuch, der	İsim	Deneme, teşebbüs
+versäumen	Fiil	Kaçırmak, ihmal etmek
+verteilen	Fiil	Dağıtmak
+Vertrauen, das	İsim	Güven
+vertrauen	Fiil	Güvenmek
+vertreten	Fiil	Temsil etmek, yerine geçmek
+Vertreter, der	İsim	Temsilci (erkek)
+Vertreterin, die	İsim	Temsilci (kadın)
+Vertretung, die	İsim	Temsilcilik, vekillik
+verursachen	Fiil	Neden olmak
+verurteilen	Fiil	Mahkum etmek
+Verwaltung, die	İsim	Yönetim
+verwandt	Adjektiv	Akraba
+verwechseln	Fiil	Karıştırmak
+verwenden	Fiil	Kullanmak
+verzeihen	Fiil	Affetmek
+Verzeihung, die	İsim	Affetme
+verzichten	Fiil	Vazgeçmek
+verändern	Fiil	Değiştirmek
+veröffentlichen	Fiil	Yayımlamak
+Video, das	İsim	Video
+virtuell	Adjektiv	Sanal
+Virus, das, der	İsim	Virüs
+Visitenkarte, die	İsim	Kartvizit
+Visum, das	İsim	Vize
+Vitamin, das	İsim	Vitamin
+Vollzeit, die	İsim	Tam zamanlı
+voneinander	Adverb	Birbirinden
+vor allem	Mehrwortausdruck	Özellikle
+voraus	Adverb	Önde, ileride
+Voraussetzung, die	İsim	Önkoşul, şart
+voraussichtlich	Adjektiv	Beklenen, tahmini
+vorbei-	Affix	Geçmiş-
+Vorbereitung, die	İsim	Hazırlık
+vorder	Adjektiv	Ön
+Vorfahrt, die	İsim	Geçiş hakkı
+vorhaben	Fiil	Niyetinde olmak
+vorhin	Adverb	Az önce
+vorkommen	Fiil	Görünmek, meydana gelmek
+vorlesen	Fiil	Yüksek sesle okumak
+vorläufig	Adjektiv	Geçici
+Vorort, der	İsim	Banliyö
+vorschlagen	Fiil	Önermek
+Vorschrift, die	İsim	Yönetmelik, kural
+Vorspeise, die	İsim	Başlangıç yemeği
+Vorstellung, die	İsim	Fikir, temsil
+Vorstellungsgespräch, das	İsim	İş görüşmesi
+Vorteil, der	İsim	Avantaj
+Vortrag, der	İsim	Konferans, sunum
+Vorwurf, der	İsim	Suçlama
+völlig	Adjektiv	Tamamen
+
+waagerecht	Adjektiv	Yatay
+waagrecht	Adjektiv	Yatay, aynı anlamda
+wachsen	Verb	Büyümek
+Wahl, die	İsim	Seçim
+wahnsinnig	Adjektiv	Çılgın, delice
+Wahrheit, die	İsim	Gerçek
+Wand, die	İsim	Duvar
+Wanderung, die	İsim	Yürüyüş, gezinti
+Ware, die	İsim	Mal, ürün
+warnen	Verb	Uyarmak
+Waschmittel, das	İsim	Çamaşır deterjanı
+Wecker, der	İsim	Alarm saati
+weder	Konjunktion	Ne … ne (de)
+weg-	Affix	Yol üzerindeki hareketi belirten önek
+weigern	Verb	Reddetmek, çekimser kalmak
+weiter-	Affix	Devamını belirten önek
+Weiterbildung, die	İsim	Mesleki eğitim
+weltweit	Adjektiv	Dünya çapında
+wenden	Verb	Dönmek, başvurmak
+Werbung, die	İsim	Reklam
+werfen	Verb	Atmak
+Werk, das	İsim	Eser, iş
+Werkzeug, das	İsim	Alet, araç
+wert	Adjektiv	Değerli
+Wert, der	İsim	Değer
+wertlos	Adjektiv	Değersiz
+wertvoll	Adjektiv	Kıymetli
+weshalb	Adverb	Neden, niçin
+wetten	Verb	Bahse girmek
+Wetterbericht, der	İsim	Hava durumu raporu
+Wettervorhersage, die	İsim	Hava durumu tahmini
+widersprechen	Verb	İtiraz etmek
+wieder-	Affix	Tekrarını belirten önek
+Wiederholung, die	İsim	Tekrar
+wiegen	Verb	Tartmak, ağırlığında olmak
+Wiese, die	İsim	Çayır, mera
+wieso	Adverb	Neden, niye
+wild	Adjektiv	Vahşi
+winken	Verb	El sallamak
+wirken	Verb	Etki yapmak
+Wirklichkeit, die	İsim	Gerçeklik
+Wirkung, die	İsim	Etki
+Wirt, der	İsim	Ev sahibi, işletmeci
+Wirtin, die	İsim	Ev sahibesi, işletmeci (kadın)
+Wirtschaft, die	İsim	Ekonomi, işletme
+Wissen, das	İsim	Bilgi
+Wissenschaftler, der	İsim	Bilim insanı (erkek)
+Wissenschaftlerin, die	İsim	Bilim insanı (kadın)
+wohl	Adverb	İyi, muhtemelen
+Wohnort, der	İsim	İkametgah
+Wohnsitz, der	İsim	Yaşam yeri
+Wolle, die	İsim	Yün
+worum	Pronominaladverb	Ne hakkında
+worüber	Pronominaladverb	Ne üzerine
+Wunde, die	İsim	Yara
+Wunder, das	İsim	Mucize
+wundern	Verb	Şaşırmak
+wunderschön	Adjektiv	Harika, çok güzel
+während	Konjunktion	-iken, sırasında
+Wärme, die	İsim	Sıcaklık
+Wörterbuch, das	İsim	Sözlük
+wütend	Adjektiv	Öfkeli, kızgın
+
+zahlreich	Adjektiv	Sayısız, çok
+Zahlung, die	İsim	Ödeme
+Zahnbürste, die	İsim	Diş fırçası
+Zahncreme, die	İsim	Diş macunu (Zahncrème olarak da bilinir)
+Zahnpasta, die	İsim	Diş macunu
+Zange, die	İsim	Pense
+Zeichen, das	İsim	İşaret
+Zeichnung, die	İsim	Çizim
+Zeile, die	İsim	Satır
+Zeitpunkt, der	İsim	Zaman noktası
+zelten	Verb	Kamp yapmak, çadır kurmak
+zentral	Adjektiv	Merkezi
+zerstören	Verb	Yok etmek, yıkmak
+Zertifikat, das	İsim	Sertifika
+Zeug, das	İsim	Eşya, şey
+Zeuge, der	İsim	Tanık (erkek)
+Zeugin, die	İsim	Tanık (kadın)
+ziemlich	Adjektiv	Oldukça
+Zins, der	İsim	Faiz
+Zivilstand, der	İsim	Medeni durum
+Znüni, das	İsim	Sabah atıştırması (İsviçre Almancasında)
+Zone, die	İsim	Bölge
+zubereiten	Verb	Hazırlamak (yemek vb.)
+Zufall, der	İsim	Tesadüf
+zufällig	Adjektiv	Rastlantısal
+Zugang, der	İsim	Giriş, erişim
+zugehen	Verb	Kapalı olmak, gitmek
+zugänglich	Adjektiv	Erişilebilir
+Zuhause, das	İsim	Ev
+Zuhörer, der	İsim	Dinleyici (erkek)
+Zuhörerin, die	İsim	Dinleyici (kadın)
+Zukunft, die	İsim	Gelecek
+zukünftig	Adjektiv	Gelecekteki
+zumindest	Adverb	En azından
+zunehmen	Verb	Kilo almak, artmak
+zurechtkommen	Verb	Başa çıkmak, idare etmek
+zusagen	Verb	Söz vermek, kabul etmek
+zusammen-	Affix	Birlikte-
+Zusammenarbeit, die	İsim	İşbirliği
+zusammenfassen	Verb	Özetlemek
+Zusammenhang, der	İsim	Bağlam, ilişki
+zuschauen	Verb	Seyretmek
+Zuschauer, der	İsim	İzleyici (erkek)
+Zuschauerin, die	İsim	İzleyici (kadın)
+Zuschlag, der	İsim	Ek ücret
+Zustand, der	İsim	Durum
+zustimmen	Verb	Onaylamak, katılmak
+Zustimmung, die	İsim	Onay
+zuständig	Adjektiv	Yetkili, sorumlu
+zusätzlich	Adjektiv	İlave, ek
+Zutat, die	İsim	Malzeme (yemek)
+zuverlässig	Adjektiv	Güvenilir
+Zvieri, das	İsim	İkindi atıştırması (İsviçre Almancasında)
+zwar	Konjunktion	Gerçi, aslında
+Zweck, der	İsim	Amaç
+Zweifel, der	İsim	Şüphe
+zweifeln	Verb	Şüphelenmek
+Zweitsprache, die	İsim	İkinci dil
+Zwiebel, die	İsim	Soğan
+zwingen	Verb	Zorlamak
+zählen	Verb	Saymak
+Zünder, der	İsim	Ateşleyici
+Zündholz, das	İsim	Kibrit
+
+ähnlich	Adjektiv	Benzer
+Änderung, die	İsim	Değişiklik
+ängstlich	Adjektiv	Korkak, endişeli
+Ärger, der	İsim	Öfke, kızgınlık
+ärgerlich	Adjektiv	Sinir bozucu, can sıkıcı
+Ärztin, die	İsim	Doktor (kadın)
+äußerlich	Adjektiv	Dışsal, dışa dönük
+
+öffentlich	Adjektiv	Kamusal, herkese açık
+Öffentlichkeit, die	İsim	Kamu, halk
+öfter	Komparativ	Daha sık
+öko-	Affix	Ekolojik ile ilgili öneki
+ökologisch	Adjektiv	Ekolojik
+
+über-	Affix	Üzeri, hakkında öneki
+überfahren	Verb	Ezerek geçmek, çiğnemek
+überhaupt	Adverb	Hiç, aslında, genel olarak
+überholen	Verb	Sollamak, geçmek
+überlegen	Verb	Düşünmek, tartmak
+Übernachtung, die	İsim	Geceleme, konaklama
+übernehmen	Verb	Üstlenmek, devralmak
+überprüfen	Verb	Gözden geçirmek, kontrol etmek
+überqueren	Verb	Karşıya geçmek, aşmak
+überraschen	Verb	Şaşırtmak
+Überraschung, die	İsim	Sürpriz
+überreden	Verb	İkna etmek
+Überschrift, die	İsim	Başlık
+Übersetzer, der	İsim	Çevirmen (erkek)
+Übersetzerin, die	İsim	Çevirmen (kadın)
+Überstunde, die	İsim	Fazla mesai
+übertreiben	Verb	Abartmak
+Überweisung, die	İsim	Havale, transfer
+überzeugen	Verb	İkna etmek, kendine inandırmak
+Überzeugung, die	İsim	İnanç, kanaat
+üblich	Adjektiv	Olağan, alışılagelmiş
+übrig	Adjektiv	Artan, kalan
+übrigens	Adverb	Ayrıca, bu arada
+Übung, die	İsim	Egzersiz, alıştırma
+
+
+

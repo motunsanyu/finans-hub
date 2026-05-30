@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Almanca Öğrenme Sistemi</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        body {
+            background: #f4f7fc;
+            padding: 20px;
+        }
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        header {
+            background: #1e88e5;
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .logo {
+            font-size: 1.6rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .level-selector {
+            display: flex;
+            gap: 10px;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 12px;
+            border-radius: 40px;
+        }
+        .level-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 8px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .level-btn.active {
+            background: white;
+            color: #1e88e5;
+        }
+        .mode-tabs {
+            display: flex;
+            background: #f0f2f5;
+            padding: 0 30px;
+            gap: 30px;
+            border-bottom: 2px solid #ddd;
+        }
+        .mode-tab {
+            padding: 14px 0;
+            font-size: 1rem;
+            font-weight: 600;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #555;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .mode-tab.active {
+            color: #1e88e5;
+            border-bottom: 3px solid #1e88e5;
+        }
+        .content {
+            padding: 30px;
+            min-height: 500px;
+        }
+        /* Kelime kartları */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .word-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .word-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px -8px rgba(0,0,0,0.15);
+        }
+        .card-front {
+            padding: 20px;
+            text-align: center;
+        }
+        .german {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #0f3b5c;
+            margin: 10px 0;
+        }
+        .meaning {
+            font-size: 1rem;
+            color: #2c7a4d;
+            margin: 8px 0;
+            display: none;
+        }
+        .example {
+            font-size: 0.85rem;
+            color: #5a6874;
+            background: #f8fafc;
+            padding: 8px;
+            border-radius: 16px;
+            margin: 12px 0;
+            display: none;
+        }
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+            gap: 10px;
+        }
+        .action-btn {
+            background: #eef2ff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        /* Alıştırma alanı */
+        .exercise-area {
+            background: #ffffff;
+            border-radius: 32px;
+            padding: 30px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.02);
+            border: 1px solid #e9edf2;
+        }
+        .question {
+            font-size: 1.6rem;
+            font-weight: 500;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .option-btn {
+            background: #f1f5f9;
+            border: 2px solid #e2e8f0;
+            border-radius: 60px;
+            padding: 14px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.1s;
+            text-align: center;
+        }
+        .option-btn:hover {
+            background: #e6edf4;
+            transform: scale(0.98);
+        }
+        .feedback {
+            text-align: center;
+            padding: 15px;
+            font-weight: bold;
+            border-radius: 40px;
+            margin-top: 15px;
+        }
+        .next-btn {
+            background: #1e88e5;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto 0;
+        }
+        .loading {
+            text-align: center;
+            padding: 50px;
+        }
+        footer {
+            background: #f8fafc;
+            padding: 16px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #6c86a3;
+            border-top: 1px solid #e2edf7;
+        }
+        @media (max-width: 640px) {
+            .content { padding: 20px; }
+            .question { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <header>
+        <div class="logo">
+            <i class="fas fa-language"></i> <span>Almanca<span style="font-weight: normal;">Öğren</span></span>
+        </div>
+        <div class="level-selector" id="levelSelector">
+            <button class="level-btn" data-level="A1">A1</button>
+            <button class="level-btn" data-level="A2">A2</button>
+            <button class="level-btn" data-level="B1">B1</button>
+        </div>
+    </header>
+    <div class="mode-tabs">
+        <button class="mode-tab active" data-mode="cards"><i class="fas fa-layer-group"></i> Kelime Kartları</button>
+        <button class="mode-tab" data-mode="quiz"><i class="fas fa-puzzle-piece"></i> Alıştırmalar</button>
+    </div>
+    <div class="content" id="mainContent">
+        <div class="loading">Yükleniyor...</div>
+    </div>
+    <footer>
+        <i class="fas fa-headphones"></i> Kelimelerin üzerindeki ses butonuyla telaffuzu dinleyin. Alıştırmalar rastgele seçilir.
+    </footer>
+</div>
+
+<script>
+    // 🔁 SUPABASE BAĞLANTI (KENDİ BİLGİLERİNİZLE DEĞİŞTİRİN)
+    const SUPABASE_URL = 'https://SUPABASE_URL.supabase.co';      // !!! DEĞİŞTİR
+    const SUPABASE_ANON_KEY = 'ANON_KEY';                       // !!! DEĞİŞTİR
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let currentLevel = 'A1';
+    let currentMode = 'cards';   // 'cards' veya 'quiz'
+    let currentQuestions = [];
+    let currentQuestionIndex = 0;
+    let userAnswers = [];   // local storage veya supabase'e kaydedebiliriz (isteğe bağlı)
+
+    // DOM
+    const mainContent = document.getElementById('mainContent');
+    const levelBtns = document.querySelectorAll('.level-btn');
+    const modeTabs = document.querySelectorAll('.mode-tab');
+
+    // Ses çalma
+    function speakGerman(text) {
+        if (!window.speechSynthesis) return;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'de-DE';
+        utterance.rate = 0.8;
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(utterance);
+    }
+
+    // Kelimeleri getir ve kartları göster
+    async function loadCards() {
+        mainContent.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-pulse"></i> Kelimeler yükleniyor...</div>';
+        const { data, error } = await supabase
+            .from('vocabulary')
+            .select('*')
+            .eq('level', currentLevel)
+            .limit(50);   // performans için 50 kelime, dilerseniz hepsi
+        if (error) {
+            mainContent.innerHTML = `<div class="loading">Hata: ${error.message}<br>Önce kelime tablosunu doldurun.</div>`;
+            return;
+        }
+        if (!data || data.length === 0) {
+            mainContent.innerHTML = `<div class="loading">Bu seviyede kelime yok. Lütfen önce veritabanına kelime ekleyin.</div>`;
+            return;
+        }
+        renderCards(data);
+    }
+
+    function renderCards(words) {
+        let html = `<div class="cards-grid">`;
+        words.forEach((word, idx) => {
+            html += `
+                <div class="word-card" data-id="${word.id}">
+                    <div class="card-front">
+                        <div style="display:flex; justify-content:space-between;">
+                            <span class="german">${word.german_word}</span>
+                            <span style="font-size:1.5rem;">${getIconForWord(word.german_word)}</span>
+                        </div>
+                        <div class="meaning" id="meaning-${word.id}">${word.turkish_meaning}</div>
+                        <div class="example" id="example-${word.id}">${word.example_sentence || 'Örnek cümle yok'}</div>
+                        <div class="card-actions">
+                            <button class="action-btn speak-card" data-word="${word.german_word}"><i class="fas fa-volume-up"></i> Ses</button>
+                            <button class="action-btn reveal-card" data-id="${word.id}"><i class="fas fa-eye"></i> Anlamı Göster</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        html += `</div>`;
+        mainContent.innerHTML = html;
+
+        // Olayları bağla
+        document.querySelectorAll('.speak-card').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const w = btn.getAttribute('data-word');
+                if (w) speakGerman(w);
+            });
+        });
+        document.querySelectorAll('.reveal-card').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = btn.getAttribute('data-id');
+                const meaningDiv = document.getElementById(`meaning-${id}`);
+                const exampleDiv = document.getElementById(`example-${id}`);
+                if (meaningDiv.style.display === 'none' || !meaningDiv.style.display) {
+                    meaningDiv.style.display = 'block';
+                    exampleDiv.style.display = 'block';
+                    btn.innerHTML = '<i class="fas fa-eye-slash"></i> Gizle';
+                } else {
+                    meaningDiv.style.display = 'none';
+                    exampleDiv.style.display = 'none';
+                    btn.innerHTML = '<i class="fas fa-eye"></i> Anlamı Göster';
+                }
+            });
+        });
+        // kart tıklanınca da aç/kapa kolaylık
+        document.querySelectorAll('.word-card').forEach(card => {
+            const btn = card.querySelector('.reveal-card');
+            if (btn) {
+                card.addEventListener('click', (e) => {
+                    if (e.target.closest('.speak-card')) return;
+                    btn.click();
+                });
+            }
+        });
+    }
+
+    // Basit ikon belirleme
+    function getIconForWord(word) {
+        const lower = word.toLowerCase();
+        if (lower.includes('kaffee')) return '☕';
+        if (lower.includes('wasser')) return '💧';
+        if (lower.includes('auto')) return '🚗';
+        if (lower.includes('buch')) return '📖';
+        if (lower.includes('schule')) return '🏫';
+        if (lower.includes('essen')) return '🍽️';
+        if (lower.includes('trinken')) return '🥤';
+        return '📌';
+    }
+
+    // ALIŞTIRMALARI GETİR (random çoktan seçmeli sorular - eğer exercises tablosu dolu değilse kelimelerden otomatik üret)
+    async function loadQuiz() {
+        mainContent.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-pulse"></i> Alıştırmalar hazırlanıyor...</div>';
+        // Önce exercises tablosundan bu seviyeye ait soruları çekelim (varsa)
+        let { data: exercises, error } = await supabase
+            .from('exercises')
+            .select('*')
+            .eq('level', currentLevel)
+            .limit(20);
+        
+        // Eğer exercises tablosu boşsa, vocabulary'den otomatik çoktan seçmeli sorular oluştur
+        if (!exercises || exercises.length === 0) {
+            // Kelimeleri çek
+            const { data: words } = await supabase
+                .from('vocabulary')
+                .select('*')
+                .eq('level', currentLevel)
+                .limit(30);
+            if (words && words.length > 0) {
+                exercises = words.map(word => ({
+                    id: word.id,
+                    question_type: 'multiple_choice',
+                    question_text: `"${word.german_word}" kelimesinin Türkçesi nedir?`,
+                    correct_answer: word.turkish_meaning,
+                    option_a: word.turkish_meaning,
+                    option_b: rastgeleAnlam(words, word.turkish_meaning),
+                    option_c: rastgeleAnlam(words, word.turkish_meaning),
+                    option_d: rastgeleAnlam(words, word.turkish_meaning),
+                    level: word.level
+                }));
+            } else {
+                mainContent.innerHTML = `<div class="loading">Önce kelime havuzunu doldurun! (vocabulary tablosu boş)</div>`;
+                return;
+            }
+        }
+        if (!exercises || exercises.length === 0) {
+            mainContent.innerHTML = `<div class="loading">Bu seviye için alıştırma bulunamadı.</div>`;
+            return;
+        }
+        currentQuestions = exercises;
+        currentQuestionIndex = 0;
+        showQuestion();
+    }
+
+    function rastgeleAnlam(words, exclude) {
+        const filtered = words.filter(w => w.turkish_meaning !== exclude);
+        if (filtered.length === 0) return 'Bilinmiyor';
+        const random = filtered[Math.floor(Math.random() * filtered.length)];
+        return random.turkish_meaning;
+    }
+
+    function showQuestion() {
+        if (currentQuestionIndex >= currentQuestions.length) {
+            mainContent.innerHTML = `<div class="exercise-area"><h3>🎉 Tebrikler! Tüm alıştırmaları tamamladınız.</h3><button class="next-btn" id="restartQuiz">Yeniden Başla</button></div>`;
+            document.getElementById('restartQuiz')?.addEventListener('click', () => loadQuiz());
+            return;
+        }
+        const q = currentQuestions[currentQuestionIndex];
+        let optionsHtml = '';
+        if (q.question_type === 'multiple_choice') {
+            const opts = [q.option_a, q.option_b, q.option_c, q.option_d].filter(v => v);
+            // karıştır
+            const shuffled = [...opts].sort(() => Math.random() - 0.5);
+            optionsHtml = shuffled.map(opt => `<button class="option-btn" data-answer="${opt}">${opt}</button>`).join('');
+        } else {
+            // fill_blank tipi için basit text input yapılabilir (genişlet)
+            optionsHtml = `<input type="text" id="fillAnswer" placeholder="Cevabınızı yazın" style="padding:12px; border-radius:40px; border:1px solid #ccc; width:100%">
+                           <button class="option-btn" id="submitFill">Cevapla</button>`;
+        }
+        const html = `
+            <div class="exercise-area">
+                <div class="question">${q.question_text}</div>
+                <div class="options" id="optionsContainer">${optionsHtml}</div>
+                <div id="feedback" class="feedback"></div>
+                <button class="next-btn" id="nextQuestionBtn" style="display:none;">Sonraki Soru</button>
+            </div>
+        `;
+        mainContent.innerHTML = html;
+        
+        if (q.question_type === 'multiple_choice') {
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const selected = btn.getAttribute('data-answer');
+                    checkAnswer(selected, q.correct_answer);
+                });
+            });
+        } else {
+            const submitBtn = document.getElementById('submitFill');
+            if (submitBtn) {
+                submitBtn.addEventListener('click', () => {
+                    const input = document.getElementById('fillAnswer');
+                    const userAns = input.value.trim();
+                    checkAnswer(userAns, q.correct_answer);
+                });
+            }
+        }
+    }
+
+    function checkAnswer(userAnswer, correctAnswer) {
+        const isCorrect = (userAnswer.toLowerCase() === correctAnswer.toLowerCase());
+        const feedbackDiv = document.getElementById('feedback');
+        const nextBtn = document.getElementById('nextQuestionBtn');
+        if (isCorrect) {
+            feedbackDiv.innerHTML = '<span style="color:#2b7e3a;">✅ Doğru! +10 puan</span>';
+            feedbackDiv.style.background = '#e6f4ea';
+        } else {
+            feedbackDiv.innerHTML = `<span style="color:#c5221f;">❌ Yanlış! Doğru cevap: ${correctAnswer}</span>`;
+            feedbackDiv.style.background = '#fef1f0';
+        }
+        // cevap verildikten sonra butonları devre dışı bırak
+        document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+        if (document.getElementById('submitFill')) document.getElementById('submitFill').disabled = true;
+        nextBtn.style.display = 'block';
+        nextBtn.addEventListener('click', () => {
+            currentQuestionIndex++;
+            showQuestion();
+        }, { once: true });
+    }
+
+    // Seviye değişince
+    async function changeLevel(level) {
+        currentLevel = level;
+        levelBtns.forEach(btn => {
+            if (btn.getAttribute('data-level') === level) btn.classList.add('active');
+            else btn.classList.remove('active');
+        });
+        if (currentMode === 'cards') await loadCards();
+        else await loadQuiz();
+    }
+
+    function changeMode(mode) {
+        currentMode = mode;
+        modeTabs.forEach(tab => {
+            if (tab.getAttribute('data-mode') === mode) tab.classList.add('active');
+            else tab.classList.remove('active');
+        });
+        if (mode === 'cards') loadCards();
+        else loadQuiz();
+    }
+
+    // Event listeners
+    levelBtns.forEach(btn => {
+        btn.addEventListener('click', () => changeLevel(btn.getAttribute('data-level')));
+    });
+    modeTabs.forEach(tab => {
+        tab.addEventListener('click', () => changeMode(tab.getAttribute('data-mode')));
+    });
+
+    // BAŞLAT
+    changeLevel('A1');
+</script>
+</body>
+</html>
