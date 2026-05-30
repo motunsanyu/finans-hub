@@ -537,8 +537,8 @@ window.GermanModule = (function () {
               <div style="display:flex;align-items:center;gap:14px;">
                 <div class="g-home-icon">🗺️</div>
                 <div>
-                  <div style="font-size:17px;font-weight:800;color:var(--g-text);">Konu Rehberi</div>
-                  <div style="color:var(--g-text-muted);font-size:13px;">A1'den B2'ye seviye seviye yol haritası</div>
+                  <div style="font-size:17px;font-weight:800;color:var(--g-text);">A1 Konuları</div>
+                  <div style="color:var(--g-text-muted);font-size:13px;">Dosyadan alınan konu anlatımları</div>
                 </div>
               </div>
               <button class="g-btn ghost" onclick="window.GermanModule.showTopicGuide()">Aç</button>
@@ -960,163 +960,236 @@ window.GermanModule = (function () {
     }
   ];
 
-  function showTopicGuide() {
-    let activeLvl = 'A1';
-    let activeDetail = null;
-
-    function getTopicDetail(topic, sectionTitle) {
-      const plainTopic = topic.replace(/^[^\wÄÖÜäöüßÇĞİÖŞÜçğıöşü]+/u, '').trim();
-      const lower = plainTopic.toLowerCase();
-      const grammarLike = /(gramer|artikel|akkusativ|dativ|nominativ|genitiv|präteritum|perfekt|konjunktiv|passiv|nebens|relativ|fiil|verb|modal|futur|adjektiv|präposition|edat|bağlaç|olumsuz|soru|zaman|çekim|sein|haben)/i.test(plainTopic);
-      let summary = grammarLike
-        ? `${plainTopic} konusu, cümlede kelimelerin hangi sırada ve hangi eklerle kullanılacağını netleştirir. Önce kuralı kısa tut, sonra aynı yapıyla 5-6 örnek cümle kur.`
-        : `${plainTopic} konusu, günlük konuşmada hazır kalıplarla kendini daha rahat ifade etmeye yarar. Önce en sık kullanılan ifadeleri öğren, sonra kısa diyaloglara çevir.`;
-      let examples = ['Ich lerne Deutsch.', 'Das ist wichtig.', 'Kannst du mir helfen?'];
-      let practice = ['3 örnek cümleyi sesli oku.', 'Aynı cümleyi kendi hayatına göre değiştir.', 'Yeni kelimeleri küçük kartlara ayır.'];
-
-      if (lower.includes('sein') || lower.includes('haben')) {
-        summary = 'sein ve haben Almancanın en temel iki yardımcı fiilidir. Kimden bahsettiğine göre fiil değişir: ich bin, du bist, ich habe, du hast.';
-        examples = ['Ich bin müde. = Yorgunum.', 'Du hast Zeit. = Zamanın var.', 'Wir sind zu Hause. = Evdeyiz.'];
-        practice = ['ich, du, er/sie/es, wir, ihr, sie/Sie için tabloyu kapatıp tekrar yaz.', 'Her kişi için bir sein ve bir haben cümlesi kur.', 'Cümleleri yüksek sesle oku.'];
-      } else if (lower.includes('artikel')) {
-        summary = 'Artikel, ismin cinsiyetini ve cümledeki görevini gösterir. A1-A2 seviyesinde der, die, das ve ein/eine/kein kullanımı temel önceliktir.';
-        examples = ['der Tisch = masa', 'die Tasche = çanta', 'das Haus = ev'];
-        practice = ['10 yeni ismi artikeliyle birlikte yaz.', 'Her isimle “Das ist ...” cümlesi kur.', 'Maskulin isimlerde Akkusativ değişimini ayrıca işaretle.'];
-      } else if (lower.includes('akkusativ') || lower.includes('dativ') || lower.includes('nominativ') || lower.includes('genitiv')) {
-        summary = 'İsmin halleri, ismin cümlede özne mi, doğrudan nesne mi, yönelme nesnesi mi olduğunu gösterir. Almancada bu görev çoğu zaman artikel değişimiyle görünür.';
-        examples = ['Der Mann sieht den Hund.', 'Ich helfe dem Kind.', 'Das Auto des Vaters ist neu.'];
-        practice = ['Cümlede özneyi ve nesneyi farklı renkle işaretle.', 'Wen/was ve wem sorularını sor.', 'Aynı ismi Nominativ, Akkusativ ve Dativ ile yaz.'];
-      } else if (lower.includes('perfekt') || lower.includes('präteritum') || lower.includes('plusquamperfekt')) {
-        summary = 'Geçmiş zaman konuları, bitmiş olayları anlatmak için kullanılır. Günlük konuşmada Perfekt çok yaygındır; Präteritum özellikle sein, haben ve modal fiillerde sık görülür.';
-        examples = ['Ich habe gelernt.', 'Ich war müde.', 'Er hatte schon gegessen.'];
-        practice = ['Bugün yaptığın 5 şeyi Perfekt ile yaz.', 'sein/haben geçmişlerini ayrıca ezberle.', 'Düzensiz fiillerin Partizip II hallerini listele.'];
-      } else if (lower.includes('nebens') || lower.includes('relativ') || lower.includes('wenn') || lower.includes('weil') || lower.includes('dass')) {
-        summary = 'Yan cümlelerde çekimli fiil genellikle sona gider. Bu konu, daha uzun ve doğal Almanca cümle kurmanın anahtarıdır.';
-        examples = ['Ich lerne, weil ich in Deutschland arbeiten möchte.', 'Das ist der Mann, der hier wohnt.', 'Ich weiß, dass du kommst.'];
-        practice = ['Bir ana cümle yaz ve weil ile uzat.', 'Fiilin sonda olup olmadığını kontrol et.', 'Aynı fikri dass ve wenn ile yeniden kur.'];
-      } else if (lower.includes('konjunktiv')) {
-        summary = 'Konjunktiv, kibar istekleri, varsayımları ve dolaylı anlatımı kurmak için kullanılır. B1-B2 seviyesinde yazılı ve resmi dil için çok değerlidir.';
-        examples = ['Ich hätte gern einen Kaffee.', 'Wenn ich Zeit hätte, würde ich kommen.', 'Er sagt, er sei krank.'];
-        practice = ['3 kibar rica cümlesi yaz.', 'würde + Infinitiv yapısını kullan.', 'Dolaylı anlatımda fiili nasıl değiştirdiğini işaretle.'];
-      } else if (lower.includes('passiv')) {
-        summary = 'Passiv, işi yapan kişiden çok yapılan işe odaklanır. Özellikle resmi metinlerde, haberlerde ve açıklamalarda sık kullanılır.';
-        examples = ['Das Auto wird repariert.', 'Der Brief wurde geschrieben.', 'Hier wird Deutsch gesprochen.'];
-        practice = ['Aktiv bir cümleyi Passiv cümleye çevir.', 'werden çekimini kontrol et.', 'Yapan kişi önemli değilse cümleden çıkar.'];
-      } else if (lower.includes('selam') || lower.includes('tanış') || lower.includes('adın') || lower.includes('nereli')) {
-        summary = 'Tanışma konuları, ilk konuşmayı başlatmak ve kendini kısa biçimde tanıtmak için kullanılır. En yararlı bölüm hazır kalıpları otomatik hale getirmektir.';
-        examples = ['Hallo, ich heiße Ali.', 'Ich komme aus der Türkei.', 'Wie geht es dir?'];
-        practice = ['Kendini 4 cümleyle tanıt.', 'Resmi ve samimi iki farklı selamlaşma yaz.', 'Cümleleri sesli tekrar et.'];
-      } else if (lower.includes('sayı') || lower.includes('saat') || lower.includes('tarih') || lower.includes('gün') || lower.includes('ay')) {
-        summary = 'Sayı ve zaman ifadeleri randevu, alışveriş, yol tarifi ve günlük planlarda sürekli kullanılır. Hedef, hızlı anlayıp hızlı söyleyebilmek olmalı.';
-        examples = ['Es ist halb acht.', 'Heute ist Montag.', 'Der Termin ist am 12. Juni.'];
-        practice = ['Bugünün tarihini Almanca yaz.', '5 farklı saat söyle.', 'Telefon numaranı rakam rakam oku.'];
-      }
-
-      return { title: plainTopic, section: sectionTitle, summary, examples, practice };
-    }
-
-    function renderModal() {
-      const lvlData = CURRICULUM.find(c => c.level === activeLvl);
-      const tabs = CURRICULUM.map(c => `
-        <button onclick="window.GermanModule._topicGuideTab('${c.level}')" style="
-          padding:8px 18px; border:none; border-bottom:3px solid ${c.level === activeLvl ? c.color : 'transparent'};
-          background:none; font-size:14px; font-weight:800;
-          color:${c.level === activeLvl ? c.color : 'var(--g-text-muted)'};
-          cursor:pointer; transition:all .15s;">${c.level}</button>`).join('');
-
-      const sections = lvlData.sections.map((s, si) => `
-        <div style="margin-bottom:18px;">
-          <div style="font-size:15px;font-weight:800;color:var(--g-text);margin-bottom:10px;
-                      padding:8px 12px;background:${lvlData.bg};border-radius:10px;
-                      border-left:4px solid ${lvlData.color};">${s.title}</div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;padding:0 4px;">
-            ${s.topics.map((t, ti) => `
-              <button onclick="window.GermanModule._topicGuideDetail(${si},${ti})" style="display:flex;align-items:flex-start;gap:6px;font-size:13px;color:var(--g-text);line-height:1.4;text-align:left;background:#fff;border:1px solid transparent;border-radius:8px;padding:6px;cursor:pointer;">
-                <span style="color:${lvlData.color};font-size:10px;margin-top:4px;flex-shrink:0;">●</span>
-                <span>${t}</span>
-              </button>`).join('')}
-          </div>
-        </div>`).join('');
-
-      const totalTopics = lvlData.sections.reduce((a, s) => a + s.topics.length, 0);
-      let content = sections;
-      if (activeDetail) {
-        const section = lvlData.sections[activeDetail.sectionIdx];
-        const topic = section?.topics?.[activeDetail.topicIdx];
-        if (topic) {
-          const detail = getTopicDetail(topic, section.title);
-          content = `
-            <button onclick="window.GermanModule._topicGuideBack()" style="display:inline-flex;align-items:center;gap:6px;background:#fff;border:2px solid var(--g-border);border-bottom:4px solid var(--g-border-bot);border-radius:12px;padding:8px 12px;font-weight:800;color:var(--g-text-muted);cursor:pointer;margin-bottom:14px;">← Konulara Dön</button>
-            <div style="border:2px solid var(--g-border);border-bottom:4px solid var(--g-border-bot);border-radius:18px;padding:18px;background:#fff;">
-              <div style="font-size:12px;font-weight:800;color:${lvlData.color};text-transform:uppercase;margin-bottom:6px;">${activeLvl} • ${detail.section}</div>
-              <div style="font-size:22px;font-weight:800;color:var(--g-text);margin-bottom:10px;line-height:1.25;">${detail.title}</div>
-              <p style="font-size:14px;line-height:1.55;color:var(--g-text);margin:0 0 16px;">${detail.summary}</p>
-              <div style="font-size:14px;font-weight:800;color:var(--g-text);margin-bottom:8px;">Örnekler</div>
-              <div style="display:grid;gap:8px;margin-bottom:16px;">
-                ${detail.examples.map(e => `<div style="background:${lvlData.bg};border-left:4px solid ${lvlData.color};border-radius:10px;padding:10px 12px;font-size:14px;color:var(--g-text);">${e}</div>`).join('')}
-              </div>
-              <div style="font-size:14px;font-weight:800;color:var(--g-text);margin-bottom:8px;">Çalışma adımı</div>
-              <div style="display:grid;gap:7px;">
-                ${detail.practice.map((p, i) => `<div style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--g-text);line-height:1.45;"><span style="background:${lvlData.color};color:#fff;border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;">${i + 1}</span>${p}</div>`).join('')}
-              </div>
-            </div>`;
-        }
-      }
-
-      const modal = document.getElementById('gTopicModal');
-      modal.innerHTML = `
-        <div style="position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;
-                    align-items:flex-end;justify-content:center;" onclick="if(event.target===this)window.GermanModule.closeTopicGuide()">
-          <div style="background:var(--g-surface);border-radius:24px 24px 0 0;width:100%;
-                      max-width:640px;max-height:90vh;display:flex;flex-direction:column;
-                      box-shadow:0 -8px 40px rgba(0,0,0,0.25);">
-
-            <!-- Header -->
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:18px 20px 12px;">
-              <div>
-                <div style="font-size:20px;font-weight:800;color:var(--g-text);">🗺️ Konu Rehberi</div>
-                <div style="font-size:13px;color:var(--g-text-muted);">${activeLvl} • ${lvlData.sections.length} bölüm • ${totalTopics} konu</div>
-              </div>
-              <button onclick="window.GermanModule.closeTopicGuide()" style="background:var(--g-border);
-                border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;color:var(--g-text);">✕</button>
-            </div>
-
-            <!-- Level Tabs -->
-            <div style="display:flex;border-top:1px solid var(--g-border);border-bottom:2px solid var(--g-border);
-                        padding:0 12px;overflow:hidden;">${tabs}</div>
-
-            <!-- Content -->
-            <div style="overflow-y:auto;padding:16px 20px 32px;">${content}</div>
-
-          </div>
-        </div>`;
-    }
-
-    // Expose tab switcher globally for onclick
-    window.GermanModule._topicGuideTab = function(lvl) {
-      activeLvl = lvl;
-      activeDetail = null;
-      renderModal();
-    };
-
-    window.GermanModule._topicGuideDetail = function(sectionIdx, topicIdx) {
-      activeDetail = { sectionIdx, topicIdx };
-      renderModal();
-    };
-
-    window.GermanModule._topicGuideBack = function() {
-      activeDetail = null;
-      renderModal();
-    };
-
-    // Create modal container if not exists
+  async function showTopicGuide() {
     let modal = document.getElementById('gTopicModal');
     if (!modal) {
       modal = document.createElement('div');
       modal.id = 'gTopicModal';
       document.getElementById('germanAppScreen').appendChild(modal);
     }
-    renderModal();
+
+    modal.innerHTML = `
+      <div style="position:fixed;inset:0;background:#f0f0f0;z-index:9999;display:flex;flex-direction:column;">
+        ${headerHTML(false)}
+        <div class="g-body">
+          <div class="g-content">
+            <div class="g-card" style="text-align:center;">
+              <div style="font-size:42px;margin-bottom:10px;">📘</div>
+              <div style="font-size:20px;font-weight:800;color:var(--g-text);">A1 Konuları yükleniyor...</div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+
+    try {
+      const res = await fetch('almanca/A1 Konuları.txt');
+      if (!res.ok) throw new Error('A1 Konuları.txt okunamadı');
+      const guide = parseA1GuideText(await res.text());
+      renderA1TopicList(guide);
+    } catch (err) {
+      console.error(err);
+      modal.innerHTML = `
+        <div style="position:fixed;inset:0;background:#f0f0f0;z-index:9999;display:flex;flex-direction:column;">
+          ${headerHTML(false)}
+          <div class="g-body">
+            <div class="g-content">
+              <div class="g-card">
+                <h2 style="color:var(--g-red);margin:0 0 8px;">A1 Konuları açılamadı</h2>
+                <p style="color:var(--g-text-muted);line-height:1.5;margin:0 0 18px;">${err.message}</p>
+                <button class="g-btn ghost" onclick="window.GermanModule.closeTopicGuide()">Geri Dön</button>
+              </div>
+            </div>
+          </div>
+        </div>`;
+    }
+  }
+
+  function parseA1GuideText(text) {
+    const parts = text.replace(/\r/g, '').split(/\n-{20,}\n/g);
+    const intro = parts.shift() || '';
+    const topics = [];
+    let current = null;
+
+    intro.split('\n').forEach(raw => {
+      const line = raw.trim();
+      if (!line) return;
+      const main = line.match(/^(\d+)\s*-?\s*(.+)$/);
+      if (main) {
+        const body = main[2].trim();
+        const colon = body.indexOf(':');
+        current = {
+          number: Number(main[1]),
+          title: (colon >= 0 ? body.slice(0, colon) : body).trim(),
+          summary: (colon >= 0 ? body.slice(colon + 1) : '').trim(),
+          bullets: []
+        };
+        topics.push(current);
+        return;
+      }
+      if (current && /^[-•]/.test(line)) {
+        current.bullets.push(line.replace(/^[-•]\s*/, '').trim());
+      }
+    });
+
+    const detailChunks = parts.map(chunk => chunk.trim()).filter(Boolean).map(chunk => {
+      const lines = chunk.split('\n').map(l => l.trim()).filter(Boolean);
+      return {
+        title: (lines[0] || '').replace(/^[-•]\s*/, '').replace(/:$/, '').trim(),
+        text: chunk
+      };
+    });
+
+    let activeTopic = null;
+    detailChunks.forEach(chunk => {
+      const match = findBestA1Topic(topics, chunk.title);
+      if (match) activeTopic = match;
+      if (activeTopic) {
+        activeTopic.details = activeTopic.details || [];
+        activeTopic.details.push(chunk);
+      }
+    });
+
+    return { topics };
+  }
+
+  function normalizeA1Text(value) {
+    return (value || '')
+      .toLocaleLowerCase('tr-TR')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/ı/g, 'i')
+      .replace(/[^a-z0-9ğüşöçıäöüß\s]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function findBestA1Topic(topics, heading) {
+    const h = normalizeA1Text(heading);
+    if (!h) return null;
+    let best = null;
+    let bestScore = 0;
+    const generic = new Set(['almanca', 'konusu', 'konulari', 'ornek', 'ornekler', 'fiiller', 'fiil', 'cumleleri']);
+    topics.forEach(topic => {
+      const t = normalizeA1Text(topic.title);
+      const words = t.split(' ').filter(w => w.length > 3 && !generic.has(w));
+      let score = h.includes(t) ? 100 : 0;
+      words.forEach((word, idx) => {
+        if (h.includes(word)) score += idx === 0 ? 24 : 12;
+      });
+      if (score > bestScore) {
+        bestScore = score;
+        best = topic;
+      }
+    });
+    return bestScore >= 12 ? best : null;
+  }
+
+  function escapeHTML(value) {
+    return String(value || '').replace(/[&<>"']/g, ch => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[ch]));
+  }
+
+  function formatA1DetailText(text) {
+    const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+    let html = '';
+    let tableRows = [];
+
+    function flushTable() {
+      if (tableRows.length < 2) {
+        tableRows.forEach(row => {
+          html += `<p style="font-size:14px;line-height:1.6;color:var(--g-text);margin:0 0 10px;">${escapeHTML(row.join(' - '))}</p>`;
+        });
+      } else {
+        const head = tableRows[0];
+        html += `<div class="g-table-wrap" style="margin:12px 0 18px;"><table class="g-table"><thead><tr>${head.map(c => `<th>${escapeHTML(c)}</th>`).join('')}</tr></thead><tbody>${tableRows.slice(1).map(row => `<tr>${head.map((_, i) => `<td>${escapeHTML(row[i] || '')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+      }
+      tableRows = [];
+    }
+
+    lines.forEach((line, idx) => {
+      const cols = line.split(/\t+/).map(c => c.trim()).filter(Boolean);
+      if (cols.length >= 2) {
+        tableRows.push(cols);
+        return;
+      }
+      flushTable();
+
+      if (idx === 0 || line.endsWith(':')) {
+        html += `<h3 style="font-size:${idx === 0 ? '22px' : '17px'};font-weight:800;color:var(--g-text);margin:${idx === 0 ? '0' : '18px'} 0 10px;line-height:1.25;">${escapeHTML(line.replace(/:$/, ''))}</h3>`;
+      } else if (/^[-•]/.test(line)) {
+        html += `<div style="display:flex;gap:8px;align-items:flex-start;font-size:14px;line-height:1.55;color:var(--g-text);margin:0 0 8px;"><span style="color:var(--g-green);font-weight:900;">•</span><span>${escapeHTML(line.replace(/^[-•]\s*/, ''))}</span></div>`;
+      } else {
+        html += `<p style="font-size:14px;line-height:1.6;color:var(--g-text);margin:0 0 10px;">${escapeHTML(line)}</p>`;
+      }
+    });
+    flushTable();
+    return html;
+  }
+
+  function renderA1TopicList(guide) {
+    const modal = document.getElementById('gTopicModal');
+    const cards = guide.topics.map((topic, idx) => `
+      <button onclick="window.GermanModule._openA1Topic(${idx})" style="
+        width:100%;display:block;text-align:left;border:2px solid ${idx % 2 === 0 ? '#58cc02' : '#d8d8d8'};
+        border-bottom:4px solid ${idx % 2 === 0 ? '#46a302' : '#b8b8b8'};
+        background:${idx % 2 === 0 ? '#f0fff0' : '#fff'};
+        border-radius:16px;padding:15px 16px;margin-bottom:12px;cursor:pointer;color:var(--g-text);">
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;width:30px;height:30px;border-radius:10px;background:${idx % 2 === 0 ? '#58cc02' : '#1cb0f6'};color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;">${topic.number}</span>
+          <span style="min-width:0;">
+            <span style="display:block;font-size:16px;font-weight:900;line-height:1.25;margin-bottom:4px;">${escapeHTML(topic.title)}</span>
+            <span style="display:block;font-size:13px;color:var(--g-text-muted);line-height:1.4;">${escapeHTML(topic.summary || topic.bullets.join(' • ') || 'Detaylı anlatımı aç')}</span>
+          </span>
+        </div>
+      </button>`).join('');
+
+    window.GermanModule._openA1Topic = idx => renderA1TopicDetail(guide, idx);
+
+    modal.innerHTML = `
+      <div style="position:fixed;inset:0;background:#f0f0f0;z-index:9999;display:flex;flex-direction:column;">
+        <div class="g-header">
+          <div class="g-title"><img src="https://flagcdn.com/w40/de.png" style="width:22px;height:16px;border-radius:3px;"> A1 Konuları</div>
+          <button class="g-btn ghost" style="font-size:13px;padding:6px 14px;" onclick="window.GermanModule.closeTopicGuide()">Kapat</button>
+        </div>
+        <div class="g-body">
+          <div class="g-content">
+            <div style="text-align:center;margin:8px 0 18px;">
+              <h2 style="color:var(--g-text);margin:0 0 6px;">A1 Konuları</h2>
+              <p style="color:var(--g-text-muted);margin:0;font-size:14px;">${guide.topics.length} konu başlığı</p>
+            </div>
+            ${cards}
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function renderA1TopicDetail(guide, idx) {
+    const topic = guide.topics[idx];
+    const detailBlocks = topic.details?.length
+      ? topic.details.map(block => formatA1DetailText(block.text)).join('')
+      : `<p style="font-size:14px;line-height:1.6;color:var(--g-text);margin:0 0 12px;">${escapeHTML(topic.summary)}</p>${topic.bullets.map(b => `<div style="display:flex;gap:8px;margin-bottom:8px;"><span style="color:var(--g-green);font-weight:900;">•</span><span>${escapeHTML(b)}</span></div>`).join('')}`;
+
+    document.getElementById('gTopicModal').innerHTML = `
+      <div style="position:fixed;inset:0;background:#f0f0f0;z-index:9999;display:flex;flex-direction:column;">
+        <div class="g-header">
+          <div class="g-title"><img src="https://flagcdn.com/w40/de.png" style="width:22px;height:16px;border-radius:3px;"> A1 Konuları</div>
+          <button class="g-btn ghost" style="font-size:13px;padding:6px 14px;" onclick="window.GermanModule._backA1Topics()">Liste</button>
+        </div>
+        <div class="g-body">
+          <div class="g-content">
+            <button class="g-btn ghost" style="font-size:13px;padding:7px 14px;margin-bottom:14px;" onclick="window.GermanModule._backA1Topics()">← Konulara Dön</button>
+            <div class="g-card">
+              <div style="font-size:12px;font-weight:900;color:var(--g-green);text-transform:uppercase;margin-bottom:6px;">A1 • Konu ${topic.number}</div>
+              <h2 style="font-size:24px;line-height:1.25;color:var(--g-text);margin:0 0 10px;">${escapeHTML(topic.title)}</h2>
+              ${topic.summary ? `<p style="font-size:14px;line-height:1.55;color:var(--g-text-muted);margin:0;">${escapeHTML(topic.summary)}</p>` : ''}
+            </div>
+            <div class="g-card">${detailBlocks}</div>
+          </div>
+        </div>
+      </div>`;
+
+    window.GermanModule._backA1Topics = () => renderA1TopicList(guide);
   }
 
   function closeTopicGuide() {

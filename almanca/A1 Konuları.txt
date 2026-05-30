@@ -1,0 +1,2114 @@
+ Almancada A1 seviyesi kişiler için Almanca A1 Konuları listesi:
+
+1- Selamlaşma ve Vedalaşma Kalıpları: Adını söyleme, selam verme, vedalaşma ve nereden geldiğini belirtme.
+2- Alfabe / Harfler: Alman alfabesini öğrenme.
+3- Kişi Zamirleri: Ich, du, er, sie, es, wir, ihr, sie, ve Sie gibi kişi zamirlerini kullanma.
+4- Sayılar: Rakamları öğrenme.
+5- Kasus (İsmin Halleri):
+  -Nominativ (Yalın Hal): İsimleri yalın hallerinde kullanma.
+  -Akkusativ (Belirtme Hali): İsimleri dolaysız nesne olarak kullanma.
+  -Dativ (Dolaylı Nesne Hali): İsimleri dolaylı nesne olarak kullanma.
+6- Fiil Çekimleri:
+  -Düzenli Fiiller: Örneğin, “Ich komme, du kommst.”
+  -Düzensiz Fiiller: Örneğin, “Ich esse wenig, aber du isst viel!”
+7 -Modalverben (Modal Fiiller): Yetenek ve zorunluluk ifadelerini kullanma.
+8 -Ayrılabilen Fiiller: Örneğin, “Ich kaufe im Supermarkt ein.”
+9 -Emir Cümleleri (Imperativ): Emir cümleleri oluşturma.
+10-İsimler (Nomen): İsimleri kullanma.
+11-Tanımlık / Belirteçler (Artikeller): Definit, indefinit ve kein artikellerini kullanma.
+12-İyelik Sıfatları (Possessivartikel): “Mein, dein, sein…” gibi iyelik sıfatlarını kullanma.
+13-Sıfatların Derecelendirilmesi (Positiv, Komparativ, Superlativ): Almanca sıfatları kullanma.
+14-Zarflar (Adverbien): Almanca zarfları kullanma.
+15-Edatlar (Präpositionen): Almanca edatları kullanma.
+16-Zamanlar Almanca (Zeitformen Deutsch):
+  -Şimdiki Zaman (Präsens): Örneğin, “Du liest ein Buch.”
+  -Geçmiş Zaman (Präteritum & Perfekt): Örneğin, “Wir haben das Buch gelesen.”
+17-Almanca Cümle Kurma:
+  -Olumsuz (Negation)
+  -Soru Cümleleri (Fragesätze)
+  -Evet-Hayır (Ja/Nein)
+  -W Soruları (W-Fragen)
+  -Bağlaçlar (Konjunktionen): Sadece “denn”
+
+----------------------------------------------------------------------------------------------------
+-Selamlaşma ve Vedalaşma Kalıpları:
+
+Almanca İfade		Türkçe Anlamı			Kullanım Durumu
+Hallo			Merhaba, Selam			Günlük nötr kullanım, çoğu durumda güvenli
+Guten Morgen		Günaydın			Sabah selamı (yaklaşık 05.00-11.00)
+Guten Tag		İyi günler			Gün içi ve resmi/nötr selam (yaklaşık 11.00-18.00)
+Guten Abend		İyi akşamlar			Akşam selamı (yaklaşık 18.00 sonrası)
+Wie geht es Ihnen?	Nasılsınız?			Resmi hal hatır sorma
+Wie geht’s?		Nasılsın? / Naber?		Samimi hal hatır sorma
+Auf Wiedersehen		Hoşça kalın, Güle güle		Resmi vedalaşma
+Tschüss			Hoşça kal, Güle güle		Günlük vedalaşma
+Bis bald		Yakında görüşürüz		Samimi veda
+Gute Nacht		İyi geceler			Sadece vedalaşmada, yatarken
+Mahlzeit!		Afiyet olsun!			Özellikle iş yerinde öğle saatleri civarı
+
+----------------------------------------------------------------------------------------------------
+Sabah Selamlaşması: Guten Morgen
+Almancada günaydın ne demek? “Guten Morgen” sabah 05.00 ile 11.00 arası kullanılır. Bu ifade iş yerinde gün başlangıcında, otellerde ve sabah saatlerindeki resmi karşılaşmalarda güvenli bir selamdır.
+
+Kullanım örnekleri:
+
+“Guten Morgen, Frau Müller!” (Günaydın, Bayan Müller!)
+“Guten Morgen! Wie geht es Ihnen?” (Günaydın! Nasılsınız?)
+“Morgen!” (Günaydın – samimi kısaltma)
+----------------------------------------------------------------------------------------------------
+Gün İçi Selamlaşması: Guten Tag
+Almancada Guten Tag ne demek? “Guten Tag” iyi günler anlamına gelir ve 11.00 ile 18.00 arası kullanılan en yaygın resmi selamlaşma ifadesidir. Almanca iyi günler ne demek diye sorulduğunda verilecek cevap budur.
+
+Almanca Guten Tag ne demek sorusuna ek olarak şunu bilmelisiniz: Bu ifade aynı zamanda günün her saatinde kullanılabilecek en nötr ve en resmi selamlaşmadır. Mağazalara girerken, resmi kurumlarda ve tanımadığınız kişilerle konuşurken tercih edilir.
+----------------------------------------------------------------------------------------------------
+Akşam Selamlaşması: Guten Abend
+Bu ifade, akşam 18.00’den sonraki tüm karşılaşmalarda standarttır.
+
+Önemli: Saat 18.00’den sonra “Guten Tag” demek uygun değildir.
+----------------------------------------------------------------------------------------------------
+İyi Geceler: Gute Nacht
+“Gute Nacht” bir selamlaşma değil, vedalaşma ifadesidir. Sadece birisi uyumaya giderken veya gece geç saatlerde ayrılırken kullanılır. Bir yere girerken asla “Gute Nacht” denmez.
+
+Neden böyle? Almancada günün saatine göre selam seçmek, özellikle ilk karşılaşmada saygı ve bağlamı doğru kurmanın parçasıdır. Modern ortamlarda zaman zaman esneklik görseniz de güvenli başlangıç için sabah, gün içi ve akşam ayrımını bilmek faydalıdır.
+----------------------------------------------------------------------------------------------------
+Resmi mi Samimi mi? Önce Bu Ayrımı Bilin
+Almancada doğru selam sadece kelime seçimi değildir; hitap biçimi de aynı derecede önemlidir. Tanımadığınız, sizden büyük veya iş ortamındaki kişilere genellikle Sie ile hitap edilir; arkadaşlar, aile ve yakın çevrede ise du kullanılır.
+
+Resmi: Guten Tag, Wie geht es Ihnen?, Auf Wiedersehen
+Samimi: Hallo, Hi, Wie geht’s?, Tschüss
+Detaylı açıklama: Sie, du ve ihr farkını burada detaylı görün.
+Almanca Selam: Günlük Kullanım
+Almanca selam vermek için en yaygın kelime “Hallo”dur. Merhaba Almanca ne demek sorusuna verilecek en basit cevap budur. “Hallo” günlük hayatta nötr bir selamdır; arkadaşlarla, komşularla ve birçok modern iş ortamında rahatça kullanılabilir. Ancak resmi kurumlarda, ilk tanışmalarda ve daha mesafeli ortamlarda Guten Tag genellikle daha güvenli bir başlangıç olur.
+----------------------------------------------------------------------------------------------------
+Diğer Günlük Selamlaşmalar
+Hi! – Merhaba (İngilizceden, gençler arasında yaygın)
+Hey! – Selam (çok samimi)
+Na? – N’aber? (çok yaygın, arkadaşlar arası)
+Was geht? – Ne var ne yok?
+Alles klar? – Her şey yolunda mı?
+Almanca Nasılsın Nasıl Denir? Hal Hatır Sormak
+Almanca nasılsın nasıl denir? Resmiyet seviyesine göre iki farklı şekilde sorulur:
+----------------------------------------------------------------------------------------------------
+Resmi Durum: Wie geht es Ihnen?
+Almancada ‘merhaba, nasılsın’ ne demek? diye sorulduğunda resmi durumlar için kullanılan ifade: “Wie geht es Ihnen?” (Nasılsınız?)
+
+Cevaplar:
+
+“Danke, gut. Und Ihnen?” (Teşekkürler, iyiyim. Ya siz?)
+“Sehr gut, danke!” (Çok iyiyim, teşekkürler!)
+“Es geht, danke.” (İdare eder, teşekkürler.)
+Samimi Durum: Wie geht’s?
+Almanca merhaba nasılsın ne demek arkadaşlar arasında: “Wie geht’s?” veya “Wie geht es dir?”
+
+Almanca iyiyim sen nasılsın? şöyle denir:
+
+“Gut, danke! Und dir?” (İyiyim, teşekkürler! Ya sen?)
+“Super! Und selbst?” (Süper! Sen nasılsın?)
+“Mir geht es gut. Und dir?” (Ben iyiyim. Ya sen?)
+Almanca iyiyim ne demek? En basit haliyle “Gut” veya “Mir geht es gut” şeklinde ifade edilir.
+
+
+Resmi Vedalaşmalar
+Almancada güle güle ne demek? Resmi durumlar için “Auf Wiedersehen” kullanılır. Almanca güle güle demenin en yaygın ve en resmi şeklidir.
+
+Auf Wiedersehen – Hoşça kalın / Güle güle (yüz yüze)
+Auf Wiederhören – Hoşça kalın (telefonda)
+Schönen Tag noch – İyi günler dilerim
+Schönen Abend noch – İyi akşamlar dilerim
+Schönes Wochenende – İyi hafta sonları
+Bis zum nächsten Mal – Bir dahaki sefere kadar
+Günlük Vedalaşmalar
+Almanca hoşçakal ne demek? Günlük hayatta en çok kullanılan vedalaşma “Tschüss”tür. Almancada vedalaşma kelimeleri arasında en popüleridir.
+
+Tschüss – Hoşça kal (en yaygın)
+Ciao – Güle güle (İtalyanca kökenli)
+Tschau – Hoşça kal (Ciao’nun Almanca yazılışı)
+Mach’s gut – Kendine iyi bak
+Bis dann – O zaman görüşürüz
+Zamana Bağlı Vedalaşmalar
+Almancada görüşürüz ne demek? sorusunun birden fazla cevabı vardır ve ne zaman görüşeceğinize bağlıdır. Görüşürüz Almanca olarak şu şekillerde söylenir:
+
+Bis gleich – Birazdan görüşürüz (5-30 dakika içinde)
+Bis später – Sonra görüşürüz (aynı gün)
+Bis morgen – Yarın görüşürüz
+Bis bald – Yakında görüşürüz (belirsiz zaman)
+Bis nächste Woche – Haftaya görüşürüz
+Wir sehen uns – Görüşürüz
+----------------------------------------------------------------------------------------------------
+Almanca Alfabe
+
+Ä’den ß’e Almanca Alfabe (30 Alman Harfi & Okunuşları)
+Almanca A1 konularının başında yer alan bu bölümde, Almanca dilini okumaya, anlamaya ve konuşmaya başlamak için gereken Almanca alfabeyi / Alman Harflerini (Das deutsche Alphabet) bulacaksınız.
+
+Büyük Alman harfleri: A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, Ä, Ö, Ü
+Küçük Alman harfleri: a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, ä, ö, ü, ß
+Alman harfleri sayısı toplam 30‘dur. İşte ayrıntısı:
+
+26 adet harf: Normal
+3 harf: Umlaut (ä, ö, ü)
+1 harf benzersiz karakter (özel): Es-tset [ß (ss)]
+
+----------------------------------------------------------------------------------------------------
+
+Kişi Zamirleri (Personalpronomen) (ich, du, er, sie…)
+Almanca şahıs zamirleri (Personalpronomen), cümle içinde isimlerin yerini tutan temel kelimelerdir. Nominativ (yalın hal) özneler ich, du, er, sie, es, wir, ihr, sie ve Sie kelimelerinden oluşur.
+
+
+Akkusativ:
+
+Almanca Akkusativ, cümlede fiilden doğrudan etkilenen kişi ya da şeyi gösteren hâldir. Türkçedeki ismin -i hâline en yakın yapıdır. Özellikle maskulin isimlerde artikel değişir: der → den, ein → einen, kein → keinen. Bu sayfada Akkusativ’i hangi sorularla bulacağınızı ve temel mantığını örneklerle göreceksiniz.
+
+Almancada isimlerin 4 hâli vardır ve Akkusativ bunlardan biridir:
+
+der Nominativ (ismin yalın hâli)
+der Akkusativ (belirtme hâli / ismin -i hâli)
+der Dativ (ismin -e hâline en yakın yapı)
+der Genitiv (tamlayan hâli)
+Bilmeniz gereken temel noktalar:
+
+Bir cümlede Akkusativ olup olmadığını çoğu zaman Akkusativ alan fiiller veya Akkusativ edatlar belirler.
+Kişiler için wen (kimi), nesneler için was (neyi/ne) sorusu yol gösterir.
+Yön bildiren bazı hareket yapılarında wohin (nereye) sorusu da Akkusativ’i gösterebilir.
+En kritik değişim maskulin yapılarda görülür: der/ein/kein → den/einen/keinen.
+Kişilere (insanlara) Wen? (kimi) sorusunu sorarız. Aldığınız cevap çoğu zaman Akkusativ olur.
+Nesnelere Was? (neyi/ne) sorusunu sorarız. Örneğin: Kitabı okuyorum, çiçeği alıyorum.
+Yön bildiren hareketlerde Wohin? (nereye) sorusu da önemlidir. Örneğin: kasabaya gidiyorum, parka gidiyorum gibi.
+Türkçede çoğu zaman “-i” ekiyle kurduğumuz bu ilişki, Almancada genellikle artikel değişimi ile görünür. Özellikle maskulin isimlerde der → den ve ein → einen dönüşümü temel mantığı kurar; das, die ve çoğu dişil/nötr yapı ise aynı kalır.
+
+
+Popüler Akkusativ Alan Fiiller:
+haben – sahip olmak
+sehen – görmek, izlemek
+lesen – okumak
+kaufen – satın almak
+machen – yapmak
+fragen – sormak
+suchen – aramak
+trinken – içmek
+essen – yemek yemek
+brauchen – ihtiyacı olmak
+nehmen – almak
+anrufen – telefon etmek, aramak
+bezahlen – ödemek
+verstehen – anlamak
+lieben – sevmek
+
+Akkusativ Alan Örnek Cümleler
+
+Ich sehe den Mann. — Ben adamı görüyorum. Burada den Mann Akkusativ nesnedir.
+Ich finde den Hund. — Ben köpeği buluyorum. finden fiili Akkusativ ister.
+Ich kaufe das Buch. — Ben kitabı satın alıyorum.
+Ich esse den Apfel. — Ben elmayı yiyorum.
+Ich trinke das Wasser. — Ben su içiyorum / suyu içiyorum.
+Ich gebe dem Mann das Buch. — Ben adama kitabı veriyorum. Burada dem Mann Dativ, das Buch ise Akkusativ’dir.
+Ich nehme den Ball. — Ben topu alıyorum.
+Ich lese das Buch. — Ben kitabı okuyorum.
+
+örnek cümleler: 
+
+Sıra No.	Almanca Fiil (Türkçe Anlamı)	Almanca Cümle (Türkçe Anlamı)
+1	abgeben (teslim etmek, vermek)	Sie möchte den Kinderwagen abgeben. (O, bebek arabasını teslim etmek istiyor.)
+2	abholen (teslim almak, gidip almak)	Leopold holt Olga ab. (Leopold Olga’yı teslim alıyor/gidip alıyor.)
+3	absagen (iptal etmek)	Ich sage meinen Arzttermin ab. (Doktor randevumu iptal ediyorum.)
+4	abschließen (kilitlemek)	Bitte schließen Sie die Haustür ab. (Lütfen dış kapıyı kilitleyin.)
+5	abstellen (park etmek, bırakmak)	Wo stellst du dein Fahrrad ab? (Bisikletini nereye park ediyorsun/bırakıyorsun?)
+6	anbraten (kızartmak)	Er brät die Zwiebel an. (O, soğanı kızartıyor.)
+7	angeben (belirtmek, söylemek)	Sie können die Uhrzeiten angeben. (Saatleri belirtebilirsiniz/söyleyebilirsiniz.)
+8	anhalten (durdurmak)	Er hält das Taxi an. (O, taksiyi durduruyor.)
+9	ankreuzen (işaretlemek, çarpılamak)	Kreuzen Sie das richtige Wort an. (Doğru kelimeyi işaretleyin/çarpılayın.)
+10	anmachen (açmak (cihaz))	Lukas macht den Fernseher an. (Lukas televizyonu açıyor.)
+11	anmelden (kaydetmek, bildirmek)	Ich melde meinen Urlaub an. (İznimi bildiriyorum/kaydettiriyorum.)
+12	anrufen (telefon etmek, aramak)	Er ruft Samira an. (O, Samira’yı arıyor.)
+13	anschauen (seyretmek, bakmak)	Schauen Sie die Fotos an. (Fotoğraflara bakın/seyredin.)
+14	ansehen (seyretmek, bakmak)	Sehen Sie die Fotos an! (Fotoğraflara bakın/seyredin!)
+15	anstellen (işe almak, çalıştırmak)	Die Firma stellt viele Menschen an. (Firma birçok insanı işe alıyor.)
+16	antreten (işe/göreve başlamak)	Morgen tritt Svenja eine neue Arbeitsstelle an. (Svenja yarın yeni bir işe başlıyor.)
+17	aufhängen (asmak)	Hängen Sie Plakate im Kursraum auf. (Kurs odasına posterler asın.)
+18	aufmachen (açmak)	Wann macht der Supermarkt auf? (Süpermarket ne zaman açılıyor?)
+19	ausblasen (üfleyerek söndürmek)	Großvater bläst die Kerzen aus. (Büyükbaba mumları üfleyerek söndürüyor.)
+20	ausdrücken (ifade etmek)	Er drückt seine Wünsche gerne aus. (O, dileklerini memnuniyetle ifade ediyor.)
+21	ausfüllen (doldurmak (form vb.))	Füllen Sie bitte das Formular aus. (Lütfen formu doldurun.)
+22	ausgeben (para harcamak)	Familie Meier gibt viel Geld aus. (Meier ailesi çok para harcıyor.)
+23	ausmachen (kapatmak (cihaz))	Um vier macht er den Computer aus. (Saat dörtte bilgisayarı kapatıyor.)
+24	auspacken (paketinden çıkarmak)	Peter und Tom packen die Kartons aus. (Peter ve Tom kartonları paketinden çıkarıyor.)
+25	ausräumen (boşaltmak, yerleştirmek)	Die Packer räumen die Wohnung aus. (Paketleyiciler daireyi boşaltıyor.)
+26	austauschen (değiş tokuş etmek)	Sie tauschen ihre Adressen aus. (Onlar adreslerini değiş tokuş ediyorlar.)
+27	auswählen (seçmek)	Wählen Sie ein Foto aus. (Bir fotoğraf seçin.)
+28	auszeichnen (ödüllendirmek, öne çıkarmak)	Otto zeichnet viele Fähigkeiten aus. (Otto birçok yeteneği öne çıkarıyor.)
+29	backen (fırında pişirmek)	Du hast drei Kuchen gebacken? (Sen üç kek mi pişirdin?)
+30	bauen (inşa etmek)	Das Unternehmen baut ein neues Gebäude. (Şirket yeni bir bina inşa ediyor.)
+31	beachten (dikkat etmek, önem vermek)	Bitte beachten Sie die Hinweise. (Lütfen talimatlara dikkat edin.)
+32	beantworten (cevaplamak)	Wir beantworten gerne deine Fragen. (Sorularını memnuniyetle cevaplarız.)
+33	beginnen (başlamak)	Sie beginnt eine Arbeit. (O, bir işe başlıyor.)
+34	begrüßen (selamlamak)	Olga begrüßt Frau Wohlfahrt. (Olga, Bayan Wohlfahrt’ı selamlıyor.)
+35	bekommen (almak, elde etmek)	Er bekommt zu wenig Geld zurück. (O, çok az para geri alıyor.)
+36	benennen (adlandırmak, isimlendirmek)	Er benennt seine Körperteile. (O, vücut parçalarını adlandırıyor.)
+37	benutzen (kullanmak)	Magda benutzt Frau Feldmanns Küche. (Magda, Bayan Feldmann’ın mutfağını kullanıyor.)
+38	beraten (tavsiye vermek, danışmanlık yapmak)	Ich berate die Firma beim Kauf von Computern. (Firmaya bilgisayar alımı konusunda danışmanlık yapıyorum.)
+39	beschreiben (tarif etmek, betimlemek)	Beschreiben Sie die Gegenstände. (Eşyaları tarif edin.)
+40	besichtigen (gezmek, ziyaret etmek (turistik))	Wir besichtigen heute Berlin. (Bugün Berlin’i geziyoruz.)
+41	bestellen (sipariş vermek)	Ich habe eine Pizza bestellt. (Bir pizza sipariş ettim.)
+42	besuchen (ziyaret etmek)	Sie besucht ihren Vater. (O, babasını ziyaret ediyor.)
+43	betreuen (bakmak, ilgilenmek)	Seine Frau betreut zu Hause eine Kindergruppe. (Karısı evde bir çocuk grubuna bakıyor.)
+44	bezahlen (ödemek)	Ich bezahle nicht viel Miete. (Çok kira ödemiyorum.)
+45	bieten (sunmak, teklif etmek)	Wir bieten einen interessanten Arbeitsplatz. (İlginç bir iş yeri sunuyoruz.)
+46	bilden (oluşturmak, kurmak)	Die meisten Verben bilden das Perfekt mit ge-. (Çoğu fiil Perfekt’i ge- ile oluşturur.)
+47	brauchen (ihtiyacı olmak, ihtiyaç duymak)	Wir brauchen einen Kühlschrank. (Buzdolabına ihtiyacımız var.)
+48	buchen (rezervasyon yapmak, ayırtmak)	Sie buchen eine Reise nach Hamburg. (Onlar Hamburg’a bir seyahat rezervasyonu yapıyor.)
+49	buchstabieren (hecelemek)	Er buchstabiert das Wort. (O, kelimeyi heceliyor.)
+50	dabeihaben (yanında bulundurmak)	Lena hat immer das Handy dabei. (Lena’nın hep telefonu yanında.)
+51	duzen (sen diye hitap etmek)	Ich duze meinen Chef. (Patronuma sen diye hitap ediyorum.)
+52	einkaufen (alışveriş yapmak)	Sie kauft noch Tomaten ein. (O, hala domates alıyor.)
+53	einladen (davet etmek)	Ich lade dich ein. (Seni davet ediyorum.)
+54	einteilen (paylaştırmak, bölüştürmek)	Ich teile meinen Tag frei ein. (Günümü serbestçe paylaştırıyorum.)
+55	eintragen (kaydetmek, girmek)	Bitte tragen Sie Ihren Namen ins Formular ein. (Lütfen adınızı forma kaydedin.)
+56	empfehlen (tavsiye etmek)	Der Arzt empfiehlt Yong-Min Tabletten. (Doktor, Yong-Min tabletlerini tavsiye ediyor.)
+57	erfinden (icat etmek)	Er erfindet eine Zeitmaschine. (O, bir zaman makinesi icat ediyor.)
+58	erfragen (sormak, öğrenmek)	Sie erfragt alle Informationen. (O, tüm bilgileri soruyor/öğreniyor.)
+59	ergänzen (tamamlamak, eklemek)	Ergänzen Sie den Text. (Metni tamamlayın.)
+60	erklären (açıklamak)	Erklären Sie das bitte noch mal. (Lütfen bunu bir kez daha açıklayın.)
+61	erleben (yaşamak, deneyimlemek)	In Berlin erlebt man viel Kultur. (Berlin’de çok kültür yaşanır.)
+62	eröffnen (açmak (hesap, mağaza vb.))	Frau Lipinska eröffnet ein Konto bei der Bank. (Bayan Lipinska bankada bir hesap açıyor.)
+63	erreichen (ulaşmak, erişmek)	Sie erreichen mich am Telefon. (Bana telefondan ulaşabilirsiniz.)
+64	erzählen (anlatmak)	Lukas erzählt eine Geschichte. (Lukas bir hikaye anlatıyor.)
+65	erziehen (yetiştirmek)	Ich erziehe meinen Sohn allein. (Oğlumu yalnız yetiştiriyorum.)
+66	essen (yemek yemek)	Er isst einen Salat. (O, bir salata yiyor.)
+67	finden (bulmak)	Wo finde ich eine Bäckerei? (Nerede bir fırın bulabilirim?)
+68	fotografieren (fotoğrafını çekmek)	Sie fotografieren das Brandenburger Tor. (Onlar Brandenburg Kapısı’nın fotoğrafını çekiyorlar.)
+69	fragen (sormak)	Fragen Sie Ihren Partner. (Partnerinize sorun.)
+70	füllen (doldurmak)	Man füllt die Kartoffeln in die Form. (Patatesler forma doldurulur.)
+71	geben (vermek)	Geben Sie mir bitte noch sechs Eier. (Lütfen bana altı tane daha yumurta verin.)
+72	genießen (keyfini çıkarmak)	Die Katze genießt die Streicheleinheit. (Kedi okşanmanın keyfini çıkarıyor.)
+73	gießen (dökmek, sulamak)	Er gießt die Sahne über das Gemüse. (O, kremayı sebzelerin üzerine döküyor.)
+74	grillen (ızgara yapmak)	Die Männer grillen das Fleisch. (Adamlar eti ızgara yapıyor.)
+75	haben (sahip olmak)	Wir haben noch fünf Tomaten. (Hala beş domatesimiz var.)
+76	hassen (nefret etmek)	Wir hassen den neuen Nachbarn. (Yeni komşudan nefret ediyoruz.)
+77	heiraten (evlenmek)	Sie heiratet ihren Freund. (O, erkek arkadaşıyla evleniyor.)
+78	hochtragen (yukarı taşımak)	Tom trägt die Kartons hoch. (Tom kartonları yukarı taşıyor.)
+79	holen (almak, getirmek)	Ich hole noch 1 Kilo Zwiebeln. (Bir kilo daha soğan alacağım.)
+80	hören (duymak, dinlemek)	Hören Sie den Dialog. (Diyaloğu dinleyin.)
+81	informieren (bilgilendirmek)	Der Prospekt informiert die Touristen über die Stadt. (Broşür, turistleri şehir hakkında bilgilendiriyor.)
+82	installieren (kurmak, monte etmek)	Der Elektriker installiert auf dem Balkon eine Antenne. (Elektrikçi balkona bir anten kuruyor.)
+83	kaufen (satın almak)	Sie kauft ein Bügeleisen. (O, bir ütü satın alıyor.)
+84	kennen (tanımak, bilmek)	Sie kennen jetzt schon viele Verben. (Siz şimdiden birçok fiil tanıyorsunuz.)
+85	kennenlernen (tanışmak)	Lukas lernt viele Leute kennen. (Lukas birçok insanla tanışıyor.)
+86	kicken (tekmelemek, top oynamak)	Sabine wählt den Kurs „Kick die Kilos”. (Sabine “Kiloları Tekmele” kursunu seçiyor.)
+87	klären (açıklığa kavuşturmak)	Klären Sie die Abkürzungen in den Anzeigen. (Reklamlardaki kısaltmaları açıklığa kavuşturun.)
+88	kochen (yemek pişirmek)	Wir kochen eine Suppe. (Biz bir çorba pişiriyoruz.)
+89	konjugieren (çekmek (fiil))	Er konjugiert das Verb fallen. (O, ‘fallen’ fiilini çekiyor.)
+90	kontrollieren (kontrol etmek)	Kontrollieren Sie den Text. (Metni kontrol edin.)
+91	korrigieren (düzeltmek)	Korrigieren Sie immer Ihre Hausaufgaben? (Ev ödevlerinizi her zaman düzeltiyor musunuz?)
+92	krankschreiben (rapor yazmak (hastalık))	Der Arzt schreibt Frau Müller bis Freitag krank. (Doktor, Bayan Müller’e Cuma’ya kadar rapor yazıyor.)
+93	küssen (öpmek)	Er küsst seine Frau. (O, karısını öpüyor.)
+94	legen (koymak, yerleştirmek)	Legen Sie die Apfelscheiben in die Form. (Elma dilimlerini forma koyun.)
+95	lernen (öğrenmek)	Wir lernen viele Wörter. (Biz birçok kelime öğreniyoruz.)
+96	lesen (okumak)	Er liest ein Buch. (O, bir kitap okuyor.)
+97	lieben (sevmek (aşk))	Ich liebe meinen Mann. (Kocamı seviyorum.)
+98	machen (yapmak)	Machen Sie eine Liste. (Bir liste yapın.)
+99	markieren (işaretlemek)	Sie markiert die Verben. (O, fiilleri işaretliyor.)
+100	mieten (kiralamak)	Sie mieten eine 4-Zimmer-Wohnung im Zentrum. (Onlar merkezde 4 odalı bir daire kiralıyorlar.)
+101	mitbenutzen (birlikte kullanmak)	Wir benutzen den Garten mit. (Bahçeyi birlikte kullanıyoruz.)
+102	mitbringen (beraberinde getirmek)	Bringen Sie Rezepte mit. (Tarifleri beraberinizde getirin.)
+103	mitnehmen (yanına almak, götürmek)	Wir nehmen Essen zum Picknick mit. (Piknik için yanımıza yiyecek alıyoruz.)
+104	möchten (istemek (kibar))	Ich möchte eine Tasse Kaffee. (Bir fincan kahve istiyorum.)
+105	mögen (hoşlanmak, sevmek)	Ich mag deine Brille. (Gözlüğünü seviyorum.)
+106	nachschlagen (bakmak (sözlük vb.))	Carlos schlägt alle Wörter im Wörterbuch nach. (Carlos sözlükteki tüm kelimelere bakıyor.)
+107	nehmen (almak)	Er nimmt ein Glas Tee. (O, bir bardak çay alıyor.)
+108	notieren (not almak)	Ich notiere die Wörter. (Kelimeleri not alıyorum.)
+109	nummerieren (numaralandırmak)	Nummerieren Sie die Bilder. (Resimleri numaralandırın.)
+110	öffnen (açmak)	Sie öffnen die Tür. (Onlar kapıyı açıyorlar.)
+111	ordnen (sıralamak, düzenlemek)	Ordnen Sie die Dialoge. (Diyalogları sıralayın.)
+112	organisieren (organize etmek, düzenlemek)	Die Eltern organisieren Spiele. (Ebeveynler oyunlar organize ediyor.)
+113	packen (paketlemek, toplamak)	Magda packt ihre Kartons für den Umzug. (Magda taşınma için kartonlarını paketliyor.)
+114	parken (park etmek)	Ich parke mein Auto immer im Hof. (Arabamı her zaman avluya park ederim.)
+115	pflegen (bakım yapmak)	Ich pflege die Homepage für die Firma. (Firma için web sitesinin bakımını yapıyorum.)
+116	planen (planlamak)	Wir planen ein Essen. (Bir yemek planlıyoruz.)
+117	putzen (temizlemek)	Die Reinigungskraft putzt die Fenster. (Temizlikçi camları temizliyor.)
+118	rauchen (sigara içmek)	Herr Rohrer raucht 3 Schachteln am Tag. (Bay Rohrer günde 3 paket sigara içiyor.)
+119	reinigen (temizlemek)	Bitte reinigen Sie jede Woche den Flur. (Lütfen koridoru her hafta temizleyin.)
+120	renovieren (yenilemek, restore etmek)	Die Familie renoviert die Wohnung. (Aile daireyi yeniliyor.)
+121	reparieren (tamir etmek)	Die Elektriker reparieren die Lampen im Lager. (Elektrikçiler depodaki lambaları tamir ediyor.)
+122	reservieren (rezervasyon yapmak)	Wir reservieren ein Doppelzimmer für uns. (Kendimiz için çift kişilik bir oda rezerve ediyoruz.)
+123	röntgen (röntgen çekmek)	Die Ärztin röntgt Karlas Lunge. (Doktor, Karla’nın akciğerinin röntgenini çekiyor.)
+124	rufen (seslenmek, çağırmak)	Carlos ruft den Krankenwagen. (Carlos ambulansı çağırıyor.)
+125	sagen (söylemek)	Sie sagt ihren Namen. (O, adını söylüyor.)
+126	sammeln (toplamak, biriktirmek)	Sammeln Sie die Verben. (Fiilleri toplayın.)
+127	sauber halten (temiz tutmak)	Bitte halten Sie den Hof sauber. (Lütfen avluyu temiz tutun.)
+128	schälen (soymak (meyve, sebze))	Er schält den Apfel. (O, elmayı soyuyor.)
+129	schicken (göndermek)	Die Ärztin schickt die Frau ins Krankenhaus. (Doktor, kadını hastaneye gönderiyor.)
+130	schließen (kapatmak)	Er schließt das Fenster. (O, pencereyi kapatıyor.)
+131	schneiden (kesmek)	Sie schneidet die Zwiebeln. (O, soğanları kesiyor.)
+132	schreiben (yazmak)	Olga schreibt das Wort ins Heft. (Olga kelimeyi deftere yazıyor.)
+133	sehen (görmek)	Er sieht Samira nur am Wochenende. (O, Samira’yı sadece hafta sonları görüyor.)
+134	signalisieren (sinyal vermek, göstermek)	Diese Wörter signalisieren Vergangenheit. (Bu kelimeler geçmiş zamanı gösteriyor.)
+135	singen (şarkı söylemek)	Wir singen gerne Lieder. (Biz şarkı söylemeyi severiz.)
+136	sparen (para biriktirmek, tasarruf etmek)	Ich spare mein Gehalt. (Maaşımı biriktiriyorum.)
+137	spielen (oynamak)	Wir spielen die Dialoge. (Biz diyalogları oynuyoruz.)
+138	sprechen (konuşmak)	Sprechen Sie das Wort laut. (Kelimeyi yüksek sesle söyleyin.)
+139	stellen (koymak, sormak (soru))	Kim stellt viele Fragen. (Kim birçok soru soruyor.)
+140	studieren (üniversite okumak)	Katharina studiert Russisch. (Katharina, Rus Dili ve Edebiyatı okuyor.)
+141	suchen (aramak)	Ich suche eine Waschmaschine. (Bir çamaşır makinesi arıyorum.)
+142	tauschen (değiş tokuş etmek, takas etmek)	Tauschen Sie die Lernkarten. (Öğrenme kartlarını değiş tokuş edin.)
+143	testen (test etmek, denemek)	Dirk testet Sabines Gesundheit. (Dirk, Sabine’nin sağlığını test ediyor.)
+144	tragen (taşımak, giymek)	Magda trägt die Kartons ins Zimmer. (Magda kartonları odaya taşıyor.)
+145	treffen (buluşmak, rastlamak)	Sie trifft eine Freundin im Café. (O, bir arkadaşıyla kafede buluşuyor.)
+146	trennen (ayırmak, ayrıştırmak)	Wir trennen unseren Müll. (Biz çöplerimizi ayırıyoruz.)
+147	trinken (içmek)	Sie trinkt einen Tee. (O, bir çay içiyor.)
+148	trocknen (kurutmak)	Er trocknet seine Wäsche im Keller. (O, çamaşırlarını bodrumda kurutuyor.)
+149	üben (pratik yapmak, alıştırma yapmak)	Wir üben die Dialoge. (Biz diyalogların pratiğini yapıyoruz.)
+150	überweisen (havale etmek, transfer etmek)	Wir überweisen Ihr Gehalt auf ein Konto. (Maaşınızı bir hesaba havale ediyoruz.)
+151	unterbrechen (sözünü kesmek, araya girmek)	Der Lehrer hat uns unterbrochen. (Öğretmen sözümüzü kesti.)
+152	unterrichten (ders vermek, öğretmek)	Frau Meier unterrichtet Deutsch. (Bayan Meier Almanca dersi veriyor.)
+153	unterschreiben (imzalamak)	Er unterschreibt die Entschuldigung. (O, mazeret belgesini imzalıyor.)
+154	untersuchen (incelemek, muayene etmek)	Der Arzt untersucht den Patienten. (Doktor hastayı muayene ediyor.)
+155	variieren (değiştirmek, çeşitlendirmek)	Der Koch variiert das Menü jede Woche. (Aşçı her hafta menüyü değiştirir.)
+156	verbinden (bağlamak, birleştirmek)	Moment, ich verbinde Sie mit dem Außendienst. (Bir dakika, sizi saha servisine bağlıyorum.)
+157	verdienen (para kazanmak, hak etmek)	Herr Klotz verdient ungefähr 1900 Euro im Monat. (Bay Klotz ayda yaklaşık 1900 Euro kazanıyor.)
+158	vereinbaren (kararlaştırmak, randevu ayarlamak)	Sie vereinbart einen Termin mit der Sekretärin. (O, sekreterle bir randevu ayarlıyor.)
+159	verkaufen (satmak)	Wir verkaufen unseren Kühlschrank. (Buzdolabımızı satıyoruz.)
+160	vermeiden (kaçınmak, sakınmak)	Bitte vermeiden Sie Lärm! (Lütfen gürültüden kaçının!)
+161	vermieten (kiraya vermek)	Frau Feldmann vermietet ein Zimmer. (Bayan Feldmann bir oda kiraya veriyor.)
+162	verschieben (ertelemek, kaydırmak)	Kasimir verschiebt einen Arzttermin. (Kasimir bir doktor randevusunu erteliyor.)
+163	verstehen (anlamak)	Ich verstehe das nicht. (Bunu anlamıyorum.)
+164	verteilen (dağıtmak)	Verteilen Sie Blätter in der Klasse. (Sınıfta kağıtları dağıtın.)
+165	vorbereiten (hazırlamak)	Der Lehrer bereitet das Zimmer vor. (Öğretmen odayı hazırlıyor.)
+166	vorheizen (önceden ısıtmak)	Man muss den Backofen vorheizen. (Fırını önceden ısıtmak gerekir.)
+167	wählen (seçmek, numarayı çevirmek)	Sie haben die Nummer 12 gewählt. (12 numarayı çevirdiniz.)
+168	waschen (yıkamak)	Wir waschen das Obst. (Meyveleri yıkıyoruz.)
+169	wechseln (değiştirmek)	Sie wechselt oft ihren Arbeitsplatz. (O, sık sık iş yerini değiştiriyor.)
+170	wegbringen (götürmek, ortadan kaldırmak)	Carlos bringt die Flaschen weg. (Carlos şişeleri götürüyor.)
+171	wegnehmen (alıp götürmek, kaldırmak)	Dann müssen Sie den Deckel wegnehmen. (O zaman kapağı almanız gerekir.)
+172	werfen (atmak)	Das Kind wirft einen Ball. (Çocuk bir top atıyor.)
+173	weiterhören (dinlemeye devam etmek)	Hören Sie die Geschichte weiter. (Hikayeyi dinlemeye devam edin.)
+174	weiterlesen (okumaya devam etmek)	Lesen Sie den Text weiter. (Metni okumaya devam edin.)
+175	weiterschreiben (yazmaya devam etmek)	Schreiben Sie die Sätze weiter. (Cümleleri yazmaya devam edin.)
+176	wiederholen (tekrar etmek)	Wiederholen Sie das bitte. (Lütfen bunu tekrar edin.)
+177	wissen (bilmek)	Herr Mehlmann weiß den Weg leider nicht. (Bay Mehlmann yolu maalesef bilmiyor.)
+178	würzen (baharatlamak)	Er würzt den Auflauf mit Salz und Pfeffer. (O, güveci tuz ve karabiberle baharatlıyor.)
+179	zahlen (ödemek)	Sie zahlt 200 Euro. (O, 200 Euro ödüyor.)
+180	zählen (saymak)	Sie zählt das Geld. (O, parayı sayıyor.)
+181	zeichnen (çizmek)	Carlos zeichnet ein Bild. (Carlos bir resim çiziyor.)
+182	zerstören (yok etmek, tahrip etmek)	Er hat mein Leben zerstört. (O, hayatımı mahvetti.)
+183	ziehen (çekmek, taşınmak)	Swetlana zieht mit ihrer Familie nach Deutschland. (Swetlana ailesiyle Almanya’ya taşınıyor.)
+
+-----------------------------------------------------------------------------------------------------------------
+Sayılar: 
+
+Rakam	Almanca Yazılışı	Türkçe Okunuşu
+0	null	nul
+1	eins	ayns
+2	zwei	tsvay
+3	drei	dray
+4	vier	fiia
+5	fünf	fünf
+6	sechs	zeks
+7	sieben	ziibın
+8	acht	aht
+9	neun	noyn
+10	zehn	tseen
+11	elf	elf
+12	zwölf	tsvölf
+13	dreizehn	dray-tseen
+14	vierzehn	fiia-tseen
+15	fünfzehn	fünf-tseen
+16	sechzehn	zeh-tseen
+17	siebzehn	ziip-tseen
+18	achtzehn	aht-tseen
+19	neunzehn	noyn-tseen
+20	zwanzig	tsvan-tsih
+21	einundzwanzig	ayn-unt-tsvan-tsih
+22	zweiundzwanzig	tsvay-unt-tsvan-tsih
+23	dreiundzwanzig	dray-unt-tsvan-tsih
+24	vierundzwanzig	fiia-unt-tsvan-tsih
+25	fünfundzwanzig	fünf-unt-tsvan-tsih
+26	sechsundzwanzig	zeks-unt-tsvan-tsih
+27	siebenundzwanzig	ziibın-unt-tsvan-tsih
+28	achtundzwanzig	aht-unt-tsvan-tsih
+29	neunundzwanzig	noyn-unt-tsvan-tsih
+30	dreißig	dray-sih
+31	einunddreißig	ayn-unt-dray-sih
+32	zweiunddreißig	tsvay-unt-dray-sih
+33	dreiunddreißig	dray-unt-dray-sih
+34	vierunddreißig	fiia-unt-dray-sih
+35	fünfunddreißig	fünf-unt-dray-sih
+36	sechsunddreißig	zeks-unt-dray-sih
+37	siebenunddreißig	ziibın-unt-dray-sih
+38	achtunddreißig	aht-unt-dray-sih
+39	neununddreißig	noyn-unt-dray-sih
+40	vierzig	fiia-tsih
+41	einundvierzig	ayn-unt-fiia-tsih
+42	zweiundvierzig	tsvay-unt-fiia-tsih
+43	dreiundvierzig	dray-unt-fiia-tsih
+44	vierundvierzig	fiia-unt-fiia-tsih
+45	fünfundvierzig	fünf-unt-fiia-tsih
+46	sechsundvierzig	zeks-unt-fiia-tsih
+47	siebenundvierzig	ziibın-unt-fiia-tsih
+48	achtundvierzig	aht-unt-fiia-tsih
+49	neunundvierzig	noyn-unt-fiia-tsih
+50	fünfzig	fünf-tsih
+51	einundfünfzig	ayn-unt-fünf-tsih
+52	zweiundfünfzig	tsvay-unt-fünf-tsih
+53	dreiundfünfzig	dray-unt-fünf-tsih
+54	vierundfünfzig	fiia-unt-fünf-tsih
+55	fünfundfünfzig	fünf-unt-fünf-tsih
+56	sechsundfünfzig	zeks-unt-fünf-tsih
+57	siebenundfünfzig	ziibın-unt-fünf-tsih
+58	achtundfünfzig	aht-unt-fünf-tsih
+59	neunundfünfzig	noyn-unt-fünf-tsih
+60	sechzig	zeh-tsih
+61	einundsechzig	ayn-unt-zeh-tsih
+62	zweiundsechzig	tsvay-unt-zeh-tsih
+63	dreiundsechzig	dray-unt-zeh-tsih
+64	vierundsechzig	fiia-unt-zeh-tsih
+65	fünfundsechzig	fünf-unt-zeh-tsih
+66	sechsundsechzig	zeks-unt-zeh-tsih
+67	siebenundsechzig	ziibın-unt-zeh-tsih
+68	achtundsechzig	aht-unt-zeh-tsih
+69	neunundsechzig	noyn-unt-zeh-tsih
+70	siebzig	ziip-tsih
+71	einundsiebzig	ayn-unt-ziip-tsih
+72	zweiundsiebzig	tsvay-unt-ziip-tsih
+73	dreiundsiebzig	dray-unt-ziip-tsih
+74	vierundsiebzig	fiia-unt-ziip-tsih
+75	fünfundsiebzig	fünf-unt-ziip-tsih
+76	sechsundsiebzig	zeks-unt-ziip-tsih
+77	siebenundsiebzig	ziibın-unt-ziip-tsih
+78	achtundsiebzig	aht-unt-ziip-tsih
+79	neunundsiebzig	noyn-unt-ziip-tsih
+80	achtzig	ah-tsih
+81	einundachtzig	ayn-unt-ah-tsih
+82	zweiundachtzig	tsvay-unt-ah-tsih
+83	dreiundachtzig	dray-unt-ah-tsih
+84	vierundachtzig	fiia-unt-ah-tsih
+85	fünfundachtzig	fünf-unt-ah-tsih
+86	sechsundachtzig	zeks-unt-ah-tsih
+87	siebenundachtzig	ziibın-unt-ah-tsih
+88	achtundachtzig	aht-unt-ah-tsih
+89	neunundachtzig	noyn-unt-ah-tsih
+90	neunzig	noyn-tsih
+91	einundneunzig	ayn-unt-noyn-tsih
+92	zweiundneunzig	tsvay-unt-noyn-tsih
+93	dreiundneunzig	dray-unt-noyn-tsih
+94	vierundneunzig	fiia-unt-noyn-tsih
+95	fünfundneunzig	fünf-unt-noyn-tsih
+96	sechsundneunzig	zeks-unt-noyn-tsih
+97	siebenundneunzig	ziibın-unt-noyn-tsih
+98	achtundneunzig	aht-unt-noyn-tsih
+99	neunundneunzig	noyn-unt-noyn-tsih
+100	hundert	hundart
+
+Günlük Hayatta Sayıların Cümle İçinde Kullanımı
+Almancada sayıların salt ezberi yeterli değildir. Bunları yaş söylerken, para birimlerini ifade ederken veya saat okurken aktif kullanmak gerekir.
+
+1. Almancada Yaş Nasıl Söylenir?
+Almancada yaş bildirmek için “sein” (olmak) fiili kullanılır, İngilizcedeki “I am…” kalıbıyla birebir aynıdır.
+
+Ich bin siebenundzwanzig Jahre alt.
+
+Türkçesi: Ben yirmi yedi yaşındayım.
+
+2. Almancada Yıllar Nasıl Okunur?
+Yılların okunuşu 2000 öncesi ve sonrası olmak üzere ikiye ayrılır. 2000’den önceki yıllar ikiye bölünerek “yüz” kelimesiyle okunur. 2000 sonrası ise doğrudan sayı gibi söylenir.
+
+Yıl	Almancası	Açıklama
+1985	neunzehnhundertfünfundachtzig	(19 yüz 85 mantığıyla okunur)
+2022	zweitausendzweiundzwanzig	Standart okuma (İki bin yirmi iki)
+2026	zweitausendsechsundzwanzig	Standart okuma (İki bin yirmi altı)
+3. Fiyat ve Virgüllü Sayıların Okunuşu
+Almanya, Türkiye gibi virgülleri ondalık kesir olarak kullanır. Almancada virgüllü sayılar (Kommazahlen) konusunu da incelemenizi öneririz. Eğer bir ürünün fiyatında virgül varsa euro ve cent birbirinden ayrılır.
+
+Dieser Kaffee kostet drei Euro fünfzig (3,50 €).
+
+Konuşma dilinde genellikle “Euro” kelimesi atlanır ve doğrudan “drei-fünfzig” denir. Büyük rakamlarda (binlik ayraçlar için) İngilizcenin tersine nokta (.) kullanılır. Örnek: 1.500,50 € (Eintausendfünfhundert Euro und fünfzig Cent).
+---------------------------------------------------------------------------------------------------------------------
+Kasus (İsmin Halleri):
+
+1- Nominativ Nedir?
+Nominativ, Almanca’da dört hal (Kasus) arasında en temel olanıdır. Cümlede özneyi belirtmek için kullanılır ve “Kim?” veya “Ne?” sorularına cevap verir. Diğer hallerin (Akkusativ, Dativ, Genitiv) anlaşılması için temel oluşturur.
+
+Nominativ: İsmin yalın hali (normal hali). (A1 Konusu)
+Akkusativ: İsmin “-i” hali. (A2 Konusu)
+Dativ: İsmin -e hali. (A2 Konusu)
+Genitiv: İsmin iyelik hali (aitlik hali). (B1 konusu)
+
+-Akkusativ
+Almanca Akkusativ, cümlede fiilden doğrudan etkilenen kişi ya da şeyi gösteren hâldir. Türkçedeki ismin -i hâline en yakın yapıdır. Özellikle maskulin isimlerde artikel değişir: der → den, ein → einen, kein → keinen. Bu sayfada Akkusativ’i hangi sorularla bulacağınızı ve temel mantığını örneklerle göreceksiniz.
+
+Almancada isimlerin 4 hâli vardır ve Akkusativ bunlardan biridir:
+
+der Nominativ (ismin yalın hâli)
+der Akkusativ (belirtme hâli / ismin -i hâli)
+der Dativ (ismin -e hâline en yakın yapı)
+der Genitiv (tamlayan hâli)
+Bilmeniz gereken temel noktalar:
+
+Bir cümlede Akkusativ olup olmadığını çoğu zaman Akkusativ alan fiiller veya Akkusativ edatlar belirler.
+Kişiler için wen (kimi), nesneler için was (neyi/ne) sorusu yol gösterir.
+Yön bildiren bazı hareket yapılarında wohin (nereye) sorusu da Akkusativ’i gösterebilir.
+En kritik değişim maskulin yapılarda görülür: der/ein/kein → den/einen/keinen.
+
+-Dativ
+Almanca yolculuğunuzda Dativ konusuna hoş geldiniz. Başta biraz karmaşık gelebilir, ama endişelenmeyin – adım adım, örneklerle ve pratik ipuçlarıyla kolayca öğreneceksiniz. Hazırsanız başlayalım!
+
+Almanca “Dativ” (Datif), “ismin -e hali” veya “Yönelme Hâli” anlamına gelir. Dativ aşağıdaki sorularla bulunur.
+
+Wem (kime) sorusu için Yönelme Hali (-e, -a) anlamına gelir. Hans’a, Ahmet’e, Aylin’e, Kübra’ya, Lina’ya gibi…
+Wo (nerede) sorusu için Bulunma Hali (-de, –da) anlamını verir. Örneğin: Evde, arabada, okulda gibi…
+Başka bir deyişle;
+
+İsmin -e hali anlamına gelmekte,
+Cümlede eylemin kime yapıldığını belirtmekte (yani fiilden etkilenen kişiyi veya nesneyi göstermekte),
+Ve artikellerin değişikliğiyle elde edilmektedir. Örneğin, Nominativ’i “der” artikel, Dativ halinde “dem” şeklini alır. Herhangi bir cümlede, Dativ’in olup olmamasını fiiller veya Dativ alan edatlar belirler. Ayrıca artikeller ile doğrudan bağlantılı bir konudur.
+Kelimeleri belirtme, yönelme, bulunma ve ayırma bakımından tanımlayan durumlara “isimin halleri” diyoruz ve Dativ de onlardan biri. İşte Almancada ismin 4 hali: ⬇️
+
+der Nominativ (ismin yalın hali / sözlüklerdeki görünen hali (normal hali)
+der Akkusativ (belirtme hali / ismin -i hali)
+Buradasınız: der Dativ (yönelme hali / ismin -e hali)
+der Genitiv (tamlayan durumu / ismin -in hali)
+
+-Türkçe’de Akkusativ ile Dativ
+Biliyorsunuz Türkçede de hal ekleri vardır. Durum ile hal aynı anlama gelir. Cümlenin ögeleriyle eylem ve özne arasında anlamca bağlantı kuran eklere durum veya hal eki denir.
+
+Türkçe hal ekleri:
+
+Yalın Hal: Son eki olmayan isimlerin durumudur. Hal eki yoktur.
+Yönelme ekleri: -e, -a
+Belirtme veya Yükleme Hali: -ı, -i, -u, -ü
+(Almanlar buna belirtme hali veya ismin -i hali (Akkusativ) diyorlar ve “was” (neyi, ne), “wen” (kimi), “wohin” (nereye) sorusu ile buluyorlar)
+Ayrılma ekleri:  -de, -den, -te, -ten
+Bulunma ekleri: -de, -da, -te, -ta:
+(Almanlar buna yönelme hali veya ismin -e hali (Dativ) diyorlar ve “wem” (kime), “wo” (nerede) sorusu ile buluyorlar)
+❗❗❗Burada bir fark gördüyseniz muhtemelen şunu düşünmüşsünüzdür: “Ama Türkçe’deki hallerle, Almancadaki haller farklı.” Aynen. Şöyle ki; Akkusativ durumu Türkçe’deki “belirtme/yükleme“ durumuna, Dativ durumu ise Türkçe “bulunma” durumuna karşılık gelir. Yani dativ Almancada “bulunma, durma, olma” kelimelerini anlatmak için kullanılır.
+
+------------------------------------------------------------------------------------------------------------
+
+Almanca Fiil Çekimleri (Konjugation der Verben)
+Almanca fiil çekimi, fiilin mastar halinden (-en eki) kökü ayırarak özneye uygun ek getirmektir. Düzenli fiillerde kök değişmez: lernen → ich lerne, du lernst, er lernt. Düzensiz fiillerde kök değişir: sprechen → ich spreche, du sprichst. Almancada 5 fiil türü vardır: düzenli, düzensiz, modal, ayrılabilen ve ayrılamayan fiiller. Bu rehberde tüm zamanlar (Präsens, Perfekt, Präteritum, Futur) için çekim tablolarını ve kurallarını bulacaksınız.
+
+Almanca Fiil Türleri ve Özellikleri
+Almancada fiiller çekim özelliklerine göre 5 ana gruba ayrılır. Her birinin kendine özgü kuralları ve dikkat edilmesi gereken noktaları vardır:
+
+Düzenli Fiiller (Regelmäßige Verben) – Kök değişmez, standart ekler alır
+Düzensiz Fiiller (Unregelmäßige Verben) – Kök değişir, ezber gerektirir
+Modal Fiiller (Modalverben) – Yetenek, zorunluluk, izin bildirir
+Ayrılabilen Fiiller (Trennbare Verben) – Önek cümle sonuna gider
+Ayrılamayan Fiiller (Untrennbare Verben) – Önek fiile bağlı kalır, ge- almaz
+Başlamadan önce bilmeniz gereken en önemli nokta: Almancada fiiller, cümleyi kuran kişiye (özneye veya şahıs zamirlerine) ve eylemin gerçekleştiği zamana (Almanca zamanlara) göre değişiklik gösterir.
+
+🎯 Özet:
+
+kommen: Örnek fiilimizin adı kommen. Türkçede “gelmek” anlamına gelir. Almanca fiillerin mastar hali genellikle -en ile biter (-en=-mek/-mak).
+komm: Fiilin kök kısmıdır. Mastar eki olan -en atıldığında fiil kökü bulunur. Tıpkı Türkçedeki “gelmek” fiilinden “-mek” ekini atınca “gel” kökünü bulduğumuz gibi. Bu kök, aynı zamanda emir kipi (“Komm!” – “Gel!”) olarak da kullanılabilir.
+Cümle kurarken fiili özneye göre çekimleriz. İşte şahıs zamirlerinin şimdiki zamanda (Präsens) düzenli fiillerle aldığı temel çekim ekleri:
+ich (ben): kök + e → ich komme (geliyorum)
+du (sen): kök + st → du kommst (geliyorsun)
+er/sie/es (o): kök + t → er kommt (geliyor)
+wir (biz): kök + en → wir kommen (geliyoruz)
+ihr (siz): kök + t → ihr kommt (geliyorsunuz)
+sie/Sie (onlar/Siz): kök + en → sie kommen (geliyorlar)
+Nasıl Çalışır?
+
+“kommen” tek başına “gelmek” demektir (mastar hali).
+“Ich komme” dediğinizde ise “Ben geliyorum” demiş olursunuz. İşte fiilin özneye ve zamana göre bu şekilde değiştirilmesi işlemine Almanca fiil çekimi diyoruz.
+
+Fiiller (Verb), cümlelerde eylemleri (koşmak, yemek), durumları (olmak, sahip olmak) veya oluşları (büyümek, değişmek) ifade eden kelimelerdir. Almancada fiillerin çekimlenmemiş, yalın haline mastar (Infinitiv) denir ve genellikle “-en” (kommen, spielen) veya nadiren “-n” (wandern, segeln) ekleriyle biter. Bu, Türkçedeki “-mek, -mak” eklerine benzer bir işlev görür. Türkçedeki “-mek, –mak” mastar eklerine benzer şekilde, Almanca “-en” eki de fiile mastar anlamı katar.
+
+Örnekler:
+
+kommen (gelmek)
+spielen (oynamak)
+lesen (okumak)
+sein (olmak)
+haben (sahip olmak)
+
+Fiil kökü (Verbstamm), fiilin mastar halinden sona gelen “-en” veya “-n” eki atıldığında geriye kalan kısımdır. Örnekler:
+
+lern-en  → Fiil kökü: lern-
+spiel-en → Fiil kökü: spiel-
+mach-en  → Fiil kökü: mach-
+komm-en  → Fiil kökü: komm-
+wander-n → Fiil kökü: wander-
+
+- Almanca Düzenli Fiil Çekimleri (regelmäßige Verben)
+Almanca fiil çekimleri, temelde düzenli (regelmäßig) ve düzensiz (unregelmäßig) olmak üzere ikiye ayrılır. Burada düzenli fiil çekimlerini ve fiil listesini bulacaksınız.
+
+Daha detaylı bilgi için Almanca Fiil Çekimleri: En Kapsamlı Anlatım konusuna göz atın!
+
+Almanca düzenli fiil çekimleri (regelmäßige Verben), belirli kurallara bağlı kalarak yapılır. Bu fiillerin kökleri (Stamm) değişmez ve ekler (-e, –st, –t, –en, –t, –en) düzenli olarak eklenir. Anlaşılması için basit bir tablo vereyim:
+
+Präsens zamanda şahıs zamirlerine gelecek fiil ekleri:
+
+Şahıs Zamirleri	Fiil Kök Kısmı	Köke Yazılacak Ekler
+ich	stamm	–e
+du	–st
+er sie, es	–t
+wir	–en
+ihr	–t
+sie/Sie	–en
+Örnek olarak lernen” (öğrenmek) fiilini inceleyelim:
+
+ich lerne (ben öğrenirim/ben öğreniyorum)
+du lernst (sen öğrenirsin/sen öğreniyorsun)
+er/sie/es lernt (o öğrenir/o öğreniyor)
+wir lernen (biz öğreniriz/biz öğreniyoruz)
+ihr lernt (siz öğrenirsiniz/siz öğreniyorsunuz)
+sie lernen (onlar öğrenirler/öğreniyorlar)
+Sie lernen (Siz öğrenirsiniz/öğreniyorsunuz)
+Not: “Neden iki Türkçe anlam var?” diye düşünenler için açıklama: “Präsens” Almancada bir zaman türüdür ve üç anlama gelir:
+
+Geniş Zaman (-ır, -ir)
+Şimdiki Zaman (-yor)
+Gelecek Zaman (-cek, -cak) “morgen” (yarın) gibi kelimeleri cümle içinde söylemek istersek gelecek zaman yapmış oluruz.)
+
+-Düzensiz Almanca Fiil Çekimleri (unregelmäßig Verben)
+Almanca fiil çekimleri, temelde düzenli ve düzensiz olmak üzere ikiye ayrılır. Burada düzensiz Almanca fiil çekimlerini ve listesini bulacaksınız.
+
+Daha detaylı bilgi için Almanca Fiil Çekimleri: Ustalık Rehberi – En Kapsamlı Anlatım konusuna göz atın!
+
+Kısaca tanım yaparak başlayalım:
+
+➡️ Almancada Düzensiz Fiil nedir? Düzensiz fiiller, adı üzerinde düzensiz çekimlemeye sahip fiillerdir. Yani çekimleri kalıpsızdır ve bir dizi kural veya formüle uymazlar. Bu düzensizlik “du” (sen) ve “er (o-eril), sie (o, dişil), es (o, nötr)” öznelerde meydana gelir. Örneğin:
+
+– “e” harfi → “i” harfine
+– “a” harfi ise → “ä” harfine dönüşür.
+
+➡️ “Almanca fiil çekimi” derken neyi kastediyoruz? Örneğin: “beraten” fiilini çekimlemeden yalın hali (sözlükte görünen hali) ile kullanırsanız “danışmanlık yapmak, bilgi vermek” demiş olursunuz. “Ich berate” derseniz “ben danışmanlık yapıyorum/ben bilgi veriyorum” demiş olursunuz. İşte çekimleme (Konjugation) bu işe yarar! Beraten fiilini tüm zamirler için birlikte çekimleyelim:
+
+ich berate (ben danışmanlık yapıyorum)
+du berätst (sen danışmanlık yapıyorsun)
+er/sie/es berät (o -erkek, kadın, nötr- danışmanlık yapıyor)
+wir beraten (biz danışmanlık yapıyoruz)
+ihr berat (siz danışmanlık yapıyorsunuz)
+sie beraten (onlar danışmanlık yapıyorlar)
+Gördüğünüz gibi bunlara düzensizdie ve ezberlenmeleri gerekir. Bkz: Almanca Düzensiz Fiiller (unregelmäßige Verben)【A1 C2】 ayrıca bkz: “müssen”
+
+Düzensiz fiiller hakkında biraz açıklama:
+
+sein fiili tüm öznelerde değişir. (aşağıdaki tabloya bakın!)
+Düzensiz fiillerde, fiil kökleri, du ve er/sie/es öznelerinde e harfi i harfine, a harfi ise ä harfine dönüşür. Ama her kökünde a olan veya e olan da değişime uğramaz. Geri kalan ich, wir, ihr, sie/Sie düzenli hallerindeki ekleri almaya devam ederler.
+Yukarıdaki düzenli örnekler içinde gehen ve lachen fiilleri var. Gördüğünüz gibi köklerinde e ve a var. Ancak yine gördüğünüz gibi düzenli çekimlendiler. Neden? Çünkü her kökünde a veya e olan fiil düzensiz çekimlenmiyor da ondan.
+Zamir (Özne)	sprechen	**haben	***sein	essen	schlafen	anfangen
+ich (ben)	spreche	habe	bin	esse	schlafe	fange an
+du (sen)	sprichst	hast	bist	isst	schläfst	fängst an
+er/sie/es (o)	spricht	hat	ist	isst	schläft	fängt an
+wir (biz)	sprechen	haben	sind	essen	schlafen	fangen an
+ihr (siz)	sprecht	habt	seid	esst	schlaft	fangt an
+sie/Sie (onlar/siz,sizler)	sprechen	haben	sind	essen	schlafen	fangen an
+
+Şimdi, en yaygın ve önemli altı düzensiz fiiller şunlar:
+
+sein (olmak)
+essen (yemek için)
+wollen (istemek)
+können (yapabilmek)
+haben (sahip olmak)
+werden (olmak, dönüşmek)
+
+---------------------------------------------------------------------------------------------------------------
+Modalverben (Almanca Modal Fiiller Konu Anlatım, Alıştırma)
+Burada, Almanca Modalverben (Modal Fiiller) konu anlatımını, örnek cümleleri ve alıştırmaları (übung) bulacaksınız.
+
+Almancada 7 adet Modalverben (modal fiil) var. Bunlar Türkçe anlamlarıyla sırasıyla şöyle:
+
+Müssen: zorunda olmak, mecbur olmak
+Können: yapabilmek, becerebilmek
+Dürfen: -mek, -mak veya -mek, -mak için izinli olmak
+Sollen: …malı, …meli/…mesi gerek
+Wollen: istemek, …mek niyetinde olmak (aile arasında/plan yaparken)
+Mögen: beğenmek, hoşlanmak
+Möchten: istemek ve arzu etmek (başkasına karşı/kibar)
+Not: “Möchten” fiili de sıklıkla modal fiil olarak kabul edilir. Möchten fiili, “mögen” fiilinin konjunktiv II halidir ve daha kibar bir istek belirtmek için kullanılır. BAMF‘ın onayladığı 2023 yılında basılan Klett Yayınlarına ait “Die neue Linie 1 A1” kaynağına göre toplam 7 modal fiil vardır. Möchten’de bunlardan biridir.
+
+📌 Bir cümlede Modalverben (modal fiil) varsa ana fiil (Vollverb) en sonda ve çekimlenmemiş halde olur. Sona gidecek fiil, yalın halde (infinitiv) olur.
+
+Örnekler:
+
+Ich kann schwimmen. (Ben yüzebilirim.)
+Darf ich das machen? (Ben bunu yapabilir miyim?)
+
+Modalverben (Modal Filler) konusuna geçmeden önce, Almancadaki fiil türlerini iyi anlamak gerekir. Almancada üç ana fiil türü bulunur: Vollverben, Hilfsverben ve Modalverben.
+
+✅ Almancada 3 farklı fiil türü var.
+
+Vollverben (Ana Fiiller): Vollverben, herhangi bir cümlede ana eylemi ifade eden fiillerdir. Bu fiiller, cümledeki temel anlamı taşırlar ve kendi başlarına tam bir yargı (predicate) oluşturabilirler. Örnekler arasında “gehen” (gitmek), “sprechen” (konuşmak), “essen” (yemek yemek) gibi fiiller bulunur. Bu fiiller, cümlede ne olduğunu veya ne yapıldığını açıkça belirtir.
+Hilfsverben (Yardımcı Fiiller): Hilfsverben, genellikle bir başka fiille birlikte kullanılan ve zaman, kip (modus) veya edilgen yapı (passive voice) gibi gramatik özellikleri ifade etmek için kullanılan yardımcı fiillerdir. Almanca dilinde üç ana yardımcı fiil vardır: “sein” (olmak), “haben” (sahip olmak) ve “werden” (olmak/haline gelmek). Bu fiiller, başka bir fiille birlikte kullanıldığında, cümlenin zamanını (geçmiş, şimdiki veya gelecek), kipini (şart kipi, emir kipi vb.) veya edilgen yapıyı belirtir.
+Modalverben (Modal (tarz) Filler): Modal verben, cümlenin ana fiilini destekleyerek, bir eylemin nasıl yapıldığını (yani eylemin modunu veya tarzını) ifade eder. Bu fiiller, eylemin zorunluluğunu, olasılığını, izinini veya kapasitesini belirtir.
+
+Güncel kaynaklara göre 7 adet Modal Fiil vardır. Bazı yerlerde 6 olarak geçer. Bunun nedeni “möchten”in, “mögen” fiilinin farklı bir formu (çeşidi) olmasından kaynaklıdır.
+
+“Können” ile yapabildiğimizi, “müssen” ile yapmak zorunda olduğumuzu, “wollen” ile yapmak istediğimizi, “dürfen” ile yapmaya iznimiz olduğunu, “mögen” ile sevdiğimizi ve “sollen” ile yapmamız gerektiğini anlatırız. Ve tabii, “möchten” ile de daha nazikçe bir şey yapmak istediğimizi söyleriz.
+
+ 	müssen	können	dürfen	sollen	wollen	mögen	möchten
+ich	muss	kann	darf	soll	will	mag	möchte
+du	musst	kannst	darfst	sollst	willst	magst	möchtest
+er/sie/es	muss	kann	darf	soll	will	mag	möchte
+wir	müssen	können	dürfen	sollen	wollen	mögen	möchten
+ihr	müsst	könnt	dürft	sollt	wollt	mögt	möchtet
+sie/Sie	müssen	können	dürfen	sollen	wollen	mögen	möchten
+Modal verb Almanca Örnek cümleler:
+
+Ich darf zum Spiel gehen. (Ben oynamaya gidebilirim.) Anam babam izin verdi. O yüzden böyle dedim.
+Du kannst gut Deutsch (sprechen). (Sen iyi Almanca konuşabilirsin.)
+Er/Sie/Es mag Schokolade. (O çikolata sever.)
+Wir müssen unsere Hausaufgaben machen. (Biz ödevimizi yapmalıyız.)
+Ihr sollt pünktlich sein. (Siz dakik olmalısınız.)
+Sie wollen ins Kino gehen. (Onlar sinemaya gitmek istiyor.)
+Not: Modalverben ile kullanılan Vollverben (ana fiil) her zaman Infinitiv formunda (yalın/sözlükte göründüğü gibi) kalır.
+
+Almancada “kommen” (gel-) fiilinin şahıslara göre Präsens zaman çekimleri şöyledir:
+
+ich komme – Ben geliyorum.
+du kommst – Sen geliyorsun.
+er/sie/es kommt – O geliyor. (Erkek için “er”, kadın için “sie”, cansız veya hayvan için “es”)
+wir kommen – Biz geliyoruz.
+ihr kommt – Siz geliyorsunuz. (Çoğul veya resmi olmayan hitap)
+sie kommen – Onlar geliyorlar.
+Sie kommen – Siz geliyorsunuz. (Resmi hitap)
+
+----------------------------------------------------------------------------------------------------------------------
+-Almanca Ayrılabilen Fiiller Konusu (Trennbare Verben)
+Burada, Almanca ayrılabilen fiiller (Trennbare Verben), ayrılamayan fiiller (Untrennbare) ve karışıklar (Problematische/Gemischt) olarak isimlendirilen fiilleri bulacaksınız.
+
+İlginizi çekebilir: 480 adet Ayrılabilen Fiiller Listesi
+
+Ayrılabilen ön eklere Almanca’da Prefix veya Verbzusätze denir. Bu ekleri alan fiiller farklı anlamlar kazanabilirler.
+
+Almanca Trennbare Verben Ayrılabilen Fiil Formülü
+Örneğin,
+
+kaufen (almak) fiili, einkaufen olunca (alışveriş) fiili olur.
+sehen (görmek) fiili, aussehen (görünmek) fiili olur.
+Cümle içinde örnekler:
+
+Ich sehe einen Mann. (Bir adam görüyorum.)
+Dieser Mann sieht sehr dick aus. (Bu adam çok şişman görünüyor.)
+
+Ayrılabilen fiillerin ön ekleri: “ab, an, auf, aus, auseinander, bei, da, dar, ein, empor, entgegen, entlang, entzwei, fehl, fern, fest, fort, für, gegenüber, heim, her, hin, hinterher, hoch, inne, los, mit, nach, neben, nieder, rück, vor, weg, weiter, zu, zurecht, zurück, zusammen, zwischen“
+
+Bu ön eklerin anlamlarını ve örneklerini aşağıdaki tabloda verdim:
+
+Ön ek (Präfix)	Örnek Ayrılabilen fiil (Trennbare Verb)	Türkçe Anlamı
+ab	abfahren	yola çıkmak, hareket etmek
+an	ankommen	varmak, ulaşmak
+auf	aufstehen	kalkmak, ayağa kalkmak
+aus	aussteigen	araçtan inmek, indirmek
+ein	einsteigen	araca binmek, binirmek
+los	losfahren	arabayla yola çıkmak
+mit	mitkommen	birlikte gelmek, katılmak
+nach	nachmachen	taklit etmek, yapmak
+vor	vorstellen	tanıtmak, hayal etmek
+weg	weggehen	uzaklaşmak, gitmek
+zu	zuhören	dinlemek, kulak vermek
+auseinander	auseinanderfallen	parçalanmak, dağılmak
+bei	beibringen	öğretmek, kazandırmak
+da	dableiben	orada kalmak, ayrılmamak
+dar	darbieten	sunmak, ikram etmek
+empor	emporfliegen	yukarı uçmak, havalandırmak
+entgegen	entgegenkommen	karşılamak, yardımcı olmak
+entlang	entlanggehen	boyunca yürümek, izlemek
+entzwei	entzweireißen	ikiye yırtmak, parçalamak
+fehl	fehlschlagen	başarısız olmak, tutmamak
+fern	fernsehen	televizyon izlemek, seyretmek
+fest	festbinden	sıkıca bağlamak, tutturmak
+fort	fortfahren	devam etmek, sürdürmek
+frei	freilassen	serbest bırakmak, salıvermek
+gegen	gegenhalten	karşı koymak, direnmek
+gegenüber	gegenüberstehen	karşı karşıya gelmek, yüzleşmek
+heim	heimbringen	eve getirmek, götürmek
+her	herbringen	buraya getirmek, ulaştırmak
+hin	hinbringen	oraya götürmek, ulaştırmak
+hinterher	hinterherlaufen	arkasından koşmak, peşine düşmek
+hoch	hochheben	yukarı kaldırmak, havaya kaldırmak
+inne	innehalten	durmak, ara vermek
+los	losbinden	bağını çözmek, serbest bırakmak
+neben	nebenbei	yanında, ek olarak, arada sırada
+nieder	niederschreiben	yazıya dökmek, kaydetmek
+rück	zurückgeben	geri vermek, iade etmek
+vor	vorbereiten	hazırlamak, önceden yapmak
+weg	weggehen	uzaklaşmak, gitmek
+weiter	weitermachen	devam etmek, sürdürmek
+zu	zumachen	kapatmak, kapamak
+zurecht	zurechtkommen	başa çıkmak, idare etmek
+zurück	zurückkommen	geri gelmek, dönmek
+zusammen	zusammenfassen	birleştirmek, özetlemek
+zwischen	zwischenhalten	araya girmek, engel olmak
+“ab” präfiksli Almanca Trennbare Verben
+Präfixler ve Fiiller	Pozisyon 1	Verb 1	Orta Kısım	Fiil 2
+ab|fahren	Der Bus (otobüs)	fährt	früh nach Berlin (erken Berlin’e doğru)	ab (yola çıkar).
+ab|fallen	Im Winter (Kışın)	fallen	die Blätter von den Bäumen (yapraklar ağaçlardan)	ab (dökülür).
+ab|schreiben	Der Schüler (öğrenci)	schreibt	während der Klausur vom Mitschüler (sınav sırasında arkadaştan)	ab (kopyalar).
+“an” präfiksli Almanca Trennbare Verben
+Präfixler ve Fiiller	Pozisyon 1	Verb 1	Orta Kısım	Fiil 2
+an|fassen (dokunmak)	Achtung, Kind! (Dikkat, çocuk!)	Fass	den heißen Topf nicht (sıcak tencereye)	an (dokunma).
+an|machen (açmak)	Maria	macht	das Radio im Wohnzimmer (salondaki radyoyu)	an (açar).
+an|springen (çalıştırmak)	Das Auto (araba)	springt	bei minus Graden (eksi derecelerde)	an (zor çalışır).
+“auf” präfiksli Almanca Trennbare Verben
+Präfixler ve Fiiller	Pozisyon 1	Verb 1	Orta Kısım	Fiil 2
+auf|bauen (kurmak)	Der Junge (çocuk)	baut	seine Spielzeugeisenbahn (oyuncak tren setini)	auf (kurar).
+auf|machen (açmak)	Warum (Neden)	machst du	im Sommer immer das Dachfenster (yazın her zaman çatı penceresini)	auf (açarsın)?
+auf|stehen (kalkmak)	Ein Bäcker (bir fırıncı)	steht	gewöhnlich schon um 3:00 Uhr (genellikle saat 3:00’te)	auf (kalkar).
+“ein” präfiksli Almanca ayrılabilen fiiller
+Präfixler ve Fiiller	Pozisyon 1	Verb 1	Orta Kısım	Fiil 2
+ein|brechen (çökmek)	Hoffentlich (Umarım)	bricht	das Kind auf dem gefrorenen See (çocuk donmuş gölde)	nicht ein (çökmez).
+ein|gehen (kurumak)	Ohne Wasser (Su olmadan)	gehen	alle Pflanzen nach einiger Zeit (bir süre sonra tüm bitkiler)	ein (kurur).
+ein|schlagen (kırmak)	Die Kinder (Çocuklar)	schlagen	das Fenster im Erdgeschoss (zemin kattaki pencereyi)	ein (kırarlar).
+“heim” präfiksli Almanca ayrılabilen fiiller
+Präfixler ve Fiiller	Pozisyon 1	Verb 1	Orta Kısım	Fiil 2
+heim|fahren (eve gitmek)	Der Schüler (öğrenci)	fährt	jeden Tag mit der Straßenbahn (her gün tramvayla)	heim (eve gider).
+heim|gehen (eve yürümek)	Viele Besucher (Birçok ziyaretçi)	gehen	nach dem Fest (festivalden sonra)	sehr früh heim (çok erken eve gider).
+heim|kehren (eve dönmek)	Die Forscher (araştırmacılar)	kehren	nach der langen Expedition (uzun bir keşiften sonra)	endlich wieder heim (sonunda eve dönerler).
+“her” präfiksli Almanca ayrılabilen fiiller
+Präfixler ve Fiiller	Pozisyon 1	Verb 1	Orta Kısım	Fiil 2
+her|bringen (getirmek)	Bring (Getir)	mir mal schnell (bana hızlıca)	den Schraubenzieher (tornavidayı)	her (buraya).
+her|geben (vermek)	Gib (Ver)	sofort (hemen)	meine Schere (makasımı)	her (buraya)!
+her|kommen (gelmek)	Kommt (Gelin)	mal alle (herkes)	zum Garten (bahçeye)	schnell her (hızlıca buraya).
+“heraus” präfiksli Almanca ayrılabilen fiiller
+Bu präfiksler, bir yön belirtir ve genellikle “dışarı”, “içeri”, “yukarı” gibi hareketleri ifade eder.
+
+Präfixler ve Fiiller	Pozisyon 1	Verb 1	Orta Kısım	Fiil 2
+heraus|geben (vermek, çıkarmak)	Gib (Ver)	sofort (hemen)	meine Schlüssel (anahtarlarımı)	heraus (dışarı)!
+herein|kommen (içeri girmek)	Kommt (Girin)	bevor es anfängt zu regnen (yağmur başlamadan önce)	in das Haus (eve)	herein (içeri).
+herauf|kommen (yukarı çıkmak)	Kommen Sie (Çıkın)	doch bitte (lütfen)	zur Dachterrasse (çatı terasına)	herauf (yukarı).
+“hin” präfiksli Almanca ayrılabilen fiiller
+“hin” präfiksi, genellikle bir yere doğru hareketi veya bir yöne dikkati çekmeyi ifade eder.
+
+Präfixler ve Fiiller	Pozisyon 1	Verb 1	Orta Kısım	Fiil 2
+hin|fallen (düşmek)	Max (Max)	fällt	auf dem rutschigen Weg (kaygan yolda)	hin (düşer).
+hin|gucken (bakmak)	Niemand (Kimse)	guckt	zu dem Straßenkünstler (sokak sanatçısına)	hin (bakar).
+hin|kommen (ulaşmak)	Ohne Fahrrad (Bisikletsiz)	kommt	man zum abgelegenen Dorf (uzak köye)	nicht hin (ulaşılamaz).
+“hinauf” präfiksli Almanca ayrılabilen fiiller
+Bu präfiksler, genellikle “yukarı”, “dışarı”, “içeri” gibi belirli yönlere hareketi ifade eder.
+
+Präfixler ve Fiiller	Pozisyon 1	Verb 1	Orta Kısım	Fiil 2
+hinauf|fahren (yukarı çıkmak)	Fährst du (Çıkıyor musun)	mit der Seilbahn (teleferikle)	den Hügel (tepeye)	hinauf (yukarı)?
+hinaus|gehen (dışarı çıkmak)	Niemand (Kimse)	geht	während der Pause (mola sırasında)	aus dem Klassenzimmer (sınıftan) hinaus (dışarı).
+hinein|fallen (içine düşmek)	Viele Insekten (Birçok böcek)	fallen	in den Honigtopf (bal kavanozuna)	hinein (içine düşer).
+“los” Präfiksli Trennbare Verben
+Präfixler ve Fiiller	Pozisyon 1	Verb 1	Orta Kısım	Fiil 2
+los|gehen (başlamak)	Der Zug (tren)	fährt (hareket eder)	jeden Moment (her an)	los (başlar).
+los|fahren (yola çıkmak)	Wann (Ne zaman)	gehen wir (çıkıyoruz)	denn endlich (sonunda)	los (yola)?
+los|kommen (kurtulmak)	Das Tier (hayvan)	kommt (kurtulur)	nach langem Kampf (uzun bir mücadelenin ardından)	endlich wieder los (sonunda).
+“mit” Präfiksli Trennbare Verben
+Präfixler ve Fiiller	Pozisyon 1	Verb 1	Orta Kısım	Fiil 2
+mit|kommen (katılmak)	Kommst du (Katılıyor musun)	heute Abend (bu akşam)	mit (katıl)?	
+mit|singen (birlikte şarkı söylemek)	Warum (Neden)	singt das Kind (çocuk şarkı söyler)	das Lied nicht (şarkıyı)	mit (birlikte)?
+mit|spielen (birlikte oynamak)	Spielst du (Oynuyor musun)	mit (birlikte)?		
+“nach” Präfiksli Trennbare Verben
+Präfixler ve Fiiller	Pozisyon 1	Verb 1	Orta Kısım	Fiil 2
+nach|bauen (taklit etmek)	Theodor (Theodor)	baut (inşa eder)	in seinem Garten (bahçesinde) den Eifelturm (Eyfel Kulesi’ni)	nach (taklit eder).
+nach|machen (taklit etmek)	Affen (maymunlar)	machen (taklit eder)	dem Menschen vieles (insanları çok şey)	nach (taklit eder).
+nach|trauern (yas tutmak)	Meine Tante (teyzem)	trauert (yas tutar)	ihrem verstorbenen Mann (ölen kocasına) keine Träne (hiçbir gözyaşı)	nach (tutmaz).
+“vor” Präfiksli Fiiller
+Präfixler ve Fiiller	Pozisyon 1	Verb 1	Orta Kısım	Fiil 2
+vor|bereiten (hazırlamak)	Die Frauen (kadınlar)	bereiten (hazırlar)	schon den ganzen Tag (bütün gün) die Party (partiyi)	vor (hazırlar).
+vor|singen (önceden şarkı söylemek)	Morgen (Yarın)	singt der Sänger (şarkıcı şarkı söyler)	bei Dieter Dohlen (Dieter Dohlen’de)	vor (önceden).
+vor|zeigen (göstermek)	Bitte (Lütfen)	zeigen Sie (gösterin)	Ihre Fahrausweise (biletlerinizi)	vor (gösterin).
+
+--------------------------------------------------------------------------------------------------------------------
+
+-Almanca Emir Cümleleri (Imperativ Kipi Örnek)
+Bu konuda, Almanca Emir Kipi’nin (Imperativ) nasıl yapıldığını ve Türkçe açıklamalı Almanca örnek cümleler bulacaksınız.
+
+Emir Kipi (Imperativ) Almanca dilinde bir dilbilgisi (gramer) yapısıdır ve A1 konusu içindedir.
+“der Imperativ” → kelimesi bir isimdir ve Türkçe emir, zorunlu, emredici, zorlayıcı anlamına gelir. Ayrıca Almanca’deki “emir” kelimesinin çevirisi şudur: Auftrag {er.} Befehl {er.}
+Emir Kipi (Imperativ) genellikle kısa ve anlaşılır bir şekilde verilir.
+Cümle sonları “!” (ünlem işareti) ile biter.
+Emir cümlelerini fiiller ile kurarız ve fiiller ise 3’e ayrılır.
+Şu zamirlere emir verilir:
+du (sen)
+ihr [siz, (sen+sen yani siz ikiniz, 3,4,5 kişi de olur)]
+Sie [siz, sizler (resmi formlar)]
+Şimdi size; du (sen), ihr (siz) ve Sie (saygı ifadesi olan siz) için sırasıyla bir kaç kelime için örnekler vereyim. Bu filleri zamir çelimlerine göre du, ihr ve Sie’ye göre çekimliyorum. Diğer zamirler çekimlenmiyor. Yaptığım başka bir şey yok. Bakın:
+
+1. Düzenli Fiiller: Düzenli olarak çekimleme yaparız. Bunlar zamirlere göre çekimlemede sorun çıkarmayan fillerdir.
+gehen (gitmek): Geh!, Geht! Gehen Sie!
+hören (dinlemek): Hör!, Hört!, Hören Sie!
+singen (şarkı söylemek): Sing!, Singt!, Singen Sie!
+2. Düzensiz Fiiller: Bunlar problemli fillerdir ve sesli harf değişime uğrar. Biliyorsunuz düzensizler sadece “du” (sen) ve “er/sie/es” (o erkek, o kadın, o nötr) zamirlerinde değişirdi. Kısaca; e harfi i’ye döner (e→i); a harfi ä harfine dönüşür (a→ä).
+Geben (vermek): Gib!, Gibt!, Geben Sie!
+nehmen (almak): Nimm!, Nehmet!, Nehmen Sie!
+essen (yemek yemek): Isst!, Isst!, Essen Sie!
+3. Ayrılabilen Fiiller:
+mitkommen (beraberinde gitmek): Komm mit!, Kommt mit!, Kommen Sie mit!
+mitbringen (beraberinde getirmek): Bring mit!, Bringt mit! Bringen Sie mit!
+abholen (gidip almak): Hol ab!, Holt ab!, Holen Sie ab!
+Almanca’da en çok kullanılan fiillerden haben ve sein özel fiillerinin emirlerle kullanımı:
+
+sein (olmak):
+Sei! (ol!) Örnek:→ Sie leise! (Sessiz ol)
+Seid! (olun!) Örnek:→ Seid leise! (Sessiz olun!)
+Sein Sie! (olunuz!) Örnek:→ Seien Sie leise! (Sessiz olunuz!)
+haben (var, sahip olmak):
+Hab! (sahip ol!) Örnek:→Hab Geduld! (sabırlı ol!)
+Habt! (sahip olun!) Örnek:→Habt Geduld! (sabırlı olun!)
+Haben Sie! (sahip olunuz!) Örnek:→Haben Sie Geduld! (sabırlı olunuz!)
+Bunları emir verirken veya duyarken sıkça işiteceksiniz. “doch” ve “mal” kelimeleri bu emir cümlelerinde çok görülür.
+
+Doch: Hilft mir doch! “bana yardım etsene!” anlamında teklif cümlesi oluşturur.
+Mal: Hilft mir mal! “bana bi yardım et!” anlamına gelir.
+Hilf mir mal doch! ise “bana bi yardım etsene” anlamına gelir.
+
+Gehen fiiline göre çekimlenmiş tablo:
+
+Tekil ve Çoğul	Türkçe Şahıs Zamirleri	Almanca Şahıs Zamirleri	Örnek Cümleler
+(gehen – gitmek)	
+1. Tekil Şahıs	ben	ich	–	
+2.Tekil Şahıs	sen	du	geh!	git!
+3. Tekil Şahıs	(o- erkek)
+(o- dişi)
+(o- nötr)
+her insan/kişi	er
+sie
+es
+man	–	
+1. Çoğul (Plural)	biz (sen ve ben)	wir	–	
+2. Çoğul (Plural)	siz (sen ve sen, ikiniz)	ihr	geht!	gidin!
+3. Çoğul (Plural)	onlar	sie	–	
+Resmi (Formel)	siz veya sizler	Sie	gehen Sie!	Siz gidiniz!
+Almanca Zamirler
+Almanca emir vermek için kullanılabilen zamirleri tabloda kırmızı ile renklendirdim. Bu üçüne emir verebiliyoruz;
+
+du (sen): Singular (tekil) tek kişiye emir vermek istendiğinde kullanılır.
+ihr (siz): Plural (çoğul) birden fazla kişiye emir vermek istenildiği zaman kullanılır.
+Sie (siz): Höflichkeitform (Resmi) saygı ve nezaket gerektiren durumlar için kullanılır.
+Emir verebilmek için o kişinin karşınızda olduğunu düşünmelisiniz. Bu mantıkla bu üçüne emir verilir. Ayrıca Türkçe ve Almanca’da emir kiplerinin sonuna daima ünlem işareti yazılır
+
+Dikkat!: Almanca’da karşıdakine (muhatap olduğumuz kişiye/kişilere) emir veriyoruz. Yani bir insan karşınızdaysa ona emir vermelisiniz. Bunlar: du (sen), ihr (siz [yani sen ve sen] ve Sie (siz, sizler)
+
+Şimdi buraya şahıs (kişi) zamirlerini yazayım ve bir de bunlarla birlikte “Präsens” şimdiki zaman için bringen (getirmek) fiilinin çekimini yapalım.
+
+---------------------------------------------------------------------------------------------------------------------
+
+-Nomen
+
+Almancada birçok farklı kelime türü bulunur ve bunlar arasında en temel olanlardan biri de “Nomen” yani isimlerdir. Peki, nomen nedir ve Almancada nomenleri nasıl tanırız? AlmancaABC’de nomenler hakkında bilmeniz gereken her şeyi bulacaksınız.
+
+📌 Eğer aradığınız şey Almanca Kız isimleri veya Almanca Erkek İsimleri ise size verdiğim linklere tıklayabilirsiniz.
+
+Not: Başta belirtmem gerekir ki Name ile Nomen kelimeleri birbirine çok karıştırılmakta. Öncelikle bunları birbirinden ayıralım.
+
+Nasıl yani? Şöyle:
+
+Der Name özel “isim” demektir ve bizim kendi ismimizi (insanların adını) söylemek için kullanırız. Ahmet, Helga, Hasan… Birinin ismini sormak istediğinizde şu soruları kullanabilirsiniz.
+“Wie ist dein Name?” (Gayri resmi dilde kullanılır, sınıfınızdaki birine sorabilirsiniz. Resmi dairedeki bir memura kullanmayın.)
+“Wie ist Ihr Name?” (Resmi bir formdur, tanımadığınız birine bunu kullanın, resmi dairelerde kullanabilirsiniz.)
+“Wie heißt du?” (Yukarıdakilerle kıyaslandığında bu daha yaygın olarak kullanılır. Gayri resmi bir formdur.)
+“Wie heißen Sie?” (Bu da yaygındır. Resmidir.)
+Das Nomen ise canlı cansız bütün isimleri karşılar. Yani Nomen Almancada insanları, yerleri ve nesneleri adlandıran kelimelerdir. Örneğin: Mann, Ahmet, Hans, Zeitung, Haus, isim, kağıt, şehir, duvar… Konumuz bununla ilgili
+
+
+-Nomen Nedir?
+Almancada “Nomen”, “isim” olarak bilinen, ayrıca “Substantiv”, “Namenwort” veya “Hauptwort” gibi terimlerle de ifade edilen kelimelerdir. Bu kelimeler, genellikle şeyler (Dinge), kişiler (Personen), bitkiler (Pflanzen) ve hayvanlar (Tiere) gibi somut veya soyut varlıkları adlandırmak için kullanılır.
+
+Nomen Örnekleri:
+
+Baum (Ağaç) → Şey
+Lehrerin (Öğretmen) → Kişi
+Rose (Gül) → Bitki
+Katze (Kedi) → Hayvan
+Alman dilinde nomenler her zaman büyük harfle başlar. Özel isimler (örneğin, Lina, Ahmet, Helga, Emilia, Hannah, Leon, vb.) de nomen olarak kabul edilir. Nomenler çoğunlukla bir artikel (der, die, das / ein, eine) ile birlikte kullanılır, fakat bu artikeller kelimenin hali (kasus), sayısı (numerus) ve cinsiyeti (genus) değiştiğinde genelde değişiklik gösterir. Buna Türkçe’de “çekimleme” yani “Deklinasyon” denir. “Deklinasyon” işlemi, kelimelerin bu gramer özelliklerine göre şekil değiştirmesidir.
+
+Nomen Örnek cümleler:
+
+Der Baum ist hoch. (Ağaç yüksek.)
+Unsere Lehrerin erklärt gut. (Öğretmenimiz iyi anlatır.)
+In unserem Garten blüht eine schöne Rose. (Bahçemizde güzel bir gül açtı.)
+Die Katze schläft in der Sonne. (Kedi güneşte uyuyor.)
+
+--------------------------------------------------------------------------------------------------------------------
+
+-Artikeller (der, die, das) Kurallar & Örnekler
+Almanca tanımlık yani artikeller (der, die, das), dilin temel yapı taşlarından biridir. Başlangıçta zor görünse de, aslında bir kimlik kartı gibidir – nasıl ki her insanın bir kimliği varsa, Almancada da her isim (Nomen) olan kelimenin bir artikeli vardır.
+
+Nullartikel denilen bir durum da vardır; burada isimler, artikel olmadan kullanılır. Örneğin firma isimleri Siemens, Bosch; özel isimler Hans, Helga, Ahmet gibi.
+
+Artikel denilen şeyin temel mantığını özetliyorum:
+
+Artikel üç temel türe ayrılır: Belirli, Belirsiz ve Olumsuz Artikeller
+
+Almancada Artikel Türleri Belirli der die das
+1. Belirli Artikel (der, die, das)
+
+Bunlarda (der, die, das) bahsedilen şey/kişi kesin, tanımlı, net, belli ve bilinen bir şeydir.
+Bunların her biri Türkçede “ŞU“, “BU” veya “O” anlamına gelir. Ancak Türkçeye çevirirken istersek çevirmeyebiliriz. Yani? “Şu masa” değil de “masa”; “Bu masa” değil de “masa”; “O masa” değil de “masa” şeklinde çevirebiliriz. İngilizcedeki karşılıkları “THE” kelimesidir.
+Örnek: Der Stift ist blau. (O kalem mavi. / Kalem mavi.) [Hangi kalem? → Bildiğimiz, belli olan kalem. Konuşan ve dinleyen kişi hangi kalemden bahsedildiğini bilir – bu nedenle ‘belirli artikel’ denir.]
+Önemli Not: Almancada “der,” “die,” ve “das” artikellerinin hangi kelimeye neden verildiğini anlamak genellikle zordur. Hatta ana dili Almanca olanlar bile bu konuda kesin bir açıklama yapamazlar. Örneğin, Türkiye’nin artikeli “die Türkei”dir; ancak neden “der” değil de “die” olduğu net değildir. Benzer şekilde, “Deutschland” (Almanya) kelimesinin neden artikeli yok, bu da ayrı bir merak konusudur. Bkz. Artikeli Olan Ülkeler Hangileri
+
+Bu tür soruların kesin cevapları olmasa da, artikellerin mantığını anlamaya çalışmak yerine, kelimeleri öğrenirken artikelleriyle birlikte ezberlemek en etkili yöntemdir. Kısacası, kelime öğrenirken artikelini de öğrenmeye özen gösterin!
+
+2. Belirsiz Artikel (ein, eine)
+
+Bahsedilen şey/kişi herhangi biri olabilir. Herhangi bir şeyden bahsederken kullanırız. (ein, eine)
+Türkçede bunların ikisi de “BİR” anlamına gelir. İngilizcede “A/AN” karşılığıdır.
+Örnek: Ich brauche einen Stift. (Bir kaleme ihtiyacım var.) [Hangi kalem? → Herhangi bir kalem, fark etmez.]
+Almancada Artikel Türleri Olumsuz kein keine
+3. Olumsuz Artikel (kein, keine)
+
+Belirsiz artikelin (ein/eine) olumsuz halidir (kein, keine)
+Olumsuz artikeller de Türkçede “hiç” veya “yok” anlamına gelir. İngilizcede “NO/NOT ANY” karşılığıdır.
+Örnek: Ich habe keinen Stift. (Kalemim yok/Hiç kalemim yok.) [Kalem var mı? → Hayır, hiç yok.]
+Başka Örneklerle Anlatayım
+
+Olumlu ve Belirli:
+
+Der Mann ist mein Vater. (O adam benim babam.)
+Spesifik ve bilinen bir adam
+Olumlu ve Belirsiz:
+
+Ein Mann steht dort. (Bir adam orada duruyor.)
+Herhangi bir adam
+Olumsuz:
+
+Kein Mann steht dort. (Hiç adam durmuyor orada.)
+Adam yok
+Pratik Kullanım
+
+İlk kez bahsederken → Belirsiz artikel (ein/eine)
+Sonraki bahsetmelerde → Belirli artikel (der/die/das)
+Olumsuzluk durumunda → Olumsuz artikel (kein/keine)
+
+-----------------------------------------------------------------------------------------------------------
+
+-Almanca İyelik Sıfatları (Possessivartikel: mein, dein, sein…)
+Almanca iyelik sıfatları (Possessivartikel), şahıs zamirlerinden (ich, du, er, sie, es, wir, ihr, sie, Sie) türetilen ve bir şeyin kime ait olduğunu gösteren özel artikellerdir. Türkçedeki “benim, senin, onun, bizim, sizin, onların” ifadelerinin Almanca karşılığıdır. mein, dein, sein, ihr, unser, euer gibi kelimeler bu gruba dahildir.
+
+📌 Kafa karışıklığını önleyelim: İyelik sıfatları (Possessivartikel) ile iyelik zamirleri (Possessivpronomen) farklı şeylerdir. Sıfatlar ismin önüne gelir (“mein Auto” = benim arabam), zamirler ise ismin yerine geçer (“Das ist meins” = Bu benimki). İyelik zamirleri konusuna buradan ulaşabilirsiniz.
+
+mein (benim) – ich (ben)
+dein (senin) – du (sen)
+sein (onun, eril) – er (o, eril)
+ihr (onun, dişil) – sie (o, dişil)
+sein (onun, nötr) – es (o, nötr)
+unser (bizim) – wir (biz)
+euer (sizin, informal çoğul) – ihr (siz, informal çoğul)
+ihr (onların) – sie (onlar)
+Ihr (sizin, formal) – Sie (siz, formal)
+Şimdi iyelik sıfatlarını örneklerle anlatalım:
+
+Almanca İyelik Sıfatları veya Aitlik Artikelleri (Possessivartikel: mein, dein, unser…) Örnek Cümleler
+Hier bin ich und das ist mein Kind. (das) – Bu ben ve bu benim çocuğum. Açıklama: Ich (ben) kişi zamiri, “mein” veya “meine” iyelik sıfatlarından birini alır. Mein/meine benim anlamına gelir. Mein gelmesinin nedeni Kind’in das artikelini almasından kaynaklanır. Der artikeli olsaydı yine mein olurdu. Mein Kind: benim çocuğum demektir. Eğer Kind kelimesi yerine tekil isim (die artikeli alan) veya çoğul isim (die artikeli alan) bir kelime gelseydi meine iyelik sıfatı gelirdi. Buna örnek olarak die Tochter örneğini aşağıda verdim.
+Das bist du und dein Vater. (der) – Bu sen ve senin baban. Du (sen) kişi zamiri, “dein” veya “deine” iyelik sıfatını alır. Dein/deine iyelik sıfatı “senin” anlamına gelir. Vater kelimesi bir isimdir ve der artikelini alır. Sonuç olarak “dein Vater” kelimeleri yan yana gelince “senin baban” demek oluyor.
+Da ist Thomas und seine Mutter. (die) – Orada Tomas ve onun annesi var. Almanca Thomas erkek ismidir ve Thomas için “er” şahıs (kişi) zamiri kullanılır. Er (o) kişisi, sein veya seine iyelik sıfatlarından birini alır. Mutter kelimesi bir isimdir ve die artikelini alır. Bu nedenle seine Mutter oldu. seine Mutter: Onun annesi.
+Almanca Possessivartikel konusunu açıklamalı örneklerden artık anlamışsınızdır. Burada önemli olan: İsimlerin Almanca artikellerini iyi öğrenmeniz gerektiği.
+
+Örneklere açıklamasız devam edelim;
+
+Hier ist Judy und ihre Tochter. (die) – Bu Judy ve onun kızı.
+Das sind wir und unsere Kinder. (die) – Bunlar biziz ve bizim çocuklarımız.
+Und das seid ihr und eure Eltern. (die) Bunlar sizsiniz ve sizin anne babanız.
+Hier stehen Aiping und Mark und ihre zwei Katzen. (die) – Onların iki kedisi ayakta duruyor.
+Guten Tag, Herr Schmidt, kommt Ihre Frau heute auch? (die). Merhaba (İyi günler) Sayın Schmidt eşiniz de bugün geliyor mu?
+der Vater (baba):
+
+Mein Vater ist Lehrer. Benim babam öğretmendir. Koyu yazılan ifadeler bir şeyin kime ait olduğunu gösterir. Kimin babası? Benim babam.
+Dein Vater ist Lehrer. Senin baban öğretmendir.
+Sein  Vater ist Lehrer. Onun (eril) babası öğretmendir.
+Ihr Vater ist Lehrer. Onun (dişil) babası öğretmendir.
+die Lehrerin (öğretmen):
+
+Meine Lehrerin kommt aus Polen. Benim öğretmenim Polonya’dan.
+Deine Lehrerin kommt aus Polen. Senin öğretmenin Polonya’dan.
+Seine Lehrerin kommt aus Polen. Onun (eril) öğretmeni Polonya’dan.
+Ihre Lehrerin kommt aus Polen. Onun (dişil) öğretmeni Polonya’dan.
+
+Almanca İyelik Sıfatları (Possessivartikel) Nedir?
+Almancada İyelik Sıfatları, Sahiplik Sıfatları, Aitlik Artikelleri veya Possessivartikel aynı anlama gelir.
+Amaç: “Bir şeyin birisine ait olduğunu ifade etmek“tir.
+İyelik sıfatları kendilerinden sonra mutlaka nesne alır.
+📌 İyelik zamirleri almaz. Zaten zamir olduğu için halihazırda o şeyin yerine geçer.
+Possessivartikel isminden de anlaşılacağı üzere bir artikeldir. Örneğin: mein Vater. (Bu Türkçede kelimenin önüne ve arkasına ekler getirilerek yapılmakta: benim babam)
+Bu konu, zamirler ve artikeller ile bağlantılı bir konudur. Aşağıdaki görselde yer alan ekler bunlara göre değişir.
+Almanca İyelik (Sahiplik) Sıfatları veya Possessivartikel (Aitlik Artikelleri): "mein", "dein", "sein", "ihr", "unser", "euer", "ihr", "Ihr" gibi şeyler bir şeyin veya birinin kime ait olduğunu belirtmek için kullanılır. Bunlar Türkçede “benim“, “senin“, “onun” gibi anlamlara gelir.
+Tekil Zamirler için İyelik Sıfatları
+Tekil Şahıs Zamirleri	Eril Sahiplik
+(der veya das)	Dişil Sahiplik
+(die)	Türkçesi
+ich	mein	meine	benim
+du	dein	deine	senin
+er	sein	seine	onun (eril)
+sie	ihr	ihre	onun (dişil)
+es	sein	seine	onun (cinsiyetsiz)
+Çoğul Zamirler için İyelik Sıfatları
+Çoğul Şahıs Zamirleri	Eril Sahiplik
+(der veya das)	Dişil Sahiplik
+(die)	Türkçesi
+wir	unser	unsere	bizim
+ihr	euer	euere	sizin, en aşağı iki kişinin, 3, 4… kişi için de kullanılır*
+sie	ihr	ihre	onların
+Sie	Ihr	Ihre	sizin/sizlerin, saygı belirten bir form**
+
+----------------------------------------------------------------------------------------------------------------
+
+-Almanca Sıfatların Derecelendirilmesi ve Karşılaştırma (Grundform, Komparativ, Superlativ)
+Almancada sıfatların derecelendirilmesi (Steigerung von Adjektiven), bir varlığın hangi özelliğe ne ölçüde sahip olduğunu göstermek için kullanılır. Örneğin, iki masa arasında boyut karşılaştırması yapmak istediğimizde, birinin diğerinden daha büyük olduğunu belirtmek için “daha büyük” gibi ifadeler kullanırız. Almancada da benzer bir karşılaştırma yapabiliriz ve bu karşılaştırma üç dereceye ayrılır:
+
+Grundform: Sıfatın temel hali
+Komperativ (-er): Karşılaştırma derecesi. Örneğin,
+“daha büyük”
+“daha küçük”
+Superlativ (-(e)st): En üstünlük derecesi. Örneğin,
+“en büyük”
+“en küçük”
+
+Almancada Sıfatların Yalın Hali (Grundform)
+klein	küçük	Mein Auto ist klein. – Arabam küçük.
+schön	güzel	Ahmets Haus ist schön. – Ahmet’in evi güzel.
+lang	uzun	Der Film ist lang. – Film uzun.
+jung	genç	Der Hund ist jung. – Köpek genç.
+groß	büyük	Das Gebäude ist groß. – Bina büyük.
+alt	yaşlı	Die Frau ist alt. – Kadın yaşlı.
+dick	kalın	Der Teppich ist dick. – Halı kalın.
+klug	akıllı	Die Schülerin ist klug. – Öğrenci akıllı.
+dünn	ince	Das Papier ist dünn. – Kağıt ince.
+stark	güçlü	Ahmet ist stark. – Ahmet güçlü.
+Almancada Karşılaştırma Derecesi (Komperativ)
+schneller	daha hızlı	Der Zug ist schnell, aber das Flugzeug ist schneller. – Tren hızlı ama uçak daha hızlı.
+älter	daha yaşlı	Meine Schwester ist alt, aber meine Großmutter ist älter. – Kız kardeşim yaşlı ama büyükannem daha yaşlı.
+teurer	daha pahalı	Das Hemd ist teuer, aber der Anzug ist teurer. – Gömlek pahalı ama takım elbise daha pahalı.
+lauter	daha gürültülü	Die Stadt ist laut, aber die Großstadt ist lauter. – Şehir gürültülü ama büyük şehir daha gürültülü.
+schöner	daha güzel	Das Bild ist schön, aber das Gemälde ist schöner. – Resim güzel ama tablo daha güzel.
+intelligenter	daha zeki	Der Junge ist intelligent, aber das Mädchen ist intelligenter. – Çocuk zeki ama kız daha zeki.
+schneller	daha hızlı	Das Fahrrad ist schnell, aber das Auto ist schneller. – Bisiklet hızlı ama araba daha hızlı.
+länger	daha uzun	Der Fluss ist lang, aber der Nil ist länger. – Nehir uzun ama Nil daha uzun.
+leckerer	daha lezzetli	Der Kuchen ist lecker, aber das Eis ist leckerer. – Pasta lezzetli ama dondurma daha lezzetli.
+interessanter	daha ilginç	Das Buch ist interessant, aber der Film ist interessanter. – Kitap ilginç ama film daha ilginç.
+
+-----------------------------------------------------------------------------------------------------
+
+-Zarf
+
+Adverb (Zarf) Nedir?
+Tanım ve İşlev
+Almancada adverbien’ler “Umstandswörter” (durum kelimeleri) olarak da adlandırılır. Peki ne işlevleri var?
+
+Fiilleri nitelerler: “Er läuft schnell.” (O hızlı koşuyor.)
+Sıfatları nitelerler: “Das Buch ist sehr interessant.” (Kitap çok ilginç.)
+Diğer zarfları nitelerler: “Sie singt ziemlich gut.” (O oldukça iyi şarkı söylüyor.)
+Altın Kural: Değişmezlik (Unflektierbarkeit)
+Adverbien’lerin en önemli özelliği: Asla değişmezler!
+
+✅ Doğru:
+
+Heute ist Mia müde. (Bugün Mia yorgun.)
+Heute sind alle Schüler müde. (Bugün bütün öğrenciler yorgun.)
+Adverb mi, Sıfat mı? Ayırt Etme Yöntemi
+Bu karışıklığı çözmek için Umstellprobe (yerleştirme testi) kullanırız:
+
+Örnek: “schnell” kelimesi
+
+🔸 Adjektiv (Sıfat) olarak: “Das schnelle Auto.” (Hızlı araba.) İsmi niteler ve çekimlenir
+
+🔸 Adverb (Zarf) olarak: “Das Auto fährt schnell.” (Araba hızlı gidiyor.) Fiili niteler ve değişmez
+
+Test: Kelimeyi bir ismin önüne koyup çekimlemeye çalışın. Çekimleniyorsa sıfat, çekimlenemiyorsa adverb! Detaylı konu anlatımı için bakınız: Almanca Adjektiv ve Adverb Farkı
+
+Adverbien Türleri: Sistematik Sınıflandırma
+1. 📍 Lokaladverbien (Yer Zarfları)
+Bu zarflar üç temel soruya cevap verir:
+
+Wo? (Nerede?)	Wohin? (Nereye?)	Woher? (Nereden?)
+hier (burada)	hierhin (buraya)	von hier (buradan)
+dort (orada)	dorthin (oraya)	von dort (oradan)
+oben (yukarıda)	nach oben, hinauf (yukarıya)	von oben (yukarıdan)
+unten (aşağıda)	nach unten, hinunter (aşağıya)	von unten (aşağıdan)
+drinnen (içeride)	nach drinnen, hinein (içeriye)	von drinnen (içeriden)
+draußen (dışarıda)	nach draußen, hinaus (dışarıya)	von draußen (dışarıdan)
+Örnekler:
+
+Wir treffen uns hier. (Burada buluşuyoruz.)
+Gehen Sie bitte dorthin. (Lütfen oraya gidin.)
+Er kommt von oben. (O yukarıdan geliyor.)
+Özel Durum: “hin” ve “her” Zarfları
+Bu zarflar konuşmacının konumuna göre hareketin yönünü belirtir:
+
+“hin” = konuşmacıdan uzaklaşma
+“her” = konuşmacıya yaklaşma
+Örnekler:
+
+“Komm her!” (Buraya gel!) – bana doğru
+“Geh hin!” (Oraya git!) – benden uzağa
+2. ⏰ Temporaladverbien (Zaman Zarfları)
+Zaman zarfları “Wann?” (Ne zaman?) sorusuna cevap verir:
+
+Belirli Zaman Zarfları:
+heute (bugün)
+gestern (dün)
+morgen (yarın)
+jetzt (şimdi)
+dann (o zaman)
+bald (yakında)
+früher (eskiden)
+später (sonra)
+Sıklık Zarfları:
+immer (her zaman)
+oft (sık sık)
+manchmal (bazen)
+selten (nadiren)
+nie (asla)
+Daha fazla sıklık zarfını merak ettiyseniz Almanca Sıklık Zarfları (Die Häufigkeitsadverbien) konusuna göz atabilirsiniz.
+
+Örnekler:
+
+Heute gehen wir ins Kino. (Bugün sinemaya gidiyoruz.)
+Sie kommt immer zu spät. (O her zaman geç gelir.)
+Früher war alles anders. (Eskiden her şey farklıydı.)
+3. Modaladverbien (Durum/Tarz Zarfları)
+Bu zarflar “Wie?” (Nasıl?) sorusuna cevap verir: (N demek istediğimi TeKaMoLo‘da bulabilirsiniz)
+
+Temel Durum Zarfları:
+gut (iyi)
+schlecht (kötü)
+schnell (hızlı)
+langsam (yavaş)
+laut (yüksek sesle)
+leise (sessizce)
+gern (memnuniyetle)
+ungern (isteksizce)
+Derece Zarfları:
+sehr (çok)
+ziemlich (oldukça)
+etwas (biraz)
+völlig (tamamen)
+fast (neredeyse)
+Örnekler:
+
+Er spricht sehr gut Deutsch. (O çok iyi Almanca konuşuyor.)
+Sie arbeitet gern im Team. (O takımda çalışmaktan hoşlanır.)
+Das Auto fährt ziemlich schnell. (Araba oldukça hızlı gidiyor.)
+4. Kausaladverbien (Sebep Zarfları)
+Bu zarflar “Warum?” (Neden?) sorusuna cevap verir:
+
+deshalb (bu yüzden)
+deswegen (bu nedenle)
+darum (bu sebeple)
+trotzdem (yine de)
+dennoch (buna rağmen)
+Örnekler:
+
+Es regnet, deshalb bleiben wir zu Hause. (Yağmur yağıyor, bu yüzden evde kalıyoruz.)
+Er ist krank, trotzdem geht er arbeiten. (O hasta, yine de işe gidiyor.)
+İlginizi çekebilecek konu: A’dan Z’ye Almanca Bağlaçlar (Konjunktion) & Ör. Cümleler
+
+TeKaMoLo Kuralı: Adverbien’lerin Cümledeki Sırası
+Almancada birden fazla adverb kullandığımızda, belirli bir sıra izleriz:
+
+Te-Ka-Mo-Lo:
+
+Temporal (Zaman)
+Kausal (Sebep)
+Modal (Tarz)
+Lokal (Yer)
+Örnek:
+Er arbeitet heute deshalb fleißig zu Hause.
+(O bugün bu yüzden çalışkan bir şekilde evde çalışıyor.)
+
+heute = Temporal
+deshalb = Kausal
+fleißig = Modal
+zu Hause = Lokal
+Adverbien’lerin Derecelendirilmesi
+Çoğu adverb değişmez, ancak bazıları derecelendirilebilir:
+
+Derecelendirilebilen Adverbien:
+Grundform	Komparativ	Superlativ
+gern (memnuniyetle)	lieber (daha çok)	am liebsten (en çok)
+bald (yakında)	eher (daha erken)	am ehesten (en erken)
+oft (sık sık)	öfter (daha sık)	am öftesten (en sık)
+sehr (çok)	mehr (daha çok)	am meisten (en çok)
+Örnekler:
+
+Ich esse gern Pizza. (Pizza yemeyi severim.)
+Ich esse lieber Pasta. (Makarna yemeyi daha çok severim.)
+Am liebsten esse ich Sushi. (En çok suşi yemeyi severim.)
+
+------------------------------------------------------------------------------------------------------------
+
+-Edat
+Almanca öğrenirken karşınıza çıkan ve “Bu kelimeden sonra neden dem geldi de, şundan sonra den geldi?” gibi sorulara cevap bulacağınız Almanca edatlar (Präpositionen) konusuna hoş geldiniz. Almanca edatlar (Präpositionen), isimlerin önüne gelerek yer, zaman, yön veya neden bildiren ve ismin hâlini (Akkusativ, Dativ, Genitiv) değiştiren kelimelerdir. In, auf, zu, für gibi edatlar, cümlede kelimeler arası ilişki kurar ve genellikle “-de, -e, -den” ekleri işlevi görür.
+
+Yani bir edat kullandığımızda, o edatın kuralına göre ismin Nominativ artikelini (der, die, das) değiştirmemiz gerekir. Bazı edatlar ismin -i halini (Akkusativ) ister, bazıları -e halini (Dativ) ister, bazıları ise duruma göre ikisini de ister. Bu konuda, bu mantığı ezberden ziyade anlayarak birlikte çözeceğiz.
+
+Özet Tablo: İsmin Halleri ve Artikel Değişimi
+Kasus	Maskulin (der)	Neutral (das)	Feminin (die)	Plural (die)
+Nominativ	der	das	die	die
+Akkusativ	den	das	die	die
+Dativ	dem	dem	der	den …n
+Adım Adım Edat Mantığı: Dedektif Gibi Çözelim🕵️‍♂️
+Bakın, burada kilit nokta şu: Her edat, kendisinden sonra gelen ismin halini (Kasus) belirler. Yani Almanca bir edatı gördüğünüzde, ondan sonraki kelimenin artikelinin (der, die, das) belirli bir kurala göre değişeceğini bileceksiniz.
+
+Örneğin; eğer kelimemiz der artikeline sahip bir isimse ve Dativ alan bir edat ile kullanılırsa, o zaman der artikeli, Dativ kuralına göre dem‘e dönüşür. (Bunların hepsini aşağıda ayrıntılı olarak anlattım, sabırla ilerleyelim)
+
+Gelin, bu kuralın nasıl işlediğini yukarıdaki kapak görselindeki ve hemen aşağıdaki tabloları kullanarak adım adım çözelim.
+
+Örnek Senaryo:
+Ich spreche mit dem Freund. (Arkadaş ile konuşuyorum) cümlesini inceleyelim.
+
+Adım 1️⃣: Edatı ve Kuralını Belirleyelim:
+Cümlemizde mit (ile) edatını kullanmak istediğimizi varsayalım. Aşağıdaki edatlar listemize baktığımızda, mit edatının her zaman Dativ istediğini görüyoruz.
+
+Adım 2️⃣: İsmin Cinsiyetini (Artikelini) Bulalım:
+Kullanmak istediğimiz kelimemiz bir isim “arkadaş” olsun. Almancası: der Freund. Artikeli der, yani eril (maskulin) bir isim. Bkz. Almanca-Türkçe Sözlük
+
+Adım 3️⃣: Tabloda Doğru Yeri Bulalım
+Şimdi tabloya bir dedektif gibi bakalım:
+👉 Sütun: Cinsiyetimiz eril (der) olduğu için yukarıdan aşağıya “Maskulin” sütununa bakın.
+👇 Satır: Edatımız (mit) Dativ istediği için “Dativ” satırına iniyoruz.
+🎯 Kesişim: Bu iki noktanın kesiştiği kutucukta ne yazıyor? dem.
+
+Adım 4️⃣: Cümleyi Kuralım
+Artık yapbozun tüm parçaları elimizde:
+Ich spreche mit … der Freund ➡ Kural gereği der, dem‘e dönüşür.
+✅ Doğru cümle: Ich spreche mit dem Freund.
+
+İşte bu kadar! Edat (mit), ismin artikelini (der) kendi kuralına göre (Dativ) değiştirmesi için bir komut verdi ve artikel dem’e dönüştü.
+
+----------------------------------------------------------------------------------------------------------------------
+
+-Zamanlar Almanca (Zeitformen Deutsch):
+Şimdiki Zaman (Präsens): Örneğin, “Du liest ein Buch.”
+Geçmiş Zaman (Präteritum & Perfekt): Örneğin, “Wir haben das Buch gelesen.”
+
+-Präsens
+Bu bölümde, Almancada şimdiki zaman (Präsens) konusunun anlatımını ve örnek cümle yapılarını bulacaksınız. Almanca Präsens, Türkçe’deki hem şimdiki zaman (-iyor) hem de geniş zaman (-ır/-ir) anlamlarına karşılık gelir. Hatta zaman zarflarıyla birlikte kullanıldığında gelecek zaman anlamı da taşıyabilir. Bu nedenle günlük konuşmalarda ve yazışmalarda en çok kullanılan zamanlardan biridir.
+
+Örnek olarak “lernen” (öğrenmek) fiil çekimleri üzerinde inceleme yapalım:
+
+ich lerne (ben öğrenirim/ben öğreniyorum)
+du lernst (sen öğrenirsin/sen öğreniyorsun)
+er/sie/es lernt (o öğrenir/o öğreniyor)
+wir lernen (biz öğreniriz/biz öğreniyoruz)
+ihr lernt (siz öğrenirsiniz/siz öğreniyorsunuz)
+sie lernen (onlar öğrenirler/öğreniyorlar)
+Sie lernen (Siz öğrenirsiniz/öğreniyorsunuz)
+Not: “Neden iki Türkçe anlam var?” diye soranlar için tekrar açıklama: “Präsens” Almanca’da bir zaman türüdür ve üç anlama gelir:
+
+Geniş Zaman (-ır, -ir)
+Şimdiki Zaman (-yor)
+Gelecek Zaman (-cek, -cak) Örneğin “morgen” (yarın) gibi kelimeleri cümle içinde söylemek istersek gelecek zaman yapmış oluruz.)
+Präsens zamanının düzenli ve düzensiz fiil çekimleri vardır.
+
+Düzenli halleri aşağıda verdiğim ekleri alırlar.
+Düzensizler ise ezberlenmelidir. İşte ezberlenecek Düzensiz Fiiller (unregelmäßige Verben) listesi.
+
+Almanca “Präsens” Ne Zaman Kullanılır
+➡️ Gegenwärtige Ereignisse (Şu Anda Gerçekleşen Olaylar): Şu anda gerçekleşmekte olan bir eylemi ifade eder ve günlük yaşamın sıradan bir anısını yansıtır.
+Ich höre gerade Musik. (Şu anda müzik dinliyorum./dinlerim)
+Mein Freund liest ein Buch. (Arkadaşım kitap okuyor./okur)
+Die Katze schläft gerade. (Kedi şu anda uyuyor./uyur)
+➡️ Zustände und Fakten (Durumlar ve Gerçekler): Değişmez bir gerçeği ifade eder ve evrensel doğruları ve sabit bilgileri aktarmak için kullanıldığını belirtir.
+Istanbul ist eine Stadt in der Türkei. (İstanbul Türkiye’nin bir şehridir.)
+Die Erde dreht sich um die Sonne. (Dünya güneş etrafında döner.)
+Wasser gefriert bei 0 Grad Celsius. (Su, 0 derecede donar.)
+➡️ Zukünftige Ereignisse (Gelecekteki Olaylar): Yakın gelecekte gerçekleşecek bir planı anlatır. [Bkz: Gelecek Zaman (Futur 1)]
+Ich gehe morgen ins Kino. (Yarın sinemaya gidiyorum./gideceğim)
+Wir machen zum Abendessen Pizza. (Akşam yemeği için pizza yapacağız.)
+Nächsten Montag starte ich meinen neuen Job. (Gelecek pazartesi yeni işime başlıyorum./başlayacağım.)
+➡️ Langanhaltende Ereignisse (Uzun Süreli Olaylar): Uzun süredir devam eden bir durumu vurgular ve uzun süreli bağları ve durumları ifade etmede nasıl kullanılabileceğini gösterir.
+Ich lerne seit zehn Jahren Deutsch. (On yıldır Almanca öğreniyorum.)
+Ich wohne seit fünf Jahren hier. (Beş yıldır burada yaşıyorum.)
+Ich schwimme seit meiner Kindheit. (Çocukluğumdan beri yüzüyorum.)
+➡️ Sich Wiederholende Handlungen (Tekrar Eden Eylemler): bir rutini veya düzenli olarak yapılan bir eylemi anlatır
+Ich stehe jeden Morgen früh auf. (Her sabah erken kalkarım.)
+Ich mache dreimal pro Woche Sport. (Haftada üç kez spor yapıyorum.)
+Ich sehe abends fern. (Akşamları televizyon izlerim.)
+Präsens Zaman’da Düzenli Fiil Çekimleri ve Ekleri
+Präsens zamanında cümle kurmak için belirli eklere ihtiyacımız var. Ayrıca özneler/zamirler kavramlarını bilmek gerek. ➡️ Präsens’te düzenli fiillerin alacağı ekler şunlar: –e, –st, –t, –en, –t, –en. Bu ekleri kullanarak yapacağımız çekimler şöyle olmalı:
+
+ich (1. Person Singular)	lern-e	Ich lerne Deutsch.
+(Ben Almanca öğrenirim.
+= Ben Almanca öğreniyorum.)
+du (2. Person Singular)	lern-st	Du lernst Mathematik.
+(Sen matematik öğrenirsin.
+= Sen matematik öğreniyorsun.)
+er/sie/es (3. Person Singular)	lern-t	Er lernt Englisch.
+(O, İngilizce öğrenir.
+= O, İngilizce öğreniyor.)
+wir (1. Person Plural)	lern-en	Wir lernen im Garten.
+(Biz bahçede öğreniriz.
+= Biz bahçede öğreniyoruz.)
+ihr (2. Person Plural)	lern-t	Ihr lernt Geschichte.
+(Siz tarih öğrenirsiniz.
+= Siz tarih öğreniyorsunuz.)
+sie (3. Person Plural)	lern-en	Sie lernen Biologie.
+(Onlar biyoloji öğrenirler.
+= Onlar biyoloji öğreniyorlar.)
+İlginizi çekebilir: Kişi Zamirleri (Personalpronomen) (ich, du, er, sie…)
+
+Präsens Normal Cümle Kurulumu:
+➡️ Präsens Normal Cümleler:
+Merve spricht mit dem Lehrer in der Schule. (Merve okulda öğretmenle konuşuyor.)
+Die Kinder spielen im Park Fußball. (Çocuklar parkta futbol oynuyorlar.)
+Wir essen jeden Tag zum Abendessen Salat. (Biz her gün akşam yemeğinde salata yiyoruz.)
+➡️ Präsens Soru Cümleleri:
+Spricht Merve mit dem Lehrer in der Schule? (Merve okulda öğretmenle konuşuyor mu?)
+Spielen die Kinder im Park Fußball? (Çocuklar parkta futbol oynuyorlar mı?)
+Esst ihr jeden Tag zum Abendessen Salat? (Her gün akşam yemeğinde salata yiyor musunuz?)
+Modalverben Cümle Kurulumu:
+➡️ Modalverben İçeren Präsens Cümleler:
+Du darfst hier nicht rauchen. (Burada sigara içemezsin.)
+Ich kann Deutsch sprechen. (Almanca konuşabilirim.)
+Wir mögen das neue Restaurant. (Yeni restoranı seviyoruz.)
+Sie muss heute länger arbeiten. (O, bugün daha uzun çalışmak zorunda.)
+Du sollst deine Zähne putzen. (Dişlerini fırçalamalısın.)
+Ich will nächste Woche zum Arzt gehen. (Gelecek hafta doktora gitmek istiyorum.)
+Möchtest du etwas trinken? (Bir şey içmek ister misin?)
+➡️ Modalverben İçeren Präsens Soru Cümleleri:
+Darf ich hier parken? (Buraya park edebilir miyim?)
+Kann ich das Buch ausleihen? (Kitabı ödünç alabilir miyim?)
+Magst du lieber Tee oder Kaffee? (Çay mı yoksa kahve mi tercih edersin?)
+Müssen wir jetzt schon gehen? (Şimdi gitmek zorunda mıyız?)
+Sollen wir den Vertrag unterschreiben? (Sözleşmeyi imzalamalı mıyız?)
+Wollen wir heute Abend ins Kino? (Bu akşam sinemaya gitmek ister misin?)
+Möchten Sie einen Tisch reservieren? (Bir masa rezerve etmek ister misiniz?)
+İlginizi çekebilir: Modalverben (Modal Fiiller)
+
+Präsens Zaman’da Düzensiz Fiiller
+Düzensiz fiiller, adından da anlaşılacağı gibi düzensiz çekimlenirler. Yani fiil kökü değişebilir veya fiilin sonuna gelen ekler beklediğimizden farklı olabilir. En iyi bilinen örnek “sein” (olmak) fiilidir.
+
+Düzensiz fiiller “du” (sen) ve “er/sie/es” (o) zamirlerinde farklılık gösterir. Diğer zamirler normal çekimlenmeye devam eder.
+
+Ich bin – Benim demektir ve “Ich bin müde.” (Ben yorgunum.) cümlesinde kullanabiliriz.
+Du bist – Senin demektir ve “Du bist spät.” (Sen geç kaldın.) şeklinde bir cümlede yer alır.
+Er/sie/es ist – O demektir ve “Er ist mein Bruder.” (O benim kardeşim.) cümlesinde kullanılır.
+Wir sind – Bizim anlamına gelir ve “Wir sind Schüler.” (Biz öğrenciyiz.) cümlesinde geçer.
+Ihr seid – Sizin anlamına gelir ve “Ihr seid schnell.” (Siz hızlısınız.) cümlesinde bulunabilir.
+Sie sind – Onların anlamına gelir ve “Sie sind Ärzte.” (Onlar doktorlar.) cümlesinde kullanılabilir.
+Präsens Düzensiz Cümle Kurulumu:
+➡️ Präsens Düzensiz Cümleler:
+Merve sieht im Baum den Vogel. (Merve ağaçtaki kuşu görüyor.)
+Max liest ein interessantes Buch. (Max ilginç bir kitap okuyor.)
+Sophia isst gerade zu Mittag. (Sophia şu anda öğle yemeği yiyor.)
+➡️ Präsens Düzensiz’de Soru Cümleleri:
+Sieht Merve im Baum den Vogel? (Merve ağaçtaki kuşu görüyor mu?)
+Liest Max ein interessantes Buch? (Max ilginç bir kitap okuyor mu?)
+Isst Sophia gerade zu Mittag? (Sophia şu anda öğle yemeği yiyor mu?)
+Modalverben ile Düzensiz Cümle Kurulumu:
+➡️ Modalverben İçeren Präsens Düzensiz Cümleler:
+Du darfst jetzt nicht hinausgehen. (Şimdi dışarı çıkamazsın.)
+Er kann sehr gut Klavier spielen. (O, piyano çalmayı çok iyi yapabilir.)
+Wir müssen früher zum Bahnhof gehen. (Biz daha erken tren istasyonuna gitmek zorundayız.)
+➡️ Modalverben İçeren Düzensiz Fiil Präsens Soru Cümleleri:
+Darf ich das Fenster schließen? (Pencereyi kapatabilir miyim?)
+Kann er uns helfen? (O bize yardım edebilir mi?)
+Müssen wir diese Aufgabe heute beenden? (Bu görevi bugün bitirmek zorunda mıyız?)
+Präsens’ta Özel Durumlar
+1. (s)s, x, z ile Biten Fiiller:
+Er faxt das Dokument. (O, belgeyi fakslıyor.) Fiil kökü “x” ile bittiği için “du” formunda “-st” yerine “-t” kullanılır.
+Du reißt das Papier. (Sen kağıdı yırtıyorsun.) Fiil kökü “ß” ile bittiği için “du” formunda “-st” yerine “-t” kullanılır.
+Sie wächst sehr schnell. (O, çok hızlı büyüyor.) Fiil kökü “s” ile bittiği için “du” formunda “-st” yerine “-t” kullanılır.
+Du setzt dich hin. (Sen oturuyorsun.) Fiil kökü “z” ile bittiği için “du” formunda “-st” yerine “-t” kullanılır.
+2. d veya t ile Biten Fiiller:
+Du arbeitest zu viel. (Çok fazla çalışıyorsun.) Fiil kökü “t” ile bittiği için, “du” formunda ek olarak bir “e” harfi eklenir.
+Du redest zu schnell. (Çok hızlı konuşuyorsun.) Fiil kökü “d” ile bittiği için, “du” formunda ek olarak bir “e” harfi eklenir.
+Du antwortest nicht. (Cevap vermiyorsun.) Fiil kökü “t” ile bittiği için, “du” formunda ek olarak bir “e” harfi eklenir.
+Du badest in der Sonne. (Güneşte banyo yapıyorsun.) Fiil kökü “d” ile bittiği için, “du” formunda ek olarak bir “e” harfi eklenir.
+Gelecek Zaman Kullanımı
+Präsens zamanı gelecek zaman olarak kullanırken, cümlenin gelecekteki bir eylemi veya planı ifade ettiğini belirten “bald” (yakında), “gleich” (hemen), “morgen” (yarın), “übermorgen” (yarından sonra), “in der nächsten Woche” (gelecek hafta), “im nächsten Jahr” (gelecek yıl) gibi zaman zarfları kullanılır.
+
+Ich fahre bald in den Urlaub. (Yakında tatile gidiyorum.)
+Wir essen gleich Abendessen. (Hemen akşam yemeği yiyeceğiz.)
+Sie kommt morgen zu mir. (O, yarın bana geliyor.)
+Ich beginne übermorgen einen neuen Kurs. (Yarından sonra yeni bir kursa başlıyorum.)
+Wir treffen uns in der nächsten Woche. (Gelecek hafta buluşacağız.)
+Ich starte im nächsten Jahr mein Studium. (Gelecek yıl eğitimime başlıyorum.)
+
+-Präteritum & Perfekt
+Präteritum ve Perfekt, Almancada geçmiş zamanı ifade eden iki temel yapıdır. Aralarındaki en temel fark kullanım alanlarıdır: Präteritum genellikle yazılı dilde (roman, gazete, resmi yazı) kullanılırken, Perfekt günlük konuşma dilinde tercih edilir. Anlam olarak her ikisi de Türkçedeki “-di’li geçmiş zaman”ı karşılar. Bu rehberde, pratik örneklerle bu farkı kalıcı olarak öğreneceksiniz.
+
+Präteritum ve Perfekt Nedir? Özet Anlatım
+Almanca geçmiş zamanı ifade etmenin iki temel yolu: Präteritum ve Perfekt. İkisi de Türkçedeki “-di’li geçmiş zaman” anlamına gelir, ama kullanımları ve gramer yapıları farklıdır.
+
+1️⃣Präteritum (Imperfekt): Yazılı Geçmiş Zaman
+Präteritum (eski kullanımda Imperfekt olarak adlandırılır), genellikle yazılı dilde, resmi metinlerde, edebi eserlerde ve hikaye anlatımında kullanılır. Daha resmi bir geçmiş zaman yapısıdır. Örnek:
+
+Ich lernte etwas Neues. (Ben yeni bir şey öğrendim.)
+2️⃣ Perfekt: Sözlü Geçmiş Zaman
+Perfekt ise daha çok sözlü dilde, günlük konuşmalarda, sohbetlerde ve gayriresmi durumlarda tercih edilir. Daha günlük ve kullanışlı bir geçmiş zaman formudur. Örnek:
+
+Ich habe etwas Neues gelernt. (Ben yeni bir şey öğrendim.)
+3️⃣Plusquamperfekt: Geçmişin Geçmişi (Bonus)
+Bonus olarak, bir de Plusquamperfekt var. Bu, geçmişte bir olaydan daha önce gerçekleşmiş olayları anlatır. Yani “geçmişin geçmişi“. Örnek:
+
+Nachdem ich das Buch gelesen hatte, ging ich schlafen. (Kitabı okuduktan sonra uyumaya gittim.) – Kitap okuma eylemi, uyumadan daha önce gerçekleşmiş.
+Almanca Zamanlar Perfekt ve Praeteritum (di'li Geçmiş Zaman Tablosu/Görseli)
+Präteritum ve Perfekt Arasındaki Farklar
+Almanca öğretmenleri ve dilbilimciler:
+
+Bunları Biliyor muydunuz? 🏛️
+Julius Caesar’ın meşhur sözü “Veni, vidi, vici” (Geldim, gördüm, yendim) Almancada Präteritum ile söylenir: “Ich kam, ich sah, ich siegte.” Çünkü bu tarihi bir olaydır ve hikaye gibi anlatılır.
+
+“Aralarında neredeyse hiç bir fark yok. Her ikisinin anlamı da aynı.” “Tek bir fark bile yok mu?” derseniz? Var:
+
+Özellik / Zaman Kipi	Präteritum (İmperfekt)	Perfekt	Karşılaştırma
+Kullanım Alanları	Yazılı Dil: Edebi metinler, resmi yazışmalar, gazete haberleri, hikaye anlatımı.
+Sözlü Dil (Daha Az Yaygın): Anlatı, hikaye aktarımı, bazı kalıplaşmış ifadeler, bazı bölgelerde günlük konuşma.	Sözlü Dil (En Yaygın): Günlük konuşmalar, sohbetler, kişisel deneyim aktarımı, yakın geçmiş olayların anlatımı.
+Yazılı Dil (Daha Az Yaygın): Basit anlatılar, gayriresmi metinler.	Fark: Perfekt sözlü dilde baskınken, Präteritum yazılı dilde daha geleneksel ve yaygındır. Ancak bu kesin bir kural değildir; her ikisi de farklı bağlamlarda iç içe kullanılabilir.
+Nüanslar / Anlamlar	Hikaye Anlatımı, Betimleme: Geçmişteki olayları sıralı bir şekilde, bir hikaye akışı içinde anlatmak için idealdir.
+Geçmişteki Durumlar: Geçmişteki durumları, varoluş hallerini (örn. hava nasıldı, neredeydin) ifade etmek için doğal bir seçimdir.
+Resmiyet ve Mesafe: Daha resmi, mesafeli ve edebi bir ton yaratır.	Tamamlanmış Eylem, Sonuç Vurgusu: Geçmişte tamamlanmış bir eylemi ve onun günümüzle bağlantısını veya sonucunu vurgulamak için kullanılır.
+Güncellik ve Yakınlık: Daha güncel, yakın ve konuşma diline uygun bir etki yaratır.
+Duygu ve Kişisel Deneyim: Kişisel deneyimleri, duygusal anlatımları ifade etmek için daha uygundur.	Benzerlik: İkisi de temelde “-di’li geçmiş zaman” anlamı taşır.
+Fark: Präteritum daha çok anlatı ve betimleme odaklıyken, Perfekt tamamlanmış eylem ve güncel bağlantı vurgusuna sahiptir. Präteritum daha resmi, Perfekt daha günlük bir ton taşır.
+Türkçe Karşılıkları	Çok Yönlü: Tek bir doğru karşılık yoktur. Bağlama göre değişir:
+– -di’li geçmiş zaman (belirsiz): Öğrendim, yaptım (basitleştirilmiş başlangıç seviyesi için)
+– -yordu: Öğreniyordum, yapıyordum (süregelen eylem)
+– -ırdı/-irdi: Öğrenirdim, yapardım (alışkanlık bildiren geçmiş)
+– -dı/-di: Öğrendi, yaptı (kesin, tamamlanmış eylem)
+– -ydı/-ydi: Yorgundum, hastaydı (durum bildirme)	Çok Yönlü: Bağlama göre değişir, genellikle:
+– -di’li geçmiş zaman (belirsiz): Öğrendim, yaptım (en yaygın, günlük kullanım)
+– -miş/-miş: Öğrenmişim, yapmışım (dolaylı geçmiş, tahmin)
+– -mıştır/-miştir: Öğrenmiştir, yapmıştır (tahmin, kesinlik)
+Önemli: Perfekt de bağlama göre farklı Türkçe zaman kipleriyle çevrilebilir.	Benzerlik: İkisi de Türkçe “-di’li geçmiş zaman” olarak çevrilebilir.
+Fark: Präteritum’un Türkçe karşılıkları daha geniş bir yelpazede olabilirken, Perfekt genellikle “-di’li geçmiş zaman” ve “-miş’li geçmiş zaman” etrafında yoğunlaşır. Bağlam her ikisi için de çeviride belirleyici faktördür.
+Präteritum için Türkçe Karşılık Örnekleri:
+
+1. “-yordu” (Süreklilik Eki): Geçmişte bir süre devam eden eylemleri ifade ederken kullanılır.
+Türkçe Örnek: “Dün bütün gün ders çalışıyordum.” (Eylem süreklilik gösteriyor)
+Almanca Örnek (Präteritum): “Ich lernte gestern den ganzen Tag.” (lernte – Präteritum, süregelen eylem)
+2. “-ırdı/-irdi” (Alışkanlık Eki): Geçmişteki alışkanlıkları, tekrarlanan eylemleri ifade ederken kullanılır.
+Türkçe Örnek: “Çocukken her sabah süt içerdim.” (Geçmişteki alışkanlık)
+Almanca Örnek (Präteritum): “Als Kind trank ich jeden Morgen Milch.” (trank – Präteritum, alışkanlık)
+3. “-dı/-di (kesin) – Hikaye Anlatımı İçin” (Belirsiz Geçmiş Zaman – Hikaye Tonu): Hikaye anlatımında, geçmişteki olayları sıralarken, genel geçmiş zamanı ifade ederken kullanılır. Bu kullanımda eylemin kesinliği vurgulanır, ancak belirli bir zaman dilimi veya süreklilik belirtilmez.
+Türkçe Örnek: “Bir zamanlar uzak bir ülkede bir prenses yaşardı.” (Hikaye başlangıcı, genel geçmiş zaman)
+Almanca Örnek (Präteritum): “Es war einmal eine Prinzessin, die in einem fernen Land lebte.” (lebte – Präteritum, hikaye anlatımı)
+4. “-dı/-di (kesin) – Tek Eylem İçin” (Kesin Geçmiş Zaman – Tekil Eylem Vurgusu): Geçmişte tek seferlik, kesin olarak tamamlanmış bir eylemi vurgularken kullanılır.
+Türkçe Örnek: “Dün akşam sinemaya gittim.” (Tek seferlik, bitmiş eylem)
+Almanca Örnek (Präteritum): “Gestern ging ich ins Kino.” (ging – Präteritum, tekil eylem)
+5. “-ydı/-ydi” (Durum Bildirme Eki): Geçmişteki bir durumu, hali veya niteliği ifade ederken kullanılır. Eylemden ziyade, varoluş veya nitelik ön plandadır.
+Türkçe Örnek: “Hava dün çok soğuk tu.” (Geçmişteki durum)
+Almanca Örnek (Präteritum “sein”): “Das Wetter war gestern sehr kalt.” (war – Präteritum “sein”, durum bildiriyor)
+Perfekt için Türkçe Karşılık Örnekleri:
+
+1. “-dı/-di (belirsiz) – Günlük Kullanım İçin” (Belirsiz Geçmiş Zaman – Günlük Ton): Günlük konuşmalarda, genel olarak geçmiş bir eylemi ifade ederken en yaygın kullanılan Türkçe karşılıktır. Eylemin ne zaman veya nasıl yapıldığına dair detay belirtilmez, sadece yapıldığı vurgulanır.
+Türkçe Örnek: “Ben ödevimi yaptım.” (Günlük konuşmada genel geçmiş zaman)
+Almanca Örnek (Perfekt): “Ich habe meine Hausaufgaben gemacht.” (habe gemacht – Perfekt, genel geçmiş zaman)
+2. “-miş/-miş” (Dolaylı Geçmiş – Tahmin/Duyum İçin): Geçmişte gerçekleşen bir eylem hakkında tahmin yürütürken, dolaylı bilgi aktarırken veya belirsizlik ifade ederken kullanılır.
+Türkçe Örnek: “O çoktan gitmiş olmalı.” (Tahmin, belirsizlik)
+Almanca Örnek (Perfekt – Nadiren): “Er ist wahrscheinlich schon gegangen.” (ist gegangen – Perfekt, bağlama göre “-miş” anlamı taşıyabilir)
+3. “-mıştır/-miştir” (Tahmin/Kesinlik Vurgusu İçin): Geçmişte gerçekleşen bir eylem hakkında güçlü bir tahmin yürütürken veya kesinlik vurgusu yapmak isterken kullanılır.
+Türkçe Örnek: “O kesinlikle yemeğini yemiştir.” (Güçlü tahmin, kesinlik)
+Almanca Örnek (Perfekt – Nadiren): “Er hat bestimmt schon gegessen.” (hat gegessen – Perfekt, bağlama göre “-mıştır” anlamı taşıyabilir)
+Önemli Not: Türkçe ve Almanca iki farklı dildir. Bu nedenle Türkçe ekler ve Almanca zaman kipleri arasında birebir, her zaman geçerli bir eşleşme olmayabilir. Genel itibariyle her ikisini de “dır/dir” olarak çevirebiliriz.
+
+--------------------------------------------------------------------------------------------------------------------------
+
+-Almanca Cümle Kurma (TeKaMoLo)
+Almanca öğrenmeye yeni mi başladınız? Cümle kurmak gözünüzü mü korkutuyor? Merak etmeyin, yalnız değilsiniz!
+
+Almanca cümle kurmak aslında çok kolay! İşte size sihirli anahtar: TeKaMoLo Kuralı!
+
+TeKaMoLo Nedir?
+Almanca TeKaMoLo ile Cümle Kurmak
+TeKaMoLo, Almanca cümlelerde kelimelerin belirli bir sıraya göre dizilmesini hatırlamak için kullanılan akılda kalıcı bir kısaltmadır. Özellikle zaman, sebep, tarz ve yer bildiren ifadelerin (belirteçlerin) cümlede doğru pozisyonda yer almasına yardımcı olur. TeKaMoLo, bu dört önemli öğenin baş harflerinden oluşur: Temporal, Kausal, Modal, Lokal.
+
+Subject (özne) + Verb (fiil) + Temporal (zaman) + Kausal (sebep) + Modal(tarz) + Lokal (konum)
+
+Ich gehe heute wegen der Arbeit mit dem Auto in die Schule.
+
+Özetle TeKaMoLo Harfleri Ne Anlama Gelir?
+
+Te → Temporal (Zaman): Cümlede eylemin ne zaman gerçekleştiğini gösterir.
+heute (bugün), morgen (yarın), gestern (dün), jetzt (şimdi), immer (her zaman), nie (hiçbir zaman), nächste Woche (gelecek hafta)
+Soru: Wann? (Ne zaman?)
+Ka → Kausal (Sebep): Cümlede eylemin neden yapıldığını açıklar.
+weil (çünkü), deshalb (bu yüzden), wegen (yüzünden), da (çünkü), aufgrund (nedeniyle)
+Soru: Warum? (Neden?)
+Mo → Modal (Tarz): Cümlede eylemin nasıl yapıldığını veya gerçekleşme şeklini belirtir.
+schnell (hızlı), langsam (yavaş), gern (severek), gut (iyi), schlecht (kötü), vorsichtig (dikkatli), mit dem Bus (otobüsle), zu Fuß (yürüyerek)
+Soru: Wie? (Nasıl?)
+Lo → Lokal (Yer): Cümlede eylemin nerede, nereye veya nereden yapıldığını gösterir.
+zu Hause (evde), in der Schule (okulda), im Park (parkta), nach Berlin (Berlin’e), aus der Türkei (Türkiye’den), hier (burada), dort (orada)
+Sorular: Wo? (Nerede?), Wohin? (Nereye?), Woher? (Nereden?)
+📌 Normal bir cümlede TeKaMoLo öğeleri özne ve fiilden sonra gelir.
+
+TeKaMoLo ile Cümle Kurma Örnekleri
+Almanca TeKaMoLo İle Cümle Kurulumu
+Örnek 1: Ich gehe zur Schule.
+Okul bir lokal/ort (yer/konum) ifadesidir. “Wo”, “Wohin“, “Woher” (nerede, nereye, nereden) sorularıyla buluruz. (Okula gidiyorum.)
+
+Örnek 2: Ich gehe morgen zur Schule.
+Morgen ifadesi yarın demektir. Bu bir zamanı belirttiği için “Wann” (ne zaman) sorusu ile buluyoruz. (Okula yarın gideceğim.)
+
+Örnek 3: Ich gehe morgen zu Fuß zur Schule.
+“zu Fuß” ifadesi yürüyerek demektir. Eylemin nasıl (Wie) yapıldığını anlatıyor. (Okula yarın yürüyerek gideceğim.)
+
+Örnek 4: Ich gehe morgen wegen des Streiks zu Fuß zur Schule.
+“wegen des Streiks” (grev nedeniyle) anlamına gelir. Eylemin neden yapıldığını açıklar. “Warum” (neden) sorusuyla bulunur. (Okula yarın grev nedeniyle yürüyerek gideceğim.)
+
+Zor Cümleler:
+
+Ich (Özne) fahre (Yüklem) heute (Temporal – Zaman) wegen des Regens (Kausal – Sebep) langsam (Modal – Tarz) nach Hause (Lokal – Yer). (Türkçe anlamı: Ben bugün yağmur yüzünden yavaşça eve gidiyorum.)
+Sie (Özne) lernt (Yüklem) jeden Tag (Temporal – Zaman) für die Prüfung (Kausal – Sebep) fleißig (Modal – Tarz) in der Bibliothek (Lokal – Yer). (Türkçe anlamı: O (kadın) her gün sınav için gayretle kütüphanede çalışıyor.)
+Almanca Cümlede Vurgu Yapısı
+Almanca’da vurgulamak istediğimiz kelimeyi cümlenin başına alarak vurguyu değiştirebiliriz. Bu durumda fiil (yüklem) yine özneden önce gelir, yani ikinci pozisyonda kalır.
+
+1️⃣ Ich fahre morgen mit dem Bus zur Universität.
+Özne‘ye (Subjekt) vurgu yaptık. Çünkü özne başta. Ben yarın otobüsle üniversiteye gidiyorum. (Vurgu “ben” üzerinde)
+
+2️⃣ Morgen fahre ich mit dem Bus zur Universität.
+Zamana (Zeit) vurgu yaptık. Çünkü zaman başta. Yarın ben otobüsle üniversiteye gidiyorum. (Vurgu “yarın” üzerinde)
+
+3️⃣ Zur Universität fahre ich morgen mit dem Bus .
+Yere (Lokal/ort) vurgu yaptık. Çünkü yer başta. Üniversiteye gidiyorum ben yarın. (Vurgu “üniversiteye” üzerinde)
+
+Akkusativ ve Dativ’lerle Cümle Kurma
+Akkusativ ve Dativ ile TeKaMoLo Cümle Kurma
+Cümlelerin Kaynağı: Deutsch1 – Editleme: AlmancaABC
+Akkusativ ve Dativ Önceliği | Hangisi Önce Yazılır?
+Dativ Akkusativ Cümle Kurulumu Öncelik Durumları
+Ich schenke meiner Freundin einen Ring. “Kız arkadaşıma bir yüzük hediye ediyorum.” (Dativ nesne: meiner Freundin, Akkusativ nesne: einen Ring)
+Ich schenke ihr einen Ring. “Ona bir yüzük hediye ediyorum.” (ihr dativ zamiri, einen Ring akkusativ nesne)
+Ich schenke ihn meiner Freundin. “Onu kız arkadaşıma hediye ediyorum.” (ihn akkusativ zamiri, meiner Freundin dativ nesne)
+Ich schenke ihn ihr. (Onu ona hediye ediyorum.) “ihn” (akkusativ zamiri – onu) cümlede “ihr” (dativ zamiri – ona) ifadesinden önce gelir. Bu cümlede yüzük zaten konuşmanın konusu olduğu için doğrudan zamir kullanılarak ifade edilmiştir.
+Almanca Cümle Kurulumunda Zamirler ( Nominativ, Akkusativ, Dativ)
+Almanca Cümle Türleri
+Almanca’da cümleleri temel olarak yapılarına göre farklı türlere ayırabiliriz. En temel cümle türleri olumlu cümleler, olumsuz cümleler ve soru cümleleridir.
+
+Olumlu Cümle Oluşturma (Hauptsatz)
+Er liest ein Buch. (O, bir kitap okuyor.)
+Sie trinkt Kaffee. (O, kahve içiyor.)
+Die Kinder spielen im Garten. (Çocuklar bahçede oynuyorlar.)
+Olumsuz Cümle Yapma
+Almanca’da cümleleri olumsuz yapmak için “nicht” veya “kein/keine” kelimelerini kullanırız.
+
+Wir gehen heute nicht ins Kino. (Biz bugün sinemaya gitmiyoruz.) (nicht fiili olumsuz yapar)
+Sie hat keine Zeit. (O’nun zamanı yok.) (keine ismi olumsuz yapar)
+Ich kann das nicht verstehen. (Bunu anlayamıyorum.) (nicht fiili olumsuz yapar)
+Cümle’deki “kein (der ve das artikeli alan isimler için kullanılır) veya keine (die artikeli alan tekil veya çoğul isimler için kullanılır)” ifadeleri isimleri olumsuz yapar.
+
+Nicht ise fiilleri, sıfatları (Adjektiv) ve zarfları (Adverb) olumsuz yapmak için kullanılır. Fiilden önce veya olumsuz yapılan kelimeden önce gelir. Cümle sonunda da nicht kullanılabilir, bu durumda tüm cümleyi olumsuz yapar.
+
+Soru Cümlesi Kurma
+Wo ist das Badezimmer? (Banyo nerede?) (Soru kelimesiyle başlayan soru)
+Kannst du mir helfen? (Bana yardım edebilir misin?) (Fiille başlayan “Ja/Nein” sorusu)
+Wie spät ist es? (Saat kaç?) (Soru kelimesiyle başlayan soru)
+
+-Almanca Olumsuzlama (Negasyon /Verneinung) Konu Anlatımı
+Almancada olumsuzluk (Negation), Türkçedeki gibi tek bir “değil” veya “-me” ekiyle yapılmaz; Nicht ve Kein olmak üzere iki temel yapı kullanılır. Temel kural şudur: Eğer belirsiz bir ismi (ein Auto) veya artikelsiz bir ismi olumsuz yapıyorsanız Kein; fiilleri, sıfatları veya belirli isimleri (das Auto) olumsuz yapıyorsanız Nicht kullanılır. Özellikle nicht kelimesinin cümledeki yeri, vurgulamak istediğiniz ögeye göre değişir.
+
+Giriş: Almancada “Hayır” Demenin Mantığı
+Almanca öğrenmeye başladığınızda karşınıza çıkan ilk ve en kafa karıştırıcı konulardan biri olumsuzluktur. Türkçede “gelmiyorum”, “görmüyorum”, “yok” veya “değil” diyerek kolayca yaptığımız şeyi, Almancada yapmak için önce şunu sormanız gerekir: Neyi reddediyorum?
+
+Bir eylemi mi? Bir eşyayı mı? Yoksa bir özelliği mi? Bu sorunun cevabı, hangi kelimeyi kullanacağınızı belirler.
+
+Altın Kural: Eğer cümlede “ein” (bir) diyebiliyorsanız veya hiç artikel yoksa →
+KEIN kullanın. Diğer her durumda → NICHT kullanın.
+
+1. Nicht ve Kein: Temel Farklar
+Aşağıdaki özet tablosu, bu iki yapı arasındaki ayrımı net bir şekilde göstermektedir. Gelin, detaylara inmeden önce büyük resme bakalım.
+
+Almanca Nicht ve Kein kullanımını detaylandıran karşılaştırmalı özet tablo.
+1.1. Kein: Sadece İsimler İçin
+Kein kelimesini, “Negativartikel” (Olumsuz Tanımlık) olarak düşünebilirsiniz. Yani bu kelime, teknik olarak “ein” kelimesinin negatif ikizidir. Bu yüzden sadece isimlerle kullanılır.
+
+Belirsiz İsimler: Das ist ein Apfel. → Das ist kein Apfel. (Bu bir elma değil.)
+Artikelsiz İsimler: Ich habe Zeit. → Ich habe keine Zeit. (Vaktim yok.)
+Unutmayın, Kein bir artikel olduğu için ismin hallerine (Kasus) göre çekimlenir. Aşağıdaki tabloda bu değişimleri görebilirsiniz.
+
+Almanca 'kein' negatif artikelinin ismin hallerine göre çekim tablosu (Deklination).
+1.2. Nicht: Fiiller, Sıfatlar ve Diğerleri
+Eğer Kein kullanamıyorsanız, cevap her zaman Nicht‘tir. Bu kelime Almancanın “joker” olumsuzluk ekidir.
+
+Fiiller: Ich schlafe nicht. (Uyumuyorum.)
+Sıfatlar: Das Auto ist nicht schnell. (Araba hızlı değil.)
+Belirli İsimler: Das ist nicht der Lehrer. (Bu o öğretmen değil.)
+Özel İsimler: Das ist nicht Ahmet. (Bu Ahmet değil.)
+Zamirler: Ich rufe dich nicht an. (Seni aramıyorum.)
+2. Sözdizimi: “Nicht” Nereye Gelir?
+Öğrencilerin en çok zorlandığı kısım burasıdır. “Nicht cümlede nereye gelecek?” sorusunun cevabı, neyi vurguladığınıza göre değişir. Ancak genel kurallar şöyledir:
+
+Almanca cümlede 'nicht' kelimesinin nerede duracağını gösteren kural şeması.
+Nicht cümlenin sonunda mı yoksa ortasında mı durur? TeKaMoLo ve tür kuralı.
+Cümlenin En Sonu: Eğer basit bir fiili olumsuz yapıyorsanız veya belirli bir nesne (Akkusativ) varsa, nicht cümlenin sonuna gider.
+Ich arbeite heute nicht. (Bugün çalışmıyorum.)
+Ich kenne den Mann nicht. (Adamı tanımıyorum.)
+Edattan Önce: Eğer cümle “in, an, auf” gibi bir edatla devam ediyorsa.
+Ich wohne nicht in Berlin.
+Sıfattan Önce:
+Du bist nicht lustig.
+Neden böyle? Çünkü Almancada nicht, olumsuzladığı ögenin hemen önüne gelmeyi sever. Ancak fiil (V2 kuralı gereği) ikinci sırada olduğu için, nicht onu “uzaktan” olumsuzlamak zorunda kalır ve sona gider.
+
+Sıkça Yapılan Hatalar
+Yanlış Kullanım ❌	Doğru Kullanım ✅	Neden?
+Ich habe nicht Zeit.	Ich habe keine Zeit.	“Zeit” (Zaman) bir isimdir ve artikelsizdir.
+Das ist nicht ein Buch.	Das ist kein Buch.	“Ein” varsa negatifi “Kein” olur.
+Ich nicht komme.	Ich komme nicht.	Fiil her zaman 2. sırada olmalı!
+3. DOCH! Negatif Soruya Olumlu Cevap Vermek
+Almancada en kritik ve Türkçede karşılığı olmayan kavramlardan biri Doch kelimesidir. “Hayır” veya “Evet” yetmediğinde devreye girer. Negatif bir soruya olumlu cevap vermek istediğinizde Doch kullanmak zorundasınız.
+
+Kural: Negatif soruya “Evet, aksini iddia ediyorum” demek için DOCH! kullanın. “Ja” derseniz, Almanlar bunu “Evet, haklısın, öyle değil” olarak anlayabilir.
+
+Soru Türü	Gerçek Durum	Almanca Cevap	Türkçe Açıklama
+Pozitif: Kommst du? (Geliyor musun?)	Geliyorum (+)	Ja	Evet, geliyorum.
+Pozitif: Kommst du? (Geliyor musun?)	Gelmiyorum (-)	Nein	Hayır, gelmiyorum.
+Negatif: Kommst du nicht? (Gelmiyor musun?)	Geliyorum (+)	DOCH!	Aksine, geliyorum!
+Negatif: Kommst du nicht? (Gelmiyor musun?)	Gelmiyorum (-)	Nein	Hayır, gelmiyorum.
+Doch kullanımı: Negatif soruya olumlu cevap vermenin tek yolu.
+Neden böyle? Türkçede “Gelmiyor musun?” sorusuna “Evet” derseniz anlam belirsizdir (Evet, gelmiyorum mu? Evet, geliyorum mu?). Almanca bu sorunu Doch ile çözer. Doch = “Aksini iddia ediyorum” demektir.
+
+3.1. Doch’un Diğer Anlamları (Modalpartikel)
+Doch cümle içinde kullanıldığında “soru cevabı” değil, “hatırlatma” veya “nazik ısrar” anlamı taşır.
+
+Das weißt du doch! — Bunu zaten biliyorsun ya!
+Komm doch mal vorbei! — Uğrasana bir ara!
+Das ist doch kein Problem. — Bu sorun değil ki.
+4. Negasyon Zamirleri: Niemand, Nichts, Nie, Nirgendwo
+Almancada “kimse”, “hiçbir şey”, “asla”, “hiçbir yer” gibi kavramlar özel N-kelimeleri ile ifade edilir. Bu kelimeler kendi başlarına negatiftir ve yanlarına nicht eklenmez.
+
+Kategori	Pozitif	Negatif	Örnek Cümle
+Kişi	jemand (biri)	niemand (hiç kimse)	Niemand hat mich angerufen. (Kimse beni aramadı.)
+Nesne/Şey	etwas (bir şey)	nichts (hiçbir şey)	Ich habe nichts gehört. (Hiçbir şey duymadım.)
+Zaman (Frekans)	immer (hep) / oft (sık)	nie / niemals (asla)	Er kommt nie pünktlich. (Asla zamanında gelmez.)
+Mekan	überall (her yerde)	nirgendwo (hiçbir yerde)	Mein Schlüssel ist nirgendwo. (Anahtarım hiçbir yerde yok.)
+4.1. Noch nicht / Nicht mehr: Zaman Negasyonu
+İki önemli zaman negasyonu kalıbı vardır. Bunlar birbiriyle karıştırılmamalıdır:
+
+Pozitif	Negatif	Anlam	Örnek
+schon (artık/zaten)	noch nicht (henüz değil)	Bir şey henüz olmadı ama olacak.	Ich bin noch nicht fertig. (Henüz hazır değilim.)
+noch (hala)	nicht mehr (artık değil)	Bir şey eskiden oluyordu ama artık olmuyor.	Ich rauche nicht mehr. (Artık sigara içmiyorum.)
+Neden böyle? Noch nicht geleceğe yönelik bir beklentiyi, nicht mehr ise geçmişe yönelik bir değişimi ifade eder. Örneğin: “Henüz bitirmedim” (ama bitireceğim) vs. “Artık yemiyorum” (eskiden yiyordum).
+
+5. İkili Bağlaçlar: Weder… noch / Nicht nur… sondern auch
+5.1. Weder… noch (Ne… ne de…)
+İki veya daha fazla negatif durumu bağlamak için kullanılır. Bu yapıda nicht veya kein ayrıca eklenmez.
+
+Ich trinke weder Kaffee noch Tee. — Ne kahve ne de çay içerim.
+Weder kann ich singen, noch kann ich tanzen. — Ne şarkı söyleyebilirim ne de dans edebilirim.
+5.2. Nicht nur… sondern auch (Sadece… değil, aynı zamanda…)
+Bu yapı teknik olarak negasyon içerir ama anlam olarak “kapsam genişletme” yapar.
+
+Er spricht nicht nur Deutsch, sondern auch Japanisch. — Sadece Almanca değil, aynı zamanda Japonca da konuşuyor.
+Sie ist nicht nur intelligent, sondern auch fleißig. — Sadece zeki değil, aynı zamanda çalışkan.
+6. Kelime Türetme: un-, miss-, -los, -frei
+Almancada sadece nicht ve kein ile değil, önek ve soneklerle de negasyon yapılabilir. Bu, kelime dağarcığınızı genişletmek için kritik bir tekniktir.
+
+6.1. Negasyon Önekleri
+Önek	Anlam	Örnek	Türkçesi
+un-	Zıt anlam	glücklich → unglücklich	mutlu → mutsuz
+un-	Zıt anlam	möglich → unmöglich	mümkün → imkansız
+miss-	Yanlış/hatalı	verstehen → missverstehen	anlamak → yanlış anlamak
+6.2. Negasyon Sonekleri
+Sonek	Anlam	Örnek	Türkçesi
+-los	-siz/-sız	Arbeit → arbeitslos	iş → işsiz
+-los	-siz/-sız	Hoffnung → hoffnungslos	umut → umutsuz
+-frei	-siz (muaf/arınmış)	Alkohol → alkoholfrei	alkol → alkolsüz
+-frei	-siz (muaf/arınmış)	Fehler → fehlerfrei	hata → hatasız
+Neden böyle? -los genellikle yokluk veya eksiklik belirtirken, -frei daha pozitif bir çağrışım taşır (istenmeyen bir şeyden kurtulmuş olmak). Örneğin: zuckerfrei (şeker içermeyen = sağlıklı) vs. zuckerlos (şekersiz = tadı yok).
+
+
+-W-Fragen (Almanca Soru Cümleleri & Alıştırmaları)
+Almanca W-Fragen soru zamirleri, Almanca dilinde farklı sorular oluşturmak için kullanılan kelimelerdir.
+
+W-Fragen soruları denilmesinin nedeni: Soruların baş harflerinin hepsi “W” (vi) harfi ile başlar. Fragen ise “soru” demektir. Bu nedenle W-Fragen olarak adlandırılır.
+
+Not: Eğer Almancadaki diğer soru tiplerini de merak ediyorsanız,
+
+Ja-Nein Fragen (Evet Hayır Soruları)
+Indirekte Fragen (Dolaylı Soru Sorma)
+Könnten vs. Können Farkları
+Almanca Nasıl Kibar Soru Sorulur
+konularına da göz atabilirsiniz.
+
+Almanca W-Fragen soru kelimelerinin detaylı açıklamalarını içeren özet rehber görseli. W-Fragen'in ne olduğu, temel ve ileri seviye soru kelimeleri, örnek konuşmalar, gramer ipuçları ve pratik önerileri içeren kapsamlı bir eğitim materyali. Her bölüm farklı renk kodlaması ile ayrılmış ve görsel hiyerarşi oluşturulmuş.
+Wer? (Kim?)
+Kişiler hakkında soru sormak için kullanılır.
+
+Wer bist du? (Sen kimsin?)
+Wer hat das gemacht? (Bunu kim yaptı?)
+Wer kommt heute Abend? (Bu akşam kim geliyor?)
+Wer ist dein Lehrer? (Senin öğretmenin kim?)
+Wer hat das Buch gelesen? (Kitabı kim okudu?)
+Wie? (Nasıl?)
+Bir şeyin veya durumun nasıl olduğu hakkında bilgi almak için kullanılır.
+
+Wie geht es dir? (Nasılsın?)
+Wie komme ich zum Bahnhof? (Tren istasyonuna nasıl giderim?)
+Wie alt bist du? (Kaç yaşındasın?)
+Wie macht man das? (Bunu nasıl yaparız?)
+Wie heißt du? (Adın ne?)
+Was? (Ne?)
+Genel olarak bir şey veya durum hakkında bilgi almak için kullanılır.
+
+Was ist das? (Bu ne?)
+Was machst du? (Ne yapıyorsun?)
+Was hat er gesagt? (O ne dedi?)
+Was möchtest du essen? (Ne yemek istersin?)
+Was kostet das? (Bu ne kadar?)
+Wann? (Ne zaman?)
+Zaman veya tarih hakkında bilgi almak için kullanılır.
+
+Wann beginnt der Film? (Film ne zaman başlıyor?)
+Wann hast du Geburtstag? (Doğum günün ne zaman?)
+Wann soll ich kommen? (Ne zaman gelmeliyim?)
+Wann ist die Party? (Parti ne zaman?)
+Wann öffnet das Museum? (Müze ne zaman açılıyor?)
+Wo (Nerede)
+Bir yerin konumu hakkında bilgi almak için kullanılır.
+
+Wo wohnst du? (Nerede yaşıyorsun?)
+Wo ist das Badezimmer? (Banyo nerede?)
+Wo kann ich parken? (Nerede park edebilirim?)
+Wo haben Sie das gekauft? (Bunu nereden aldınız?)
+Wo ist der nächste Supermarkt? (En yakın süpermarket nerede?)
+Warum? (Neden?)
+Bir durumun veya eylemin nedenini sorgulamak için kullanılır.
+
+Warum bist du traurig? (Neden üzgünsün?)
+Warum regnet es heute? (Bugün neden yağmur yağıyor?)
+Warum lernst du Deutsch? (Neden Almanca öğreniyorsun?)
+Warum ist der Himmel blau? (Gökyüzü neden mavi?)
+Warum hast du das getan? (Bunu neden yaptın?)
+Woher? (Nereden?)
+Bir kişinin veya bir şeyin kökeni veya kaynağı hakkında bilgi almak için kullanılır.
+
+Woher kommst du? (Nereden geliyorsun?)
+Woher hast du das? (Bunu nereden aldın?)
+Woher weißt du das? (Bunu nereden biliyorsun?)
+Woher sind diese Schuhe? (Bu ayakkabılar nereden?)
+Woher hast du diese Idee? (Bu fikri nereden aldın?)
+Wohin (Nereye)
+Bir yerin veya kişinin nereye gittiğini sormak için kullanılır.
+
+Wohin gehst du? (Nereye gidiyorsun?)
+Wohin fahren wir? (Nereye gidiyoruz?)
+Wohin soll ich das stellen? (Bunu nereye koymalıyım?)
+Wohin reist du im Sommer? (Yazın nereye seyahat ediyorsun?)
+Wohin möchten Sie gehen? (Nereye gitmek istersiniz?)
+Womit? (Ne ile?)
+Bir işlemi gerçekleştirmek için kullanılan araç veya yöntemi sormak için kullanılır.
+
+Womit kann ich bezahlen? (Ne ile ödeyebilirim?)
+Womit bist du zur Arbeit gefahren? (İşe ne ile gittin?)
+Womit hast du das gezeichnet? (Bunu ne ile çizdin?)
+Womit soll ich das schneiden? (Bunu ne ile kesmeliyim?)
+Womit reinigt man das? (Bunu ne ile temizlerim?)
+Wessen (Kimin)
+Sahiplik hakkında bir soru sorduğunuzda kullanılır.
+
+Wessen Auto ist das? (Kimin arabası bu?)
+Wessen Buch hast du? (Kimin kitabını aldın?)
+Wessen Idee war das? (Kimin fikriydi bu?)
+Wessen Tasche ist das? (Kimin çantası bu?)
+Wessen Stift kann ich benutzen? (Kimin kalemini kullanabilirim?)
+Wie viel? (Ne kadar?)
+Miktar veya maliyet hakkında bilgi almak için kullanılır.
+
+Wie viel kostet das? (Bu ne kadar?)
+Wie viel Uhr ist es? (Saat kaç?)
+Wie viel Zucker möchtest du? (Ne kadar şeker istersin?)
+Wie viel wiegt das? (Bu ne kadar ağırlıkta?)
+Wie viel Zeit haben wir? (Ne kadar zamanımız var?)
+Wie viele? (Kaç tane?)
+Sayı veya miktar hakkında bilgi almak için kullanılır.
+
+Wie viele Leute kommen? (Kaç kişi geliyor?)
+Wie viele Äpfel hast du gekauft? (Kaç elma aldın?)
+Wie viele Tage bleiben wir? (Kaç gün kalacağız?)
+Wie viele Stunden dauert es? (Kaç saat sürer?)
+Wie viele Geschwister hast du? (Kaç kardeşin var?)
+Welcher/Welche/Welches? (Hangi?)
+Bir seçenek kümesi içindeki belirli bir öğeyi veya öğeleri sormak için kullanılır. Cinsiyete ve sayıya göre çekim yapılır.
+
+Welches Buch liest du? (Hangi kitabı okuyorsun?)
+Welche Farbe magst du? (Hangi rengi seviyorsun?)
+Welcher Tag ist heute? (Bugün hangi gün?)
+Welches Kleid soll ich anziehen? (Hangi elbiseyi giymeliyim?)
+Welche Schuhe passen dazu? (Buna hangi ayakkabılar uygun?)
+Almanca W-Fragen soruları, Almanya’da günlük dilde en çok kullanılan soru kelimeleridir. Bunları öğrendiğinizde Almancanız büyük oranda ilerleme kaydedecek.
+
+
+----------------------------------------------------------------------------------------------------
+
+Almanca Bağlaçlar (Konjunktion)
+
+Konjunktionen Nedir?
+Almanca’da “Konjunktion“, Türkçe’de “bağlaç” olarak bilinen, cümleleri, yan cümleleri veya cümle ögelerini birbirine bağlayan kelimelerdir. Bu bağlaçlar, cümleler arası ilişkileri kurarak düşüncelerimizi daha akıcı ve anlamlı bir şekilde ifade etmemizi sağlar.
+
+Almanca yaygın kullanılan bağlaçlar sırasıyla şöyle:
+
+Einfache Konjunktionen (Basit Bağlaçlar):
+
+aber (ama)
+also (böylece)
+bevor (önce)
+bis (kadar)
+dabei (buna rağmen)
+und (ve)
+ob (olup olmadığı)
+Mehrgliedige Konjunktionen (Çok Parçalı Bağlaçlar):
+
+einerseits…andererseits (bir yandan…öte yandan)
+weder…noch (ne…ne de)
+je…desto (ne kadar…o kadar)
+umso…als (özellikle)
+Almanca Bağlaç Türleri:
+Almanca’da iki ana bağlaç türü vardır:
+
+Nebenordnende Konjunktionen (Eş dereceli cümleleri veya cümle ögelerini birbiriyle bağlayan bağlaçlar): Bu bağlaçlar, eşit derecede öneme sahip iki cümleyi veya ifadeyi birbirine bağlar. Örnekler; aber (ama), und (ve), oder (veya).
+Unterordnende Konjunktionen (Alt cümleleri üst cümlelere bağlayan bağlaçlar): Bu bağlaçlar, bir cümlenin diğerine bağlı olduğu durumları ifade eder. Örneğin, bir cümle diğer cümleye neden-sonuç, zaman veya koşul bağlamında bağlanabilir. Örnekler; weil (çünkü), dass (ki), obwohl (rağmen).
+Konjunktionaladverbien:
+Ayrıca, “Konjunktionaladverbien” yani “Bağlaç olarak kullanılan zarflar” da vardır. Bu zarflar, bağlaç gibi davranarak cümleleri birbirine bağlar ancak adverbial özellikler de taşır. Bu kelimeler cümle içinde konum değiştirebilir ve genellikle cümle başında kullanılır. Örnekler; außerdem (ayrıca), deshalb (bu yüzden), trotzdem (buna rağmen).
+
+İşte sizler için hazırladığım A’dan Z’ye Almanca Bağlaçlar (Konjunktionen) Listesi:
+
+A
+No	Almanca Konjunktion (Bağlaçlar)	Almanca-Türkçe Örnek Cümle
+1	aber (ama, fakat)	Ich mag Kaffee, aber ich trinke lieber Tee. (Kahve severim ama çay içmeyi tercih ederim.)
+2	allerdings (ancak, gerçi)	Das Wetter ist schön, allerdings ist es etwas kalt. (Hava güzel, ancak biraz soğuk.)
+3	als (-dığı zaman, -iken, olarak, -den)	Als ich klein war, habe ich in Berlin gewohnt. (Küçükken Berlin’de yaşıyordum.)
+Er ist größer als sein Bruder. (O, kardeşinden daha uzun.)
+4	als dass (-maktansa, -ecek kadar)	Es ist zu kalt, als dass wir schwimmen gehen könnten. (Yüzmeye gidemeyecek kadar soğuk.)
+5	als ob (-mış/miş gibi, sanki)	Er tut so, als ob er nichts wüsste. (Hiçbir şey bilmiyormuş gibi davranıyor.)
+6	als wenn (-mış/miş gibi, sanki)	Es sieht so aus, als wenn es gleich regnen würde. (Sanki yağmur yağacak gibi görünüyor.)
+7	also (yani, öyleyse, o halde)	Du bist müde? Also geh schlafen! (Yorgunsun? Öyleyse uyu!)
+8	andererseits (öte yandan, diğer taraftan)	Einerseits möchte ich reisen, andererseits muss ich arbeiten. (Bir yandan seyahat etmek istiyorum, öte yandan çalışmam gerekiyor.)
+9	anschließend (sonra, ardından, akabinde)	Wir gehen ins Kino und anschließend essen wir Pizza. (Sinemaya gideceğiz ve ardından pizza yiyeceğiz.)
+10	ansonsten (aksi takdirde, yoksa)	Beeil dich, ansonsten verpassen wir den Bus. (Acele et, aksi takdirde otobüsü kaçıracağız.)
+11	anstatt (yerine, -mek yerine)	Anstatt zu lernen, spielt er Videospiele. (Öğrenmek yerine video oyunları oynuyor.)
+12	anstatt dass (yerine, -acağına/ -eceğine)	Anstatt dass er hilft, beschwert er sich. (Yardım etmek yerine şikayet ediyor.)
+13	auch wenn (-se bile, olsa bile)	Auch wenn es regnet, gehe ich spazieren. (Yağmur yağsa bile yürüyüşe çıkacağım.)
+14	ausgenommen (hariç, dışında)	Alle sind da, ausgenommen Peter. (Peter hariç herkes burada.)
+15	außer (hariç, dışında, -den başka)	Niemand außer mir war im Büro. (Benim dışımda kimse ofiste değildi.)
+16	außer dass (dışında, -mesi dışında)	Ich weiß nichts, außer dass er morgen kommt. (Yarın geleceği dışında hiçbir şey bilmiyorum.)
+17	außer wenn (-medikçe, -mazsa)	Ich gehe nicht, außer wenn du auch gehst. (Sen de gitmedikçe ben gitmiyorum.)
+18	außerdem (ayrıca, üstelik, bunun yanı sıra)	Sie ist klug, außerdem ist sie sehr freundlich. (Zeki, ayrıca çok da arkadaş canlısı.)
+B
+1	bevor (-meden önce)	Bevor du gehst, wasch bitte ab. (Gitmeden önce lütfen bulaşıkları yıka.)
+2	beziehungsweise (veya, daha doğrusu, şöyle ki)	Er kommt morgen oder beziehungsweise übermorgen. (Yarın veya daha doğrusu ertesi gün geliyor.)
+3	bis (kadar, -e kadar, -e dek)	Ich warte bis morgen. (Yarına kadar bekliyorum.)
+4	bloß (yalnızca, sadece)	Ich möchte bloß einen Kaffee. (Sadece bir kahve istiyorum.)
+C
+Almanca’da “C” harfiyle başlayan bir bağlaç yoktur.
+
+D
+1	da (çünkü, -dığı için)	Da ich krank bin, bleibe ich zu Hause. (Hasta olduğum için evde kalıyorum.)
+2	dabei (buna rağmen, aynı zamanda, o sırada)	Er ist müde, dabei muss er noch arbeiten. (Yorgun, buna rağmen hala çalışması gerekiyor.)
+Sie las ein Buch, dabei hörte sie Musik. (Kitap okurken aynı zamanda müzik dinliyordu.)
+3	dadurch (bu sayede, bununla, -erek/-arak)	Dadurch, dass sie fleißig lernt, bekommt sie gute Noten. (Çalışkan olduğu için iyi notlar alıyor.)
+4	dafür (bunun için, karşılığında)	Dafür, dass du mir geholfen hast, danke ich dir. (Bana yardım ettiğin için teşekkür ederim.)
+5	dagegen (buna karşılık, aksine, -e karşı)	Ich mag Sommer, dagegen mag sie Winter. (Ben yazı severim, o ise kışı sever.)
+6	damit (-mesi için, diye, ki)	Ich lerne Deutsch, damit ich in Deutschland studieren kann. (Almanya’da okuyabilmek için Almanca öğreniyorum.)
+7	danach (sonra, ardından)	Ich gehe einkaufen und danach koche ich. (Alışverişe gideceğim ve ardından yemek yapacağım.)
+8	dann (o zaman, sonra, öyleyse)	Wenn du fertig bist, dann können wir gehen. (Hazır olduğun zaman gidebiliriz.)
+9	darauf (üzerine, -mek için, -e dayanarak, bunun üzerine)	Ich freue mich darauf, dich zu sehen. (Seni görmek için seviniyorum/mutluyum/Seni görmeyi dört gözle bekliyorum.)
+10	darum (bu yüzden, bu nedenle)	Es ist kalt, darum trage ich einen Mantel. (Soğuk, bu yüzden palto giyiyorum.)
+11	dass (ki)	Ich glaube, dass er recht hat. (Onun haklı olduğunu düşünüyorum.)
+12	davor (-den önce, öncesinde)	Davor habe ich noch nie so etwas gesehen. (Bundan önce hiç böyle bir şey görmemiştim.)
+13	dazu (buna -ilaveten-, ayrıca, ek olarak)	Ich brauche Geld dazu. (Bunu için paraya ihtiyacım var.)
+14	denn (çünkü)	Ich mag ihn nicht, denn er ist unfreundlich. (Onu sevmiyorum çünkü kaba.)
+15	deshalb (bu yüzden, bu nedenle)	Ich bin müde, deshalb gehe ich jetzt schlafen. (Yorgunum, bu yüzden şimdi uyuyacağım.)
+16	deswegen (bu yüzden, bu nedenle)	Ich habe viel gelernt, deswegen habe ich die Prüfung bestanden. (Çok çalıştım, bu yüzden sınavı geçtim.)
+17	doch (ama, fakat, yine de, halbuki)	Ich wollte gehen, doch ich bin geblieben. (Gitmek istedim ama kaldım.)
+E
+1	ehe (-meden önce, önce)	Ehe ich gehe, muss ich noch packen. (Gitmeden önce bavulumu toplamalıyım.)
+2	einerseits … andererseits (bir yandan … öte yandan)	Einerseits will ich sparen, andererseits möchte ich reisen. (Bir yandan para biriktirmek istiyorum, öte yandan seyahat etmek istiyorum.)
+3	entweder … oder (ya … ya da)	Entweder du kommst mit, oder du bleibst hier. (Ya benimle gelirsin ya da burada kalırsın.)
+F
+1	falls (eğer, şayet)	Falls es regnet, bleiben wir zu Hause. (Yağmur yağarsa evde kalırız.)
+2	ferner (ayrıca, üstelik, ayrıca da)	Wir brauchen Getränke, ferner auch Snacks. (İçeceklere ihtiyacımız var, ayrıca atıştırmalıklara da.)
+3	folglich (dolayısıyla, sonuç olarak)	Er hat viel trainiert, folglich ist er jetzt fit. (Çok antrenman yaptı, dolayısıyla şimdi formda.)
+G
+1	genauso (aynı şekilde, tıpkı … gibi)	Sie singt genauso schön wie ihre Mutter. (Annesi gibi güzel şarkı söylüyor.)
+2	geschweige denn (bırak … -meyi, hele … hiç)	Er kann nicht schwimmen, geschweige denn tauchen. (Yüzemiyor, hele dalış hiç yapamaz.)
+3	gleichwie (nasıl olursa olsun)	Gleichwie es kommt, ich bin bereit. (Ne olursa olsun, ben hazırım.)
+H
+Almanca’da “H” harfiyle başlayan bir bağlaç yoktur.
+
+I
+1	immerhin (en azından, hiç değilse)	Immerhin hat er es versucht. (En azından denedi.)
+2	indem (-erek/-arak, -erken/-arken)	Indem du übst, wirst du besser. (Pratik yaparak daha iyi olacaksın.)
+indes (oysa, halbuki, ancak)	Er wollte kommen, indes hat er keine Zeit. (Gelmek istedi, ancak vakti yok.)
+3	indessen (bu arada, o esnada)	Ich koche, indessen kannst du den Tisch decken. (Ben yemek yapıyorum, bu arada sen masayı hazırlayabilirsin.)
+4	insofern (bu bakımdan, -dığı ölçüde)	Insofern stimme ich dir zu. (Bu bakımdan sana katılıyorum.)
+5	insoweit (bu ölçüde, o kadar ki)	Insoweit kann ich Ihnen zustimmen. (Bu ölçüde size katılabilirim.)
+Insoweit ich weiß, ist das richtig. (Bildiğim kadarıyla bu doğru.)
+6	inzwischen (bu arada, o zamandan beri)	Ich habe inzwischen meine Meinung geändert. (Bu arada fikrimi değiştirdim.)
+J
+1	je … desto (ne kadar … o kadar)	Je mehr du übst, desto besser wirst du. (Ne kadar çok pratik yaparsan, o kadar iyi olursun.)
+2	je … umso (ne kadar … o kadar)	Je länger ich warte, umso ungeduldiger werde ich. (Ne kadar beklersem o kadar sabırsızlanıyorum.)
+3	jedoch (ancak, fakat, yine de)	Das Auto ist alt, jedoch fährt es noch gut. (Araba eski, ancak hala iyi çalışıyor.)
+K
+1	kaum dass (-r -mez, hemen, olur olmaz)	Kaum dass er angekommen war, klingelte das Telefon. (Varır varmaz telefon çaldı.)
+L
+Almanca’da “L” harfiyle başlayan bir bağlaç yoktur.
+
+M
+Almanca’da “M” harfiyle başlayan bir bağlaç yoktur.
+
+N
+1	nachdem (-dıktan sonra)	Nachdem ich gegessen habe, gehe ich schlafen. (Yemek yedikten sonra uyuyacağım.)
+Not: Genelde Plusquamperfekt zaman ile kullanılıyor.
+2	nämlich (çünkü, şöyle ki)	Ich kann nicht kommen, ich bin nämlich krank. (Gelemem, çünkü hastayım.)
+Not: “nämlich” genellikle açıklama yapmak için kullanılır ve tam olarak bir bağlaç değildir.
+O
+1	ob (olup olmadığı, -ip -mediği, mi)	Ich weiß nicht, ob er kommt. (Gelip gelmeyeceğini bilmiyorum.)
+2	obgleich (-e rağmen, -sa da/se de)	Obgleich er müde war, arbeitete er weiter. (Yorgun olmasına rağmen çalışmaya devam etti.)
+3	obschon (-e rağmen, -sa da/se de)	Obschon es regnete, gingen wir spazieren. (Yağmur yağmasına rağmen yürüyüşe çıktık.)
+4	obwohl (-e rağmen, -sa da/se de)	Obwohl ich früh aufgestanden bin, bin ich müde. (Erken kalkmama rağmen yorgunum.)
+5	obzwar (-e rağmen, -sa da/se de)	Obzwar sie wenig Zeit hatte, hat sie uns geholfen. (Az zamanı olmasına rağmen bize yardım etti.)
+6	oder (veya, ya da)	Möchtest du Tee oder Kaffee? (Çay mı, kahve mi istersin?)
+7	ohne … zu + Infinitiv (-meden, -maksızın)	Sie ging, ohne … zu verabschieden. (Veda etmeden gitti.)
+8	ohne dass (-meden, -meksizin)	Er ging, ohne dass ich es bemerkte. (Ben fark etmeden gitti.)
+P
+Almanca’da “L” harfiyle başlayan bir bağlaç yoktur.
+
+Q
+Almanca’da “Q” harfiyle başlayan bir bağlaç yoktur.
+
+R
+1	respektive (sırasıyla, veya, daha doğrusu)	Die Gewinner sind Peter, Paul und Mary, respektive. (Kazananlar sırasıyla Peter, Paul ve Mary’dir.)
+S
+1	schließlich (sonunda, nihayet)	Schließlich hat er es geschafft. (Sonunda başardı.)
+2	seit (-den beri, -den bu yana)	Ich wohne seit drei Jahren in Berlin. (Üç yıldır Berlin’de yaşıyorum.)
+3	seitdem (o zamandan beri)	Seitdem ich ihn kenne, bin ich glücklich. (Onu tanıdığımdan beri mutluyum.)
+4	so (böylece, bu yüzden, o kadar)	Mach das Fenster zu, so wird es wärmer. (Pencereyi kapat, böylece daha sıcak olur.)
+5	sobald (olur olmaz, -r -mez)	Sobald ich Zeit habe, rufe ich dich an. (Zamanım olur olmaz seni ararım.)
+6	sodass (öyle ki, o kadar ki, -ecek şekilde)	Er sprach so leise, sodass ihn niemand hören konnte. (Öyle sessiz konuştu ki kimse onu duyamadı.)
+7	sofern (şayet, eğer)	Sofern es nicht regnet, gehen wir spazieren. (Yağmur yağmazsa yürüyüşe çıkarız.)
+8	solange (-dığı sürece, sürece)	Solange du lebst, gibt es Hoffnung. (Yaşadığın sürece umut vardır.)
+9	sondern (ama, fakat, aksine, bilakis)	Er ist nicht dumm, sondern faul. (Aptal değil, tembel.)
+10	sonst (yoksa, aksi halde)	Beeil dich, sonst verpassen wir den Zug. (Acele et, yoksa treni kaçıracağız.)
+11	sooft (ne zaman istersen, her zaman, -dığı zaman)	Ruf mich sooft an, wie du brauchst. (İhtiyacın olduğunda ne zaman istersen ara.)
+Sooft ich ihn sehe, freue ich mich. (Onu her gördüğümde sevinirim.)
+12	sosehr (ne kadar … -se de)	Sosehr ich es auch versuche, ich kann es nicht verstehen. (Ne kadar denesem de anlayamıyorum.)
+13	soviel (o kadar, o kadar çok, bildiğim kadarıyla)	Soviel ich weiß, kommt er morgen. (Bildiğim kadarıyla yarın geliyor.)
+14	soweit (o kadar, o derece, bildiğim kadarıyla)	Soweit ich weiß, ist alles in Ordnung. (Bildiğim kadarıyla her şey yolunda.)
+15	sowenig (o kadar az, çok az)	Ich schlafe sowenig wie möglich. (Mümkün olduğunca az uyuyorum.)
+16	sowie (ve de, hem de, yanı sıra)	Ich liebe Kaffee sowie Tee. (Hem kahveyi hem de çayı severim.)
+17	sowohl … als auch (hem … hem de)	Er spricht sowohl Türkisch als auch Deutsch. (Hem Türkçe hem de Almanca konuşuyor.)
+18	später (sonra, daha sonra)	Wir sehen uns später! (Sonra görüşürüz!)
+19	statt (yerine)	Statt zu arbeiten, spielt er. (Çalışmak yerine oyun oynuyor.)
+T
+1	trotzdem (yine de, buna rağmen)	Es ist kalt, trotzdem gehe ich raus. (Soğuk olmasına rağmen dışarı çıkıyorum.)
+U
+1	um … zu + Infinitiv (-mek için)	Ich lerne Deutsch, um in Deutschland zu arbeiten. (Almanya’da çalışmak için Almanca öğreniyorum.)
+2	umso (daha da, o kadar, özellikle)	Es ist umso wichtiger, jetzt zu lernen. (Şimdi ders çalışmak daha da önemli.)
+3	umso … als (özellikle … çünkü)	Ich freue mich umso mehr, als ich dich wiedersehe. (Seni tekrar gördüğüm için çok seviniyorum.)
+4	und (ve)	Ich mag Hunde und Katzen. (Köpekleri ve kedileri severim.)
+5	ungeachtet (-e rağmen, -e bakılmaksızın)	Ungeachtet der Schwierigkeiten hat er es geschafft. (Zorluklara rağmen başardı.)
+V
+1	zuvor (-den önce, öncesinde)	Ich muss noch einkaufen, zuvor rufe ich dich an. (Alışveriş yapmalıyım, öncesinde seni arayacağım.)
+W
+1	während (sırasında, -iken)	Während ich arbeite, höre ich Musik. (Çalışırken müzik dinlerim.)
+2	währenddem (-iken, esnasında)	Währenddem er schlief, las ich ein Buch. (O uyurken ben kitap okudum.)
+Not: währenddem, während ile aynı anlama gelir ve daha çok güney Almanya’da kullanılır.
+3	währenddessen (bu arada, bu esnada)	Ich koche Abendessen, währenddessen kannst du den Tisch decken. (Akşam yemeği hazırlıyorum, bu arada sen masayı kurabilirsin.)
+4	wann (ne zaman)	Wann kommst du? (Ne zaman geliyorsun?)
+5	weder … noch (ne … ne de)	Ich mag weder Kaffee noch Tee. (Ne kahve ne de çay severim.)
+6	weil (çünkü)	Ich bin müde, weil ich schlecht geschlafen habe. (Kötü uyuduğum için yorgunum.)
+7	wenn (eğer, -sa/-se)	Wenn du willst, können wir ins Kino gehen. (İstersen sinemaya gidebiliriz.)
+8	wenn auch (-se bile, olsa da)	Wenn auch das Wetter schlecht ist, gehen wir spazieren. (Hava kötü olsa da yürüyüşe çıkacağız.)
+9	wenn nicht (eğer değilse, yoksa)	Du musst lernen, wenn nicht, wirst du die Prüfung nicht bestehen. (Çalışmalısın, yoksa sınavı geçemezsin.)
+10	wenngleich (-e rağmen, -sa da/ -se de)	Wenngleich es schwierig ist, werde ich es versuchen. (Zor olsa da deneyeceğim.)
+11	wennschon (madem, madem ki)	Wennschon wir hier sind, können wir auch essen gehen. (Madem buradayız, yemek yemeye de gidebiliriz.)
+12	wie (nasıl, gibi, kadar)	Er ist so groß wie sein Vater. (Babası kadar uzun.)
+13	wieweit (ne kadar, ne ölçüde)	Wieweit bist du mit deiner Arbeit? (İşin ne kadar ilerledi?)
+14	wiewohl (-e rağmen, -sa da/ -se de)	Wiewohl er jung ist, ist er sehr erfahren. (Genç olmasına rağmen çok deneyimli.)
+15	wo (nerede)	Wo wohnst du? (Nerede oturuyorsun?)
+16	wohingegen (oysa, buna karşılık, halbuki)	Er mag Fußball, wohingegen ich Basketball mag. (O futbolu sever, oysa ben basketbolu severim.)
+Z
+1	zu + Infinitiv (-mek için, -ecek kadar)	Ich bin zu müde, um fernzusehen. (Televizyon izleyemeyecek kadar yorgunum.)
+2	zudem (ayrıca, üstelik, ayrıca da)	Er ist nett, zudem ist er hilfsbereit. (Nazik, üstelik yardımsever.)
+3	zumal (özellikle, hele ki, üstelik)	Wir sollten gehen, zumal es spät ist. (Geç olduğu için gitmeliyiz.)
+4	zwar … aber (gerçi … ama)	Ich bin zwar müde, aber ich muss noch arbeiten. (Yorgunum ama hala çalışmalıyım.)
+
