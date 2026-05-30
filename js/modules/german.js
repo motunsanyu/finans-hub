@@ -883,11 +883,138 @@ window.GermanModule = (function () {
       </div>`;
   }
 
+  // ── TOPIC GUIDE DATA ──────────────────────────────────────────────────────────
+  const CURRICULUM = [
+    {
+      level: 'A1', color: '#58cc02', bg: '#f0fff0',
+      sections: [
+        { title: '👋 Tanışma & Selamlaşma', topics: ['Merhaba / Güle güle (Hallo / Tschüss)', 'Nasılsın? (Wie geht es dir?)', 'Adın ne? (Wie heißt du?)', 'Nereli­sin? (Woher kommst du?)', 'Kendini tanıtma'] },
+        { title: '🔤 Temel Dil Bilgisi', topics: ['Şahıs zamirleri (ich, du, er/sie/es…)', 'sein çekimi (bin, bist, ist…)', 'haben çekimi (habe, hast, hat…)', 'Düzenli fiil çekimleri (-en eki)', 'Artikeller: der / die / das', 'Belirtisiz artikel: ein / eine', 'Tekil ve çoğul isimler'] },
+        { title: '🔢 Sayılar & Zaman', topics: ['Sayılar 1–100', 'Saat sorma ve söyleme', 'Haftanın günleri', 'Aylar ve mevsimler', 'Tarih ifade etme'] },
+        { title: '🏠 Günlük Hayat', topics: ['Renkler', 'Vücut bölümleri', 'Aile üyeleri', 'Ev ve eşyalar', 'Yiyecek ve içecekler', 'Alışveriş (Was kostet das?)'] },
+        { title: '📐 Cümle Yapısı', topics: ['Temel cümle düzeni (SVO)', 'Olumsuz cümle (nicht / kein)', 'Soru cümleleri (W-Fragen)', 'İyelik zamirleri (mein, dein…)', 'Ayrılabilen fiiller (aufstehen vb.)'] },
+      ]
+    },
+    {
+      level: 'A2', color: '#1cb0f6', bg: '#f0f8ff',
+      sections: [
+        { title: '🏡 Günlük Rutinler', topics: ['Sabah rutini (aufwachen, frühstücken…)', 'Sıklık zarfları (immer, oft, manchmal)', 'İş ve okul hayatı', 'Hobiler ve boş zaman'] },
+        { title: '🗺️ Yön & Ulaşım', topics: ['Yön tarifi (links, rechts, geradeaus)', 'Toplu taşıma (Bus, Bahn, U-Bahn)', 'Bilet alma diyalogları', 'Şehirde yerler (Bahnhof, Post, Apotheke)'] },
+        { title: '🛒 Alışveriş & Yemek', topics: ['Mağazada alışveriş diyaloğu', 'Restoranda sipariş verme', 'Fiyat sormak ve pazarlık', 'Yiyecek-içecek isimleri ve miktarlar'] },
+        { title: '🏥 Sağlık & Vücut', topics: ['Vücut organları', 'Hastalık ve şikayetler', 'Doktorda diyalog', 'Eczanede ilaç alma'] },
+        { title: '📚 Dil Bilgisi – A2', topics: ['Perfekt (geçmiş zaman – konuşma dili)', 'Präteritum (sein ve haben geçmişi)', 'Modal fiiller (können, müssen, wollen, dürfen, sollen, mögen)', 'Weil ve denn bağlaçları', 'Dativ durumu (Yönelme hali)', 'Akkusativ durumu (Belirtme hali)', 'Komparativ ve Superlativ (büyük, en büyük)'] },
+      ]
+    },
+    {
+      level: 'B1', color: '#ff9500', bg: '#fffaf0',
+      sections: [
+        { title: '✈️ Seyahat & Konaklama', topics: ['Otel rezervasyonu', 'Havaalanı ve sınır kapısı', 'Turistik geziler planlama', 'Sorun bildirme (şikayet)'] },
+        { title: '💼 İş & Eğitim', topics: ['CV ve iş başvurusu', 'İş görüşmesi diyaloğu', 'Meslekler ve görevler', 'Okul sistemi ve eğitim'] },
+        { title: '📰 Medya & Toplum', topics: ['Haber okuma ve yorumlama', 'İnternet ve sosyal medya', 'Çevre ve sürdürülebilirlik', 'Kültür ve sanat'] },
+        { title: '💬 Görüş Bildirme', topics: ['Fikir belirtme (Ich bin der Meinung…)', 'Karşı çıkma ve tartışma', 'Öneri yapma (Ich schlage vor…)', 'Olumlu/olumsuz değerlendirme'] },
+        { title: '📚 Dil Bilgisi – B1', topics: ['Yan cümleler: weil, dass, wenn, obwohl', 'Relativsätze (bağıl yan cümleler)', 'Konjunktiv II – kibar istekler (würde, könnte)', 'Passiv yapı (Edilgen cümle)', 'Plusquamperfekt (geçmişin geçmişi)', 'Futur I (werden + infinitiv)'] },
+      ]
+    },
+    {
+      level: 'B2', color: '#ff4b4b', bg: '#fff5f5',
+      sections: [
+        { title: '🎓 Akademik & Profesyonel', topics: ['Akademik metin okuma/yazma', 'Sunum yapma (Vortrag halten)', 'Resmi yazışmalar ve e-posta', 'Özet çıkarma ve parafraz'] },
+        { title: '⚖️ Tartışma & Eleştiri', topics: ['Avantaj-dezavantaj analizi', 'Etik ve felsefi tartışmalar', 'Medya eleştirisi', 'Politika ve ekonomi dili'] },
+        { title: '🤝 Sosyal & Kültürel', topics: ['Almanca konuşulan ülke kültürleri', 'Deyimler ve kalıp ifadeler (Redewendungen)', 'Edebi metinler ve şiir', 'Mizah ve ironi anlama'] },
+        { title: '📚 Dil Bilgisi – B2', topics: ['Konjunktiv I (dolaylı anlatım)', 'İleri seviye Passiv yapıları', 'Partizipial yapılar', 'Genişletilmiş attribut (Erweiterte Attribute)', 'Futur II (gelecekte tamamlanmış)', 'Sezgisel fiil kullanımı ve stil'] },
+      ]
+    }
+  ];
+
+  function showTopicGuide() {
+    let activeLvl = 'A1';
+
+    function renderModal() {
+      const lvlData = CURRICULUM.find(c => c.level === activeLvl);
+      const tabs = CURRICULUM.map(c => `
+        <button onclick="window.GermanModule._topicGuideTab('${c.level}')" style="
+          padding:8px 18px; border:none; border-bottom:3px solid ${c.level === activeLvl ? c.color : 'transparent'};
+          background:none; font-size:14px; font-weight:800;
+          color:${c.level === activeLvl ? c.color : 'var(--g-text-muted)'};
+          cursor:pointer; transition:all .15s;">${c.level}</button>`).join('');
+
+      const sections = lvlData.sections.map(s => `
+        <div style="margin-bottom:18px;">
+          <div style="font-size:15px;font-weight:800;color:var(--g-text);margin-bottom:10px;
+                      padding:8px 12px;background:${lvlData.bg};border-radius:10px;
+                      border-left:4px solid ${lvlData.color};">${s.title}</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 4px;">
+            ${s.topics.map(t => `
+              <div style="display:flex;align-items:flex-start;gap:6px;font-size:13px;color:var(--g-text);line-height:1.4;">
+                <span style="color:${lvlData.color};font-size:10px;margin-top:4px;flex-shrink:0;">●</span>
+                ${t}
+              </div>`).join('')}
+          </div>
+        </div>`).join('');
+
+      const totalTopics = lvlData.sections.reduce((a, s) => a + s.topics.length, 0);
+
+      const modal = document.getElementById('gTopicModal');
+      modal.innerHTML = `
+        <div style="position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;
+                    align-items:flex-end;justify-content:center;" onclick="if(event.target===this)window.GermanModule.closeTopicGuide()">
+          <div style="background:var(--g-surface);border-radius:24px 24px 0 0;width:100%;
+                      max-width:640px;max-height:90vh;display:flex;flex-direction:column;
+                      box-shadow:0 -8px 40px rgba(0,0,0,0.25);">
+
+            <!-- Handle -->
+            <div style="display:flex;justify-content:center;padding:12px 0 4px;">
+              <div style="width:40px;height:4px;background:var(--g-border);border-radius:2px;"></div>
+            </div>
+
+            <!-- Header -->
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 20px 12px;">
+              <div>
+                <div style="font-size:20px;font-weight:800;color:var(--g-text);">🗺️ Konu Rehberi</div>
+                <div style="font-size:13px;color:var(--g-text-muted);">${activeLvl} • ${lvlData.sections.length} bölüm • ${totalTopics} konu</div>
+              </div>
+              <button onclick="window.GermanModule.closeTopicGuide()" style="background:var(--g-border);
+                border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;color:var(--g-text);">✕</button>
+            </div>
+
+            <!-- Level Tabs -->
+            <div style="display:flex;border-top:1px solid var(--g-border);border-bottom:2px solid var(--g-border);
+                        padding:0 12px;overflow-x:auto;">${tabs}</div>
+
+            <!-- Content -->
+            <div style="overflow-y:auto;padding:16px 20px 32px;">${sections}</div>
+
+          </div>
+        </div>`;
+    }
+
+    // Expose tab switcher globally for onclick
+    window.GermanModule._topicGuideTab = function(lvl) {
+      activeLvl = lvl;
+      renderModal();
+    };
+
+    // Create modal container if not exists
+    let modal = document.getElementById('gTopicModal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'gTopicModal';
+      document.getElementById('germanAppScreen').appendChild(modal);
+    }
+    renderModal();
+  }
+
+  function closeTopicGuide() {
+    const modal = document.getElementById('gTopicModal');
+    if (modal) modal.innerHTML = '';
+  }
+
   // ── PUBLIC API ────────────────────────────────────────────────────────────────
   return {
     openApp, closeApp, renderHome, changeLevel,
     speak, startLesson, startGrammarLesson, startGrammarTables,
     renderGramTable, gramTableNav,
+    showTopicGuide, closeTopicGuide,
     checkAnswer, nextItem
   };
 })();
