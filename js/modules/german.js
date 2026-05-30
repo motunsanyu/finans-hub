@@ -643,10 +643,13 @@ window.GermanModule = (function () {
     if (!sentences5.length) return;
 
     lessonQueue = [];
-    sentences5.forEach(s => {
-      lessonQueue.push({ type: 'teach_sentence', sentence: s });
-      lessonQueue.push({ type: 'test_sentence',  sentence: s });
-    });
+    // 1) Önce tüm cümleleri öğret
+    sentences5.forEach(s => lessonQueue.push({ type: 'teach_sentence', sentence: s }));
+    // 2) Ara geçiş ekranı
+    lessonQueue.push({ type: 'test_divider', sentences: sentences5 });
+    // 3) Sonra tüm boşluk doldurma testleri
+    sentences5.forEach(s => lessonQueue.push({ type: 'test_sentence', sentence: s }));
+
     currentItemIdx = 0;
     lives = 5;
     _currentLessonWords5 = [];
@@ -719,13 +722,36 @@ window.GermanModule = (function () {
             <span style="font-size:12px;font-weight:700;color:var(--g-blue);text-transform:uppercase;letter-spacing:.5px;">
               ${item.sentence.topic}
             </span>
-            <button onclick="window.GermanModule.speak('${item.sentence.german.replace(/'/g,"\\'")}')}"
+            <button onclick="window.GermanModule.speak('${item.sentence.german.replace(/'/g,"\\'")}')"
                     style="background:none;border:none;color:var(--g-blue);font-size:20px;cursor:pointer;margin-left:auto;">🔊</button>
           </div>
           <div class="g-bubble-german">${item.sentence.german}</div>
           <div class="g-bubble-turkish">${item.sentence.turkish}</div>
         </div>
         <div class="g-avatar">👩‍🏫</div>`;
+
+    // ── Divider — "Kendini Dene" geçiş ekranı ──
+    } else if (item.type === 'test_divider') {
+      const sentenceList = item.sentences.map((s, i) =>
+        `<div style="padding:11px 16px;border-bottom:1px solid var(--g-border);">
+           <div style="font-size:14px;font-weight:700;color:var(--g-text);">${i+1}. ${s.german}</div>
+           <div style="font-size:13px;color:var(--g-text-muted);margin-top:2px;">${s.turkish}</div>
+         </div>`
+      ).join('');
+      innerHtml = `
+        <div style="text-align:center;margin-bottom:24px;">
+          <div style="font-size:72px;margin-bottom:12px;">🧠</div>
+          <h2 style="font-size:22px;font-weight:800;color:var(--g-text);margin:0 0 8px;">Kendini Dene!</h2>
+          <p style="color:var(--g-text-muted);font-size:15px;margin:0 0 20px;line-height:1.5;">
+            Öğrendiğin ${item.sentences.length} cümle için<br>boşluk doldurma soruları geliyor.
+          </p>
+        </div>
+        <div class="g-card" style="padding:0;overflow:hidden;">
+          <div style="padding:12px 16px;background:var(--g-green);">
+            <span style="color:#fff;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;">📋 Öğrenilen Cümleler</span>
+          </div>
+          ${sentenceList}
+        </div>`;
 
     // ── Test sentence (fill-in-the-blank) ──
     } else if (item.type === 'test_sentence') {
@@ -735,7 +761,8 @@ window.GermanModule = (function () {
         ? candidates[Math.floor(Math.random() * candidates.length)]
         : words[Math.floor(words.length / 2)];
       const cleanBlank = blank.replace(/[.,?!]/g,'');
-      const blanked = item.sentence.german.replace(blank, '<span style="background:var(--g-blue);color:transparent;border-radius:4px;padding:0 8px;">____</span>');
+      const blanked = item.sentence.german.replace(blank,
+        `<span style="background:var(--g-blue);color:transparent;border-radius:4px;padding:0 10px;letter-spacing:2px;">____</span>`);
 
       const otherWords = grammarSentences
         .map(s => s.german.split(/\s+/).filter(w => w.replace(/[.,?!]/g,'').length > 3))
@@ -749,10 +776,10 @@ window.GermanModule = (function () {
           <div class="g-bubble-tail"></div>
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
             <span style="font-size:12px;font-weight:700;color:var(--g-text-muted);text-transform:uppercase;letter-spacing:.5px;">Boşluğu Doldur</span>
-            <button onclick="window.GermanModule.speak('${item.sentence.german.replace(/'/g,"\\'")}')}"
+            <button onclick="window.GermanModule.speak('${item.sentence.german.replace(/'/g,"\\'")}')"
                     style="background:none;border:none;color:var(--g-blue);font-size:20px;cursor:pointer;margin-left:auto;">🔊</button>
           </div>
-          <div class="g-bubble-german" style="line-height:1.6;">${blanked}</div>
+          <div class="g-bubble-german" style="line-height:1.7;">${blanked}</div>
           <div class="g-bubble-turkish">${item.sentence.turkish}</div>
         </div>
         <div class="g-avatar">🤔</div>
@@ -763,7 +790,8 @@ window.GermanModule = (function () {
         </div>`;
     }
 
-    const showFooter = item.type === 'teach' || item.type === 'teach_sentence';
+    const showFooter = item.type === 'teach' || item.type === 'teach_sentence' || item.type === 'test_divider';
+
 
     document.getElementById('germanAppContent').innerHTML = `
       <div class="g-wrap">
