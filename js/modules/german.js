@@ -23,7 +23,7 @@ window.GermanModule = (function () {
     
     document.getElementById('germanAppContent').innerHTML = `
       <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; background:#ffffff;">
-        <div style="font-size:48px; color:#58cc02; margin-bottom:20px;"><i class="fas fa-spinner fa-spin"></i></div>
+        <div style="font-size:48px; margin-bottom:20px;">⏳</div>
         <h2 style="color:#afafaf; font-weight:bold;">Kelimeler Yükleniyor...</h2>
       </div>
     `;
@@ -161,18 +161,31 @@ window.GermanModule = (function () {
   }
 
   // ==== EMOJI ASSIGNER ====
-  function getEmojiForWord(word) {
+  function getEmojiForWord(word, meaning) {
       word = word.toLowerCase();
+      meaning = meaning.toLowerCase();
+      
+      const nums = {
+          "sıfır":"0", "bir":"1", "iki":"2", "üç":"3", "dört":"4", "beş":"5",
+          "altı":"6", "yedi":"7", "sekiz":"8", "dokuz":"9", "on":"10",
+          "on bir":"11", "on iki":"12", "yirmi":"20", "otuz":"30", "kırk":"40",
+          "elli":"50", "yüz":"100", "bin":"1000"
+      };
+      if (nums[meaning]) return nums[meaning];
+
       if(word.includes('haus')) return '🏠';
       if(word.includes('hund')) return '🐕';
       if(word.includes('katze')) return '🐈';
-      if(word.includes('auto')) return '🚗';
-      if(word.includes('essen')) return '🍽️';
-      if(word.includes('trinken')) return '💧';
+      if(word.includes('auto') || meaning.includes('araba')) return '🚗';
+      if(word.includes('essen') || meaning.includes('yemek')) return '🍽️';
+      if(word.includes('trinken') || meaning.includes('içmek')) return '💧';
       if(word.includes('mann') || word.includes('frau')) return '👤';
-      if(word.includes('buch')) return '📖';
-      if(word.includes('zeit')) return '⏰';
-      return '✨';
+      if(word.includes('buch') || meaning.includes('kitap')) return '📖';
+      if(word.includes('zeit') || meaning.includes('zaman')) return '⏰';
+      if(meaning.includes('ağız')) return '👄';
+      if(meaning.includes('göz')) return '👁️';
+      if(meaning.includes('kulak')) return '👂';
+      return '';
   }
 
   // ==== UI SHELL ====
@@ -197,8 +210,8 @@ window.GermanModule = (function () {
     
     .g-teach-card { background:#fff; border:2px solid #e5e5e5; border-bottom:4px solid #e5e5e5; border-radius:16px; padding:30px; margin-bottom:24px; }
     .g-emoji-icon { font-size:64px; margin-bottom:16px; }
-    .g-teach-word { font-size:32px; font-weight:bold; color:#4b4b4b; margin-bottom:8px; }
-    .g-teach-meaning { font-size:20px; color:#afafaf; margin-bottom:24px; }
+    .g-teach-word { font-size:28px; font-weight:bold; color:#4b4b4b; margin-bottom:16px; line-height:1.4; }
+    .g-teach-meaning { font-size:22px; color:#1cb0f6; font-weight:bold; margin-bottom:24px; border-top:2px dashed #e5e5e5; padding-top:16px; }
     .g-audio-btn { background:#1cb0f6; color:#fff; border:none; border-bottom:4px solid #1899d6; border-radius:12px; padding:12px; font-size:24px; cursor:pointer; width:64px; height:64px; display:inline-flex; align-items:center; justify-content:center; }
     .g-audio-btn:active { transform:translateY(4px); border-bottom-width:0; }
     
@@ -352,18 +365,23 @@ window.GermanModule = (function () {
     
     let hearts = '';
     for(let i=0; i<5; i++) {
-      hearts += i < lives ? '<i class="fas fa-heart"></i>' : '<i class="far fa-heart" style="color:#e5e5e5"></i>';
+      hearts += i < lives ? '❤️' : '🤍';
     }
 
     let innerHtml = '';
     if(item.type === 'teach') {
-       const emoji = getEmojiForWord(item.word.german_word);
+       const emoji = getEmojiForWord(item.word.german_word, item.word.turkish_meaning);
+       const emojiHtml = emoji ? `<div class="g-emoji-icon">${emoji}</div>` : '';
+       
+       // Almanca kelimeleri virgüllerden bölüp alt alta yazdırıyoruz
+       const formattedGerman = item.word.german_word.split(',').map(w => w.trim()).join('<br>');
+
        innerHtml = `
          <div class="g-teach-card">
-            <div class="g-emoji-icon">${emoji}</div>
-            <div class="g-teach-word">${item.word.german_word}</div>
+            ${emojiHtml}
+            <div class="g-teach-word">${formattedGerman}</div>
             <div class="g-teach-meaning">${item.word.turkish_meaning}</div>
-            <button class="g-audio-btn" onclick="window.GermanModule.speak('${item.word.german_word.replace(/'/g, "\\'")}')"><i class="fas fa-volume-up"></i></button>
+            <button class="g-audio-btn" onclick="window.GermanModule.speak('${item.word.german_word.replace(/'/g, "\\'")}')">🔊</button>
          </div>
        `;
        // Öğretirken doğrudan sesi çal
@@ -379,8 +397,8 @@ window.GermanModule = (function () {
 
        innerHtml = `
          <div style="display:flex; align-items:center; gap:12px; margin-bottom:24px;">
-            <button class="g-audio-btn" style="width:48px; height:48px; font-size:18px;" onclick="window.GermanModule.speak('${item.word.german_word.replace(/'/g, "\\'")}')"><i class="fas fa-volume-up"></i></button>
-            <div class="g-question" style="margin-bottom:0;">"${item.word.german_word}" ne anlama gelir?</div>
+            <button class="g-audio-btn" style="width:48px; height:48px; font-size:18px;" onclick="window.GermanModule.speak('${item.word.german_word.replace(/'/g, "\\'")}')">🔊</button>
+            <div class="g-question" style="margin-bottom:0; font-size:20px;">"${item.word.german_word.split(',')[0].trim()}" ne anlama gelir?</div>
          </div>
          <div class="g-options" id="gOptionsArea">
             ${options.map(opt => `
@@ -395,7 +413,7 @@ window.GermanModule = (function () {
       ${renderHeader(false)}
       <div class="g-lesson-container">
          <div style="display:flex; align-items:center; gap:16px; margin-bottom:16px;">
-            <button class="g-btn-outline" style="border:none; padding:4px;" onclick="window.GermanModule.renderHome()"><i class="fas fa-times" style="font-size:20px;"></i></button>
+            <button class="g-btn-outline" style="border:none; padding:4px;" onclick="window.GermanModule.renderHome()">❌</button>
             <div class="g-progress-bar" style="margin-bottom:0;"><div class="g-progress-fill" style="width:${progressPct}%"></div></div>
             <div class="g-lives">${hearts}</div>
          </div>
@@ -429,7 +447,7 @@ window.GermanModule = (function () {
       btn.classList.add('correct');
       playSound('correct');
       feedbackBanner.className = 'g-feedback-banner g-feedback-correct';
-      feedbackBanner.innerHTML = '<i class="fas fa-check-circle" style="font-size:24px;"></i> Harika!';
+      feedbackBanner.innerHTML = '✅ Harika!';
       footerBtn.style.backgroundColor = '#58cc02';
       footerBtn.style.borderBottomColor = '#46a302';
       footerBtn.style.color = 'white';
@@ -443,7 +461,7 @@ window.GermanModule = (function () {
       playSound('wrong');
       lives--;
       feedbackBanner.className = 'g-feedback-banner g-feedback-wrong';
-      feedbackBanner.innerHTML = `<i class="fas fa-times-circle" style="font-size:24px;"></i> Doğrusu: ${correct}`;
+      feedbackBanner.innerHTML = `❌ Doğrusu: ${correct}`;
       footerBtn.style.backgroundColor = '#ff4b4b';
       footerBtn.style.borderBottomColor = '#ea2b2b';
       footerBtn.style.color = 'white';
