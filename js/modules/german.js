@@ -1,36 +1,37 @@
-// js/modules/german.js - Duolingo tarzı tam ekran Almanca Öğrenme Uygulaması
+// js/modules/german.js - Duolingo tarzı Almanca Öğrenme Uygulaması (v3)
 
 window.GermanModule = (function () {
   let vocabulary = { A1: [], A2: [], B1: [] };
   let currentLevel = 'A1';
   let isDataLoaded = false;
-  
-  // Lesson State
-  let lessonWords = []; // 5 items for current lesson
-  let lessonQueue = []; // mix of teaching and testing items
+
+  // Lesson state
+  let lessonQueue = [];
   let currentItemIdx = 0;
   let lives = 5;
   let learnedIds = JSON.parse(localStorage.getItem('german_learned_words')) || [];
-  let grammarSentences = [];
 
-  // Supabase instance
-  function getSB() {
-    return window._supabaseClient || null;
-  }
+  // Grammar data
+  let grammarTopics = [];    // { title, subtitle, tableRows: [{de,tr}], level }
+  let grammarSentences = []; // { id, topic, level, german, turkish }
 
-  // ==== DATA FETCHING ====
+  // ── Supabase ─────────────────────────────────────────────────────────────────
+  function getSB() { return window._supabaseClient || null; }
+
+  // ── LOADING ──────────────────────────────────────────────────────────────────
   async function loadData() {
     if (isDataLoaded) return;
-    
+
     document.getElementById('germanAppContent').innerHTML = `
-      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; background:#ffffff;">
-        <div style="font-size:48px; margin-bottom:20px;">⏳</div>
-        <h2 style="color:#afafaf; font-weight:bold;">Kelimeler Yükleniyor...</h2>
-      </div>
-    `;
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;
+                  height:100vh;background:var(--g-bg);">
+        <div style="font-size:52px;margin-bottom:16px;">🇩🇪</div>
+        <h2 style="color:var(--g-text-muted);font-weight:700;margin:0;">Yükleniyor…</h2>
+      </div>`;
 
     try {
-      let sbDataLoaded = false;
+      // — Vocabulary (Supabase önce, fallback txt) —
+      let sbLoaded = false;
       const sb = getSB();
       if (sb) {
         const { data, error } = await sb.from('vocabulary').select('*');
@@ -38,267 +39,416 @@ window.GermanModule = (function () {
           data.forEach(item => {
             if (vocabulary[item.level]) vocabulary[item.level].push(item);
           });
-          sbDataLoaded = true;
-          console.log("German: Loaded vocabulary from Supabase.");
-        } else {
-            console.warn("German: Supabase vocabulary missing or empty. Falling back to local txt.");
+          sbLoaded = true;
         }
       }
-
-      if (!sbDataLoaded) {
+      if (!sbLoaded) {
         const res = await fetch('almanca/Kelimeler.txt');
-        const text = await res.text();
-        parseKelimelerTxt(text);
+        parseKelimelerTxt(await res.text());
       }
 
-      // Gramer cümlelerini yükle
-      const gramRes = await fetch('almanca/gramer1.txt');
-      const gramText = await gramRes.text();
-      parseGrammarTxt(gramText);
+      // — Grammar (gramerA1B2.txt) —
+      const gramRes = await fetch('almanca/gramerA1B2.txt');
+      parseGrammarA1B2(await gramRes.text());
 
       isDataLoaded = true;
       renderHome();
     } catch (err) {
-      console.error("German Data Load Error:", err);
+      console.error('German load error:', err);
       document.getElementById('germanAppContent').innerHTML = `
-        <div style="text-align:center; padding:50px;">
-           <h2 style="color:#ff4b4b;">Veriler Yüklenemedi</h2>
-           <button onclick="window.GermanModule.closeApp()" class="g-btn" style="margin-top:20px;">Geri Dön</button>
-        </div>
-      `;
+        <div style="text-align:center;padding:60px;">
+          <div style="font-size:64px;">😵</div>
+          <h2 style="color:#ff4b4b;">Veriler Yüklenemedi</h2>
+          <button class="g-btn" onclick="window.GermanModule.closeApp()">Geri Dön</button>
+        </div>`;
     }
   }
+
+  // ── PARSERS ───────────────────────────────────────────────────────────────────
 
   function parseKelimelerTxt(text) {
     const lines = text.split('\n');
-    let currentLvl = 'A1';
-    let idCounter = 1;
-
-    for (let line of lines) {
-      line = line.trim();
+    let lvl = 'A1';
+    let id = 1;
+    for (let raw of lines) {
+      const line = raw.trim();
       if (!line) continue;
-
-      if (line.includes('A1 Kelime Listesi')) { currentLvl = 'A1'; continue; }
-      if (line.includes('A2 Kelime Listesi')) { currentLvl = 'A2'; continue; }
-      if (line.includes('B1 Kelime Listesi') || line.includes('B1 Kelimeler')) { currentLvl = 'B1'; continue; }
+      if (line.includes('A1 Kelime')) { lvl = 'A1'; continue; }
+      if (line.includes('A2 Kelime')) { lvl = 'A2'; continue; }
+      if (line.includes('B1 Kelime') || line.includes('B1 Kelimeler')) { lvl = 'B1'; continue; }
       if (line.includes('---') || line.includes('Almanca Kelime')) continue;
 
-      let gWord = "", tMeaning = "";
-      
-      if (currentLvl === 'A1') {
-        const match = line.match(/^\d+\s+(.*?)\s+\((.*?)\)$/);
-        if (match) {
-          gWord = match[1].trim(); tMeaning = match[2].trim();
-        } else {
+      let gWord = '', tMeaning = '';
+      if (lvl === 'A1') {
+        const m = line.match(/^\d+\s+(.*?)\s+\((.*?)\)$/);
+        if (m) { gWord = m[1].trim(); tMeaning = m[2].trim(); }
+        else {
           const parts = line.split('\t');
           if (parts.length >= 2) {
-              const wordPart = parts[1].split('(');
-              if(wordPart.length > 1) {
-                  gWord = wordPart[0].trim(); tMeaning = wordPart[1].replace(')','').trim();
-              }
+            const wp = parts[1].split('(');
+            if (wp.length > 1) { gWord = wp[0].trim(); tMeaning = wp[1].replace(')', '').trim(); }
           }
         }
       } else {
-        // A2 and B1 Format: "word – Verb Fiil Meaning"
-        const dashSplit = line.split(/ – | - /);
-        if (dashSplit.length >= 2) {
-           gWord = dashSplit[0].trim();
-           // The right side has types (Verb, Substantiv vs) and Turkish meaning at the end.
-           const rest = dashSplit.slice(1).join(' - ').trim();
-           const parts = rest.split(/\t+/);
-           if (parts.length > 0) {
-               tMeaning = parts[parts.length - 1].trim();
-           } else {
-               tMeaning = rest;
-           }
+        const ds = line.split(/ – | - /);
+        if (ds.length >= 2) {
+          gWord = ds[0].trim();
+          const rest = ds.slice(1).join(' - ').trim();
+          const parts = rest.split(/\t+/);
+          tMeaning = parts[parts.length - 1].trim();
         }
       }
-      
-      if(gWord && tMeaning) {
-         vocabulary[currentLvl].push({
-            id: 'txt_' + idCounter++,
-            german_word: gWord,
-            turkish_meaning: tMeaning,
-            level: currentLvl
-         });
+      if (gWord && tMeaning) {
+        vocabulary[lvl].push({ id: 'txt_' + id++, german_word: gWord, turkish_meaning: tMeaning, level: lvl });
       }
     }
   }
 
-  function parseGrammarTxt(text) {
-    const lines = text.split('\n');
-    let currentTopic = 'Genel';
-    let idCounter = 1;
-    
+  /**
+   * gramerA1B2.txt Ayrıştırıcısı
+   * – Bölüm başlıkları:   "A1 - sein ve haben"
+   * – Tab tabloları:       "ich\t\tbin\t\thabe"  (satır içi tab var)
+   * – Cümleler:            "Ich bin müde. (Yorgunum.)"
+   * Aynı cümleyi birden fazla bölümde buluyor, mükerrer kayıtları siler.
+   */
+  function parseGrammarA1B2(text) {
+    const lines = text.split('\n').map(l => l.replace(/\r$/, ''));
+
+    // ── 1. Sabit (hardcoded) Tablo: Şahıs Zamirleri + Sein/Haben ───────────────
+    grammarTopics.push({
+      id: 'topic_pronouns',
+      title: 'Şahıs Zamirleri',
+      subtitle: 'Personalpronomen – Almanca zamirlerin listesi',
+      level: 'A1',
+      tableHeaders: ['Zamir', 'Türkçe'],
+      tableRows: [
+        ['ich', 'ben'],
+        ['du', 'sen'],
+        ['er', 'o (erkek)'],
+        ['sie', 'o (kadın)'],
+        ['es', 'o (cansız/nötr)'],
+        ['wir', 'biz'],
+        ['ihr', 'siz'],
+        ['sie / Sie', 'onlar / Siz (resmi)'],
+      ]
+    });
+
+    grammarTopics.push({
+      id: 'topic_sein_haben',
+      title: 'sein & haben Çekimleri',
+      subtitle: 'En önemli iki yardımcı fiilin çekim tablosu',
+      level: 'A1',
+      tableHeaders: ['Şahıs', 'sein (olmak)', 'haben (sahip olmak)'],
+      tableRows: [
+        ['ich',          'bin',   'habe'],
+        ['du',           'bist',  'hast'],
+        ['er / sie / es','ist',   'hat'],
+        ['wir',          'sind',  'haben'],
+        ['ihr',          'seid',  'habt'],
+        ['sie / Sie',    'sind',  'haben'],
+      ]
+    });
+
+    // ── 2. Cümle Listesi ──────────────────────────────────────────────────────
+    const seenSentences = new Set();
+    let currentTopicTitle = 'Genel';
+    let currentLevel = 'A1';
+    let sid = 1;
+
+    // Seviye & bölüm başlığı tanıma
+    const LEVEL_RE  = /^(A1|A2|B1|B2)\s*[-–]\s*(.+)/;
+    const SECTION_RE = /^\d+\.\s+/;
+    const SENT_RE   = /^(.+?)\.\s*\((.+?)\)\s*$/;     // German. (Turkish.)
+    // Ayrıca "German - Turkish" veya "German: Turkish" kalıpları:
+    const SENT_DASH  = /^(.{5,})\s+-\s+(.+?)\.\s*$/;
+
     for (let line of lines) {
       line = line.trim();
       if (!line) continue;
-      
-      if (/^\d+\./.test(line)) {
-        currentTopic = line.replace(/^\d+\.\s*/, '').trim();
+
+      // Seviye başlığı (🟢 A1 Seviyesi...)
+      const lvlEmoji = line.match(/[🟢🟡🔵🔴]?\s*(A1|A2|B1|B2)\s*Seviyesi/);
+      if (lvlEmoji) { currentLevel = lvlEmoji[1]; continue; }
+
+      // "A1 - sein ve haben" tipi başlık
+      const lvlMatch = line.match(LEVEL_RE);
+      if (lvlMatch) {
+        currentLevel = lvlMatch[1];
+        currentTopicTitle = lvlMatch[2].trim();
+        continue;
       }
-      
-      const parts = line.split('\t');
-      if (parts.length >= 3) {
+      if (SECTION_RE.test(line)) { currentTopicTitle = line.replace(SECTION_RE,'').trim(); continue; }
+
+      // Cümle: "Ich bin müde. (Yorgunum.)"
+      const sm = line.match(SENT_RE);
+      if (sm) {
+        const german  = sm[1].trim().replace(/^[-–]\s*/, '');
+        const turkish = sm[2].trim();
+        if (german.length > 4 && !seenSentences.has(german)) {
+          seenSentences.add(german);
           grammarSentences.push({
-              id: 'gram_' + idCounter++,
-              topic: currentTopic,
-              german: parts[2].trim(),
-              turkish: parts[1].trim() + " (" + parts[0].trim() + ")"
+            id: 'gram_' + sid++,
+            topic: currentTopicTitle,
+            level: currentLevel,
+            german,
+            turkish
           });
-      } else if (line.startsWith('✅')) {
-          const cleanLine = line.replace('✅', '').trim();
-          const p = cleanLine.split('\t');
-          if (p.length >= 2) {
-              grammarSentences.push({
-                  id: 'gram_' + idCounter++,
-                  topic: currentTopic,
-                  german: p[0].trim(),
-                  turkish: p[1].trim()
-              });
-          }
+        }
+        continue;
       }
     }
   }
 
-  // ==== TTS & AUDIO ====
+  // ── TTS ──────────────────────────────────────────────────────────────────────
   function speak(text) {
     if (!window.speechSynthesis) return;
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'de-DE';
-    utterance.rate = 0.9;
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'de-DE';
+    u.rate = 0.9;
     window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(utterance);
+    window.speechSynthesis.speak(u);
   }
 
+  // ── SOUND FX ─────────────────────────────────────────────────────────────────
   function playSound(type) {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) return;
-    const ctx = new AudioContext();
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    const ctx = new AC();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
-    
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    
+    osc.connect(gain); gain.connect(ctx.destination);
     if (type === 'correct') {
       osc.type = 'sine';
       osc.frequency.setValueAtTime(523.25, ctx.currentTime);
       osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1);
       gain.gain.setValueAtTime(0, ctx.currentTime);
       gain.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 0.05);
-      gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.3);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.3);
-    } else if (type === 'wrong') {
+      gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.35);
+      osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.35);
+    } else {
       osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(300, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.3);
+      osc.frequency.setValueAtTime(280, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(90, ctx.currentTime + 0.3);
       gain.gain.setValueAtTime(0, ctx.currentTime);
-      gain.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 0.05);
+      gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + 0.05);
       gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.3);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.3);
+      osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.3);
     }
   }
 
-  // ==== EMOJI ASSIGNER ====
-  function getEmojiForWord(word, meaning) {
-      word = word.toLowerCase();
-      meaning = meaning.toLowerCase();
-      
-      const nums = {
-          "sıfır":"0", "bir":"1", "iki":"2", "üç":"3", "dört":"4", "beş":"5",
-          "altı":"6", "yedi":"7", "sekiz":"8", "dokuz":"9", "on":"10",
-          "on bir":"11", "on iki":"12", "yirmi":"20", "otuz":"30", "kırk":"40",
-          "elli":"50", "yüz":"100", "bin":"1000"
-      };
-      if (nums[meaning]) return nums[meaning];
-
-      if(word.includes('haus')) return '🏠';
-      if(word.includes('hund')) return '🐕';
-      if(word.includes('katze')) return '🐈';
-      if(word.includes('auto') || meaning.includes('araba')) return '🚗';
-      if(word.includes('essen') || meaning.includes('yemek')) return '🍽️';
-      if(word.includes('trinken') || meaning.includes('içmek')) return '💧';
-      if(word.includes('mann') || word.includes('frau')) return '👤';
-      if(word.includes('buch') || meaning.includes('kitap')) return '📖';
-      if(word.includes('zeit') || meaning.includes('zaman')) return '⏰';
-      if(meaning.includes('ağız')) return '👄';
-      if(meaning.includes('göz')) return '👁️';
-      if(meaning.includes('kulak')) return '👂';
-      return '';
+  // ── EMOJI HELPER ──────────────────────────────────────────────────────────────
+  function getEmoji(word, meaning) {
+    word = (word || '').toLowerCase();
+    meaning = (meaning || '').toLowerCase();
+    const nums = { 'sıfır':'0','bir':'1','iki':'2','üç':'3','dört':'4','beş':'5',
+      'altı':'6','yedi':'7','sekiz':'8','dokuz':'9','on':'10','yirmi':'20',
+      'otuz':'30','kırk':'40','elli':'50','yüz':'100','bin':'1.000' };
+    if (nums[meaning]) return nums[meaning];
+    if (word.includes('haus') || meaning.includes('ev')) return '🏠';
+    if (word.includes('hund') || meaning.includes('köpek')) return '🐕';
+    if (word.includes('katze') || meaning.includes('kedi')) return '🐈';
+    if (word.includes('auto') || meaning.includes('araba')) return '🚗';
+    if (word.includes('essen') || meaning.includes('yemek')) return '🍽️';
+    if (word.includes('trinken') || meaning.includes('içmek')) return '💧';
+    if (word.includes('buch') || meaning.includes('kitap')) return '📖';
+    if (word.includes('schule') || meaning.includes('okul')) return '🏫';
+    if (meaning.includes('ağız') || meaning.includes('dudak')) return '👄';
+    if (meaning.includes('göz')) return '👁️';
+    if (meaning.includes('kulak')) return '👂';
+    return '';
   }
 
-  // ==== UI SHELL ====
+  // ── CSS / THEME ────────────────────────────────────────────────────────────────
   const STYLES = `
-    .g-header { display:flex; justify-content:space-between; align-items:center; padding:12px 20px; border-bottom:2px solid #e5e5e5; background:#fff; position:sticky; top:0; z-index:10; }
-    .g-title { font-size:20px; font-weight:800; color:#58cc02; display:flex; align-items:center; gap:8px; }
-    .g-btn { background:#58cc02; color:white; border:none; border-bottom:4px solid #46a302; border-radius:12px; padding:10px 20px; font-size:16px; font-weight:bold; cursor:pointer; transition:transform 0.1s, border-width 0.1s; text-align:center; }
-    .g-btn:active { transform:translateY(4px); border-bottom-width:0; margin-bottom:4px; }
-    .g-btn:disabled { background:#e5e5e5; border-bottom-color:#afafaf; color:#afafaf; cursor:not-allowed; }
-    .g-btn.danger { background:#ff4b4b; border-bottom-color:#ea2b2b; }
-    
-    .g-btn-outline { background:#fff; color:#afafaf; border:2px solid #e5e5e5; border-bottom:4px solid #e5e5e5; border-radius:12px; padding:8px 16px; font-size:14px; font-weight:bold; cursor:pointer; }
-    .g-btn-outline:active { transform:translateY(2px); border-bottom-width:2px; }
-    
-    .g-content { max-width:600px; margin:0 auto; padding:20px; }
-    
-    /* Lesson specific */
-    .g-lesson-container { text-align:center; max-width:600px; margin:20px auto; }
-    .g-progress-bar { height:12px; background:#e5e5e5; border-radius:6px; overflow:hidden; margin-bottom:16px; width:100%; }
-    .g-progress-fill { height:100%; background:#58cc02; width:0%; transition:width 0.3s ease; }
-    .g-lives { display:flex; justify-content:center; gap:4px; margin-bottom:16px; font-size:20px; color:#ff4b4b; }
-    
-    .g-teach-card { background:#fff; border:2px solid #e5e5e5; border-bottom:4px solid #e5e5e5; border-radius:16px; padding:30px; margin-bottom:24px; }
-    .g-emoji-icon { font-size:64px; margin-bottom:16px; }
-    .g-teach-word { font-size:28px; font-weight:bold; color:#4b4b4b; margin-bottom:16px; line-height:1.4; }
-    .g-teach-meaning { font-size:22px; color:#1cb0f6; font-weight:bold; margin-bottom:24px; border-top:2px dashed #e5e5e5; padding-top:16px; }
-    .g-audio-btn { background:#1cb0f6; color:#fff; border:none; border-bottom:4px solid #1899d6; border-radius:12px; padding:12px; font-size:24px; cursor:pointer; width:64px; height:64px; display:inline-flex; align-items:center; justify-content:center; }
-    .g-audio-btn:active { transform:translateY(4px); border-bottom-width:0; }
-    
-    .g-question { font-size:24px; font-weight:bold; color:#4b4b4b; margin-bottom:24px; }
+    :root {
+      --g-bg:          #f0f0f0;
+      --g-surface:     #ffffff;
+      --g-border:      #d8d8d8;
+      --g-border-bot:  #b8b8b8;
+      --g-text:        #3c3c3c;
+      --g-text-muted:  #8a8a8a;
+      --g-green:       #58cc02;
+      --g-green-dark:  #46a302;
+      --g-blue:        #1cb0f6;
+      --g-blue-dark:   #1899d6;
+      --g-red:         #ff4b4b;
+      --g-red-dark:    #ea2b2b;
+      --g-yellow:      #ffc800;
+      --g-yellow-dark: #e6ae00;
+      --g-correct-bg:  #d7ffb8;
+      --g-wrong-bg:    #ffdfe0;
+      --g-header-bg:   #e4e4e4;
+      --g-table-head:  #e8f5e9;
+      --g-table-alt:   #f8f8f8;
+    }
+
+    .g-wrap  { height:100%; display:flex; flex-direction:column; background:var(--g-bg); overflow:hidden; }
+
+    /* Header */
+    .g-header {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:12px 20px; border-bottom:2px solid var(--g-border);
+      background:var(--g-header-bg); flex-shrink:0;
+    }
+    .g-title { font-size:18px; font-weight:800; color:var(--g-green); display:flex; align-items:center; gap:8px; }
+
+    /* Scrollable body */
+    .g-body { flex:1; overflow-y:auto; padding:20px; }
+
+    /* Lesson body (centered, no extra padding) */
+    .g-lesson-body { flex:1; overflow-y:auto; }
+
+    /* Content container */
+    .g-content { max-width:560px; margin:0 auto; }
+
+    /* Buttons */
+    .g-btn {
+      background:var(--g-green); color:#fff;
+      border:none; border-bottom:4px solid var(--g-green-dark);
+      border-radius:14px; padding:12px 24px;
+      font-size:15px; font-weight:800; cursor:pointer;
+      transition:transform .1s, border-width .1s;
+    }
+    .g-btn:active { transform:translateY(3px); border-bottom-width:1px; }
+    .g-btn:disabled { background:var(--g-border); border-bottom-color:var(--g-border-bot); color:var(--g-text-muted); cursor:not-allowed; }
+    .g-btn.blue  { background:var(--g-blue);   border-bottom-color:var(--g-blue-dark); }
+    .g-btn.red   { background:var(--g-red);    border-bottom-color:var(--g-red-dark); }
+    .g-btn.ghost { background:var(--g-surface); color:var(--g-text-muted); border:2px solid var(--g-border); border-bottom:4px solid var(--g-border-bot); }
+    .g-btn.ghost:active { transform:translateY(2px); border-bottom-width:2px; }
+
+    /* Progress bar */
+    .g-prog-bar { height:14px; background:var(--g-border); border-radius:7px; overflow:hidden; }
+    .g-prog-fill { height:100%; background:var(--g-green); transition:width .4s ease; }
+
+    /* Lives badge */
+    .g-lives { display:flex; align-items:center; gap:5px; background:#ffe0e0;
+      border-radius:20px; padding:4px 12px; font-size:15px; font-weight:800; color:var(--g-red); }
+
+    /* Cards */
+    .g-card {
+      background:var(--g-surface);
+      border:2px solid var(--g-border);
+      border-radius:20px;
+      padding:28px 24px;
+      box-shadow:0 4px 0 var(--g-border-bot);
+      margin-bottom:20px;
+    }
+
+    /* Teach word card */
+    .g-teach-emoji  { font-size:72px; text-align:center; margin-bottom:12px; line-height:1; }
+    .g-teach-word   { font-size:30px; font-weight:800; color:var(--g-text); text-align:center; margin-bottom:8px; line-height:1.4; }
+    .g-teach-meaning{ font-size:20px; color:var(--g-blue); font-weight:700; text-align:center;
+      border-top:2px dashed var(--g-border); padding-top:14px; margin-top:14px; }
+    .g-audio-btn {
+      background:var(--g-blue); color:#fff; border:none; border-bottom:3px solid var(--g-blue-dark);
+      border-radius:50%; width:52px; height:52px; font-size:22px; cursor:pointer;
+      display:inline-flex; align-items:center; justify-content:center; margin-top:14px;
+    }
+    .g-audio-btn:active { transform:translateY(2px); border-bottom-width:1px; }
+
+    /* Speech bubble */
+    .g-bubble {
+      background:var(--g-surface);
+      border:2px solid var(--g-border);
+      border-radius:20px;
+      padding:22px 20px;
+      box-shadow:0 4px 0 var(--g-border-bot);
+      margin-bottom:16px;
+      position:relative;
+    }
+    .g-bubble-tail {
+      position:absolute; bottom:-12px; right:64px;
+      width:20px; height:20px;
+      background:var(--g-surface);
+      border-right:2px solid var(--g-border);
+      border-bottom:2px solid var(--g-border);
+      transform:rotate(45deg);
+    }
+    .g-bubble-german  { font-size:24px; font-weight:800; color:var(--g-text); line-height:1.4; margin-bottom:8px; }
+    .g-bubble-turkish { font-size:17px; color:var(--g-text-muted); }
+    .g-avatar { font-size:72px; text-align:right; padding-right:48px; margin-bottom:12px; }
+
+    /* Quiz options */
     .g-options { display:grid; grid-template-columns:1fr; gap:12px; }
-    .g-option { background:#fff; border:2px solid #e5e5e5; border-bottom:4px solid #e5e5e5; border-radius:12px; padding:16px; font-size:18px; font-weight:bold; color:#4b4b4b; cursor:pointer; transition:all 0.1s; text-align:left; }
-    .g-option:active { transform:translateY(2px); border-bottom-width:2px; }
-    .g-option.correct { background:#d7ffb8; border-color:#58cc02; border-bottom-color:#58cc02; color:#58cc02; }
-    .g-option.wrong { background:#ffdfe0; border-color:#ff4b4b; border-bottom-color:#ff4b4b; color:#ea2b2b; }
-    
-    .g-footer { position:sticky; bottom:0; background:#fff; padding:20px; border-top:2px solid #e5e5e5; display:none; flex-direction:column; gap:12px; }
-    .g-feedback-banner { padding:16px; border-radius:12px; font-weight:bold; font-size:18px; display:flex; align-items:center; gap:12px; }
-    .g-feedback-correct { background:#d7ffb8; color:#58cc02; }
-    .g-feedback-wrong { background:#ffdfe0; color:#ea2b2b; }
-    
-    .g-home-card { background:#fff; border:2px solid #e5e5e5; border-bottom:4px solid #e5e5e5; border-radius:16px; padding:20px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; }
-    .g-home-icon { font-size:40px; }
-    
-    .g-speech-bubble { background:#fff; border:2px solid #e5e5e5; border-radius:24px; padding:24px; position:relative; margin-bottom:20px; text-align:left; }
-    .g-speech-tail { position:absolute; bottom:-11px; right:60px; width:20px; height:20px; background:#fff; border-right:2px solid #e5e5e5; border-bottom:2px solid #e5e5e5; transform:rotate(45deg); }
-    .g-avatar { font-size:80px; display:inline-block; transform:scaleX(-1); margin-top:-10px; }
+    .g-option {
+      background:var(--g-surface);
+      border:2px solid var(--g-border);
+      border-bottom:4px solid var(--g-border-bot);
+      border-radius:14px; padding:14px 18px;
+      font-size:17px; font-weight:700; color:var(--g-text);
+      cursor:pointer; transition:all .1s; text-align:left;
+    }
+    .g-option:hover   { border-color:#aaa; }
+    .g-option:active  { transform:translateY(2px); border-bottom-width:2px; }
+    .g-option.correct { background:var(--g-correct-bg); border-color:var(--g-green); color:var(--g-green); }
+    .g-option.wrong   { background:var(--g-wrong-bg);   border-color:var(--g-red);   color:var(--g-red); }
+
+    /* Feedback footer */
+    .g-footer {
+      flex-shrink:0; background:var(--g-header-bg);
+      padding:16px 20px; border-top:2px solid var(--g-border);
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .g-feedback { padding:14px 18px; border-radius:14px; font-size:16px; font-weight:700; display:flex; align-items:center; gap:10px; }
+    .g-feedback.ok  { background:var(--g-correct-bg); color:var(--g-green); }
+    .g-feedback.bad { background:var(--g-wrong-bg);   color:var(--g-red); }
+
+    /* Home cards */
+    .g-home-card {
+      background:var(--g-surface);
+      border:2px solid var(--g-border);
+      border-bottom:4px solid var(--g-border-bot);
+      border-radius:18px; padding:18px 20px;
+      margin-bottom:14px;
+      display:flex; justify-content:space-between; align-items:center;
+      box-shadow:0 2px 0 var(--g-border-bot);
+    }
+    .g-home-icon { font-size:38px; }
+
+    /* Grammar table */
+    .g-table { width:100%; border-collapse:collapse; margin-top:14px; border-radius:12px; overflow:hidden; }
+    .g-table th { background:var(--g-green); color:#fff; padding:10px 14px; font-size:14px; text-align:left; }
+    .g-table td { padding:10px 14px; font-size:15px; border-bottom:1px solid var(--g-border); color:var(--g-text); }
+    .g-table tr:nth-child(even) td { background:var(--g-table-alt); }
+    .g-table td:first-child { font-weight:700; color:var(--g-blue); }
+
+    /* Repeat badge */
+    .g-repeat-badge {
+      display:inline-block; background:#fff3cd; color:#856404;
+      border:1px solid #ffc107; border-radius:20px;
+      font-size:11px; font-weight:700; padding:2px 10px; margin-bottom:8px;
+    }
+
+    /* Progress section */
+    .g-progress-section {
+      background:var(--g-surface);
+      border:2px solid var(--g-border);
+      border-radius:18px; padding:18px 20px;
+      box-shadow:0 2px 0 var(--g-border-bot);
+    }
+
+    .g-level-pill {
+      display:inline-block; border-radius:30px; padding:3px 14px;
+      font-size:13px; font-weight:800; margin-right:6px; cursor:pointer;
+      border:2px solid transparent;
+    }
+    .g-level-pill.active { background:var(--g-green); color:#fff; border-color:var(--g-green-dark); }
+    .g-level-pill.inactive { background:var(--g-surface); color:var(--g-text-muted); border-color:var(--g-border); }
   `;
 
-  function renderHeader(showClose = true) {
-    let styleTag = document.getElementById('germanAppStyles');
-    if (!styleTag) {
-      styleTag = document.createElement('style');
-      styleTag.id = 'germanAppStyles';
-      styleTag.innerHTML = STYLES;
-      document.head.appendChild(styleTag);
-    }
-    
-    let closeBtn = showClose ? `<button class="g-btn-outline" onclick="window.GermanModule.closeApp()">Kapat</button>` : '';
-
-    return `
-      <div class="g-header">
-        <div class="g-title"><img src="https://flagcdn.com/w40/de.png" style="width:24px; height:18px; border-radius:3px;"> Almanca Öğren</div>
-        ${closeBtn}
-      </div>
-    `;
+  function injectStyles() {
+    if (document.getElementById('g-styles')) return;
+    const s = document.createElement('style');
+    s.id = 'g-styles';
+    s.textContent = STYLES;
+    document.head.appendChild(s);
   }
 
+  // ── OPEN / CLOSE ─────────────────────────────────────────────────────────────
   function openApp() {
     document.getElementById('germanAppScreen').style.display = 'block';
     document.body.style.overflow = 'hidden';
+    injectStyles();
     loadData();
   }
 
@@ -307,59 +457,88 @@ window.GermanModule = (function () {
     document.body.style.overflow = 'auto';
   }
 
-  // ==== HOME SCREEN ====
+  // ── HEADER ────────────────────────────────────────────────────────────────────
+  function headerHTML(showClose = true) {
+    return `<div class="g-header">
+      <div class="g-title"><img src="https://flagcdn.com/w40/de.png" style="width:22px;height:16px;border-radius:3px;"> Almanca Öğren</div>
+      ${showClose ? `<button class="g-btn ghost" style="font-size:13px;padding:6px 14px;" onclick="window.GermanModule.closeApp()">Kapat</button>` : ''}
+    </div>`;
+  }
+
+  // ── HOME ──────────────────────────────────────────────────────────────────────
   function renderHome() {
-    // Toplam kelime ve öğrenilen kelime sayısını hesapla
     const allWords = vocabulary[currentLevel] || [];
-    const learnedInLevel = allWords.filter(w => learnedIds.includes(w.id)).length;
-    const progressPct = allWords.length ? Math.round((learnedInLevel / allWords.length) * 100) : 0;
+    const learnedCount = allWords.filter(w => learnedIds.includes(w.id)).length;
+    const pct = allWords.length ? Math.round(learnedCount / allWords.length * 100) : 0;
 
-    const html = `
-      ${renderHeader(true)}
-      <div class="g-content">
-        <div style="text-align:center; margin-bottom:30px;">
-          <h2 style="color:#4b4b4b;">Yola Çıkmaya Hazır mısın?</h2>
-          <p style="color:#afafaf;">Seviyeni seç ve 5 kelimelik bir derse başla!</p>
-        </div>
-        
-        <div style="display:flex; justify-content:center; margin-bottom:24px;">
-           <select id="gLevelSelect" onchange="window.GermanModule.changeLevel(this.value)" style="padding:10px 20px; border-radius:12px; border:2px solid #e5e5e5; font-weight:bold; color:#4b4b4b; outline:none; font-size:16px;">
-            <option value="A1" ${currentLevel === 'A1' ? 'selected' : ''}>A1 Seviye</option>
-            <option value="A2" ${currentLevel === 'A2' ? 'selected' : ''}>A2 Seviye</option>
-            <option value="B1" ${currentLevel === 'B1' ? 'selected' : ''}>B1 Seviye</option>
-          </select>
-        </div>
+    const levelPills = ['A1','A2','B1'].map(l => `
+      <span class="g-level-pill ${l === currentLevel ? 'active' : 'inactive'}"
+            onclick="window.GermanModule.changeLevel('${l}')">${l}</span>`).join('');
 
-        <div class="g-home-card">
-          <div style="display:flex; align-items:center; gap:16px;">
-             <div class="g-home-icon">📚</div>
-             <div>
-                <div style="font-size:18px; font-weight:bold; color:#4b4b4b;">Günlük Kelime Dersi</div>
-                <div style="color:#afafaf; font-size:14px;">5 yeni kelime öğren</div>
-             </div>
+    const gramCount = grammarSentences.length;
+
+    document.getElementById('germanAppContent').innerHTML = `
+      <div class="g-wrap">
+        ${headerHTML(true)}
+        <div class="g-body">
+          <div class="g-content">
+
+            <div style="text-align:center;margin:10px 0 22px;">
+              <h2 style="color:var(--g-text);margin:0 0 6px;">Yola Çıkmaya Hazır mısın?</h2>
+              <p style="color:var(--g-text-muted);margin:0;font-size:14px;">Seviyeni seç, 5 kelimelik bir derse başla!</p>
+              <div style="margin-top:14px;">${levelPills}</div>
+            </div>
+
+            <div class="g-home-card">
+              <div style="display:flex;align-items:center;gap:14px;">
+                <div class="g-home-icon">📚</div>
+                <div>
+                  <div style="font-size:17px;font-weight:800;color:var(--g-text);">Kelime Dersi</div>
+                  <div style="color:var(--g-text-muted);font-size:13px;">5 yeni + tekrar soruları</div>
+                </div>
+              </div>
+              <button class="g-btn" onclick="window.GermanModule.startLesson()">Başla</button>
+            </div>
+
+            <div class="g-home-card">
+              <div style="display:flex;align-items:center;gap:14px;">
+                <div class="g-home-icon">🗣️</div>
+                <div>
+                  <div style="font-size:17px;font-weight:800;color:var(--g-text);">Cümle Pratiği</div>
+                  <div style="color:var(--g-text-muted);font-size:13px;">${gramCount} cümle + boşluk doldurma</div>
+                </div>
+              </div>
+              <button class="g-btn blue" onclick="window.GermanModule.startGrammarLesson()">Başla</button>
+            </div>
+
+            <div class="g-home-card">
+              <div style="display:flex;align-items:center;gap:14px;">
+                <div class="g-home-icon">📊</div>
+                <div>
+                  <div style="font-size:17px;font-weight:800;color:var(--g-text);">Gramer Tabloları</div>
+                  <div style="color:var(--g-text-muted);font-size:13px;">Şahıs zamirleri, sein & haben</div>
+                </div>
+              </div>
+              <button class="g-btn" style="background:#9b59b6;border-bottom-color:#7d3c98;"
+                      onclick="window.GermanModule.startGrammarTables()">Gör</button>
+            </div>
+
+            <div class="g-progress-section">
+              <h3 style="color:var(--g-text);margin:0 0 10px;font-size:15px;">
+                İlerlemen — <span style="color:var(--g-green);">${currentLevel}</span>
+              </h3>
+              <div class="g-prog-bar" style="margin-bottom:6px;">
+                <div class="g-prog-fill" style="width:${pct}%"></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--g-text-muted);">
+                <span>${learnedCount} öğrenildi</span>
+                <span>${allWords.length - learnedCount} kaldı</span>
+              </div>
+            </div>
+
           </div>
-          <button class="g-btn" onclick="window.GermanModule.startLesson()">Başla</button>
         </div>
-
-        <div class="g-home-card">
-          <div style="display:flex; align-items:center; gap:16px;">
-             <div class="g-home-icon">🗣️</div>
-             <div>
-                <div style="font-size:18px; font-weight:bold; color:#4b4b4b;">Cümle Pratiği</div>
-                <div style="color:#afafaf; font-size:14px;">Gramer ve cümle kalıpları</div>
-             </div>
-          </div>
-          <button class="g-btn" style="background:#1cb0f6; border-bottom-color:#1899d6;" onclick="window.GermanModule.startGrammarLesson()">Başla</button>
-        </div>
-
-        <div style="margin-top:30px; padding:20px; border:2px solid #e5e5e5; border-radius:16px;">
-           <h3 style="color:#4b4b4b; margin-top:0;">İlerlemen (${currentLevel})</h3>
-           <div class="g-progress-bar" style="height:16px; margin-bottom:8px;"><div class="g-progress-fill" style="width:${progressPct}%"></div></div>
-           <div style="color:#afafaf; font-size:14px; text-align:right;">${learnedInLevel} / ${allWords.length} Kelime</div>
-        </div>
-      </div>
-    `;
-    document.getElementById('germanAppContent').innerHTML = html;
+      </div>`;
   }
 
   function changeLevel(lvl) {
@@ -367,288 +546,320 @@ window.GermanModule = (function () {
     renderHome();
   }
 
-  // ==== LESSON ENGINE ====
+  // ── GRAMMAR TABLES (Standalone browse) ────────────────────────────────────────
+  let _gramTopicIdx = 0;
+
+  function startGrammarTables() {
+    _gramTopicIdx = 0;
+    renderGramTable();
+  }
+
+  function renderGramTable() {
+    const t = grammarTopics[_gramTopicIdx];
+    if (!t) { renderHome(); return; }
+    const thCells = t.tableHeaders.map(h => `<th>${h}</th>`).join('');
+    const rows = t.tableRows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('');
+    const pct = Math.round((_gramTopicIdx + 1) / grammarTopics.length * 100);
+
+    document.getElementById('germanAppContent').innerHTML = `
+      <div class="g-wrap">
+        ${headerHTML(false)}
+        <div class="g-body">
+          <div class="g-content">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+              <button class="g-btn ghost" style="font-size:13px;padding:6px 14px;"
+                      onclick="window.GermanModule.renderHome()">❌</button>
+              <div class="g-prog-bar" style="flex:1;margin:0;">
+                <div class="g-prog-fill" style="width:${pct}%"></div>
+              </div>
+              <span style="font-size:13px;color:var(--g-text-muted);">${_gramTopicIdx + 1} / ${grammarTopics.length}</span>
+            </div>
+
+            <div class="g-card">
+              <div style="font-size:12px;font-weight:700;color:var(--g-blue);margin-bottom:6px;
+                          text-transform:uppercase;letter-spacing:.5px;">${t.level || 'A1'}</div>
+              <div style="font-size:22px;font-weight:800;color:var(--g-text);margin-bottom:4px;">${t.title}</div>
+              <div style="font-size:14px;color:var(--g-text-muted);margin-bottom:16px;">${t.subtitle}</div>
+              <table class="g-table">
+                <thead><tr>${thCells}</tr></thead>
+                <tbody>${rows}</tbody>
+              </table>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-top:4px;">
+              ${_gramTopicIdx > 0
+                ? `<button class="g-btn ghost" style="flex:1;" onclick="window.GermanModule.gramTableNav(-1)">← Önceki</button>`
+                : ''}
+              ${_gramTopicIdx < grammarTopics.length - 1
+                ? `<button class="g-btn" style="flex:1;" onclick="window.GermanModule.gramTableNav(1)">Sonraki →</button>`
+                : `<button class="g-btn" style="flex:1;" onclick="window.GermanModule.renderHome()">Ana Sayfaya Dön</button>`}
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function gramTableNav(dir) {
+    _gramTopicIdx += dir;
+    renderGramTable();
+  }
+
+  // ── LESSON ENGINE ─────────────────────────────────────────────────────────────
+  function buildLessonQueue(words5, isRepeat) {
+    const queue = [];
+    // Önce 5 kelimeyi öğret
+    words5.forEach(w => queue.push({ type: 'teach', word: w, repeat: false }));
+    // Sonra test et
+    words5.forEach(w => queue.push({ type: 'test', word: w, repeat: false }));
+    // Tekrar soruları (öğrenilmiş kelimelerden 2 adet)
+    if (isRepeat && isRepeat.length > 0) {
+      isRepeat.forEach(w => queue.push({ type: 'test', word: w, repeat: true }));
+    }
+    return queue;
+  }
+
   function startLesson() {
     const allWords = vocabulary[currentLevel] || [];
-    // Öğrenilmemiş kelimeleri bul
     let unlearned = allWords.filter(w => !learnedIds.includes(w.id));
-    
-    // Eğer hepsi öğrenildiyse rastgele tekrar yap
-    if(unlearned.length < 5) {
-      unlearned = [...allWords].sort(() => 0.5 - Math.random());
-    }
-    
-    // 5 kelime seç
-    lessonWords = unlearned.sort(() => 0.5 - Math.random()).slice(0, 5);
-    if(lessonWords.length === 0) return;
+    if (unlearned.length < 5) unlearned = [...allWords].sort(() => .5 - Math.random());
+    const words5 = unlearned.sort(() => .5 - Math.random()).slice(0, 5);
+    if (!words5.length) return;
 
-    // Ders kuyruğunu oluştur
-    lessonQueue = [];
-    lives = 5;
+    // Tekrar soruları: öğrenilmiş kelimelerden rastgele 2 tane
+    const learned = allWords.filter(w => learnedIds.includes(w.id)).sort(() => .5 - Math.random()).slice(0, 2);
+
+    lessonQueue = buildLessonQueue(words5, learned);
     currentItemIdx = 0;
-
-    // Önce hepsini öğret, sonra test et
-    lessonWords.forEach(w => {
-      lessonQueue.push({ type: 'teach', word: w });
-    });
-    lessonWords.forEach(w => {
-      lessonQueue.push({ type: 'test', word: w });
-    });
-
-    renderLessonItem();
+    lives = 5;
+    renderLessonItem(words5);
   }
+
+  let _currentLessonWords5 = []; // teach aşamasının kelimelerini sakla
 
   function startGrammarLesson() {
-    let unlearned = grammarSentences.filter(s => !learnedIds.includes(s.id));
-    if(unlearned.length < 5) {
-      unlearned = [...grammarSentences].sort(() => 0.5 - Math.random());
-    }
-    
-    lessonWords = unlearned.sort(() => 0.5 - Math.random()).slice(0, 5);
-    if(lessonWords.length === 0) return;
+    let pool = grammarSentences.filter(s => s.level === currentLevel);
+    if (pool.length === 0) pool = grammarSentences; // fallback
+    const sentences5 = [...pool].sort(() => .5 - Math.random()).slice(0, 5);
+    if (!sentences5.length) return;
 
     lessonQueue = [];
-    lives = 5;
-    currentItemIdx = 0;
-
-    lessonWords.forEach(s => {
+    sentences5.forEach(s => {
       lessonQueue.push({ type: 'teach_sentence', sentence: s });
-      lessonQueue.push({ type: 'test_sentence', sentence: s });
+      lessonQueue.push({ type: 'test_sentence',  sentence: s });
     });
-
-    renderLessonItem();
+    currentItemIdx = 0;
+    lives = 5;
+    _currentLessonWords5 = [];
+    renderLessonItem([]);
   }
 
-  function renderLessonItem() {
-    if(lives <= 0) {
-      renderLessonComplete(false);
-      return;
-    }
-    
-    if(currentItemIdx >= lessonQueue.length) {
-      // Dersi bitir ve kelimeleri öğrenildi işaretle
-      lessonWords.forEach(w => {
-        if(!learnedIds.includes(w.id)) learnedIds.push(w.id);
-      });
+  // ── RENDER LESSON ITEM ────────────────────────────────────────────────────────
+  function renderLessonItem(words5) {
+    if (words5) _currentLessonWords5 = words5;
+
+    if (lives <= 0) { renderComplete(false); return; }
+    if (currentItemIdx >= lessonQueue.length) {
+      // Mark words as learned
+      _currentLessonWords5.forEach(w => { if (!learnedIds.includes(w.id)) learnedIds.push(w.id); });
       localStorage.setItem('german_learned_words', JSON.stringify(learnedIds));
-      
-      // TODO: Supabase user_progress'e ekle (Eğer tablo ve auth hazırsa)
-      
-      renderLessonComplete(true);
+      renderComplete(true);
       return;
     }
 
     const item = lessonQueue[currentItemIdx];
-    const progressPct = (currentItemIdx / lessonQueue.length) * 100;
-    
-    let hearts = '';
-    for(let i=0; i<5; i++) {
-      hearts += i < lives ? '❤️' : '🤍';
-    }
+    const pct  = Math.round(currentItemIdx / lessonQueue.length * 100);
 
     let innerHtml = '';
-    if(item.type === 'teach') {
-       const emoji = getEmojiForWord(item.word.german_word, item.word.turkish_meaning);
-       const emojiHtml = emoji ? `<div class="g-emoji-icon">${emoji}</div>` : '';
-       
-       // Almanca kelimeleri virgüllerden bölüp alt alta yazdırıyoruz
-       const formattedGerman = item.word.german_word.split(',').map(w => w.trim()).join('<br>');
 
-       innerHtml = `
-         <div class="g-teach-card">
-            ${emojiHtml}
-            <div class="g-teach-word">${formattedGerman}</div>
-            <div class="g-teach-meaning">${item.word.turkish_meaning}</div>
-            <button class="g-audio-btn" onclick="window.GermanModule.speak('${item.word.german_word.replace(/'/g, "\\'")}')">🔊</button>
-         </div>
-       `;
-       // Öğretirken doğrudan sesi çal
-       speak(item.word.german_word);
-    } else if(item.type === 'test') {
-       // Çoktan seçmeli şıklar üret
-       let options = [item.word.turkish_meaning];
-       let wrongPool = vocabulary[currentLevel].filter(x => x.turkish_meaning !== item.word.turkish_meaning).sort(() => 0.5 - Math.random());
-       for(let i=0; i<3 && wrongPool[i]; i++) {
-         options.push(wrongPool[i].turkish_meaning);
-       }
-       options.sort(() => 0.5 - Math.random());
+    // ── Teach word ──
+    if (item.type === 'teach') {
+      const emoji = getEmoji(item.word.german_word, item.word.turkish_meaning);
+      const emojiHtml = emoji ? `<div class="g-teach-emoji">${emoji}</div>` : '';
+      const formatted = item.word.german_word.split(',').map(w => w.trim()).join('<br>');
+      speak(item.word.german_word);
+      innerHtml = `
+        <div class="g-card" style="text-align:center;">
+          ${emojiHtml}
+          <div class="g-teach-word">${formatted}</div>
+          <div class="g-teach-meaning">${item.word.turkish_meaning}</div>
+          <button class="g-audio-btn" onclick="window.GermanModule.speak('${item.word.german_word.replace(/'/g,"\\'")}')">🔊</button>
+        </div>`;
 
-       innerHtml = `
-         <div style="display:flex; align-items:center; gap:12px; margin-bottom:24px;">
-            <button class="g-audio-btn" style="width:48px; height:48px; font-size:18px;" onclick="window.GermanModule.speak('${item.word.german_word.replace(/'/g, "\\'")}')">🔊</button>
-            <div class="g-question" style="margin-bottom:0; font-size:20px;">"${item.word.german_word.split(',')[0].trim()}" ne anlama gelir?</div>
-         </div>
-         <div class="g-options" id="gOptionsArea">
-            ${options.map(opt => `
-               <button class="g-option" onclick="window.GermanModule.checkAnswer(this, '${opt.replace(/'/g, "\\'")}', '${item.word.turkish_meaning.replace(/'/g, "\\'")}')">${opt}</button>
-            `).join('')}
-         </div>
-       `;
-       speak(item.word.german_word);
+    // ── Test word ──
+    } else if (item.type === 'test') {
+      const pool = vocabulary[currentLevel].filter(x => x.turkish_meaning !== item.word.turkish_meaning);
+      const opts = [item.word.turkish_meaning,
+        ...pool.sort(() => .5 - Math.random()).slice(0,3).map(x => x.turkish_meaning)
+      ].sort(() => .5 - Math.random());
+      const repeatBadge = item.repeat ? `<div class="g-repeat-badge">🔁 Tekrar</div>` : '';
+      speak(item.word.german_word);
+      innerHtml = `
+        ${repeatBadge}
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+          <button class="g-audio-btn" style="width:44px;height:44px;font-size:18px;"
+                  onclick="window.GermanModule.speak('${item.word.german_word.replace(/'/g,"\\'")}')">🔊</button>
+          <div style="font-size:20px;font-weight:800;color:var(--g-text);">
+            "${item.word.german_word.split(',')[0].trim()}" ne demek?
+          </div>
+        </div>
+        <div class="g-options" id="gOptionsArea">
+          ${opts.map(o => `<button class="g-option"
+              onclick="window.GermanModule.checkAnswer(this,'${o.replace(/'/g,"\\'")}','${item.word.turkish_meaning.replace(/'/g,"\\'")}')">
+              ${o}</button>`).join('')}
+        </div>`;
+
+    // ── Teach sentence ──
     } else if (item.type === 'teach_sentence') {
-       innerHtml = `
-         <div class="g-speech-bubble">
-            <div class="g-speech-tail"></div>
-            <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
-               <img src="https://flagcdn.com/w40/de.png" style="width:24px; border-radius:4px;">
-               <span style="color:#afafaf; font-size:14px; font-weight:bold;">${item.sentence.topic}</span>
-               <button onclick="window.GermanModule.speak('${item.sentence.german.replace(/'/g, "\\'")}')" style="background:none; border:none; color:#1cb0f6; font-size:20px; cursor:pointer; margin-left:auto;">🔊</button>
-            </div>
-            <div style="font-size:24px; font-weight:bold; color:#4b4b4b; margin-bottom:12px; line-height:1.4;">${item.sentence.german}</div>
-            <div style="font-size:18px; color:#afafaf;">${item.sentence.turkish}</div>
-         </div>
-         <div style="text-align:right; padding-right:40px;">
-            <div class="g-avatar">👩‍🏫</div>
-         </div>
-       `;
-       speak(item.sentence.german);
-    } else if (item.type === 'test_sentence') {
-       const words = item.sentence.german.split(' ').map(w => w.trim()).filter(w => w.length > 0);
-       const validWords = words.filter(w => w.length > 2 && !w.includes('.') && !w.includes(','));
-       const wordToBlank = validWords.length > 0 ? validWords[Math.floor(Math.random() * validWords.length)] : words[0];
-       
-       const blankedGerman = item.sentence.german.replace(wordToBlank, '________');
-       
-       let options = [wordToBlank];
-       let wrongPool = grammarSentences.map(s => s.german.split(' ').filter(w => w.length > 2 && !w.includes('.') && !w.includes(','))).flat();
-       wrongPool = wrongPool.filter(w => w !== wordToBlank).sort(() => 0.5 - Math.random());
-       
-       for(let i=0; i<3 && wrongPool[i]; i++) {
-         options.push(wrongPool[i]);
-       }
-       options.sort(() => 0.5 - Math.random());
+      speak(item.sentence.german);
+      innerHtml = `
+        <div class="g-bubble">
+          <div class="g-bubble-tail"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+            <img src="https://flagcdn.com/w40/de.png" style="width:20px;border-radius:3px;">
+            <span style="font-size:12px;font-weight:700;color:var(--g-blue);text-transform:uppercase;letter-spacing:.5px;">
+              ${item.sentence.topic}
+            </span>
+            <button onclick="window.GermanModule.speak('${item.sentence.german.replace(/'/g,"\\'")}')}"
+                    style="background:none;border:none;color:var(--g-blue);font-size:20px;cursor:pointer;margin-left:auto;">🔊</button>
+          </div>
+          <div class="g-bubble-german">${item.sentence.german}</div>
+          <div class="g-bubble-turkish">${item.sentence.turkish}</div>
+        </div>
+        <div class="g-avatar">👩‍🏫</div>`;
 
-       innerHtml = `
-         <div class="g-speech-bubble">
-            <div class="g-speech-tail"></div>
-            <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
-               <span style="color:#afafaf; font-size:14px; font-weight:bold;">Boşluğu Doldur</span>
-               <button onclick="window.GermanModule.speak('${item.sentence.german.replace(/'/g, "\\'")}')" style="background:none; border:none; color:#1cb0f6; font-size:20px; cursor:pointer; margin-left:auto;">🔊</button>
-            </div>
-            <div style="font-size:24px; font-weight:bold; color:#4b4b4b; margin-bottom:12px; line-height:1.4;">${blankedGerman}</div>
-            <div style="font-size:18px; color:#afafaf;">${item.sentence.turkish}</div>
-         </div>
-         <div style="text-align:right; padding-right:40px; margin-bottom:20px;">
-            <div class="g-avatar">🤔</div>
-         </div>
-         <div class="g-options" id="gOptionsArea">
-            ${options.map(opt => `
-               <button class="g-option" onclick="window.GermanModule.checkAnswer(this, '${opt.replace(/'/g, "\\'")}', '${wordToBlank.replace(/'/g, "\\'")}')">${opt}</button>
-            `).join('')}
-         </div>
-       `;
-       speak(blankedGerman.replace('________', '...'));
+    // ── Test sentence (fill-in-the-blank) ──
+    } else if (item.type === 'test_sentence') {
+      const words = item.sentence.german.split(/\s+/);
+      const candidates = words.filter(w => w.replace(/[.,?!]/g,'').length > 3);
+      const blank = candidates.length > 0
+        ? candidates[Math.floor(Math.random() * candidates.length)]
+        : words[Math.floor(words.length / 2)];
+      const cleanBlank = blank.replace(/[.,?!]/g,'');
+      const blanked = item.sentence.german.replace(blank, '<span style="background:var(--g-blue);color:transparent;border-radius:4px;padding:0 8px;">____</span>');
+
+      const otherWords = grammarSentences
+        .map(s => s.german.split(/\s+/).filter(w => w.replace(/[.,?!]/g,'').length > 3))
+        .flat().filter(w => w.replace(/[.,?!]/g,'') !== cleanBlank)
+        .sort(() => .5 - Math.random()).slice(0, 3)
+        .map(w => w.replace(/[.,?!]/g,''));
+      const opts = [cleanBlank, ...otherWords].sort(() => .5 - Math.random());
+
+      innerHtml = `
+        <div class="g-bubble">
+          <div class="g-bubble-tail"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+            <span style="font-size:12px;font-weight:700;color:var(--g-text-muted);text-transform:uppercase;letter-spacing:.5px;">Boşluğu Doldur</span>
+            <button onclick="window.GermanModule.speak('${item.sentence.german.replace(/'/g,"\\'")}')}"
+                    style="background:none;border:none;color:var(--g-blue);font-size:20px;cursor:pointer;margin-left:auto;">🔊</button>
+          </div>
+          <div class="g-bubble-german" style="line-height:1.6;">${blanked}</div>
+          <div class="g-bubble-turkish">${item.sentence.turkish}</div>
+        </div>
+        <div class="g-avatar">🤔</div>
+        <div class="g-options" id="gOptionsArea">
+          ${opts.map(o => `<button class="g-option"
+              onclick="window.GermanModule.checkAnswer(this,'${o.replace(/'/g,"\\'")}','${cleanBlank.replace(/'/g,"\\'")}')">
+              ${o}</button>`).join('')}
+        </div>`;
     }
 
-    const html = `
-      ${renderHeader(false)}
-      <div class="g-lesson-container">
-         <div style="display:flex; align-items:center; gap:16px; margin-bottom:16px;">
-            <button class="g-btn-outline" style="border:none; padding:4px;" onclick="window.GermanModule.renderHome()">❌</button>
-            <div class="g-progress-bar" style="margin-bottom:0;"><div class="g-progress-fill" style="width:${progressPct}%"></div></div>
-            <div class="g-lives">${hearts}</div>
-         </div>
-         
-         ${innerHtml}
-      </div>
-      
-      <div class="g-footer" id="gFooter">
-         <div class="g-feedback-banner" id="gFeedbackBanner" style="display:none;"></div>
-         <button class="g-btn" id="gFooterBtn" style="width:100%;" onclick="window.GermanModule.nextItem()">Devam Et</button>
-      </div>
-    `;
-    
-    document.getElementById('germanAppContent').innerHTML = html;
+    const showFooter = item.type === 'teach' || item.type === 'teach_sentence';
 
-    if(item.type === 'teach' || item.type === 'teach_sentence') {
-       document.getElementById('gFooter').style.display = 'flex';
+    document.getElementById('germanAppContent').innerHTML = `
+      <div class="g-wrap">
+        ${headerHTML(false)}
+        <div class="g-lesson-body" style="padding:16px 20px;overflow-y:auto;">
+          <div class="g-content">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+              <button class="g-btn ghost" style="padding:6px 12px;font-size:16px;"
+                      onclick="window.GermanModule.renderHome()">❌</button>
+              <div class="g-prog-bar" style="flex:1;">
+                <div class="g-prog-fill" style="width:${pct}%"></div>
+              </div>
+              <div class="g-lives">❤️ ${lives}</div>
+            </div>
+            ${innerHtml}
+          </div>
+        </div>
+        <div class="g-footer" id="gFooter" style="${showFooter ? 'display:flex;' : 'display:none;'}">
+          <div class="g-feedback" id="gFeedback" style="display:none;"></div>
+          <button class="g-btn" id="gContinueBtn" style="width:100%;"
+                  onclick="window.GermanModule.nextItem()">Devam Et</button>
+        </div>
+      </div>`;
+
+    if (!showFooter) {
+      document.getElementById('gFooter').style.display = 'none';
     }
   }
 
+  // ── CHECK ANSWER ──────────────────────────────────────────────────────────────
   function checkAnswer(btn, selected, correct) {
-    const optionsArea = document.getElementById('gOptionsArea');
-    if (optionsArea.classList.contains('answered')) return;
-    optionsArea.classList.add('answered');
-    
-    const footer = document.getElementById('gFooter');
-    const feedbackBanner = document.getElementById('gFeedbackBanner');
-    const footerBtn = document.getElementById('gFooterBtn');
-    
+    const area = document.getElementById('gOptionsArea');
+    if (!area || area.dataset.answered) return;
+    area.dataset.answered = '1';
+
+    const footer    = document.getElementById('gFooter');
+    const feedback  = document.getElementById('gFeedback');
+    const continueBtn = document.getElementById('gContinueBtn');
+
     if (selected === correct) {
       btn.classList.add('correct');
       playSound('correct');
-      feedbackBanner.className = 'g-feedback-banner g-feedback-correct';
-      feedbackBanner.innerHTML = '✅ Harika!';
-      footerBtn.style.backgroundColor = '#58cc02';
-      footerBtn.style.borderBottomColor = '#46a302';
-      footerBtn.style.color = 'white';
+      feedback.className = 'g-feedback ok';
+      feedback.innerHTML = '✅ Harika!';
+      continueBtn.style.background = 'var(--g-green)';
+      continueBtn.style.borderBottomColor = 'var(--g-green-dark)';
     } else {
       btn.classList.add('wrong');
-      const btns = optionsArea.querySelectorAll('.g-option');
-      btns.forEach(b => {
-        if(b.textContent === correct) b.classList.add('correct');
-      });
-      
+      area.querySelectorAll('.g-option').forEach(b => { if (b.textContent.trim() === correct) b.classList.add('correct'); });
       playSound('wrong');
       lives--;
-      feedbackBanner.className = 'g-feedback-banner g-feedback-wrong';
-      feedbackBanner.innerHTML = `❌ Doğrusu: ${correct}`;
-      footerBtn.style.backgroundColor = '#ff4b4b';
-      footerBtn.style.borderBottomColor = '#ea2b2b';
-      footerBtn.style.color = 'white';
-      
-      // Eğer yanlış bildiyse, bu soruyu kuyruğun sonuna tekrar ekle (öğrenene kadar çıkmasın)
-      const currentItem = lessonQueue[currentItemIdx];
-      lessonQueue.push(currentItem);
+      feedback.className = 'g-feedback bad';
+      feedback.innerHTML = `❌ Doğrusu: <strong>${correct}</strong>`;
+      continueBtn.style.background = 'var(--g-red)';
+      continueBtn.style.borderBottomColor = 'var(--g-red-dark)';
+      // Push failed item to end of queue
+      lessonQueue.push(lessonQueue[currentItemIdx]);
     }
-    
-    feedbackBanner.style.display = 'flex';
+
+    feedback.style.display = 'flex';
     footer.style.display = 'flex';
   }
 
   function nextItem() {
     currentItemIdx++;
-    renderLessonItem();
+    renderLessonItem(null);
   }
 
-  function renderLessonComplete(isWin) {
-    let html = `
-      ${renderHeader(false)}
-      <div class="g-lesson-container" style="margin-top:60px;">
-    `;
-    
-    if(isWin) {
-       playSound('correct');
-       html += `
-          <div style="font-size:100px; margin-bottom:20px;">🎉</div>
-          <h2 style="color:#f49000; font-size:32px; margin-bottom:16px;">Ders Tamamlandı!</h2>
-          <p style="color:#afafaf; font-size:18px; margin-bottom:32px;">5 yeni kelime daha öğrendin. Gelişmeye devam et!</p>
-       `;
-    } else {
-       html += `
-          <div style="font-size:100px; margin-bottom:20px;">💔</div>
-          <h2 style="color:#ff4b4b; font-size:32px; margin-bottom:16px;">Canların Bitti!</h2>
-          <p style="color:#afafaf; font-size:18px; margin-bottom:32px;">Pes etme, dinlen ve tekrar dene.</p>
-       `;
-    }
-    
-    html += `
-         <button class="g-btn" style="width:100%; margin-top:20px;" onclick="window.GermanModule.renderHome()">Ana Sayfaya Dön</button>
-      </div>
-    `;
-    document.getElementById('germanAppContent').innerHTML = html;
+  // ── COMPLETE SCREEN ───────────────────────────────────────────────────────────
+  function renderComplete(win) {
+    if (win) playSound('correct');
+    document.getElementById('germanAppContent').innerHTML = `
+      <div class="g-wrap">
+        ${headerHTML(false)}
+        <div class="g-body" style="display:flex;align-items:center;justify-content:center;">
+          <div class="g-content" style="text-align:center;">
+            <div style="font-size:96px;margin-bottom:16px;">${win ? '🎉' : '💔'}</div>
+            <h2 style="font-size:28px;color:${win ? 'var(--g-yellow)' : 'var(--g-red)'};margin:0 0 12px;">
+              ${win ? 'Ders Tamamlandı!' : 'Canların Bitti!'}
+            </h2>
+            <p style="color:var(--g-text-muted);font-size:16px;margin:0 0 32px;">
+              ${win ? 'Harika iş çıkardın! Öğrenmeye devam et.' : 'Pek etme, dinlen ve tekrar dene. 💪'}
+            </p>
+            <button class="g-btn" style="width:100%;padding:16px;" onclick="window.GermanModule.renderHome()">
+              Ana Sayfaya Dön
+            </button>
+          </div>
+        </div>
+      </div>`;
   }
 
-  // API Export
+  // ── PUBLIC API ────────────────────────────────────────────────────────────────
   return {
-    openApp,
-    closeApp,
-    renderHome,
-    changeLevel,
-    speak,
-    startLesson,
-    startGrammarLesson,
-    checkAnswer,
-    nextItem
+    openApp, closeApp, renderHome, changeLevel,
+    speak, startLesson, startGrammarLesson, startGrammarTables,
+    renderGramTable, gramTableNav,
+    checkAnswer, nextItem
   };
 })();
