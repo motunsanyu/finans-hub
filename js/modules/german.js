@@ -261,25 +261,25 @@ window.GermanModule = (function () {
   // ── CSS / THEME ────────────────────────────────────────────────────────────────
   const STYLES = `
     :root {
-      --g-bg:          #f0f0f0;
-      --g-surface:     #ffffff;
-      --g-border:      #d8d8d8;
-      --g-border-bot:  #b8b8b8;
-      --g-text:        #3c3c3c;
-      --g-text-muted:  #8a8a8a;
-      --g-green:       #58cc02;
-      --g-green-dark:  #46a302;
-      --g-blue:        #1cb0f6;
-      --g-blue-dark:   #1899d6;
+      --g-bg:          #e7e7e7;
+      --g-surface:     #f8f8f8;
+      --g-border:      #d1d5db;
+      --g-border-bot:  #a3a3a3;
+      --g-text:        #2f3033;
+      --g-text-muted:  #6b7280;
+      --g-green:       #4b5563;
+      --g-green-dark:  #2f343b;
+      --g-blue:        #64748b;
+      --g-blue-dark:   #475569;
       --g-red:         #ff4b4b;
       --g-red-dark:    #ea2b2b;
       --g-yellow:      #ffc800;
       --g-yellow-dark: #e6ae00;
       --g-correct-bg:  #d7ffb8;
       --g-wrong-bg:    #ffdfe0;
-      --g-header-bg:   #e4e4e4;
-      --g-table-head:  #e8f5e9;
-      --g-table-alt:   #f8f8f8;
+      --g-header-bg:   #dedede;
+      --g-table-head:  #3f3f46;
+      --g-table-alt:   #eeeeee;
     }
 
     .g-wrap  { height:100%; display:flex; flex-direction:column; background:var(--g-bg); overflow:hidden; }
@@ -290,7 +290,7 @@ window.GermanModule = (function () {
       padding:12px 20px; border-bottom:2px solid var(--g-border);
       background:var(--g-header-bg); flex-shrink:0;
     }
-    .g-title { font-size:18px; font-weight:800; color:var(--g-green); display:flex; align-items:center; gap:8px; }
+    .g-title { font-size:18px; font-weight:800; color:var(--g-text); display:flex; align-items:center; gap:8px; }
 
     /* Scrollable body */
     .g-body { flex:1; overflow-y:auto; padding:20px; }
@@ -409,7 +409,7 @@ window.GermanModule = (function () {
     /* Grammar table */
     .g-table-wrap { width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; border-radius:12px; margin-top:14px; }
     .g-table { width:100%; border-collapse:collapse; table-layout:fixed; }
-    .g-table th { background:var(--g-green); color:#fff; padding:10px 14px; font-size:14px; text-align:left; }
+    .g-table th { background:var(--g-table-head); color:#fff; padding:10px 14px; font-size:14px; text-align:left; }
     .g-table td { padding:10px 14px; font-size:15px; border-bottom:1px solid var(--g-border); color:var(--g-text); overflow-wrap:anywhere; }
     .g-table tr:nth-child(even) td { background:var(--g-table-alt); }
     .g-table td:first-child { font-weight:700; color:var(--g-blue); }
@@ -969,7 +969,7 @@ window.GermanModule = (function () {
     }
 
     modal.innerHTML = `
-      <div style="position:fixed;inset:0;background:#f0f0f0;z-index:9999;display:flex;flex-direction:column;">
+      <div style="position:fixed;inset:0;background:var(--g-bg);z-index:9999;display:flex;flex-direction:column;">
         ${headerHTML(false)}
         <div class="g-body">
           <div class="g-content">
@@ -989,7 +989,7 @@ window.GermanModule = (function () {
     } catch (err) {
       console.error(err);
       modal.innerHTML = `
-        <div style="position:fixed;inset:0;background:#f0f0f0;z-index:9999;display:flex;flex-direction:column;">
+        <div style="position:fixed;inset:0;background:var(--g-bg);z-index:9999;display:flex;flex-direction:column;">
           ${headerHTML(false)}
           <div class="g-body">
             <div class="g-content">
@@ -1074,7 +1074,7 @@ window.GermanModule = (function () {
       const words = t.split(' ').filter(w => w.length > 3 && !generic.has(w));
       let score = h.includes(t) ? 100 : 0;
       words.forEach((word, idx) => {
-        if (h.includes(word)) score += idx === 0 ? 24 : 12;
+        if (h.includes(word) || (h.length >= 3 && word.includes(h))) score += idx === 0 ? 24 : 12;
       });
       if (score > bestScore) {
         bestScore = score;
@@ -1090,7 +1090,115 @@ window.GermanModule = (function () {
     }[ch]));
   }
 
-  function formatA1DetailText(text) {
+  function formatHeaderLabel(value) {
+    const safe = escapeHTML(value).replace(/\s*\(([^)]+)\)/g, '<span style="display:block;font-size:11px;font-weight:700;opacity:.9;margin-top:2px;">$1</span>');
+    return safe
+      .replace('Almanca İfade', 'Almanca')
+      .replace('Türkçe Anlamı', 'Türkçe')
+      .replace('Almanca Yazılışı', 'Almanca');
+  }
+
+  function splitGermanTurkish(value) {
+    const m = String(value || '').match(/^(.*?)\s*\((.*?)\)\s*$/);
+    return m ? { german: m[1].trim(), turkish: m[2].trim() } : { german: String(value || '').trim(), turkish: '' };
+  }
+
+  function formatTableCell(value) {
+    return escapeHTML(value).replace(/\s*\(([^)]+)\)/g, '<span style="display:block;font-size:12px;color:var(--g-text-muted);line-height:1.25;margin-top:2px;">$1</span>');
+  }
+
+  function shortMeaning(value) {
+    return String(value || '').split(',')[0].trim();
+  }
+
+  function renderExampleCards(examples) {
+    if (!examples.length) return '';
+    return `
+      <div style="font-size:16px;font-weight:900;color:var(--g-text);margin:18px 0 10px;">Örnek Cümleler</div>
+      <div style="display:grid;gap:10px;margin-bottom:18px;">
+        ${examples.map(item => {
+          const parsed = splitGermanTurkish(item);
+          return `<div style="background:#f3f4f6;border:1px solid var(--g-border);border-left:4px solid #52525b;border-radius:12px;padding:10px 12px;">
+            <div style="font-size:14px;font-weight:800;color:var(--g-text);line-height:1.45;">${escapeHTML(parsed.german)}</div>
+            ${parsed.turkish ? `<div style="font-size:13px;color:var(--g-text-muted);line-height:1.45;margin-top:3px;">${escapeHTML(parsed.turkish)}</div>` : ''}
+          </div>`;
+        }).join('')}
+      </div>`;
+  }
+
+  function renderA1Table(tableRows) {
+    if (!tableRows.length) return '';
+    let head = tableRows[0];
+    let body = tableRows.slice(1);
+    const headText = normalizeA1Text(head.join(' '));
+    let examples = [];
+
+    const render = (headers, rows) => `
+      <div class="g-table-wrap" style="margin:12px 0 18px;">
+        <table class="g-table">
+          <thead><tr>${headers.map(c => `<th>${formatHeaderLabel(c)}</th>`).join('')}</tr></thead>
+          <tbody>${rows.map(row => `<tr>${headers.map((_, i) => `<td>${formatTableCell(row[i] || '')}</td>`).join('')}</tr>`).join('')}</tbody>
+        </table>
+      </div>`;
+
+    if (headText.includes('kullanim durumu') && head.length >= 3) {
+      return render(['Almanca İfade', 'Türkçe Anlamı'], body.map(row => [row[0], row[1]]));
+    }
+
+    if (headText.includes('turkce okunusu') && head.length >= 3) {
+      return render(['Rakam', 'Almanca Yazılışı'], body.map(row => [row[0], row[1]]));
+    }
+
+    if (headText.includes('sira no') && headText.includes('almanca fiil')) {
+      examples = body.map(row => row[2]).filter(Boolean);
+      const rows = body.map(row => [row[1]]).filter(row => row[0]);
+      return render(['Fiil'], rows) + renderExampleCards(examples);
+    }
+
+    if (headText.includes('sahis zamirleri') && headText.includes('fiil kok')) {
+      return render(['Zamir', 'Fiil Kökü', 'Ek'], body.map(row => row.length === 2 ? [row[0], '', row[1]] : [row[0], row[1] || '', row[2] || '']));
+    }
+
+    if (headText.includes('mussen') && headText.includes('konnen')) {
+      const verbs = head.length === 7 ? head : head.slice(1);
+      const leftHeaders = ['Zamir', verbs[0], verbs[1], verbs[2]];
+      const rightHeaders = ['Zamir', verbs[3], verbs[4], verbs[5], verbs[6]];
+      return render(leftHeaders, body.map(row => [row[0], row[1], row[2], row[3]]))
+        + render(rightHeaders, body.map(row => [row[0], row[4], row[5], row[6], row[7]]));
+    }
+
+    if (headText.includes('on ek') && headText.includes('trennbare')) {
+      return render(['Ön Ek', 'Örnek', 'Anlam'], body.map(row => [row[0], row[1], shortMeaning(row[2])]));
+    }
+
+    if (headText.includes('prafixler') && headText.includes('pozisyon')) {
+      const rows = body.map(row => {
+        const verb = row[0] || '';
+        const sentence = row.slice(1).filter(Boolean).join(' ');
+        examples.push(sentence);
+        return [verb.replace('|', ''), shortMeaning((verb.match(/\((.*?)\)/) || [])[1] || '')];
+      });
+      return render(['Fiil', 'Anlam'], rows) + renderExampleCards(examples);
+    }
+
+    if (body.length && head.length === 3 && !/sira|almanca|turkce|zamir|prafix|on ek|rakam/i.test(headText)) {
+      const rows = tableRows.map(row => [row[0], row[1]]);
+      examples = tableRows.map(row => row[2]).filter(Boolean);
+      return render(['Sıfat', 'Anlam'], rows) + renderExampleCards(examples);
+    }
+
+    if (head.length > 3) {
+      const first = head[0] || 'Konu';
+      const second = head.find(h => /anlam|turkce|fiil|ornek|cumle/i.test(normalizeA1Text(h))) || head[1] || 'Açıklama';
+      const secondIdx = head.indexOf(second);
+      examples = body.map(row => row.slice(2).filter(Boolean).join(' ')).filter(Boolean);
+      return render([first, second], body.map(row => [row[0], row[secondIdx]])) + renderExampleCards(examples);
+    }
+
+    return render(head, body);
+  }
+
+  function formatA1DetailText(text, topic) {
     const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
     let html = '';
     let tableRows = [];
@@ -1101,8 +1209,7 @@ window.GermanModule = (function () {
           html += `<p style="font-size:14px;line-height:1.6;color:var(--g-text);margin:0 0 10px;">${escapeHTML(row.join(' - '))}</p>`;
         });
       } else {
-        const head = tableRows[0];
-        html += `<div class="g-table-wrap" style="margin:12px 0 18px;"><table class="g-table"><thead><tr>${head.map(c => `<th>${escapeHTML(c)}</th>`).join('')}</tr></thead><tbody>${tableRows.slice(1).map(row => `<tr>${head.map((_, i) => `<td>${escapeHTML(row[i] || '')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+        html += renderA1Table(tableRows, topic);
       }
       tableRows = [];
     }
@@ -1118,7 +1225,7 @@ window.GermanModule = (function () {
       if (idx === 0 || line.endsWith(':')) {
         html += `<h3 style="font-size:${idx === 0 ? '22px' : '17px'};font-weight:800;color:var(--g-text);margin:${idx === 0 ? '0' : '18px'} 0 10px;line-height:1.25;">${escapeHTML(line.replace(/:$/, ''))}</h3>`;
       } else if (/^[-•]/.test(line)) {
-        html += `<div style="display:flex;gap:8px;align-items:flex-start;font-size:14px;line-height:1.55;color:var(--g-text);margin:0 0 8px;"><span style="color:var(--g-green);font-weight:900;">•</span><span>${escapeHTML(line.replace(/^[-•]\s*/, ''))}</span></div>`;
+        html += `<div style="display:flex;gap:8px;align-items:flex-start;font-size:14px;line-height:1.55;color:var(--g-text);margin:0 0 8px;"><span style="color:var(--g-text-muted);font-weight:900;">•</span><span>${escapeHTML(line.replace(/^[-•]\s*/, ''))}</span></div>`;
       } else {
         html += `<p style="font-size:14px;line-height:1.6;color:var(--g-text);margin:0 0 10px;">${escapeHTML(line)}</p>`;
       }
@@ -1131,15 +1238,15 @@ window.GermanModule = (function () {
     const modal = document.getElementById('gTopicModal');
     const cards = guide.topics.map((topic, idx) => `
       <button onclick="window.GermanModule._openA1Topic(${idx})" style="
-        width:100%;display:block;text-align:left;border:2px solid ${idx % 2 === 0 ? '#58cc02' : '#d8d8d8'};
-        border-bottom:4px solid ${idx % 2 === 0 ? '#46a302' : '#b8b8b8'};
-        background:${idx % 2 === 0 ? '#f0fff0' : '#fff'};
-        border-radius:16px;padding:15px 16px;margin-bottom:12px;cursor:pointer;color:var(--g-text);">
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;width:30px;height:30px;border-radius:10px;background:${idx % 2 === 0 ? '#58cc02' : '#1cb0f6'};color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;">${topic.number}</span>
+        width:100%;display:block;text-align:left;border:1px solid ${idx % 2 === 0 ? '#4b5563' : '#d1d5db'};
+        border-bottom:4px solid ${idx % 2 === 0 ? '#2f343b' : '#a3a3a3'};
+        background:${idx % 2 === 0 ? '#3f3f46' : '#f8f8f8'};
+        border-radius:12px;padding:16px;margin-bottom:12px;cursor:pointer;color:${idx % 2 === 0 ? '#fff' : 'var(--g-text)'};box-shadow:0 8px 18px rgba(0,0,0,0.06);">
+        <div style="display:flex;gap:13px;align-items:flex-start;">
+          <span style="flex-shrink:0;width:32px;height:32px;border-radius:9px;background:${idx % 2 === 0 ? '#f8f8f8' : '#3f3f46'};color:${idx % 2 === 0 ? '#2f3033' : '#fff'};display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;">${topic.number}</span>
           <span style="min-width:0;">
             <span style="display:block;font-size:16px;font-weight:900;line-height:1.25;margin-bottom:4px;">${escapeHTML(topic.title)}</span>
-            <span style="display:block;font-size:13px;color:var(--g-text-muted);line-height:1.4;">${escapeHTML(topic.summary || topic.bullets.join(' • ') || 'Detaylı anlatımı aç')}</span>
+            <span style="display:block;font-size:13px;color:${idx % 2 === 0 ? '#d4d4d8' : 'var(--g-text-muted)'};line-height:1.4;">${escapeHTML(topic.summary || topic.bullets.join(' • ') || 'Detaylı anlatımı aç')}</span>
           </span>
         </div>
       </button>`).join('');
@@ -1147,16 +1254,17 @@ window.GermanModule = (function () {
     window.GermanModule._openA1Topic = idx => renderA1TopicDetail(guide, idx);
 
     modal.innerHTML = `
-      <div style="position:fixed;inset:0;background:#f0f0f0;z-index:9999;display:flex;flex-direction:column;">
+      <div style="position:fixed;inset:0;background:var(--g-bg);z-index:9999;display:flex;flex-direction:column;">
         <div class="g-header">
           <div class="g-title"><img src="https://flagcdn.com/w40/de.png" style="width:22px;height:16px;border-radius:3px;"> A1 Konuları</div>
           <button class="g-btn ghost" style="font-size:13px;padding:6px 14px;" onclick="window.GermanModule.closeTopicGuide()">Kapat</button>
         </div>
         <div class="g-body">
           <div class="g-content">
-            <div style="text-align:center;margin:8px 0 18px;">
-              <h2 style="color:var(--g-text);margin:0 0 6px;">A1 Konuları</h2>
-              <p style="color:var(--g-text-muted);margin:0;font-size:14px;">${guide.topics.length} konu başlığı</p>
+            <div style="margin:4px 0 18px;padding:18px 16px;border:1px solid var(--g-border);border-bottom:4px solid var(--g-border-bot);border-radius:14px;background:#f8f8f8;">
+              <div style="font-size:12px;font-weight:900;color:var(--g-text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Almanca A1</div>
+              <h2 style="color:var(--g-text);margin:0 0 6px;font-size:24px;line-height:1.2;">Konu Listesi</h2>
+              <p style="color:var(--g-text-muted);margin:0;font-size:14px;line-height:1.45;">${guide.topics.length} başlık, dosyadaki sıraya göre hazırlanmıştır.</p>
             </div>
             ${cards}
           </div>
@@ -1167,11 +1275,11 @@ window.GermanModule = (function () {
   function renderA1TopicDetail(guide, idx) {
     const topic = guide.topics[idx];
     const detailBlocks = topic.details?.length
-      ? topic.details.map(block => formatA1DetailText(block.text)).join('')
-      : `<p style="font-size:14px;line-height:1.6;color:var(--g-text);margin:0 0 12px;">${escapeHTML(topic.summary)}</p>${topic.bullets.map(b => `<div style="display:flex;gap:8px;margin-bottom:8px;"><span style="color:var(--g-green);font-weight:900;">•</span><span>${escapeHTML(b)}</span></div>`).join('')}`;
+      ? topic.details.map(block => formatA1DetailText(block.text, topic)).join('')
+      : `<p style="font-size:14px;line-height:1.6;color:var(--g-text);margin:0 0 12px;">${escapeHTML(topic.summary)}</p>${topic.bullets.map(b => `<div style="display:flex;gap:8px;margin-bottom:8px;"><span style="color:var(--g-text-muted);font-weight:900;">•</span><span>${escapeHTML(b)}</span></div>`).join('')}`;
 
     document.getElementById('gTopicModal').innerHTML = `
-      <div style="position:fixed;inset:0;background:#f0f0f0;z-index:9999;display:flex;flex-direction:column;">
+      <div style="position:fixed;inset:0;background:var(--g-bg);z-index:9999;display:flex;flex-direction:column;">
         <div class="g-header">
           <div class="g-title"><img src="https://flagcdn.com/w40/de.png" style="width:22px;height:16px;border-radius:3px;"> A1 Konuları</div>
           <button class="g-btn ghost" style="font-size:13px;padding:6px 14px;" onclick="window.GermanModule._backA1Topics()">Liste</button>
@@ -1180,7 +1288,7 @@ window.GermanModule = (function () {
           <div class="g-content">
             <button class="g-btn ghost" style="font-size:13px;padding:7px 14px;margin-bottom:14px;" onclick="window.GermanModule._backA1Topics()">← Konulara Dön</button>
             <div class="g-card">
-              <div style="font-size:12px;font-weight:900;color:var(--g-green);text-transform:uppercase;margin-bottom:6px;">A1 • Konu ${topic.number}</div>
+              <div style="font-size:12px;font-weight:900;color:var(--g-text-muted);text-transform:uppercase;margin-bottom:6px;">A1 • Konu ${topic.number}</div>
               <h2 style="font-size:24px;line-height:1.25;color:var(--g-text);margin:0 0 10px;">${escapeHTML(topic.title)}</h2>
               ${topic.summary ? `<p style="font-size:14px;line-height:1.55;color:var(--g-text-muted);margin:0;">${escapeHTML(topic.summary)}</p>` : ''}
             </div>
