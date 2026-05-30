@@ -6,11 +6,12 @@ window.GermanModule = (function () {
   let isDataLoaded = false;
   
   // Lesson State
-  let lessonWords = []; // 5 words for current lesson
+  let lessonWords = []; // 5 items for current lesson
   let lessonQueue = []; // mix of teaching and testing items
   let currentItemIdx = 0;
   let lives = 5;
   let learnedIds = JSON.parse(localStorage.getItem('german_learned_words')) || [];
+  let grammarSentences = [];
 
   // Supabase instance
   function getSB() {
@@ -49,6 +50,11 @@ window.GermanModule = (function () {
         const text = await res.text();
         parseKelimelerTxt(text);
       }
+
+      // Gramer cümlelerini yükle
+      const gramRes = await fetch('almanca/gramer1.txt');
+      const gramText = await gramRes.text();
+      parseGrammarTxt(gramText);
 
       isDataLoaded = true;
       renderHome();
@@ -115,6 +121,42 @@ window.GermanModule = (function () {
             turkish_meaning: tMeaning,
             level: currentLvl
          });
+      }
+    }
+  }
+
+  function parseGrammarTxt(text) {
+    const lines = text.split('\n');
+    let currentTopic = 'Genel';
+    let idCounter = 1;
+    
+    for (let line of lines) {
+      line = line.trim();
+      if (!line) continue;
+      
+      if (/^\d+\./.test(line)) {
+        currentTopic = line.replace(/^\d+\.\s*/, '').trim();
+      }
+      
+      const parts = line.split('\t');
+      if (parts.length >= 3) {
+          grammarSentences.push({
+              id: 'gram_' + idCounter++,
+              topic: currentTopic,
+              german: parts[2].trim(),
+              turkish: parts[1].trim() + " (" + parts[0].trim() + ")"
+          });
+      } else if (line.startsWith('✅')) {
+          const cleanLine = line.replace('✅', '').trim();
+          const p = cleanLine.split('\t');
+          if (p.length >= 2) {
+              grammarSentences.push({
+                  id: 'gram_' + idCounter++,
+                  topic: currentTopic,
+                  german: p[0].trim(),
+                  turkish: p[1].trim()
+              });
+          }
       }
     }
   }
@@ -229,6 +271,10 @@ window.GermanModule = (function () {
     
     .g-home-card { background:#fff; border:2px solid #e5e5e5; border-bottom:4px solid #e5e5e5; border-radius:16px; padding:20px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; }
     .g-home-icon { font-size:40px; }
+    
+    .g-speech-bubble { background:#fff; border:2px solid #e5e5e5; border-radius:24px; padding:24px; position:relative; margin-bottom:20px; text-align:left; }
+    .g-speech-tail { position:absolute; bottom:-11px; right:60px; width:20px; height:20px; background:#fff; border-right:2px solid #e5e5e5; border-bottom:2px solid #e5e5e5; transform:rotate(45deg); }
+    .g-avatar { font-size:80px; display:inline-block; transform:scaleX(-1); margin-top:-10px; }
   `;
 
   function renderHeader(showClose = true) {
@@ -292,7 +338,18 @@ window.GermanModule = (function () {
                 <div style="color:#afafaf; font-size:14px;">5 yeni kelime öğren</div>
              </div>
           </div>
-          <button class="g-btn" onclick="window.GermanModule.startLesson()">Derse Başla</button>
+          <button class="g-btn" onclick="window.GermanModule.startLesson()">Başla</button>
+        </div>
+
+        <div class="g-home-card">
+          <div style="display:flex; align-items:center; gap:16px;">
+             <div class="g-home-icon">🗣️</div>
+             <div>
+                <div style="font-size:18px; font-weight:bold; color:#4b4b4b;">Cümle Pratiği</div>
+                <div style="color:#afafaf; font-size:14px;">Gramer ve cümle kalıpları</div>
+             </div>
+          </div>
+          <button class="g-btn" style="background:#1cb0f6; border-bottom-color:#1899d6;" onclick="window.GermanModule.startGrammarLesson()">Başla</button>
         </div>
 
         <div style="margin-top:30px; padding:20px; border:2px solid #e5e5e5; border-radius:16px;">
@@ -336,6 +393,27 @@ window.GermanModule = (function () {
     });
     lessonWords.forEach(w => {
       lessonQueue.push({ type: 'test', word: w });
+    });
+
+    renderLessonItem();
+  }
+
+  function startGrammarLesson() {
+    let unlearned = grammarSentences.filter(s => !learnedIds.includes(s.id));
+    if(unlearned.length < 5) {
+      unlearned = [...grammarSentences].sort(() => 0.5 - Math.random());
+    }
+    
+    lessonWords = unlearned.sort(() => 0.5 - Math.random()).slice(0, 5);
+    if(lessonWords.length === 0) return;
+
+    lessonQueue = [];
+    lives = 5;
+    currentItemIdx = 0;
+
+    lessonWords.forEach(s => {
+      lessonQueue.push({ type: 'teach_sentence', sentence: s });
+      lessonQueue.push({ type: 'test_sentence', sentence: s });
     });
 
     renderLessonItem();
@@ -407,6 +485,59 @@ window.GermanModule = (function () {
          </div>
        `;
        speak(item.word.german_word);
+    } else if (item.type === 'teach_sentence') {
+       innerHtml = `
+         <div class="g-speech-bubble">
+            <div class="g-speech-tail"></div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+               <img src="https://flagcdn.com/w40/de.png" style="width:24px; border-radius:4px;">
+               <span style="color:#afafaf; font-size:14px; font-weight:bold;">${item.sentence.topic}</span>
+               <button onclick="window.GermanModule.speak('${item.sentence.german.replace(/'/g, "\\'")}')" style="background:none; border:none; color:#1cb0f6; font-size:20px; cursor:pointer; margin-left:auto;">🔊</button>
+            </div>
+            <div style="font-size:24px; font-weight:bold; color:#4b4b4b; margin-bottom:12px; line-height:1.4;">${item.sentence.german}</div>
+            <div style="font-size:18px; color:#afafaf;">${item.sentence.turkish}</div>
+         </div>
+         <div style="text-align:right; padding-right:40px;">
+            <div class="g-avatar">👩‍🏫</div>
+         </div>
+       `;
+       speak(item.sentence.german);
+    } else if (item.type === 'test_sentence') {
+       const words = item.sentence.german.split(' ').map(w => w.trim()).filter(w => w.length > 0);
+       const validWords = words.filter(w => w.length > 2 && !w.includes('.') && !w.includes(','));
+       const wordToBlank = validWords.length > 0 ? validWords[Math.floor(Math.random() * validWords.length)] : words[0];
+       
+       const blankedGerman = item.sentence.german.replace(wordToBlank, '________');
+       
+       let options = [wordToBlank];
+       let wrongPool = grammarSentences.map(s => s.german.split(' ').filter(w => w.length > 2 && !w.includes('.') && !w.includes(','))).flat();
+       wrongPool = wrongPool.filter(w => w !== wordToBlank).sort(() => 0.5 - Math.random());
+       
+       for(let i=0; i<3 && wrongPool[i]; i++) {
+         options.push(wrongPool[i]);
+       }
+       options.sort(() => 0.5 - Math.random());
+
+       innerHtml = `
+         <div class="g-speech-bubble">
+            <div class="g-speech-tail"></div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+               <span style="color:#afafaf; font-size:14px; font-weight:bold;">Boşluğu Doldur</span>
+               <button onclick="window.GermanModule.speak('${item.sentence.german.replace(/'/g, "\\'")}')" style="background:none; border:none; color:#1cb0f6; font-size:20px; cursor:pointer; margin-left:auto;">🔊</button>
+            </div>
+            <div style="font-size:24px; font-weight:bold; color:#4b4b4b; margin-bottom:12px; line-height:1.4;">${blankedGerman}</div>
+            <div style="font-size:18px; color:#afafaf;">${item.sentence.turkish}</div>
+         </div>
+         <div style="text-align:right; padding-right:40px; margin-bottom:20px;">
+            <div class="g-avatar">🤔</div>
+         </div>
+         <div class="g-options" id="gOptionsArea">
+            ${options.map(opt => `
+               <button class="g-option" onclick="window.GermanModule.checkAnswer(this, '${opt.replace(/'/g, "\\'")}', '${wordToBlank.replace(/'/g, "\\'")}')">${opt}</button>
+            `).join('')}
+         </div>
+       `;
+       speak(blankedGerman.replace('________', '...'));
     }
 
     const html = `
@@ -429,7 +560,7 @@ window.GermanModule = (function () {
     
     document.getElementById('germanAppContent').innerHTML = html;
 
-    if(item.type === 'teach') {
+    if(item.type === 'teach' || item.type === 'teach_sentence') {
        document.getElementById('gFooter').style.display = 'flex';
     }
   }
@@ -516,6 +647,7 @@ window.GermanModule = (function () {
     changeLevel,
     speak,
     startLesson,
+    startGrammarLesson,
     checkAnswer,
     nextItem
   };
