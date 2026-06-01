@@ -592,17 +592,17 @@ window.showAllUsersLocations = function() {
 
         var icon = L.divIcon({
           className: '',
-          html: '<div style="display:flex;align-items:flex-end;gap:6px;">' +
-                '<div style="flex-shrink:0;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));">' +
-                  pinSvg +
-                '</div>' +
-                '<div style="display:flex;flex-direction:column;padding-bottom:32px;">' +
-                  '${bubblesHtml.replace(/\n/g, '').replace(/'/g, "\\'")}' +
-                '</div>' +
+          html: '<div style="position:relative; width:24px; height:32px;">' +
+                  '<div style="position:absolute; bottom:0; left:0; width:24px; height:32px; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));">' +
+                    pinSvg +
+                  '</div>' +
+                  '<div style="position:absolute; bottom:0; left:30px; display:flex; flex-direction:column; justify-content:flex-end; pointer-events:none;">' +
+                    '${bubblesHtml.replace(/\n/g, '').replace(/'/g, "\\'")}' +
+                  '</div>' +
                 '</div>',
-          iconSize: [180, 60],
+          iconSize: [24, 32],
           iconAnchor: [12, 32],
-          popupAnchor: [60, -32]
+          popupAnchor: [0, -32]
         });
 
         L.marker([${g.lat}, ${g.lng}], {icon: icon})
