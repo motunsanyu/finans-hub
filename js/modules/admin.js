@@ -46,8 +46,11 @@ async function loadAdminUsers() {
   const statsEl = document.getElementById('adminStats');
   if (!sb || !listEl) return;
 
-  listEl.innerHTML = '<div style="text-align:center; padding:40px; color:#708499;">Yükleniyor...</div>';
-  
+  if (adminUsersCache && adminUsersCache.length > 0) {
+    renderAdminUsers(adminUsersCache);
+  } else {
+    listEl.innerHTML = '<div style="text-align:center; padding:40px; color:#708499;">Yükleniyor...</div>';
+  }
   try {
     const { data: users, error } = await sb
       .from('profiles')

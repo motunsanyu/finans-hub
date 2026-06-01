@@ -567,7 +567,7 @@ const MenuModule = (() => {
     } else {
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
-      if (window.showToast) window.showToast('Menu Tarihini Seciniz...', 'default');
+      if (window.showToast) window.showToast('Günün Menüsü İçin Tarihi Seçin', 'default');
       switchTab('builder');
       loadMasterItems();
       const today = getLocalIsoDate();
@@ -1093,10 +1093,20 @@ const MenuModule = (() => {
       );
       if (error) throw error;
 
-      if (window.showToast) window.showToast(`${dateStr} tarihli menü kaydedildi!`, 'success');
+      let formattedDateText = dateStr;
+      try {
+        const d = new Date(dateStr);
+        if (!isNaN(d)) {
+          const formattedDate = d.toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+          const dayName = d.toLocaleDateString('tr-TR', { weekday: 'long' });
+          formattedDateText = `${formattedDate} ${dayName}`;
+        }
+      } catch (e) {}
+
+      if (window.showToast) window.showToast(`${formattedDateText} Günü Menüsü Oluşturuldu`, 'success');
       currentDailyMenu = { menu_date: dateStr, items };
       renderBuilderItemsList();
-      setTimeout(() => switchTab('share'), 900);
+      setTimeout(() => switchTab('exporter'), 900);
 
     } catch (err) {
       console.error(err);
