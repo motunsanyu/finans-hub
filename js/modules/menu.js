@@ -567,6 +567,7 @@ const MenuModule = (() => {
     } else {
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
+      if (window.showToast) window.showToast('Menu Tarihini Seciniz...', 'default');
       switchTab('builder');
       loadMasterItems();
       const today = getLocalIsoDate();
@@ -1092,10 +1093,10 @@ const MenuModule = (() => {
       );
       if (error) throw error;
 
-      if (window.showToast) window.showToast('Menü kaydedildi!', 'success');
+      if (window.showToast) window.showToast(`${dateStr} tarihli menü kaydedildi!`, 'success');
       currentDailyMenu = { menu_date: dateStr, items };
       renderBuilderItemsList();
-      setTimeout(() => switchTab('exporter'), 900);
+      setTimeout(() => switchTab('share'), 900);
 
     } catch (err) {
       console.error(err);
