@@ -98,8 +98,8 @@ function renderAdminUsers(users) {
     if (!pendingA && pendingB) return 1;
 
     // Normal alfabetik sıralama
-    const nameA = a.display_name || a.username || '';
-    const nameB = b.display_name || b.username || '';
+    const nameA = a.username || a.display_name || '';
+    const nameB = b.username || b.display_name || '';
     return nameA.localeCompare(nameB);
   });
 
@@ -112,7 +112,7 @@ function renderAdminUsers(users) {
       window._adminLocData[u.id] = {
         lat: Number(u.last_lat),
         lng: Number(u.last_lng),
-        name: u.display_name || u.username || 'Kullanıcı',
+        name: u.username || u.display_name || 'Kullanıcı',
         city: (u.last_city || '') + (u.last_country ? ', ' + u.last_country : ''),
         time: u.last_location_time || ''
       };
@@ -121,7 +121,7 @@ function renderAdminUsers(users) {
 
   const html = sortedUsers.map(u => {
     const isMe = u.id === currentUserId;
-    const name = u.display_name || u.username || 'İsimsiz';
+    const name = u.username || u.display_name || 'İsimsiz';
     const email = u.email || 'E-posta yok';
     const initial = name.charAt(0).toUpperCase();
     // Son görülme tarihi formatlama

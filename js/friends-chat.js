@@ -128,7 +128,7 @@ const FriendsChatModule = (() => {
       list.push({
         friendshipId: f.id,
         friendId,
-        friendName: prof?.display_name || prof?.username || 'Bilinmeyen',
+        friendName: prof?.username || prof?.display_name || 'Bilinmeyen',
         profile: prof
       });
     }
@@ -257,7 +257,7 @@ const FriendsChatModule = (() => {
       }
       if (wrapper) wrapper.style.display = 'block';
       el.innerHTML = requests.map(r => {
-        const name = r.profiles?.display_name || r.profiles?.username || 'Bilinmeyen';
+        const name = r.profiles?.username || r.profiles?.display_name || 'Bilinmeyen';
         const avatarHtml = makeAvatarHtml(name, r.profiles?.avatar_url, 40, 16);
         return `
           <div style="display:flex;align-items:center;padding:10px;margin-bottom:8px;background:#17212b;border-radius:12px;gap:10px;">
@@ -336,7 +336,7 @@ const FriendsChatModule = (() => {
         resultDiv.innerHTML = '<div style="padding:10px;color:#ef5350;font-size:12px;">Kullanıcı bulunamadı.</div>';
         return;
       }
-      const name = user.display_name || user.username;
+      const name = user.username || user.display_name;
       const avatarHtml = makeAvatarHtml(name, user.avatar_url, 40, 16);
       resultDiv.innerHTML = `
         <div style="margin-top:10px;padding:12px;background:#17212b;border-radius:12px;display:flex;align-items:center;gap:10px;">
@@ -633,7 +633,7 @@ const FriendsChatModule = (() => {
     const avatarEl = document.getElementById('chatHeaderAvatar');
     const avatarDot = document.getElementById('chatHeaderOnlineDot');
 
-    const name = prof?.display_name || prof?.username || currentFriendName || '?';
+    const name = prof?.username || prof?.display_name || currentFriendName || '?';
     const status = getOnlineStatus(prof?.last_seen);
 
     if (nameEl) nameEl.textContent = name;
@@ -1187,7 +1187,7 @@ const FriendsChatModule = (() => {
           try {
             const { data: prof } = await getSB().from('profiles')
               .select('display_name, username').eq('id', msg.sender_id).single();
-            const senderName = prof?.display_name || prof?.username || 'Biri';
+            const senderName = prof?.username || prof?.display_name || 'Biri';
             const preview = msg.content ? msg.content.slice(0, 60) + (msg.content.length > 60 ? '...' : '') : 'Yeni mesaj';
             // Koyu yeşil bildirim banner'ı göster
             showNewMessageBanner(senderName, preview);

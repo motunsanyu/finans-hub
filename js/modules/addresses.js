@@ -9,16 +9,30 @@ const AddressModule = (() => {
   const APPLE_MAPS_ICON = `<img src="assets/icons/apple-maps.png" 
     style="width:58px; height:58px; flex-shrink:0; border-radius:4px; object-fit:contain;" alt="Apple">`;
 
-  // ── YARDIMCI FONKSİYONLAR ────────────────────────────────────────
-  function loadAddresses() {
+  async function getStorageKey() {
+    let key = 'finansHub_addresses';
+    if (window._supabaseClient) {
+      try {
+        const { data: { user } } = await window._supabaseClient.auth.getUser();
+        if (user && user.id) {
+          key += '_' + user.id;
+        }
+      } catch(e){}
+    }
+    return key;
+  }
+
+  async function loadAddresses() {
     try {
-      const data = localStorage.getItem(STORAGE_KEY);
+      const key = await getStorageKey();
+      const data = localStorage.getItem(key);
       return data ? JSON.parse(data) : [];
     } catch (e) { return []; }
   }
 
-  function saveAddresses(addresses) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(addresses));
+  async function saveAddresses(addresses) {
+    const key = await getStorageKey();
+    localStorage.setItem(key, JSON.stringify(addresses));
   }
 
   function escapeHtml(str) {
@@ -50,8 +64,8 @@ const AddressModule = (() => {
   }
 
   // ── CRUD FONKSİYONLARI ───────────────────────────────────────────
-  function addAddress(title, lat, lng, il, ilce, adresTam) {
-    const addresses = loadAddresses();
+  async function addAddress(title, lat, lng, il, ilce, adresTam) {
+    const addresses = await loadAddresses();
     addresses.push({
       id: Date.now().toString(),
       baslik: title,
@@ -62,12 +76,12 @@ const AddressModule = (() => {
       adresTam: adresTam || '',
       timestamp: new Date().toISOString()
     });
-    saveAddresses(addresses);
+    await saveAddresses(addresses);
     renderAddresses();
   }
 
-  function editAddress(id) {
-    const addresses = loadAddresses();
+  async function editAddress(id) {
+    const addresses = await loadAddresses();
     const addr = addresses.find(a => a.id === id);
     if (!addr) return;
 
@@ -85,17 +99,21 @@ const AddressModule = (() => {
 
   function deleteAddress(id) {
     if (typeof window.showCustomConfirm === 'function') {
-      window.showCustomConfirm('Bu adresi silmek istediğinize emin misiniz?', () => {
-        let addresses = loadAddresses().filter(a => a.id !== id);
-        saveAddresses(addresses);
+      window.showCustomConfirm('Bu adresi silmek istediğinize emin misiniz?', async () => {
+        let addresses = await loadAddresses();
+        addresses = addresses.filter(a => a.id !== id);
+        await saveAddresses(addresses);
         renderAddresses();
         if (window.showToast) window.showToast('Adres silindi.', 'success');
       });
     } else {
       if (confirm('Bu adresi silmek istediğinize emin misiniz?')) {
-        let addresses = loadAddresses().filter(a => a.id !== id);
-        saveAddresses(addresses);
-        renderAddresses();
+        (async () => {
+          let addresses = await loadAddresses();
+          addresses = addresses.filter(a => a.id !== id);
+          await saveAddresses(addresses);
+          renderAddresses();
+        })();
       }
     }
   }
@@ -111,11 +129,11 @@ const AddressModule = (() => {
   }
 
   // ── RENDER ───────────────────────────────────────────────────────
-  function renderAddresses() {
+  async function renderAddresses() {
     const container = document.getElementById('addressesList');
     if (!container) return;
 
-    const addresses = loadAddresses();
+    const addresses = await loadAddresses();
     if (addresses.length === 0) {
       container.innerHTML = `
         <div style="text-align:center; padding:48px 16px; color:#848e9c;">
@@ -193,7 +211,7 @@ const AddressModule = (() => {
     saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
     cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
 
-    function doSave() {
+    async function doSave() {
       const title = input.value.trim();
       if (!title) {
         if (window.showToast) window.showToast('❌ Lütfen bir başlık girin.', 'error');
@@ -201,12 +219,12 @@ const AddressModule = (() => {
         return;
       }
 
-      const addresses = loadAddresses();
+      const addresses = await loadAddresses();
       if (pendingData.isEdit) {
         const idx = addresses.findIndex(a => a.id === pendingData.editId);
         if (idx !== -1) {
           addresses[idx].baslik = title;
-          saveAddresses(addresses);
+          await saveAddresses(addresses);
         }
       } else {
         addresses.push({
@@ -219,7 +237,7 @@ const AddressModule = (() => {
           adresTam: pendingData.adresTam || '',
           timestamp: new Date().toISOString()
         });
-        saveAddresses(addresses);
+        await saveAddresses(addresses);
       }
 
       renderAddresses();

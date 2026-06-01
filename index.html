@@ -534,7 +534,7 @@
       </div>
       <script>
         function forceHardRefresh() {
-          if (confirm('Uygulamayı yenileyip en güncel sürümü (yeni özellikleri) yüklemek istiyor musunuz?')) {
+          const run = () => {
             if ('serviceWorker' in navigator) {
               navigator.serviceWorker.getRegistrations().then(function(registrations) {
                 for(let registration of registrations) {
@@ -548,6 +548,14 @@
             const url = new URL(window.location.href);
             url.searchParams.set('v', new Date().getTime());
             window.location.href = url.toString();
+          };
+
+          if (window.showCustomConfirm) {
+            window.showCustomConfirm('Uygulamayı yenileyip en güncel sürümü (yeni özellikleri) yüklemek istiyor musunuz?', run);
+          } else {
+            if (confirm('Uygulamayı yenileyip en güncel sürümü (yeni özellikleri) yüklemek istiyor musunuz?')) {
+              run();
+            }
           }
         }
       </script>
