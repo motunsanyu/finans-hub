@@ -1,0 +1,16 @@
+[
+  {
+    "version": "admin v1.8",
+    "date": "01.06.2026 - 19:55",
+    "day": "Pazartesi",
+    "summary": "Yönetici paneli ve kullanıcı deneyimi ile ilgili çeşitli iyileştirmeler yapıldı.",
+    "items": [
+      "<strong style=\"color:#10b981;\">Kullanıcı Adı Önceliği:</strong> Profildeki kullanıcı adı (username) artık sistem genelinde Google hesap adının önüne geçecek şekilde güncellendi.",
+      "<strong style=\"color:#f59e0b;\">Onay Penceresi Düzenlendi:</strong> Hızlı yenileme butonundaki 'Sil/İptal' karmaşası düzeltildi. Artık mantıklı bir şekilde 'Evet/İptal' olarak çıkıyor.",
+      "<strong style=\"color:#3b82f6;\">Yönetici Haritası Düzenlendi:</strong> Aynı lokasyondaki kullanıcıların üst üste binmesi sorunu çözüldü. Artık aynı şehirde/lokasyonda olan kullanıcılar tek bir yer işareti altında gruplanıyor.",
+      "<strong style=\"color:#a855f7;\">Uyarı (Toast) Mesajları:</strong> 'Günün Menüsü' gibi modal ekranlarının arkasında kalarak görünmeyen uyarı/başarı mesajlarının en üstte görünmeleri sağlandı.",
+      "<strong style=\"color:#10b981;\">Hızlı Yenileme (CTRL+F5) Butonu:</strong> Uygulamanın ana sayfasındaki üst bara zorlu yenileme butonu eklendi.",
+      "<strong style=\"color:#f59e0b;\">Sürüm Notları Altyapısı:</strong> Sürüm notları artık statik HTML yerine dinamik olarak JSON dosyasından okunacak şekilde yeniden kodlandı."
+    ]
+  }
+]

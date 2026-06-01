@@ -700,3 +700,49 @@ window.showAllUsersLocations = function() {
   doc.close();
 };
 
+window.fetchAndShowReleaseNotes = async function() {
+  const modal = document.getElementById('updateSummaryModal');
+  const content = document.getElementById('releaseNotesContent');
+  const title = document.getElementById('releaseNotesTitle');
+  if (!modal || !content || !title) return;
+
+  modal.style.display = 'flex';
+  content.innerHTML = '<div style="text-align:center; padding:20px;">Sürüm notları yükleniyor...</div>';
+  title.innerHTML = 'Sürüm Notları';
+
+  try {
+    const res = await fetch('./release_notes.json?v=' + Date.now());
+    if (!res.ok) throw new Error('Dosya bulunamadı.');
+    const notes = await res.json();
+    
+    if (notes && notes.length > 0) {
+      let html = '';
+      notes.forEach((note, index) => {
+        if (index === 0) {
+          title.innerHTML = `
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:8px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            Sürüm Notları (${note.version})
+          `;
+        }
+        
+        html += `
+          <div style="margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <div style="font-size:16px; font-weight:bold; color:#10b981; margin-bottom:4px;">Güncelleme Sürümü: ${note.version}</div>
+            <div style="font-size:12px; color:#9ca3af; margin-bottom:2px;">${note.date}</div>
+            <div style="font-size:12px; color:#9ca3af; margin-bottom:12px;">${note.day}</div>
+            <div style="font-size:14px; color:#e5e7eb; font-weight:600; margin-bottom:12px;">${note.summary}</div>
+            <ul style="padding-left:20px; margin:0; display:flex; flex-direction:column; gap:12px;">
+              ${note.items.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+        `;
+      });
+      content.innerHTML = html;
+    } else {
+      content.innerHTML = '<div style="text-align:center; padding:20px;">Sürüm notu bulunamadı.</div>';
+    }
+  } catch (error) {
+    console.error(error);
+    content.innerHTML = '<div style="text-align:center; padding:20px; color:#ef5350;">Sürüm notları yüklenirken bir hata oluştu.</div>';
+  }
+};
