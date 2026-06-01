@@ -564,10 +564,12 @@ const MenuModule = (() => {
       window.editingFoodItemId = null;
       const btn = document.querySelector('#tabContent-adder form button[type="submit"]');
       if (btn) btn.textContent = '➕ Yemek Listesine Ekle';
+      // Animasyonu temizle
+      const dateInput2 = document.getElementById('menuBuilderDate');
+      if (dateInput2) stopDatePulse(dateInput2);
     } else {
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
-      if (window.showToast) window.showToast('Günün Menüsü İçin Tarihi Seçin', 'default');
       switchTab('builder');
       loadMasterItems();
       const today = getLocalIsoDate();
@@ -577,8 +579,37 @@ const MenuModule = (() => {
       selectedCanvasImageIds = [];
       currentDailyMenu = { menu_date: today, items: [] };
       await loadDailyMenuForDate(today);
+      // Toast ve animasyonu DOM hazır olduktan sonra başlat
+      setTimeout(() => {
+        toast('Günün Menüsü İçin Tarihi Seçin', 'default');
+        const di = document.getElementById('menuBuilderDate');
+        if (di) startDatePulse(di);
+      }, 100);
     }
   };
+
+  // Tarih input pulse animasyon yardımcıları
+  function startDatePulse(el) {
+    if (!document.getElementById('_menuDatePulseStyle')) {
+      const style = document.createElement('style');
+      style.id = '_menuDatePulseStyle';
+      style.textContent = `@keyframes menuDatePulse {
+        0%,100%{ box-shadow:0 0 0 0 rgba(251,146,60,0.7); border-color:#f97316; }
+        50%{ box-shadow:0 0 0 6px rgba(251,146,60,0); border-color:#fb923c; }
+      }
+      .menu-date-pulse{ animation: menuDatePulse 1.2s ease-in-out infinite !important; border:2px solid #f97316 !important; }`;
+      document.head.appendChild(style);
+    }
+    el.classList.add('menu-date-pulse');
+    el.addEventListener('change', function onDateChange() {
+      stopDatePulse(el);
+      el.removeEventListener('change', onDateChange);
+    }, { once: true });
+  }
+
+  function stopDatePulse(el) {
+    el.classList.remove('menu-date-pulse');
+  }
 
   function switchTab(tabId) {
     document.querySelectorAll('.menu-tab-btn').forEach(btn => {
@@ -1093,20 +1124,26 @@ const MenuModule = (() => {
       );
       if (error) throw error;
 
+      // Tarih formatla — YYYY-MM-DD parse'ı timezone güvenli yap
       let formattedDateText = dateStr;
       try {
-        const d = new Date(dateStr);
-        if (!isNaN(d)) {
+        const parts = dateStr.split('-');
+        if (parts.length === 3) {
+          const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
           const formattedDate = d.toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
           const dayName = d.toLocaleDateString('tr-TR', { weekday: 'long' });
           formattedDateText = `${formattedDate} ${dayName}`;
         }
       } catch (e) {}
 
-      if (window.showToast) window.showToast(`${formattedDateText} Günü Menüsü Oluşturuldu`, 'success');
       currentDailyMenu = { menu_date: dateStr, items };
       renderBuilderItemsList();
-      setTimeout(() => switchTab('exporter'), 900);
+      // Tarih input pulse'ı durdur
+      const diEl = document.getElementById('menuBuilderDate');
+      if (diEl) stopDatePulse(diEl);
+      // Başarı bildirimi göster, sonra sekmeye geç
+      toast(`${formattedDateText} Günü Menüsü Oluşturuldu`, 'success');
+      setTimeout(() => switchTab('exporter'), 1200);
 
     } catch (err) {
       console.error(err);

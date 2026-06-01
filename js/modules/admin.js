@@ -180,6 +180,7 @@ function renderAdminUsers(users) {
       }
     } else {
       actions += `<span style="font-size:13px; color:#708499; font-weight:800; width:100%; text-align:center; padding:8px 0;">✨ Kendi Hesabınız (Yönetici)</span>`;
+      actions += `<button onclick="event.stopPropagation(); window.showAllUsersLocations()" style="flex:1; height:44px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.1; background:rgba(99,102,241,0.15); border:1px solid rgba(99,102,241,0.35); color:#a5b4fc; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">🗺️ Tüm Konumlar</button>`;
     }
 
     return `
@@ -495,4 +496,124 @@ window.toggleMenuEditorPermission = async function(userId, currentStatus) {
   } else if (confirm(message)) {
     run();
   }
+};
+
+// ─── TÜM KULLANICILARIN KONUMLARI — TEK HARİTA ─────────────────────────────
+window.showAllUsersLocations = function() {
+  const locData = window._adminLocData || {};
+  const entries = Object.values(locData);
+
+  if (entries.length === 0) {
+    if (window.showToast) window.showToast('Gösterilecek konum verisi bulunamadı.', 'warning');
+    return;
+  }
+
+  // Ortalama koordinat
+  const avgLat = entries.reduce((s, e) => s + e.lat, 0) / entries.length;
+  const avgLng = entries.reduce((s, e) => s + e.lng, 0) / entries.length;
+
+  const existing = document.getElementById('allLocationsMapModal');
+  if (existing) existing.remove();
+
+  // Marker pin SVG üretici (renk parametreli)
+  function pinSVG(color) {
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="38" viewBox="0 0 28 38">
+      <ellipse cx="14" cy="36" rx="6" ry="2" fill="rgba(0,0,0,0.25)"/>
+      <path d="M14 0C7.4 0 2 5.4 2 12c0 8.5 12 24 12 24S26 20.5 26 12C26 5.4 20.6 0 14 0z" fill="${color}"/>
+      <circle cx="14" cy="12" r="5" fill="white" opacity="0.9"/>
+    </svg>`;
+  }
+
+  // OpenStreetMap üzerinde tüm markerları yerleştirmek için iframe + leaflet CDN kullanıyoruz
+  const markerColors = ['#ef4444','#f59e0b','#10b981','#3b82f6','#8b5cf6','#ec4899','#14b8a6','#f97316'];
+
+  // Her marker için JS kodu üret
+  const markerJs = entries.map((e, i) => {
+    const color = markerColors[i % markerColors.length];
+    const svgEncoded = encodeURIComponent(pinSVG(color));
+    const label = (e.name || 'Kullanıcı').replace(/'/g, "'");
+    const city = (e.city || '').replace(/'/g, "'");
+    return `
+      (function(){
+        var icon = L.divIcon({
+          className:'',
+          html:'<div style="position:relative;display:inline-block;">'+
+               '<img src="data:image/svg+xml,${svgEncoded}" width="28" height="38" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4));">'+
+               '<div style="position:absolute;top:-20px;left:50%;transform:translateX(-50%);'+
+                           'background:rgba(0,0,0,0.75);color:#fff;font-size:10px;font-weight:700;'+
+                           'padding:2px 6px;border-radius:4px;white-space:nowrap;pointer-events:none;">'+
+               '${label}'+'</div></div>',
+          iconSize:[28,38], iconAnchor:[14,38], popupAnchor:[0,-40]
+        });
+        L.marker([${e.lat},${e.lng}],{icon:icon})
+         .addTo(map)
+         .bindPopup('<b>${label}</b><br><span style="font-size:11px;color:#555;">${city}</span>');
+      })();
+    `;
+  }).join('');
+
+  const iframeContent = `<!DOCTYPE html><html><head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"><\/script>
+    <style>html,body,#map{margin:0;padding:0;width:100%;height:100%;}</style>
+  </head><body>
+    <div id="map"></div>
+    <script>
+      var map = L.map('map').setView([${avgLat},${avgLng}], 6);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+        attribution:'© OpenStreetMap'
+      }).addTo(map);
+      ${markerJs}
+    <\/script>
+  </body></html>`;
+
+  const modal = document.createElement('div');
+  modal.id = 'allLocationsMapModal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:200001;display:flex;flex-direction:column;background:#0e1621;';
+
+  modal.innerHTML = `
+    <div style="flex-shrink:0;display:flex;align-items:center;justify-content:space-between;
+                padding:14px 20px;background:linear-gradient(135deg,#1a2a3a,#17212b);
+                border-bottom:1px solid #232e3c;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#4f46e5);
+                    display:flex;align-items:center;justify-content:center;font-size:18px;">🗺️</div>
+        <div>
+          <div style="color:#fff;font-weight:800;font-size:16px;">Tüm Kullanıcı Konumları</div>
+          <div style="color:#a5b4fc;font-size:12px;margin-top:2px;">${entries.length} kullanıcı konumu gösteriliyor</div>
+        </div>
+      </div>
+      <button onclick="document.getElementById('allLocationsMapModal').remove()"
+              style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.08);
+                     border:1px solid rgba(255,255,255,0.12);color:#fff;font-size:20px;cursor:pointer;
+                     display:flex;align-items:center;justify-content:center;"
+              onmouseover="this.style.background='rgba(255,255,255,0.15)'"
+              onmouseout="this.style.background='rgba(255,255,255,0.08)'">✕</button>
+    </div>
+    <div style="flex:1;position:relative;overflow:hidden;">
+      <iframe id="allLocMapFrame" style="width:100%;height:100%;border:none;display:block;"></iframe>
+    </div>
+    <div style="flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:8px;
+                padding:10px 20px;background:#17212b;border-top:1px solid #232e3c;">
+      ${entries.map((e,i)=>{
+        const c = markerColors[i % markerColors.length];
+        return `<span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;color:#cbd5e1;">
+          <span style="width:10px;height:10px;border-radius:50%;background:${c};display:inline-block;"></span>
+          ${e.name||'Kullanıcı'}
+        </span>`;
+      }).join('')}
+    </div>
+  `;
+
+  const onKey = (e) => { if (e.key === 'Escape') { modal.remove(); document.removeEventListener('keydown', onKey); } };
+  document.addEventListener('keydown', onKey);
+  document.body.appendChild(modal);
+
+  // iframe'e içeriği yaz
+  const frame = document.getElementById('allLocMapFrame');
+  const doc = frame.contentDocument || frame.contentWindow.document;
+  doc.open();
+  doc.write(iframeContent);
+  doc.close();
 };
