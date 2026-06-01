@@ -518,6 +518,12 @@
         <div class="logo-box">FINANS TR</div>
       </div>
       <div style="display:flex; align-items:center; gap:8px;">
+        <button id="hardRefreshBtn" onclick="forceHardRefresh()" title="Güncellemeleri Al (Önbelleği Temizle)" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:6px; cursor:pointer; color:var(--text-secondary); display:flex; align-items:center; justify-content:center;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+            <path d="M3 3v5h5"></path>
+          </svg>
+        </button>
         <button id="themeToggleBtn" onclick="toggleTheme()" title="Tema Değiştir">
           <span id="themeIcon">✦</span>
           <span id="themeLabel">KLASİK</span>
@@ -526,6 +532,25 @@
           <span style="font-size:26px; color:var(--text-primary);">☰</span>
         </button>
       </div>
+      <script>
+        function forceHardRefresh() {
+          if (confirm('Uygulamayı yenileyip en güncel sürümü (yeni özellikleri) yüklemek istiyor musunuz?')) {
+            if ('serviceWorker' in navigator) {
+              navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) {
+                  registration.unregister();
+                }
+              }).catch(function(err) {
+                console.error('SW unregister error', err);
+              });
+            }
+            // Clear page cache via query parameter
+            const url = new URL(window.location.href);
+            url.searchParams.set('v', new Date().getTime());
+            window.location.href = url.toString();
+          }
+        }
+      </script>
     </header>
 
     <!-- ════YAN MENÜ (BORÇ GİRİŞİ)════ -->
@@ -2327,8 +2352,15 @@
           <p id="adminStats" style="margin:4px 0 0; font-size:12px; color:#708499; font-weight:600;">Kayıtlı Kullanıcı:
             Yükleniyor...</p>
         </div>
-        <button onclick="toggleAdminModal()"
-          style="background:none; border:none; color:#708499; font-size:24px; cursor:pointer; padding:4px;">✕</button>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <button onclick="document.getElementById('updateSummaryModal').style.display='flex';" 
+            style="background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.3); color:#60a5fa; border-radius:8px; padding:6px 12px; font-size:12px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            Sürüm Notları
+          </button>
+          <button onclick="toggleAdminModal()"
+            style="background:none; border:none; color:#708499; font-size:24px; cursor:pointer; padding:4px; line-height:1;">✕</button>
+        </div>
       </div>
 
       <div style="padding:16px; background:#0e1621; border-bottom:1px solid #232e3c;">
@@ -2950,6 +2982,42 @@
         <button id="canvasImageModalUploadBtn" style="width:100%; background:#2b3a4a; color:#fff; border:1px solid #374151; padding:12px; border-radius:8px; font-size:14px; font-weight:bold; cursor:pointer;">
           📁 Galeriden Farklı Görsel Yükle
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SÜRÜM NOTLARI MODALI -->
+  <div id="updateSummaryModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:200000; justify-content:center; align-items:center; padding:16px;">
+    <div style="background:#17212b; width:100%; max-width:480px; border-radius:16px; border:1px solid #232e3c; display:flex; flex-direction:column; max-height:85vh; box-shadow:0 12px 48px rgba(0,0,0,0.7);">
+      <div style="padding:20px; border-bottom:1px solid #232e3c; display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="color:#60a5fa; margin:0; font-size:18px; display:flex; align-items:center; gap:8px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+          Sürüm Notları (v1.1)
+        </h3>
+        <button onclick="document.getElementById('updateSummaryModal').style.display='none'" style="background:none; border:none; color:#708499; font-size:24px; cursor:pointer; padding:4px;">✕</button>
+      </div>
+      <div style="padding:24px; overflow-y:auto; flex:1; color:#d1d5db; font-size:14px; line-height:1.6;">
+        <ul style="padding-left:20px; margin:0; display:flex; flex-direction:column; gap:16px;">
+          <li>
+            <strong style="color:#10b981;">Yönetici Haritası Düzenlendi:</strong><br>
+            Aynı lokasyondaki kullanıcıların üst üste binmesi sorunu çözüldü. Artık aynı şehirde/lokasyonda olan kullanıcılar tek bir yer işareti altında gruplanıyor ve isimleri yer işaretinin sağında baloncuklar halinde düzgünce sıralanıyor.
+          </li>
+          <li>
+            <strong style="color:#f59e0b;">Uyarı (Toast) Mesajları Düzeltildi:</strong><br>
+            "Günün Menüsü" gibi modal ekranlarının arkasında kalarak görünmeyen uyarı/başarı mesajlarının z-index (öncelik) ayarları güncellenerek en üstte görünmeleri sağlandı.
+          </li>
+          <li>
+            <strong style="color:#3b82f6;">Hızlı Yenileme (CTRL+F5) Butonu:</strong><br>
+            Uygulamanın ana sayfasındaki üst bara (tema butonunun soluna) zorlu yenileme butonu eklendi. Telefondan girildiğinde uygulamayı tamamen kapatıp açmaya gerek kalmadan tüm önbellekler tek tıkla yenilenebiliyor.
+          </li>
+          <li>
+            <strong style="color:#a855f7;">Menü Animasyonları:</strong><br>
+            Günlük menü seçimi sırasında tarih kutucuğunun etrafında dikkat çekici, turuncu renkli bir yanıp sönme (pulse) efekti aktif edildi.
+          </li>
+        </ul>
+      </div>
+      <div style="padding:16px; border-top:1px solid #232e3c; background:#1e293b; border-bottom-left-radius:16px; border-bottom-right-radius:16px; text-align:right;">
+        <button onclick="document.getElementById('updateSummaryModal').style.display='none'" style="background:#3b82f6; color:#fff; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer;">Anladım</button>
       </div>
     </div>
   </div>
