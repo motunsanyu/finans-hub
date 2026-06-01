@@ -508,65 +508,150 @@ window.showAllUsersLocations = function() {
     return;
   }
 
-  // Ortalama koordinat
-  const avgLat = entries.reduce((s, e) => s + e.lat, 0) / entries.length;
-  const avgLng = entries.reduce((s, e) => s + e.lng, 0) / entries.length;
-
   const existing = document.getElementById('allLocationsMapModal');
   if (existing) existing.remove();
 
-  // Marker pin SVG üretici (renk parametreli)
-  function pinSVG(color) {
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="38" viewBox="0 0 28 38">
-      <ellipse cx="14" cy="36" rx="6" ry="2" fill="rgba(0,0,0,0.25)"/>
-      <path d="M14 0C7.4 0 2 5.4 2 12c0 8.5 12 24 12 24S26 20.5 26 12C26 5.4 20.6 0 14 0z" fill="${color}"/>
-      <circle cx="14" cy="12" r="5" fill="white" opacity="0.9"/>
-    </svg>`;
+  // ── 1. Yakınlık gruplandırması (0.3 derece ≈ ~30 km eşiği) ──────────────
+  const THRESHOLD = 0.3;
+  const used = new Array(entries.length).fill(false);
+  const groups = [];
+
+  for (let i = 0; i < entries.length; i++) {
+    if (used[i]) continue;
+    const group = [entries[i]];
+    used[i] = true;
+    for (let j = i + 1; j < entries.length; j++) {
+      if (used[j]) continue;
+      const dLat = Math.abs(entries[i].lat - entries[j].lat);
+      const dLng = Math.abs(entries[i].lng - entries[j].lng);
+      if (dLat < THRESHOLD && dLng < THRESHOLD) {
+        group.push(entries[j]);
+        used[j] = true;
+      }
+    }
+    // Grup merkezi
+    const cLat = group.reduce((s, e) => s + e.lat, 0) / group.length;
+    const cLng = group.reduce((s, e) => s + e.lng, 0) / group.length;
+    groups.push({ lat: cLat, lng: cLng, members: group });
   }
 
-  // OpenStreetMap üzerinde tüm markerları yerleştirmek için iframe + leaflet CDN kullanıyoruz
+  // ── 2. GSM/VPN tespiti (city alanındaki etiket auth.js'de yazılmış) ──────
   const markerColors = ['#ef4444','#f59e0b','#10b981','#3b82f6','#8b5cf6','#ec4899','#14b8a6','#f97316'];
+  let colorIdx = 0;
+  const entryColors = {};
+  entries.forEach(e => {
+    entryColors[e.name] = markerColors[colorIdx % markerColors.length];
+    colorIdx++;
+  });
 
-  // Her marker için JS kodu üret
-  const markerJs = entries.map((e, i) => {
-    const color = markerColors[i % markerColors.length];
-    const svgEncoded = encodeURIComponent(pinSVG(color));
-    const label = (e.name || 'Kullanıcı').replace(/'/g, "'");
-    const city = (e.city || '').replace(/'/g, "'");
+  function isGsmEntry(e) {
+    return /gsm|vpn|proxy|sapabilir/i.test(e.city || '');
+  }
+
+  // ── 3. Her grup için marker JS kodu üret ─────────────────────────────────
+  const markerJs = groups.map((g) => {
+    const members = g.members;
+    const hasGsm = members.some(isGsmEntry);
+
+    // İsim balonları HTML — her üye için alt alta
+    const bubblesHtml = members.map(m => {
+      const c = entryColors[m.name] || '#60a5fa';
+      const warn = isGsmEntry(m) ? '⚠️ ' : '';
+      const safeName = (m.name || 'Kullanıcı')
+        .replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+      return `<div style="display:flex;align-items:center;gap:4px;background:rgba(15,20,30,0.88);` +
+             `border:1px solid ${c};color:#fff;font-size:10px;font-weight:700;` +
+             `padding:3px 7px;border-radius:12px;white-space:nowrap;margin-bottom:3px;` +
+             `box-shadow:0 1px 4px rgba(0,0,0,0.4);">` +
+             `<span style="width:7px;height:7px;border-radius:50%;background:${c};flex-shrink:0;"></span>` +
+             `${warn}${safeName}` +
+             `</div>`;
+    }).join('');
+
+    // Merkez pin rengi — grup tek kişilik ise kişi rengi, değilse mor
+    const pinColor = members.length === 1
+      ? (entryColors[members[0].name] || '#6366f1')
+      : '#6366f1';
+
+    const popupRows = members.map(m => {
+      const warn = isGsmEntry(m) ? '<span style="color:#f59e0b;">⚠️ GSM/IP tahmini</span>' : '';
+      const safeName = (m.name || '').replace(/'/g, "\\'").replace(/</g, '&lt;');
+      const safeCity = (m.city || '').replace(/'/g, "\\'").replace(/</g, '&lt;');
+      return `<div style="margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid #eee;">` +
+             `<b>${safeName}</b> ${warn}<br>` +
+             `<span style="font-size:10px;color:#666;">${safeCity}</span></div>`;
+    }).join('');
+
     return `
       (function(){
+        var pinSvg = '<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'24\\' height=\\'32\\' viewBox=\\'0 0 24 32\\'>' +
+          '<ellipse cx=\\'12\\' cy=\\'30\\' rx=\\'5\\' ry=\\'2\\' fill=\\'rgba(0,0,0,0.2)\\'/>' +
+          '<path d=\\'M12 0C6.5 0 2 4.5 2 10c0 7.5 10 20 10 20S22 17.5 22 10C22 4.5 17.5 0 12 0z\\' fill=\\'${pinColor}\\'/>' +
+          '<circle cx=\\'12\\' cy=\\'10\\' r=\\'4\\' fill=\\'white\\' opacity=\\'0.9\\'/>' +
+          '</svg>';
+
         var icon = L.divIcon({
-          className:'',
-          html:'<div style="position:relative;display:inline-block;">'+
-               '<img src="data:image/svg+xml,${svgEncoded}" width="28" height="38" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4));">'+
-               '<div style="position:absolute;top:-20px;left:50%;transform:translateX(-50%);'+
-                           'background:rgba(0,0,0,0.75);color:#fff;font-size:10px;font-weight:700;'+
-                           'padding:2px 6px;border-radius:4px;white-space:nowrap;pointer-events:none;">'+
-               '${label}'+'</div></div>',
-          iconSize:[28,38], iconAnchor:[14,38], popupAnchor:[0,-40]
+          className: '',
+          html: '<div style="display:flex;align-items:flex-end;gap:6px;">' +
+                '<div style="flex-shrink:0;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));">' +
+                  pinSvg +
+                '</div>' +
+                '<div style="display:flex;flex-direction:column;padding-bottom:32px;">' +
+                  '${bubblesHtml.replace(/\n/g, '').replace(/'/g, "\\'")}' +
+                '</div>' +
+                '</div>',
+          iconSize: [180, 60],
+          iconAnchor: [12, 32],
+          popupAnchor: [60, -32]
         });
-        L.marker([${e.lat},${e.lng}],{icon:icon})
+
+        L.marker([${g.lat}, ${g.lng}], {icon: icon})
          .addTo(map)
-         .bindPopup('<b>${label}</b><br><span style="font-size:11px;color:#555;">${city}</span>');
+         .bindPopup('<div style="min-width:160px;">${popupRows.replace(/\n/g,'').replace(/'/g,"\\'")}' +
+                    '<div style="font-size:9px;color:#999;margin-top:4px;">📡 IP/GPS tabanlı konum</div></div>');
       })();
     `;
-  }).join('');
+  }).join('\n');
+
+  // ── 4. Harita merkezi ────────────────────────────────────────────────────
+  const avgLat = entries.reduce((s, e) => s + e.lat, 0) / entries.length;
+  const avgLng = entries.reduce((s, e) => s + e.lng, 0) / entries.length;
+  const gsmCount = entries.filter(isGsmEntry).length;
 
   const iframeContent = `<!DOCTYPE html><html><head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"><\/script>
-    <style>html,body,#map{margin:0;padding:0;width:100%;height:100%;}</style>
+    <style>
+      html,body,#map{margin:0;padding:0;width:100%;height:100%;}
+      .leaflet-popup-content-wrapper{border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,0.2);}
+    </style>
   </head><body>
     <div id="map"></div>
     <script>
-      var map = L.map('map').setView([${avgLat},${avgLng}], 6);
+      var map = L.map('map').setView([${avgLat}, ${avgLng}], 6);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-        attribution:'© OpenStreetMap'
+        attribution:'&copy; OpenStreetMap katkıcıları'
       }).addTo(map);
       ${markerJs}
     <\/script>
   </body></html>`;
+
+  // ── 5. Modal HTML ─────────────────────────────────────────────────────────
+  const legendItems = entries.map(e => {
+    const c = entryColors[e.name] || '#60a5fa';
+    const warn = isGsmEntry(e) ? ' ⚠️' : '';
+    return `<span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;color:#cbd5e1;">
+      <span style="width:9px;height:9px;border-radius:50%;background:${c};flex-shrink:0;display:inline-block;"></span>
+      ${e.name || 'Kullanıcı'}${warn}
+    </span>`;
+  }).join('');
+
+  const gsmWarning = gsmCount > 0
+    ? `<div style="font-size:10px;color:#f59e0b;display:flex;align-items:center;gap:5px;margin-top:4px;">
+        ⚠️ ${gsmCount} kullanıcı GSM/IP tabanlı — gerçek konumdan sapma olabilir (örn. operatör İstanbul kayıtlı ise Antalya'daki kişi İstanbul görünebilir)
+       </div>`
+    : '';
 
   const modal = document.createElement('div');
   modal.id = 'allLocationsMapModal';
@@ -576,16 +661,18 @@ window.showAllUsersLocations = function() {
     <div style="flex-shrink:0;display:flex;align-items:center;justify-content:space-between;
                 padding:14px 20px;background:linear-gradient(135deg,#1a2a3a,#17212b);
                 border-bottom:1px solid #232e3c;">
-      <div style="display:flex;align-items:center;gap:12px;">
+      <div style="display:flex;align-items:center;gap:12px;min-width:0;">
         <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#4f46e5);
-                    display:flex;align-items:center;justify-content:center;font-size:18px;">🗺️</div>
-        <div>
+                    display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🗺️</div>
+        <div style="min-width:0;">
           <div style="color:#fff;font-weight:800;font-size:16px;">Tüm Kullanıcı Konumları</div>
-          <div style="color:#a5b4fc;font-size:12px;margin-top:2px;">${entries.length} kullanıcı konumu gösteriliyor</div>
+          <div style="color:#a5b4fc;font-size:11px;margin-top:2px;">
+            ${entries.length} kullanıcı · ${groups.length} konum noktası
+          </div>
         </div>
       </div>
       <button onclick="document.getElementById('allLocationsMapModal').remove()"
-              style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.08);
+              style="flex-shrink:0;width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.08);
                      border:1px solid rgba(255,255,255,0.12);color:#fff;font-size:20px;cursor:pointer;
                      display:flex;align-items:center;justify-content:center;"
               onmouseover="this.style.background='rgba(255,255,255,0.15)'"
@@ -594,26 +681,22 @@ window.showAllUsersLocations = function() {
     <div style="flex:1;position:relative;overflow:hidden;">
       <iframe id="allLocMapFrame" style="width:100%;height:100%;border:none;display:block;"></iframe>
     </div>
-    <div style="flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:8px;
-                padding:10px 20px;background:#17212b;border-top:1px solid #232e3c;">
-      ${entries.map((e,i)=>{
-        const c = markerColors[i % markerColors.length];
-        return `<span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;color:#cbd5e1;">
-          <span style="width:10px;height:10px;border-radius:50%;background:${c};display:inline-block;"></span>
-          ${e.name||'Kullanıcı'}
-        </span>`;
-      }).join('')}
+    <div style="flex-shrink:0;padding:10px 20px;background:#17212b;border-top:1px solid #232e3c;">
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
+        ${legendItems}
+      </div>
+      ${gsmWarning}
     </div>
   `;
 
-  const onKey = (e) => { if (e.key === 'Escape') { modal.remove(); document.removeEventListener('keydown', onKey); } };
+  const onKey = (ev) => { if (ev.key === 'Escape') { modal.remove(); document.removeEventListener('keydown', onKey); } };
   document.addEventListener('keydown', onKey);
   document.body.appendChild(modal);
 
-  // iframe'e içeriği yaz
   const frame = document.getElementById('allLocMapFrame');
   const doc = frame.contentDocument || frame.contentWindow.document;
   doc.open();
   doc.write(iframeContent);
   doc.close();
 };
+
