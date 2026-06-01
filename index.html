@@ -551,9 +551,9 @@
           };
 
           if (window.showCustomConfirm) {
-            window.showCustomConfirm('Uygulamayı yenileyip en güncel sürümü (yeni özellikleri) yüklemek istiyor musunuz?', run);
+            window.showCustomConfirm('Uygulamayı Yenileyip Güncel Sürümü Yüklemek İstiyor Musunuz?', run, { okText: 'Evet', okColor: '#10b981' });
           } else {
-            if (confirm('Uygulamayı yenileyip en güncel sürümü (yeni özellikleri) yüklemek istiyor musunuz?')) {
+            if (confirm('Uygulamayı Yenileyip Güncel Sürümü Yüklemek İstiyor Musunuz?')) {
               run();
             }
           }
