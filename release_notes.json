@@ -1,16 +1,21 @@
 [
   {
-    "version": "admin v1.9",
-    "date": "01.06.2026 - 19:55",
-    "day": "Pazartesi",
-    "summary": "Yönetici paneli ve kullanıcı deneyimi ile ilgili çeşitli iyileştirmeler yapıldı.",
+    "version": "Genel Güncelleme v1.0",
+    "date": "03.06.2026 - 17:33",
+    "day": "Çarşamba",
+    "summary": "Bu güncellemede birçok değişiklik aynı anda yapıldı. Mesajlar, kasa, şampiyonlar ligi gibi...",
     "items": [
-      "<strong style=\"color:#10b981;\">Kullanıcı Adı Önceliği:</strong> Profildeki kullanıcı adı (username) artık sistem genelinde Google hesap adının önüne geçecek şekilde güncellendi.",
-      "<strong style=\"color:#f59e0b;\">Onay Penceresi Düzenlendi:</strong> Hızlı yenileme butonundaki 'Sil/İptal' karmaşası düzeltildi. Artık mantıklı bir şekilde 'Evet/İptal' olarak çıkıyor.",
-      "<strong style=\"color:#3b82f6;\">Yönetici Haritası Düzenlendi:</strong> Aynı lokasyondaki kullanıcıların üst üste binmesi sorunu çözüldü. Artık aynı şehirde/lokasyonda olan kullanıcılar tek bir yer işareti altında gruplanıyor.",
-      "<strong style=\"color:#a855f7;\">Uyarı (Toast) Mesajları:</strong> 'Günün Menüsü' gibi modal ekranlarının arkasında kalarak görünmeyen uyarı/başarı mesajlarının en üstte görünmeleri sağlandı.",
-      "<strong style=\"color:#10b981;\">Hızlı Yenileme (CTRL+F5) Butonu:</strong> Uygulamanın ana sayfasındaki üst bara zorlu yenileme butonu eklendi.",
-      "<strong style=\"color:#f59e0b;\">Sürüm Notları Altyapısı:</strong> Sürüm notları artık statik HTML yerine dinamik olarak JSON dosyasından okunacak şekilde yeniden kodlandı."
+      "<strong style=\"color:#10b981;\">Güncelleme:</strong> ✨ Yenilikler",
+      "<strong style=\"color:#f59e0b;\">Güncelleme:</strong> Şampiyonlar Ligi artık Lig sekmesinde!",
+      "<strong style=\"color:#3b82f6;\">Güncelleme:</strong> Kendi lig takımınızla Avrupa’nın devlerine meydan okuyun, grup aşamasından finale kadar heyecanı yaşayın.",
+      "<strong style=\"color:#a855f7;\">Güncelleme:</strong> Ana Sayfa Mesaj Bildirimi geldi!",
+      "<strong style=\"color:#10b981;\">Güncelleme:</strong> Artık önemli duyurular, özel teklifler ve takımınızdan gelen mesajlar ana ekranda anında görünecek. Hiçbir gelişmeyi kaçırmayın.",
+      "<strong style=\"color:#f59e0b;\">Güncelleme:</strong> 🗑️ Kaldırılan Özellikler",
+      "<strong style=\"color:#3b82f6;\">Güncelleme:</strong> Kasa sekmesi kullanımdan kaldırılmıştır.",
+      "<strong style=\"color:#a855f7;\">Güncelleme:</strong> Daha sade ve odaklı bir deneyim için finansal işlemler artık diğer menüler üzerinden yönetilecektir.",
+      "<strong style=\"color:#10b981;\">Güncelleme:</strong> 🎯 İyileştirmeler & Düzeltmeler",
+      "<strong style=\"color:#f59e0b;\">Güncelleme:</strong> Genel performans ve kararlılık artırıldı.",
+      "<strong style=\"color:#3b82f6;\">Güncelleme:</strong> Bazı kullanıcı arayüzü hataları giderildi."
     ]
   }
 ]

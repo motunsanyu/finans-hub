@@ -1,6 +1,21 @@
 // js/modules/superlig.js — Süper Lig Modülü (ESPN API)
 
 const SuperligModule = (() => {
+  window._currentLeagueId = 'tur.1';
+  window.switchLeague = function(leagueId, leagueName) {
+    window._currentLeagueId = leagueId;
+    const nameEl = document.getElementById('currentLeagueName');
+    if (nameEl) nameEl.innerText = leagueName;
+    const menuEl = document.getElementById('leagueDropdownMenu');
+    if (menuEl) menuEl.classList.add('hidden');
+    
+    if (typeof fetchLeagueStandings === 'function') fetchLeagueStandings();
+    if (typeof fetchWeeklyMatches === 'function') fetchWeeklyMatches();
+    if (window._currentLigSubTab === 'live' && typeof fetchLeagueLiveMatches === 'function') {
+      fetchLeagueLiveMatches();
+    }
+  };
+
 
   // Takıma göre renk rozeti
   const TEAM_COLORS = {
@@ -376,7 +391,7 @@ const SuperligModule = (() => {
     if (!list) return;
     list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary);">Canlı maçlar taranıyor...</div>`;
     try {
-      const res = await fetch("https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard");
+      const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard`);
       if (!res.ok) throw new Error();
       const data = await res.json();
       const allEvents = data?.events || [];
@@ -647,7 +662,7 @@ const SuperligModule = (() => {
       const endDate = new Date(startYear + 1, 4, 31);
       const ds = startDate.toISOString().split('T')[0].replace(/-/g, '');
       const de = endDate.toISOString().split('T')[0].replace(/-/g, '');
-      const apiUrl = `https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=${ds}-${de}&limit=500`;
+      const apiUrl = `https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard?dates=${ds}-${de}&limit=500`;
       const res = await fetch(apiUrl);
       if (!res.ok) throw new Error("API Hatası");
       const data = await res.json();
@@ -755,7 +770,7 @@ const SuperligModule = (() => {
     const weekData = weeklyFixtureData.allWeeks[weeklyFixtureData.currentWeekIndex];
     if (!weekData || !weekData.matches || weekData.matches.length === 0) return;
     try {
-      const res = await fetch("https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard");
+      const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard`);
       if (!res.ok) return;
       const data = await res.json();
       const liveEvents = data?.events || [];
@@ -821,7 +836,7 @@ const SuperligModule = (() => {
     const ranges = buildSeasonMonthRanges(startYear);
     const payloads = await Promise.all(
       ranges.map(range =>
-        fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=${range}&limit=100`)
+        fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard?dates=${range}&limit=100`)
           .then(res => res.ok ? res.json() : null)
           .catch(() => null)
       )
@@ -836,7 +851,7 @@ const SuperligModule = (() => {
       const selectedSeason = getSelectedSeasonStartYear();
       const seasonLabel = formatSeasonLabel(selectedSeason);
 
-      const sRes = await fetch(`https://site.api.espn.com/apis/v2/sports/soccer/tur.1/standings?season=${selectedSeason}`);
+      const sRes = await fetch(`https://site.api.espn.com/apis/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/standings?season=${selectedSeason}`);
       if (!sRes.ok) throw new Error("standings_http_" + sRes.status);
       const sData = await sRes.json();
       const entries = sData?.children?.[0]?.standings?.entries || sData?.standings?.entries || [];
@@ -973,7 +988,7 @@ const SuperligModule = (() => {
       const end = new Date(); end.setDate(nowD.getDate() + 2);
       const ds = start.toISOString().split('T')[0].replace(/-/g, '');
       const de = end.toISOString().split('T')[0].replace(/-/g, '');
-      const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=${ds}-${de}&limit=100`);
+      const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard?dates=${ds}-${de}&limit=100`);
       if (!res.ok) throw new Error();
       const data = await res.json();
       const teamEvents = (data?.events || []).filter(ev => {
@@ -994,7 +1009,7 @@ const SuperligModule = (() => {
       let teamRoster = null;
       for (const ev of candidateEvents) {
         try {
-          const summaryRes = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/summary?event=${ev.id}`);
+          const summaryRes = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/summary?event=${ev.id}`);
           if (!summaryRes.ok) continue;
           const summaryData = await summaryRes.json();
           const rosters = summaryData.rosters || [];
@@ -1383,7 +1398,7 @@ const SuperligModule = (() => {
       const end = new Date(); end.setDate(now.getDate() + 2);
       const ds = start.toISOString().split('T')[0].replace(/-/g, '');
       const de = end.toISOString().split('T')[0].replace(/-/g, '');
-      const url = `https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=${ds}-${de}&limit=50`;
+      const url = `https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard?dates=${ds}-${de}&limit=50`;
       const resp = await fetch(url);
       if (!resp.ok) throw new Error();
       const data = await resp.json();
@@ -1444,7 +1459,7 @@ const SuperligModule = (() => {
       const end = new Date(); end.setDate(now.getDate() + 1);
       const ds = start.toISOString().split('T')[0].replace(/-/g, '');
       const de = end.toISOString().split('T')[0].replace(/-/g, '');
-      const url = `https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=${ds}-${de}&limit=50`;
+      const url = `https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard?dates=${ds}-${de}&limit=50`;
       const resp = await fetch(url);
       if (!resp.ok) throw new Error();
       const data = await resp.json();
@@ -1513,7 +1528,7 @@ const SuperligModule = (() => {
       const end = new Date(); end.setDate(now.getDate() + 45);
       const ds = start.toISOString().split('T')[0].replace(/-/g, '');
       const de = end.toISOString().split('T')[0].replace(/-/g, '');
-      const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=${ds}-${de}&limit=100`);
+      const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard?dates=${ds}-${de}&limit=100`);
       if (!res.ok) throw new Error();
       const data = await res.json();
       const clean = (s) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ı/g, 'i').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c');
@@ -1564,7 +1579,7 @@ const SuperligModule = (() => {
     const list = document.getElementById("teamSquadList");
     list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-secondary);">Yükleniyor...</div>`;
     try {
-      const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/teams/${teamId}/roster`);
+      const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/teams/${teamId}/roster`);
       if (!res.ok) throw new Error();
       const data = await res.json();
       const athletes = data?.athletes || [];
@@ -1606,7 +1621,7 @@ const SuperligModule = (() => {
     if (!liveInd) return;
     liveInd.style.display = "none";
     try {
-      const res = await fetch("https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard");
+      const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard`);
       if (!res.ok) return;
       const data = await res.json();
       const isPlaying = (data?.events || []).some(ev => {
@@ -1654,7 +1669,7 @@ const SuperligModule = (() => {
   // ─── MAÇ İSTATİSTİKLERİ (ESPN Summary API) ───────────────────
   async function fetchMatchStats(eventId) {
     try {
-      const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/summary?event=${eventId}`);
+      const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/summary?event=${eventId}`);
       if (!res.ok) return null;
       const data = await res.json();
       return data?.boxscore?.teams || [];
