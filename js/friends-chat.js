@@ -139,15 +139,16 @@ const FriendsChatModule = (() => {
   // ═══ MESAJLAŞMA İŞLEMLERİ ═══
   async function sendMessage(receiverId, content) {
     if (!currentUserId) throw new Error('Oturum yok');
-    const { error } = await getSB().from('messages').insert({
+    const { data, error } = await getSB().from('messages').insert({
       sender_id: currentUserId,
       receiver_id: receiverId,
       content,
       created_at: new Date().toISOString(),
       deleted_for_sender: false,
       deleted_for_receiver: false
-    });
+    }).select('id').single();
     if (error) throw error;
+    return data;
   }
 
   async function getMessageHistory(friendId) {
@@ -834,10 +835,11 @@ const FriendsChatModule = (() => {
     appendOptimisticMessage(tempId, text);
 
     try {
-      await sendMessage(currentFriendId, text);
-      // Başarı: optimistik mesajı "gönderildi" stiline geçir
+      const sentMsg = await sendMessage(currentFriendId, text);
+      // Başarı: optimistik mesajı "gönderildi" stiline geçir ve gerçek ID'yi güncelle
       const tempEl = document.querySelector(`[data-msg-id="${tempId}"]`);
       if (tempEl) {
+        tempEl.dataset.msgId = sentMsg.id; // UPDATE olabilmesi için gerçek ID şart
         tempEl.style.opacity = '1';
         // Çift tik (gönderildi) ikonu güncelle
         const svg = tempEl.querySelector('svg polyline');
