@@ -38,19 +38,7 @@
     await sb.from('day_records').upsert(formatted);
   }
 
-  // 3) vault_records
-  const vault = JSON.parse(localStorage.getItem('financeApp.vault') || '[]');
-  if (vault.length) {
-    const formatted = vault.map(r => ({
-      user_id: uid,
-      date: r.date,
-      title: r.title,
-      amount: r.amount,
-      type: r.type,
-      linked_rec_id: r.linkedRecId || null
-    }));
-    await sb.from('vault_records').upsert(formatted);
-  }
+  
 
   // 4) debts
   const debts = JSON.parse(localStorage.getItem('financeApp.debts') || '{}');

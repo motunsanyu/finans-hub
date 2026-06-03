@@ -915,123 +915,7 @@
 
 
       <!-- ═════════════════════════ KASA SEKMESİ ═════════════════════════ -->
-      <section id="vault" class="tab-page">
-        <!-- GLOBAL PANEL -->
-        <div class="total-debt-widget"
-          style="margin-bottom:24px; border-radius:12px; padding:20px; border:1px solid rgba(252,213,53,0.2); background: linear-gradient(135deg, rgba(252,213,53,0.1) 0%, rgba(11,14,17,0) 100%);">
-          <div class="widget-label">
-            <span>Aylık Kasa Bilanço Dengesi (Gelir/Gider)</span>
-          </div>
-          <div class="debt-try" id="vaultNetBalance" style="color:var(--brand); font-size:36px; margin-top:8px;">₺0
-          </div>
-
-          <div
-            style="display:flex; justify-content:space-between; margin-top:24px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.05);">
-            <div>
-              <div style="font-size:11px; color:var(--text-secondary); margin-bottom:4px;">Açık Piyasalar Bakiye</div>
-              <div id="vaultGlobalDebt"
-                style="font-size:15px; font-weight:800; font-family:'Space Grotesk', monospace; color:var(--text-primary)">
-                ₺0</div>
-            </div>
-            <div style="text-align:right;">
-              <div style="font-size:11px; color:var(--text-secondary); margin-bottom:4px;">Kapalı Taksitler Yükü</div>
-              <div id="vaultInstDebt"
-                style="font-size:15px; font-weight:800; font-family:'Space Grotesk', monospace; color:var(--down)">₺0
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- FORM (COLLAPSED) -->
-        <details class="panel"
-          style="background:var(--bg-secondary); padding:16px; border-radius:12px; margin-bottom:24px; border:1px solid rgba(252,213,53,0.3); border-left:3px solid #fcd535; cursor: pointer;"
-          id="newVaultDetails">
-          <summary
-            style="font-size:15px; font-weight:800; list-style:none; display:flex; justify-content:space-between; align-items:center; outline:none;">
-            <span style="display:flex; align-items:center; gap:8px;"><span style="font-size:18px;">💰</span> Kasa
-              Hareketi İşle </span>
-            <span style="font-size:12px; color:var(--brand)">Genişlet 🔽</span>
-          </summary>
-
-          <form id="vaultForm" class="form-panel"
-            style="margin-top:20px; padding-top:16px; border-top:1px solid var(--line); cursor: default;"
-            onclick="event.stopPropagation()">
-
-            <!-- SMART SCHOOL SELECTOR -->
-            <label style="color:var(--brand); margin-bottom:8px;">Akıllı Taksit Seçici (Tarih ve Tutarı Çeker)
-              <select id="vaultSmartSelect"
-                style="width:100%; padding:14px; background:rgba(252, 213, 53, 0.05); color:var(--text-primary); border:1px solid rgba(252, 213, 53, 0.3); border-radius:8px; font-size:14px; outline:none; -webkit-appearance:none; font-family:inherit; font-weight:800;">
-                <option value="">-- El İle Kendim Gireceğim --</option>
-              </select>
-            </label>
-
-            <div style="display:flex; gap:16px;">
-              <label style="flex:1;">İşlem Yönü
-                <select id="vaultType"
-                  style="width:100%; padding:14px; background:var(--bg-primary); color:var(--text-primary); border:1px solid var(--line); border-radius:8px; font-size:14px; outline:none; -webkit-appearance:none; font-family:inherit; font-weight:700;">
-                  <option value="income">Gelir Ekle (+)</option>
-                  <option value="expense">Gider Ekle (-)</option>
-                </select>
-              </label>
-              <label style="flex:1;">Tarih
-                <input type="date" id="vaultDate" required />
-              </label>
-            </div>
-
-            <label>İşlem Adı / Kategori <input type="text" id="vaultTitle" placeholder="Örn: Maaş, Kira, Fatura vs."
-                required /></label>
-            <label>Tutar (TRY) <input type="text" id="vaultAmountInput" class="num-mask" placeholder="Örn: 10.000"
-                inputmode="numeric" required /></label>
-
-            <button type="submit" class="btn primary" style="margin-top:8px;">Kasaya İşle</button>
-          </form>
-        </details>
-
-        <!-- DÜZENLİ İŞLEMLER (Maaş, Kira vs.) -->
-        <details id="recurringVaultPanel" class="panel" style="padding:0; overflow:hidden; margin-bottom:16px; border-left:3px solid #388bfd; border-radius:12px;">
-          <summary
-            style="padding:16px; font-weight:800; border-bottom:1px solid rgba(255,255,255,0.05); list-style:none; outline:none; display:flex; justify-content:space-between; cursor:pointer;">
-            <span>🔄 Düzenli İşlemler (Maaş, Kira vs.)</span>
-            <span style="font-size:10px; color:var(--brand);">YÖNET</span>
-          </summary>
-          <div style="padding:16px;">
-            <div id="recurringListContainer" style="margin-bottom:16px; display:flex; flex-direction:column; gap:8px;"></div>
-            
-            <div style="background:rgba(255,255,255,0.03); padding:16px; border-radius:12px; border:1px solid rgba(255,255,255,0.05);">
-              <div style="font-size:11px; color:var(--text-secondary); font-weight:800; margin-bottom:12px; text-transform:uppercase;">+ Yeni Düzenli İşlem Ekle</div>
-              <div style="display:flex; flex-direction:column; gap:12px;">
-                <input type="text" id="recTitle" placeholder="İşlem Adı (Örn: Maaş)" style="width:100%; padding:12px; border-radius:8px; background:var(--bg-primary); border:1px solid var(--line); color:white; outline:none;">
-                <div style="display:flex; gap:12px;">
-                  <input type="text" id="recAmount" class="num-mask" placeholder="Tutar" style="flex:1; padding:12px; border-radius:8px; background:var(--bg-primary); border:1px solid var(--line); color:white; outline:none;">
-                  <input type="number" id="recDay" placeholder="Gün (1-31)" min="1" max="31" style="width:100px; padding:12px; border-radius:8px; background:var(--bg-primary); border:1px solid var(--line); color:white; outline:none;">
-                </div>
-                <select id="recType" style="width:100%; padding:12px; border-radius:8px; background:var(--bg-primary); border:1px solid var(--line); color:white; outline:none; font-weight:700;">
-                  <option value="income">Düzenli Gelir (+)</option>
-                  <option value="expense">Düzenli Gider (-)</option>
-                </select>
-                <button type="button" id="addRecurringBtn" class="btn primary" style="width:100%;">OTOMATİK ÖDEME SİSTEMİNE EKLE</button>
-              </div>
-            </div>
-          </div>
-        </details>
-
-        <!-- KASA LİSTESİ (GRUPLANDIRILMIŞ) -->
-        <details class="panel" style="padding:0; overflow:hidden; border-left:3px solid #3fb950; border-radius:12px;" open>
-          <summary
-            style="padding:16px; font-weight:800; border-bottom:1px solid rgba(255,255,255,0.05); list-style:none; outline:none; display:flex; justify-content:space-between; cursor:pointer;">
-            <span>Geçmiş Kasa Kayıtları (Aylık)</span><span
-              style="font-size:10px; color:var(--brand);">GÖSTER/GİZLE</span>
-          </summary>
-
-          <div style="padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-size:12px; color:var(--text-secondary);">Klasörlenmiş Arşiv</span>
-            <button type="button" id="clearAllVaultBtn" class="btn danger-btn"
-              style="padding:4px 8px; font-size:11px;">Tümünü Temizle</button>
-          </div>
-
-          <div id="vaultListContainer" style="padding:16px;"></div>
-        </details>
-      </section>
+      
 
       <!-- ═════════════════════════ YAKIT SEKMESİ ═════════════════════════ -->
       <section id="fuel" class="tab-page" style="padding:0;">
@@ -1499,13 +1383,13 @@
             <div style="display:flex; align-items:center; gap:8px;">
               <span style="font-size:18px;">⚽</span>
               <div style="position:relative; display:inline-block;" id="leagueDropdownContainer">
-                <button id="leagueSelectBtn" onclick="document.getElementById('leagueDropdownMenu').classList.toggle('hidden')" style="background:transparent; border:none; color:#a5d6a7; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:1.5px; cursor:pointer; display:flex; align-items:center; gap:4px; padding:0;">
-                  <span id="currentLeagueName">SÜPER LİG</span> Puan Durumu
+                <button id="leagueSelectBtn" onclick="document.getElementById('leagueDropdownMenu').classList.toggle('hidden')" style="background:transparent; border:none; color:#a5d6a7; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:1.5px; cursor:pointer; display:flex; align-items:center; gap:4px; padding:0; white-space:nowrap;">
+                  <span id="currentLeagueName">SÜPER LİG</span> PUAN DURUMU
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </button>
-                <div id="leagueDropdownMenu" class="hidden" style="position:absolute; top:100%; left:0; background:#1e2329; border:1px solid #374151; border-radius:8px; padding:4px 0; z-index:100; min-width:160px; margin-top:8px; box-shadow:0 4px 12px rgba(0,0,0,0.5);">
-                  <div onclick="if(window.switchLeague) window.switchLeague('tur.1', 'SÜPER LİG')" style="padding:10px 12px; color:#fff; font-size:11px; cursor:pointer; font-weight:700; border-bottom:1px solid #2b3139;">SÜPER LİG</div>
-                  <div onclick="if(window.switchLeague) window.switchLeague('uefa.champions', 'ŞAMPİYONLAR LİGİ')" style="padding:10px 12px; color:#fff; font-size:11px; cursor:pointer; font-weight:700;">ŞAMPİYONLAR LİGİ</div>
+                <div id="leagueDropdownMenu" class="hidden" style="position:absolute; top:calc(100% + 8px); left:0; background:#1e2329; border:1px solid #374151; border-radius:8px; padding:4px 0; z-index:9999; min-width:200px; box-shadow:0 12px 30px rgba(0,0,0,0.8);">
+                  <div onclick="if(window.switchLeague) window.switchLeague('tur.1', 'SÜPER LİG')" style="padding:12px 16px; color:#fff; font-size:12px; cursor:pointer; font-weight:700; border-bottom:1px solid #2b3139; white-space:nowrap;" onmouseover="this.style.background='#2b3139'" onmouseout="this.style.background='transparent'">SÜPER LİG</div>
+                  <div onclick="if(window.switchLeague) window.switchLeague('uefa.champions', 'ŞAMPİYONLAR LİGİ')" style="padding:12px 16px; color:#fff; font-size:12px; cursor:pointer; font-weight:700; white-space:nowrap;" onmouseover="this.style.background='#2b3139'" onmouseout="this.style.background='transparent'">ŞAMPİYONLAR LİGİ</div>
                 </div>
               </div>
             </div>
@@ -1781,16 +1665,7 @@
           </svg></div>
         <span>Piyasa</span>
       </button>
-      <button class="tab-btn" data-tab="vault">
-        <div class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="3" width="20" height="14" rx="2" />
-            <circle cx="12" cy="10" r="2" />
-            <line x1="8" y1="21" x2="16" y2="21" />
-            <line x1="12" y1="17" x2="12" y2="21" />
-          </svg></div>
-        <span>Kasa</span>
-      </button>
+      
       <button class="tab-btn" data-tab="fuel">
         <div class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">

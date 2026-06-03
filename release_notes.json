@@ -5,17 +5,11 @@
     "day": "Çarşamba",
     "summary": "Bu güncellemede birçok değişiklik aynı anda yapıldı. Mesajlar, kasa, şampiyonlar ligi gibi...",
     "items": [
-      "<strong style=\"color:#10b981;\">Güncelleme:</strong> ✨ Yenilikler",
+      "<strong style=\"color:#10b981;\">✨ Yenilikler:</strong> ",
       "<strong style=\"color:#f59e0b;\">Güncelleme:</strong> Şampiyonlar Ligi artık Lig sekmesinde!",
-      "<strong style=\"color:#3b82f6;\">Güncelleme:</strong> Kendi lig takımınızla Avrupa’nın devlerine meydan okuyun, grup aşamasından finale kadar heyecanı yaşayın.",
       "<strong style=\"color:#a855f7;\">Güncelleme:</strong> Ana Sayfa Mesaj Bildirimi geldi!",
-      "<strong style=\"color:#10b981;\">Güncelleme:</strong> Artık önemli duyurular, özel teklifler ve takımınızdan gelen mesajlar ana ekranda anında görünecek. Hiçbir gelişmeyi kaçırmayın.",
-      "<strong style=\"color:#f59e0b;\">Güncelleme:</strong> 🗑️ Kaldırılan Özellikler",
-      "<strong style=\"color:#3b82f6;\">Güncelleme:</strong> Kasa sekmesi kullanımdan kaldırılmıştır.",
-      "<strong style=\"color:#a855f7;\">Güncelleme:</strong> Daha sade ve odaklı bir deneyim için finansal işlemler artık diğer menüler üzerinden yönetilecektir.",
-      "<strong style=\"color:#10b981;\">Güncelleme:</strong> 🎯 İyileştirmeler & Düzeltmeler",
-      "<strong style=\"color:#f59e0b;\">Güncelleme:</strong> Genel performans ve kararlılık artırıldı.",
-      "<strong style=\"color:#3b82f6;\">Güncelleme:</strong> Bazı kullanıcı arayüzü hataları giderildi."
+      "<strong style=\"color:#3b82f6;\">🗑️ Kaldırılan Özellikler:</strong> Kasa sekmesi kullanımdan kaldırılmıştır.",
+      "<strong style=\"color:#10b981;\">Güncelleme:</strong> 🎯 İyileştirmeler & Düzeltmeler: Genel performans ve kararlılık artırıldı.",
     ]
   }
 ]

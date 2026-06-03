@@ -23,8 +23,6 @@ async function initializeSystem() {
   bindSidebar();
 
   document.getElementById("refreshFinanceBtn").addEventListener("click", refreshFinanceData);
-
-  if (typeof VaultModule !== 'undefined') VaultModule.init();
   if (typeof FuelModule !== 'undefined') FuelModule.init();
   if (typeof DaysModule !== 'undefined') DaysModule.init();
   if (typeof SchoolModule !== 'undefined') SchoolModule.init();
@@ -470,7 +468,7 @@ function calcTotalDebt() {
     state.yesterdayDebt = totalTRY;
   }
 
-  const vgd = document.getElementById("vaultGlobalDebt"); if (vgd) { vgd.textContent = formatCurrency(totalTRY); vgd.style.color = totalTRY < 0 ? "var(--down)" : totalTRY > 0 ? "var(--up)" : "var(--text-primary)"; }
+   if (vgd) { vgd.textContent = formatCurrency(totalTRY); vgd.style.color = totalTRY < 0 ? "var(--down)" : totalTRY > 0 ? "var(--up)" : "var(--text-primary)"; }
 }
 
 // ═════════════════════════ PİYASALAR API ═════════════════════════

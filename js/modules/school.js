@@ -239,12 +239,7 @@ const SchoolModule = (() => {
           paidCount++;
           // 🏦 KASA ENTEGRASYONU
           if (!plan.recordedInstallments.includes(installmentId)) {
-            if (typeof VaultModule !== 'undefined' && VaultModule.addRecord) {
-              const recordDate = dueDate.toISOString().split('T')[0];
-              VaultModule.addRecord('expense', `${plan.name} (${i + 1}/${installmentCount})`, amount, recordDate);
-              plan.recordedInstallments.push(installmentId);
-              needsSave = true;
-            }
+            
           }
         } else {
           remainingDebt += amount;
