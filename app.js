@@ -468,6 +468,7 @@ function calcTotalDebt() {
     state.yesterdayDebt = totalTRY;
   }
 
+   const vgd = document.getElementById("vgd");
    if (vgd) { vgd.textContent = formatCurrency(totalTRY); vgd.style.color = totalTRY < 0 ? "var(--down)" : totalTRY > 0 ? "var(--up)" : "var(--text-primary)"; }
 }
 

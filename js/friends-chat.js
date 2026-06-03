@@ -1245,8 +1245,12 @@ const FriendsChatModule = (() => {
         if (msg.sender_id === currentUserId) return;
 
         if (currentFriendId && msg.sender_id === currentFriendId) {
-          // Aktif sohbetteyiz: sessizce mesajları güncelle (scroll korunur)
-          localStorage.setItem(`lastRead_${currentUserId}_${currentFriendId}`, new Date().toISOString());
+          // Aktif sohbetteyiz: anında 'okundu' olarak işaretle
+          await getSB().from('messages')
+            .update({ read_at: new Date().toISOString() })
+            .eq('id', msg.id)
+            .is('read_at', null);
+
           await loadMessages();
         } else {
           // Farklı bir yerden mesaj geldi
