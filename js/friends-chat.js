@@ -7,6 +7,7 @@ const FriendsChatModule = (() => {
   // ═══ STATE ═══
   let currentFriendId = null;
   let currentFriendName = null;
+  let currentFriendLastSeen = null;
   let chatSubscription = null;
   let isSendingMsg = false;
   let activeSwipeRow = null;
@@ -560,15 +561,13 @@ const FriendsChatModule = (() => {
           }
         }
 
-        // Okunmamış mesaj sayısı (bana gönderilmiş, son okumadan sonraki mesajlar)
-        const lastReadStr = localStorage.getItem(`lastRead_${currentUserId}_${f.friendId}`);
-        const lastRead = lastReadStr ? new Date(lastReadStr).toISOString() : new Date(0).toISOString();
+        // Okunmamış mesaj sayısı (bana gönderilmiş, read_at null olanlar)
         const { count: unreadMsgCount } = await getSB().from('messages')
-          .select('*', { count: 'exact', head: true })
+          .select('id', { count: 'exact', head: true })
           .eq('sender_id', f.friendId)
           .eq('receiver_id', currentUserId)
           .eq('deleted_for_receiver', false)
-          .gt('created_at', lastRead);
+          .is('read_at', null);
 
         conversationsWithMsg.push({
           friend: f,
@@ -657,10 +656,20 @@ const FriendsChatModule = (() => {
     try {
       const { data: prof } = await getSB().from('profiles')
         .select('display_name, username, last_seen, avatar_url').eq('id', friendId).maybeSingle();
-      if (prof) updateChatHeader(prof, friendId);
+      if (prof) {
+        currentFriendLastSeen = prof.last_seen;
+        updateChatHeader(prof, friendId);
+      }
     } catch (e) { }
 
-    localStorage.setItem(`lastRead_${currentUserId}_${friendId}`, new Date().toISOString());
+    // openConversation içinde, currentFriendId ve currentUserId hazır olduğunda
+    const { error: readUpdateError } = await getSB()
+      .from('messages')
+      .update({ read_at: new Date().toISOString() })
+      .eq('receiver_id', currentUserId)
+      .eq('sender_id', friendId)
+      .is('read_at', null);
+
     await loadMessages();
     
     // Okunmamış mesajları tamamen yeniden hesapla
@@ -756,6 +765,24 @@ const FriendsChatModule = (() => {
           : '#1e2c3a';
         const borderRadius = isMine ? '14px 14px 2px 14px' : '14px 14px 14px 2px';
 
+        let tickHtml = '';
+        if (isMine) {
+          const isRead = msg.read_at !== null && msg.read_at !== undefined;
+          
+          if (isRead) {
+            // Çift tik (okundu/iletildi - arkadaş aktif olduktan sonra)
+            tickHtml = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:2px;">
+              <polyline points="22 6 12 16 9 13"></polyline>
+              <polyline points="16 6 6 16 3 13"></polyline>
+            </svg>`;
+          } else {
+            // Tek tik (sunucuya ulaştı)
+            tickHtml = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:2px;">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>`;
+          }
+        }
+
         return dateHtml + `
           <div class="message-row" data-msg-id="${msg.id}" data-is-mine="${isMine}"
             style="display:flex;justify-content:${isMine ? 'flex-end' : 'flex-start'};margin:2px 0;position:relative;">
@@ -767,7 +794,7 @@ const FriendsChatModule = (() => {
               <div class="msg-content-text" style="font-size:15px;line-height:1.45;letter-spacing:0.01em;">${escapeHtml(msg.content)}</div>
               <div style="display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:4px;">
                 <span style="font-size:10px;color:rgba(255,255,255,0.38);">${time}</span>
-                ${isMine ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>` : ''}
+                ${tickHtml}
               </div>
             </div>
           </div>`;
@@ -1240,10 +1267,33 @@ const FriendsChatModule = (() => {
         }
       })
       .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'messages' }, async (payload) => {
-        if (!currentFriendId) return;
-        const msg = payload.new;
-        if (msg.sender_id === currentFriendId || msg.receiver_id === currentFriendId) {
-          await loadMessages();
+        const updatedMsg = payload.new;
+        
+        // Sadece benim gönderdiğim ve karşı tarafça okunan mesajlarla ilgilen
+        if (updatedMsg.sender_id === currentUserId && updatedMsg.read_at !== null) {
+          // Eğer bu mesaj şu an açık olan sohbetteyse UI'ı güncelle
+          if (currentFriendId === updatedMsg.receiver_id) {
+            const msgElement = document.querySelector(`.message-row[data-msg-id="${updatedMsg.id}"]`);
+            if (msgElement) {
+              // Çift tik ikonunu göster
+              const tickContainer = msgElement.querySelector('.message-bubble svg');
+              if (tickContainer) {
+                // SVG'yi çift tik haline getir (WhatsApp tarzı)
+                tickContainer.outerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:2px;">
+                  <polyline points="22 6 12 16 9 13"></polyline>
+                  <polyline points="16 6 6 16 3 13"></polyline>
+                </svg>`;
+              }
+            }
+          } else {
+            // Farklı bir sohbetse konuşma listesini yenile (orada tik işareti yoksa da badge güncellenir)
+            const panel = document.getElementById('conversationsPanel');
+            if (panel?.style.display !== 'none') loadConversations();
+          }
+        } else if (currentFriendId) {
+          if (updatedMsg.sender_id === currentFriendId || updatedMsg.receiver_id === currentFriendId) {
+            await loadMessages();
+          }
         }
       })
       .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'messages' }, async (payload) => {
@@ -1299,24 +1349,18 @@ const FriendsChatModule = (() => {
     loadPendingRequests();
   }
 
-  // Okunmamışları localStorage bazlı yeniden hesapla
+  // Okunmamışları read_at ile yeniden hesapla
   async function recalcTotalUnread() {
     if (!currentUserId) return;
     try {
-      const { data: incomingMsgs } = await getSB().from('messages')
-        .select('sender_id, created_at')
+      const { count } = await getSB()
+        .from('messages')
+        .select('id', { count: 'exact', head: true })
         .eq('receiver_id', currentUserId)
+        .is('read_at', null)
         .eq('deleted_for_receiver', false);
-      
-      let realUnread = 0;
-      if (incomingMsgs) {
-        incomingMsgs.forEach(m => {
-          const lrStr = localStorage.getItem(`lastRead_${currentUserId}_${m.sender_id}`);
-          const lr = lrStr ? new Date(lrStr) : new Date(0);
-          if (new Date(m.created_at) > lr) realUnread++;
-        });
-      }
-      unreadCount = realUnread;
+
+      unreadCount = count || 0;
       updateBadgeUI();
     } catch (e) { }
   }
