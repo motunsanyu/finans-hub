@@ -518,11 +518,11 @@
         <div class="logo-box">FINANS TR</div>
       </div>
       <div style="display:flex; align-items:center; gap:8px;">
-        <button id="topMsgBtn" onclick="toggleMessagesModal()" title="Mesajlar" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:6px; cursor:pointer; color:var(--text-secondary); display:flex; align-items:center; justify-content:center; position:relative;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <button id="topMsgBtn" onclick="toggleMessagesModal()" title="Mesajlar" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:6px; cursor:pointer; display:flex; align-items:center; justify-content:center; position:relative; transition:all 0.3s ease;">
+          <svg id="topMsgIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#848e9c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition:stroke 0.3s ease;">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
           </svg>
-          <span id="topMsgBadge" style="display:none; position:absolute; top:-4px; right:-4px; background:#f6465d; color:#fff; font-size:9px; font-weight:bold; padding:2px 4px; border-radius:999px; line-height:1;">0</span>
+          <span id="topMsgBadge" style="display:none; position:absolute; top:-5px; right:-5px; min-width:17px; height:17px; background:linear-gradient(135deg,#ff4e00,#e31212); color:#fff; font-size:9px; font-weight:900; border-radius:999px; align-items:center; justify-content:center; box-shadow:0 0 7px rgba(255,80,0,0.7); border:1.5px solid #0b0e11;">0</span>
         </button>
         <button id="hardRefreshBtn" onclick="forceHardRefresh()" title="Güncellemeleri Al (Önbelleği Temizle)" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:6px; cursor:pointer; color:var(--text-secondary); display:flex; align-items:center; justify-content:center;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2932,29 +2932,41 @@
 
       window.toggleLeagueDropdown = function(e) {
         e.stopPropagation();
-        var menu = document.getElementById('leagueDropdownFixed');
-        var btn  = document.getElementById('leagueSelectBtn');
+        var menu  = document.getElementById('leagueDropdownFixed');
+        var btn   = document.getElementById('leagueSelectBtn');
         var arrow = document.getElementById('leagueDropdownArrow');
         if (!menu || !btn) return;
 
         _dropOpen = !_dropOpen;
 
         if (_dropOpen) {
+          // Pozisyonu hesapla
           var rect = btn.getBoundingClientRect();
-          menu.style.display = 'block';
-          // Position below the button
-          var top = rect.bottom + 6;
+          var top  = rect.bottom + 6;
           var left = rect.left;
-          // Keep inside viewport
-          if (left + 220 > window.innerWidth) left = window.innerWidth - 228;
-          menu.style.top  = top + 'px';
-          menu.style.left = left + 'px';
+          if (left + 230 > window.innerWidth) left = window.innerWidth - 236;
+          menu.style.top     = top + 'px';
+          menu.style.left    = left + 'px';
+          menu.style.display = 'block';
+
+          // Lig sekmesini ve tüm üst container'ları z-index kısıtlamasından kurtar
+          var ligPage = document.getElementById('lig');
+          if (ligPage) {
+            ligPage.setAttribute('data-old-zi', ligPage.style.zIndex || '');
+            ligPage.style.zIndex = '100000';
+          }
           if (arrow) arrow.style.transform = 'rotate(180deg)';
         } else {
           menu.style.display = 'none';
+          // Eski z-index'i geri yükle
+          var ligPage = document.getElementById('lig');
+          if (ligPage) {
+            ligPage.style.zIndex = ligPage.getAttribute('data-old-zi') || '';
+          }
           if (arrow) arrow.style.transform = 'rotate(0deg)';
         }
       };
+
 
       document.addEventListener('click', function(e) {
         if (!_dropOpen) return;
@@ -2965,6 +2977,9 @@
           _dropOpen = false;
           var arrow = document.getElementById('leagueDropdownArrow');
           if (arrow) arrow.style.transform = 'rotate(0deg)';
+          // z-index geri yükle
+          var ligPage = document.getElementById('lig');
+          if (ligPage) ligPage.style.zIndex = ligPage.getAttribute('data-old-zi') || '';
         }
       });
 
@@ -2981,10 +2996,12 @@
               if (check) check.style.display = el.dataset.leagueId === leagueId ? 'inline' : 'none';
               el.style.background = el.dataset.leagueId === leagueId ? 'rgba(165,214,167,0.15)' : 'transparent';
             });
-            // Close menu
+                      // Close menu + restore z-index
             var menu = document.getElementById('leagueDropdownFixed');
             if (menu) menu.style.display = 'none';
             _dropOpen = false;
+            var ligPage2 = document.getElementById('lig');
+            if (ligPage2) ligPage2.style.zIndex = ligPage2.getAttribute('data-old-zi') || '';
             var arrow = document.getElementById('leagueDropdownArrow');
             if (arrow) arrow.style.transform = 'rotate(0deg)';
             // Call actual function

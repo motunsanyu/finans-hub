@@ -171,25 +171,49 @@ const FriendsChatModule = (() => {
       badge.style.display = show ? 'inline-flex' : 'none';
     }
 
-    // Topbar mesaj ikonu badge (kırmızı-turuncu)
+    // Topbar badge (kırmızı-turuncu)
     const topBadge = document.getElementById('topMsgBadge');
     if (topBadge) {
       topBadge.textContent = countStr;
-      topBadge.style.background = 'linear-gradient(135deg, #ff4e00, #e31212)';
-      topBadge.style.color = '#fff';
-      topBadge.style.fontSize = '9px';
-      topBadge.style.fontWeight = '900';
-      topBadge.style.minWidth = '16px';
-      topBadge.style.height = '16px';
-      topBadge.style.borderRadius = '999px';
-      topBadge.style.padding = '0 3px';
-      topBadge.style.boxShadow = '0 0 7px rgba(255,80,0,0.7)';
       topBadge.style.display = show ? 'flex' : 'none';
-      topBadge.style.alignItems = 'center';
-      topBadge.style.justifyContent = 'center';
+    }
+
+    // Topbar mesaj ikonu rengi & animasyon
+    const icon = document.getElementById('topMsgIcon');
+    const btn  = document.getElementById('topMsgBtn');
+    if (icon) {
+      if (show) {
+        // Yeşil + yanıp sönme
+        icon.setAttribute('stroke', '#22c55e');
+        icon.style.animation = 'msgIconPulse 1.8s ease-in-out infinite';
+        if (btn) {
+          btn.style.background = 'rgba(34,197,94,0.12)';
+          btn.style.borderColor = 'rgba(34,197,94,0.35)';
+        }
+      } else {
+        // Gri, animasyon yok
+        icon.setAttribute('stroke', '#848e9c');
+        icon.style.animation = 'none';
+        if (btn) {
+          btn.style.background = 'rgba(255,255,255,0.05)';
+          btn.style.borderColor = 'rgba(255,255,255,0.1)';
+        }
+      }
+    }
+
+    // Keyframe animasyonu bir kez ekle
+    if (!document.getElementById('msgIconPulseStyle')) {
+      const s = document.createElement('style');
+      s.id = 'msgIconPulseStyle';
+      s.textContent = `
+        @keyframes msgIconPulse {
+          0%,100% { opacity:1; filter:drop-shadow(0 0 0px #22c55e); }
+          50%      { opacity:0.55; filter:drop-shadow(0 0 5px #22c55e); }
+        }
+      `;
+      document.head.appendChild(s);
     }
   }
-
 
   function resetUnreadCount() {
     unreadCount = 0;
@@ -201,6 +225,7 @@ const FriendsChatModule = (() => {
     unreadCount++;
     updateBadgeUI();
   }
+
 
   // ═══ YENİ MESAJ BANNER (koyu yeşil, beyaz yazı) ═══
   function showNewMessageBanner(senderName, preview) {

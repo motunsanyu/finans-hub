@@ -1,15 +1,13 @@
 [
   {
-    "version": "Genel Güncelleme v1.0",
-    "date": "03.06.2026 - 17:33",
+    "version": "Genel Güncelleme v1.3",
+    "date": "03.06.2026 - 18:10",
     "day": "Çarşamba",
-    "summary": "Bu güncellemede birçok değişiklik aynı anda yapıldı. Mesajlar, kasa, şampiyonlar ligi gibi...",
+    "summary": "Genel bir güncelleme yapıldı. Bu güncellemede Kasa, Mesajlar ve Süperlig düzenlemeleri yapıldı.",
     "items": [
-      "<strong style=\"color:#10b981;\">✨ Yenilikler:</strong> ",
-      "<strong style=\"color:#f59e0b;\">Güncelleme:</strong> Şampiyonlar Ligi artık Lig sekmesinde!",
-      "<strong style=\"color:#a855f7;\">Güncelleme:</strong> Ana Sayfa Mesaj Bildirimi geldi!",
-      "<strong style=\"color:#3b82f6;\">🗑️ Kaldırılan Özellikler:</strong> Kasa sekmesi kullanımdan kaldırılmıştır.",
-      "<strong style=\"color:#10b981;\">Güncelleme:</strong> 🎯 İyileştirmeler & Düzeltmeler: Genel performans ve kararlılık artırıldı.",
+      "<strong style=\"color:#10b981;\">Güncelleme:</strong> Kasa sekmesi tamamen kaldırıldı. Verilerin elle girilmesi ve güncellemenin zor olması dolayısı ile özellik kullanımdan kaldırıldı.",
+      "<strong style=\"color:#f59e0b;\">Güncelleme:</strong> Şampiyonlar Ligi sekmesi eklendi.",
+      "<strong style=\"color:#3b82f6;\">Güncelleme:</strong> Mesajlaşma özellikleri iyileştirildi."
     ]
   }
 ]
