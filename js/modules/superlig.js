@@ -2,14 +2,29 @@
 
 const SuperligModule = (() => {
   window._currentLeagueId = 'tur.1';
+  window._currentLeagueLabel = 'Türkiye Süper Ligi';
+
   window.switchLeague = function(leagueId, leagueName) {
     window._currentLeagueId = leagueId;
+    window._currentLeagueLabel = leagueName === 'SÜPER LİG' ? 'Türkiye Süper Ligi' : leagueName;
+
+    // Update button label
     const nameEl = document.getElementById('currentLeagueName');
     if (nameEl) nameEl.innerText = leagueName;
+
+    // Close dropdown
     const menuEl = document.getElementById('leagueDropdownMenu');
     if (menuEl) menuEl.classList.add('hidden');
-    
-    if (typeof fetchLeagueStandings === 'function') fetchLeagueStandings();
+    const fixedMenu = document.getElementById('leagueDropdownMenuFixed');
+    if (fixedMenu) fixedMenu.classList.add('hidden');
+
+    // Update active state on items
+    document.querySelectorAll('.league-option').forEach(el => {
+      el.style.background = el.dataset.leagueId === leagueId ? 'rgba(165,214,167,0.15)' : 'transparent';
+    });
+
+    // Reload data
+    if (typeof fetchSuperLigData === 'function') fetchSuperLigData();
     if (typeof fetchWeeklyMatches === 'function') fetchWeeklyMatches();
     if (window._currentLigSubTab === 'live' && typeof fetchLeagueLiveMatches === 'function') {
       fetchLeagueLiveMatches();
@@ -890,7 +905,7 @@ const SuperligModule = (() => {
 
       const now = new Date().toLocaleString("tr-TR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
       setText("ligTimestamp", `Son Güncelleme: ${now}`);
-      setText("ligMeta", `Türkiye Süper Ligi ${seasonLabel}`);
+      setText("ligMeta", `${window._currentLeagueLabel || 'Türkiye Süper Ligi'} ${seasonLabel}`);
 
       const TOTAL_WEEKS = 34;
       let weekNum = 0;
@@ -1656,6 +1671,10 @@ const SuperligModule = (() => {
     const btn = document.getElementById("ligRefreshBtn");
     const seasonSelect = document.getElementById("ligSeasonSelect");
     populateLigSeasonOptions();
+    // Expose for league switching
+    window.fetchSuperLigData = fetchSuperLigData;
+    window.fetchLeagueLiveMatches = fetchLeagueLiveMatches;
+    window.fetchWeeklyMatches = fetchWeeklyMatches;
     if (btn) { btn.addEventListener("click", fetchSuperLigData); }
     if (seasonSelect) { seasonSelect.addEventListener("change", fetchSuperLigData); }
     fetchSuperLigData();

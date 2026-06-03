@@ -763,6 +763,7 @@ window.toggleDisclaimerModal = function () {
   if (!isVisible && typeof window.toggleSidebar === 'function') window.toggleSidebar(false);
 };
 
+
 // ========== TOAST BİLDİRİM STİLİ (FLU KOYU YEŞİL ZEMİN, BEYAZ YAZI) ==========
 window.showToast = function(msg, type = 'default') {
   const container = document.getElementById('toastContainer');
@@ -770,26 +771,51 @@ window.showToast = function(msg, type = 'default') {
   const toast = document.createElement('div');
   toast.className = 'toast-msg';
   toast.textContent = msg;
-  // Her zaman koyu yeşil arka plan (flu olması için blur eklendi)
-  toast.style.background = 'rgba(0, 70, 0, 0.85)';
-  toast.style.backdropFilter = 'blur(12px)';
-  toast.style.webkitBackdropFilter = 'blur(12px)';
+
+  // Tip bazlı renk
+  const bgMap = {
+    'error':   'rgba(180,30,30,0.92)',
+    'success': 'rgba(15,100,50,0.92)',
+    'default': 'rgba(0,60,30,0.92)'
+  };
+  toast.style.background = bgMap[type] || bgMap['default'];
+  toast.style.backdropFilter = 'blur(16px)';
+  toast.style.webkitBackdropFilter = 'blur(16px)';
   toast.style.color = '#fff';
   toast.style.borderRadius = '30px';
   toast.style.padding = '12px 24px';
   toast.style.fontWeight = '700';
   toast.style.fontSize = '14px';
-  toast.style.boxShadow = '0 8px 32px rgba(0,0,0,0.3)';
-  toast.style.border = '1px solid rgba(255,255,255,0.1)';
+  toast.style.boxShadow = '0 8px 32px rgba(0,0,0,0.35)';
+  toast.style.border = '1px solid rgba(255,255,255,0.12)';
   toast.style.marginBottom = '10px';
-  toast.style.animation = 'toast-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-  
+  toast.style.opacity = '0';
+  toast.style.transform = 'translateY(-16px) scale(0.95)';
+  toast.style.transition = 'opacity 0.28s ease, transform 0.28s cubic-bezier(0.175,0.885,0.32,1.275)';
+  // Tıklayınca hemen kapat
+  toast.onclick = () => dismissToast(toast);
+  toast.style.cursor = 'pointer';
+
   container.appendChild(toast);
-  setTimeout(() => { 
-    toast.style.opacity = '0';
-    toast.style.transform = 'translateY(-20px)';
-    setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 300)
-  }, 3000);
+
+  // Giriş animasyonu (bir sonraki frame)
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateY(0) scale(1)';
+    });
+  });
+
+  // 5 saniye sonra otomatik kapat
+  const timer = setTimeout(() => dismissToast(toast), 5000);
+  toast._dismissTimer = timer;
+
+  function dismissToast(el) {
+    clearTimeout(el._dismissTimer);
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(-16px) scale(0.95)';
+    setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 300);
+  }
 };
 
 // ========== PROFİL FOTOĞRAFI YÜKLEME, KULLANICI ADI GÜNCELLEME, HESAP SİLME ==========

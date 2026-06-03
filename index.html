@@ -1382,16 +1382,10 @@
           <div style="display:flex; justify-content:space-between; align-items:center; position: relative; z-index: 1;">
             <div style="display:flex; align-items:center; gap:8px;">
               <span style="font-size:18px;">⚽</span>
-              <div style="position:relative; display:inline-block;" id="leagueDropdownContainer">
-                <button id="leagueSelectBtn" onclick="document.getElementById('leagueDropdownMenu').classList.toggle('hidden')" style="background:transparent; border:none; color:#a5d6a7; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:1.5px; cursor:pointer; display:flex; align-items:center; gap:4px; padding:0; white-space:nowrap;">
-                  <span id="currentLeagueName">SÜPER LİG</span> PUAN DURUMU
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-                </button>
-                <div id="leagueDropdownMenu" class="hidden" style="position:absolute; top:calc(100% + 8px); left:0; background:#1e2329; border:1px solid #374151; border-radius:8px; padding:4px 0; z-index:9999; min-width:200px; box-shadow:0 12px 30px rgba(0,0,0,0.8);">
-                  <div onclick="if(window.switchLeague) window.switchLeague('tur.1', 'SÜPER LİG')" style="padding:12px 16px; color:#fff; font-size:12px; cursor:pointer; font-weight:700; border-bottom:1px solid #2b3139; white-space:nowrap;" onmouseover="this.style.background='#2b3139'" onmouseout="this.style.background='transparent'">SÜPER LİG</div>
-                  <div onclick="if(window.switchLeague) window.switchLeague('uefa.champions', 'ŞAMPİYONLAR LİGİ')" style="padding:12px 16px; color:#fff; font-size:12px; cursor:pointer; font-weight:700; white-space:nowrap;" onmouseover="this.style.background='#2b3139'" onmouseout="this.style.background='transparent'">ŞAMPİYONLAR LİGİ</div>
-                </div>
-              </div>
+              <button id="leagueSelectBtn" onclick="toggleLeagueDropdown(event)" style="background:transparent; border:none; color:#a5d6a7; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:1.5px; cursor:pointer; display:flex; align-items:center; gap:5px; padding:4px 6px; border-radius:6px; transition:background 0.2s; white-space:nowrap;">
+                <span id="currentLeagueName">SÜPER LİG</span> PUAN DURUMU
+                <svg id="leagueDropdownArrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="transition:transform 0.2s; flex-shrink:0;"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
             </div>
             <button id="ligRefreshBtn" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.1); color:white; padding:5px 12px; border-radius:20px; font-size:10px; font-weight:800; display:flex; align-items:center; gap:4px; cursor:pointer; backdrop-filter:blur(4px); transition:all 0.2s;">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -2902,6 +2896,105 @@
       </div>
     </div>
   </div>
+
+  <!-- ══ LEAGUE DROPDOWN (Fixed Position - overflow:hidden'dan etkilenmez) ══ -->
+  <div id="leagueDropdownFixed" style="
+    display:none;
+    position:fixed;
+    background:#1a2233;
+    border:1px solid rgba(165,214,167,0.25);
+    border-radius:12px;
+    padding:6px;
+    z-index:99999;
+    min-width:220px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.05);
+    backdrop-filter:blur(12px);
+  ">
+    <div class="league-option" data-league-id="tur.1"
+      onclick="if(window.switchLeague) window.switchLeague('tur.1','SÜPER LİG')"
+      style="display:flex;align-items:center;gap:10px;padding:11px 14px;color:#fff;font-size:12px;cursor:pointer;font-weight:800;border-radius:8px;transition:background 0.15s;white-space:nowrap;background:rgba(165,214,167,0.15);">
+      <span style="font-size:16px;">🇹🇷</span>
+      <span>SÜPER LİG</span>
+      <span id="sl-check" style="margin-left:auto;color:#a5d6a7;font-size:14px;">✓</span>
+    </div>
+    <div class="league-option" data-league-id="uefa.champions"
+      onclick="if(window.switchLeague) window.switchLeague('uefa.champions','ŞAMPİYONLAR LİGİ')"
+      style="display:flex;align-items:center;gap:10px;padding:11px 14px;color:#fff;font-size:12px;cursor:pointer;font-weight:800;border-radius:8px;transition:background 0.15s;white-space:nowrap;">
+      <span style="font-size:16px;">🏆</span>
+      <span>ŞAMPİYONLAR LİGİ</span>
+      <span id="cl-check" style="margin-left:auto;color:#a5d6a7;font-size:14px;display:none;">✓</span>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var _dropOpen = false;
+
+      window.toggleLeagueDropdown = function(e) {
+        e.stopPropagation();
+        var menu = document.getElementById('leagueDropdownFixed');
+        var btn  = document.getElementById('leagueSelectBtn');
+        var arrow = document.getElementById('leagueDropdownArrow');
+        if (!menu || !btn) return;
+
+        _dropOpen = !_dropOpen;
+
+        if (_dropOpen) {
+          var rect = btn.getBoundingClientRect();
+          menu.style.display = 'block';
+          // Position below the button
+          var top = rect.bottom + 6;
+          var left = rect.left;
+          // Keep inside viewport
+          if (left + 220 > window.innerWidth) left = window.innerWidth - 228;
+          menu.style.top  = top + 'px';
+          menu.style.left = left + 'px';
+          if (arrow) arrow.style.transform = 'rotate(180deg)';
+        } else {
+          menu.style.display = 'none';
+          if (arrow) arrow.style.transform = 'rotate(0deg)';
+        }
+      };
+
+      document.addEventListener('click', function(e) {
+        if (!_dropOpen) return;
+        var menu = document.getElementById('leagueDropdownFixed');
+        var btn  = document.getElementById('leagueSelectBtn');
+        if (menu && !menu.contains(e.target) && btn && !btn.contains(e.target)) {
+          menu.style.display = 'none';
+          _dropOpen = false;
+          var arrow = document.getElementById('leagueDropdownArrow');
+          if (arrow) arrow.style.transform = 'rotate(0deg)';
+        }
+      });
+
+      // Override switchLeague to also update checkmarks and close fixed menu
+      var _origSwitch = window.switchLeague;
+      document.addEventListener('DOMContentLoaded', function() {
+        // patch after modules load
+        setTimeout(function() {
+          var _mod = window.switchLeague;
+          window.switchLeague = function(leagueId, leagueName) {
+            // Update checkmarks
+            document.querySelectorAll('.league-option').forEach(function(el) {
+              var check = el.querySelector('span:last-child');
+              if (check) check.style.display = el.dataset.leagueId === leagueId ? 'inline' : 'none';
+              el.style.background = el.dataset.leagueId === leagueId ? 'rgba(165,214,167,0.15)' : 'transparent';
+            });
+            // Close menu
+            var menu = document.getElementById('leagueDropdownFixed');
+            if (menu) menu.style.display = 'none';
+            _dropOpen = false;
+            var arrow = document.getElementById('leagueDropdownArrow');
+            if (arrow) arrow.style.transform = 'rotate(0deg)';
+            // Call actual function
+            if (_mod) _mod(leagueId, leagueName);
+          };
+        }, 500);
+      });
+    })();
+  </script>
+
 </body>
 
 </html>

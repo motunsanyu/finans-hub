@@ -161,15 +161,35 @@ const FriendsChatModule = (() => {
 
   // ═══ BADGE YÖNETİMİ ═══
   function updateBadgeUI() {
+    const countStr = unreadCount > 99 ? '99+' : String(unreadCount);
+    const show = unreadCount > 0;
+
+    // Sidebar mesajlar menü badge
     const badge = document.getElementById('messagesBadge');
-    if (!badge) return;
-    if (unreadCount > 0) {
-      badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
-      badge.style.display = 'inline-flex';
-    } else {
-      badge.style.display = 'none';
+    if (badge) {
+      badge.textContent = countStr;
+      badge.style.display = show ? 'inline-flex' : 'none';
+    }
+
+    // Topbar mesaj ikonu badge (kırmızı-turuncu)
+    const topBadge = document.getElementById('topMsgBadge');
+    if (topBadge) {
+      topBadge.textContent = countStr;
+      topBadge.style.background = 'linear-gradient(135deg, #ff4e00, #e31212)';
+      topBadge.style.color = '#fff';
+      topBadge.style.fontSize = '9px';
+      topBadge.style.fontWeight = '900';
+      topBadge.style.minWidth = '16px';
+      topBadge.style.height = '16px';
+      topBadge.style.borderRadius = '999px';
+      topBadge.style.padding = '0 3px';
+      topBadge.style.boxShadow = '0 0 7px rgba(255,80,0,0.7)';
+      topBadge.style.display = show ? 'flex' : 'none';
+      topBadge.style.alignItems = 'center';
+      topBadge.style.justifyContent = 'center';
     }
   }
+
 
   function resetUnreadCount() {
     unreadCount = 0;
