@@ -58,6 +58,11 @@
       adminBtn.style.display = prof?.is_admin ? 'flex' : 'none';
     }
 
+    const germanBtn = document.getElementById('btnMarketGerman');
+    if (germanBtn) {
+      germanBtn.style.display = prof?.is_admin ? 'block' : 'none';
+    }
+
     const dailyMenuBtn = document.getElementById('dailyMenuBtn');
     if (dailyMenuBtn) {
       dailyMenuBtn.style.display = (prof?.is_admin || prof?.is_menu_editor) ? 'flex' : 'none';

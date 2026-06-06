@@ -97,10 +97,10 @@ function renderAdminUsers(users) {
     if (pendingA && !pendingB) return -1;
     if (!pendingA && pendingB) return 1;
 
-    // Normal alfabetik sıralama
-    const nameA = a.username || a.display_name || '';
-    const nameB = b.username || b.display_name || '';
-    return nameA.localeCompare(nameB);
+    // Son online olmaya göre sıralama (en son giren en üstte)
+    const timeA = a.last_seen ? new Date(a.last_seen).getTime() : 0;
+    const timeB = b.last_seen ? new Date(b.last_seen).getTime() : 0;
+    return timeB - timeA;
   });
 
   const currentUserId = window.currentUser?.id;
@@ -196,11 +196,11 @@ function renderAdminUsers(users) {
           </div>
           
           <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:8px;">
-            <div style="display:grid; grid-template-columns:minmax(0, 1fr) auto; align-items:center; gap:8px; width:100%;">
-              <span style="color:#fff; font-weight:800; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${name}</span>
-              <div style="display:flex; align-items:center; justify-content:flex-end; gap:6px; flex-wrap:wrap; white-space:nowrap; flex-shrink:0; width:100%; text-align:right;">
+            <div style="display:flex; flex-direction:column; gap:4px; width:100%;">
+              ${statusBadges ? `<div style="display:flex; align-items:center; justify-content:flex-start; gap:6px; flex-wrap:wrap; white-space:nowrap; width:100%; margin-bottom:2px;">
                 ${statusBadges}
-              </div>
+              </div>` : ''}
+              <span style="color:#fff; font-weight:800; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${name}</span>
             </div>
             <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; width:100%;">
               <div style="color:#708499; font-size:12px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${email}</div>

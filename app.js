@@ -5,7 +5,31 @@ let state = {
   yesterdayDebt: Number(localStorage.getItem(STORAGE_KEYS.yesterdayDebt)) || 0
 };
 
+// ═════════════════════════ CORS PROXY YARDIMCISI ═════════════════════════
+// codetabs.com bazı domainleri engelliyor; bu yüzden birden fazla proxy
+// ile fallback zinciri oluşturuyoruz. İlk başarılı olan kullanılır.
+async function fetchWithProxy(targetUrl) {
+  const encoded = encodeURIComponent(targetUrl);
+  const proxies = [
+    `https://api.allorigins.win/raw?url=${encoded}`,
+    `https://corsproxy.io/?${encoded}`,
+    `https://api.codetabs.com/v1/proxy?quest=${encoded}`,
+  ];
 
+  for (const proxyUrl of proxies) {
+    try {
+      const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(8000) });
+      if (res.ok) {
+        const text = await res.text();
+        if (text && text.length > 200) return text; // Boş/hata sayfası değilse döndür
+      }
+    } catch (_) {
+      // Bu proxy başarısız, sıradakini dene
+    }
+  }
+  console.warn('[fetchWithProxy] Tüm proxy\'ler başarısız:', targetUrl);
+  return null;
+}
 
 // ═════════════════════════ BAŞLATICILAR ═════════════════════════
 async function initializeSystem() {
@@ -493,10 +517,8 @@ async function refreshFinanceData() {
   // 2. DOVIZ.COM MERKEZİ VERİ ÇEKME (USD, EUR, ALTIN, GÜMÜŞ, BRENT, BIST)
   try {
     const dUrl = "https://www.doviz.com";
-    const dProxy = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(dUrl)}`;
-    const dRes = await fetch(dProxy);
-    if (dRes.ok) {
-      const html = await dRes.text();
+    const html = await fetchWithProxy(dUrl);
+    if (html) {
       const doc = new DOMParser().parseFromString(html, 'text/html');
 
       const parseDoviz = (key) => {
@@ -612,14 +634,11 @@ window.fetchFuelPrices = async function () {
 
   // Doviz.com URL (Daha kararlı veri kaynağı)
   const targetUrl = `https://www.doviz.com/akaryakit-fiyatlari/${cityKey}`;
-  // Hızlı ve kararlı proxy: Codetabs
-  const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`;
 
   try {
-    const response = await fetch(proxyUrl);
-    if (!response.ok) throw new Error('Proxy Hatası.');
+    const html = await fetchWithProxy(targetUrl);
+    if (!html) throw new Error('Proxy Hatası.');
 
-    const html = await response.text();
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
     const rows = Array.from(doc.querySelectorAll('table tr'));
