@@ -1013,3 +1013,195 @@ function scheduleMidnightRefresh() {
     scheduleMidnightRefresh();
   }, delay);
 }
+
+// ==========================================
+// NOTLAR (NOTES) UYGULAMASI LOGIC
+// ==========================================
+
+let notesData = [];
+let autoSaveTimeout = null;
+
+async function loadNotes() {
+  if (!window._supabaseClient) return;
+  try {
+    const { data: { user } } = await window._supabaseClient.auth.getUser();
+    if (!user) return;
+    
+    const { data, error } = await window._supabaseClient
+      .from('notes')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('updated_at', { ascending: false });
+      
+    if (error) throw error;
+    notesData = data || [];
+    renderNotesList(notesData);
+  } catch (err) {
+    console.error("Notlar yüklenirken hata:", err.message);
+  }
+}
+
+function renderNotesList(notes) {
+  const container = document.getElementById('notesListContainer');
+  const emptyState = document.getElementById('notesEmptyState');
+  
+  // Clear list except empty state
+  Array.from(container.children).forEach(child => {
+    if (child.id !== 'notesEmptyState') child.remove();
+  });
+  
+  if (!notes || notes.length === 0) {
+    emptyState.style.display = 'block';
+    return;
+  }
+  
+  emptyState.style.display = 'none';
+  
+  notes.forEach(note => {
+    const dateObj = new Date(note.updated_at);
+    const dateStr = dateObj.toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
+    
+    const previewText = note.content ? note.content.substring(0, 40).replace(/\n/g, ' ') + '...' : 'Ek metin yok';
+    const displayTitle = note.title || 'Yeni Not';
+    
+    const el = document.createElement('div');
+    el.className = 'note-item';
+    el.onclick = () => openNoteEditor(note.id);
+    el.innerHTML = `
+      <div class="note-item-title">${displayTitle}</div>
+      <div class="note-item-meta">
+        <span class="note-item-date">${dateStr}</span>
+        <span class="note-item-preview">${previewText}</span>
+      </div>
+    `;
+    container.appendChild(el);
+  });
+}
+
+function filterNotes() {
+  const q = document.getElementById('notesSearchInput').value.toLowerCase();
+  const filtered = notesData.filter(n => 
+    (n.title && n.title.toLowerCase().includes(q)) || 
+    (n.content && n.content.toLowerCase().includes(q))
+  );
+  renderNotesList(filtered);
+}
+
+function getNoteDisplayDate(dateStr) {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' }) + ', ' + 
+         d.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+}
+
+async function openNewNote() {
+  if (!window._supabaseClient) return;
+  const { data: { user } } = await window._supabaseClient.auth.getUser();
+  if (!user) return;
+  
+  const newNote = {
+    id: crypto.randomUUID(),
+    user_id: user.id,
+    title: '',
+    content: '',
+    updated_at: new Date().toISOString()
+  };
+  
+  // Prepend to UI list immediately
+  notesData.unshift(newNote);
+  
+  // Create in DB
+  try {
+    await window._supabaseClient.from('notes').insert([newNote]);
+  } catch(e) { console.error("Not oluşturma hatası:", e); }
+  
+  openNoteEditor(newNote.id);
+}
+
+function openNoteEditor(noteId) {
+  const note = notesData.find(n => n.id === noteId);
+  if(!note) return;
+  
+  document.getElementById('currentNoteId').value = note.id;
+  document.getElementById('notesEditorLastUpdated').textContent = getNoteDisplayDate(note.updated_at);
+  
+  const textarea = document.getElementById('notesEditorTextarea');
+  const fullText = (note.title ? note.title + '\n' : '') + (note.content || '');
+  textarea.value = fullText.trim();
+  
+  document.getElementById('notesListView').style.display = 'none';
+  document.getElementById('notesEditorView').style.display = 'flex';
+  
+  setTimeout(() => textarea.focus(), 100);
+}
+
+function closeNoteEditor() {
+  saveCurrentNoteNow();
+  document.getElementById('notesEditorView').style.display = 'none';
+  document.getElementById('notesListView').style.display = 'flex';
+  renderNotesList(notesData);
+}
+
+function autoSaveNote() {
+  if (autoSaveTimeout) clearTimeout(autoSaveTimeout);
+  autoSaveTimeout = setTimeout(() => {
+    saveCurrentNoteNow();
+  }, 1000);
+}
+
+async function saveCurrentNoteNow() {
+  const noteId = document.getElementById('currentNoteId').value;
+  if (!noteId) return;
+  
+  const rawText = document.getElementById('notesEditorTextarea').value;
+  const lines = rawText.split('\n');
+  const title = lines[0] || '';
+  const content = lines.slice(1).join('\n') || '';
+  
+  const noteIndex = notesData.findIndex(n => n.id === noteId);
+  if (noteIndex > -1) {
+    if(notesData[noteIndex].title === title && notesData[noteIndex].content === content) return;
+    
+    notesData[noteIndex].title = title;
+    notesData[noteIndex].content = content;
+    notesData[noteIndex].updated_at = new Date().toISOString();
+    document.getElementById('notesEditorLastUpdated').textContent = getNoteDisplayDate(notesData[noteIndex].updated_at);
+  }
+  
+  if (window._supabaseClient) {
+    try {
+      await window._supabaseClient.from('notes')
+        .update({ title, content, updated_at: new Date().toISOString() })
+        .eq('id', noteId);
+    } catch(e) { console.error("Not kaydetme hatası:", e); }
+  }
+}
+
+async function promptDeleteNote() {
+  const noteId = document.getElementById('currentNoteId').value;
+  if (!noteId) return;
+  
+  if (confirm("Bu notu kalıcı olarak silmek istediğinize emin misiniz?")) {
+    notesData = notesData.filter(n => n.id !== noteId);
+    
+    if (window._supabaseClient) {
+      try {
+        await window._supabaseClient.from('notes').delete().eq('id', noteId);
+      } catch(e) { console.error("Not silme hatası:", e); }
+    }
+    
+    document.getElementById('notesEditorView').style.display = 'none';
+    document.getElementById('notesListView').style.display = 'flex';
+    renderNotesList(notesData);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const notesTabBtn = document.querySelector('.tab-btn[data-tab="notes"]');
+  if (notesTabBtn) {
+    notesTabBtn.addEventListener('click', () => {
+      if (notesData.length === 0) {
+        loadNotes();
+      }
+    });
+  }
+});

@@ -1,25 +1,16 @@
 [
   {
-    "version": "Genel Güncelleme v1.3",
-    "date": "03.06.2026 - 18:10",
-    "day": "Çarşamba",
-    "summary": "Genel bir güncelleme yapıldı. Bu güncellemede Kasa, Mesajlar ve Süperlig düzenlemeleri yapıldı.",
-    "items": [
-      "<strong style=\"color:#10b981;\">Güncelleme:</strong> Kasa sekmesi tamamen kaldırıldı. Verilerin elle girilmesi ve güncellemenin zor olması dolayısı ile özellik kullanımdan kaldırıldı.",
-      "<strong style=\"color:#f59e0b;\">Güncelleme:</strong> Şampiyonlar Ligi sekmesi eklendi.",
-      "<strong style=\"color:#3b82f6;\">Güncelleme:</strong> Mesajlaşma özellikleri iyileştirildi."
-    ]
-  },
-  {
     "version": "Genel Güncelleme v1.5",
-    "date": "03.06.2026 - 20:45",
+    "date": "06.06.2026 - 12:10",
     "day": "Çarşamba",
-    "summary": "Genel bir güncelleme yapıldı. Bu güncellemede Kasa, Mesajlar ve Süperlig düzenlemeleri yapıldı.",
+    "summary": "Genel bir güncelleme yapıldı. Bu güncellemede Kasa, Mesajlar ve Süperlig düzenlemeleri yapıldı. Notlar sekmesi eklendi.",
     "items": [
       "<strong style=\"color:#10b981;\">Güncelleme_1:</strong> Kasa sekmesi tamamen kaldırıldı. Verilerin elle girilmesi ve güncellemenin zor olması dolayısı ile özellik kullanımdan kaldırıldı.",
       "<strong style=\"color:#f59e0b;\">Güncelleme_2:</strong> Şampiyonlar Ligi sekmesi eklendi.",
       "<strong style=\"color:#3b82f6;\">Güncelleme_3:</strong> Mesajlaşma özellikleri iyileştirildi.",
-      "<strong style=\"color:#a855f7;\">Güncelleme_4:</strong> Mesajlaşma Ekranında okundu bilgisi (çift tik) geldi."
+      "<strong style=\"color:#a855f7;\">Güncelleme_4:</strong> Mesajlaşma Ekranında okundu bilgisi (çift tik) geldi.",
+      "<strong style=\"color:#10b981;\">Güncelleme:</strong> Mesajlaşmalarda iyileştirme yapıldı.",
+      "<strong style=\"color:#f59e0b;\">Güncelleme:</strong> Notlar Sekmesi eklendi. Kullanıcılar not alabilecekler."
     ]
   }
 ]
