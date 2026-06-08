@@ -2660,6 +2660,7 @@ details[id^="match-detail-"] {
 }
 
 .status-paid { background: rgba(14, 203, 129, 0.15); color: var(--binance-green); }
+.status-kesildi { background: rgba(252, 213, 53, 0.15); color: var(--binance-yellow); }
 .status-waiting { background: rgba(246, 70, 93, 0.15); color: var(--binance-red); }
 
 /* PREMIUM WIDGET & iOS CALENDAR */

@@ -148,20 +148,30 @@ const SchoolModule = (() => {
     const dueDay = due.getDate();
     const dueMonth = due.getMonth();
     const dueYear = due.getFullYear();
-    const currentDay = today.getDate();
-    const currentMonth = today.getMonth();
-    const currentYear = today.getFullYear();
 
-    // Geçmiş yıl/ay kontrolü
-    if (dueYear < currentYear) return 'Ödendi';
-    if (dueYear === currentYear && dueMonth < currentMonth) return 'Ödendi';
+    // Taksit tarihinin kesileceği ekstre kesim tarihini hesapla
+    let targetMonth = dueDay <= cutoffDay ? dueMonth : dueMonth + 1;
+    let targetYear = dueYear;
 
-    // Aynı ay içinde: Kesim tarihinden önceyse ve bugün kesim tarihinden sonraysa ödendi
-    if (dueYear === currentYear && dueMonth === currentMonth) {
-      if (dueDay <= cutoffDay && currentDay >= cutoffDay) return 'Ödendi';
+    // Ay sonu gün sınırını koru (örn. şubat 28/29, nisan 30 vb.)
+    const tempDate = new Date(targetYear, targetMonth + 1, 0);
+    const maxDays = tempDate.getDate();
+    const actualCutoffDay = Math.min(cutoffDay, maxDays);
+    const statementDate = new Date(targetYear, targetMonth, actualCutoffDay);
+    statementDate.setHours(0, 0, 0, 0);
+
+    // Ödeme tarihi: Kesim tarihinden sonraki 10. gün
+    const paymentDate = new Date(statementDate.getTime());
+    paymentDate.setDate(paymentDate.getDate() + 10);
+    paymentDate.setHours(0, 0, 0, 0);
+
+    if (today >= paymentDate) {
+      return 'Ödendi';
+    } else if (today >= statementDate) {
+      return 'Kesildi';
+    } else {
+      return 'Bekleniyor';
     }
-
-    return 'Bekleniyor';
   }
 
   function getInstallmentAmount(plan, index) {
@@ -245,6 +255,8 @@ const SchoolModule = (() => {
           remainingDebt += amount;
         }
 
+        const statusClass = status === 'Ödendi' ? 'status-paid' : (status === 'Kesildi' ? 'status-kesildi' : 'status-waiting');
+
         installmentsHtml += `
           <div class="installment-row">
             <div>
@@ -253,7 +265,7 @@ const SchoolModule = (() => {
             </div>
             <div style="text-align:right;">
               <div style="color:#fff; font-weight:800; font-size:14px;">${formatCurrency(amount)}</div>
-              <span class="status-badge ${status === 'Ödendi' ? 'status-paid' : 'status-waiting'}">${status.toUpperCase()}</span>
+              <span class="status-badge ${statusClass}">${status.toUpperCase()}</span>
             </div>
           </div>`;
       }
