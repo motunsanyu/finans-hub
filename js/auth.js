@@ -63,10 +63,7 @@
       germanBtn.style.display = prof?.is_admin ? 'block' : 'none';
     }
 
-    const dailyMenuBtn = document.getElementById('dailyMenuBtn');
-    if (dailyMenuBtn) {
-      dailyMenuBtn.style.display = (prof?.is_admin || prof?.is_menu_editor) ? 'flex' : 'none';
-    }
+    
 
     // E-posta adresi eksikse profile kaydet (Admin panelinde görebilmek için)
     if (user.email && prof?.email !== user.email) {
@@ -281,26 +278,7 @@
     const authScreen = document.getElementById('authScreen');
     const appShell = document.getElementById('appShell');
 
-    // Müşteri Menü Görünümü Kontrolü (Bypass login & PIN completely)
-    if (window.location.search.includes('menu=true') || window.location.hash === '#menu') {
-      window.isPublicMenuMode = true;
-      if (authScreen) authScreen.style.display = 'none';
-      if (appShell) appShell.style.display = 'none';
-      const pinScreen = document.getElementById('pinScreen');
-      if (pinScreen) pinScreen.style.display = 'none';
-      
-      // Menü modülünün yüklenmesini bekle ve menüyü göster
-      if (typeof MenuModule !== 'undefined' && typeof MenuModule.showPublicMenu === 'function') {
-        MenuModule.showPublicMenu();
-      } else {
-        document.addEventListener('DOMContentLoaded', () => {
-          if (typeof MenuModule !== 'undefined' && typeof MenuModule.showPublicMenu === 'function') {
-            MenuModule.showPublicMenu();
-          }
-        });
-      }
-      return true;
-    }
+
 
     // Önce oturum var mı diye bakalım
     const { data: { session } } = await sb.auth.getSession();

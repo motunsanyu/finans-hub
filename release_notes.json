@@ -1,16 +1,17 @@
 [
   {
-    "version": "Genel Güncelleme v1.5",
-    "date": "06.06.2026 - 12:10",
-    "day": "Çarşamba",
-    "summary": "Genel bir güncelleme yapıldı. Bu güncellemede Kasa, Mesajlar ve Süperlig düzenlemeleri yapıldı. Notlar sekmesi eklendi.",
+    "version": "Menü v2.0",
+    "date": "08.06.2026 - 22:55",
+    "day": "Pazartesi",
+    "summary": "Genel bir güncelleme yapıldı. Bu güncellemede Kasa, Mesajlar ve Süperlig düzenlemeleri yapıldı. Notlar sekmesi eklendi. Menü sekmesi artık yok.",
     "items": [
       "<strong style=\"color:#10b981;\">Güncelleme_1:</strong> Kasa sekmesi tamamen kaldırıldı. Verilerin elle girilmesi ve güncellemenin zor olması dolayısı ile özellik kullanımdan kaldırıldı.",
       "<strong style=\"color:#f59e0b;\">Güncelleme_2:</strong> Şampiyonlar Ligi sekmesi eklendi.",
       "<strong style=\"color:#3b82f6;\">Güncelleme_3:</strong> Mesajlaşma özellikleri iyileştirildi.",
       "<strong style=\"color:#a855f7;\">Güncelleme_4:</strong> Mesajlaşma Ekranında okundu bilgisi (çift tik) geldi.",
       "<strong style=\"color:#10b981;\">Güncelleme:</strong> Mesajlaşmalarda iyileştirme yapıldı.",
-      "<strong style=\"color:#f59e0b;\">Güncelleme:</strong> Notlar Sekmesi eklendi. Kullanıcılar not alabilecekler."
+      "<strong style=\"color:#f59e0b;\">Güncelleme:</strong> Notlar Sekmesi eklendi. Kullanıcılar not alabilecekler.",
+      "<strong style=\"color:#3b82f6;\">Güncelleme:</strong> Menü sekmesi tamamen silindi. Gerek yoktu ..."
     ]
   }
 ]
