@@ -1,12 +1,13 @@
 [
   {
-    "version": "Taksit 2.0",
+    "version": "Taksit 2.1",
     "date": "08.06.2026 - 23:25",
     "day": "Pazartesi",
     "summary": "Taksit mantığı güncellendi. Menü sekmesi tamamen silindi.",
     "items": [
       "<strong style=\"color:#10b981;\">Güncelleme:</strong> Menü sekmesi artık yok.",
-      "<strong style=\"color:#f59e0b;\">Güncelleme:</strong> Taksit ödeme sistemi güncellendi."
+      "<strong style=\"color:#f59e0b;\">Güncelleme:</strong> Taksit ödeme sistemi güncellendi.",
+      "<strong style=\"color:#3b82f6;\">Güncelleme:</strong> Taksit ödeme tutarı hesaplamaları düzeltildi."
     ]
   }
 ]

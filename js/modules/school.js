@@ -229,6 +229,7 @@ const SchoolModule = (() => {
 
       let remainingDebt = 0;
       let paidCount = 0;
+      let paidDebt = 0;
       let installmentsHtml = '';
 
       const borderColors = ['#26a69a', '#ffa726', '#8d6e63', '#66bb6a']; // Daha mat fintech renkleri
@@ -247,12 +248,11 @@ const SchoolModule = (() => {
 
         if (status === 'Ödendi') {
           paidCount++;
+          paidDebt += amount;
           // 🏦 KASA ENTEGRASYONU
           if (!plan.recordedInstallments.includes(installmentId)) {
             
           }
-        } else {
-          remainingDebt += amount;
         }
 
         const statusClass = status === 'Ödendi' ? 'status-paid' : (status === 'Kesildi' ? 'status-kesildi' : 'status-waiting');
@@ -270,6 +270,7 @@ const SchoolModule = (() => {
           </div>`;
       }
 
+      remainingDebt = Math.max(0, totalDebt - paidDebt);
       const progressPercent = (paidCount / installmentCount) * 100;
 
       html += `
@@ -341,6 +342,7 @@ const SchoolModule = (() => {
     schoolPlans.forEach(plan => {
       const installmentCount = plan.installmentCount;
       const firstDate = new Date(plan.firstDate);
+      let planPaidDebt = 0;
 
       for (let i = 0; i < installmentCount; i++) {
         const dueDate = new Date(firstDate);
@@ -348,11 +350,13 @@ const SchoolModule = (() => {
         const amount = getInstallmentAmount(plan, i);
         const status = getInstallmentStatus(dueDate, plan.cardId);
         
-        if (status !== 'Ödendi') {
-          grandRemainingDebt += amount;
+        if (status === 'Ödendi') {
+          planPaidDebt += amount;
+        } else {
           grandTotalWaitingCount++;
         }
       }
+      grandRemainingDebt += Math.max(0, plan.totalDebt - planPaidDebt);
     });
 
     const el = document.getElementById('grandSchoolDebt');
