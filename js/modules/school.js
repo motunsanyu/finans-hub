@@ -167,7 +167,7 @@ const SchoolModule = (() => {
 
     if (today >= paymentDate) {
       return 'Ödendi';
-    } else if (today >= statementDate) {
+    } else if (today >= due) {
       return 'Kesildi';
     } else {
       return 'Bekleniyor';
