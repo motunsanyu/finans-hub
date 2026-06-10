@@ -9,5 +9,15 @@
       "<strong style=\"color:#f59e0b;\">Güncelleme:</strong> Taksit ödeme sistemi güncellendi.",
       "<strong style=\"color:#3b82f6;\">Güncelleme:</strong> Taksit ödeme tutarı hesaplamaları düzeltildi."
     ]
+  },
+  {
+    "version": "Proxy v1.0",
+    "date": "10.06.2026 - 15:53",
+    "day": "Çarşamba",
+    "summary": "Proxy güncellemesi yapıldı.",
+    "items": [
+      "<strong style=\"color:#10b981;\">Güncelleme:</strong> 1- Döviz verisi çekimi kontrol edildi",
+      "<strong style=\"color:#f59e0b;\">Güncelleme:</strong> 2- Altın verileri çekimi geliştirildi."
+    ]
   }
 ]

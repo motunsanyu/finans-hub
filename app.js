@@ -11,7 +11,7 @@ let state = {
 async function fetchWithProxy(targetUrl) {
   const encoded = encodeURIComponent(targetUrl);
   const proxies = [
-    `https://api.codetabs.com/v1/proxy?quest=${encoded}`,
+    `/api/proxy?url=${encoded}`,
     `https://api.allorigins.win/raw?url=${encoded}`,
     `https://corsproxy.io/?${encoded}`,
   ];

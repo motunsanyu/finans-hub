@@ -37,8 +37,11 @@ const AltinModule = (() => {
         if (d.error) throw new Error(d.error);
       } catch (proxyErr) {
         console.warn("Cloudflare worker başarısız, genel proxy deneniyor...");
-        const fallbackRes = await fetch('https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent('https://static.altinkaynak.com/public/Gold'));
-        if (!fallbackRes.ok) throw new Error("Genel Proxy Bağlantı Hatası");
+        let fallbackRes = await fetch('/api/proxy?url=' + encodeURIComponent('https://static.altinkaynak.com/public/Gold')).catch(() => null);
+        if (!fallbackRes || !fallbackRes.ok) {
+            fallbackRes = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://static.altinkaynak.com/public/Gold')).catch(() => null);
+        }
+        if (!fallbackRes || !fallbackRes.ok) throw new Error("Genel Proxy Bağlantı Hatası");
         const rawJson = await fallbackRes.json();
         d = { veriler: rawJson };
       }
