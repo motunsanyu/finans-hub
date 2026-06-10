@@ -629,70 +629,68 @@ window.fetchFuelPrices = async function () {
 
   const cityEl = document.getElementById('fuelCitySelect');
   const firmEl = document.getElementById('fuelFirmSelect');
-  const cityKey = cityEl ? cityEl.value : 'istanbul';
+  const cityKey = cityEl ? cityEl.value : 'konya';
   const firmKey = firmEl ? firmEl.value : 'opet';
 
-  // Doviz.com URL (Daha kararlı veri kaynağı)
-  const targetUrl = `https://www.doviz.com/akaryakit-fiyatlari/${cityKey}`;
+  // Şehir adı → OPET plaka kodu eşleşmesi
+  const cityCodeMap = {
+    'konya': 42, 'istanbul': 34, 'istanbul-avrupa': 34,
+    'ankara': 6, 'izmir': 35, 'bursa': 16, 'antalya': 7,
+    'adana': 1, 'gaziantep': 27, 'kayseri': 38, 'mersin': 33,
+    'eskisehir': 26, 'samsun': 55, 'trabzon': 61
+  };
+
+  const provinceCode = cityCodeMap[cityKey] || 42;
 
   try {
-    const html = await fetchWithProxy(targetUrl);
-    if (!html) throw new Error('Proxy Hatası.');
+    const res = await fetch(`https://api.opet.com.tr/api/fuelprices/prices?ProvinceCode=${provinceCode}`, {
+      cache: 'no-store'
+    });
+    if (!res.ok) throw new Error(`API Hatası: ${res.status}`);
+    const data = await res.json();
 
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    const rows = Array.from(doc.querySelectorAll('table tr'));
+    // Merkez ilçenin verisini ya da ilk ilçenin verisini al
+    const district = data.find(d => d.districtName === 'MERKEZ') || data[0];
+    if (!district || !district.prices || district.prices.length === 0) throw new Error('Fiyat verisi bulunamadı');
 
-    const labels = {
-      'opet': 'opet',
-      'petrol-ofisi': 'ofisi',
-      'shell': 'shell',
-      'bp': 'bp',
-      'total': 'total',
-      'aytemiz': 'aytemiz'
-    };
-    const search = labels[firmKey] || 'opet';
+    const prices = district.prices;
+    const benzin95 = prices.find(p => p.productCode === 'A100');
+    const motorin   = prices.find(p => p.productCode === 'A121');
+    // LPG: OPET LPG kodu A130 ya da bulunamazsa boş
+    const lpg       = prices.find(p => p.productCode === 'A130');
 
-    let r = rows.find(tr => tr.textContent.toLowerCase().includes(search));
-    if (!r && rows.length > 1) r = rows[1]; // Fallback to first general row
-
-    let benzin = "0.00", motorin = "0.00", lpg = "0.00";
-    if (r) {
-      const tds = r.querySelectorAll('td');
-      if (tds.length >= 4) {
-        benzin = tds[1].textContent.replace('₺', '').trim();
-        motorin = tds[2].textContent.replace('₺', '').trim();
-        lpg = tds[3].textContent.replace('₺', '').trim();
-      }
-    }
+    const fmt = (v) => v ? v.amount.toFixed(2) : '--';
+    const benzinStr  = fmt(benzin95);
+    const motorinStr = fmt(motorin);
+    const lpgStr     = fmt(lpg);
 
     // Global cache'e kaydet
     window._lastFuelPrices = {
-      benzin: parseFloat(benzin.replace(',', '.')) || null,
-      motorin: parseFloat(motorin.replace(',', '.')) || null,
-      lpg: parseFloat(lpg.replace(',', '.')) || null,
+      benzin:  benzin95  ? benzin95.amount  : null,
+      motorin: motorin   ? motorin.amount   : null,
+      lpg:     lpg       ? lpg.amount       : null,
       timestamp: Date.now()
     };
 
     // Eğer formda yakıt tipi seçiliyse otomatik doldur
-    const fuelType = document.getElementById('fuelTypeSelect')?.value;
+    const fuelType   = document.getElementById('fuelTypeSelect')?.value;
     const priceInput = document.getElementById('fuelPrice');
     if (fuelType && priceInput) {
       const priceMap = { benzin: window._lastFuelPrices.benzin, motorin: window._lastFuelPrices.motorin, lpg: window._lastFuelPrices.lpg };
       if (priceMap[fuelType]) {
         priceInput.value = priceMap[fuelType].toFixed(2);
         const hint = document.getElementById('fuelPriceHint');
-        if (hint) hint.textContent = `✅ ${fuelType === 'benzin' ? 'Benzin 95' : fuelType === 'motorin' ? 'Motorin' : 'LPG'} fiyatı otomatik dolduruldu (${cityKey.toUpperCase()} - ${firmKey.toUpperCase()})`;
+        if (hint) hint.textContent = `✅ ${fuelType === 'benzin' ? 'Benzin 95' : fuelType === 'motorin' ? 'Motorin' : 'LPG'} fiyatı otomatik dolduruldu (OPET - ${cityKey.toUpperCase()})`;
       }
     }
 
     cards.innerHTML = `
-          <div class="fuel-price-card benzin"><div class="fpc-icon">⛽</div><div class="fpc-label">Benzin 95</div><div class="fpc-price">${benzin}</div></div>
-          <div class="fuel-price-card motorin"><div class="fpc-icon">🚛</div><div class="fpc-label">Motorin</div><div class="fpc-price">${motorin}</div></div>
-          <div class="fuel-price-card lpg"><div class="fpc-icon">💨</div><div class="fpc-label">LPG</div><div class="fpc-price">${lpg}</div></div>`;
+          <div class="fuel-price-card benzin"><div class="fpc-icon">⛽</div><div class="fpc-label">Benzin 95</div><div class="fpc-price">${benzinStr} ₺</div></div>
+          <div class="fuel-price-card motorin"><div class="fpc-icon">🚛</div><div class="fpc-label">Motorin</div><div class="fpc-price">${motorinStr} ₺</div></div>
+          <div class="fuel-price-card lpg"><div class="fpc-icon">💨</div><div class="fpc-label">LPG</div><div class="fpc-price">${lpgStr !== '--' ? lpgStr + ' ₺' : '--'}</div></div>`;
 
     const now = new Date().toLocaleTimeString("tr-TR", { hour: '2-digit', minute: '2-digit' });
-    if (meta) meta.textContent = `${cityKey.toUpperCase()} • ${firmKey.toUpperCase()} • ${now}`;
+    if (meta) meta.textContent = `OPET • ${district.provinceName} • ${now}`;
 
   } catch (error) {
     console.error("Yakit:", error);

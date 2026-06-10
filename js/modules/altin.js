@@ -64,7 +64,7 @@ const AltinModule = (() => {
         tbody.appendChild(tr);
       });
 
-      const upd = d.guncelleme || new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+      const upd = new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
       const timeEl = document.getElementById('altinGuncelleme');
       if (timeEl) timeEl.textContent = `Son güncelleme: ${upd}`;
 
