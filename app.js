@@ -514,28 +514,28 @@ async function refreshFinanceData() {
     }
   } catch (e) { console.warn("Binance Hatasi", e); }
 
-  // 2. DOVIZ.COM MERKEZİ VERİ ÇEKME (USD, EUR, ALTIN, GÜMÜŞ, BRENT, BIST)
+  // 2. TRUNCGIL MERKEZİ VERİ ÇEKME (USD, EUR, ALTIN, GÜMÜŞ)
   try {
-    const dUrl = "https://www.doviz.com";
-    const html = await fetchWithProxy(dUrl);
-    if (html) {
-      const doc = new DOMParser().parseFromString(html, 'text/html');
-
-      const parseDoviz = (key) => {
-        const s = doc.querySelector(`[data-socket-key="${key}"][data-socket-attr="s"]`)?.textContent.trim();
-        const c = doc.querySelector(`[data-socket-key="${key}"][data-socket-attr="c"]`)?.textContent.trim();
-        if (!s) return null;
-        return { price: parseFlexibleNumber(s), change: parseFlexibleNumber(c) };
+    const tRes = await fetch("https://finans.truncgil.com/today.json", { cache: "no-store" });
+    if (tRes.ok) {
+      const data = await tRes.json();
+      const parseItem = (key) => {
+        if (!data[key]) return null;
+        const item = data[key];
+        return { 
+          price: parseFlexibleNumber(item.Satış || item.Alış), 
+          change: parseFlexibleNumber(item.Değişim ? String(item.Değişim).replace('%','') : '0')
+        };
       };
 
-      const usd = parseDoviz("USD"); if (usd) nextSnapshot.usdTry = usd;
-      const eur = parseDoviz("EUR"); if (eur) nextSnapshot.eurTry = eur;
-      const gold = parseDoviz("gram-altin"); if (gold) nextSnapshot.goldTry = gold;
-      const silver = parseDoviz("gumus"); if (silver) nextSnapshot.silverTry = silver;
-      const brent = parseDoviz("BRENT"); if (brent) nextSnapshot.brent = brent;
-      const bist = parseDoviz("XU100"); if (bist) nextSnapshot.bist = bist;
+      const usd = parseItem("USD"); if (usd) nextSnapshot.usdTry = usd;
+      const eur = parseItem("EUR"); if (eur) nextSnapshot.eurTry = eur;
+      const gold = parseItem("gram-altin"); if (gold) nextSnapshot.goldTry = gold;
+      const silver = parseItem("gumus"); if (silver) nextSnapshot.silverTry = silver;
+      
+      // BIST ve BRENT Truncgil'de yok, şimdilik eski veriyi koruyacağız
     }
-  } catch (e) { console.warn("Doviz Central Error", e); }
+  } catch (e) { console.warn("Truncgil Central Error", e); }
 
   state.financeSnapshot = nextSnapshot;
 

@@ -29,34 +29,23 @@ const AltinModule = (() => {
     wrap.style.display = 'none';
 
     try {
-      let d;
-      try {
-        const res = await fetch('/api/altin?v=' + Date.now());
-        if (!res.ok) throw new Error("Cloudflare CF Route not responding (404)");
-        d = await res.json();
-        if (d.error) throw new Error(d.error);
-      } catch (proxyErr) {
-        console.warn("Cloudflare worker başarısız, genel proxy deneniyor...");
-        let fallbackRes = await fetch('/api/proxy?url=' + encodeURIComponent('https://static.altinkaynak.com/public/Gold')).catch(() => null);
-        if (!fallbackRes || !fallbackRes.ok) {
-            fallbackRes = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://static.altinkaynak.com/public/Gold')).catch(() => null);
-        }
-        if (!fallbackRes || !fallbackRes.ok) throw new Error("Genel Proxy Bağlantı Hatası");
-        const rawJson = await fallbackRes.json();
-        d = { veriler: rawJson };
-      }
-
-      const v = d.veriler || [];
-      const findK = (kod) => v.find(x => x.Kod === kod) || {};
+      const tRes = await fetch("https://finans.truncgil.com/today.json", { cache: "no-store" });
+      if (!tRes.ok) throw new Error("API Bağlantı Hatası");
+      const data = await tRes.json();
+      
+      const p = (key) => {
+          if(!data[key]) return { Alis: 0, Satis: 0 };
+          return { Alis: data[key].Alış, Satis: data[key].Satış };
+      };
 
       const rows = [
-        { ad: 'Gram Altın (24 Ayar)', alis: findK('GA').Alis, satis: findK('GA').Satis, degisim: null },
-        { ad: '22 Ayar Bilezik', alis: findK('B').Alis, satis: findK('B').Satis, degisim: null },
-        { ad: 'Çeyrek Altın', alis: findK('C').Alis, satis: findK('C').Satis, degisim: null },
-        { ad: 'Yarım Altın', alis: findK('Y').Alis, satis: findK('Y').Satis, degisim: null },
-        { ad: 'Tam Altın', alis: findK('T').Alis, satis: findK('T').Satis, degisim: null },
-        { ad: 'Ata/Cumhuriyet', alis: findK('A').Alis, satis: findK('A').Satis, degisim: null },
-        { ad: 'Altın (ONS/$)', alis: findK('XAUUSD').Alis, satis: findK('XAUUSD').Satis, degisim: null },
+        { ad: 'Gram Altın (24 Ayar)', alis: p('gram-altin').Alis, satis: p('gram-altin').Satis, degisim: null },
+        { ad: '22 Ayar Bilezik', alis: p('22-ayar-bilezik').Alis, satis: p('22-ayar-bilezik').Satis, degisim: null },
+        { ad: 'Çeyrek Altın', alis: p('ceyrek-altin').Alis, satis: p('ceyrek-altin').Satis, degisim: null },
+        { ad: 'Yarım Altın', alis: p('yarim-altin').Alis, satis: p('yarim-altin').Satis, degisim: null },
+        { ad: 'Tam Altın', alis: p('tam-altin').Alis, satis: p('tam-altin').Satis, degisim: null },
+        { ad: 'Ata/Cumhuriyet', alis: p('ata-altin').Alis, satis: p('ata-altin').Satis, degisim: null },
+        { ad: 'Altın (ONS/$)', alis: p('ons').Alis ? p('ons').Alis.replace('$','') : 0, satis: p('ons').Satis ? p('ons').Satis.replace('$','') : 0, degisim: null },
       ];
 
       window.altinDataRows = rows;
