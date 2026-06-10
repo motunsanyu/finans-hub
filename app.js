@@ -632,43 +632,36 @@ window.fetchFuelPrices = async function () {
   const cityKey = cityEl ? cityEl.value : 'konya';
   const firmKey = firmEl ? firmEl.value : 'opet';
 
-  // Şehir adı → OPET plaka kodu eşleşmesi
-  const cityCodeMap = {
-    'konya': 42, 'istanbul': 34, 'istanbul-avrupa': 34,
-    'ankara': 6, 'izmir': 35, 'bursa': 16, 'antalya': 7,
-    'adana': 1, 'gaziantep': 27, 'kayseri': 38, 'mersin': 33,
-    'eskisehir': 26, 'samsun': 55, 'trabzon': 61
-  };
-
-  const provinceCode = cityCodeMap[cityKey] || 42;
+  // Şehir anahtarını API için uyumlu hale getir
+  let apiCity = cityKey.toUpperCase().replace('ISTANBUL-AVRUPA', 'ISTANBUL').replace('ISTANBUL-ANADOLU', 'ISTANBUL');
+  if (apiCity === 'IZMIR') apiCity = 'IZMIR';
+  else if (apiCity.includes('I')) apiCity = apiCity.replace(/I/g, 'I'); // Sadece genel uyum için (İ/I)
 
   try {
-    const res = await fetch(`https://api.opet.com.tr/api/fuelprices/prices?ProvinceCode=${provinceCode}`, {
-      cache: 'no-store'
-    });
+    const res = await fetch(`https://hasanadiguzel.com.tr/api/akaryakit/sehir=${apiCity}`, { cache: 'no-store' });
     if (!res.ok) throw new Error(`API Hatası: ${res.status}`);
-    const data = await res.json();
+    const json = await res.json();
+    if (json.error || !json.data) throw new Error(json.error?.text || 'Veri bulunamadı');
 
-    // Merkez ilçenin verisini ya da ilk ilçenin verisini al
-    const district = data.find(d => d.districtName === 'MERKEZ') || data[0];
-    if (!district || !district.prices || district.prices.length === 0) throw new Error('Fiyat verisi bulunamadı');
+    // API'nin döndürdüğü ilk veri kümesini alıyoruz
+    const keys = Object.keys(json.data);
+    if (keys.length === 0) throw new Error('Fiyat bilgisi yok');
+    
+    // keys[0] genellikle Benzin fiyatı (ör. "64,98")
+    // data nesnesinin içindeki diğer yakıtlar
+    const dataObj = json.data[keys[0]];
 
-    const prices = district.prices;
-    const benzin95 = prices.find(p => p.productCode === 'A100');
-    const motorin   = prices.find(p => p.productCode === 'A121');
-    // LPG: OPET LPG kodu A130 ya da bulunamazsa boş
-    const lpg       = prices.find(p => p.productCode === 'A130');
+    const benzinStr = keys[0];
+    const motorinStr = dataObj["Motorin(Eurodiesel)_TL/lt"] || dataObj["Motorin(Excellium_Eurodiesel)_TL/lt"];
+    const lpgStr = dataObj["Otogaz_TL/lt"] || '--';
 
-    const fmt = (v) => v ? v.amount.toFixed(2) : '--';
-    const benzinStr  = fmt(benzin95);
-    const motorinStr = fmt(motorin);
-    const lpgStr     = fmt(lpg);
+    const parseToFloat = (s) => parseFloat(s.replace(',', '.')) || 0;
 
     // Global cache'e kaydet
     window._lastFuelPrices = {
-      benzin:  benzin95  ? benzin95.amount  : null,
-      motorin: motorin   ? motorin.amount   : null,
-      lpg:     lpg       ? lpg.amount       : null,
+      benzin:  parseToFloat(benzinStr),
+      motorin: motorinStr !== '--' ? parseToFloat(motorinStr) : null,
+      lpg:     lpgStr !== '--' ? parseToFloat(lpgStr) : null,
       timestamp: Date.now()
     };
 
@@ -680,17 +673,17 @@ window.fetchFuelPrices = async function () {
       if (priceMap[fuelType]) {
         priceInput.value = priceMap[fuelType].toFixed(2);
         const hint = document.getElementById('fuelPriceHint');
-        if (hint) hint.textContent = `✅ ${fuelType === 'benzin' ? 'Benzin 95' : fuelType === 'motorin' ? 'Motorin' : 'LPG'} fiyatı otomatik dolduruldu (OPET - ${cityKey.toUpperCase()})`;
+        if (hint) hint.textContent = `✅ ${fuelType === 'benzin' ? 'Benzin 95' : fuelType === 'motorin' ? 'Motorin' : 'LPG'} fiyatı otomatik dolduruldu (${apiCity})`;
       }
     }
 
     cards.innerHTML = `
           <div class="fuel-price-card benzin"><div class="fpc-icon">⛽</div><div class="fpc-label">Benzin 95</div><div class="fpc-price">${benzinStr} ₺</div></div>
-          <div class="fuel-price-card motorin"><div class="fpc-icon">🚛</div><div class="fpc-label">Motorin</div><div class="fpc-price">${motorinStr} ₺</div></div>
+          <div class="fuel-price-card motorin"><div class="fpc-icon">🚛</div><div class="fpc-label">Motorin</div><div class="fpc-price">${motorinStr !== '--' ? motorinStr + ' ₺' : '--'}</div></div>
           <div class="fuel-price-card lpg"><div class="fpc-icon">💨</div><div class="fpc-label">LPG</div><div class="fpc-price">${lpgStr !== '--' ? lpgStr + ' ₺' : '--'}</div></div>`;
 
     const now = new Date().toLocaleTimeString("tr-TR", { hour: '2-digit', minute: '2-digit' });
-    if (meta) meta.textContent = `OPET • ${district.provinceName} • ${now}`;
+    if (meta) meta.textContent = `Piyasa Ortalaması • ${apiCity} • ${now}`;
 
   } catch (error) {
     console.error("Yakit:", error);
