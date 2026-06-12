@@ -228,14 +228,69 @@ const NewsModule = (() => {
         container.innerHTML = `
             <div style="display:flex; justify-content:center; padding:60px 20px; gap:12px; flex-direction:column; align-items:center; color:#9ca3af;">
                 <div class="spinner"></div>
-                <span style="font-size:13px;">Haberler yükleniyor (3 kaynak)...</span>
+                <span style="font-size:13px;">Haberler yükleniyor...</span>
             </div>
         `;
 
+        // ─── 1. ADIM: Supabase'den Sözcü haberlerini dene ──────────────────
+        try {
+            const sb = window._supabaseClient || (typeof getSB === 'function' ? getSB() : null);
+            if (sb) {
+                const { data, error } = await sb
+                    .from('market_snapshots')
+                    .select('news, fetched_at')
+                    .order('fetched_at', { ascending: false })
+                    .limit(1)
+                    .single();
+
+                if (!error && data && data.news && data.news.length > 0) {
+                    // Supabase'den gelen Sözcü haberlerini render et
+                    const fetchedAt = data.fetched_at ? new Date(data.fetched_at) : null;
+                    const timeStr = fetchedAt
+                        ? fetchedAt.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })
+                        : '';
+
+                    let html = timeStr ? `<div style="font-size:12px; color:#9ca3af; padding:10px 12px; background:rgba(255,255,255,0.04); border:1px solid #2a2f36; border-radius:14px; margin-bottom:12px;">
+                        📰 Sözcü.com.tr • Son güncelleme: ${timeStr}
+                    </div>` : '';
+
+                    data.news.forEach(item => {
+                        const safeTitle = sanitizeText(item.title || 'Başlıksız');
+                        const safeDesc = sanitizeText(item.description || '');
+                        const link = item.link || '#';
+                        const shortDesc = safeDesc.length > 150 ? safeDesc.substring(0, 150) + '...' : safeDesc;
+
+                        html += `
+                            <div class="news-card" style="background:#1e2329; border-radius:20px; overflow:hidden; border:1px solid #2a2f36; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s; margin-bottom:16px;"
+                                 onclick="openNewsModal('${item.title.replace(/'/g,"\\'")}', '${(item.image||'').replace(/'/g,"\\'")}', '${(item.description||'').replace(/'/g,"\\'")}', '${link}')"
+                                 onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.4)';"
+                                 onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                                ${item.image ? `<img src="${item.image}" alt="" loading="lazy" style="width:100%; height:180px; object-fit:cover; display:block;" onerror="this.style.display='none'"/>` : ''}
+                                <div style="padding:16px;">
+                                    <div style="display:flex; gap:8px; align-items:center; margin-bottom:10px;">
+                                        <span style="background:rgba(252,213,53,0.12); color:#fcd535; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:600;">Sözcü</span>
+                                    </div>
+                                    <div style="font-size:15px; font-weight:700; color:white; line-height:1.4; margin-bottom:8px;">${safeTitle}</div>
+                                    ${shortDesc ? `<div style="font-size:13px; color:#b0b8c5; line-height:1.45;">${shortDesc}</div>` : ''}
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    container.innerHTML = html;
+                    console.log(`✅ Supabase: ${data.news.length} Sözcü haberi yüklendi.`);
+                    return; // Supabase başarılı, eski API'lere gerek yok
+                }
+            }
+        } catch (sbErr) {
+            console.warn('Supabase haber çekme başarısız, eski kaynaklara düşülüyor:', sbErr);
+        }
+
+        // ─── 2. ADIM: Supabase boşsa eski API kaynaklarına fallback ────────
         const cached = getCachedNews();
         if (cached?.articles?.length) {
             renderNews(cached.articles, {
-                notice: `${getCacheLabel(cached)} gosteriliyor. Yeni haberler arka planda kontrol ediliyor...`
+                notice: `${getCacheLabel(cached)} gösteriliyor. Yeni haberler arka planda kontrol ediliyor...`
             });
         }
         if (isFetching) return;
@@ -299,7 +354,7 @@ const NewsModule = (() => {
 
                 if (cached?.articles?.length) {
                     renderNews(cached.articles, {
-                        notice: `${getCacheLabel(cached)} gosteriliyor. Haber kaynaklarina su anda ulasilamiyor.`
+                        notice: `${getCacheLabel(cached)} gösteriliyor. Haber kaynaklarına şu anda ulaşılamıyor.`
                     });
                     isFetching = false;
                     return;
