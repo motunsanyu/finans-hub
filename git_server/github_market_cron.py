@@ -7,6 +7,7 @@ import requests
 
 from market import fetch_market_snapshot
 from news import fetch_top_news
+from altinkaynak import fetch_altinkaynak_gold
 
 
 DEFAULT_TABLE = "market_snapshots"
@@ -23,7 +24,7 @@ def _clean_supabase_url(raw: str) -> str:
     return raw.rstrip("/")
 
 
-def _build_payload(snapshot: dict[str, Any], news_data: list[dict[str, str]]) -> dict[str, Any]:
+def _build_payload(snapshot: dict[str, Any], news_data: list[dict[str, str]], altin_data: list[dict[str, str]]) -> dict[str, Any]:
     # Türkiye Saati (UTC+3) için zaman dilimi ayarı
     tr_tz = dt.timezone(dt.timedelta(hours=3))
     return {
@@ -48,6 +49,7 @@ def _build_payload(snapshot: dict[str, Any], news_data: list[dict[str, str]]) ->
         "brent_change": snapshot.get("brent_change"),
         "brent_status": snapshot.get("brent_status"),
         "news": news_data,
+        "altin_prices": altin_data,
     }
 
 
@@ -77,7 +79,8 @@ def _insert_supabase_row(payload: dict[str, Any]) -> None:
 def main() -> int:
     snapshot = fetch_market_snapshot()
     news_data = fetch_top_news(limit=5)
-    payload = _build_payload(snapshot, news_data)
+    altin_data = fetch_altinkaynak_gold()
+    payload = _build_payload(snapshot, news_data, altin_data)
     _insert_supabase_row(payload)
     print(
         "Market snapshot saved:",

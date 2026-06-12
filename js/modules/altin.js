@@ -29,23 +29,36 @@ const AltinModule = (() => {
     wrap.style.display = 'none';
 
     try {
-      const tRes = await fetch("https://finans.truncgil.com/today.json", { cache: "no-store" });
-      if (!tRes.ok) throw new Error("API Bağlantı Hatası");
-      const data = await tRes.json();
+      const sb = window._supabaseClient || (typeof getSB === 'function' ? getSB() : null);
+      if (!sb) throw new Error("Supabase istemcisi bulunamadı");
+
+      const { data, error } = await sb
+        .from('market_snapshots')
+        .select('altin_prices, fetched_at')
+        .order('fetched_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (error || !data || !data.altin_prices) {
+        throw new Error("Altın verisi alınamadı (API veya Veritabanı Hatası)");
+      }
+
+      const rawAltin = data.altin_prices; // Altınkaynak array format
       
-      const p = (key) => {
-          if(!data[key]) return { Alis: 0, Satis: 0 };
-          return { Alis: data[key].Alış, Satis: data[key].Satış };
+      const p = (kod) => {
+          const item = rawAltin.find(x => x.Kod === kod);
+          if(!item) return { Alis: "0,00", Satis: "0,00" };
+          return { Alis: item.Alis, Satis: item.Satis };
       };
 
       const rows = [
-        { ad: 'Gram Altın (24 Ayar)', alis: p('gram-altin').Alis, satis: p('gram-altin').Satis, degisim: null },
-        { ad: '22 Ayar Bilezik', alis: p('22-ayar-bilezik').Alis, satis: p('22-ayar-bilezik').Satis, degisim: null },
-        { ad: 'Çeyrek Altın', alis: p('ceyrek-altin').Alis, satis: p('ceyrek-altin').Satis, degisim: null },
-        { ad: 'Yarım Altın', alis: p('yarim-altin').Alis, satis: p('yarim-altin').Satis, degisim: null },
-        { ad: 'Tam Altın', alis: p('tam-altin').Alis, satis: p('tam-altin').Satis, degisim: null },
-        { ad: 'Ata/Cumhuriyet', alis: p('ata-altin').Alis, satis: p('ata-altin').Satis, degisim: null },
-        { ad: 'Altın (ONS/$)', alis: p('ons').Alis ? p('ons').Alis.replace('$','') : 0, satis: p('ons').Satis ? p('ons').Satis.replace('$','') : 0, degisim: null },
+        { ad: 'Gram Altın (24 Ayar)', alis: p('GA').Alis, satis: p('GA').Satis, degisim: null },
+        { ad: '22 Ayar Bilezik', alis: p('B').Alis, satis: p('B').Satis, degisim: null },
+        { ad: 'Çeyrek Altın', alis: p('C').Alis, satis: p('C').Satis, degisim: null },
+        { ad: 'Yarım Altın', alis: p('Y').Alis, satis: p('Y').Satis, degisim: null },
+        { ad: 'Tam Altın', alis: p('T').Alis, satis: p('T').Satis, degisim: null },
+        { ad: 'Ata/Cumhuriyet', alis: p('A').Alis, satis: p('A').Satis, degisim: null },
+        { ad: 'Altın (ONS/$)', alis: p('XAUUSD').Alis, satis: p('XAUUSD').Satis, degisim: null },
       ];
 
       window.altinDataRows = rows;
@@ -64,7 +77,8 @@ const AltinModule = (() => {
         tbody.appendChild(tr);
       });
 
-      const upd = new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+      const fetchedAt = data.fetched_at ? new Date(data.fetched_at) : new Date();
+      const upd = fetchedAt.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
       const timeEl = document.getElementById('altinGuncelleme');
       if (timeEl) timeEl.textContent = `Son güncelleme: ${upd}`;
 

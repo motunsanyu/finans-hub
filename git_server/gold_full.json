@@ -1,0 +1,177 @@
+[
+  {
+    "Alis": "6.301,25",
+    "Satis": "6.367,44",
+    "Kod": "HH_T",
+    "Aciklama": "Has Toptan",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "6.269,74",
+    "Satis": "6.338,14",
+    "Kod": "CH_T",
+    "Aciklama": "Külçe Toptan",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "41.651,36",
+    "Satis": "44.900,00",
+    "Kod": "A",
+    "Aciklama": "Ata Cumhuriyet",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "6.269,74",
+    "Satis": "6.408,47",
+    "Kod": "GAT",
+    "Aciklama": "Gram Toptan",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "5.746,55",
+    "Satis": "5.807,50",
+    "Kod": "B_T",
+    "Aciklama": "22 Ayar Hurda",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "41.651,36",
+    "Satis": "42.783,58",
+    "Kod": "A_T",
+    "Aciklama": "Ata Toptan",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "5.746,55",
+    "Satis": "6.190,00",
+    "Kod": "B",
+    "Aciklama": "22 Ayar Bilezik",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "6.269,74",
+    "Satis": "6.400,00",
+    "Kod": "GA",
+    "Aciklama": "Gram Altın",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "10.120,58",
+    "Satis": "10.700,00",
+    "Kod": "C",
+    "Aciklama": "Çeyrek Altın",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "20.176,44",
+    "Satis": "21.400,00",
+    "Kod": "Y",
+    "Aciklama": "Yarım Altın",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "40.340,75",
+    "Satis": "42.800,00",
+    "Kod": "T",
+    "Aciklama": "Teklik Altın",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "101.094,60",
+    "Satis": "107.000,00",
+    "Kod": "G",
+    "Aciklama": "Gremse Altın",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "41.318,05",
+    "Satis": "44.900,00",
+    "Kod": "R",
+    "Aciklama": "Resat Altın",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "41.318,05",
+    "Satis": "44.900,00",
+    "Kod": "H",
+    "Aciklama": "Hamit Altın",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "206.006,96",
+    "Satis": "224.500,00",
+    "Kod": "A5",
+    "Aciklama": "Ata Beşli",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "3.569,75",
+    "Satis": "4.050,00",
+    "Kod": "14",
+    "Aciklama": "14 Ayar Altın",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "4.409,30",
+    "Satis": "5.120,00",
+    "Kod": "18",
+    "Aciklama": "18 Ayar Altın",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "10.112,49",
+    "Satis": "10.462,98",
+    "Kod": "EC",
+    "Aciklama": "Eski Çeyrek",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "20.178,47",
+    "Satis": "20.827,84",
+    "Kod": "EY",
+    "Aciklama": "Eski Yarım",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "40.389,30",
+    "Satis": "41.790,59",
+    "Kod": "ET",
+    "Aciklama": "Eski Teklik",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "101.054,15",
+    "Satis": "104.445,81",
+    "Kod": "EG",
+    "Aciklama": "Eski Gremse",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "41.493,04",
+    "Satis": "43.187,76",
+    "Kod": "EA",
+    "Aciklama": "Eski Ata",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "95,41",
+    "Satis": "111,41",
+    "Kod": "AG_T",
+    "Aciklama": "Gümüş",
+    "GuncellenmeZamani": "12.06.2026 22:32:55"
+  },
+  {
+    "Alis": "4.211,84",
+    "Satis": "4.211,84",
+    "Kod": "XAUUSD",
+    "Aciklama": "ONS",
+    "GuncellenmeZamani": "12.06.2026 00:00:00"
+  },
+  {
+    "Alis": "6.105,00",
+    "Satis": "6.105,00",
+    "Kod": "IAB_KAPANIS",
+    "Aciklama": "İAB Kapanış",
+    "GuncellenmeZamani": "11.06.2026 00:00:00"
+  }
+]
