@@ -260,11 +260,10 @@ const NewsModule = (() => {
                         const link = item.link || '#';
                         const shortDesc = safeDesc.length > 150 ? safeDesc.substring(0, 150) + '...' : safeDesc;
 
+                        // onclick yerine data-href kullanıyoruz — tırnak/özel karakter sorununu önler
                         html += `
-                            <div class="news-card" style="background:#1e2329; border-radius:20px; overflow:hidden; border:1px solid #2a2f36; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s; margin-bottom:16px;"
-                                 onclick="window.location.href='${link}'"
-                                 onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.4)';"
-                                 onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                            <div class="news-card sozcu-card" data-href="${link}"
+                                 style="background:#1e2329; border-radius:20px; overflow:hidden; border:1px solid #2a2f36; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s; margin-bottom:16px;">
                                 ${item.image ? `<img src="${item.image}" alt="" loading="lazy" style="width:100%; height:180px; object-fit:cover; display:block;" onerror="this.style.display='none'"/>` : ''}
                                 <div style="padding:16px;">
                                     <div style="display:flex; gap:8px; align-items:center; margin-bottom:10px;">
@@ -278,6 +277,14 @@ const NewsModule = (() => {
                     });
 
                     container.innerHTML = html;
+
+                    // data-href tıklama dinleyicisi — onclick string interpolasyonuna gerek yok
+                    container.querySelectorAll('.sozcu-card[data-href]').forEach(card => {
+                        card.addEventListener('mouseover', () => { card.style.transform = 'translateY(-2px)'; card.style.boxShadow = '0 8px 24px rgba(0,0,0,0.4)'; });
+                        card.addEventListener('mouseout', () => { card.style.transform = ''; card.style.boxShadow = ''; });
+                        card.addEventListener('click', () => { window.location.href = card.dataset.href; });
+                    });
+
                     console.log(`✅ Supabase: ${data.news.length} Sözcü haberi yüklendi.`);
                     return; // Supabase başarılı, eski API'lere gerek yok
                 }
