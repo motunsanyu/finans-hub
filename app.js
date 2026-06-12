@@ -498,44 +498,42 @@ function calcTotalDebt() {
 
 // ═════════════════════════ PİYASALAR API ═════════════════════════
 async function refreshFinanceData() {
-  console.log("Finans verileri cekiliyor...");
+  console.log("Finans verileri Supabase'den cekiliyor...");
   const meta = document.getElementById("financeMeta");
-  const nextSnapshot = { ...state.financeSnapshot, updatedAt: Date.now() };
+  let nextSnapshot = { ...state.financeSnapshot, updatedAt: Date.now() };
 
-  // 1. Kripto Paralar (Binance Hala En Sağlıklısı)
   try {
-    const bRes = await fetch("https://api.binance.com/api/v3/ticker/24hr");
-    if (bRes.ok) {
-      const data = await bRes.json(); const p = {}; data.forEach(i => p[i.symbol] = { p: Number(i.lastPrice), c: Number(i.priceChangePercent) });
-      if (p['BTCUSDT']) { nextSnapshot.btcUsd = { price: p['BTCUSDT'].p, change: p['BTCUSDT'].c }; }
-      if (p['ETHUSDT']) { nextSnapshot.ethUsd = { price: p['ETHUSDT'].p, change: p['ETHUSDT'].c }; }
-      if (p['BNBUSDT']) { nextSnapshot.bnbUsd = { price: p['BNBUSDT'].p, change: p['BNBUSDT'].c }; }
-      if (p['XRPUSDT']) { nextSnapshot.xrpUsd = { price: p['XRPUSDT'].p, change: p['XRPUSDT'].c }; }
+    // Supabase market_snapshots tablosundan en güncel veriyi çekiyoruz
+    const { data, error } = await getSB()
+      .from('market_snapshots')
+      .select('*')
+      .order('fetched_at', { ascending: false })
+      .limit(1)
+      .single();
+
+    if (error) {
+      throw error;
     }
-  } catch (e) { console.warn("Binance Hatasi", e); }
 
-  // 2. TRUNCGIL MERKEZİ VERİ ÇEKME (USD, EUR, ALTIN, GÜMÜŞ)
-  try {
-    const tRes = await fetch("https://finans.truncgil.com/today.json", { cache: "no-store" });
-    if (tRes.ok) {
-      const data = await tRes.json();
-      const parseItem = (key) => {
-        if (!data[key]) return null;
-        const item = data[key];
-        return { 
-          price: parseFlexibleNumber(item.Satış || item.Alış), 
-          change: parseFlexibleNumber(item.Değişim ? String(item.Değişim).replace('%','') : '0')
-        };
-      };
-
-      const usd = parseItem("USD"); if (usd) nextSnapshot.usdTry = usd;
-      const eur = parseItem("EUR"); if (eur) nextSnapshot.eurTry = eur;
-      const gold = parseItem("gram-altin"); if (gold) nextSnapshot.goldTry = gold;
-      const silver = parseItem("gumus"); if (silver) nextSnapshot.silverTry = silver;
+    if (data) {
+      // Supabase verisini state.financeSnapshot yapısına dönüştür
+      nextSnapshot.usdTry = { price: data.usd_try, change: parseFloat((data.usd_try_change || '0').replace('%', '').replace(',', '.')) || 0 };
+      nextSnapshot.eurTry = { price: data.eur_try, change: parseFloat((data.eur_try_change || '0').replace('%', '').replace(',', '.')) || 0 };
+      nextSnapshot.goldTry = { price: data.gram_gold_try, change: parseFloat((data.gram_gold_change || '0').replace('%', '').replace(',', '.')) || 0 };
+      if (data.silver_try) {
+        nextSnapshot.silverTry = { price: data.silver_try, change: parseFloat((data.silver_try_change || '0').replace('%', '').replace(',', '.')) || 0 };
+      }
+      nextSnapshot.bist = { price: data.bist100, change: parseFloat((data.bist100_change || '0').replace('%', '').replace(',', '.')) || 0 };
+      nextSnapshot.brent = { price: data.brent, change: parseFloat((data.brent_change || '0').replace('%', '').replace(',', '.')) || 0 };
       
-      // BIST ve BRENT Truncgil'de yok, şimdilik eski veriyi koruyacağız
+      // fetched_at verisini güncelleme zamanı olarak ayarla
+      if (data.fetched_at) {
+        nextSnapshot.updatedAt = new Date(data.fetched_at).getTime();
+      }
     }
-  } catch (e) { console.warn("Truncgil Central Error", e); }
+  } catch (e) { 
+    console.warn("Supabase'den piyasa verileri çekilemedi:", e); 
+  }
 
   state.financeSnapshot = nextSnapshot;
 
@@ -548,26 +546,25 @@ async function refreshFinanceData() {
         updated_at: new Date().toISOString()
       });
     }
-  } catch (e) { console.warn('Piyasa verisi Supabase’e kaydedilemedi:', e.message); }
+  } catch (e) { console.warn('Piyasa verisi yedeklenemedi:', e.message); }
 
   writeStorage(STORAGE_KEYS.financeSnapshot, nextSnapshot);
 
-  // UI Güncelleme
+  // UI Güncelleme (Supabase tablosundaki ana veriler)
   paintFinanceRow("usdTry", nextSnapshot.usdTry, 4);
   paintFinanceRow("eurTry", nextSnapshot.eurTry, 4);
-  paintFinanceRow("btcUsd", nextSnapshot.btcUsd, 2, "$");
-  paintFinanceRow("ethUsd", nextSnapshot.ethUsd, 2, "$");
-  paintFinanceRow("bnbUsd", nextSnapshot.bnbUsd, 2, "$");
-  paintFinanceRow("xrpUsd", nextSnapshot.xrpUsd, 4, "$");
   paintFinanceRow("goldTry", nextSnapshot.goldTry, 2);
   paintFinanceRow("silverTry", nextSnapshot.silverTry, 2);
 
-  // Brent ve BIST Manuel UI (Pill sınıfı Doviz.com'dan geliyor)
+  // Brent ve BIST
   updateExtraRow("brent", nextSnapshot.brent, "$");
   updateExtraRow("bist", nextSnapshot.bist, "");
 
   calcTotalDebt();
-  const dateStr = new Date(nextSnapshot.updatedAt).toLocaleDateString("tr-TR"); const timeStr = new Date(nextSnapshot.updatedAt).toLocaleTimeString("tr-TR", { hour: '2-digit', minute: '2-digit' }); meta.innerHTML = `Son Güncelleme : ${dateStr} - ${timeStr}`;
+  const dateObj = new Date(nextSnapshot.updatedAt);
+  const dateStr = dateObj.toLocaleDateString("tr-TR"); 
+  const timeStr = dateObj.toLocaleTimeString("tr-TR", { hour: '2-digit', minute: '2-digit' }); 
+  if (meta) meta.innerHTML = `Son Güncelleme : ${dateStr} - ${timeStr}`;
   console.log("Finans verileri guncellendi.");
 }
 
