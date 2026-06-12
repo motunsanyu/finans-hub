@@ -1212,3 +1212,73 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// ═════════════════════════ HABERLER MODÜLÜ ═════════════════════════
+window.NewsModule = {
+  _loaded: false,
+
+  async fetchNews() {
+    const listEl = document.getElementById('newsList');
+    if (!listEl) return;
+
+    // Daha önce yüklendiyse tekrar çekme (10dk önce yüklendiyse)
+    if (this._loaded && this._lastFetch && (Date.now() - this._lastFetch) < 10 * 60 * 1000) return;
+
+    listEl.innerHTML = '<div style="text-align:center;padding:40px;color:#848e9c;">Haberler yükleniyor...</div>';
+
+    try {
+      const { data, error } = await getSB()
+        .from('market_snapshots')
+        .select('news, fetched_at')
+        .order('fetched_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (error || !data || !data.news || data.news.length === 0) {
+        listEl.innerHTML = '<div style="text-align:center;padding:40px;color:#848e9c;">Henüz haber verisi yok.<br>Bot bir sonraki çalışmada haberleri yükleyecek.</div>';
+        return;
+      }
+
+      const news = data.news;
+      const fetchedAt = data.fetched_at ? new Date(data.fetched_at) : null;
+      const timeStr = fetchedAt ? fetchedAt.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }) : '';
+
+      let html = '';
+      news.forEach(item => {
+        const safeTitle = (item.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        const safeDesc = (item.description || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        const safeImg = (item.image || '').replace(/'/g, "\\'");
+        const safeLink = (item.link || '#').replace(/'/g, "\\'");
+
+        html += `
+          <div onclick="openNewsModal('${safeTitle}', '${safeImg}', '${safeDesc}', '${safeLink}')"
+               style="background:var(--bg-secondary); border-radius:12px; overflow:hidden; cursor:pointer;
+                      border:1px solid rgba(255,255,255,0.06); transition:transform 0.2s, box-shadow 0.2s;
+                      display:flex; flex-direction:column;"
+               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.3)';"
+               onmouseout="this.style.transform=''; this.style.boxShadow='';">
+            ${item.image ? `<img src="${item.image}" alt="" loading="lazy"
+                               style="width:100%; height:180px; object-fit:cover; display:block;" />` : ''}
+            <div style="padding:14px 16px;">
+              <p style="color:white; font-size:14px; font-weight:700; margin:0 0 8px; line-height:1.4;">${item.title || ''}</p>
+              ${item.description ? `<p style="color:#9ca3af; font-size:12px; margin:0; line-height:1.5;
+                                             display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
+                ${item.description}</p>` : ''}
+            </div>
+          </div>`;
+      });
+
+      listEl.innerHTML = html;
+      if (timeStr) {
+        listEl.insertAdjacentHTML('beforeend', `<p style="text-align:center;color:#4b5563;font-size:11px;margin-top:8px;">Son güncelleme: ${timeStr}</p>`);
+      }
+
+      this._loaded = true;
+      this._lastFetch = Date.now();
+
+    } catch (e) {
+      console.error('Haberler yüklenemedi:', e);
+      listEl.innerHTML = '<div style="text-align:center;padding:40px;color:#848e9c;">Haberler yüklenirken hata oluştu.</div>';
+    }
+  }
+};

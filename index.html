@@ -865,6 +865,17 @@
             <div style="text-align:center; padding:40px; color:#848e9c;">Haberler yükleniyor...</div>
           </div>
         </div>
+
+        <!-- HABER DETAY MODALI -->
+        <div id="newsModal" class="modal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.8);">
+          <div style="background-color:var(--bg-secondary); margin:15% auto; padding:20px; border:1px solid #888; width:90%; max-width:500px; border-radius:12px; position:relative;">
+            <span onclick="closeNewsModal()" style="color:#aaa; float:right; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
+            <h3 id="newsModalTitle" style="color:white; margin-top:0; margin-bottom:16px; font-size:18px; line-height:1.4;"></h3>
+            <img id="newsModalImage" src="" style="width:100%; border-radius:8px; margin-bottom:16px; display:none; object-fit:cover; max-height:250px;" />
+            <p id="newsModalDesc" style="color:#ccc; font-size:14px; line-height:1.6; margin-bottom:20px;"></p>
+            <a id="newsModalLink" href="#" target="_blank" style="display:block; text-align:center; background:var(--brand); color:black; padding:12px; border-radius:8px; text-decoration:none; font-weight:bold;">Haberin Tamamını Oku</a>
+          </div>
+        </div>
       </section> <!-- home kapanışı -->
 
 
@@ -2648,7 +2659,33 @@
           }
           if (arrow) arrow.style.transform = 'rotate(0deg)';
         }
+      // HABER MODALI ICIN
+      window.openNewsModal = function(title, image, desc, link) {
+        var modal = document.getElementById('newsModal');
+        document.getElementById('newsModalTitle').textContent = title;
+        document.getElementById('newsModalDesc').textContent = desc || 'Özet bulunamadı.';
+        var imgEl = document.getElementById('newsModalImage');
+        if (image) {
+          imgEl.src = image;
+          imgEl.style.display = 'block';
+        } else {
+          imgEl.style.display = 'none';
+        }
+        document.getElementById('newsModalLink').href = link;
+        modal.style.display = 'block';
       };
+
+      window.closeNewsModal = function() {
+        document.getElementById('newsModal').style.display = 'none';
+      };
+
+      window.onclick = function(event) {
+        var modal = document.getElementById('newsModal');
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+
 
 
       document.addEventListener('click', function(e) {

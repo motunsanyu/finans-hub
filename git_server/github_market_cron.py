@@ -6,6 +6,7 @@ from typing import Any
 import requests
 
 from market import fetch_market_snapshot
+from news import fetch_top_news
 
 
 DEFAULT_TABLE = "market_snapshots"
@@ -22,7 +23,7 @@ def _clean_supabase_url(raw: str) -> str:
     return raw.rstrip("/")
 
 
-def _build_payload(snapshot: dict[str, Any]) -> dict[str, Any]:
+def _build_payload(snapshot: dict[str, Any], news_data: list[dict[str, str]]) -> dict[str, Any]:
     # Türkiye Saati (UTC+3) için zaman dilimi ayarı
     tr_tz = dt.timezone(dt.timedelta(hours=3))
     return {
@@ -46,6 +47,7 @@ def _build_payload(snapshot: dict[str, Any]) -> dict[str, Any]:
         "brent": snapshot.get("brent"),
         "brent_change": snapshot.get("brent_change"),
         "brent_status": snapshot.get("brent_status"),
+        "news": news_data,
     }
 
 
@@ -74,7 +76,8 @@ def _insert_supabase_row(payload: dict[str, Any]) -> None:
 
 def main() -> int:
     snapshot = fetch_market_snapshot()
-    payload = _build_payload(snapshot)
+    news_data = fetch_top_news(limit=5)
+    payload = _build_payload(snapshot, news_data)
     _insert_supabase_row(payload)
     print(
         "Market snapshot saved:",
