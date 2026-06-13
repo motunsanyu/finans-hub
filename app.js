@@ -629,15 +629,17 @@ window.fetchFuelPrices = async function () {
     const sb = window._supabaseClient;
     if (!sb) throw new Error('Supabase client yok');
 
-    // fuel_prices tablosundan en son kaydı çek
-    const { data, error } = await sb
+    // fuel_prices tablosundan en son kaydı çek (.single() 406 verebileceğinden dizi alıyoruz)
+    const { data: rows, error } = await sb
       .from('fuel_prices')
       .select('fetched_at, prices')
       .order('fetched_at', { ascending: false })
-      .limit(1)
-      .single();
+      .limit(1);
 
-    if (error || !data || !data.prices || data.prices.length === 0) {
+    if (error) throw new Error('Supabase hatası: ' + error.message);
+    const data = rows && rows.length > 0 ? rows[0] : null;
+
+    if (!data || !data.prices || data.prices.length === 0) {
       throw new Error('Yakıt verisi bulunamadı');
     }
 
