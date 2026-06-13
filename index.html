@@ -912,22 +912,25 @@
               <!-- Seçimler ve buton – mobilde sağa yaslı kalır -->
               <div class="fuel-controls"
                 style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; justify-content:flex-end;">
-                <select id="fuelCitySelect" class="fuel-city-select" onchange="fetchFuelPrices()" style="width: 80px;">
-                  <option value="konya" selected>KONYA</option>
-                  <option value="istanbul-avrupa">İST</option>
-                  <option value="ankara">ANK</option>
-                  <option value="izmir">İZM</option>
-                  <option value="bursa">BUR</option>
-                  <option value="antalya">ANT</option>
+                <select id="fuelCitySelect" class="fuel-city-select" onchange="fetchFuelPrices()" style="width: 125px;">
+                  <option value="konya-selcuklu" selected>Konya / Selçuklu</option>
+                  <option value="ankara-cankaya">Ankara / Çankaya</option>
+                  <option value="istanbul-arnavutkoy">İst. / Arnavutköy</option>
+                  <option value="izmir-aliaga">İzmir / Aliağa</option>
+                  <option value="antalya-konyaalti">Antalya / Konyaaltı</option>
                 </select>
                 <select id="fuelFirmSelect" class="fuel-city-select" onchange="fetchFuelPrices()"
-                  style="width: 90px; border-color: rgba(255,255,255,0.1);">
-                  <option value="opet" selected>OPET</option>
-                  <option value="petrol-ofisi">P.Ofisi</option>
+                  style="width: 100px; border-color: rgba(255,255,255,0.1);">
+                  <option value="petrol ofisi" selected>P.Ofisi</option>
+                  <option value="opet">Opet</option>
                   <option value="shell">Shell</option>
-                  <option value="bp">BP</option>
                   <option value="total">Total</option>
                   <option value="aytemiz">Aytemiz</option>
+                  <option value="lukoil">Lukoil</option>
+                  <option value="kadoil">Kadoil</option>
+                  <option value="sunpet">Sunpet</option>
+                  <option value="alpet">Alpet</option>
+                  <option value="bp">BP</option>
                 </select>
                 <button class="refresh-badge" onclick="fetchFuelPrices()" style="margin-left:auto;">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"

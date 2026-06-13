@@ -681,7 +681,9 @@ window.fetchFuelPrices = async function () {
     const updatedAt = data.fetched_at
       ? new Date(data.fetched_at).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })
       : '';
-    if (meta) meta.textContent = `${selectedBrand?.marka || 'Piyasa'} • doviz.com • ${updatedAt}`;
+    const cityEl2 = document.getElementById('fuelCitySelect');
+    const cityLabel = cityEl2 ? cityEl2.options[cityEl2.selectedIndex]?.text : '';
+    if (meta) meta.textContent = `${selectedBrand?.marka || 'Piyasa'} • ${cityLabel} • doviz.com • ${updatedAt}`;
 
   } catch (error) {
     console.error('Yakıt:', error);
