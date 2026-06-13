@@ -609,7 +609,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // ══════════════════════════════════════════
-// YAKIT FİYATLARI (akaryakit-fiyatlari API)
+// YAKIT FİYATLARI (Supabase fuel_prices tablosu)
 // ══════════════════════════════════════════
 // Global: son çekilen yakıt fiyatları (formdan çağırmak için)
 window._lastFuelPrices = { benzin: null, motorin: null, lpg: null, timestamp: null };
@@ -619,71 +619,70 @@ window.fetchFuelPrices = async function () {
   const meta = document.getElementById('fuelPriceMeta');
   if (!cards) return;
 
+  // Yükleniyor animasyonu
   cards.innerHTML = `
       <div class="fuel-price-card benzin"><div class="fpc-icon">⛽</div><div class="fpc-label">Benzin 95</div><div class="fpc-price anim-pulse">●●</div></div>
       <div class="fuel-price-card motorin"><div class="fpc-icon">🚛</div><div class="fpc-label">Motorin</div><div class="fpc-price anim-pulse">●●</div></div>
       <div class="fuel-price-card lpg"><div class="fpc-icon">💨</div><div class="fpc-label">LPG</div><div class="fpc-price anim-pulse">●●</div></div>`;
 
-  const cityEl = document.getElementById('fuelCitySelect');
-  const firmEl = document.getElementById('fuelFirmSelect');
-  const cityKey = cityEl ? cityEl.value : 'konya';
-  const firmKey = firmEl ? firmEl.value : 'opet';
-
-  // Şehir anahtarını API için uyumlu hale getir
-  let apiCity = cityKey.toUpperCase().replace('ISTANBUL-AVRUPA', 'ISTANBUL').replace('ISTANBUL-ANADOLU', 'ISTANBUL');
-  if (apiCity === 'IZMIR') apiCity = 'IZMIR';
-  else if (apiCity.includes('I')) apiCity = apiCity.replace(/I/g, 'I'); // Sadece genel uyum için (İ/I)
-
   try {
-    const res = await fetch(`https://hasanadiguzel.com.tr/api/akaryakit/sehir=${apiCity}`, { cache: 'no-store' });
-    if (!res.ok) throw new Error(`API Hatası: ${res.status}`);
-    const json = await res.json();
-    if (json.error || !json.data) throw new Error(json.error?.text || 'Veri bulunamadı');
+    const sb = window._supabaseClient;
+    if (!sb) throw new Error('Supabase client yok');
 
-    // API'nin döndürdüğü ilk veri kümesini alıyoruz
-    const keys = Object.keys(json.data);
-    if (keys.length === 0) throw new Error('Fiyat bilgisi yok');
-    
-    // keys[0] genellikle Benzin fiyatı (ör. "64,98")
-    // data nesnesinin içindeki diğer yakıtlar
-    const dataObj = json.data[keys[0]];
+    // fuel_prices tablosundan en son kaydı çek
+    const { data, error } = await sb
+      .from('fuel_prices')
+      .select('fetched_at, prices')
+      .order('fetched_at', { ascending: false })
+      .limit(1)
+      .single();
 
-    const benzinStr = keys[0];
-    const motorinStr = dataObj["Motorin(Eurodiesel)_TL/lt"] || dataObj["Motorin(Excellium_Eurodiesel)_TL/lt"];
-    const lpgStr = dataObj["Otogaz_TL/lt"] || '--';
+    if (error || !data || !data.prices || data.prices.length === 0) {
+      throw new Error('Yakıt verisi bulunamadı');
+    }
 
-    const parseToFloat = (s) => parseFloat(s.replace(',', '.')) || 0;
+    const prices = data.prices;
+    const firmEl = document.getElementById('fuelFirmSelect');
+    const firmKey = firmEl ? firmEl.value.toLowerCase() : '';
 
-    // Global cache'e kaydet
-    window._lastFuelPrices = {
-      benzin:  parseToFloat(benzinStr),
-      motorin: motorinStr !== '--' ? parseToFloat(motorinStr) : null,
-      lpg:     lpgStr !== '--' ? parseToFloat(lpgStr) : null,
-      timestamp: Date.now()
-    };
+    // Seçili markayı bul (yoksa benzin fiyatı olan ilk markayı al)
+    let selectedBrand = prices.find(p => p.marka && p.marka.toLowerCase() === firmKey)
+      || prices.find(p => p.benzin !== null)
+      || prices[0];
+
+    const benzin  = selectedBrand?.benzin  ?? null;
+    const motorin = selectedBrand?.motorin ?? null;
+    const lpg     = selectedBrand?.lpg     ?? null;
+
+    const fmt = (v) => v !== null && v !== undefined ? Number(v).toFixed(2).replace('.', ',') + ' ₺' : '--';
+
+    // Global cache'e kaydet (form otomatik dolumu için)
+    window._lastFuelPrices = { benzin, motorin, lpg, timestamp: Date.now() };
 
     // Eğer formda yakıt tipi seçiliyse otomatik doldur
     const fuelType   = document.getElementById('fuelTypeSelect')?.value;
     const priceInput = document.getElementById('fuelPrice');
     if (fuelType && priceInput) {
-      const priceMap = { benzin: window._lastFuelPrices.benzin, motorin: window._lastFuelPrices.motorin, lpg: window._lastFuelPrices.lpg };
-      if (priceMap[fuelType]) {
-        priceInput.value = priceMap[fuelType].toFixed(2);
+      const priceMap = { benzin, motorin, lpg };
+      if (priceMap[fuelType] !== null) {
+        priceInput.value = Number(priceMap[fuelType]).toFixed(2);
         const hint = document.getElementById('fuelPriceHint');
-        if (hint) hint.textContent = `✅ ${fuelType === 'benzin' ? 'Benzin 95' : fuelType === 'motorin' ? 'Motorin' : 'LPG'} fiyatı otomatik dolduruldu (${apiCity})`;
+        if (hint) hint.textContent = `✅ ${fuelType === 'benzin' ? 'Benzin 95' : fuelType === 'motorin' ? 'Motorin' : 'LPG'} fiyatı otomatik dolduruldu (${selectedBrand?.marka || 'doviz.com'})`;
       }
     }
 
     cards.innerHTML = `
-          <div class="fuel-price-card benzin"><div class="fpc-icon">⛽</div><div class="fpc-label">Benzin 95</div><div class="fpc-price">${benzinStr} ₺</div></div>
-          <div class="fuel-price-card motorin"><div class="fpc-icon">🚛</div><div class="fpc-label">Motorin</div><div class="fpc-price">${motorinStr !== '--' ? motorinStr + ' ₺' : '--'}</div></div>
-          <div class="fuel-price-card lpg"><div class="fpc-icon">💨</div><div class="fpc-label">LPG</div><div class="fpc-price">${lpgStr !== '--' ? lpgStr + ' ₺' : '--'}</div></div>`;
+          <div class="fuel-price-card benzin"><div class="fpc-icon">⛽</div><div class="fpc-label">Benzin 95</div><div class="fpc-price">${fmt(benzin)}</div></div>
+          <div class="fuel-price-card motorin"><div class="fpc-icon">🚛</div><div class="fpc-label">Motorin</div><div class="fpc-price">${fmt(motorin)}</div></div>
+          <div class="fuel-price-card lpg"><div class="fpc-icon">💨</div><div class="fpc-label">LPG</div><div class="fpc-price">${fmt(lpg)}</div></div>`;
 
-    const now = new Date().toLocaleTimeString("tr-TR", { hour: '2-digit', minute: '2-digit' });
-    if (meta) meta.textContent = `Piyasa Ortalaması • ${apiCity} • ${now}`;
+    const updatedAt = data.fetched_at
+      ? new Date(data.fetched_at).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })
+      : '';
+    if (meta) meta.textContent = `${selectedBrand?.marka || 'Piyasa'} • doviz.com • ${updatedAt}`;
 
   } catch (error) {
-    console.error("Yakit:", error);
+    console.error('Yakıt:', error);
     cards.innerHTML = `<div style="grid-column:span 3;text-align:center;padding:16px;color:var(--text-secondary);font-size:12px;">Yükleme Başarısız. <button onclick="fetchFuelPrices()" style="color:var(--brand);background:none;border:none;font-weight:800;cursor:pointer;">Tekrar Dene</button></div>`;
   }
 };
