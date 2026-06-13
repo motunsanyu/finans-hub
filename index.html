@@ -2605,14 +2605,14 @@
     backdrop-filter:blur(12px);
   ">
     <div class="league-option" data-league-id="tur.1"
-      onclick="if(window.switchLeague) window.switchLeague('tur.1','SÜPER LİG')"
+      onclick="window._ui_switchLeague('tur.1'); if(window.switchLeague) window.switchLeague('tur.1','SÜPER LİG')"
       style="display:flex;align-items:center;gap:10px;padding:11px 14px;color:#fff;font-size:12px;cursor:pointer;font-weight:800;border-radius:8px;transition:background 0.15s;white-space:nowrap;background:rgba(165,214,167,0.15);">
       <span style="font-size:16px;">🇹🇷</span>
       <span>SÜPER LİG</span>
       <span id="sl-check" style="margin-left:auto;color:#a5d6a7;font-size:14px;">✓</span>
     </div>
     <div class="league-option" data-league-id="uefa.champions"
-      onclick="if(window.switchLeague) window.switchLeague('uefa.champions','ŞAMPİYONLAR LİGİ')"
+      onclick="window._ui_switchLeague('uefa.champions'); if(window.switchLeague) window.switchLeague('uefa.champions','ŞAMPİYONLAR LİGİ')"
       style="display:flex;align-items:center;gap:10px;padding:11px 14px;color:#fff;font-size:12px;cursor:pointer;font-weight:800;border-radius:8px;transition:background 0.15s;white-space:nowrap;">
       <span style="font-size:16px;">🏆</span>
       <span>ŞAMPİYONLAR LİGİ</span>
@@ -2659,6 +2659,29 @@
           }
           if (arrow) arrow.style.transform = 'rotate(0deg)';
         }
+      };
+
+      // UI helper for league switch
+      window._ui_switchLeague = function(leagueId) {
+        // Update checkmarks
+        document.querySelectorAll('.league-option').forEach(function(el) {
+          var check = el.querySelector('span:last-child');
+          if (check) check.style.display = el.dataset.leagueId === leagueId ? 'inline' : 'none';
+          el.style.background = el.dataset.leagueId === leagueId ? 'rgba(165,214,167,0.15)' : 'transparent';
+        });
+        
+        // Close menu + restore z-index
+        var menu = document.getElementById('leagueDropdownFixed');
+        if (menu) menu.style.display = 'none';
+        _dropOpen = false;
+        
+        var ligPage2 = document.getElementById('lig');
+        if (ligPage2) ligPage2.style.zIndex = ligPage2.getAttribute('data-old-zi') || '';
+        
+        var arrow = document.getElementById('leagueDropdownArrow');
+        if (arrow) arrow.style.transform = 'rotate(0deg)';
+      };
+
       // HABER MODALI ICIN
       window.openNewsModal = function(title, image, desc, link) {
         var modal = document.getElementById('newsModal');
@@ -2685,8 +2708,6 @@
           modal.style.display = "none";
         }
       };
-
-
 
       document.addEventListener('click', function(e) {
         if (!_dropOpen) return;
