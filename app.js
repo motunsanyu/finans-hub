@@ -639,18 +639,26 @@ window.fetchFuelPrices = async function () {
     if (error) throw new Error('Supabase hatası: ' + error.message);
     const data = rows && rows.length > 0 ? rows[0] : null;
 
-    if (!data || !data.prices || data.prices.length === 0) {
+    if (!data || !data.prices) {
       throw new Error('Yakıt verisi bulunamadı');
     }
 
-    const prices = data.prices;
+    // prices artık { "konya-selcuklu": [...], "ankara-cankaya": [...] } şeklinde dict
+    const cityEl3 = document.getElementById('fuelCitySelect');
+    const cityKey = cityEl3 ? cityEl3.value : 'konya-selcuklu';
+    const cityPrices = (data.prices[cityKey] || data.prices[Object.keys(data.prices)[0]] || []);
+
+    if (!cityPrices || cityPrices.length === 0) {
+      throw new Error('Seçili şehir için veri bulunamadı');
+    }
+
     const firmEl = document.getElementById('fuelFirmSelect');
     const firmKey = firmEl ? firmEl.value.toLowerCase() : '';
 
     // Seçili markayı bul (yoksa benzin fiyatı olan ilk markayı al)
-    let selectedBrand = prices.find(p => p.marka && p.marka.toLowerCase() === firmKey)
-      || prices.find(p => p.benzin !== null)
-      || prices[0];
+    let selectedBrand = cityPrices.find(p => p.marka && p.marka.toLowerCase() === firmKey)
+      || cityPrices.find(p => p.benzin !== null)
+      || cityPrices[0];
 
     const benzin  = selectedBrand?.benzin  ?? null;
     const motorin = selectedBrand?.motorin ?? null;
