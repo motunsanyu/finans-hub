@@ -1,2 +1,9 @@
 # GitHub Push Pro yedekleri
 _push_backups/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
