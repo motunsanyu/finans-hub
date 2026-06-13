@@ -21,7 +21,7 @@ BASE_URL = "https://www.doviz.com/akaryakit-fiyatlari"
 CITIES = {
     "konya-selcuklu":       ("konya",           "selcuklu"),
     "ankara-cankaya":       ("ankara",           "cankaya"),
-    "istanbul-arnavutkoy":  ("istanbul-avrupa",  "arnavutkoy"),
+    "istanbul-arnavutkoy":  ("istanbul-avrupa",  ""),
     "izmir-aliaga":         ("izmir",            "aliaga"),
     "antalya-konyaalti":    ("antalya",          "konyaalti"),
 }
@@ -47,7 +47,7 @@ def _parse_price(raw: str) -> float | None:
 
 def _scrape_city(il: str, ilce: str) -> list[dict]:
     """Belirli bir il/ilçe için fiyat listesini döndürür."""
-    url = f"{BASE_URL}/{il}/{ilce}"
+    url = f"{BASE_URL}/{il}/{ilce}" if ilce else f"{BASE_URL}/{il}"
     try:
         resp = requests.get(url, headers=HEADERS, timeout=12)
         resp.raise_for_status()
