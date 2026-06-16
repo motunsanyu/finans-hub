@@ -1169,6 +1169,10 @@ td b {
   -webkit-backdrop-filter: blur(12px);
 }
 
+body.keyboard-open .bottom-nav {
+  display: none !important;
+}
+
 .tab-btn {
   background: transparent;
   border: none;

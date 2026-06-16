@@ -1293,3 +1293,30 @@ window.NewsModule = {
     }
   }
 };
+
+// Handle mobile keyboard opening
+(function() {
+  if (window.visualViewport) {
+    const initialHeight = window.visualViewport.height;
+    window.visualViewport.addEventListener('resize', () => {
+      // If height shrinks by more than 100px, assume keyboard is open
+      if (window.visualViewport.height < initialHeight - 100) {
+        document.body.classList.add('keyboard-open');
+      } else {
+        document.body.classList.remove('keyboard-open');
+      }
+    });
+  } else {
+    // Fallback for browsers without visualViewport
+    document.addEventListener('focusin', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
+        document.body.classList.add('keyboard-open');
+      }
+    });
+    document.addEventListener('focusout', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
+        document.body.classList.remove('keyboard-open');
+      }
+    });
+  }
+})();
