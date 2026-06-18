@@ -45,20 +45,21 @@ const AltinModule = (() => {
 
       const rawAltin = data.altin_prices; // Altınkaynak array format
       
-      const p = (kod) => {
-          const item = rawAltin.find(x => x.Kod === kod);
+      const p = (kods) => {
+          if (!Array.isArray(kods)) kods = [kods];
+          const item = rawAltin.find(x => kods.includes(x.Kod));
           if(!item) return { Alis: "0,00", Satis: "0,00" };
           return { Alis: item.Alis, Satis: item.Satis };
       };
 
       const rows = [
-        { ad: 'Gram Altın (24 Ayar)', alis: p('GA').Alis, satis: p('GA').Satis, degisim: null },
-        { ad: '22 Ayar Bilezik', alis: p('B').Alis, satis: p('B').Satis, degisim: null },
-        { ad: 'Çeyrek Altın', alis: p('C').Alis, satis: p('C').Satis, degisim: null },
-        { ad: 'Yarım Altın', alis: p('Y').Alis, satis: p('Y').Satis, degisim: null },
-        { ad: 'Tam Altın', alis: p('T').Alis, satis: p('T').Satis, degisim: null },
-        { ad: 'Ata/Cumhuriyet', alis: p('A').Alis, satis: p('A').Satis, degisim: null },
-        { ad: 'Altın (ONS/$)', alis: p('XAUUSD').Alis, satis: p('XAUUSD').Satis, degisim: null },
+        { ad: 'Gram Altın (24 Ayar)', alis: p(['PGA', 'GA']).Alis, satis: p(['PGA', 'GA']).Satis, degisim: null },
+        { ad: '22 Ayar Bilezik', alis: p(['PB', 'B']).Alis, satis: p(['PB', 'B']).Satis, degisim: null },
+        { ad: 'Çeyrek Altın', alis: p(['PC', 'C']).Alis, satis: p(['PC', 'C']).Satis, degisim: null },
+        { ad: 'Yarım Altın', alis: p(['PY', 'Y']).Alis, satis: p(['PY', 'Y']).Satis, degisim: null },
+        { ad: 'Tam Altın', alis: p(['PT', 'T']).Alis, satis: p(['PT', 'T']).Satis, degisim: null },
+        { ad: 'Ata/Cumhuriyet', alis: p(['PA', 'A']).Alis, satis: p(['PA', 'A']).Satis, degisim: null },
+        { ad: 'Altın (ONS/$)', alis: p(['XAUUSD']).Alis, satis: p(['XAUUSD']).Satis, degisim: null },
       ];
 
       window.altinDataRows = rows;
