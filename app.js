@@ -974,6 +974,10 @@ window.switchMarketTab = function (tab) {
     if (btnEl) btnEl.classList.remove('active');
   });
 
+  // borsaDetailSection açıksa onu da gizle
+  const borsaDetailSec = document.getElementById('borsaDetailSection');
+  if (borsaDetailSec) borsaDetailSec.style.display = 'none';
+
   // Seçili olanı göster
   const target = sections[tab];
   if (target) {
