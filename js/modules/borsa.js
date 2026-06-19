@@ -128,11 +128,6 @@ window.showBorsaDetail = function(symbol) {
   document.getElementById('bdVolLot').innerText = item.volume_lot || '--';
   document.getElementById('bdVolTl').innerText = item.volume_tl ? `₺${item.volume_tl}` : '--';
   
-  const mynetBtn = document.getElementById('bdMynetBtn');
-  if (mynetBtn) {
-    mynetBtn.onclick = () => window.open(item.detail_link, '_blank');
-  }
-  
   window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
