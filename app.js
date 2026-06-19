@@ -962,6 +962,7 @@ window.switchMarketTab = function (tab) {
   const sections = {
     'market': { id: 'piyasaSection', btn: 'btnMarketPiyasa' },
     'coins': { id: 'coinlerSection', btn: 'btnMarketCoinler' },
+    'borsa': { id: 'borsaSection', btn: 'btnMarketBorsa' },
     'news': { id: 'newsSection', btn: 'btnMarketNews' }
   };
 
@@ -992,6 +993,7 @@ window.switchMarketTab = function (tab) {
 
     // 'trade' and 'portfolio' tabs removed; no-op for those modules here
     if (tab === 'news' && typeof NewsModule !== 'undefined') NewsModule.fetchNews();
+    if (tab === 'borsa' && typeof fetchBorsaData === 'function') fetchBorsaData();
     
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }

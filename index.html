@@ -724,7 +724,8 @@
             style="flex:none; padding:6px 12px; font-size:12px; font-weight:700;">Piyasa</button>
           <button class="market-sub-btn" id="btnMarketCoinler" onclick="window.switchMarketTab('coins')"
             style="flex:none; padding:6px 12px; font-size:12px; font-weight:700;">Coinler</button>
-          <!-- 'İşlemler' ve 'Portföy' sekmeleri uygulamadan kaldırıldı -->
+          <button class="market-sub-btn" id="btnMarketBorsa" onclick="window.switchMarketTab('borsa')"
+            style="flex:none; padding:6px 12px; font-size:12px; font-weight:700;">Borsa</button>
           <button class="market-sub-btn" id="btnMarketNews" onclick="window.switchMarketTab('news')"
             style="flex:none; padding:6px 12px; font-size:12px; font-weight:700;">Haberler</button>
           <button class="market-sub-btn" id="btnMarketGerman" onclick="if(window.GermanModule) window.GermanModule.openApp();"
@@ -847,6 +848,24 @@
               Yükleniyor...</div>
           </div>
           <p id="coinlerMeta"
+            style="color:var(--text-secondary); font-size:11px; text-align:center; padding:8px 16px 16px;"></p>
+        </div>
+
+        <!-- BORSA BÖLÜMÜ -->
+        <div id="borsaSection" style="display:none;">
+          <div style="padding: 12px 16px;">
+            <input type="text" id="borsaSearchInput" placeholder="Hisse Ara..." style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); color: white; outline: none; font-size: 14px;" oninput="window.filterBorsa()">
+          </div>
+          <div class="markets-header">
+            <div style="flex:1;">Hisse</div>
+            <div style="flex:1; text-align:right; padding-right:16px;">Son Fiyat</div>
+            <div style="width:80px; text-align:right;">Değişim</div>
+          </div>
+          <div id="borsaList">
+            <div style="text-align:center; padding:40px 16px; color:var(--text-secondary); font-size:13px;">
+              Yükleniyor...</div>
+          </div>
+          <p id="borsaMeta"
             style="color:var(--text-secondary); font-size:11px; text-align:center; padding:8px 16px 16px;"></p>
         </div>
 
@@ -2216,6 +2235,7 @@
   <script src="js/modules/altin.js"></script>
   <script src="js/modules/superlig.js"></script>
   <script src="js/modules/coin.js"></script>
+  <script src="js/modules/borsa.js"></script>
   <script src="js/modules/trade.js"></script>
   <script src="js/modules/news.js?v=3"></script>
   <script src="js/modules/german.js"></script>
