@@ -1,11 +1,8 @@
 import requests
-from bs4 import BeautifulSoup
 from supabase import create_client, Client
 import os
 import time
 
-# To run this script, set SUPABASE_URL and SUPABASE_KEY environment variables,
-# or replace them below (not recommended for security).
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "YOUR_SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "YOUR_SUPABASE_KEY")
 
@@ -16,61 +13,50 @@ def scrape_borsa():
     }
     
     try:
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, timeout=15)
         response.raise_for_status()
     except Exception as e:
         print(f"Error fetching data: {e}")
         return []
 
-    soup = BeautifulSoup(response.content, "html.parser")
+    text = response.text
+    # Mynet loads data in a piped string format separated by '|_|'
+    # Example item: H742778|3,21|3,25|3,18|-0,93|11:21|-1|1|3,20|3,21|3,21|5.255.510|16.861.404,76|A1YEN|*null*|hisseler/a1yen-a1-yenilenebilir-enerji/
     
-    # Mynet canlı borsa table structure:
-    # Usually it's in a table, or a list.
-    # We need to find the rows containing stock data.
-    # Looking for table rows or specific list items. Let's look for tr with data-symbol or typical class.
-    
+    if '|_|' not in text:
+        print("Could not find the data separator '|_|'. The page structure might have changed.")
+        return []
+        
+    raw_items = text.split('|_|')
     data_list = []
     
-    table_rows = soup.select("tbody tr")
-    for row in table_rows:
-        try:
-            # typical columns in Mynet
-            cols = row.find_all("td")
-            if len(cols) < 5:
-                continue
-            
-            symbol_tag = row.select_first("td.text-left a")
-            if not symbol_tag:
-                continue
+    for item in raw_items:
+        parts = item.split('|')
+        # Ensure it has enough parts (usually 16 parts, index 13 is symbol)
+        if len(parts) >= 16:
+            try:
+                symbol = parts[13].strip()
+                price = parts[1].strip()
+                change = parts[4].strip()
+                time_str = parts[5].strip()
+                link = parts[15].strip()
                 
-            symbol = symbol_tag.text.strip()
-            detail_link = symbol_tag.get("href", "")
-            if detail_link and not detail_link.startswith("http"):
-                detail_link = "https://finans.mynet.com" + detail_link
-                
-            # Price is usually the second or third column
-            # In mynet it's typically: 1: Hisse, 2: Son, 3: Alış, 4: Satış, 5: %Fark, 6: Zaman
-            price_tag = cols[1] # Son (Last Price)
-            change_tag = cols[4] # %Fark
-            time_tag = cols[5] # Zaman
-            
-            price = price_tag.text.strip() if price_tag else ""
-            change = change_tag.text.strip() if change_tag else ""
-            time_str = time_tag.text.strip() if time_tag else ""
-            
-            if symbol and price:
-                data_list.append({
-                    "symbol": symbol,
-                    "name": symbol, # Since name is often not separated or it's the symbol itself
-                    "price": price,
-                    "change_percentage": change,
-                    "time": time_str,
-                    "detail_link": detail_link,
-                    "updated_at": "now()"
-                })
-        except Exception as e:
-            print(f"Error parsing row: {e}")
-            continue
+                if not link.startswith("http"):
+                    link = "https://finans.mynet.com/" + link.lstrip("/")
+                    
+                if symbol and price:
+                    data_list.append({
+                        "symbol": symbol,
+                        "name": symbol,
+                        "price": price,
+                        "change_percentage": change,
+                        "time": time_str,
+                        "detail_link": link,
+                        "updated_at": "now()"
+                    })
+            except Exception as e:
+                print(f"Error parsing item: {e}")
+                continue
 
     return data_list
 
@@ -82,12 +68,15 @@ def update_supabase(data_list):
     try:
         supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
         
-        for item in data_list:
-            # Upsert by symbol
+        # Upsert in chunks to avoid large payload errors
+        chunk_size = 100
+        for i in range(0, len(data_list), chunk_size):
+            chunk = data_list[i:i + chunk_size]
             supabase.table("borsa_data").upsert(
-                item,
+                chunk,
                 on_conflict="symbol"
             ).execute()
+            time.sleep(0.1) # Be nice to the API
             
         print(f"Successfully updated {len(data_list)} records in Supabase.")
     except Exception as e:
