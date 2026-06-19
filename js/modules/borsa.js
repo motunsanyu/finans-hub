@@ -63,7 +63,7 @@ function renderBorsaList(list) {
     const priceStr = item.price ? `₺${item.price}` : '--';
     
     html += `
-      <div class="market-row" onclick="window.open('${item.detail_link}', '_blank')" style="cursor: pointer;">
+      <div class="market-row" onclick="window.showBorsaDetail('${item.symbol}')" style="cursor: pointer;">
         <div class="m-left">
           <div style="width:32px; height:32px; border-radius:50%; background:var(--bg-secondary); display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:800; margin-right:12px; color:var(--text-primary);">${item.symbol.substring(0, 2)}</div>
           <div class="m-symbol">${item.symbol}</div>
@@ -95,6 +95,53 @@ window.filterBorsa = function() {
   );
   
   renderBorsaList(filtered);
+};
+
+window.showBorsaDetail = function(symbol) {
+  const item = borsaDataList.find(i => i.symbol === symbol);
+  if (!item) return;
+
+  // UI elements
+  const listSection = document.getElementById('borsaSection');
+  const detailSection = document.getElementById('borsaDetailSection');
+  
+  if (listSection) listSection.style.display = 'none';
+  if (detailSection) detailSection.style.display = 'block';
+
+  // Populate data
+  document.getElementById('bdSymbol').innerText = item.symbol || '--';
+  document.getElementById('bdPrice').innerText = item.price ? `₺${item.price}` : '--';
+  
+  const chgStr = item.change_percentage || '0';
+  let chgVal = 0;
+  let cleanChg = chgStr.replace('%', '').replace(',', '.').trim();
+  if (cleanChg) chgVal = parseFloat(cleanChg);
+  
+  const bdChange = document.getElementById('bdChange');
+  bdChange.innerText = chgVal > 0 ? `+${chgStr}` : chgStr;
+  bdChange.className = 'pill ' + (chgVal > 0 ? 'up' : (chgVal < 0 ? 'down' : 'neutral'));
+  
+  document.getElementById('bdLow').innerText = item.low ? `₺${item.low}` : '--';
+  document.getElementById('bdHigh').innerText = item.high ? `₺${item.high}` : '--';
+  document.getElementById('bdAof').innerText = item.aof ? `₺${item.aof}` : '--';
+  document.getElementById('bdTime').innerText = item.time || '--';
+  document.getElementById('bdVolLot').innerText = item.volume_lot || '--';
+  document.getElementById('bdVolTl').innerText = item.volume_tl ? `₺${item.volume_tl}` : '--';
+  
+  const mynetBtn = document.getElementById('bdMynetBtn');
+  if (mynetBtn) {
+    mynetBtn.onclick = () => window.open(item.detail_link, '_blank');
+  }
+  
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+window.closeBorsaDetail = function() {
+  const listSection = document.getElementById('borsaSection');
+  const detailSection = document.getElementById('borsaDetailSection');
+  
+  if (detailSection) detailSection.style.display = 'none';
+  if (listSection) listSection.style.display = 'block';
 };
 
 window.fetchBorsaData = fetchBorsaData;

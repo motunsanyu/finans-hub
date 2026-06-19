@@ -26,17 +26,9 @@
     "day": "Cuma",
     "summary": "Borsa Verilerini çekmeye çalışan bir sistem yapıldı.",
     "items": [
-      "<strong style=\"color:#10b981;\">Güncelleme:</strong> Hisse verileri çeken bir sistem yapıldı."
-    ]
-  },
-  {
-    "version": "Borsa Verileri",
-    "date": "19.06.2026 - 11:32",
-    "day": "Cuma",
-    "summary": "Borsa Verilerini çekmeye çalışan bir sistem yapıldı.",
-    "items": [
       "<strong style=\"color:#10b981;\">Güncelleme:</strong> Hisse verileri çeken bir sistem yapıldı.",
-      "<strong style=\"color:#f59e0b;\">Güncelleme:</strong> Borsa ayrıntılarına ulaşma özelliği eklendi."
+      "<strong style=\"color:#f59e0b;\">Güncelleme:</strong> Borsa ayrıntılarına ulaşma özelliği eklendi.",
+      "<strong style=\"color:#3b82f6;\">Güncelleme:</strong> Hisse ayrıntıları."
     ]
   }
 ]

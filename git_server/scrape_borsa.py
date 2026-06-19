@@ -37,8 +37,13 @@ def scrape_borsa():
             try:
                 symbol = parts[13].strip()
                 price = parts[1].strip()
+                high = parts[2].strip()
+                low = parts[3].strip()
                 change = parts[4].strip()
                 time_str = parts[5].strip()
+                aof = parts[10].strip()
+                vol_lot = parts[11].strip()
+                vol_tl = parts[12].strip()
                 link = parts[15].strip()
                 
                 if not link.startswith("http"):
@@ -52,6 +57,11 @@ def scrape_borsa():
                         "change_percentage": change,
                         "time": time_str,
                         "detail_link": link,
+                        "high": high,
+                        "low": low,
+                        "aof": aof,
+                        "volume_lot": vol_lot,
+                        "volume_tl": vol_tl,
                         "updated_at": "now()"
                     })
             except Exception as e:
