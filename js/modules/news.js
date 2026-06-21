@@ -251,7 +251,7 @@ const NewsModule = (() => {
                         : '';
 
                     let html = timeStr ? `<div style="font-size:12px; color:#9ca3af; padding:10px 12px; background:rgba(255,255,255,0.04); border:1px solid #2a2f36; border-radius:14px; margin-bottom:12px;">
-                        📰 Sözcü.com.tr • Son güncelleme: ${timeStr}
+                        📰 Piyasa Haberleri • Son güncelleme: ${timeStr}
                     </div>` : '';
 
                     data.news.forEach(item => {
@@ -261,13 +261,19 @@ const NewsModule = (() => {
                         const shortDesc = safeDesc.length > 150 ? safeDesc.substring(0, 150) + '...' : safeDesc;
 
                         // onclick yerine data-href kullanıyoruz — tırnak/özel karakter sorununu önler
+                        const sourceName = item.source || 'Sözcü';
+                        const isHaberturk = sourceName.includes('Habertürk') || sourceName.includes('Habertrk');
+                        const badgeBg = isHaberturk ? 'rgba(229,57,53,0.12)' : 'rgba(252,213,53,0.12)';
+                        const badgeColor = isHaberturk ? '#e53935' : '#fcd535';
+                        const displaySource = isHaberturk ? 'Habertürk' : 'Sözcü';
+
                         html += `
                             <div class="news-card sozcu-card" data-href="${link}"
                                  style="background:#1e2329; border-radius:20px; overflow:hidden; border:1px solid #2a2f36; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s; margin-bottom:16px;">
                                 ${item.image ? `<img src="${item.image}" alt="" loading="lazy" style="width:100%; height:180px; object-fit:cover; display:block;" onerror="this.style.display='none'"/>` : ''}
                                 <div style="padding:16px;">
                                     <div style="display:flex; gap:8px; align-items:center; margin-bottom:10px;">
-                                        <span style="background:rgba(252,213,53,0.12); color:#fcd535; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:600;">Sözcü</span>
+                                        <span style="background:${badgeBg}; color:${badgeColor}; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:600;">${displaySource}</span>
                                     </div>
                                     <div style="font-size:15px; font-weight:700; color:white; line-height:1.4; margin-bottom:8px;">${safeTitle}</div>
                                     ${shortDesc ? `<div style="font-size:13px; color:#b0b8c5; line-height:1.45;">${shortDesc}</div>` : ''}
