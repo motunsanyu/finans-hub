@@ -1277,7 +1277,10 @@ window.NewsModule = {
             ${item.image ? `<img src="${item.image}" alt="" loading="lazy"
                                style="width:100%; height:180px; object-fit:cover; display:block;" />` : ''}
             <div style="padding:14px 16px;">
-              <p style="color:white; font-size:14px; font-weight:700; margin:0 0 8px; line-height:1.4;">${item.title || ''}</p>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                 <p style="color:white; font-size:14px; font-weight:700; margin:0; line-height:1.4; padding-right:8px;">${item.title || ''}</p>
+                 ${item.source ? `<span style="background:var(--bg-tertiary); color:var(--text-secondary); padding:2px 6px; border-radius:4px; font-size:10px; font-weight:600; white-space:nowrap;">${item.source}</span>` : ''}
+              </div>
               ${item.description ? `<p style="color:#9ca3af; font-size:12px; margin:0; line-height:1.5;
                                              display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
                 ${item.description}</p>` : ''}
