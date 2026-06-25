@@ -1,5 +1,24 @@
 let borsaDataList = [];
 let borsaViewMode = 'list'; // 'list' veya 'grid'
+let borsaNames = {}; // Hisse adlari
+
+// Hisse tam adlarini ceker
+async function fetchBorsaNames() {
+  if (Object.keys(borsaNames).length > 0) return;
+  try {
+    const res = await fetch('./tradingview_hisse_adlari.txt');
+    if (!res.ok) return;
+    const text = await res.text();
+    text.split('\n').forEach(line => {
+      const parts = line.split(' - ');
+      if (parts.length >= 2) {
+        borsaNames[parts[0].trim()] = parts.slice(1).join(' - ').trim();
+      }
+    });
+  } catch (err) {
+    console.error("Hisse adlari yuklenemedi:", err);
+  }
+}
 
 // Her sembol icin tutarli gradient renk paleti uretir
 function getSymbolColors(symbol) {
@@ -52,6 +71,8 @@ async function fetchBorsaData() {
   if (borsaDataList.length === 0) {
     container.innerHTML = `<div style="text-align:center; padding:40px 16px; color:var(--text-secondary); font-size:13px;">Yükleniyor...</div>`;
   }
+  
+  fetchBorsaNames(); // Paralelde isimleri yukle
   
   if (!window._supabaseClient) {
     container.innerHTML = `<div style="text-align:center; padding:40px 16px; color:var(--down); font-size:13px;">Supabase bağlantısı kurulamadı.</div>`;
@@ -144,7 +165,11 @@ function renderBorsaGrid(list, container) {
     const avatar = makeAvatar(item.symbol, 36, 13);
     
     const cleanChgStr = chgStr.replace('-', '').replace('+', '');
-    const triangleClass = chgVal > 0 ? 'css-yukari' : (chgVal < 0 ? 'css-asagi' : 'css-notr');
+    
+    const triUp = `<div style="width:0; height:0; border-left:4px solid transparent; border-right:4px solid transparent; border-bottom:6px solid var(--up); display:inline-block; margin-right:4px; vertical-align:middle;"></div>`;
+    const triDown = `<div style="width:0; height:0; border-left:4px solid transparent; border-right:4px solid transparent; border-top:6px solid var(--down); display:inline-block; margin-right:4px; vertical-align:middle;"></div>`;
+    const triNeu = `<div style="width:6px; height:2px; background-color:var(--text-secondary); display:inline-block; margin-right:4px; vertical-align:middle;"></div>`;
+    const triangleHtml = chgVal > 0 ? triUp : (chgVal < 0 ? triDown : triNeu);
 
     html += `
       <div onclick="window.showBorsaDetail('${item.symbol}')"
@@ -152,13 +177,11 @@ function renderBorsaGrid(list, container) {
         onmouseover="this.style.background='rgba(255,255,255,0.1)'"
         onmouseout="this.style.background='rgba(255,255,255,0.05)'">
         <div style="margin-bottom:7px;">${avatar}</div>
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-          <div style="font-size:12px; font-weight:800; color:var(--text-primary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; letter-spacing:0.3px;">${item.symbol}</div>
-          <div style="font-size:13px; font-weight:800; color:var(--text-primary);">${priceStr}</div>
+        <div style="font-size:11px; font-weight:800; color:var(--text-primary); margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; letter-spacing:0.3px;">${item.symbol}</div>
+        <div style="font-size:11px; font-weight:700; color:${chgColor}; margin-bottom:5px; display:flex; align-items:center;">
+          ${triangleHtml}%${cleanChgStr}
         </div>
-        <div style="font-size:11px; font-weight:700; color:${chgColor}; display:flex; align-items:center;">
-          <div class="${triangleClass}"></div>%${cleanChgStr}
-        </div>
+        <div style="font-size:12px; font-weight:800; color:var(--text-primary);">${priceStr}</div>
       </div>
     `;
   });
@@ -217,6 +240,12 @@ window.showBorsaDetail = function(symbol) {
   }
 
   document.getElementById('bdSymbol').innerText = symbol || '--';
+  
+  const bdFullNameEl = document.getElementById('bdFullName');
+  if (bdFullNameEl) {
+    bdFullNameEl.innerText = borsaNames[symbol] || 'Hisse Senedi';
+  }
+  
   document.getElementById('bdPrice').innerText = item.price ? `₺${item.price}` : '--';
   
   const { chgVal, chgStr } = getChangeInfo(item);
