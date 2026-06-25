@@ -1,6 +1,46 @@
 let borsaDataList = [];
 let borsaViewMode = 'list'; // 'list' veya 'grid'
 
+// Her sembol icin tutarli gradient renk paleti uretir
+function getSymbolColors(symbol) {
+  const palettes = [
+    { bg: '#E84B4B', light: '#FF7070' },
+    { bg: '#4B8EE8', light: '#70AAFF' },
+    { bg: '#00C896', light: '#2EEDB0' },
+    { bg: '#E8904B', light: '#FFAE70' },
+    { bg: '#9B4BE8', light: '#BF70FF' },
+    { bg: '#E84B9C', light: '#FF70C0' },
+    { bg: '#4BCCE8', light: '#70E4FF' },
+    { bg: '#8CC63F', light: '#AADD60' },
+    { bg: '#E8C44B', light: '#FFE070' },
+    { bg: '#E85D4B', light: '#FF7D70' },
+    { bg: '#4B6AE8', light: '#7090FF' },
+    { bg: '#C8484B', light: '#E87070' },
+  ];
+  let idx = 0;
+  for (let c of symbol) idx = (idx * 31 + c.charCodeAt(0)) & 0xffffff;
+  return palettes[Math.abs(idx) % palettes.length];
+}
+
+// SVG avatar HTML uretir - 2 harf + gradient arka plan
+function makeAvatar(symbol, size = 32, fontSize = 13) {
+  const { bg, light } = getSymbolColors(symbol);
+  const letters = symbol.length >= 2 ? symbol.substring(0, 2) : symbol;
+  const id = `grad-${symbol}-${size}`;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg" style="border-radius:50%; flex-shrink:0;">
+    <defs>
+      <linearGradient id="${id}" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="${light}"/>
+        <stop offset="100%" stop-color="${bg}"/>
+      </linearGradient>
+    </defs>
+    <circle cx="${size/2}" cy="${size/2}" r="${size/2}" fill="url(#${id})"/>
+    <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" 
+      font-family="'Inter','Segoe UI',sans-serif" font-size="${fontSize}" 
+      font-weight="800" fill="white" letter-spacing="-0.5">${letters}</text>
+  </svg>`;
+}
+
 async function fetchBorsaData() {
   const container = document.getElementById('borsaList');
   if (!container) return;
@@ -35,25 +75,15 @@ async function fetchBorsaData() {
   }
 }
 
-/**
- * Hisse için avatar HTML üretir.
- * Logo varsa <img> gösterir, yoksa renkli initials.
- */
-function makeAvatar(item, size = 32, fontSize = 12) {
-  const colors = ['#E84B4B','#4B8EE8','#4BE8A0','#E8A04B','#A04BE8','#4BE8E8','#E84B9C','#8EE84B'];
-  let colorIdx = 0;
-  for (let c of item.symbol) colorIdx = (colorIdx + c.charCodeAt(0)) % colors.length;
-  const bgColor = colors[colorIdx];
-  const initials = item.symbol.substring(0, 2);
-
-  if (item.logo_url) {
-    return `<img src="${item.logo_url}" 
-      style="width:${size}px; height:${size}px; border-radius:50%; object-fit:contain; background:white; padding:2px;"
-      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-    /><div style="display:none; width:${size}px; height:${size}px; border-radius:50%; background:${bgColor}; align-items:center; justify-content:center; font-size:${fontSize}px; font-weight:800; color:white; flex-shrink:0;">${initials}</div>`;
-  }
-
-  return `<div style="width:${size}px; height:${size}px; border-radius:50%; background:${bgColor}; display:flex; align-items:center; justify-content:center; font-size:${fontSize}px; font-weight:800; color:white; flex-shrink:0;">${initials}</div>`;
+function getChangeInfo(item) {
+  const chgStr = item.change_percentage || '0';
+  let chgVal = 0;
+  let cleanChg = chgStr.replace('%', '').replace(',', '.').trim();
+  if (cleanChg) chgVal = parseFloat(cleanChg);
+  const pillClass = chgVal > 0 ? 'up' : (chgVal < 0 ? 'down' : 'neutral');
+  const displayChg = chgVal > 0 ? `+${chgStr}` : chgStr;
+  const chgColor = chgVal > 0 ? 'var(--up)' : (chgVal < 0 ? 'var(--down)' : 'var(--text-secondary)');
+  return { chgStr, chgVal, pillClass, displayChg, chgColor };
 }
 
 function renderBorsaList(list) {
@@ -72,17 +102,6 @@ function renderBorsaList(list) {
   }
 }
 
-function getChangeInfo(item) {
-  const chgStr = item.change_percentage || '0';
-  let chgVal = 0;
-  let cleanChg = chgStr.replace('%', '').replace(',', '.').trim();
-  if (cleanChg) chgVal = parseFloat(cleanChg);
-  const pillClass = chgVal > 0 ? 'up' : (chgVal < 0 ? 'down' : 'neutral');
-  const displayChg = chgVal > 0 ? `+${chgStr}` : chgStr;
-  const chgColor = chgVal > 0 ? 'var(--up)' : (chgVal < 0 ? 'var(--down)' : 'var(--text-secondary)');
-  return { chgStr, chgVal, pillClass, displayChg, chgColor };
-}
-
 function renderBorsaListView(list, container) {
   const header = document.getElementById('borsaListHeader');
   if (header) header.style.display = 'flex';
@@ -91,12 +110,12 @@ function renderBorsaListView(list, container) {
   list.forEach(item => {
     const { pillClass, displayChg } = getChangeInfo(item);
     const priceStr = item.price ? `₺${item.price}` : '--';
-    const avatar = makeAvatar(item, 32, 12);
+    const avatar = makeAvatar(item.symbol, 34, 13);
     
     html += `
       <div class="market-row" onclick="window.showBorsaDetail('${item.symbol}')" style="cursor:pointer;">
         <div class="m-left">
-          <div style="margin-right:12px; flex-shrink:0; display:flex;">${avatar}</div>
+          <div style="margin-right:12px;">${avatar}</div>
           <div class="m-symbol">${item.symbol}</div>
         </div>
         <div class="m-middle" style="font-weight:700;">${priceStr}</div>
@@ -118,16 +137,17 @@ function renderBorsaGrid(list, container) {
   list.forEach(item => {
     const { displayChg, chgColor } = getChangeInfo(item);
     const priceStr = item.price || '--';
-    const avatar = makeAvatar(item, 34, 12);
+    const avatar = makeAvatar(item.symbol, 36, 13);
+    const { bg } = getSymbolColors(item.symbol);
 
     html += `
       <div onclick="window.showBorsaDetail('${item.symbol}')"
-        style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:10px 8px; cursor:pointer; transition:background 0.15s;"
+        style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:10px 8px 10px 10px; cursor:pointer; transition:background 0.15s;"
         onmouseover="this.style.background='rgba(255,255,255,0.1)'"
         onmouseout="this.style.background='rgba(255,255,255,0.05)'">
-        <div style="display:flex; margin-bottom:6px;">${avatar}</div>
-        <div style="font-size:11px; font-weight:700; color:var(--text-primary); margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.symbol}</div>
-        <div style="font-size:11px; font-weight:700; color:${chgColor}; margin-bottom:4px;">${displayChg}</div>
+        <div style="margin-bottom:7px;">${avatar}</div>
+        <div style="font-size:11px; font-weight:800; color:var(--text-primary); margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; letter-spacing:0.3px;">${item.symbol}</div>
+        <div style="font-size:11px; font-weight:700; color:${chgColor}; margin-bottom:5px;">${displayChg}</div>
         <div style="font-size:12px; font-weight:800; color:var(--text-primary);">${priceStr}</div>
       </div>
     `;
@@ -141,28 +161,21 @@ window.setBorsaView = function(mode) {
   
   const listBtn = document.getElementById('borsaListViewBtn');
   const gridBtn = document.getElementById('borsaGridViewBtn');
-  const brand = 'var(--brand)';
   
   if (mode === 'list') {
-    if (listBtn) { listBtn.style.background = brand; listBtn.querySelector('svg').setAttribute('stroke', 'black'); }
+    if (listBtn) { listBtn.style.background = 'var(--brand)'; listBtn.querySelector('svg').setAttribute('stroke', 'black'); }
     if (gridBtn) { gridBtn.style.background = 'transparent'; gridBtn.querySelector('svg').setAttribute('stroke', 'rgba(255,255,255,0.5)'); }
   } else {
-    if (gridBtn) { gridBtn.style.background = brand; gridBtn.querySelector('svg').setAttribute('stroke', 'black'); }
+    if (gridBtn) { gridBtn.style.background = 'var(--brand)'; gridBtn.querySelector('svg').setAttribute('stroke', 'black'); }
     if (listBtn) { listBtn.style.background = 'transparent'; listBtn.querySelector('svg').setAttribute('stroke', 'rgba(255,255,255,0.5)'); }
   }
   
-  // Aktif arama filtresi varsa koruyarak render et
   const input = document.getElementById('borsaSearchInput');
   const filter = input ? input.value.toLowerCase() : '';
-  if (filter) {
-    const filtered = borsaDataList.filter(item => 
-      item.symbol.toLowerCase().includes(filter) || 
-      (item.name && item.name.toLowerCase().includes(filter))
-    );
-    renderBorsaList(filtered);
-  } else {
-    renderBorsaList(borsaDataList);
-  }
+  const listToRender = filter
+    ? borsaDataList.filter(item => item.symbol.toLowerCase().includes(filter) || (item.name && item.name.toLowerCase().includes(filter)))
+    : borsaDataList;
+  renderBorsaList(listToRender);
 };
 
 window.filterBorsa = function() {
@@ -170,15 +183,9 @@ window.filterBorsa = function() {
   if (!input) return;
   const filter = input.value.toLowerCase();
   
-  if (!filter) {
-    renderBorsaList(borsaDataList);
-    return;
-  }
-  
-  const filtered = borsaDataList.filter(item => 
-    item.symbol.toLowerCase().includes(filter) || 
-    (item.name && item.name.toLowerCase().includes(filter))
-  );
+  const filtered = filter
+    ? borsaDataList.filter(item => item.symbol.toLowerCase().includes(filter) || (item.name && item.name.toLowerCase().includes(filter)))
+    : borsaDataList;
   
   renderBorsaList(filtered);
 };
@@ -193,23 +200,13 @@ window.showBorsaDetail = function(symbol) {
   if (listSection) listSection.style.display = 'none';
   if (detailSection) detailSection.style.display = 'block';
 
-  // Detay sayfasında büyük logo
+  // Detay sayfasinda buyuk avatar
   const bdLogoEl = document.getElementById('bdLogo');
   if (bdLogoEl) {
-    if (item.logo_url) {
-      bdLogoEl.innerHTML = `<img src="${item.logo_url}" 
-        style="width:64px; height:64px; border-radius:50%; object-fit:contain; background:white; padding:4px;"
-        onerror="this.parentElement.innerHTML='<div style=\\'width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:white;\\'>${item.symbol.substring(0,2)}</div>'"
-      />`;
-    } else {
-      const colors = ['#E84B4B','#4B8EE8','#4BE8A0','#E8A04B','#A04BE8','#4BE8E8','#E84B9C','#8EE84B'];
-      let ci = 0;
-      for (let c of item.symbol) ci = (ci + c.charCodeAt(0)) % colors.length;
-      bdLogoEl.innerHTML = `<div style="width:64px; height:64px; border-radius:50%; background:${colors[ci]}; display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:800; color:white;">${item.symbol.substring(0,2)}</div>`;
-    }
+    bdLogoEl.innerHTML = makeAvatar(symbol, 72, 26);
   }
 
-  document.getElementById('bdSymbol').innerText = item.symbol || '--';
+  document.getElementById('bdSymbol').innerText = symbol || '--';
   document.getElementById('bdPrice').innerText = item.price ? `₺${item.price}` : '--';
   
   const { chgVal, chgStr } = getChangeInfo(item);
