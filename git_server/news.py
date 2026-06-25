@@ -5,7 +5,15 @@ import warnings
 # Suppress XMLParsedAsHTMLWarning
 warnings.filterwarnings('ignore', category=bs4.XMLParsedAsHTMLWarning)
 
-def fetch_top_news() -> list[dict[str, str]]:
+def clean_cdata(text: str) -> str:
+    if not text:
+        return ""
+    text = text.strip()
+    if text.startswith("<![CDATA[") and text.endswith("]]>"):
+        text = text[9:-3]
+    return text.strip()
+
+def fetch_top_news(limit: int = 20) -> list[dict[str, str]]:
     """
     Fetches the top news from Sozcu, Haberturk, and Bloomberg HT RSS feeds.
     Visits each article link to extract the og:image and og:description.
@@ -32,8 +40,9 @@ def fetch_top_news() -> list[dict[str, str]]:
         items = soup.find_all('item')
         source_news = []
         
-        for item in items:
+        for item in items[:limit]:
             title = item.title.text.strip() if item.title else ""
+            title = clean_cdata(title)
             link_tag = item.find('link')
             link = ""
             if link_tag and getattr(link_tag, 'next_sibling', None) and isinstance(link_tag.next_sibling, str):
@@ -48,25 +57,41 @@ def fetch_top_news() -> list[dict[str, str]]:
             if not title or not link:
                 continue
                 
-            # Extract details from the article page
+            # Try to get from RSS first
             image_url = ""
             description = ""
-            try:
-                article_resp = requests.get(link, headers=headers, timeout=10)
-                if article_resp.status_code == 200:
-                    article_soup = bs4.BeautifulSoup(article_resp.text, 'html.parser')
-                    
-                    # Extract og:image
-                    og_image = article_soup.find('meta', property='og:image')
-                    if og_image:
-                        image_url = og_image.get('content', '')
+            
+            # Check for image tag or enclosure
+            img_tag = item.find('image')
+            if img_tag and img_tag.text.strip():
+                image_url = img_tag.text.strip()
+            elif item.find('enclosure') and item.find('enclosure').get('url'):
+                image_url = item.find('enclosure').get('url')
+                
+            desc_tag = item.find('description')
+            if desc_tag and desc_tag.text.strip():
+                description = clean_cdata(desc_tag.text.strip())
+                
+            # If still missing, extract details from the article page
+            if not image_url or not description:
+                try:
+                    article_resp = requests.get(link, headers=headers, timeout=10)
+                    if article_resp.status_code == 200:
+                        article_soup = bs4.BeautifulSoup(article_resp.text, 'html.parser')
                         
-                    # Extract og:description
-                    og_desc = article_soup.find('meta', property='og:description')
-                    if og_desc:
-                        description = og_desc.get('content', '')
-            except Exception as e:
-                print(f"Failed to fetch article details for {link}: {e}")
+                        # Extract og:image
+                        if not image_url:
+                            og_image = article_soup.find('meta', property='og:image')
+                            if og_image:
+                                image_url = og_image.get('content', '')
+                                
+                        # Extract og:description
+                        if not description:
+                            og_desc = article_soup.find('meta', property='og:description')
+                            if og_desc:
+                                description = clean_cdata(og_desc.get('content', ''))
+                except Exception as e:
+                    print(f"Failed to fetch article details for {link}: {e}")
                 
             source_news.append({
                 "title": title,

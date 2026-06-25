@@ -165,7 +165,7 @@ def _upsert_fuel_prices(fuel_data: list[dict]) -> None:
 
 def main() -> int:
     snapshot = fetch_market_snapshot()
-    news_data = fetch_top_news()
+    news_data = fetch_top_news(limit=5)
     altin_data = fetch_altinkaynak_gold()
     fuel_data = fetch_fuel_prices()
 
