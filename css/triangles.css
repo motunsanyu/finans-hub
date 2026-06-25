@@ -1,0 +1,33 @@
+/* Yeşil Yukarı Üçgen */
+.css-yukari {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 8px solid var(--up);
+    display: inline-block;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+/* Kırmızı Aşağı Üçgen */
+.css-asagi {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 8px solid var(--down);
+    display: inline-block;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+/* Nötr çizgi (Değişim 0 ise) */
+.css-notr {
+    width: 8px;
+    height: 2px;
+    background-color: var(--text-secondary);
+    display: inline-block;
+    margin-right: 4px;
+    vertical-align: middle;
+}

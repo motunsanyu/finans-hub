@@ -22,12 +22,11 @@ function getSymbolColors(symbol) {
   return palettes[Math.abs(idx) % palettes.length];
 }
 
-// SVG avatar HTML uretir - 2 harf + gradient arka plan
 function makeAvatar(symbol, size = 32, fontSize = 13) {
   const { bg, light } = getSymbolColors(symbol);
   const letters = symbol.length >= 2 ? symbol.substring(0, 2) : symbol;
   const id = `grad-${symbol}-${size}`;
-  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg" style="border-radius:50%; flex-shrink:0;">
+  const svgGrad = `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg" style="border-radius:50%; flex-shrink:0;">
     <defs>
       <linearGradient id="${id}" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stop-color="${light}"/>
@@ -39,6 +38,11 @@ function makeAvatar(symbol, size = 32, fontSize = 13) {
       font-family="'Inter','Segoe UI',sans-serif" font-size="${fontSize}" 
       font-weight="800" fill="white" letter-spacing="-0.5">${letters}</text>
   </svg>`;
+  
+  return `<img src="./bist_logo/${symbol}.svg" 
+      style="width:${size}px; height:${size}px; border-radius:50%; object-fit:contain; background:white; padding:2px; flex-shrink:0;"
+      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+    /><div style="display:none; width:${size}px; height:${size}px; flex-shrink:0;">${svgGrad}</div>`;
 }
 
 async function fetchBorsaData() {
@@ -135,10 +139,12 @@ function renderBorsaGrid(list, container) {
 
   let html = '<div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; padding:4px 12px 16px;">';
   list.forEach(item => {
-    const { displayChg, chgColor } = getChangeInfo(item);
+    const { displayChg, chgColor, chgVal, chgStr } = getChangeInfo(item);
     const priceStr = item.price || '--';
     const avatar = makeAvatar(item.symbol, 36, 13);
-    const { bg } = getSymbolColors(item.symbol);
+    
+    const cleanChgStr = chgStr.replace('-', '').replace('+', '');
+    const triangleClass = chgVal > 0 ? 'css-yukari' : (chgVal < 0 ? 'css-asagi' : 'css-notr');
 
     html += `
       <div onclick="window.showBorsaDetail('${item.symbol}')"
@@ -146,9 +152,13 @@ function renderBorsaGrid(list, container) {
         onmouseover="this.style.background='rgba(255,255,255,0.1)'"
         onmouseout="this.style.background='rgba(255,255,255,0.05)'">
         <div style="margin-bottom:7px;">${avatar}</div>
-        <div style="font-size:11px; font-weight:800; color:var(--text-primary); margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; letter-spacing:0.3px;">${item.symbol}</div>
-        <div style="font-size:11px; font-weight:700; color:${chgColor}; margin-bottom:5px;">${displayChg}</div>
-        <div style="font-size:12px; font-weight:800; color:var(--text-primary);">${priceStr}</div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+          <div style="font-size:12px; font-weight:800; color:var(--text-primary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; letter-spacing:0.3px;">${item.symbol}</div>
+          <div style="font-size:13px; font-weight:800; color:var(--text-primary);">${priceStr}</div>
+        </div>
+        <div style="font-size:11px; font-weight:700; color:${chgColor}; display:flex; align-items:center;">
+          <div class="${triangleClass}"></div>%${cleanChgStr}
+        </div>
       </div>
     `;
   });

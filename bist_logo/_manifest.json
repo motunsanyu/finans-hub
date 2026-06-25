@@ -1,0 +1,4244 @@
+[
+  {
+    "symbol": "A1CAP",
+    "description": "A1 Capital Yatitim Menkul Degerler A.S.",
+    "logo_id": "a1-capital-yatirim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\A1CAP.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/a1-capital-yatirim--big.svg"
+  },
+  {
+    "symbol": "A1YEN",
+    "description": "A1 Yenilenebilir Enerji Uretim AS",
+    "logo_id": "kartal-yen-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\A1YEN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kartal-yen-enerji--big.svg"
+  },
+  {
+    "symbol": "AAGYO",
+    "description": "Agaoglu Avrasya Gayrimenkul Yatirim Ortakligi AS",
+    "logo_id": "agaoglu-avrasya-gayrimenkul-yatirim-ortakligi-as",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AAGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/agaoglu-avrasya-gayrimenkul-yatirim-ortakligi-as--big.svg"
+  },
+  {
+    "symbol": "ACSEL",
+    "description": "ACISELSAN ACIPAYAM SELÜLOZ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "acipayam-seluloz",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ACSEL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/acipayam-seluloz--big.svg"
+  },
+  {
+    "symbol": "ADEL",
+    "description": "ADEL KALEMCİLİK TİCARET VE SANAYİ A.Ş.",
+    "logo_id": "adel-kalemcilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ADEL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/adel-kalemcilik--big.svg"
+  },
+  {
+    "symbol": "ADESE",
+    "description": "ADESE GAYRİMENKUL YATIRIM A.Ş.",
+    "logo_id": "adese-alisveris-ticaret",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ADESE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/adese-alisveris-ticaret--big.svg"
+  },
+  {
+    "symbol": "ADGYO",
+    "description": "Adra Gayrimenkul Yatirim Ortakligi A.S.",
+    "logo_id": "adra-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ADGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/adra-gmyo--big.svg"
+  },
+  {
+    "symbol": "AEFES",
+    "description": "ANADOLU EFES BİRACILIK VE MALT SANAYİİ A.Ş.",
+    "logo_id": "anadolu-efes",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AEFES.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/anadolu-efes--big.svg"
+  },
+  {
+    "symbol": "AFYON",
+    "description": "AFYON ÇİMENTO SANAYİ T.A.Ş.",
+    "logo_id": "afyon-cimento",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AFYON.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/afyon-cimento--big.svg"
+  },
+  {
+    "symbol": "AGESA",
+    "description": "AGESA HAYAT VE EMEKLİLİK A.Ş.",
+    "logo_id": "avivasa-emeklilik-hayat",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AGESA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/avivasa-emeklilik-hayat--big.svg"
+  },
+  {
+    "symbol": "AGHOL",
+    "description": "AG ANADOLU GRUBU HOLDİNG A.Ş.",
+    "logo_id": "anadolu-grubu-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AGHOL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/anadolu-grubu-holding--big.svg"
+  },
+  {
+    "symbol": "AGROT",
+    "description": "Agrotech Yuksek Teknoloji ve Yatirim AS",
+    "logo_id": "agrotech-teknoloji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AGROT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/agrotech-teknoloji--big.svg"
+  },
+  {
+    "symbol": "AGYO",
+    "description": "ATAKULE GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "atakule-gyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/atakule-gyo--big.svg"
+  },
+  {
+    "symbol": "AHGAZ",
+    "description": "AHLATCI DOĞAL GAZ DAĞITIM ENERJİ VE YATIRIM A.Ş.",
+    "logo_id": "ahlatci-dogalgaz",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AHGAZ.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ahlatci-dogalgaz--big.svg"
+  },
+  {
+    "symbol": "AHSGY",
+    "description": "Ahes Gayrimenkul Yatirim Ortakligi AS",
+    "logo_id": "ahes-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AHSGY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ahes-gmyo--big.svg"
+  },
+  {
+    "symbol": "AKBNK",
+    "description": "AKBANK T.A.Ş.",
+    "logo_id": "akbank",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AKBNK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/akbank--big.svg"
+  },
+  {
+    "symbol": "AKCNS",
+    "description": "AKÇANSA ÇİMENTO SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "akcansa",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AKCNS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/akcansa--big.svg"
+  },
+  {
+    "symbol": "AKENR",
+    "description": "AKENERJİ ELEKTRİK ÜRETİM A.Ş.",
+    "logo_id": "ak-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AKENR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ak-enerji--big.svg"
+  },
+  {
+    "symbol": "AKFGY",
+    "description": "AKFEN GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "akfen-gyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AKFGY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/akfen-gyo--big.svg"
+  },
+  {
+    "symbol": "AKFIS",
+    "description": "Akfen insaat Turizm ve Ticaret AS",
+    "logo_id": "akfen-insaat",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AKFIS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/akfen-insaat--big.svg"
+  },
+  {
+    "symbol": "AKFYE",
+    "description": "AKFEN YENİLENEBİLİR ENERJİ A.Ş.",
+    "logo_id": "akfen-yen-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AKFYE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/akfen-yen-enerji--big.svg"
+  },
+  {
+    "symbol": "AKGRT",
+    "description": "AKSİGORTA A.Ş.",
+    "logo_id": "aksigorta",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AKGRT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/aksigorta--big.svg"
+  },
+  {
+    "symbol": "AKHAN",
+    "description": "Akhan Un Fabrikasi Ve Tarim Urunleri Gida Sanayi Ticaret Anonim Sirketi",
+    "logo_id": "akhan-un-fabrikasi-ve-tarim-urunleri-gida-sanayi-ticaret-anonim-sirketi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AKHAN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/akhan-un-fabrikasi-ve-tarim-urunleri-gida-sanayi-ticaret-anonim-sirketi--big.svg"
+  },
+  {
+    "symbol": "AKMGY",
+    "description": "AKMERKEZ GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "akmerkez-gyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AKMGY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/akmerkez-gyo--big.svg"
+  },
+  {
+    "symbol": "AKSA",
+    "description": "AKSA AKRİLİK KİMYA SANAYİİ A.Ş.",
+    "logo_id": "aksa-akrilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AKSA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/aksa-akrilik--big.svg"
+  },
+  {
+    "symbol": "AKSEN",
+    "description": "AKSA ENERJİ ÜRETİM A.Ş.",
+    "logo_id": "aksa-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AKSEN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/aksa-enerji--big.svg"
+  },
+  {
+    "symbol": "AKSGY",
+    "description": "AKİŞ GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "akis-gyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AKSGY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/akis-gyo--big.svg"
+  },
+  {
+    "symbol": "AKSUE",
+    "description": "AKSU ENERJİ VE TİCARET A.Ş.",
+    "logo_id": "aksu-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AKSUE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/aksu-enerji--big.svg"
+  },
+  {
+    "symbol": "AKYHO",
+    "description": "AKDENİZ YATIRIM HOLDİNG A.Ş.",
+    "logo_id": "akdeniz-yatirim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AKYHO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/akdeniz-yatirim--big.svg"
+  },
+  {
+    "symbol": "ALARK",
+    "description": "ALARKO HOLDİNG A.Ş.",
+    "logo_id": "alarko-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ALARK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/alarko-holding--big.svg"
+  },
+  {
+    "symbol": "ALBRK",
+    "description": "ALBARAKA TÜRK KATILIM BANKASI A.Ş.",
+    "logo_id": "albaraka-turk",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ALBRK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/albaraka-turk--big.svg"
+  },
+  {
+    "symbol": "ALCAR",
+    "description": "ALARKO CARRIER SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "alarko-carrier",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ALCAR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/alarko-carrier--big.svg"
+  },
+  {
+    "symbol": "ALCTL",
+    "description": "ALCATEL LUCENT TELETAŞ TELEKOMÜNİKASYON A.Ş.",
+    "logo_id": "alcatel-lucent-teletas",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ALCTL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/alcatel-lucent-teletas--big.svg"
+  },
+  {
+    "symbol": "ALFAS",
+    "description": "ALFA SOLAR ENERJİ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "alfa-solar-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ALFAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/alfa-solar-enerji--big.svg"
+  },
+  {
+    "symbol": "ALGYO",
+    "description": "ALARKO GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "alarko-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ALGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/alarko-holding--big.svg"
+  },
+  {
+    "symbol": "ALKA",
+    "description": "ALKİM KAĞIT SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "alkim-kagit",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ALKA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/alkim-kagit--big.svg"
+  },
+  {
+    "symbol": "ALKIM",
+    "description": "ALKİM ALKALİ KİMYA A.Ş.",
+    "logo_id": "alkim-kimya",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ALKIM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/alkim-kimya--big.svg"
+  },
+  {
+    "symbol": "ALKLC",
+    "description": "Altinkilic Gida ve Sut Sanayi Ticaret AS",
+    "logo_id": "altinkilic-gida-ve-sut",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ALKLC.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/altinkilic-gida-ve-sut--big.svg"
+  },
+  {
+    "symbol": "ALTIN",
+    "description": "DARPHANE ALTIN SERTİFİKASI",
+    "logo_id": "darphane-altin-sertifikasi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ALTIN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/darphane-altin-sertifikasi--big.svg"
+  },
+  {
+    "symbol": "ALTNY",
+    "description": "Altinay Savunma Teknolojileri A.S.",
+    "logo_id": "altinay-savunma",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ALTNY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/altinay-savunma--big.svg"
+  },
+  {
+    "symbol": "ALVES",
+    "description": "Alves Kablo Sanayi ve Ticaret A. S.",
+    "logo_id": "alves-kablo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ALVES.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/alves-kablo--big.svg"
+  },
+  {
+    "symbol": "ANELE",
+    "description": "ANEL ELEKTRİK PROJE TAAHHÜT VE TİCARET A.Ş.",
+    "logo_id": "anel-elektrik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ANELE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/anel-elektrik--big.svg"
+  },
+  {
+    "symbol": "ANGEN",
+    "description": "ANATOLİA TANI VE BİYOTEKNOLOJİ ÜRÜNLERİ ARAŞTIRMA GELİŞTİRME SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "anatolia-tani-ve",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ANGEN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/anatolia-tani-ve--big.svg"
+  },
+  {
+    "symbol": "ANHYT",
+    "description": "ANADOLU HAYAT EMEKLİLİK A.Ş.",
+    "logo_id": "anadolu-hayat-emek",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ANHYT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/anadolu-hayat-emek--big.svg"
+  },
+  {
+    "symbol": "ANSGR",
+    "description": "ANADOLU ANONİM TÜRK SİGORTA ŞİRKETİ",
+    "logo_id": "anadolu-sigorta",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ANSGR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/anadolu-sigorta--big.svg"
+  },
+  {
+    "symbol": "ARASE",
+    "description": "DOĞU ARAS ENERJİ YATIRIMLARI A.Ş.",
+    "logo_id": "dogu-aras-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ARASE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/dogu-aras-enerji--big.svg"
+  },
+  {
+    "symbol": "ARCLK",
+    "description": "ARÇELİK A.Ş.",
+    "logo_id": "arcelik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ARCLK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/arcelik--big.svg"
+  },
+  {
+    "symbol": "ARDYZ",
+    "description": "ARD GRUP BİLİŞİM TEKNOLOJİLERİ A.Ş.",
+    "logo_id": "ard-bilisim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ARDYZ.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ard-bilisim--big.svg"
+  },
+  {
+    "symbol": "ARENA",
+    "description": "ARENA BİLGİSAYAR SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "arena-bilgisayar",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ARENA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/arena-bilgisayar--big.svg"
+  },
+  {
+    "symbol": "ARFYE",
+    "description": "ARF Bio Yenilenebilir Enerji Uretim AS",
+    "logo_id": "arf-bio-yenilenebilir-enerji-uretim-as",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ARFYE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/arf-bio-yenilenebilir-enerji-uretim-as--big.svg"
+  },
+  {
+    "symbol": "ARMGD",
+    "description": "Armada Gida Ticaret ve Sanayi Anonim Sirketi",
+    "logo_id": "armada-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ARMGD.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/armada-gida--big.svg"
+  },
+  {
+    "symbol": "ARSAN",
+    "description": "ARSAN TEKSTİL TİCARET VE SANAYİ A.Ş.",
+    "logo_id": "arsan-tekstil",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ARSAN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/arsan-tekstil--big.svg"
+  },
+  {
+    "symbol": "ARTMS",
+    "description": "Artemis Hali A. S.",
+    "logo_id": "artemis-hali",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ARTMS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/artemis-hali--big.svg"
+  },
+  {
+    "symbol": "ARZUM",
+    "description": "ARZUM ELEKTRİKLİ EV ALETLERİ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "arzum-ev-aletleri",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ARZUM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/arzum-ev-aletleri--big.svg"
+  },
+  {
+    "symbol": "ASELS",
+    "description": "ASELSAN ELEKTRONİK SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "aselsan",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ASELS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/aselsan--big.svg"
+  },
+  {
+    "symbol": "ASGYO",
+    "description": "ASCE GAYRIMENKUL YATIRIM ORTAKLIGI A.S.",
+    "logo_id": "asce-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ASGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/asce-gmyo--big.svg"
+  },
+  {
+    "symbol": "ASTOR",
+    "description": "ASTOR ENERJİ A.Ş.",
+    "logo_id": "astor-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ASTOR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/astor-enerji--big.svg"
+  },
+  {
+    "symbol": "ASUZU",
+    "description": "ANADOLU ISUZU OTOMOTİV SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "anadolu-isuzu",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ASUZU.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/anadolu-isuzu--big.svg"
+  },
+  {
+    "symbol": "ATAGY",
+    "description": "ATA GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "ata-gyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ATAGY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ata-gyo--big.svg"
+  },
+  {
+    "symbol": "ATAKP",
+    "description": "Atakey Patates Gida Sanayi ve Ticaret AS",
+    "logo_id": "atakey-patates",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ATAKP.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/atakey-patates--big.svg"
+  },
+  {
+    "symbol": "ATATP",
+    "description": "ATP YAZILIM VE TEKNOLOJİ A.Ş.",
+    "logo_id": "atp-bilgisayar",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ATATP.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/atp-bilgisayar--big.svg"
+  },
+  {
+    "symbol": "ATATR",
+    "description": "Ata Turizm Isletmecilik Tasimacilik Madencilik Kuyumculu",
+    "logo_id": "ata-turizm-isletmecilik-tasimacilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ATATR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ata-turizm-isletmecilik-tasimacilik--big.svg"
+  },
+  {
+    "symbol": "ATEKS",
+    "description": "AKIN TEKSTİL A.Ş.",
+    "logo_id": "akin-tekstil",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ATEKS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/akin-tekstil--big.svg"
+  },
+  {
+    "symbol": "ATLAS",
+    "description": "ATLAS MENKUL KIYMETLER YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "atlas-yat-ort",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ATLAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/atlas-yat-ort--big.svg"
+  },
+  {
+    "symbol": "ATSYH",
+    "description": "ATLANTİS YATIRIM HOLDİNG A.Ş.",
+    "logo_id": "atlantis-yatirim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ATSYH.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/atlantis-yatirim--big.svg"
+  },
+  {
+    "symbol": "AVGYO",
+    "description": "AVRASYA GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "avrasya-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AVGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/avrasya-gmyo--big.svg"
+  },
+  {
+    "symbol": "AVHOL",
+    "description": "AVRUPA YATIRIM HOLDİNG A.Ş.",
+    "logo_id": "avrupa-yatirim-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AVHOL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/avrupa-yatirim-holding--big.svg"
+  },
+  {
+    "symbol": "AVOD",
+    "description": "A.V.O.D. KURUTULMUŞ GIDA VE TARIM ÜRÜNLERİ SANAYİ TİCARET A.Ş.",
+    "logo_id": "a-v-o-d-gida-ve-tarim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AVOD.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/a-v-o-d-gida-ve-tarim--big.svg"
+  },
+  {
+    "symbol": "AVPGY",
+    "description": "Avrupakent Gayrimenkul Yatirim Ortakligi SA",
+    "logo_id": "avrupakent-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AVPGY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/avrupakent-gmyo--big.svg"
+  },
+  {
+    "symbol": "AYCES",
+    "description": "ALTIN YUNUS ÇEŞME TURİSTİK TESİSLER A.Ş.",
+    "logo_id": "altinyunus-cesme",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AYCES.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/altinyunus-cesme--big.svg"
+  },
+  {
+    "symbol": "AYDEM",
+    "description": "AYDEM YENİLENEBİLİR ENERJİ A.Ş.",
+    "logo_id": "aydem-yenilenebilir-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AYDEM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/aydem-yenilenebilir-enerji--big.svg"
+  },
+  {
+    "symbol": "AYEN",
+    "description": "AYEN ENERJİ A.Ş.",
+    "logo_id": "ayen-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AYEN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ayen-enerji--big.svg"
+  },
+  {
+    "symbol": "AYES",
+    "description": "AYES ÇELİK HASIR VE ÇİT SANAYİ A.Ş.",
+    "logo_id": "ayes-celik-hasir",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AYES.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ayes-celik-hasir--big.svg"
+  },
+  {
+    "symbol": "AYGAZ",
+    "description": "AYGAZ A.Ş.",
+    "logo_id": "aygaz",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AYGAZ.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/aygaz--big.svg"
+  },
+  {
+    "symbol": "AZTEK",
+    "description": "AZTEK TEKNOLOJİ ÜRÜNLERİ TİCARET A.Ş.",
+    "logo_id": "aztek-teknoloji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\AZTEK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/aztek-teknoloji--big.svg"
+  },
+  {
+    "symbol": "BAGFS",
+    "description": "BAGFAŞ BANDIRMA GÜBRE FABRİKALARI A.Ş.",
+    "logo_id": "bagfas",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BAGFS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bagfas--big.svg"
+  },
+  {
+    "symbol": "BAHKM",
+    "description": "Bahadir Kimya Sanayi Ve Ticaret Anonim Sirketi",
+    "logo_id": "bahadir-kimya",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BAHKM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bahadir-kimya--big.svg"
+  },
+  {
+    "symbol": "BAKAB",
+    "description": "BAK AMBALAJ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "bak-ambalaj",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BAKAB.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bak-ambalaj--big.svg"
+  },
+  {
+    "symbol": "BALAT",
+    "description": "BALATACILAR BALATACILIK SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "balatacilar-balatacilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BALAT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/balatacilar-balatacilik--big.svg"
+  },
+  {
+    "symbol": "BALSU",
+    "description": "Balsu Gida Sanayi ve Ticaret Anonim Sirketi",
+    "logo_id": "balsu-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BALSU.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/balsu-gida--big.svg"
+  },
+  {
+    "symbol": "BANVT",
+    "description": "BANVİT BANDIRMA VİTAMİNLİ YEM SANAYİİ A.Ş.",
+    "logo_id": "banvit",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BANVT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/banvit--big.svg"
+  },
+  {
+    "symbol": "BARMA",
+    "description": "BAREM AMBALAJ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "barem-ambalaj",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BARMA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/barem-ambalaj--big.svg"
+  },
+  {
+    "symbol": "BASCM",
+    "description": "BAŞTAŞ BAŞKENT ÇİMENTO SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "bastas-baskent-cimento",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BASCM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bastas-baskent-cimento--big.svg"
+  },
+  {
+    "symbol": "BASGZ",
+    "description": "BAŞKENT DOĞALGAZ DAĞITIM GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "baskent-dogalgaz",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BASGZ.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/baskent-dogalgaz--big.svg"
+  },
+  {
+    "symbol": "BAYRK",
+    "description": "BAYRAK EBT TABAN SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "bayrak-taban-sanayi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BAYRK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bayrak-taban-sanayi--big.svg"
+  },
+  {
+    "symbol": "BEGYO",
+    "description": "Bati Ege Gayrimenkul Yatirim Ortakligi A.S.",
+    "logo_id": "bati-ege-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BEGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bati-ege-gmyo--big.svg"
+  },
+  {
+    "symbol": "BERA",
+    "description": "BERA HOLDİNG A.Ş.",
+    "logo_id": "bera-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BERA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bera-holding--big.svg"
+  },
+  {
+    "symbol": "BESLR",
+    "description": "Besler Gida Ve Kimya Sanayi Ve Ticaret AS",
+    "logo_id": "kerevitas-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BESLR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kerevitas-gida--big.svg"
+  },
+  {
+    "symbol": "BESTE",
+    "description": "Best Brands Grup Enerji Yatirim as",
+    "logo_id": "best-brands-grup-enerji-yatirim-as",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BESTE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/best-brands-grup-enerji-yatirim-as--big.svg"
+  },
+  {
+    "symbol": "BEYAZ",
+    "description": "BEYAZ FİLO OTO KİRALAMA A.Ş.",
+    "logo_id": "beyaz-filo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BEYAZ.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/beyaz-filo--big.svg"
+  },
+  {
+    "symbol": "BFREN",
+    "description": "BOSCH FREN SİSTEMLERİ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "bosch-fren-sistemleri",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BFREN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bosch-fren-sistemleri--big.svg"
+  },
+  {
+    "symbol": "BIENY",
+    "description": "BİEN YAPI ÜRÜNLERİ SANAYİ TURİZM VE TİCARET A.Ş.",
+    "logo_id": "bien-yapi-urunleri",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BIENY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bien-yapi-urunleri--big.svg"
+  },
+  {
+    "symbol": "BIGCH",
+    "description": "BÜYÜK ŞEFLER GIDA TURİZM TEKSTİL DANIŞMANLIK ORGANİZASYON EĞİTİM SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "buyuk-sefler-bigchefs",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BIGCH.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/buyuk-sefler-bigchefs--big.svg"
+  },
+  {
+    "symbol": "BIGEN",
+    "description": "Birlesim Grup Enerji Yatirimlari AS",
+    "logo_id": "birlesim-grup-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BIGEN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/birlesim-grup-enerji--big.svg"
+  },
+  {
+    "symbol": "BIGTK",
+    "description": "Big Medya Teknoloji A.S.",
+    "logo_id": "dogan-burda",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BIGTK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/dogan-burda--big.svg"
+  },
+  {
+    "symbol": "BIMAS",
+    "description": "BİM BİRLEŞİK MAĞAZALAR A.Ş.",
+    "logo_id": "magazalar",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BIMAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/magazalar--big.svg"
+  },
+  {
+    "symbol": "BINBN",
+    "description": "Bin Ulasim Ve Akilli Sehir Teknolojileri AS",
+    "logo_id": "bin-ulasim-teknolojileri",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BINBN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bin-ulasim-teknolojileri--big.svg"
+  },
+  {
+    "symbol": "BINHO",
+    "description": "1000 Yatirimlar Holding AS",
+    "logo_id": "1000-yatirimlar-hol",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BINHO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/1000-yatirimlar-hol--big.svg"
+  },
+  {
+    "symbol": "BIOEN",
+    "description": "BİOTREND ÇEVRE VE ENERJİ YATIRIMLARI A.Ş.",
+    "logo_id": "biotrend",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BIOEN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/biotrend--big.svg"
+  },
+  {
+    "symbol": "BIZIM",
+    "description": "BİZİM TOPTAN SATIŞ MAĞAZALARI A.Ş.",
+    "logo_id": "bizim-magazalari",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BIZIM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bizim-magazalari--big.svg"
+  },
+  {
+    "symbol": "BJKAS",
+    "description": "BEŞİKTAŞ FUTBOL YATIRIMLARI SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "besiktas-futbol-yat",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BJKAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/besiktas-futbol-yat--big.svg"
+  },
+  {
+    "symbol": "BLCYT",
+    "description": "BİLİCİ YATIRIM SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "bilici-yatirim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BLCYT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bilici-yatirim--big.svg"
+  },
+  {
+    "symbol": "BLUME",
+    "description": "Blume Metal Kimya Anonim Sirketi",
+    "logo_id": "metemtur-otelcilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BLUME.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/metemtur-otelcilik--big.svg"
+  },
+  {
+    "symbol": "BMSCH",
+    "description": "BMS ÇELİK HASIR SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "bms-celik-hasir",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BMSCH.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bms-celik-hasir--big.svg"
+  },
+  {
+    "symbol": "BMSTL",
+    "description": "BMS BİRLEŞİK METAL SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "bms-birlesik-metal",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BMSTL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bms-birlesik-metal--big.svg"
+  },
+  {
+    "symbol": "BNTAS",
+    "description": "BANTAŞ BANDIRMA AMBALAJ SANAYİ TİCARET A.Ş.",
+    "logo_id": "bantas-ambalaj",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BNTAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bantas-ambalaj--big.svg"
+  },
+  {
+    "symbol": "BOBET",
+    "description": "BOĞAZİÇİ BETON SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "bogazici-beton-sanayi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BOBET.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bogazici-beton-sanayi--big.svg"
+  },
+  {
+    "symbol": "BORLS",
+    "description": "Borlease Otomotiv AS",
+    "logo_id": "borlease-otomotiv",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BORLS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/borlease-otomotiv--big.svg"
+  },
+  {
+    "symbol": "BORSK",
+    "description": "Bor Seker A.S.",
+    "logo_id": "bor-seker",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BORSK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bor-seker--big.svg"
+  },
+  {
+    "symbol": "BOSSA",
+    "description": "BOSSA TİCARET VE SANAYİ İŞLETMELERİ T.A.Ş.",
+    "logo_id": "bossa",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BOSSA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bossa--big.svg"
+  },
+  {
+    "symbol": "BRISA",
+    "description": "BRİSA BRIDGESTONE SABANCI LASTİK SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "brisa-bridgestone-sabanci",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BRISA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/brisa-bridgestone-sabanci--big.svg"
+  },
+  {
+    "symbol": "BRKO",
+    "description": "BİRKO BİRLEŞİK KOYUNLULULAR MENSUCAT TİCARET VE SANAYİ A.Ş.",
+    "logo_id": "birko-mensucat",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BRKO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/birko-mensucat--big.svg"
+  },
+  {
+    "symbol": "BRKSN",
+    "description": "BERKOSAN YALITIM VE TECRİT MADDELERİ ÜRETİM VE TİCARET A.Ş.",
+    "logo_id": "berkosan-yalitim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BRKSN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/berkosan-yalitim--big.svg"
+  },
+  {
+    "symbol": "BRKVY",
+    "description": "BİRİKİM VARLIK YÖNETİM A.Ş.",
+    "logo_id": "birikim-varlik-yonetim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BRKVY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/birikim-varlik-yonetim--big.svg"
+  },
+  {
+    "symbol": "BRLSM",
+    "description": "BİRLEŞİM MÜHENDİSLİK ISITMA SOĞUTMA HAVALANDIRMA SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "birlesim-muhendislik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BRLSM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/birlesim-muhendislik--big.svg"
+  },
+  {
+    "symbol": "BRMEN",
+    "description": "BİRLİK MENSUCAT TİCARET VE SANAYİ İŞLETMESİ A.Ş.",
+    "logo_id": "birlik-mensucat",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BRMEN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/birlik-mensucat--big.svg"
+  },
+  {
+    "symbol": "BRSAN",
+    "description": "BORUSAN MANNESMANN BORU SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "borusan-mannesmann",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BRSAN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/borusan-mannesmann--big.svg"
+  },
+  {
+    "symbol": "BRYAT",
+    "description": "BORUSAN YATIRIM VE PAZARLAMA A.Ş.",
+    "logo_id": "borusan-yat-paz",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BRYAT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/borusan-yat-paz--big.svg"
+  },
+  {
+    "symbol": "BSOKE",
+    "description": "BATISÖKE SÖKE ÇİMENTO SANAYİİ T.A.Ş.",
+    "logo_id": "batisoke-cimento",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BSOKE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/batisoke-cimento--big.svg"
+  },
+  {
+    "symbol": "BTCIM",
+    "description": "BATIÇİM BATI ANADOLU ÇİMENTO SANAYİİ A.Ş.",
+    "logo_id": "bati-cimento",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BTCIM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bati-cimento--big.svg"
+  },
+  {
+    "symbol": "BUCIM",
+    "description": "BURSA ÇİMENTO FABRİKASI A.Ş.",
+    "logo_id": "bursa-cimento",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BUCIM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bursa-cimento--big.svg"
+  },
+  {
+    "symbol": "BULGS",
+    "description": "Bulls Girisim Sermayesi Yatirim Ortakligi Anonim Sirketi",
+    "logo_id": "bulls-gsyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BULGS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bulls-gsyo--big.svg"
+  },
+  {
+    "symbol": "BURCE",
+    "description": "BURÇELİK BURSA ÇELİK DÖKÜM SANAYİİ A.Ş.",
+    "logo_id": "burcelik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BURCE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/burcelik--big.svg"
+  },
+  {
+    "symbol": "BURVA",
+    "description": "BURÇELİK VANA SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "burcelik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BURVA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/burcelik--big.svg"
+  },
+  {
+    "symbol": "BVSAN",
+    "description": "BÜLBÜLOĞLU VİNÇ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "bulbuloglu-vinc",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BVSAN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/bulbuloglu-vinc--big.svg"
+  },
+  {
+    "symbol": "BYDNR",
+    "description": "Baydoner Restoranlari A.S.",
+    "logo_id": "baydoner-restoranlari",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\BYDNR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/baydoner-restoranlari--big.svg"
+  },
+  {
+    "symbol": "CANTE",
+    "description": "ÇAN2 TERMİK A.Ş.",
+    "logo_id": "can2-termik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\CANTE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/can2-termik--big.svg"
+  },
+  {
+    "symbol": "CASA",
+    "description": "CASA EMTİA PETROL KİMYEVİ VE TÜREVLERİ SANAYİ TİCARET A.Ş.",
+    "logo_id": "casa-emtia-petrol",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\CASA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/casa-emtia-petrol--big.svg"
+  },
+  {
+    "symbol": "CATES",
+    "description": "Cates Elektrik Uretim Anonim Sirketi",
+    "logo_id": "cates-elektrik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\CATES.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/cates-elektrik--big.svg"
+  },
+  {
+    "symbol": "CCOLA",
+    "description": "COCA-COLA İÇECEK A.Ş.",
+    "logo_id": "coca-cola",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\CCOLA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/coca-cola--big.svg"
+  },
+  {
+    "symbol": "CELHA",
+    "description": "ÇELİK HALAT VE TEL SANAYİİ A.Ş.",
+    "logo_id": "celik-halat",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\CELHA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/celik-halat--big.svg"
+  },
+  {
+    "symbol": "CEMAS",
+    "description": "ÇEMAŞ DÖKÜM SANAYİ A.Ş.",
+    "logo_id": "cemas-dokum",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\CEMAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/cemas-dokum--big.svg"
+  },
+  {
+    "symbol": "CEMTS",
+    "description": "ÇEMTAŞ ÇELİK MAKİNA SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "cemtas",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\CEMTS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/cemtas--big.svg"
+  },
+  {
+    "symbol": "CEMZY",
+    "description": "CEM ZEYTIN ANONIM SIRKETI",
+    "logo_id": "cem-zeytin",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\CEMZY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/cem-zeytin--big.svg"
+  },
+  {
+    "symbol": "CEOEM",
+    "description": "CEO EVENT MEDYA A.Ş.",
+    "logo_id": "ceo-event-medya",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\CEOEM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ceo-event-medya--big.svg"
+  },
+  {
+    "symbol": "CGCAM",
+    "description": "Cagdas Cam Sanayi ve Ticaret AS",
+    "logo_id": "cagdas-cam",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\CGCAM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/cagdas-cam--big.svg"
+  },
+  {
+    "symbol": "CIMSA",
+    "description": "ÇİMSA ÇİMENTO SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "cimsa-cimento",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\CIMSA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/cimsa-cimento--big.svg"
+  },
+  {
+    "symbol": "CLEBI",
+    "description": "ÇELEBİ HAVA SERVİSİ A.Ş.",
+    "logo_id": "celebi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\CLEBI.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/celebi--big.svg"
+  },
+  {
+    "symbol": "CMBTN",
+    "description": "ÇİMBETON HAZIRBETON VE PREFABRİK YAPI ELEMANLARI SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "cimbeton",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\CMBTN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/cimbeton--big.svg"
+  },
+  {
+    "symbol": "CMENT",
+    "description": "ÇİMENTAŞ İZMİR ÇİMENTO FABRİKASI T.A.Ş.",
+    "logo_id": "cimentas",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\CMENT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/cimentas--big.svg"
+  },
+  {
+    "symbol": "CONSE",
+    "description": "CONSUS ENERJİ İŞLETMECİLİĞİ VE HİZMETLERİ A.Ş.",
+    "logo_id": "consus-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\CONSE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/consus-enerji--big.svg"
+  },
+  {
+    "symbol": "COSMO",
+    "description": "COSMOS YATIRIM HOLDİNG A.Ş.",
+    "logo_id": "cosmos-yat",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\COSMO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/cosmos-yat--big.svg"
+  },
+  {
+    "symbol": "CRDFA",
+    "description": "CREDITWEST FAKTORİNG A.Ş.",
+    "logo_id": "creditwest-faktoring",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\CRDFA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/creditwest-faktoring--big.svg"
+  },
+  {
+    "symbol": "CRFSA",
+    "description": "CARREFOURSA CARREFOUR SABANCI TİCARET MERKEZİ A.Ş.",
+    "logo_id": "carrefour",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\CRFSA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/carrefour--big.svg"
+  },
+  {
+    "symbol": "CUSAN",
+    "description": "ÇUHADAROĞLU METAL SANAYİ VE PAZARLAMA A.Ş.",
+    "logo_id": "cuhadaroglu-metal",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\CUSAN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/cuhadaroglu-metal--big.svg"
+  },
+  {
+    "symbol": "CVKMD",
+    "description": "CVK MADEN İŞLETMELERİ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "cvk-maden",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\CVKMD.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/cvk-maden--big.svg"
+  },
+  {
+    "symbol": "CWENE",
+    "description": "CW ENERJİ MÜHENDİSLİK TİCARET VE SANAYİ A.Ş.",
+    "logo_id": "cw-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\CWENE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/cw-enerji--big.svg"
+  },
+  {
+    "symbol": "DAGI",
+    "description": "DAGİ GİYİM SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "dagi-giyim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DAGI.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/dagi-giyim--big.svg"
+  },
+  {
+    "symbol": "DAPGM",
+    "description": "DAP GAYRİMENKUL GELİŞTİRME A.Ş.",
+    "logo_id": "dap-gayrimenkul",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DAPGM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/dap-gayrimenkul--big.svg"
+  },
+  {
+    "symbol": "DARDL",
+    "description": "DARDANEL ÖNENTAŞ GIDA SANAYİ A.Ş.",
+    "logo_id": "dardanel",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DARDL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/dardanel--big.svg"
+  },
+  {
+    "symbol": "DCTTR",
+    "description": "DCT Trading Dis Ticaret Anonim Sirketi",
+    "logo_id": "dct-trading-dis-ticaret",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DCTTR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/dct-trading-dis-ticaret--big.svg"
+  },
+  {
+    "symbol": "DENGE",
+    "description": "DENGE YATIRIM HOLDİNG A.Ş.",
+    "logo_id": "denge-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DENGE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/denge-holding--big.svg"
+  },
+  {
+    "symbol": "DERHL",
+    "description": "DERLÜKS YATIRIM HOLDİNG A.Ş.",
+    "logo_id": "derluks-yatirim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DERHL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/derluks-yatirim--big.svg"
+  },
+  {
+    "symbol": "DERIM",
+    "description": "DERİMOD KONFEKSİYON AYAKKABI DERİ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "derimod",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DERIM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/derimod--big.svg"
+  },
+  {
+    "symbol": "DESA",
+    "description": "DESA DERİ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "desa-deri",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DESA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/desa-deri--big.svg"
+  },
+  {
+    "symbol": "DESPC",
+    "description": "DESPEC BİLGİSAYAR PAZARLAMA VE TİCARET A.Ş.",
+    "logo_id": "despec-bilgisayar",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DESPC.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/despec-bilgisayar--big.svg"
+  },
+  {
+    "symbol": "DEVA",
+    "description": "DEVA HOLDİNG A.Ş.",
+    "logo_id": "deva-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DEVA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/deva-holding--big.svg"
+  },
+  {
+    "symbol": "DGATE",
+    "description": "DATAGATE BİLGİSAYAR MALZEMELERİ TİCARET A.Ş.",
+    "logo_id": "datagate-bilgisayar",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DGATE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/datagate-bilgisayar--big.svg"
+  },
+  {
+    "symbol": "DGGYO",
+    "description": "DOĞUŞ GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "dogus-gyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DGGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/dogus-gyo--big.svg"
+  },
+  {
+    "symbol": "DGNMO",
+    "description": "DOĞANLAR MOBİLYA GRUBU İMALAT SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "dogtas-kelebek-mobilya",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DGNMO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/dogtas-kelebek-mobilya--big.svg"
+  },
+  {
+    "symbol": "DIRIT",
+    "description": "DİRİTEKS DİRİLİŞ TEKSTİL SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "diriteks-dirilis-tekstil",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DIRIT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/diriteks-dirilis-tekstil--big.svg"
+  },
+  {
+    "symbol": "DITAS",
+    "description": "DİTAŞ DOĞAN YEDEK PARÇA İMALAT VE TEKNİK A.Ş.",
+    "logo_id": "ditas-dogan",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DITAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ditas-dogan--big.svg"
+  },
+  {
+    "symbol": "DMLKT",
+    "description": "Emlak Konut Gayrimenkul Yatirim Ortakligi A.S. 0 % Certificates 2025-31.12.2199",
+    "logo_id": "emlak-konut-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DMLKT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/emlak-konut-gmyo--big.svg"
+  },
+  {
+    "symbol": "DMRGD",
+    "description": "DMR Unlu Mamuller Uretim Gida Toptan Perakende Ihracat A.S.",
+    "logo_id": "dmr-unlu-mamuller",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DMRGD.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/dmr-unlu-mamuller--big.svg"
+  },
+  {
+    "symbol": "DMSAS",
+    "description": "DEMİSAŞ DÖKÜM EMAYE MAMÜLLERİ SANAYİİ A.Ş.",
+    "logo_id": "demisas-dokum",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DMSAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/demisas-dokum--big.svg"
+  },
+  {
+    "symbol": "DNISI",
+    "description": "DİNAMİK ISI MAKİNA YALITIM MALZEMELERİ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "dinamik-isi-makina-yalitim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DNISI.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/dinamik-isi-makina-yalitim--big.svg"
+  },
+  {
+    "symbol": "DOAS",
+    "description": "DOĞUŞ OTOMOTİV SERVİS VE TİCARET A.Ş.",
+    "logo_id": "dogus-otomotiv",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DOAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/dogus-otomotiv--big.svg"
+  },
+  {
+    "symbol": "DOCO",
+    "description": "DO & CO AKTIENGESELLSCHAFT",
+    "logo_id": "do-co",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DOCO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/do-co--big.svg"
+  },
+  {
+    "symbol": "DOFER",
+    "description": "Dofer Yapi Maizemeleri Sanayi ve Ticaret A.S.",
+    "logo_id": "dofer-yapi-malzemeleri",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DOFER.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/dofer-yapi-malzemeleri--big.svg"
+  },
+  {
+    "symbol": "DOFRB",
+    "description": "DOF Robotik Sanayi Anonim Sirketi",
+    "logo_id": "dof-robotik-sanayi-anonim-sirketi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DOFRB.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/dof-robotik-sanayi-anonim-sirketi--big.svg"
+  },
+  {
+    "symbol": "DOGUB",
+    "description": "DOĞUSAN BORU SANAYİİ VE TİCARET A.Ş.",
+    "logo_id": "dogusan",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DOGUB.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/dogusan--big.svg"
+  },
+  {
+    "symbol": "DOHOL",
+    "description": "DOĞAN ŞİRKETLER GRUBU HOLDİNG A.Ş.",
+    "logo_id": "dogan-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DOHOL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/dogan-holding--big.svg"
+  },
+  {
+    "symbol": "DOKTA",
+    "description": "DÖKTAŞ DÖKÜMCÜLÜK TİCARET VE SANAYİ A.Ş.",
+    "logo_id": "doktas-dokumculuk",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DOKTA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/doktas-dokumculuk--big.svg"
+  },
+  {
+    "symbol": "DSTKF",
+    "description": "DESTEK FAKTORİNG A.Ş.",
+    "logo_id": "destek-finans-faktoring",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DSTKF.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/destek-finans-faktoring--big.svg"
+  },
+  {
+    "symbol": "DUNYH",
+    "description": "Dunya Holding Anonim Sirketi",
+    "logo_id": "selcuk-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DUNYH.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/selcuk-gida--big.svg"
+  },
+  {
+    "symbol": "DURDO",
+    "description": "DURAN DOĞAN BASIM VE AMBALAJ SANAYİ A.Ş.",
+    "logo_id": "duran-dogan-basim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DURDO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/duran-dogan-basim--big.svg"
+  },
+  {
+    "symbol": "DURKN",
+    "description": "Durukan Sekerleme Sanayi ve Ticaret AS",
+    "logo_id": "durukan-sekerleme",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DURKN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/durukan-sekerleme--big.svg"
+  },
+  {
+    "symbol": "DYOBY",
+    "description": "DYO BOYA FABRİKALARI SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "dyo-boya",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DYOBY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/dyo-boya--big.svg"
+  },
+  {
+    "symbol": "DZGYO",
+    "description": "DENİZ GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "deniz-gyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\DZGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/deniz-gyo--big.svg"
+  },
+  {
+    "symbol": "EBEBK",
+    "description": "EBEBEK MAGAZACILIK ANONIM SIRKETI",
+    "logo_id": "ebebek-magazacilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EBEBK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ebebek-magazacilik--big.svg"
+  },
+  {
+    "symbol": "ECILC",
+    "description": "EİS ECZACIBAŞI İLAÇ SINAİ VE FİNANSAL YATIRIMLAR SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "eczacibasi-ilac",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ECILC.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/eczacibasi-ilac--big.svg"
+  },
+  {
+    "symbol": "ECOGR",
+    "description": "Ecogreen Enerji Holding A.S.",
+    "logo_id": "ecogreen-enerji-as",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ECOGR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ecogreen-enerji-as--big.svg"
+  },
+  {
+    "symbol": "ECZYT",
+    "description": "ECZACIBAŞI YATIRIM HOLDİNG ORTAKLIĞI A.Ş.",
+    "logo_id": "eczacibasi-yatirim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ECZYT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/eczacibasi-yatirim--big.svg"
+  },
+  {
+    "symbol": "EDATA",
+    "description": "E-DATA TEKNOLOJİ PAZARLAMA A.Ş.",
+    "logo_id": "e-data-teknoloji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EDATA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/e-data-teknoloji--big.svg"
+  },
+  {
+    "symbol": "EDIP",
+    "description": "EDİP GAYRİMENKUL YATIRIM SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "edip-gayrimenkul",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EDIP.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/edip-gayrimenkul--big.svg"
+  },
+  {
+    "symbol": "EFOR",
+    "description": "Efor Yatirim Sanayi Ticaret A.S.",
+    "logo_id": "efor-cay-sanayi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EFOR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/efor-cay-sanayi--big.svg"
+  },
+  {
+    "symbol": "EGEEN",
+    "description": "EGE ENDÜSTRİ VE TİCARET A.Ş.",
+    "logo_id": "ege-endustri",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EGEEN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ege-endustri--big.svg"
+  },
+  {
+    "symbol": "EGEGY",
+    "description": "Egeyapi Avrupa Gayrimenkul Yatirim Ortakligi A.S.",
+    "logo_id": "egeyapi-avrupa-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EGEGY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/egeyapi-avrupa-gmyo--big.svg"
+  },
+  {
+    "symbol": "EGEPO",
+    "description": "NASMED ÖZEL SAĞLIK HİZMETLERİ TİCARET A.Ş.",
+    "logo_id": "nasmed-egepol",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EGEPO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/nasmed-egepol--big.svg"
+  },
+  {
+    "symbol": "EGGUB",
+    "description": "EGE GÜBRE SANAYİİ A.Ş.",
+    "logo_id": "ege-gubre",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EGGUB.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ege-gubre--big.svg"
+  },
+  {
+    "symbol": "EGPRO",
+    "description": "EGE PROFİL TİCARET VE SANAYİ A.Ş.",
+    "logo_id": "ege-profil",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EGPRO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ege-profil--big.svg"
+  },
+  {
+    "symbol": "EGSER",
+    "description": "EGE SERAMİK SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "ege-seramik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EGSER.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ege-seramik--big.svg"
+  },
+  {
+    "symbol": "EKGYO",
+    "description": "EMLAK KONUT GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "emlak-konut-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EKGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/emlak-konut-gmyo--big.svg"
+  },
+  {
+    "symbol": "EKIZ",
+    "description": "EKİZ KİMYA SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "ekiz-kimya",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EKIZ.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ekiz-kimya--big.svg"
+  },
+  {
+    "symbol": "EKOS",
+    "description": "Ekos Teknoloji ve Elektrik AS",
+    "logo_id": "ekos-teknoloji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EKOS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ekos-teknoloji--big.svg"
+  },
+  {
+    "symbol": "EKSUN",
+    "description": "EKSUN GIDA TARIM SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "eksun-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EKSUN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/eksun-gida--big.svg"
+  },
+  {
+    "symbol": "ELITE",
+    "description": "ELİTE NATUREL ORGANİK GIDA SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "elite",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ELITE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/elite--big.svg"
+  },
+  {
+    "symbol": "EMKEL",
+    "description": "EMEK ELEKTRİK ENDÜSTRİSİ A.Ş.",
+    "logo_id": "emek-elektrik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EMKEL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/emek-elektrik--big.svg"
+  },
+  {
+    "symbol": "EMNIS",
+    "description": "EMİNİŞ AMBALAJ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "eminis-ambalaj",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EMNIS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/eminis-ambalaj--big.svg"
+  },
+  {
+    "symbol": "EMPAE",
+    "description": "Empa Elektronik Sanayi ve Ticaret A.S.",
+    "logo_id": "empa-elektronik-sanayi-ve-ticaret-as",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EMPAE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/empa-elektronik-sanayi-ve-ticaret-as--big.svg"
+  },
+  {
+    "symbol": "ENDAE",
+    "description": "Enda Enerji Holding Anonim Sirketi",
+    "logo_id": "enda-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ENDAE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/enda-enerji--big.svg"
+  },
+  {
+    "symbol": "ENERY",
+    "description": "Enerya Enerji A.S.",
+    "logo_id": "enerya-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ENERY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/enerya-enerji--big.svg"
+  },
+  {
+    "symbol": "ENJSA",
+    "description": "ENERJİSA ENERJİ A.Ş.",
+    "logo_id": "enerjisa-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ENJSA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/enerjisa-enerji--big.svg"
+  },
+  {
+    "symbol": "ENKAI",
+    "description": "ENKA İNŞAAT VE SANAYİ A.Ş.",
+    "logo_id": "enka-insaat",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ENKAI.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/enka-insaat--big.svg"
+  },
+  {
+    "symbol": "ENPRA",
+    "description": "Enpara Bank A.S.",
+    "logo_id": "enpara-bank-as",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ENPRA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/enpara-bank-as--big.svg"
+  },
+  {
+    "symbol": "ENSRI",
+    "description": "ENSARİ DERİ GIDA SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "ensari-deri",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ENSRI.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ensari-deri--big.svg"
+  },
+  {
+    "symbol": "ENTRA",
+    "description": "IC Enterra Yenilenebilir Enerji AS",
+    "logo_id": "ic-enterra-yen-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ENTRA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ic-enterra-yen-enerji--big.svg"
+  },
+  {
+    "symbol": "EPLAS",
+    "description": "EGEPLAST EGE PLASTİK TİCARET VE SANAYİ A.Ş.",
+    "logo_id": "egeplast",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EPLAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/egeplast--big.svg"
+  },
+  {
+    "symbol": "ERBOS",
+    "description": "ERBOSAN ERCİYAS BORU SANAYİİ VE TİCARET A.Ş.",
+    "logo_id": "erbosan",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ERBOS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/erbosan--big.svg"
+  },
+  {
+    "symbol": "ERCB",
+    "description": "ERCİYAS ÇELİK BORU SANAYİ A.Ş.",
+    "logo_id": "erciyas-celik-boru",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ERCB.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/erciyas-celik-boru--big.svg"
+  },
+  {
+    "symbol": "EREGL",
+    "description": "EREĞLİ DEMİR VE ÇELİK FABRİKALARI T.A.Ş.",
+    "logo_id": "eregli-demir",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EREGL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/eregli-demir--big.svg"
+  },
+  {
+    "symbol": "ERSU",
+    "description": "ERSU MEYVE VE GIDA SANAYİ A.Ş.",
+    "logo_id": "ersu-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ERSU.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ersu-gida--big.svg"
+  },
+  {
+    "symbol": "ESCAR",
+    "description": "ESCAR FİLO KİRALAMA HİZMETLERİ A.Ş.",
+    "logo_id": "escar",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ESCAR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/escar--big.svg"
+  },
+  {
+    "symbol": "ESCOM",
+    "description": "ESCORT TEKNOLOJİ YATIRIM A.Ş.",
+    "logo_id": "escort-teknoloji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ESCOM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/escort-teknoloji--big.svg"
+  },
+  {
+    "symbol": "ESEN",
+    "description": "ESENBOĞA ELEKTRİK ÜRETİM A.Ş.",
+    "logo_id": "esenboga-elektrik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ESEN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/esenboga-elektrik--big.svg"
+  },
+  {
+    "symbol": "ETILR",
+    "description": "ETİLER GIDA VE TİCARİ YATIRIMLAR SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "etiler-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ETILR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/etiler-gida--big.svg"
+  },
+  {
+    "symbol": "ETYAT",
+    "description": "EURO TREND YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "euro-yat-ort",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ETYAT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/euro-yat-ort--big.svg"
+  },
+  {
+    "symbol": "EUHOL",
+    "description": "EURO YATIRIM HOLDİNG A.Ş.",
+    "logo_id": "euro-yat-ort",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EUHOL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/euro-yat-ort--big.svg"
+  },
+  {
+    "symbol": "EUKYO",
+    "description": "EURO KAPİTAL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "euro-yat-ort",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EUKYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/euro-yat-ort--big.svg"
+  },
+  {
+    "symbol": "EUPWR",
+    "description": "EUROPOWER ENERJİ VE OTOMASYON TEKNOLOJİLERİ SANAYİ TİCARET A.Ş.",
+    "logo_id": "europower-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EUPWR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/europower-enerji--big.svg"
+  },
+  {
+    "symbol": "EUREN",
+    "description": "EUROPEN ENDÜSTRİ İNŞAAT SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "europen-endustri",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EUREN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/europen-endustri--big.svg"
+  },
+  {
+    "symbol": "EUYO",
+    "description": "EURO MENKUL KIYMET YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "euro-yat-ort",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EUYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/euro-yat-ort--big.svg"
+  },
+  {
+    "symbol": "EYGYO",
+    "description": "EYG GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "eyg-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\EYGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/eyg-gmyo--big.svg"
+  },
+  {
+    "symbol": "FADE",
+    "description": "FADE GIDA YATIRIM SANAYİ TİCARET A.Ş.",
+    "logo_id": "fade-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\FADE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/fade-gida--big.svg"
+  },
+  {
+    "symbol": "FENER",
+    "description": "FENERBAHÇE FUTBOL A.Ş.",
+    "logo_id": "fenerbahce-futbol",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\FENER.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/fenerbahce-futbol--big.svg"
+  },
+  {
+    "symbol": "FLAP",
+    "description": "FLAP KONGRE TOPLANTI HİZMETLERİ OTOMOTİV VE TURİZM A.Ş.",
+    "logo_id": "flap-kongre",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\FLAP.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/flap-kongre--big.svg"
+  },
+  {
+    "symbol": "FMIZP",
+    "description": "FEDERAL-MOGUL İZMİT PİSTON VE PİM ÜRETİM TESİSLERİ A.Ş.",
+    "logo_id": "f-m-izmit-piston",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\FMIZP.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/f-m-izmit-piston--big.svg"
+  },
+  {
+    "symbol": "FONET",
+    "description": "FONET BİLGİ TEKNOLOJİLERİ A.Ş.",
+    "logo_id": "fonet-bilgi-teknolojileri",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\FONET.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/fonet-bilgi-teknolojileri--big.svg"
+  },
+  {
+    "symbol": "FORMT",
+    "description": "FORMET METAL VE CAM SANAYİ A.Ş.",
+    "logo_id": "formet-celik-kapi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\FORMT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/formet-celik-kapi--big.svg"
+  },
+  {
+    "symbol": "FORTE",
+    "description": "FORTE BILGI ILETISIM TEKNOLOJILERI VE SAVUNMA SANAYI A.S.",
+    "logo_id": "forte-bilgi-iletisim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\FORTE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/forte-bilgi-iletisim--big.svg"
+  },
+  {
+    "symbol": "FRIGO",
+    "description": "FRİGO-PAK GIDA MADDELERİ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "frigo-pak-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\FRIGO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/frigo-pak-gida--big.svg"
+  },
+  {
+    "symbol": "FRMPL",
+    "description": "Formul Plastik Ve Metal Sanayi AS",
+    "logo_id": "formul-plastik-ve-metal-sanayi-anonim-sirketi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\FRMPL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/formul-plastik-ve-metal-sanayi-anonim-sirketi--big.svg"
+  },
+  {
+    "symbol": "FROTO",
+    "description": "FORD OTOMOTİV SANAYİ A.Ş.",
+    "logo_id": "ford-otosan",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\FROTO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ford-otosan--big.svg"
+  },
+  {
+    "symbol": "FZLGY",
+    "description": "FUZUL GAYRIMENKUL YATIRIM ORTAKLIGI A.S.",
+    "logo_id": "fuzul-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\FZLGY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/fuzul-gmyo--big.svg"
+  },
+  {
+    "symbol": "GARAN",
+    "description": "TÜRKİYE GARANTİ BANKASI A.Ş.",
+    "logo_id": "garanti",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GARAN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/garanti--big.svg"
+  },
+  {
+    "symbol": "GARFA",
+    "description": "GARANTİ FAKTORİNG A.Ş.",
+    "logo_id": "garanti-faktoring",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GARFA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/garanti-faktoring--big.svg"
+  },
+  {
+    "symbol": "GATEG",
+    "description": "Gate Group Teknoloji Medya Ve Siber Guvenlik Hizmetleri A.S.",
+    "logo_id": "senkron-guvenlik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GATEG.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/senkron-guvenlik--big.svg"
+  },
+  {
+    "symbol": "GEDIK",
+    "description": "GEDİK YATIRIM MENKUL DEĞERLER A.Ş.",
+    "logo_id": "gedik-yatirim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GEDIK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/gedik-yatirim--big.svg"
+  },
+  {
+    "symbol": "GEDZA",
+    "description": "GEDİZ AMBALAJ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "gediz-ambalaj",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GEDZA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/gediz-ambalaj--big.svg"
+  },
+  {
+    "symbol": "GENIL",
+    "description": "GEN İLAÇ VE SAĞLIK ÜRÜNLERİ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "gen-ilac",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GENIL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/gen-ilac--big.svg"
+  },
+  {
+    "symbol": "GENKM",
+    "description": "Gentas Kimya Sanayi ve Ticaret Pazarlama",
+    "logo_id": "gentas-kimya-sanayi-ve-ticaret-pazarlama",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GENKM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/gentas-kimya-sanayi-ve-ticaret-pazarlama--big.svg"
+  },
+  {
+    "symbol": "GENTS",
+    "description": "GENTAŞ DEKORATİF YÜZEYLER SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "gentas",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GENTS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/gentas--big.svg"
+  },
+  {
+    "symbol": "GEREL",
+    "description": "GERSAN ELEKTRİK TİCARET VE SANAYİ A.Ş.",
+    "logo_id": "gersan-elektrik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GEREL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/gersan-elektrik--big.svg"
+  },
+  {
+    "symbol": "GESAN",
+    "description": "GİRİŞİM ELEKTRİK SANAYİ TAAHHÜT VE TİCARET A.Ş.",
+    "logo_id": "girisim-elektrik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GESAN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/girisim-elektrik--big.svg"
+  },
+  {
+    "symbol": "GIPTA",
+    "description": "Gipta Ofis Kirtasiye ve Promosyon Urunleri Imalat Sanayi A.S.",
+    "logo_id": "gipta-ofis-kirtasiye",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GIPTA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/gipta-ofis-kirtasiye--big.svg"
+  },
+  {
+    "symbol": "GLBMD",
+    "description": "GLOBAL MENKUL DEĞERLER A.Ş.",
+    "logo_id": "global-menkul",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GLBMD.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/global-menkul--big.svg"
+  },
+  {
+    "symbol": "GLCVY",
+    "description": "GELECEK VARLIK YÖNETİMİ A.Ş.",
+    "logo_id": "gelecek-varlik-yonetimi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GLCVY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/gelecek-varlik-yonetimi--big.svg"
+  },
+  {
+    "symbol": "GLRMK",
+    "description": "Gulermak Agir Sanayi Insaat Ve Taahhut A.S.",
+    "logo_id": "gulermak-agir-sanayi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GLRMK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/gulermak-agir-sanayi--big.svg"
+  },
+  {
+    "symbol": "GLRYH",
+    "description": "GÜLER YATIRIM HOLDİNG A.Ş.",
+    "logo_id": "guler-yat-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GLRYH.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/guler-yat-holding--big.svg"
+  },
+  {
+    "symbol": "GLYHO",
+    "description": "GLOBAL YATIRIM HOLDİNG A.Ş.",
+    "logo_id": "global-yat-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GLYHO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/global-yat-holding--big.svg"
+  },
+  {
+    "symbol": "GMTAS",
+    "description": "GİMAT MAĞAZACILIK SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "gimat-magazacilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GMTAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/gimat-magazacilik--big.svg"
+  },
+  {
+    "symbol": "GOKNR",
+    "description": "GÖKNUR GIDA MADDELERİ ENERJİ İMALAT İTHALAT İHRACAT TİCARET VE SANAYİ A.Ş.",
+    "logo_id": "goknur-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GOKNR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/goknur-gida--big.svg"
+  },
+  {
+    "symbol": "GOLTS",
+    "description": "GÖLTAŞ GÖLLER BÖLGESİ ÇİMENTO SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "goltas-cimento",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GOLTS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/goltas-cimento--big.svg"
+  },
+  {
+    "symbol": "GOODY",
+    "description": "GOODYEAR LASTİKLERİ T.A.Ş.",
+    "logo_id": "goodyear-tire-and-rubber",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GOODY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/goodyear-tire-and-rubber--big.svg"
+  },
+  {
+    "symbol": "GOZDE",
+    "description": "GÖZDE GİRİŞİM SERMAYESİ YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "gozde-girisim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GOZDE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/gozde-girisim--big.svg"
+  },
+  {
+    "symbol": "GRNYO",
+    "description": "GARANTİ YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "garanti-yat-ort",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GRNYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/garanti-yat-ort--big.svg"
+  },
+  {
+    "symbol": "GRSEL",
+    "description": "GÜR-SEL TURİZM TAŞIMACILIK VE SERVİS TİCARET A.Ş.",
+    "logo_id": "gur-sel-turizm-tasimacilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GRSEL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/gur-sel-turizm-tasimacilik--big.svg"
+  },
+  {
+    "symbol": "GRTHO",
+    "description": "Grainturk Holding A.S.",
+    "logo_id": "grainturk",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GRTHO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/grainturk--big.svg"
+  },
+  {
+    "symbol": "GSDDE",
+    "description": "GSD DENİZCİLİK GAYRİMENKUL İNŞAAT SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "gsd-denizcilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GSDDE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/gsd-denizcilik--big.svg"
+  },
+  {
+    "symbol": "GSDHO",
+    "description": "GSD HOLDİNG A.Ş.",
+    "logo_id": "gsd-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GSDHO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/gsd-holding--big.svg"
+  },
+  {
+    "symbol": "GSRAY",
+    "description": "GALATASARAY SPORTİF SINAİ VE TİCARİ YATIRIMLAR A.Ş.",
+    "logo_id": "galatasaray-sportif",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GSRAY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/galatasaray-sportif--big.svg"
+  },
+  {
+    "symbol": "GUBRF",
+    "description": "GÜBRE FABRİKALARI T.A.Ş.",
+    "logo_id": "gubre-fabrik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GUBRF.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/gubre-fabrik--big.svg"
+  },
+  {
+    "symbol": "GUNDG",
+    "description": "Gundogdu Gida Sut Urunleri Sanayi Ve Dis Ticaret AS",
+    "logo_id": "gundogdu-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GUNDG.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/gundogdu-gida--big.svg"
+  },
+  {
+    "symbol": "GWIND",
+    "description": "GALATA WIND ENERJİ A.Ş.",
+    "logo_id": "galata-wind-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GWIND.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/galata-wind-enerji--big.svg"
+  },
+  {
+    "symbol": "GZNMI",
+    "description": "GEZİNOMİ SEYAHAT TURİZM TİCARET A.Ş.",
+    "logo_id": "gezinomi-seyahat",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\GZNMI.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/gezinomi-seyahat--big.svg"
+  },
+  {
+    "symbol": "HALKB",
+    "description": "TÜRKİYE HALK BANKASI A.Ş.",
+    "logo_id": "t-halk-bankasi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\HALKB.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/t-halk-bankasi--big.svg"
+  },
+  {
+    "symbol": "HATEK",
+    "description": "HATEKS HATAY TEKSTİL İŞLETMELERİ A.Ş.",
+    "logo_id": "hatay-tekstil",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\HATEK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/hatay-tekstil--big.svg"
+  },
+  {
+    "symbol": "HATSN",
+    "description": "Hat-San Gemi Insaa Bakim Onarim Deniz Nakliyat Sanayi ve Ticaret A.S.",
+    "logo_id": "hatsan-gemi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\HATSN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/hatsan-gemi--big.svg"
+  },
+  {
+    "symbol": "HDFGS",
+    "description": "HEDEF GİRİŞİM SERMAYESİ YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "hedef-girisim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\HDFGS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/hedef-girisim--big.svg"
+  },
+  {
+    "symbol": "HEDEF",
+    "description": "HEDEF HOLDİNG A.Ş.",
+    "logo_id": "hedef-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\HEDEF.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/hedef-holding--big.svg"
+  },
+  {
+    "symbol": "HEKTS",
+    "description": "HEKTAŞ TİCARET T.A.Ş.",
+    "logo_id": "hektas",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\HEKTS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/hektas--big.svg"
+  },
+  {
+    "symbol": "HKTM",
+    "description": "HİDROPAR HAREKET KONTROL TEKNOLOJİLERİ MERKEZİ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "hidropar-hareket-kontrol",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\HKTM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/hidropar-hareket-kontrol--big.svg"
+  },
+  {
+    "symbol": "HLGYO",
+    "description": "HALK GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "halk-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\HLGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/halk-gmyo--big.svg"
+  },
+  {
+    "symbol": "HOROZ",
+    "description": "Horoz Lojistik Kargo Hizmetleri Ve Ticaret AS",
+    "logo_id": "horoz",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\HOROZ.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/horoz--big.svg"
+  },
+  {
+    "symbol": "HRKET",
+    "description": "Hareket Proje Tasimaciligi ve Yuk Muhendisligi AS",
+    "logo_id": "hareket-proje-tasimaciligi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\HRKET.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/hareket-proje-tasimaciligi--big.svg"
+  },
+  {
+    "symbol": "HTTBT",
+    "description": "HİTİT BİLGİSAYAR HİZMETLERİ A.Ş.",
+    "logo_id": "hitit-bilgisayar",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\HTTBT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/hitit-bilgisayar--big.svg"
+  },
+  {
+    "symbol": "HUBVC",
+    "description": "HUB GİRİŞİM SERMAYESİ YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "hub-girisim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\HUBVC.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/hub-girisim--big.svg"
+  },
+  {
+    "symbol": "HUNER",
+    "description": "HUN YENİLENEBİLİR ENERJİ ÜRETİM A.Ş.",
+    "logo_id": "hun-yenilenebilir-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\HUNER.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/hun-yenilenebilir-enerji--big.svg"
+  },
+  {
+    "symbol": "HURGZ",
+    "description": "HÜRRİYET GAZETECİLİK VE MATBAACILIK A.Ş.",
+    "logo_id": "hurriyet",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\HURGZ.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/hurriyet--big.svg"
+  },
+  {
+    "symbol": "ICBCT",
+    "description": "ICBC TURKEY BANK A.Ş.",
+    "logo_id": "icbc-turkey",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ICBCT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/icbc-turkey--big.svg"
+  },
+  {
+    "symbol": "ICUGS",
+    "description": "ICU Girisim Sermayesi Yatirim Ortakligi A.S.",
+    "logo_id": "rhea-girisim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ICUGS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/rhea-girisim--big.svg"
+  },
+  {
+    "symbol": "IDGYO",
+    "description": "İDEALİST GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "idealist-gyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\IDGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/idealist-gyo--big.svg"
+  },
+  {
+    "symbol": "IEYHO",
+    "description": "IŞIKLAR ENERJİ VE YAPI HOLDİNG A.Ş.",
+    "logo_id": "isiklar-enerji-yapi-hol",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\IEYHO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/isiklar-enerji-yapi-hol--big.svg"
+  },
+  {
+    "symbol": "IHAAS",
+    "description": "İHLAS HABER AJANSI A.Ş.",
+    "logo_id": "ihlas-haber-ajansi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\IHAAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ihlas-haber-ajansi--big.svg"
+  },
+  {
+    "symbol": "IHEVA",
+    "description": "İHLAS EV ALETLERİ İMALAT SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "ihlas-ev-aletleri",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\IHEVA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ihlas-ev-aletleri--big.svg"
+  },
+  {
+    "symbol": "IHGZT",
+    "description": "İHLAS GAZETECİLİK A.Ş.",
+    "logo_id": "ihlas-yayin-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\IHGZT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ihlas-yayin-holding--big.svg"
+  },
+  {
+    "symbol": "IHLAS",
+    "description": "İHLAS HOLDİNG A.Ş.",
+    "logo_id": "ihlas-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\IHLAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ihlas-holding--big.svg"
+  },
+  {
+    "symbol": "IHLGM",
+    "description": "İHLAS GAYRİMENKUL PROJE GELİŞTİRME VE TİCARET A.Ş.",
+    "logo_id": "ihlas-gayrimenkul",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\IHLGM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ihlas-gayrimenkul--big.svg"
+  },
+  {
+    "symbol": "IHYAY",
+    "description": "İHLAS YAYIN HOLDİNG A.Ş.",
+    "logo_id": "ihlas-yayin-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\IHYAY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ihlas-yayin-holding--big.svg"
+  },
+  {
+    "symbol": "IMASM",
+    "description": "İMAŞ MAKİNA SANAYİ A.Ş.",
+    "logo_id": "imas-makina",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\IMASM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/imas-makina--big.svg"
+  },
+  {
+    "symbol": "INDES",
+    "description": "İNDEKS BİLGİSAYAR SİSTEMLERİ MÜHENDİSLİK SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "indeks-bilgisayar",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\INDES.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/indeks-bilgisayar--big.svg"
+  },
+  {
+    "symbol": "INFO",
+    "description": "İNFO YATIRIM MENKUL DEĞERLER A.Ş.",
+    "logo_id": "info-yatirim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\INFO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/info-yatirim--big.svg"
+  },
+  {
+    "symbol": "INGRM",
+    "description": "INGRAM MİCRO BİLİŞİM SİSTEMLERİ A.Ş.",
+    "logo_id": "armada-bilgisayar",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\INGRM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/armada-bilgisayar--big.svg"
+  },
+  {
+    "symbol": "INTEK",
+    "description": "Innosa Teknoloji Anonim Sirketi",
+    "logo_id": "uzertas-boya",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\INTEK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/uzertas-boya--big.svg"
+  },
+  {
+    "symbol": "INTEM",
+    "description": "İNTEMA İNŞAAT VE TESİSAT MALZEMELERİ YATIRIM VE PAZARLAMA A.Ş.",
+    "logo_id": "intema",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\INTEM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/intema--big.svg"
+  },
+  {
+    "symbol": "INVEO",
+    "description": "INVEO YATIRIM HOLDİNG A.Ş.",
+    "logo_id": "gedik-yatirim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\INVEO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/gedik-yatirim--big.svg"
+  },
+  {
+    "symbol": "INVES",
+    "description": "INVESTCO HOLDİNG A.Ş.",
+    "logo_id": "investco",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\INVES.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/investco--big.svg"
+  },
+  {
+    "symbol": "ISBIR",
+    "description": "İŞBİR HOLDİNG A.Ş.",
+    "logo_id": "isbir-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ISBIR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/isbir-holding--big.svg"
+  },
+  {
+    "symbol": "ISBTR",
+    "description": "TÜRKİYE İŞ BANKASI A.Ş.",
+    "logo_id": "is-bankasi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ISBTR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/is-bankasi--big.svg"
+  },
+  {
+    "symbol": "ISCTR",
+    "description": "TÜRKİYE İŞ BANKASI A.Ş.",
+    "logo_id": "is-bankasi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ISCTR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/is-bankasi--big.svg"
+  },
+  {
+    "symbol": "ISDMR",
+    "description": "İSKENDERUN DEMİR VE ÇELİK A.Ş.",
+    "logo_id": "iskenderun-demir-celik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ISDMR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/iskenderun-demir-celik--big.svg"
+  },
+  {
+    "symbol": "ISFIN",
+    "description": "İŞ FİNANSAL KİRALAMA A.Ş.",
+    "logo_id": "is-fin-kir",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ISFIN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/is-fin-kir--big.svg"
+  },
+  {
+    "symbol": "ISGYO",
+    "description": "İŞ GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "is-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ISGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/is-gmyo--big.svg"
+  },
+  {
+    "symbol": "ISKPL",
+    "description": "IŞIK PLASTİK SANAYİ VE DIŞ TİCARET PAZARLAMA A.Ş.",
+    "logo_id": "isik-plastik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ISKPL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/isik-plastik--big.svg"
+  },
+  {
+    "symbol": "ISKUR",
+    "description": "TÜRKİYE İŞ BANKASI A.Ş.",
+    "logo_id": "is-bankasi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ISKUR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/is-bankasi--big.svg"
+  },
+  {
+    "symbol": "ISMEN",
+    "description": "İŞ YATIRIM MENKUL DEĞERLER A.Ş.",
+    "logo_id": "is-y-men-deg",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ISMEN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/is-y-men-deg--big.svg"
+  },
+  {
+    "symbol": "ISSEN",
+    "description": "İŞBİR SENTETİK DOKUMA SANAYİ A.Ş.",
+    "logo_id": "isbir-sentetik-dokuma",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ISSEN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/isbir-sentetik-dokuma--big.svg"
+  },
+  {
+    "symbol": "IZENR",
+    "description": "Izdemir Enerji Elektrik Uretim A.S.",
+    "logo_id": "izdemir-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\IZENR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/izdemir-enerji--big.svg"
+  },
+  {
+    "symbol": "IZFAS",
+    "description": "İZMİR FIRÇA SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "izmir-firca",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\IZFAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/izmir-firca--big.svg"
+  },
+  {
+    "symbol": "IZINV",
+    "description": "İZ YATIRIM HOLDİNG A.Ş.",
+    "logo_id": "iz-hayvancilik-tarim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\IZINV.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/iz-hayvancilik-tarim--big.svg"
+  },
+  {
+    "symbol": "IZMDC",
+    "description": "İZMİR DEMİR ÇELİK SANAYİ A.Ş.",
+    "logo_id": "izmir-demir-celik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\IZMDC.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/izmir-demir-celik--big.svg"
+  },
+  {
+    "symbol": "JANTS",
+    "description": "JANTSA JANT SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "jantsa-jant-sanayi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\JANTS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/jantsa-jant-sanayi--big.svg"
+  },
+  {
+    "symbol": "KAPLM",
+    "description": "KAPLAMİN AMBALAJ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "kaplamin",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KAPLM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kaplamin--big.svg"
+  },
+  {
+    "symbol": "KAREL",
+    "description": "KAREL ELEKTRONİK SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "karel-elektronik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KAREL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/karel-elektronik--big.svg"
+  },
+  {
+    "symbol": "KARSN",
+    "description": "KARSAN OTOMOTİV SANAYİİ VE TİCARET A.Ş.",
+    "logo_id": "karsan-otomotiv",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KARSN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/karsan-otomotiv--big.svg"
+  },
+  {
+    "symbol": "KARTN",
+    "description": "KARTONSAN KARTON SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "kartonsan",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KARTN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kartonsan--big.svg"
+  },
+  {
+    "symbol": "KATMR",
+    "description": "KATMERCİLER ARAÇ ÜSTÜ EKİPMAN SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "katmerciler",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KATMR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/katmerciler--big.svg"
+  },
+  {
+    "symbol": "KAYSE",
+    "description": "KAYSERİ ŞEKER FABRİKASI A.Ş.",
+    "logo_id": "kayseri-seker-fabrikasi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KAYSE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kayseri-seker-fabrikasi--big.svg"
+  },
+  {
+    "symbol": "KBORU",
+    "description": "Kuzey Boru A.S.",
+    "logo_id": "kuzey-boru",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KBORU.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kuzey-boru--big.svg"
+  },
+  {
+    "symbol": "KCAER",
+    "description": "KOCAER ÇELİK SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "kocaer-celik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KCAER.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kocaer-celik--big.svg"
+  },
+  {
+    "symbol": "KCHOL",
+    "description": "KOÇ HOLDİNG A.Ş.",
+    "logo_id": "koc",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KCHOL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/koc--big.svg"
+  },
+  {
+    "symbol": "KENT",
+    "description": "KENT GIDA MADDELERİ SANAYİİ VE TİCARET A.Ş.",
+    "logo_id": "kent-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KENT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kent-gida--big.svg"
+  },
+  {
+    "symbol": "KERVN",
+    "description": "KERVANSARAY YATIRIM HOLDİNG A.Ş.",
+    "logo_id": "kervansaray-yatirim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KERVN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kervansaray-yatirim--big.svg"
+  },
+  {
+    "symbol": "KFEIN",
+    "description": "KAFEİN YAZILIM HİZMETLERİ TİCARET A.Ş.",
+    "logo_id": "kafein-yazilim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KFEIN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kafein-yazilim--big.svg"
+  },
+  {
+    "symbol": "KGYO",
+    "description": "KORAY GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "yapi-kredi-koray",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/yapi-kredi-koray--big.svg"
+  },
+  {
+    "symbol": "KIMMR",
+    "description": "ERSAN ALIŞVERİŞ HİZMETLERİ VE GIDA SANAYİ TİCARET A.Ş.",
+    "logo_id": "kim-market-ersan-alisveris",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KIMMR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kim-market-ersan-alisveris--big.svg"
+  },
+  {
+    "symbol": "KLGYO",
+    "description": "KİLER GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "kiler-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KLGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kiler-gmyo--big.svg"
+  },
+  {
+    "symbol": "KLKIM",
+    "description": "KALEKİM KİMYEVİ MADDELER SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "kalekim-kimyevi-maddeler",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KLKIM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kalekim-kimyevi-maddeler--big.svg"
+  },
+  {
+    "symbol": "KLMSN",
+    "description": "KLİMASAN KLİMA SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "klimasan",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KLMSN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/klimasan--big.svg"
+  },
+  {
+    "symbol": "KLNMA",
+    "description": "TÜRKİYE KALKINMA VE YATIRIM BANKASI A.Ş.",
+    "logo_id": "t-kalkinma",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KLNMA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/t-kalkinma--big.svg"
+  },
+  {
+    "symbol": "KLRHO",
+    "description": "KİLER HOLDİNG A.Ş.",
+    "logo_id": "kiler",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KLRHO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kiler--big.svg"
+  },
+  {
+    "symbol": "KLSER",
+    "description": "Kaleseramik Canakkale Kalebodur Seramik A.S.",
+    "logo_id": "kaleseramik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KLSER.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kaleseramik--big.svg"
+  },
+  {
+    "symbol": "KLSYN",
+    "description": "KOLEKSİYON MOBİLYA SANAYİ A.Ş.",
+    "logo_id": "koleksiyon-mobilya",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KLSYN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/koleksiyon-mobilya--big.svg"
+  },
+  {
+    "symbol": "KLYPV",
+    "description": "Kalyon Gunes Teknolojileri Uretim Anonim Sirketi",
+    "logo_id": "kalyon-gunes-teknolojileri",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KLYPV.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kalyon-gunes-teknolojileri--big.svg"
+  },
+  {
+    "symbol": "KMPUR",
+    "description": "KİMTEKS POLİÜRETAN SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "kimteks-poliuretan",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KMPUR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kimteks-poliuretan--big.svg"
+  },
+  {
+    "symbol": "KNFRT",
+    "description": "KONFRUT GIDA SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "konfrut-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KNFRT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/konfrut-gida--big.svg"
+  },
+  {
+    "symbol": "KOCMT",
+    "description": "Koc Metalurji AS",
+    "logo_id": "koc-metalurji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KOCMT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/koc-metalurji--big.svg"
+  },
+  {
+    "symbol": "KONKA",
+    "description": "KONYA KAĞIT SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "konya-kagit",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KONKA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/konya-kagit--big.svg"
+  },
+  {
+    "symbol": "KONTR",
+    "description": "KONTROLMATİK TEKNOLOJİ ENERJİ VE MÜHENDİSLİK A.Ş.",
+    "logo_id": "kontrolmatik-teknoloji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KONTR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kontrolmatik-teknoloji--big.svg"
+  },
+  {
+    "symbol": "KONYA",
+    "description": "KONYA ÇİMENTO SANAYİİ A.Ş.",
+    "logo_id": "konya-cimento",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KONYA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/konya-cimento--big.svg"
+  },
+  {
+    "symbol": "KOPOL",
+    "description": "KOZA POLYESTER SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "koza-polyester",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KOPOL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/koza-polyester--big.svg"
+  },
+  {
+    "symbol": "KORDS",
+    "description": "KORDSA TEKNİK TEKSTİL A.Ş.",
+    "logo_id": "kordsa-teknik-tekstil",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KORDS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kordsa-teknik-tekstil--big.svg"
+  },
+  {
+    "symbol": "KOTON",
+    "description": "KOTON MAĞAZACILIK TEKSTİL SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "koton-magazacilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KOTON.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/koton-magazacilik--big.svg"
+  },
+  {
+    "symbol": "KRDMA",
+    "description": "KARDEMİR KARABÜK DEMİR ÇELİK SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "kardemir",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KRDMA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kardemir--big.svg"
+  },
+  {
+    "symbol": "KRDMB",
+    "description": "KARDEMİR KARABÜK DEMİR ÇELİK SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "kardemir",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KRDMB.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kardemir--big.svg"
+  },
+  {
+    "symbol": "KRDMD",
+    "description": "KARDEMİR KARABÜK DEMİR ÇELİK SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "kardemir",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KRDMD.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kardemir--big.svg"
+  },
+  {
+    "symbol": "KRGYO",
+    "description": "KÖRFEZ GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "korfez-gyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KRGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/korfez-gyo--big.svg"
+  },
+  {
+    "symbol": "KRONT",
+    "description": "KRON TELEKOMÜNİKASYON HİZMETLERİ A.Ş.",
+    "logo_id": "kron-telekomunikasyon",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KRONT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kron-telekomunikasyon--big.svg"
+  },
+  {
+    "symbol": "KRPLS",
+    "description": "KOROPLAST TEMİZLİK AMBALAJ ÜRÜNLERİ SANAYİ VE DIŞ TİCARET A.Ş.",
+    "logo_id": "koroplast-temizlik-ambalaj",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KRPLS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/koroplast-temizlik-ambalaj--big.svg"
+  },
+  {
+    "symbol": "KRSTL",
+    "description": "KRİSTAL KOLA VE MEŞRUBAT SANAYİ TİCARET A.Ş.",
+    "logo_id": "kristal-kola",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KRSTL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kristal-kola--big.svg"
+  },
+  {
+    "symbol": "KRTEK",
+    "description": "KARSU TEKSTİL SANAYİİ VE TİCARET A.Ş.",
+    "logo_id": "karsu-tekstil",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KRTEK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/karsu-tekstil--big.svg"
+  },
+  {
+    "symbol": "KRVGD",
+    "description": "KERVAN GIDA SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "kervan-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KRVGD.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kervan-gida--big.svg"
+  },
+  {
+    "symbol": "KSTUR",
+    "description": "KUŞTUR KUŞADASI TURİZM ENDÜSTRİ A.Ş.",
+    "logo_id": "kustur-kusadasi-turizm",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KSTUR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kustur-kusadasi-turizm--big.svg"
+  },
+  {
+    "symbol": "KTLEV",
+    "description": "KATILIMEVIM TASARRUF FINANSMAN A.S.",
+    "logo_id": "katilimevim-tas-fin",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KTLEV.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/katilimevim-tas-fin--big.svg"
+  },
+  {
+    "symbol": "KTSKR",
+    "description": "KÜTAHYA ŞEKER FABRİKASI A.Ş.",
+    "logo_id": "kutahya-seker-fabrikasi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KTSKR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kutahya-seker-fabrikasi--big.svg"
+  },
+  {
+    "symbol": "KUTPO",
+    "description": "KÜTAHYA PORSELEN SANAYİ A.Ş.",
+    "logo_id": "kutahya-porselen",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KUTPO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kutahya-porselen--big.svg"
+  },
+  {
+    "symbol": "KUVVA",
+    "description": "KUVVA GIDA TİCARET VE SANAYİ YATIRIMLARI A.Ş.",
+    "logo_id": "serve-film-produksiyon",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KUVVA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/serve-film-produksiyon--big.svg"
+  },
+  {
+    "symbol": "KUYAS",
+    "description": "KUYAŞ YATIRIM A.Ş.",
+    "logo_id": "kuyas-yatirim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KUYAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kuyas-yatirim--big.svg"
+  },
+  {
+    "symbol": "KZBGY",
+    "description": "KIZILBÜK GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "kizilbuk-gyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KZBGY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kizilbuk-gyo--big.svg"
+  },
+  {
+    "symbol": "KZGYO",
+    "description": "Kuzugrup Gayrimenkul Yatirim Ortakligi AS",
+    "logo_id": "kuzugrup-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\KZGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kuzugrup-gmyo--big.svg"
+  },
+  {
+    "symbol": "LIDER",
+    "description": "LDR TURİZM A.Ş.",
+    "logo_id": "ldr-turizm",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\LIDER.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ldr-turizm--big.svg"
+  },
+  {
+    "symbol": "LIDFA",
+    "description": "LİDER FAKTORİNG A.Ş.",
+    "logo_id": "lider-faktoring",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\LIDFA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/lider-faktoring--big.svg"
+  },
+  {
+    "symbol": "LILAK",
+    "description": "Lila Kagit Sanayi Ve Ticaret Anonim Sirketi",
+    "logo_id": "lila-kagit",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\LILAK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/lila-kagit--big.svg"
+  },
+  {
+    "symbol": "LINK",
+    "description": "LİNK BİLGİSAYAR SİSTEMLERİ YAZILIMI VE DONANIMI SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "link-bilgisayar",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\LINK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/link-bilgisayar--big.svg"
+  },
+  {
+    "symbol": "LKMNH",
+    "description": "LOKMAN HEKİM ENGÜRÜSAĞ SAĞLIK TURİZM EĞİTİM HİZMETLERİ VE İNŞAAT TAAHHÜT A.Ş.",
+    "logo_id": "lokman-hekim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\LKMNH.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/lokman-hekim--big.svg"
+  },
+  {
+    "symbol": "LMKDC",
+    "description": "Limak Dogu Anadolu Cimento Sanayi Ve Ticaret AS",
+    "logo_id": "limak-dogu-anadolu",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\LMKDC.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/limak-dogu-anadolu--big.svg"
+  },
+  {
+    "symbol": "LOGO",
+    "description": "LOGO YAZILIM SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "logo-yazilim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\LOGO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/logo-yazilim--big.svg"
+  },
+  {
+    "symbol": "LRSHO",
+    "description": "Loras Holding Anonim Sirketi",
+    "logo_id": "ittifak-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\LRSHO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ittifak-holding--big.svg"
+  },
+  {
+    "symbol": "LUKSK",
+    "description": "LÜKS KADİFE TİCARET VE SANAYİİ A.Ş.",
+    "logo_id": "luks-kadife",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\LUKSK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/luks-kadife--big.svg"
+  },
+  {
+    "symbol": "LXGYO",
+    "description": "Luxera Gayrimenkul Yatirim Ortakligi A.S.",
+    "logo_id": "luxera-gayrimenkul-yatirim-ortakligi-as",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\LXGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/luxera-gayrimenkul-yatirim-ortakligi-as--big.svg"
+  },
+  {
+    "symbol": "LYDHO",
+    "description": "Lydia Holding A.S.",
+    "logo_id": "milpa",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\LYDHO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/milpa--big.svg"
+  },
+  {
+    "symbol": "LYDYE",
+    "description": "Lydia Yesil Enerji kaynaklari A.S.",
+    "logo_id": "taze-kuru-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\LYDYE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/taze-kuru-gida--big.svg"
+  },
+  {
+    "symbol": "MAALT",
+    "description": "MARMARİS ALTINYUNUS TURİSTİK TESİSLER A.Ş.",
+    "logo_id": "marmaris-altinyunus",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MAALT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/marmaris-altinyunus--big.svg"
+  },
+  {
+    "symbol": "MACKO",
+    "description": "MACKOLİK İNTERNET HİZMETLERİ TİCARET A.Ş.",
+    "logo_id": "mackolik-internet-hizmetleri",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MACKO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/mackolik-internet-hizmetleri--big.svg"
+  },
+  {
+    "symbol": "MAGEN",
+    "description": "MARGÜN ENERJİ ÜRETİM SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "margun-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MAGEN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/margun-enerji--big.svg"
+  },
+  {
+    "symbol": "MAKIM",
+    "description": "MAKİM MAKİNA TEKNOLOJİLERİ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "makim-makine",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MAKIM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/makim-makine--big.svg"
+  },
+  {
+    "symbol": "MAKTK",
+    "description": "MAKİNA TAKIM ENDÜSTRİSİ A.Ş.",
+    "logo_id": "makina-takim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MAKTK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/makina-takim--big.svg"
+  },
+  {
+    "symbol": "MANAS",
+    "description": "MANAS ENERJİ YÖNETİMİ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "manas-enerji-yonetimi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MANAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/manas-enerji-yonetimi--big.svg"
+  },
+  {
+    "symbol": "MARBL",
+    "description": "Tureks Turunc Madencilik Ic ve Dis Ticaret A.S.",
+    "logo_id": "tureks-turunc-madencilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MARBL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/tureks-turunc-madencilik--big.svg"
+  },
+  {
+    "symbol": "MARKA",
+    "description": "MARKA YATIRIM HOLDİNG A.Ş.",
+    "logo_id": "marka-yatirim-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MARKA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/marka-yatirim-holding--big.svg"
+  },
+  {
+    "symbol": "MARMR",
+    "description": "Marmara Holding AS",
+    "logo_id": "marmara-as",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MARMR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/marmara-as--big.svg"
+  },
+  {
+    "symbol": "MARTI",
+    "description": "MARTI OTEL İŞLETMELERİ A.Ş.",
+    "logo_id": "marti-otel",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MARTI.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/marti-otel--big.svg"
+  },
+  {
+    "symbol": "MAVI",
+    "description": "MAVİ GİYİM SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "mavi-giyim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MAVI.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/mavi-giyim--big.svg"
+  },
+  {
+    "symbol": "MCARD",
+    "description": "Metropal Kurumsal Hizmetler A.S.",
+    "logo_id": "metropal-kurumsal-hizmetler-as",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MCARD.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/metropal-kurumsal-hizmetler-as--big.svg"
+  },
+  {
+    "symbol": "MEDTR",
+    "description": "MEDİTERA TIBBİ MALZEME SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "meditera-tibbi-malzeme",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MEDTR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/meditera-tibbi-malzeme--big.svg"
+  },
+  {
+    "symbol": "MEGAP",
+    "description": "MEGA POLİETİLEN KÖPÜK SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "mega-polietilen",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MEGAP.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/mega-polietilen--big.svg"
+  },
+  {
+    "symbol": "MEGMT",
+    "description": "Mega Metal Sanayi Ve Ticaret A.S.",
+    "logo_id": "mega-metal",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MEGMT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/mega-metal--big.svg"
+  },
+  {
+    "symbol": "MEKAG",
+    "description": "Meka Global Makine Imalat Sanayi Ve Ticaret A.S.",
+    "logo_id": "meka-global-makine",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MEKAG.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/meka-global-makine--big.svg"
+  },
+  {
+    "symbol": "MEPET",
+    "description": "MEPET METRO PETROL VE TESİSLERİ SANAYİ TİCARET A.Ş.",
+    "logo_id": "mepet-metro-petrol",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MEPET.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/mepet-metro-petrol--big.svg"
+  },
+  {
+    "symbol": "MERCN",
+    "description": "MERCAN KİMYA SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "mercan-kimya",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MERCN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/mercan-kimya--big.svg"
+  },
+  {
+    "symbol": "MERIT",
+    "description": "MERİT TURİZM YATIRIM VE İŞLETME A.Ş.",
+    "logo_id": "merit-turizm",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MERIT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/merit-turizm--big.svg"
+  },
+  {
+    "symbol": "MERKO",
+    "description": "MERKO GIDA SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "merko-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MERKO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/merko-gida--big.svg"
+  },
+  {
+    "symbol": "METRO",
+    "description": "METRO TİCARİ VE MALİ YATIRIMLAR HOLDİNG A.Ş.",
+    "logo_id": "metro-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\METRO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/metro-holding--big.svg"
+  },
+  {
+    "symbol": "MEYSU",
+    "description": "Meysu Gida Sanayi Ve Ticaret A.S.",
+    "logo_id": "meysu-gida-sanayi-ve-ticaret-as",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MEYSU.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/meysu-gida-sanayi-ve-ticaret-as--big.svg"
+  },
+  {
+    "symbol": "MGROS",
+    "description": "MİGROS TİCARET A.Ş.",
+    "logo_id": "migros-ticaret",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MGROS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/migros-ticaret--big.svg"
+  },
+  {
+    "symbol": "MHRGY",
+    "description": "MHR Gayrimenkul Yatirim Ortakligi Anonim Sirketi",
+    "logo_id": "mhr-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MHRGY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/mhr-gmyo--big.svg"
+  },
+  {
+    "symbol": "MIATK",
+    "description": "MİA TEKNOLOJİ A.Ş.",
+    "logo_id": "mia-teknoloji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MIATK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/mia-teknoloji--big.svg"
+  },
+  {
+    "symbol": "MMCAS",
+    "description": "MMC SANAYİ VE TİCARİ YATIRIMLAR A.Ş.",
+    "logo_id": "mmc-san-ve-tic-yat",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MMCAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/mmc-san-ve-tic-yat--big.svg"
+  },
+  {
+    "symbol": "MNDRS",
+    "description": "MENDERES TEKSTİL SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "menderes-tekstil",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MNDRS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/menderes-tekstil--big.svg"
+  },
+  {
+    "symbol": "MNDTR",
+    "description": "MONDİ TURKEY OLUKLU MUKAVVA KAĞIT VE AMBALAJ SANAYİ A.Ş.",
+    "logo_id": "mondi-tire-kutsan",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MNDTR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/mondi-tire-kutsan--big.svg"
+  },
+  {
+    "symbol": "MOBTL",
+    "description": "MOBİLTEL İLETİŞİM HİZMETLERİ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "mobiltel-iletisim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MOBTL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/mobiltel-iletisim--big.svg"
+  },
+  {
+    "symbol": "MOGAN",
+    "description": "Mogan Enerji Yatirim Holding",
+    "logo_id": "mogan-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MOGAN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/mogan-enerji--big.svg"
+  },
+  {
+    "symbol": "MOPAS",
+    "description": "Mopas Marketcilik Gida Sanayi Ve Ticaret A.S.",
+    "logo_id": "mopas-marketcilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MOPAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/mopas-marketcilik--big.svg"
+  },
+  {
+    "symbol": "MPARK",
+    "description": "MLP SAĞLIK HİZMETLERİ A.Ş.",
+    "logo_id": "mlp-saglik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MPARK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/mlp-saglik--big.svg"
+  },
+  {
+    "symbol": "MRGYO",
+    "description": "MARTI GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "marti-gyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MRGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/marti-gyo--big.svg"
+  },
+  {
+    "symbol": "MRSHL",
+    "description": "MARSHALL BOYA VE VERNİK SANAYİİ A.Ş.",
+    "logo_id": "marshall-boya",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MRSHL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/marshall-boya--big.svg"
+  },
+  {
+    "symbol": "MSGYO",
+    "description": "MİSTRAL GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "mistral-gyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MSGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/mistral-gyo--big.svg"
+  },
+  {
+    "symbol": "MTRKS",
+    "description": "MATRİKS FİNANSAL TEKNOLOJİLER A.Ş.",
+    "logo_id": "matriks-bilgi-dagitim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MTRKS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/matriks-bilgi-dagitim--big.svg"
+  },
+  {
+    "symbol": "MTRYO",
+    "description": "METRO YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "metro-yat-ort",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MTRYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/metro-yat-ort--big.svg"
+  },
+  {
+    "symbol": "MZHLD",
+    "description": "MAZHAR ZORLU HOLDİNG A.Ş.",
+    "logo_id": "mazhar-zorlu",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\MZHLD.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/mazhar-zorlu--big.svg"
+  },
+  {
+    "symbol": "NATEN",
+    "description": "NATUREL YENİLENEBİLİR ENERJİ TİCARET A.Ş.",
+    "logo_id": "naturel-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\NATEN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/naturel-enerji--big.svg"
+  },
+  {
+    "symbol": "NETAS",
+    "description": "NETAŞ TELEKOMÜNİKASYON A.Ş.",
+    "logo_id": "netas-telekom",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\NETAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/netas-telekom--big.svg"
+  },
+  {
+    "symbol": "NETCD",
+    "description": "Netcad Yazilim A.S.",
+    "logo_id": "netcad-yazilim-as",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\NETCD.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/netcad-yazilim-as--big.svg"
+  },
+  {
+    "symbol": "NIBAS",
+    "description": "NİĞBAŞ NİĞDE BETON SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "nigbas-nigde-beton",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\NIBAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/nigbas-nigde-beton--big.svg"
+  },
+  {
+    "symbol": "NTGAZ",
+    "description": "NATURELGAZ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "naturelgaz",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\NTGAZ.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/naturelgaz--big.svg"
+  },
+  {
+    "symbol": "NTHOL",
+    "description": "NET HOLDİNG A.Ş.",
+    "logo_id": "net-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\NTHOL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/net-holding--big.svg"
+  },
+  {
+    "symbol": "NUGYO",
+    "description": "NUROL GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "nurol",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\NUGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/nurol--big.svg"
+  },
+  {
+    "symbol": "NUHCM",
+    "description": "NUH ÇİMENTO SANAYİ A.Ş.",
+    "logo_id": "nuh-cimento",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\NUHCM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/nuh-cimento--big.svg"
+  },
+  {
+    "symbol": "OBAMS",
+    "description": "Oba Makarnacilik Sanayi Ve Ticaret A. S.",
+    "logo_id": "oba-makarnacilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\OBAMS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/oba-makarnacilik--big.svg"
+  },
+  {
+    "symbol": "OBASE",
+    "description": "OBASE BİLGİSAYAR VE DANIŞMANLIK HİZMETLERİ TİCARET A.Ş.",
+    "logo_id": "obase-bilgisayar",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\OBASE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/obase-bilgisayar--big.svg"
+  },
+  {
+    "symbol": "ODAS",
+    "description": "ODAŞ ELEKTRİK ÜRETİM SANAYİ TİCARET A.Ş.",
+    "logo_id": "odas",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ODAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/odas--big.svg"
+  },
+  {
+    "symbol": "ODINE",
+    "description": "Odine Solutions Teknoloji Ticaret ve Sanayi AS",
+    "logo_id": "odine-teknoloji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ODINE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/odine-teknoloji--big.svg"
+  },
+  {
+    "symbol": "OFSYM",
+    "description": "Ofis Yem Gida Sanayi ve Ticaret A.S.",
+    "logo_id": "ofis-yem-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\OFSYM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ofis-yem-gida--big.svg"
+  },
+  {
+    "symbol": "ONCSM",
+    "description": "ONCOSEM ONKOLOJİK SİSTEMLER SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "oncosem-onkolojik-sistemler",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ONCSM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/oncosem-onkolojik-sistemler--big.svg"
+  },
+  {
+    "symbol": "ONRYT",
+    "description": "Onur Yuksek Teknoloji AS",
+    "logo_id": "onur-teknoloji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ONRYT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/onur-teknoloji--big.svg"
+  },
+  {
+    "symbol": "ORCAY",
+    "description": "ORÇAY ORTAKÖY ÇAY SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "orcay-ortakoy-cay-sanayi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ORCAY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/orcay-ortakoy-cay-sanayi--big.svg"
+  },
+  {
+    "symbol": "ORGE",
+    "description": "ORGE ENERJİ ELEKTRİK TAAHHÜT A.Ş.",
+    "logo_id": "orge-enerji-elektrik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ORGE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/orge-enerji-elektrik--big.svg"
+  },
+  {
+    "symbol": "ORMA",
+    "description": "ORMA ORMAN MAHSULLERİ İNTEGRE SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "orma-orman-mahsulleri",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ORMA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/orma-orman-mahsulleri--big.svg"
+  },
+  {
+    "symbol": "OSMEN",
+    "description": "OSMANLI YATIRIM MENKUL DEĞERLER A.Ş.",
+    "logo_id": "osmanli-menkul",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\OSMEN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/osmanli-menkul--big.svg"
+  },
+  {
+    "symbol": "OSTIM",
+    "description": "OSTİM ENDÜSTRİYEL YATIRIMLAR VE İŞLETME A.Ş.",
+    "logo_id": "ostim-endustriyel-yat",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\OSTIM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ostim-endustriyel-yat--big.svg"
+  },
+  {
+    "symbol": "OTKAR",
+    "description": "OTOKAR OTOMOTİV VE SAVUNMA SANAYİ A.Ş.",
+    "logo_id": "otokar",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\OTKAR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/otokar--big.svg"
+  },
+  {
+    "symbol": "OTTO",
+    "description": "OTTO HOLDİNG A.Ş.",
+    "logo_id": "otto-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\OTTO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/otto-holding--big.svg"
+  },
+  {
+    "symbol": "OYAKC",
+    "description": "OYAK ÇİMENTO FABRİKALARI A.Ş.",
+    "logo_id": "oyak-cimento",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\OYAKC.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/oyak-cimento--big.svg"
+  },
+  {
+    "symbol": "OYAYO",
+    "description": "OYAK YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "oyak-yat",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\OYAYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/oyak-yat--big.svg"
+  },
+  {
+    "symbol": "OYLUM",
+    "description": "OYLUM SINAİ YATIRIMLAR A.Ş.",
+    "logo_id": "oylum-sinai-yatirimlar",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\OYLUM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/oylum-sinai-yatirimlar--big.svg"
+  },
+  {
+    "symbol": "OYYAT",
+    "description": "OYAK YATIRIM MENKUL DEĞERLER A.Ş.",
+    "logo_id": "oyak-yatirim-menkul",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\OYYAT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/oyak-yatirim-menkul--big.svg"
+  },
+  {
+    "symbol": "OZATD",
+    "description": "OZATA DENIZCILIK SANAYI VE TICARET AS",
+    "logo_id": "ozata-denizcilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\OZATD.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ozata-denizcilik--big.svg"
+  },
+  {
+    "symbol": "OZGYO",
+    "description": "ÖZDERİCİ GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "ozderici-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\OZGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ozderici-gmyo--big.svg"
+  },
+  {
+    "symbol": "OZKGY",
+    "description": "ÖZAK GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "ozak-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\OZKGY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ozak-gmyo--big.svg"
+  },
+  {
+    "symbol": "OZRDN",
+    "description": "ÖZERDEN PLASTİK SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "ozerden-plastik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\OZRDN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ozerden-plastik--big.svg"
+  },
+  {
+    "symbol": "OZSUB",
+    "description": "ÖZSU BALIK ÜRETİM A.Ş.",
+    "logo_id": "ozsu-balik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\OZSUB.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ozsu-balik--big.svg"
+  },
+  {
+    "symbol": "OZYSR",
+    "description": "Ozyasar Tel ve Galvanizleme Sanayi Anonim Sirketi",
+    "logo_id": "ozyasar-tel",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\OZYSR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ozyasar-tel--big.svg"
+  },
+  {
+    "symbol": "PAGYO",
+    "description": "PANORA GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "panora-gyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PAGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/panora-gyo--big.svg"
+  },
+  {
+    "symbol": "PAHOL",
+    "description": "PASIFIK HOLDING A.S",
+    "logo_id": "pasifik-as",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PAHOL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/pasifik-as--big.svg"
+  },
+  {
+    "symbol": "PAMEL",
+    "description": "PAMEL YENİLENEBİLİR ELEKTRİK ÜRETİM A.Ş.",
+    "logo_id": "pamel-elektrik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PAMEL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/pamel-elektrik--big.svg"
+  },
+  {
+    "symbol": "PAPIL",
+    "description": "PAPİLON SAVUNMA TEKNOLOJİ VE TİCARET A.Ş.",
+    "logo_id": "papilon-savunma",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PAPIL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/papilon-savunma--big.svg"
+  },
+  {
+    "symbol": "PARSN",
+    "description": "PARSAN MAKİNA PARÇALARI SANAYİİ A.Ş.",
+    "logo_id": "parsan",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PARSN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/parsan--big.svg"
+  },
+  {
+    "symbol": "PASEU",
+    "description": "Pasifik Eurasia Lojistik dis Ticaret AS",
+    "logo_id": "pasifik-eurasia-lojistik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PASEU.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/pasifik-eurasia-lojistik--big.svg"
+  },
+  {
+    "symbol": "PATEK",
+    "description": "Pasifik Teknoloji AS",
+    "logo_id": "pasifik-teknoloji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PATEK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/pasifik-teknoloji--big.svg"
+  },
+  {
+    "symbol": "PCILT",
+    "description": "PC İLETİŞİM VE MEDYA HİZMETLERİ SANAYİ TİCARET A.Ş.",
+    "logo_id": "pc-iletisim-medya",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PCILT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/pc-iletisim-medya--big.svg"
+  },
+  {
+    "symbol": "PEKGY",
+    "description": "PEKER GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "peker-gyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PEKGY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/peker-gyo--big.svg"
+  },
+  {
+    "symbol": "PENGD",
+    "description": "PENGUEN GIDA SANAYİ A.Ş.",
+    "logo_id": "penguen-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PENGD.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/penguen-gida--big.svg"
+  },
+  {
+    "symbol": "PENTA",
+    "description": "PENTA TEKNOLOJİ ÜRÜNLERİ DAĞITIM TİCARET A.Ş.",
+    "logo_id": "penta-teknoloji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PENTA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/penta-teknoloji--big.svg"
+  },
+  {
+    "symbol": "PETKM",
+    "description": "PETKİM PETROKİMYA HOLDİNG A.Ş.",
+    "logo_id": "petkim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PETKM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/petkim--big.svg"
+  },
+  {
+    "symbol": "PETUN",
+    "description": "PINAR ENTEGRE ET VE UN SANAYİİ A.Ş.",
+    "logo_id": "pinar-et-ve-un",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PETUN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/pinar-et-ve-un--big.svg"
+  },
+  {
+    "symbol": "PGSUS",
+    "description": "PEGASUS HAVA TAŞIMACILIĞI A.Ş.",
+    "logo_id": "pegasus",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PGSUS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/pegasus--big.svg"
+  },
+  {
+    "symbol": "PINSU",
+    "description": "PINAR SU VE İÇECEK SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "pinar-sut",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PINSU.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/pinar-sut--big.svg"
+  },
+  {
+    "symbol": "PKART",
+    "description": "PLASTİKKART AKILLI KART İLETİŞİM SİSTEMLERİ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "plastikkart",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PKART.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/plastikkart--big.svg"
+  },
+  {
+    "symbol": "PKENT",
+    "description": "PETROKENT TURİZM A.Ş.",
+    "logo_id": "petrokent-turizm",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PKENT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/petrokent-turizm--big.svg"
+  },
+  {
+    "symbol": "PLTUR",
+    "description": "PLATFORM TURİZM TAŞIMACILIK GIDA İNŞAAT TEMİZLİK HİZMETLERİ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "platform-turizm",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PLTUR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/platform-turizm--big.svg"
+  },
+  {
+    "symbol": "PNLSN",
+    "description": "PANELSAN ÇATI CEPHE SİSTEMLERİ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "panelsan-cati-cephe",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PNLSN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/panelsan-cati-cephe--big.svg"
+  },
+  {
+    "symbol": "PNSUT",
+    "description": "PINAR SÜT MAMULLERİ SANAYİİ A.Ş.",
+    "logo_id": "pinar-sut",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PNSUT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/pinar-sut--big.svg"
+  },
+  {
+    "symbol": "POLHO",
+    "description": "POLİSAN HOLDİNG A.Ş.",
+    "logo_id": "polisan-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\POLHO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/polisan-holding--big.svg"
+  },
+  {
+    "symbol": "POLTK",
+    "description": "POLİTEKNİK METAL SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "politeknik-metal",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\POLTK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/politeknik-metal--big.svg"
+  },
+  {
+    "symbol": "PRDGS",
+    "description": "PARDUS GİRİŞİM SERMAYESİ YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "pardus-girisim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PRDGS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/pardus-girisim--big.svg"
+  },
+  {
+    "symbol": "PRKAB",
+    "description": "TÜRK PRYSMİAN KABLO VE SİSTEMLERİ A.Ş.",
+    "logo_id": "turk-prysmian-kablo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PRKAB.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/turk-prysmian-kablo--big.svg"
+  },
+  {
+    "symbol": "PRKME",
+    "description": "PARK ELEKTRİK ÜRETİM MADENCİLİK SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "park-elek-madencilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PRKME.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/park-elek-madencilik--big.svg"
+  },
+  {
+    "symbol": "PRZMA",
+    "description": "PRİZMA PRES MATBAACILIK YAYINCILIK SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "prizma-press-matbaacilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PRZMA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/prizma-press-matbaacilik--big.svg"
+  },
+  {
+    "symbol": "PSDTC",
+    "description": "PERGAMON STATUS DIŞ TİCARET A.Ş.",
+    "logo_id": "pergamon-dis-ticaret",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PSDTC.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/pergamon-dis-ticaret--big.svg"
+  },
+  {
+    "symbol": "PSGYO",
+    "description": "PASİFİK GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "pasifik-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\PSGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/pasifik-gmyo--big.svg"
+  },
+  {
+    "symbol": "QNBFK",
+    "description": "QNB Finansal Kiralama A.S.",
+    "logo_id": "qnb-finansbank",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\QNBFK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/qnb-finansbank--big.svg"
+  },
+  {
+    "symbol": "QNBTR",
+    "description": "QNB Bank AS",
+    "logo_id": "qnb-finansbank",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\QNBTR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/qnb-finansbank--big.svg"
+  },
+  {
+    "symbol": "QUAGR",
+    "description": "QUA GRANITE HAYAL YAPI VE ÜRÜNLERİ SANAYİ TİCARET A.Ş.",
+    "logo_id": "qua-granite",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\QUAGR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/qua-granite--big.svg"
+  },
+  {
+    "symbol": "RALYH",
+    "description": "RAL YATIRIM HOLDİNG A.Ş.",
+    "logo_id": "ral-yatirim-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\RALYH.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ral-yatirim-holding--big.svg"
+  },
+  {
+    "symbol": "RAYSG",
+    "description": "RAY SİGORTA A.Ş.",
+    "logo_id": "ray-sigorta",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\RAYSG.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ray-sigorta--big.svg"
+  },
+  {
+    "symbol": "REEDR",
+    "description": "Reeder Teknoloji Sanayi ve Ticaret A.S.",
+    "logo_id": "reeder-teknoloji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\REEDR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/reeder-teknoloji--big.svg"
+  },
+  {
+    "symbol": "RGYAS",
+    "description": "RÖNESANS GAYRİMENKUL YATIRIM A.Ş.",
+    "logo_id": "ronesans-gayrimenkul-yat",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\RGYAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ronesans-gayrimenkul-yat--big.svg"
+  },
+  {
+    "symbol": "RNPOL",
+    "description": "RAİNBOW POLİKARBONAT SANAYİ TİCARET A.Ş.",
+    "logo_id": "rainbow-polikarbonat",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\RNPOL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/rainbow-polikarbonat--big.svg"
+  },
+  {
+    "symbol": "RODRG",
+    "description": "RODRİGO TEKSTİL SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "rodrigo-tekstil",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\RODRG.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/rodrigo-tekstil--big.svg"
+  },
+  {
+    "symbol": "RTALB",
+    "description": "RTA LABORATUVARLARI BİYOLOJİK ÜRÜNLER İLAÇ VE MAKİNE SANAYİ TİCARET A.Ş.",
+    "logo_id": "rta-laboratuvarlari",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\RTALB.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/rta-laboratuvarlari--big.svg"
+  },
+  {
+    "symbol": "RUBNS",
+    "description": "RUBENİS TEKSTİL SANAYİ TİCARET A.Ş.",
+    "logo_id": "rubenis-tekstil",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\RUBNS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/rubenis-tekstil--big.svg"
+  },
+  {
+    "symbol": "RUZYE",
+    "description": "Ruzy Madencilik Ve Enerji Yatirimlari Sanayi Ve Ticaret A.S.",
+    "logo_id": "altinyag-madencilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\RUZYE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/altinyag-madencilik--big.svg"
+  },
+  {
+    "symbol": "RYGYO",
+    "description": "REYSAŞ GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "reysas-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\RYGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/reysas-gmyo--big.svg"
+  },
+  {
+    "symbol": "RYSAS",
+    "description": "REYSAŞ TAŞIMACILIK VE LOJİSTİK TİCARET A.Ş.",
+    "logo_id": "reysas-lojistik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\RYSAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/reysas-lojistik--big.svg"
+  },
+  {
+    "symbol": "SAFKR",
+    "description": "SAFKAR EGE SOĞUTMACILIK KLİMA SOĞUK HAVA TESİSLERİ İHRACAT İTHALAT SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "safkar-ege-sogutmacilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SAFKR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/safkar-ege-sogutmacilik--big.svg"
+  },
+  {
+    "symbol": "SAHOL",
+    "description": "HACI ÖMER SABANCI HOLDİNG A.Ş.",
+    "logo_id": "sabanci-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SAHOL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/sabanci-holding--big.svg"
+  },
+  {
+    "symbol": "SAMAT",
+    "description": "SARAY MATBAACILIK KAĞITÇILIK KIRTASİYECİLİK TİCARET VE SANAYİ A.Ş.",
+    "logo_id": "saray-matbaacilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SAMAT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/saray-matbaacilik--big.svg"
+  },
+  {
+    "symbol": "SANEL",
+    "description": "SAN-EL MÜHENDİSLİK ELEKTRİK TAAHHÜT SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "sanel-muhendislik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SANEL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/sanel-muhendislik--big.svg"
+  },
+  {
+    "symbol": "SANFM",
+    "description": "SANİFOAM ENDÜSTRİ VE TÜKETİM ÜRÜNLERİ SANAYİ TİCARET A.Ş.",
+    "logo_id": "sanifoam-sunger",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SANFM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/sanifoam-sunger--big.svg"
+  },
+  {
+    "symbol": "SANKO",
+    "description": "SANKO PAZARLAMA İTHALAT İHRACAT A.Ş.",
+    "logo_id": "sanko-pazarlama",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SANKO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/sanko-pazarlama--big.svg"
+  },
+  {
+    "symbol": "SARKY",
+    "description": "SARKUYSAN ELEKTROLİTİK BAKIR SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "sarkuysan",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SARKY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/sarkuysan--big.svg"
+  },
+  {
+    "symbol": "SASA",
+    "description": "SASA POLYESTER SANAYİ A.Ş.",
+    "logo_id": "sasa-polyester",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SASA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/sasa-polyester--big.svg"
+  },
+  {
+    "symbol": "SAYAS",
+    "description": "SAY YENİLENEBİLİR ENERJİ EKİPMANLARI SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "say-reklamcilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SAYAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/say-reklamcilik--big.svg"
+  },
+  {
+    "symbol": "SDTTR",
+    "description": "SDT UZAY VE SAVUNMA TEKNOLOJİLERİ A.Ş.",
+    "logo_id": "sdt-uzay-ve-savunma",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SDTTR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/sdt-uzay-ve-savunma--big.svg"
+  },
+  {
+    "symbol": "SEGMN",
+    "description": "Segmen Kardesler Gida Uretim ve Ambalaj Sanayi AS",
+    "logo_id": "segmen-kardesler-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SEGMN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/segmen-kardesler-gida--big.svg"
+  },
+  {
+    "symbol": "SEGYO",
+    "description": "ŞEKER GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "seker-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SEGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/seker-gmyo--big.svg"
+  },
+  {
+    "symbol": "SEKFK",
+    "description": "ŞEKER FİNANSAL KİRALAMA A.Ş.",
+    "logo_id": "seker-finansal-kiralama",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SEKFK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/seker-finansal-kiralama--big.svg"
+  },
+  {
+    "symbol": "SEKUR",
+    "description": "SEKURO PLASTİK AMBALAJ SANAYİ A.Ş.",
+    "logo_id": "sekuro-plastik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SEKUR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/sekuro-plastik--big.svg"
+  },
+  {
+    "symbol": "SELEC",
+    "description": "SELÇUK ECZA DEPOSU TİCARET VE SANAYİ A.Ş.",
+    "logo_id": "selcuk-ecza-deposu",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SELEC.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/selcuk-ecza-deposu--big.svg"
+  },
+  {
+    "symbol": "SELVA",
+    "description": "SELVA GIDA SANAYİ A.Ş.",
+    "logo_id": "selva-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SELVA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/selva-gida--big.svg"
+  },
+  {
+    "symbol": "SERNT",
+    "description": "Seranit Granit Seramik Sanayi ve Ticaret A.S.",
+    "logo_id": "seranit-granit-seramik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SERNT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/seranit-granit-seramik--big.svg"
+  },
+  {
+    "symbol": "SEYKM",
+    "description": "SEYİTLER KİMYA SANAYİ A.Ş.",
+    "logo_id": "seyitler-kimya",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SEYKM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/seyitler-kimya--big.svg"
+  },
+  {
+    "symbol": "SILVR",
+    "description": "SİLVERLİNE ENDÜSTRİ VE TİCARET A.Ş.",
+    "logo_id": "silverline",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SILVR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/silverline--big.svg"
+  },
+  {
+    "symbol": "SISE",
+    "description": "TÜRKİYE ŞİŞE VE CAM FABRİKALARI A.Ş.",
+    "logo_id": "sisecam",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SISE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/sisecam--big.svg"
+  },
+  {
+    "symbol": "SKBNK",
+    "description": "ŞEKERBANK T.A.Ş.",
+    "logo_id": "sekerbank",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SKBNK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/sekerbank--big.svg"
+  },
+  {
+    "symbol": "SKTAS",
+    "description": "SÖKTAŞ TEKSTİL SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "soktas",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SKTAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/soktas--big.svg"
+  },
+  {
+    "symbol": "SKYLP",
+    "description": "Skyalp Finansal Teknolojiler ve Danismanlik A.S",
+    "logo_id": "idealist-danismanlik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SKYLP.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/idealist-danismanlik--big.svg"
+  },
+  {
+    "symbol": "SKYMD",
+    "description": "Seker Yatirim Menkul Degerler A.S.",
+    "logo_id": "seker-yatirim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SKYMD.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/seker-yatirim--big.svg"
+  },
+  {
+    "symbol": "SMART",
+    "description": "SMARTİKS YAZILIM A.Ş.",
+    "logo_id": "smartiks-yazilim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SMART.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/smartiks-yazilim--big.svg"
+  },
+  {
+    "symbol": "SMRTG",
+    "description": "SMART GÜNEŞ ENERJİSİ TEKNOLOJİLERİ ARAŞTIRMA GELİŞTİRME ÜRETİM SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "smart-gunes-enerjisi-tek",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SMRTG.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/smart-gunes-enerjisi-tek--big.svg"
+  },
+  {
+    "symbol": "SMRVA",
+    "description": "Sumer Varlik Yonetim A.S.",
+    "logo_id": "sumer-varlik-yonetim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SMRVA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/sumer-varlik-yonetim--big.svg"
+  },
+  {
+    "symbol": "SNGYO",
+    "description": "SİNPAŞ GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "sinpas-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SNGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/sinpas-gmyo--big.svg"
+  },
+  {
+    "symbol": "SNICA",
+    "description": "SANİCA ISI SANAYİ A.Ş.",
+    "logo_id": "sanica-isi-sanayi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SNICA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/sanica-isi-sanayi--big.svg"
+  },
+  {
+    "symbol": "SNPAM",
+    "description": "SÖNMEZ PAMUKLU SANAYİİ A.Ş.",
+    "logo_id": "sonmez-pamuklu",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SNPAM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/sonmez-pamuklu--big.svg"
+  },
+  {
+    "symbol": "SODSN",
+    "description": "SODAŞ SODYUM SANAYİİ A.Ş.",
+    "logo_id": "soda-sanayii",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SODSN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/soda-sanayii--big.svg"
+  },
+  {
+    "symbol": "SOKE",
+    "description": "SÖKE DEĞİRMENCİLİK SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "soke-degirmencilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SOKE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/soke-degirmencilik--big.svg"
+  },
+  {
+    "symbol": "SOKM",
+    "description": "ŞOK MARKETLER TİCARET A.Ş.",
+    "logo_id": "sok-marketler-ticaret",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SOKM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/sok-marketler-ticaret--big.svg"
+  },
+  {
+    "symbol": "SONME",
+    "description": "SÖNMEZ FİLAMENT SENTETİK İPLİK VE ELYAF SANAYİ A.Ş.",
+    "logo_id": "sonmez-filament",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SONME.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/sonmez-filament--big.svg"
+  },
+  {
+    "symbol": "SRVGY",
+    "description": "SERVET GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "servet-gyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SRVGY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/servet-gyo--big.svg"
+  },
+  {
+    "symbol": "SUMAS",
+    "description": "SUMAŞ SUNİ TAHTA VE MOBİLYA SANAYİ A.Ş.",
+    "logo_id": "sumas-suni-tahta",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SUMAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/sumas-suni-tahta--big.svg"
+  },
+  {
+    "symbol": "SUNTK",
+    "description": "SUN TEKSTİL SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "sun-tekstil",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SUNTK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/sun-tekstil--big.svg"
+  },
+  {
+    "symbol": "SURGY",
+    "description": "Sur Tatil Evleri Gayrimenkul Yatirim Ortakligi A.S.",
+    "logo_id": "sur-tatil-evleri-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SURGY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/sur-tatil-evleri-gmyo--big.svg"
+  },
+  {
+    "symbol": "SUWEN",
+    "description": "SUWEN TEKSTİL SANAYİ PAZARLAMA A.Ş.",
+    "logo_id": "suwen-tekstil",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SUWEN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/suwen-tekstil--big.svg"
+  },
+  {
+    "symbol": "SVGYO",
+    "description": "Savur Gayrimenkul Yatirim Ortakligi A.S",
+    "logo_id": "savur-gayrimenkul-yatirim-ortakligi-as",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\SVGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/savur-gayrimenkul-yatirim-ortakligi-as--big.svg"
+  },
+  {
+    "symbol": "TABGD",
+    "description": "TAB Gida Sanayi ve Ticaret A.S.",
+    "logo_id": "tab-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TABGD.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/tab-gida--big.svg"
+  },
+  {
+    "symbol": "TARKM",
+    "description": "Tarkim Bitki Koruma Sanayi ve Ticaret A.S.",
+    "logo_id": "tarkim-bitki-koruma",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TARKM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/tarkim-bitki-koruma--big.svg"
+  },
+  {
+    "symbol": "TATEN",
+    "description": "Tatlipinar Enerji Uretim A.S.",
+    "logo_id": "tatlipinar-enerji-uretim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TATEN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/tatlipinar-enerji-uretim--big.svg"
+  },
+  {
+    "symbol": "TATGD",
+    "description": "TAT GIDA SANAYİ A.Ş.",
+    "logo_id": "tat-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TATGD.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/tat-gida--big.svg"
+  },
+  {
+    "symbol": "TAVHL",
+    "description": "TAV HAVALİMANLARI HOLDİNG A.Ş.",
+    "logo_id": "tav-havalimanlari",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TAVHL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/tav-havalimanlari--big.svg"
+  },
+  {
+    "symbol": "TBORG",
+    "description": "TÜRK TUBORG BİRA VE MALT SANAYİİ A.Ş.",
+    "logo_id": "turk-tuborg",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TBORG.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/turk-tuborg--big.svg"
+  },
+  {
+    "symbol": "TCELL",
+    "description": "TURKCELL İLETİŞİM HİZMETLERİ A.Ş.",
+    "logo_id": "turkcell",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TCELL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/turkcell--big.svg"
+  },
+  {
+    "symbol": "TCKRC",
+    "description": "Kirac Galvaniz Telekominikasyon Metal Makine Insaat Elektrik Sanayi Ve Ticaret AS",
+    "logo_id": "kirac-galvaniz",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TCKRC.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/kirac-galvaniz--big.svg"
+  },
+  {
+    "symbol": "TDGYO",
+    "description": "TREND GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "trend-gyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TDGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/trend-gyo--big.svg"
+  },
+  {
+    "symbol": "TEHOL",
+    "description": "Tera Yatirim Teknoloji Holding A.S.",
+    "logo_id": "pera-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TEHOL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/pera-gmyo--big.svg"
+  },
+  {
+    "symbol": "TEKTU",
+    "description": "TEK-ART İNŞAAT TİCARET TURİZM SANAYİ VE YATIRIMLAR A.Ş.",
+    "logo_id": "tek-art-turizm",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TEKTU.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/tek-art-turizm--big.svg"
+  },
+  {
+    "symbol": "TERA",
+    "description": "TERA YATIRIM MENKUL DEĞERLER A.Ş.",
+    "logo_id": "tera-yatirim-menkul-degerler",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TERA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/tera-yatirim-menkul-degerler--big.svg"
+  },
+  {
+    "symbol": "TEZOL",
+    "description": "EUROPAP TEZOL KAĞIT SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "europap-tezol-kagit",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TEZOL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/europap-tezol-kagit--big.svg"
+  },
+  {
+    "symbol": "TGSAS",
+    "description": "TGS DIŞ TİCARET A.Ş.",
+    "logo_id": "tgs-dis-ticaret",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TGSAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/tgs-dis-ticaret--big.svg"
+  },
+  {
+    "symbol": "THYAO",
+    "description": "TÜRK HAVA YOLLARI A.O.",
+    "logo_id": "turk-hava-yollari",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\THYAO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/turk-hava-yollari--big.svg"
+  },
+  {
+    "symbol": "TKFEN",
+    "description": "TEKFEN HOLDİNG A.Ş.",
+    "logo_id": "tekfen",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TKFEN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/tekfen--big.svg"
+  },
+  {
+    "symbol": "TKNSA",
+    "description": "TEKNOSA İÇ VE DIŞ TİCARET A.Ş.",
+    "logo_id": "teknosa-ic-ve-dis-ticaret",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TKNSA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/teknosa-ic-ve-dis-ticaret--big.svg"
+  },
+  {
+    "symbol": "TLMAN",
+    "description": "TRABZON LİMAN İŞLETMECİLİĞİ A.Ş.",
+    "logo_id": "trabzon-liman",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TLMAN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/trabzon-liman--big.svg"
+  },
+  {
+    "symbol": "TMPOL",
+    "description": "TEMAPOL POLİMER PLASTİK VE İNŞAAT SANAYİ TİCARET A.Ş.",
+    "logo_id": "temapol-polimer-plastik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TMPOL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/temapol-polimer-plastik--big.svg"
+  },
+  {
+    "symbol": "TMSN",
+    "description": "TÜMOSAN MOTOR VE TRAKTÖR SANAYİ A.Ş.",
+    "logo_id": "tumosan",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TMSN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/tumosan--big.svg"
+  },
+  {
+    "symbol": "TNZTP",
+    "description": "TAPDİ OKSİJEN ÖZEL SAĞLIK VE EĞİTİM HİZMETLERİ SANAYİ TİCARET A.Ş.",
+    "logo_id": "tapdi-tinaztepe",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TNZTP.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/tapdi-tinaztepe--big.svg"
+  },
+  {
+    "symbol": "TOASO",
+    "description": "TOFAŞ TÜRK OTOMOBİL FABRİKASI A.Ş.",
+    "logo_id": "tofas-oto-fab",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TOASO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/tofas-oto-fab--big.svg"
+  },
+  {
+    "symbol": "TRALT",
+    "description": "Turk Altin Isletmeleri A.S.",
+    "logo_id": "koza-altin",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TRALT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/koza-altin--big.svg"
+  },
+  {
+    "symbol": "TRCAS",
+    "description": "TURCAS PETROL A.Ş.",
+    "logo_id": "turcas-petrol",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TRCAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/turcas-petrol--big.svg"
+  },
+  {
+    "symbol": "TRENJ",
+    "description": "TR Dogal Enerji Kaynaklari Arastirma ve Uretim Anonim Sirketi",
+    "logo_id": "ipek-dogal-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TRENJ.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ipek-dogal-enerji--big.svg"
+  },
+  {
+    "symbol": "TRGYO",
+    "description": "TORUNLAR GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "torunlar-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TRGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/torunlar-gmyo--big.svg"
+  },
+  {
+    "symbol": "TRHOL",
+    "description": "Tera Financial Investments Holding A.S.",
+    "logo_id": "dagi-yatirim-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TRHOL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/dagi-yatirim-holding--big.svg"
+  },
+  {
+    "symbol": "TRILC",
+    "description": "TURK İLAÇ VE SERUM SANAYİ A.Ş.",
+    "logo_id": "turk-ilac-ve-serum",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TRILC.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/turk-ilac-ve-serum--big.svg"
+  },
+  {
+    "symbol": "TRMET",
+    "description": "TR Anadolu Metal Madencilik Isletmeleri Anonim Sirketi",
+    "logo_id": "koza-madencilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TRMET.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/koza-madencilik--big.svg"
+  },
+  {
+    "symbol": "TSGYO",
+    "description": "TSKB GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "tskb-gyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TSGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/tskb-gyo--big.svg"
+  },
+  {
+    "symbol": "TSKB",
+    "description": "TÜRKİYE SINAİ KALKINMA BANKASI A.Ş.",
+    "logo_id": "t-s-k-b",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TSKB.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/t-s-k-b--big.svg"
+  },
+  {
+    "symbol": "TSPOR",
+    "description": "TRABZONSPOR SPORTİF YATIRIM VE FUTBOL İŞLETMECİLİĞİ TİCARET A.Ş.",
+    "logo_id": "trabzonspor-sportif",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TSPOR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/trabzonspor-sportif--big.svg"
+  },
+  {
+    "symbol": "TTKOM",
+    "description": "TÜRK TELEKOMÜNİKASYON A.Ş.",
+    "logo_id": "turk-telekom",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TTKOM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/turk-telekom--big.svg"
+  },
+  {
+    "symbol": "TTRAK",
+    "description": "TÜRK TRAKTÖR VE ZİRAAT MAKİNELERİ A.Ş.",
+    "logo_id": "turk-traktor",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TTRAK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/turk-traktor--big.svg"
+  },
+  {
+    "symbol": "TUCLK",
+    "description": "TUĞÇELİK ALÜMİNYUM VE METAL MAMÜLLERİ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "tugcelik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TUCLK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/tugcelik--big.svg"
+  },
+  {
+    "symbol": "TUKAS",
+    "description": "TUKAŞ GIDA SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "tukas-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TUKAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/tukas-gida--big.svg"
+  },
+  {
+    "symbol": "TUPRS",
+    "description": "TÜPRAŞ-TÜRKİYE PETROL RAFİNERİLERİ A.Ş.",
+    "logo_id": "tupras",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TUPRS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/tupras--big.svg"
+  },
+  {
+    "symbol": "TUREX",
+    "description": "TUREKS TURİZM TAŞIMACILIK A.Ş.",
+    "logo_id": "tureks-turizm-tasimacilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TUREX.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/tureks-turizm-tasimacilik--big.svg"
+  },
+  {
+    "symbol": "TURGG",
+    "description": "TÜRKER PROJE GAYRİMENKUL VE YATIRIM GELİŞTİRME A.Ş.",
+    "logo_id": "turker-proje-gayrimenkul",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TURGG.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/turker-proje-gayrimenkul--big.svg"
+  },
+  {
+    "symbol": "TURSG",
+    "description": "TÜRKİYE SİGORTA A.Ş.",
+    "logo_id": "turkiye-sigorta",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\TURSG.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/turkiye-sigorta--big.svg"
+  },
+  {
+    "symbol": "UCAYM",
+    "description": "Ucay Muhendislik Enerji ve Iklimlendirme Teknolojileri",
+    "logo_id": "ucay-muhendislik-enerji-ve-iklimlendirme-teknolojileri",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\UCAYM.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ucay-muhendislik-enerji-ve-iklimlendirme-teknolojileri--big.svg"
+  },
+  {
+    "symbol": "UFUK",
+    "description": "UFUK YATIRIM YÖNETİM VE GAYRİMENKUL A.Ş.",
+    "logo_id": "ufuk-yatirim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\UFUK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ufuk-yatirim--big.svg"
+  },
+  {
+    "symbol": "ULAS",
+    "description": "ULAŞLAR TURİZM YATIRIMLARI VE DAYANIKLI TÜKETİM MALLARI TİCARET PAZARLAMA A.Ş.",
+    "logo_id": "ulaslar-turizm",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ULAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ulaslar-turizm--big.svg"
+  },
+  {
+    "symbol": "ULKER",
+    "description": "ÜLKER BİSKÜVİ SANAYİ A.Ş.",
+    "logo_id": "ulker-biskuvi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ULKER.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ulker-biskuvi--big.svg"
+  },
+  {
+    "symbol": "ULUFA",
+    "description": "ULUSAL FAKTORİNG A.Ş.",
+    "logo_id": "ulusal-faktoring",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ULUFA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ulusal-faktoring--big.svg"
+  },
+  {
+    "symbol": "ULUSE",
+    "description": "ULUSOY ELEKTRİK İMALAT TAAHHÜT VE TİCARET A.Ş.",
+    "logo_id": "ulusoy-elektrik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ULUSE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ulusoy-elektrik--big.svg"
+  },
+  {
+    "symbol": "ULUUN",
+    "description": "ULUSOY UN SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "ulusoy-un-sanayi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ULUUN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ulusoy-un-sanayi--big.svg"
+  },
+  {
+    "symbol": "UNLU",
+    "description": "ÜNLÜ YATIRIM HOLDİNG A.Ş.",
+    "logo_id": "unlu-yatirim-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\UNLU.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/unlu-yatirim-holding--big.svg"
+  },
+  {
+    "symbol": "USAK",
+    "description": "UŞAK SERAMİK SANAYİ A.Ş.",
+    "logo_id": "usak-seramik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\USAK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/usak-seramik--big.svg"
+  },
+  {
+    "symbol": "VAKBN",
+    "description": "TÜRKİYE VAKIFLAR BANKASI T.A.O.",
+    "logo_id": "vakiflar-bankasi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\VAKBN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/vakiflar-bankasi--big.svg"
+  },
+  {
+    "symbol": "VAKFA",
+    "description": "VAKIF FAKTORİNG A.Ş.",
+    "logo_id": "vakif-fin-kir",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\VAKFA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/vakif-fin-kir--big.svg"
+  },
+  {
+    "symbol": "VAKFN",
+    "description": "VAKIF FİNANSAL KİRALAMA A.Ş.",
+    "logo_id": "vakif-fin-kir",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\VAKFN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/vakif-fin-kir--big.svg"
+  },
+  {
+    "symbol": "VAKKO",
+    "description": "VAKKO TEKSTİL VE HAZIR GİYİM SANAYİ İŞLETMELERİ A.Ş.",
+    "logo_id": "vakko-tekstil",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\VAKKO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/vakko-tekstil--big.svg"
+  },
+  {
+    "symbol": "VANGD",
+    "description": "VANET GIDA SANAYİ İÇ VE DIŞ TİCARET A.Ş.",
+    "logo_id": "vanet-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\VANGD.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/vanet-gida--big.svg"
+  },
+  {
+    "symbol": "VBTYZ",
+    "description": "VBT YAZILIM A.Ş.",
+    "logo_id": "vbt-yazilim",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\VBTYZ.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/vbt-yazilim--big.svg"
+  },
+  {
+    "symbol": "VERUS",
+    "description": "VERUSA HOLDİNG A.Ş.",
+    "logo_id": "verusa-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\VERUS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/verusa-holding--big.svg"
+  },
+  {
+    "symbol": "VESBE",
+    "description": "VESTEL BEYAZ EŞYA SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "vestel-beyaz-esya",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\VESBE.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/vestel-beyaz-esya--big.svg"
+  },
+  {
+    "symbol": "VESTL",
+    "description": "VESTEL ELEKTRONİK SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "vestel",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\VESTL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/vestel--big.svg"
+  },
+  {
+    "symbol": "VKFYO",
+    "description": "VAKIF MENKUL KIYMET YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "vakif-yat-ort",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\VKFYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/vakif-yat-ort--big.svg"
+  },
+  {
+    "symbol": "VKGYO",
+    "description": "VAKIF GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "vakif-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\VKGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/vakif-gmyo--big.svg"
+  },
+  {
+    "symbol": "VKING",
+    "description": "VİKİNG KAĞIT VE SELÜLOZ A.Ş.",
+    "logo_id": "viking-kagit",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\VKING.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/viking-kagit--big.svg"
+  },
+  {
+    "symbol": "VRGYO",
+    "description": "Vera Konsept Gayrimenkul Yatirim Ortakligi A.S.",
+    "logo_id": "vera-konsept-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\VRGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/vera-konsept-gmyo--big.svg"
+  },
+  {
+    "symbol": "VSNMD",
+    "description": "Visne Madencilik Uretim Sanayi ve Ticaret AS",
+    "logo_id": "visne-madencilik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\VSNMD.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/visne-madencilik--big.svg"
+  },
+  {
+    "symbol": "YAPRK",
+    "description": "YAPRAK SÜT VE BESİ ÇİFTLİKLERİ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "yaprak-sut-ve-besi-cift",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\YAPRK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/yaprak-sut-ve-besi-cift--big.svg"
+  },
+  {
+    "symbol": "YATAS",
+    "description": "YATAŞ YATAK VE YORGAN SANAYİ TİCARET A.Ş.",
+    "logo_id": "yatas-yatak-ve-yorgan",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\YATAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/yatas-yatak-ve-yorgan--big.svg"
+  },
+  {
+    "symbol": "YAYLA",
+    "description": "YAYLA ENERJİ ÜRETİM TURİZM VE İNŞAAT TİCARET A.Ş.",
+    "logo_id": "yayla-en-ur-tur-ve",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\YAYLA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/yayla-en-ur-tur-ve--big.svg"
+  },
+  {
+    "symbol": "YBTAS",
+    "description": "YİBİTAŞ YOZGAT İŞÇİ BİRLİĞİ İNŞAAT MALZEMELERİ TİCARET VE SANAYİ A.Ş.",
+    "logo_id": "yibitas-insaat-malzeme",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\YBTAS.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/yibitas-insaat-malzeme--big.svg"
+  },
+  {
+    "symbol": "YEOTK",
+    "description": "YEO TEKNOLOJİ ENERJİ VE ENDÜSTRİ A.Ş.",
+    "logo_id": "yeo-teknoloji-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\YEOTK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/yeo-teknoloji-enerji--big.svg"
+  },
+  {
+    "symbol": "YESIL",
+    "description": "YEŞİL YATIRIM HOLDİNG A.Ş.",
+    "logo_id": "yesil-yatirim-holding",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\YESIL.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/yesil-yatirim-holding--big.svg"
+  },
+  {
+    "symbol": "YGGYO",
+    "description": "YENİ GİMAT GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "yeni-gimat-gmyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\YGGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/yeni-gimat-gmyo--big.svg"
+  },
+  {
+    "symbol": "YIGIT",
+    "description": "Yigit Aku Malzemeleri Nakliyat Turizm Insaat Sanayi Ve Ticaret",
+    "logo_id": "yigit-aku",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\YIGIT.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/yigit-aku--big.svg"
+  },
+  {
+    "symbol": "YKBNK",
+    "description": "YAPI VE KREDİ BANKASI A.Ş.",
+    "logo_id": "yapi-ve-kredi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\YKBNK.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/yapi-ve-kredi--big.svg"
+  },
+  {
+    "symbol": "YKSLN",
+    "description": "YÜKSELEN ÇELİK A.Ş.",
+    "logo_id": "yukselen-celik",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\YKSLN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/yukselen-celik--big.svg"
+  },
+  {
+    "symbol": "YONGA",
+    "description": "YONGA MOBİLYA SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "yonga-mobilya",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\YONGA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/yonga-mobilya--big.svg"
+  },
+  {
+    "symbol": "YUNSA",
+    "description": "YÜNSA YÜNLÜ SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "yunsa-yunlu",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\YUNSA.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/yunsa-yunlu--big.svg"
+  },
+  {
+    "symbol": "YYAPI",
+    "description": "YEŞİL YAPI ENDÜSTRİSİ A.Ş.",
+    "logo_id": "yesil-yapi",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\YYAPI.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/yesil-yapi--big.svg"
+  },
+  {
+    "symbol": "YYLGD",
+    "description": "YAYLA AGRO GIDA SANAYİ VE TİCARET A.Ş.",
+    "logo_id": "yayla-gida",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\YYLGD.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/yayla-gida--big.svg"
+  },
+  {
+    "symbol": "ZEDUR",
+    "description": "ZEDUR ENERJİ ELEKTRİK ÜRETİM A.Ş.",
+    "logo_id": "utopya-turizm",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ZEDUR.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/utopya-turizm--big.svg"
+  },
+  {
+    "symbol": "ZERGY",
+    "description": "Zeray Gayrimenkul Yatirim Ortakligi AS",
+    "logo_id": "zeray-gayrimenkul-yatirim-ortakligi-as",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ZERGY.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/zeray-gayrimenkul-yatirim-ortakligi-as--big.svg"
+  },
+  {
+    "symbol": "ZGYO",
+    "description": "Z Gayrimenkul Yatirim Ortakligi A.S.",
+    "logo_id": "z-gayrimenkul-yatirim-ortakligi-as",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ZGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/z-gayrimenkul-yatirim-ortakligi-as--big.svg"
+  },
+  {
+    "symbol": "ZOREN",
+    "description": "ZORLU ENERJİ ELEKTRİK ÜRETİM A.Ş.",
+    "logo_id": "zorlu-enerji",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ZOREN.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/zorlu-enerji--big.svg"
+  },
+  {
+    "symbol": "ZRGYO",
+    "description": "ZİRAAT GAYRİMENKUL YATIRIM ORTAKLIĞI A.Ş.",
+    "logo_id": "ziraat-gyo",
+    "file": "C:\\Users\\muzaf\\OneDrive\\Desktop\\bist_logo\\ZRGYO.svg",
+    "source_url": "https://s3-symbol-logo.tradingview.com/ziraat-gyo--big.svg"
+  }
+]
