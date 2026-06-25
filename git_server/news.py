@@ -32,6 +32,7 @@ def fetch_top_news(limit: int = 20) -> list[dict[str, str]]:
         try:
             response = requests.get(feed["url"], headers=headers, timeout=10)
             response.raise_for_status()
+            response.encoding = 'utf-8'
             soup = bs4.BeautifulSoup(response.text, 'html.parser')
         except Exception as e:
             print(f"Failed to fetch RSS for {feed['name']}: {e}")
@@ -77,6 +78,7 @@ def fetch_top_news(limit: int = 20) -> list[dict[str, str]]:
                 try:
                     article_resp = requests.get(link, headers=headers, timeout=10)
                     if article_resp.status_code == 200:
+                        article_resp.encoding = 'utf-8'
                         article_soup = bs4.BeautifulSoup(article_resp.text, 'html.parser')
                         
                         # Extract og:image
