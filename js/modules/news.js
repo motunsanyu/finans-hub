@@ -263,9 +263,21 @@ const NewsModule = (() => {
                         // onclick yerine data-href kullanıyoruz — tırnak/özel karakter sorununu önler
                         const sourceName = item.source || 'Sözcü';
                         const isHaberturk = sourceName.includes('Habertürk') || sourceName.includes('Habertrk');
-                        const badgeBg = isHaberturk ? 'rgba(229,57,53,0.12)' : 'rgba(252,213,53,0.12)';
-                        const badgeColor = isHaberturk ? '#e53935' : '#fcd535';
-                        const displaySource = isHaberturk ? 'Habertürk' : 'Sözcü';
+                        const isBloomberg = sourceName.includes('Bloomberg');
+                        
+                        let badgeBg = 'rgba(252,213,53,0.12)';
+                        let badgeColor = '#fcd535';
+                        let displaySource = 'Sözcü';
+                        
+                        if (isHaberturk) {
+                            badgeBg = 'rgba(229,57,53,0.12)';
+                            badgeColor = '#e53935';
+                            displaySource = 'Habertürk';
+                        } else if (isBloomberg) {
+                            badgeBg = 'rgba(14,116,233,0.12)';
+                            badgeColor = '#0e74e9';
+                            displaySource = 'Bloomberg HT';
+                        }
 
                         html += `
                             <div class="news-card sozcu-card" data-href="${link}"
@@ -382,8 +394,8 @@ const NewsModule = (() => {
             const uniqueArticles = deduplicateByTitle(allArticles);
             const sortedArticles = sortByDate(uniqueArticles);
 
-            // En fazla 20 haberi göster (isteğe bağlı)
-            const finalArticles = sortedArticles.slice(0, 20);
+            // Tüm haberleri göster
+            const finalArticles = sortedArticles;
             saveCachedNews(finalArticles);
             renderNews(finalArticles);
 

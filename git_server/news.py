@@ -5,15 +5,16 @@ import warnings
 # Suppress XMLParsedAsHTMLWarning
 warnings.filterwarnings('ignore', category=bs4.XMLParsedAsHTMLWarning)
 
-def fetch_top_news(limit: int = 5) -> list[dict[str, str]]:
+def fetch_top_news() -> list[dict[str, str]]:
     """
-    Fetches the top news from Sozcu and Haberturk RSS feeds.
+    Fetches the top news from Sozcu, Haberturk, and Bloomberg HT RSS feeds.
     Visits each article link to extract the og:image and og:description.
-    Returns up to `limit` articles from each source, interleaved.
+    Returns all articles from each source, interleaved.
     """
     feeds = [
         {"name": "Sözcü", "url": "https://www.sozcu.com.tr/rss/tum-haberler.xml"},
-        {"name": "Habertürk", "url": "https://www.haberturk.com/rss"}
+        {"name": "Habertürk", "url": "https://www.haberturk.com/rss"},
+        {"name": "Bloomberg HT", "url": "https://www.bloomberght.com/rss"}
     ]
     
     headers = {'User-Agent': 'Mozilla/5.0'}
@@ -31,7 +32,7 @@ def fetch_top_news(limit: int = 5) -> list[dict[str, str]]:
         items = soup.find_all('item')
         source_news = []
         
-        for item in items[:limit]:
+        for item in items:
             title = item.title.text.strip() if item.title else ""
             link_tag = item.find('link')
             link = ""
@@ -89,4 +90,4 @@ def fetch_top_news(limit: int = 5) -> list[dict[str, str]]:
 
 if __name__ == "__main__":
     import json
-    print(json.dumps(fetch_top_news(2), indent=2, ensure_ascii=False))
+    print(json.dumps(fetch_top_news(), indent=2, ensure_ascii=False))
