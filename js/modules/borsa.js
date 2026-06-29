@@ -1,6 +1,5 @@
 let borsaDataList = [];
 let borsaViewMode = 'list'; // 'list' veya 'grid'
-let borsaNames = {}; // Hisse adlari
 let borsaFavorites = JSON.parse(localStorage.getItem('borsaFavorites') || '[]');
 let borsaFavMode = false;
 let borsaSortMode = 'none'; // 'desc' (artanlar), 'asc' (düşenler), 'none'
