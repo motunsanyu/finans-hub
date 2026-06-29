@@ -854,24 +854,39 @@
         <!-- BORSA BÖLÜMÜ -->
         <div id="borsaSection" style="display:none;">
           <!-- Arama + Görünüm Toggle Toolbar -->
-          <div style="padding: 12px 16px 8px; display:flex; gap:10px; align-items:center;">
-            <input type="text" id="borsaSearchInput" placeholder="Hisse Ara..." 
-              style="flex:1; padding: 9px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.06); color: white; outline: none; font-size: 14px;" 
-              oninput="window.filterBorsa()">
-            <div style="display:flex; background:rgba(255,255,255,0.06); border-radius:10px; border:1px solid rgba(255,255,255,0.1); overflow:hidden; flex-shrink:0;">
-              <button id="borsaListViewBtn" onclick="window.setBorsaView('list')" title="Liste Görünümü"
-                style="background:var(--brand); border:none; padding:8px 12px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.5" stroke-linecap="round">
-                  <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
-                  <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
-                </svg>
+          <div style="padding: 12px 16px 8px; display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; gap:10px; align-items:center;">
+              <div style="flex:1; position:relative; display:flex; align-items:center;">
+                <input type="text" id="borsaSearchInput" placeholder="Hisse Ara..." 
+                  style="width:100%; padding: 9px 36px 9px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.06); color: white; outline: none; font-size: 14px;" 
+                  oninput="window.filterBorsa()">
+                <button id="borsaSearchClearBtn" onclick="window.clearBorsaSearch()" style="display:none; position:absolute; right:8px; background:none; border:none; color:var(--text-secondary); cursor:pointer; padding:4px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+              </div>
+              <div style="display:flex; background:rgba(255,255,255,0.06); border-radius:10px; border:1px solid rgba(255,255,255,0.1); overflow:hidden; flex-shrink:0;">
+                <button id="borsaListViewBtn" onclick="window.setBorsaView('list')" title="Liste Görünümü"
+                  style="background:var(--brand); border:none; padding:8px 12px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.5" stroke-linecap="round">
+                    <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
+                    <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+                  </svg>
+                </button>
+                <button id="borsaGridViewBtn" onclick="window.setBorsaView('grid')" title="Kart Görünümü"
+                  style="background:transparent; border:none; padding:8px 12px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2.5" stroke-linecap="round">
+                    <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+                    <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div style="display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none;">
+              <button id="borsaFavToggleBtn" onclick="window.toggleBorsaFavMode()" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:6px 12px; color:var(--text-secondary); font-size:12px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:6px; white-space:nowrap;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> Favorilerim
               </button>
-              <button id="borsaGridViewBtn" onclick="window.setBorsaView('grid')" title="Kart Görünümü"
-                style="background:transparent; border:none; padding:8px 12px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2.5" stroke-linecap="round">
-                  <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
-                  <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
-                </svg>
+              <button id="borsaSortToggleBtn" onclick="window.toggleBorsaSort()" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:6px 12px; color:var(--text-secondary); font-size:12px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:6px; white-space:nowrap;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg> Sırala: Varsayılan
               </button>
             </div>
           </div>

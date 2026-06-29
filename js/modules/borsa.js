@@ -1,6 +1,10 @@
 let borsaDataList = [];
 let borsaViewMode = 'list'; // 'list' veya 'grid'
 let borsaNames = {}; // Hisse adlari
+let borsaFavorites = JSON.parse(localStorage.getItem('borsaFavorites') || '[]');
+let borsaFavMode = false;
+let borsaSortMode = 'none'; // 'desc' (artanlar), 'asc' (düşenler), 'none'
+let borsaNames = {}; // Hisse adlari
 
 // Hisse tam adlarini ceker
 async function fetchBorsaNames() {
@@ -136,10 +140,16 @@ function renderBorsaListView(list, container) {
     const { pillClass, displayChg } = getChangeInfo(item);
     const priceStr = item.price ? `₺${item.price}` : '--';
     const avatar = makeAvatar(item.symbol, 34, 13);
+    const isFav = borsaFavorites.includes(item.symbol);
+    const favColor = isFav ? 'var(--brand)' : 'rgba(255,255,255,0.2)';
+    const favFill = isFav ? 'var(--brand)' : 'none';
     
     html += `
-      <div class="market-row" onclick="window.showBorsaDetail('${item.symbol}')" style="cursor:pointer;">
+      <div class="market-row" onclick="window.showBorsaDetail('${item.symbol}')" style="cursor:pointer; position:relative;">
         <div class="m-left">
+          <button onclick="window.toggleFavorite(event, '${item.symbol}')" style="background:none; border:none; padding:0 8px 0 0; cursor:pointer; display:flex; align-items:center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="${favFill}" stroke="${favColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          </button>
           <div style="margin-right:12px;">${avatar}</div>
           <div class="m-symbol">${item.symbol}</div>
         </div>
@@ -171,13 +181,20 @@ function renderBorsaGrid(list, container) {
     const triNeu = `<div style="width:6px; height:2px; background-color:var(--text-secondary); display:inline-block; margin-right:4px; vertical-align:middle;"></div>`;
     const triangleHtml = chgVal > 0 ? triUp : (chgVal < 0 ? triDown : triNeu);
 
+    const isFav = borsaFavorites.includes(item.symbol);
+    const favColor = isFav ? 'var(--brand)' : 'rgba(255,255,255,0.2)';
+    const favFill = isFav ? 'var(--brand)' : 'none';
+
     html += `
       <div onclick="window.showBorsaDetail('${item.symbol}')"
-        style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:10px 8px 10px 10px; cursor:pointer; transition:background 0.15s;"
+        style="position:relative; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:10px 8px 10px 10px; cursor:pointer; transition:background 0.15s;"
         onmouseover="this.style.background='rgba(255,255,255,0.1)'"
         onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+        <button onclick="window.toggleFavorite(event, '${item.symbol}')" style="position:absolute; top:8px; right:8px; background:none; border:none; padding:4px; cursor:pointer; z-index:2; display:flex;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="${favFill}" stroke="${favColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        </button>
         <div style="margin-bottom:7px;">${avatar}</div>
-        <div style="font-size:11px; font-weight:800; color:var(--text-primary); margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; letter-spacing:0.3px;">${item.symbol}</div>
+        <div style="font-size:11px; font-weight:800; color:var(--text-primary); margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; letter-spacing:0.3px; padding-right:16px;">${item.symbol}</div>
         <div style="font-size:11px; font-weight:700; color:${chgColor}; margin-bottom:5px; display:flex; align-items:center;">
           ${triangleHtml}%${cleanChgStr}
         </div>
@@ -203,24 +220,99 @@ window.setBorsaView = function(mode) {
     if (listBtn) { listBtn.style.background = 'transparent'; listBtn.querySelector('svg').setAttribute('stroke', 'rgba(255,255,255,0.5)'); }
   }
   
+  window.filterBorsa();
+};
+
+window.clearBorsaSearch = function() {
   const input = document.getElementById('borsaSearchInput');
-  const filter = input ? input.value.toLowerCase() : '';
-  const listToRender = filter
-    ? borsaDataList.filter(item => item.symbol.toLowerCase().includes(filter) || (item.name && item.name.toLowerCase().includes(filter)))
-    : borsaDataList;
-  renderBorsaList(listToRender);
+  if (input) {
+    input.value = '';
+    window.filterBorsa();
+  }
+};
+
+window.toggleBorsaFavMode = function() {
+  borsaFavMode = !borsaFavMode;
+  const btn = document.getElementById('borsaFavToggleBtn');
+  if (btn) {
+    if (borsaFavMode) {
+      btn.style.background = 'var(--brand)';
+      btn.style.color = 'black';
+      btn.querySelector('svg').setAttribute('stroke', 'black');
+    } else {
+      btn.style.background = 'rgba(255,255,255,0.06)';
+      btn.style.color = 'var(--text-secondary)';
+      btn.querySelector('svg').setAttribute('stroke', 'currentColor');
+    }
+  }
+  window.filterBorsa();
+};
+
+window.toggleBorsaSort = function() {
+  if (borsaSortMode === 'none') borsaSortMode = 'desc';
+  else if (borsaSortMode === 'desc') borsaSortMode = 'asc';
+  else borsaSortMode = 'none';
+  
+  const btn = document.getElementById('borsaSortToggleBtn');
+  if (btn) {
+    if (borsaSortMode === 'desc') {
+      btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg> En Çok Artanlar`;
+      btn.style.color = 'var(--up)';
+    } else if (borsaSortMode === 'asc') {
+      btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg> En Çok Düşenler`;
+      btn.style.color = 'var(--down)';
+    } else {
+      btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg> Sırala: Varsayılan`;
+      btn.style.color = 'var(--text-secondary)';
+    }
+  }
+  window.filterBorsa();
+};
+
+window.toggleFavorite = function(event, symbol) {
+  event.stopPropagation();
+  const idx = borsaFavorites.indexOf(symbol);
+  if (idx > -1) {
+    borsaFavorites.splice(idx, 1);
+  } else {
+    borsaFavorites.push(symbol);
+  }
+  localStorage.setItem('borsaFavorites', JSON.stringify(borsaFavorites));
+  window.filterBorsa();
 };
 
 window.filterBorsa = function() {
   const input = document.getElementById('borsaSearchInput');
-  if (!input) return;
-  const filter = input.value.toLowerCase();
+  const clearBtn = document.getElementById('borsaSearchClearBtn');
+  const filterText = input ? input.value.toLowerCase() : '';
   
-  const filtered = filter
-    ? borsaDataList.filter(item => item.symbol.toLowerCase().includes(filter) || (item.name && item.name.toLowerCase().includes(filter)))
-    : borsaDataList;
+  if (clearBtn) {
+    clearBtn.style.display = filterText ? 'block' : 'none';
+  }
   
-  renderBorsaList(filtered);
+  let list = [...borsaDataList];
+  
+  if (filterText) {
+    list = list.filter(item => 
+      item.symbol.toLowerCase().includes(filterText) || 
+      (borsaNames[item.symbol] && borsaNames[item.symbol].toLowerCase().includes(filterText))
+    );
+  }
+  
+  if (borsaFavMode) {
+    list = list.filter(item => borsaFavorites.includes(item.symbol));
+  }
+  
+  if (borsaSortMode !== 'none') {
+    list.sort((a, b) => {
+      const aVal = getChangeInfo(a).chgVal;
+      const bVal = getChangeInfo(b).chgVal;
+      if (borsaSortMode === 'desc') return bVal - aVal;
+      return aVal - bVal;
+    });
+  }
+  
+  renderBorsaList(list);
 };
 
 window.showBorsaDetail = function(symbol) {
