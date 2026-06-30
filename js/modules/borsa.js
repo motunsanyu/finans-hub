@@ -372,7 +372,8 @@ async function renderBorsaTradingViewChart(symbol) {
   // Kriptoda olduğu gibi kendi grafiğimizi çizmek için Yahoo Finance'den geçmiş verileri çekiyoruz
   const yahooSymbol = `${symbol}.IS`;
   const url = `https://query1.finance.yahoo.com/v8/finance/chart/${yahooSymbol}?interval=1d&range=6mo`;
-  const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+  // Kendi API proxy'mizi kullanarak CORS engellerini aşıyoruz
+  const proxyUrl = `/api/proxy?url=${encodeURIComponent(url)}`;
   
   try {
     const res = await fetch(proxyUrl);
