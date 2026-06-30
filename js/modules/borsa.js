@@ -1,7 +1,7 @@
 let borsaDataList = [];
 let borsaViewMode = 'list'; // 'list' veya 'grid'
 let borsaFavorites = JSON.parse(localStorage.getItem('borsaFavorites') || '[]');
-let borsaFavMode = false;
+let borsaFavMode = localStorage.getItem('borsaFavModeActive') === 'true';
 let borsaSortMode = 'none'; // 'desc' (artanlar), 'asc' (düşenler), 'none'
 let borsaNames = {}; // Hisse adlari
 
@@ -77,6 +77,20 @@ async function fetchBorsaData() {
   
   fetchBorsaNames(); // Paralelde isimleri yukle
   
+  // Favori butonu ilk state
+  const favBtn = document.getElementById('borsaFavToggleBtn');
+  if (favBtn) {
+    if (borsaFavMode) {
+      favBtn.style.background = 'var(--brand)';
+      favBtn.style.color = 'black';
+      favBtn.querySelector('svg').setAttribute('stroke', 'black');
+    } else {
+      favBtn.style.background = 'rgba(255,255,255,0.06)';
+      favBtn.style.color = 'var(--text-secondary)';
+      favBtn.querySelector('svg').setAttribute('stroke', 'currentColor');
+    }
+  }
+  
   if (!window._supabaseClient) {
     container.innerHTML = `<div style="text-align:center; padding:40px 16px; color:var(--down); font-size:13px;">Supabase bağlantısı kurulamadı.</div>`;
     return;
@@ -91,7 +105,7 @@ async function fetchBorsaData() {
     if (error) throw error;
     
     borsaDataList = data || [];
-    renderBorsaList(borsaDataList);
+    window.filterBorsa(); // rendering handled by filter
     
     const metaEl = document.getElementById('borsaMeta');
     if (metaEl) {
@@ -232,6 +246,8 @@ window.clearBorsaSearch = function() {
 
 window.toggleBorsaFavMode = function() {
   borsaFavMode = !borsaFavMode;
+  localStorage.setItem('borsaFavModeActive', borsaFavMode);
+  
   const btn = document.getElementById('borsaFavToggleBtn');
   if (btn) {
     if (borsaFavMode) {
@@ -314,7 +330,7 @@ window.filterBorsa = function() {
   renderBorsaList(list);
 };
 
-window.showBorsaDetail = function(symbol) {
+window.showBorsaDetail = async function(symbol) {
   const item = borsaDataList.find(i => i.symbol === symbol);
   if (!item) return;
 
@@ -351,11 +367,11 @@ window.showBorsaDetail = function(symbol) {
   document.getElementById('bdVolLot').innerText = item.volume_lot || '--';
   document.getElementById('bdVolTl').innerText = item.volume_tl ? `₺${item.volume_tl}` : '--';
   
-  // TradingView grafiğini yükle
-  renderBorsaTradingViewChart(symbol);
+  // Supabase'den grafik verilerini yükle ve grafiği çiz
+  const klines = await renderBorsaTradingViewChart(symbol);
   
-  // Akıllı önerileri oluştur
-  renderBorsaAIAnalysis(item, chgVal);
+  // Akıllı önerileri klines verisi ile oluştur
+  renderBorsaAIAnalysis(item, chgVal, klines);
   
   window.scrollTo({ top: 0, behavior: 'smooth' });
 };
@@ -369,38 +385,20 @@ async function renderBorsaTradingViewChart(symbol) {
   
   container.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-secondary);">Grafik verileri yükleniyor...</div>';
   
-  // Kriptoda olduğu gibi kendi grafiğimizi çizmek için Yahoo Finance'den geçmiş verileri çekiyoruz
-  const yahooSymbol = `${symbol}.IS`;
-  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${yahooSymbol}?interval=1d&range=6mo`;
-  // Kendi API proxy'mizi kullanarak CORS engellerini aşıyoruz
-  const proxyUrl = `/api/proxy?url=${encodeURIComponent(url)}`;
-  
   try {
-    const res = await fetch(proxyUrl);
-    const data = await res.json();
-    const result = data.chart?.result?.[0];
-    
-    if (!result || !result.timestamp) {
-      throw new Error("Veri bulunamadı");
+    if (!window._supabaseClient) throw new Error("Supabase bağlantısı yok");
+
+    const { data, error } = await window._supabaseClient
+      .from('borsa_klines')
+      .select('klines')
+      .eq('symbol', symbol)
+      .single();
+      
+    if (error || !data || !data.klines || data.klines.length === 0) {
+      throw new Error("Veri bulunamadı veya hatalı");
     }
     
-    const timestamps = result.timestamp;
-    const quotes = result.indicators.quote[0];
-    
-    const klines = [];
-    for (let i = 0; i < timestamps.length; i++) {
-      if (quotes.open[i] !== null) {
-        klines.push({
-          time: timestamps[i], // LightweightCharts saniye cinsinden timestamp kabul eder (1d için)
-          open: quotes.open[i],
-          high: quotes.high[i],
-          low: quotes.low[i],
-          close: quotes.close[i]
-        });
-      }
-    }
-    
-    if (klines.length === 0) throw new Error("Mum verisi yok");
+    const klines = data.klines;
     
     container.innerHTML = '';
     
@@ -445,6 +443,8 @@ async function renderBorsaTradingViewChart(symbol) {
     borsaCandleSeries.setData(klines);
     borsaChart.timeScale().fitContent();
     
+    return klines;
+    
   } catch (err) {
     console.error("Hisse grafiği çizilemedi:", err);
     container.innerHTML = `
@@ -457,7 +457,52 @@ async function renderBorsaTradingViewChart(symbol) {
   }
 }
 
-function renderBorsaAIAnalysis(item, chgVal) {
+function calculateBorsaRSI(closes, period = 14) {
+  if (!closes || closes.length <= period) return null;
+  let gains = 0, losses = 0;
+  for (let i = 1; i <= period; i++) {
+    const diff = closes[i] - closes[i - 1];
+    if (diff > 0) gains += diff;
+    else losses -= diff;
+  }
+  let avgGain = gains / period;
+  let avgLoss = losses / period;
+  for (let i = period + 1; i < closes.length; i++) {
+    const diff = closes[i] - closes[i - 1];
+    avgGain = (avgGain * (period - 1) + (diff > 0 ? diff : 0)) / period;
+    avgLoss = (avgLoss * (period - 1) + (diff < 0 ? -diff : 0)) / period;
+  }
+  if (avgLoss === 0) return 100;
+  const rs = avgGain / avgLoss;
+  return 100 - (100 / (1 + rs));
+}
+
+function calculateBorsaMACD(closes) {
+  if (!closes || closes.length < 26) return null;
+  const ema12 = calculateBorsaEMA(closes, 12);
+  const ema26 = calculateBorsaEMA(closes, 26);
+  if (ema12 === null || ema26 === null) return null;
+  return ema12 - ema26;
+}
+
+function calculateBorsaEMA(closes, period) {
+  if (!closes || closes.length < period) return null;
+  const k = 2 / (period + 1);
+  let ema = closes.slice(0, period).reduce((a, b) => a + b) / period;
+  for (let i = period; i < closes.length; i++) {
+    ema = closes[i] * k + ema * (1 - k);
+  }
+  return ema;
+}
+
+function calculateBorsaMomentum(closes, period = 10) {
+  if (!closes || closes.length <= period) return null;
+  const current = closes[closes.length - 1];
+  const past = closes[closes.length - 1 - period];
+  return current - past;
+}
+
+function renderBorsaAIAnalysis(item, chgVal, klines) {
   const el = document.getElementById('bdAIAnalysis');
   if (!el) return;
   
@@ -474,20 +519,21 @@ function renderBorsaAIAnalysis(item, chgVal) {
   let overallSignal = 'NOTR';
   let signalColor = 'var(--text-secondary)';
   let signalEmoji = '⚖️';
+  let score = 0;
   
   // Değişim analizi
   if (chgVal > 3) {
     suggestions.push(`📈 <b>${symbol}</b> bugün <b style="color:var(--up)">%${Math.abs(chgVal).toFixed(2)}</b> yükselişte. Güçlü alıcı baskısı gözleniyor.`);
-    overallSignal = 'GÜÇLÜ YÜKSELİŞ'; signalColor = 'var(--up)'; signalEmoji = '🚀';
+    score += 2;
   } else if (chgVal > 0) {
     suggestions.push(`📈 <b>${symbol}</b> bugün <b style="color:var(--up)">%${Math.abs(chgVal).toFixed(2)}</b> artıda. Olumlu bir seyir izliyor.`);
-    overallSignal = 'YÜKSELİŞ'; signalColor = 'var(--up)'; signalEmoji = '✅';
+    score += 1;
   } else if (chgVal < -3) {
     suggestions.push(`📉 <b>${symbol}</b> bugün <b style="color:var(--down)">%${Math.abs(chgVal).toFixed(2)}</b> düşüşte. Sert satış baskısı var.`);
-    overallSignal = 'GÜÇLÜ DÜŞÜŞ'; signalColor = 'var(--down)'; signalEmoji = '🔻';
+    score -= 2;
   } else if (chgVal < 0) {
     suggestions.push(`📉 <b>${symbol}</b> bugün <b style="color:var(--down)">%${Math.abs(chgVal).toFixed(2)}</b> düşüşte. Satıcılar baskın konumda.`);
-    overallSignal = 'DÜŞÜŞ'; signalColor = 'var(--down)'; signalEmoji = '⚠️';
+    score -= 1;
   } else {
     suggestions.push(`➖ <b>${symbol}</b> bugün yatay bir seyir izliyor. Piyasa yön arıyor.`);
   }
@@ -499,23 +545,16 @@ function renderBorsaAIAnalysis(item, chgVal) {
     
     if (posInRange > 85) {
       suggestions.push(`🔝 Fiyat günün zirve bölgesinde (%${posInRange.toFixed(0)}). Alıcılar kontrolü elinde tutuyor.`);
+      score += 1;
     } else if (posInRange > 60) {
       suggestions.push(`📊 Fiyat gün içi bandının üst yarısında (%${posInRange.toFixed(0)}). Olumlu bir görünüm sergileniyor.`);
     } else if (posInRange < 15) {
       suggestions.push(`⚡ Fiyat günün dip bölgesinde (%${posInRange.toFixed(0)}). Potansiyel dip seviyeleri test ediliyor.`);
+      score -= 1;
     } else if (posInRange < 40) {
       suggestions.push(`📊 Fiyat gün içi bandının alt yarısında (%${posInRange.toFixed(0)}). Baskı devam edebilir.`);
     } else {
       suggestions.push(`📊 Fiyat gün içi bandının ortasında seyrediyor. Taraflar dengede.`);
-    }
-    
-    if (range > 0) {
-      const rangePercent = (range / low) * 100;
-      if (rangePercent > 5) {
-        suggestions.push(`📐 Bugünkü gün içi hareket aralığı %${rangePercent.toFixed(2)} — oldukça volatil bir gün.`);
-      } else if (rangePercent < 1) {
-        suggestions.push(`📐 Bugünkü gün içi hareket aralığı %${rangePercent.toFixed(2)} — sıkışık bir görünüm.`);
-      }
     }
   }
   
@@ -524,12 +563,64 @@ function renderBorsaAIAnalysis(item, chgVal) {
     const aofDiff = ((price - aof) / aof) * 100;
     if (aofDiff > 1) {
       suggestions.push(`💰 Fiyat, ağırlıklı ortalama fiyatın (AOF: ₺${item.aof}) <b style="color:var(--up)">%${aofDiff.toFixed(2)}</b> üzerinde — kısa vadede kâr realizasyonu gelebilir.`);
+      score += 1;
     } else if (aofDiff < -1) {
       suggestions.push(`💰 Fiyat, ağırlıklı ortalama fiyatın (AOF: ₺${item.aof}) <b style="color:var(--down)">%${Math.abs(aofDiff).toFixed(2)}</b> altında — AOF'a doğru toparlanma potansiyeli var.`);
-    } else {
-      suggestions.push(`💰 Fiyat, ağırlıklı ortalama fiyata (AOF: ₺${item.aof}) yakın seyrediyor — denge bölgesinde.`);
+      score -= 1;
     }
   }
+
+  // Geçmiş veri (klines) ile Teknik Analiz İndikatörleri (RSI, MACD, Momentum)
+  if (klines && klines.length > 30) {
+    const closes = klines.map(k => k.close);
+    
+    const rsi = calculateBorsaRSI(closes, 14);
+    if (rsi !== null) {
+      if (rsi > 70) {
+        suggestions.push(`⚠️ <b>RSI Aşırı Alım:</b> Değer ${rsi.toFixed(1)}. Fiyat aşırı şişmiş olabilir, kâr satışları görülebilir.`);
+        score -= 2;
+      } else if (rsi < 30) {
+        suggestions.push(`🚀 <b>RSI Aşırı Satım:</b> Değer ${rsi.toFixed(1)}. Fiyat aşırı düşmüş, tepki alımları potansiyeli yüksek.`);
+        score += 2;
+      } else if (rsi > 50) {
+        suggestions.push(`📈 <b>RSI Pozitif:</b> Değer ${rsi.toFixed(1)}. Alış ivmesi gücünü koruyor.`);
+        score += 1;
+      } else {
+        suggestions.push(`📉 <b>RSI Negatif:</b> Değer ${rsi.toFixed(1)}. Satış baskısı devam ediyor.`);
+        score -= 1;
+      }
+    }
+    
+    const macd = calculateBorsaMACD(closes);
+    if (macd !== null) {
+      if (macd > 0) {
+        suggestions.push(`📊 <b>MACD Pozitif:</b> Trend yukarı yönlü görünüyor.`);
+        score += 1;
+      } else {
+        suggestions.push(`📊 <b>MACD Negatif:</b> Trend aşağı yönlü baskı altında.`);
+        score -= 1;
+      }
+    }
+    
+    const mom = calculateBorsaMomentum(closes, 10);
+    if (mom !== null) {
+      if (mom > 0) {
+        suggestions.push(`⚡ <b>Momentum:</b> Son 10 güne göre fiyat artıda. Kısa vadeli ivme güçlü.`);
+        score += 1;
+      } else {
+        suggestions.push(`⚡ <b>Momentum:</b> Son 10 güne göre fiyat ekside. Kısa vadeli ivme zayıf.`);
+        score -= 1;
+      }
+    }
+  } else {
+    suggestions.push(`🔍 <b>Teknik İndikatörler:</b> Yeterli geçmiş veri yüklenemediği için hesaplanamadı.`);
+  }
+  
+  // Sonuç ve Sinyal
+  if (score >= 4) { overallSignal = 'GÜÇLÜ AL'; signalColor = 'var(--up)'; signalEmoji = '🚀'; }
+  else if (score >= 1) { overallSignal = 'AL / POZİTİF'; signalColor = 'var(--up)'; signalEmoji = '✅'; }
+  else if (score <= -4) { overallSignal = 'GÜÇLÜ SAT'; signalColor = 'var(--down)'; signalEmoji = '🔻'; }
+  else if (score <= -1) { overallSignal = 'SAT / NEGATİF'; signalColor = 'var(--down)'; signalEmoji = '⚠️'; }
   
   // Son güncelleme
   if (item.time) {
