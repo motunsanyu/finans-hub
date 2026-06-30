@@ -360,21 +360,100 @@ window.showBorsaDetail = function(symbol) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
-function renderBorsaTradingViewChart(symbol) {
+let borsaChart = null;
+let borsaCandleSeries = null;
+
+async function renderBorsaTradingViewChart(symbol) {
   const container = document.getElementById('bdTradingViewChart');
   if (!container) return;
   
-  container.innerHTML = '';
+  container.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-secondary);">Grafik verileri yükleniyor...</div>';
   
-  const tvSymbol = encodeURIComponent(`BIST:${symbol}`);
+  // Kriptoda olduğu gibi kendi grafiğimizi çizmek için Yahoo Finance'den geçmiş verileri çekiyoruz
+  const yahooSymbol = `${symbol}.IS`;
+  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${yahooSymbol}?interval=1d&range=6mo`;
+  const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
   
-  const iframe = document.createElement('iframe');
-  iframe.src = `https://s.tradingview.com/widgetembed/?frameElementId=tv_bist_chart&symbol=${tvSymbol}&interval=D&symboledit=0&saveimage=0&studies=%5B%22RSI%40tv-basicstudies%22%5D&theme=dark&style=1&timezone=Europe%2FIstanbul&locale=tr&withdateranges=1&hide_side_toolbar=0`;
-  iframe.style.cssText = 'width:100%; height:100%; border:none; border-radius:8px;';
-  iframe.allowFullscreen = true;
-  iframe.loading = 'lazy';
-  
-  container.appendChild(iframe);
+  try {
+    const res = await fetch(proxyUrl);
+    const data = await res.json();
+    const result = data.chart?.result?.[0];
+    
+    if (!result || !result.timestamp) {
+      throw new Error("Veri bulunamadı");
+    }
+    
+    const timestamps = result.timestamp;
+    const quotes = result.indicators.quote[0];
+    
+    const klines = [];
+    for (let i = 0; i < timestamps.length; i++) {
+      if (quotes.open[i] !== null) {
+        klines.push({
+          time: timestamps[i], // LightweightCharts saniye cinsinden timestamp kabul eder (1d için)
+          open: quotes.open[i],
+          high: quotes.high[i],
+          low: quotes.low[i],
+          close: quotes.close[i]
+        });
+      }
+    }
+    
+    if (klines.length === 0) throw new Error("Mum verisi yok");
+    
+    container.innerHTML = '';
+    
+    // Container boyutlarını ayarla
+    container.style.width = '100%';
+    container.style.height = '400px';
+    
+    borsaChart = LightweightCharts.createChart(container, {
+      localization: {
+        timeFormatter: (timestamp) => {
+          const d = new Date(timestamp * 1000);
+          return d.toLocaleDateString('tr-TR');
+        }
+      },
+      layout: {
+        background: { type: 'solid', color: 'transparent' },
+        textColor: '#848e9c',
+      },
+      grid: {
+        vertLines: { color: 'rgba(255,255,255,0.03)' },
+        horzLines: { color: 'rgba(255,255,255,0.03)' },
+      },
+      crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
+      rightPriceScale: { 
+        borderColor: 'rgba(255,255,255,0.1)',
+        textColor: 'var(--text-primary)'
+      },
+      timeScale: { borderColor: 'rgba(255,255,255,0.1)' },
+      width: container.clientWidth || 400,
+      height: 400,
+    });
+    
+    borsaCandleSeries = borsaChart.addCandlestickSeries({
+      upColor: '#00b050',
+      downColor: '#ff0000',
+      borderDownColor: '#ff0000',
+      borderUpColor: '#00b050',
+      wickDownColor: '#ff0000',
+      wickUpColor: '#00b050',
+    });
+    
+    borsaCandleSeries.setData(klines);
+    borsaChart.timeScale().fitContent();
+    
+  } catch (err) {
+    console.error("Hisse grafiği çizilemedi:", err);
+    container.innerHTML = `
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:180px; background:rgba(255,255,255,0.02); border:1px dashed rgba(255,255,255,0.1); border-radius:8px; text-align:center; padding:20px;">
+        <div style="font-size:24px; margin-bottom:12px;">🚫📊</div>
+        <div style="font-size:13px; color:var(--text-secondary); margin-bottom:16px;">Borsa grafiği yüklenirken bir hata oluştu.<br>Veri kaynağı geçici olarak yanıt vermiyor olabilir.</div>
+        <a href="https://tr.tradingview.com/chart/?symbol=BIST:${symbol}" target="_blank" style="background:var(--brand); color:black; font-weight:800; font-size:13px; padding:10px 20px; border-radius:8px; text-decoration:none; display:inline-block;">TradingView'de Aç</a>
+      </div>
+    `;
+  }
 }
 
 function renderBorsaAIAnalysis(item, chgVal) {
