@@ -10,7 +10,7 @@ from news import fetch_top_news
 from altinkaynak import fetch_altinkaynak_gold
 from fuel import fetch_fuel_prices
 from scrape_borsa import scrape_borsa, update_supabase
-from scrape_klines import fetch_and_upsert_klines
+from scrape_klines import fetch_and_upsert_klines_async
 
 
 DEFAULT_TABLE = "market_snapshots"
@@ -182,11 +182,11 @@ def main() -> int:
     if borsa_data:
         update_supabase(borsa_data)
 
-    # borsa_klines (grafik) geçmiş verilerini güncelle
+    # borsa_klines (grafik) geçmiş verilerini arka planda güncelle (timeout olmasin)
     try:
-        fetch_and_upsert_klines()
+        fetch_and_upsert_klines_async()
     except Exception as e:
-        print(f"[klines] Grafik verileri güncellenirken hata oluştu: {e}")
+        print(f"[klines] Grafik verisi başlatılamadı: {e}")
 
     print(
         "Market snapshot saved:",

@@ -1,130 +1,185 @@
+"""
+scrape_klines.py
+----------------
+BIST hisselerinin son 200 günlük OHLCV geçmiş verilerini
+Yahoo Finance REST API üzerinden çeker ve Supabase'e UPSERT eder.
+
+• yfinance kütüphanesi KULLANILMAZ — sadece requests
+• Her hisse için tabloda tek satır tutulur (upsert), tablo asla kabarmaz.
+• /cron endpoint'ini bloke etmemek için thread'de çalışır.
+"""
+
 import os
-import sys
+import time
 import datetime as dt
 import requests
 import json
-import yfinance as yf
+import threading
 
-def _env(name: str, *, required: bool = True, default: str | None = None) -> str:
+# ─── Yardımcı Fonksiyonlar ────────────────────────────────────────────────────
+
+def _env(name: str, default: str | None = None) -> str:
     value = os.getenv(name, default)
-    if required and not value:
+    if not value:
         raise RuntimeError(f"{name} environment variable is required.")
     return str(value).strip()
 
-def _clean_supabase_url(raw: str) -> str:
-    return raw.rstrip("/")
-
-def _get_headers(supabase_key: str) -> dict:
-    return {
-        "apikey": supabase_key,
-        "Authorization": f"Bearer {supabase_key}",
+def _supabase_headers(key: str, upsert: bool = False) -> dict:
+    h = {
+        "apikey": key,
+        "Authorization": f"Bearer {key}",
         "Content-Type": "application/json",
-        "Prefer": "return=minimal",
     }
+    if upsert:
+        h["Prefer"] = "resolution=merge-duplicates,return=minimal"
+    else:
+        h["Prefer"] = "return=minimal"
+    return h
 
-def get_symbols_from_supabase(supabase_url: str, supabase_key: str) -> list[str]:
-    endpoint = f"{supabase_url}/rest/v1/borsa_data?select=symbol"
-    resp = requests.get(endpoint, headers=_get_headers(supabase_key), timeout=20)
+# ─── Supabase: Sembol Listesi ─────────────────────────────────────────────────
+
+def get_symbols(supabase_url: str, key: str) -> list[str]:
+    """borsa_data tablosundan mevcut sembol listesini çeker."""
+    url = f"{supabase_url}/rest/v1/borsa_data?select=symbol"
+    resp = requests.get(url, headers=_supabase_headers(key), timeout=20)
     if resp.status_code != 200:
-        print(f"Error fetching symbols: {resp.status_code} - {resp.text}")
+        print(f"[klines] Sembol listesi alınamadı: {resp.status_code} {resp.text[:200]}")
         return []
-    
-    data = resp.json()
-    symbols = [row["symbol"] for row in data if "symbol" in row]
-    return symbols
+    return [r["symbol"] for r in resp.json() if "symbol" in r]
+
+# ─── Yahoo Finance: Tek Sembol OHLCV ─────────────────────────────────────────
+
+_YF_URL = "https://query1.finance.yahoo.com/v8/finance/chart/{ticker}"
+_HEADERS_YF = {
+    "User-Agent": "Mozilla/5.0",
+    "Accept": "application/json",
+}
+
+def fetch_yahoo_klines(symbol_bist: str, period: str = "200d") -> list[dict] | None:
+    """
+    Tek bir BIST sembolü için Yahoo Finance'dan günlük OHLCV çeker.
+    Dönen liste: [{"time": unix_ts, "open": ..., "high": ..., "low": ..., "close": ..., "volume": ...}]
+    Hata veya veri yoksa None döner.
+    """
+    ticker = f"{symbol_bist}.IS"
+    url = _YF_URL.format(ticker=ticker)
+    params = {"interval": "1d", "range": "200d"}
+
+    try:
+        resp = requests.get(url, headers=_HEADERS_YF, params=params, timeout=15)
+        if resp.status_code != 200:
+            return None
+        body = resp.json()
+        result = body.get("chart", {}).get("result")
+        if not result:
+            return None
+        result = result[0]
+        timestamps = result.get("timestamp", [])
+        quote = result.get("indicators", {}).get("quote", [{}])[0]
+        opens = quote.get("open", [])
+        highs = quote.get("high", [])
+        lows = quote.get("low", [])
+        closes = quote.get("close", [])
+        volumes = quote.get("volume", [])
+
+        klines = []
+        for i, ts in enumerate(timestamps):
+            c = closes[i] if i < len(closes) else None
+            if c is None:
+                continue
+            klines.append({
+                "time": int(ts),
+                "open": round(float(opens[i]), 4) if i < len(opens) and opens[i] is not None else round(float(c), 4),
+                "high": round(float(highs[i]), 4) if i < len(highs) and highs[i] is not None else round(float(c), 4),
+                "low": round(float(lows[i]), 4) if i < len(lows) and lows[i] is not None else round(float(c), 4),
+                "close": round(float(c), 4),
+                "volume": int(volumes[i]) if i < len(volumes) and volumes[i] is not None else 0,
+            })
+        return klines if klines else None
+
+    except Exception as e:
+        print(f"[klines] Yahoo çekme hatası ({symbol_bist}): {e}")
+        return None
+
+# ─── Supabase: Batch Upsert ───────────────────────────────────────────────────
+
+def upsert_batch(payload: list[dict], supabase_url: str, key: str):
+    endpoint = f"{supabase_url}/rest/v1/borsa_klines"
+    resp = requests.post(
+        endpoint,
+        headers=_supabase_headers(key, upsert=True),
+        json=payload,
+        timeout=30,
+    )
+    if resp.status_code not in {200, 201, 204}:
+        print(f"[klines] Upsert hatası: HTTP {resp.status_code} - {resp.text[:300]}")
+    else:
+        print(f"[klines] {len(payload)} hisse başarıyla yüklendi.")
+
+# ─── Ana Fonksiyon ────────────────────────────────────────────────────────────
 
 def fetch_and_upsert_klines():
-    supabase_url = _clean_supabase_url(_env("SUPABASE_URL"))
-    supabase_key = _env("SUPABASE_KEY")
-    
-    print("Supabase'den semboller çekiliyor...")
-    symbols = get_symbols_from_supabase(supabase_url, supabase_key)
-    
-    if not symbols:
-        print("Hisse sembolü bulunamadı.")
+    """
+    Tüm BIST sembollerini Supabase'den alır, Yahoo Finance'dan klines çeker,
+    borsa_klines tablosuna UPSERT eder. Tablo hiçbir zaman kabarmaz.
+    """
+    try:
+        supabase_url = _env("SUPABASE_URL").rstrip("/")
+        supabase_key = _env("SUPABASE_KEY")
+    except RuntimeError as e:
+        print(f"[klines] Yapılandırma hatası: {e}")
         return
 
-    print(f"Toplam {len(symbols)} sembol bulundu. Geçmiş veriler indiriliyor...")
-    
-    # Yahoo Finance için sonlarına .IS ekleyelim
-    yf_symbols = [f"{s}.IS" for s in symbols]
-    
-    # Çoklu indirme (son 6 ay = 130 civarı iş günü)
-    # yfinance bulk download dönerken DataFrame multi-index dönüyor.
-    # Group_by ticker kullanarak daha kolay ayırabiliriz.
-    data = yf.download(tickers=" ".join(yf_symbols), period="6mo", interval="1d", group_by="ticker", threads=True, progress=False)
-    
+    print("[klines] Semboller alınıyor...")
+    symbols = get_symbols(supabase_url, supabase_key)
+    if not symbols:
+        print("[klines] İşlenecek sembol bulunamadı.")
+        return
+
+    print(f"[klines] {len(symbols)} sembol için Yahoo Finance'dan veri çekiliyor...")
     tr_tz = dt.timezone(dt.timedelta(hours=3))
     now_iso = dt.datetime.now(tr_tz).isoformat()
-    
-    upsert_payload = []
-    
-    for symbol in symbols:
-        yf_sym = f"{symbol}.IS"
-        
-        try:
-            # Tek sembol çekildiğinde DataFrame yapısı farklı olur, 
-            # çoklu sembol çekildiğinde farklı. Bunu handle edelim.
-            if len(symbols) == 1:
-                df = data
-            else:
-                if yf_sym not in data.columns.levels[0]:
-                    continue
-                df = data[yf_sym]
-                
-            df = df.dropna(subset=['Close'])
-            if df.empty:
-                continue
-                
-            klines = []
-            for date_idx, row in df.iterrows():
-                # Timestamp'i saniye cinsinden alıyoruz
-                timestamp = int(date_idx.timestamp())
-                klines.append({
-                    "time": timestamp,
-                    "open": float(row["Open"]),
-                    "high": float(row["High"]),
-                    "low": float(row["Low"]),
-                    "close": float(row["Close"]),
-                    "volume": float(row["Volume"]) if "Volume" in row and not import_pandas_isna(row["Volume"]) else 0
-                })
-            
-            if klines:
-                upsert_payload.append({
-                    "symbol": symbol,
-                    "klines": klines,
-                    "updated_at": now_iso
-                })
-                
-        except Exception as e:
-            print(f"Hata ({symbol}): {e}")
-            continue
 
-    if not upsert_payload:
-        print("Kaydedilecek geçerli kline verisi bulunamadı.")
-        return
+    batch = []
+    BATCH_SIZE = 50
 
-    print(f"{len(upsert_payload)} hisse için veriler Supabase'e gönderiliyor...")
-    
-    # Bulk UPSERT işlemi (100'erli gruplar halinde)
-    endpoint = f"{supabase_url}/rest/v1/borsa_klines"
-    headers = _get_headers(supabase_key)
-    headers["Prefer"] = "resolution=merge-duplicates,return=minimal"
-    
-    batch_size = 50
-    for i in range(0, len(upsert_payload), batch_size):
-        batch = upsert_payload[i:i+batch_size]
-        resp = requests.post(endpoint, headers=headers, json=batch, timeout=30)
-        if resp.status_code not in {200, 201, 204}:
-            print(f"Upsert hatası (Batch {i}): HTTP {resp.status_code} - {resp.text}")
-        else:
-            print(f"Batch {i} - {i+len(batch)} başarıyla yüklendi.")
-            
-    print("Veri aktarımı tamamlandı!")
+    for idx, symbol in enumerate(symbols, 1):
+        klines = fetch_yahoo_klines(symbol)
+        if klines:
+            batch.append({
+                "symbol": symbol,
+                "klines": klines,
+                "updated_at": now_iso,
+            })
 
-def import_pandas_isna(val):
-    import pandas as pd
-    return pd.isna(val)
+        # Her 50 hissede bir yükle
+        if len(batch) >= BATCH_SIZE:
+            upsert_batch(batch, supabase_url, supabase_key)
+            batch = []
+            time.sleep(0.5)  # Yahoo rate-limit için küçük bekleme
+
+        # Her sembolde 0.1s bekle (Yahoo'yu aşırı yüklememek için)
+        time.sleep(0.1)
+
+        if idx % 50 == 0:
+            print(f"[klines] {idx}/{len(symbols)} tamamlandı...")
+
+    # Kalan kayıtları gönder
+    if batch:
+        upsert_batch(batch, supabase_url, supabase_key)
+
+    print("[klines] Tüm kline verileri başarıyla güncellendi.")
+
+
+def fetch_and_upsert_klines_async():
+    """
+    fetch_and_upsert_klines'ı arka planda (thread) çalıştırır.
+    /cron endpoint'ini bloke etmez.
+    """
+    t = threading.Thread(target=fetch_and_upsert_klines, daemon=True)
+    t.start()
+    print("[klines] Grafik verisi güncelleme işlemi arka planda başlatıldı.")
+
 
 if __name__ == "__main__":
     fetch_and_upsert_klines()
