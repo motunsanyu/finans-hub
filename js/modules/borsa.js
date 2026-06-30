@@ -366,45 +366,15 @@ function renderBorsaTradingViewChart(symbol) {
   
   container.innerHTML = '';
   
-  const tvSymbol = `BIST:${symbol}`;
+  const tvSymbol = encodeURIComponent(`BIST:${symbol}`);
   
-  const script = document.createElement('script');
-  script.type = 'text/javascript';
-  script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
-  script.async = true;
-  script.innerHTML = JSON.stringify({
-    "autosize": true,
-    "symbol": tvSymbol,
-    "interval": "D",
-    "timezone": "Europe/Istanbul",
-    "theme": "dark",
-    "style": "1",
-    "locale": "tr",
-    "backgroundColor": "rgba(11, 14, 17, 1)",
-    "gridColor": "rgba(255, 255, 255, 0.05)",
-    "hide_top_toolbar": false,
-    "hide_legend": false,
-    "allow_symbol_change": false,
-    "save_image": false,
-    "calendar": false,
-    "support_host": "https://www.tradingview.com",
-    "withdateranges": true,
-    "studies": ["RSI@tv-basicstudies", "MASimple@tv-basicstudies"]
-  });
+  const iframe = document.createElement('iframe');
+  iframe.src = `https://s.tradingview.com/widgetembed/?frameElementId=tv_bist_chart&symbol=${tvSymbol}&interval=D&symboledit=0&saveimage=0&studies=%5B%22RSI%40tv-basicstudies%22%5D&theme=dark&style=1&timezone=Europe%2FIstanbul&locale=tr&withdateranges=1&hide_side_toolbar=0`;
+  iframe.style.cssText = 'width:100%; height:100%; border:none; border-radius:8px;';
+  iframe.allowFullscreen = true;
+  iframe.loading = 'lazy';
   
-  const widgetDiv = document.createElement('div');
-  widgetDiv.className = 'tradingview-widget-container';
-  widgetDiv.style.height = '100%';
-  widgetDiv.style.width = '100%';
-  
-  const innerDiv = document.createElement('div');
-  innerDiv.className = 'tradingview-widget-container__widget';
-  innerDiv.style.height = '100%';
-  innerDiv.style.width = '100%';
-  
-  widgetDiv.appendChild(innerDiv);
-  widgetDiv.appendChild(script);
-  container.appendChild(widgetDiv);
+  container.appendChild(iframe);
 }
 
 function renderBorsaAIAnalysis(item, chgVal) {
