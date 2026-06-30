@@ -48,6 +48,10 @@ def scrape_borsa():
                     link = "https://finans.mynet.com/" + link.lstrip("/")
                     
                 if symbol and price:
+                    # Borsa açılmadan önceki sıfırlanmış fiyatları veritabanına yazmamak için:
+                    if price in ["0", "0,00", "0.00", "0.0", "0,0", "-", ""]:
+                        continue
+                        
                     data_list.append({
                         "symbol": symbol,
                         "name": symbol,
