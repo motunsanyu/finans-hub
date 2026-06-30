@@ -351,12 +351,158 @@ window.showBorsaDetail = function(symbol) {
   document.getElementById('bdVolLot').innerText = item.volume_lot || '--';
   document.getElementById('bdVolTl').innerText = item.volume_tl ? `₺${item.volume_tl}` : '--';
   
+  // TradingView grafiğini yükle
+  renderBorsaTradingViewChart(symbol);
+  
+  // Akıllı önerileri oluştur
+  renderBorsaAIAnalysis(item, chgVal);
+  
   window.scrollTo({ top: 0, behavior: 'smooth' });
 };
+
+function renderBorsaTradingViewChart(symbol) {
+  const container = document.getElementById('bdTradingViewChart');
+  if (!container) return;
+  
+  container.innerHTML = '';
+  
+  const tvSymbol = `BIST:${symbol}`;
+  
+  const script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
+  script.async = true;
+  script.innerHTML = JSON.stringify({
+    "autosize": true,
+    "symbol": tvSymbol,
+    "interval": "D",
+    "timezone": "Europe/Istanbul",
+    "theme": "dark",
+    "style": "1",
+    "locale": "tr",
+    "backgroundColor": "rgba(11, 14, 17, 1)",
+    "gridColor": "rgba(255, 255, 255, 0.05)",
+    "hide_top_toolbar": false,
+    "hide_legend": false,
+    "allow_symbol_change": false,
+    "save_image": false,
+    "calendar": false,
+    "support_host": "https://www.tradingview.com",
+    "withdateranges": true,
+    "studies": ["RSI@tv-basicstudies", "MASimple@tv-basicstudies"]
+  });
+  
+  const widgetDiv = document.createElement('div');
+  widgetDiv.className = 'tradingview-widget-container';
+  widgetDiv.style.height = '100%';
+  widgetDiv.style.width = '100%';
+  
+  const innerDiv = document.createElement('div');
+  innerDiv.className = 'tradingview-widget-container__widget';
+  innerDiv.style.height = '100%';
+  innerDiv.style.width = '100%';
+  
+  widgetDiv.appendChild(innerDiv);
+  widgetDiv.appendChild(script);
+  container.appendChild(widgetDiv);
+}
+
+function renderBorsaAIAnalysis(item, chgVal) {
+  const el = document.getElementById('bdAIAnalysis');
+  if (!el) return;
+  
+  const price = parseFloat(String(item.price).replace(',', '.')) || 0;
+  const high = parseFloat(String(item.high).replace(',', '.')) || 0;
+  const low = parseFloat(String(item.low).replace(',', '.')) || 0;
+  const aof = parseFloat(String(item.aof).replace(',', '.')) || 0;
+  const volLot = item.volume_lot || '0';
+  const volTl = item.volume_tl || '0';
+  const symbol = item.symbol;
+  const fullName = borsaNames[symbol] || symbol;
+  
+  const suggestions = [];
+  let overallSignal = 'NOTR';
+  let signalColor = 'var(--text-secondary)';
+  let signalEmoji = '⚖️';
+  
+  // Değişim analizi
+  if (chgVal > 3) {
+    suggestions.push(`📈 <b>${symbol}</b> bugün <b style="color:var(--up)">%${Math.abs(chgVal).toFixed(2)}</b> yükselişte. Güçlü alıcı baskısı gözleniyor.`);
+    overallSignal = 'GÜÇLÜ YÜKSELİŞ'; signalColor = 'var(--up)'; signalEmoji = '🚀';
+  } else if (chgVal > 0) {
+    suggestions.push(`📈 <b>${symbol}</b> bugün <b style="color:var(--up)">%${Math.abs(chgVal).toFixed(2)}</b> artıda. Olumlu bir seyir izliyor.`);
+    overallSignal = 'YÜKSELİŞ'; signalColor = 'var(--up)'; signalEmoji = '✅';
+  } else if (chgVal < -3) {
+    suggestions.push(`📉 <b>${symbol}</b> bugün <b style="color:var(--down)">%${Math.abs(chgVal).toFixed(2)}</b> düşüşte. Sert satış baskısı var.`);
+    overallSignal = 'GÜÇLÜ DÜŞÜŞ'; signalColor = 'var(--down)'; signalEmoji = '🔻';
+  } else if (chgVal < 0) {
+    suggestions.push(`📉 <b>${symbol}</b> bugün <b style="color:var(--down)">%${Math.abs(chgVal).toFixed(2)}</b> düşüşte. Satıcılar baskın konumda.`);
+    overallSignal = 'DÜŞÜŞ'; signalColor = 'var(--down)'; signalEmoji = '⚠️';
+  } else {
+    suggestions.push(`➖ <b>${symbol}</b> bugün yatay bir seyir izliyor. Piyasa yön arıyor.`);
+  }
+  
+  // High/Low analizi
+  if (price > 0 && high > 0 && low > 0 && high !== low) {
+    const range = high - low;
+    const posInRange = ((price - low) / range) * 100;
+    
+    if (posInRange > 85) {
+      suggestions.push(`🔝 Fiyat günün zirve bölgesinde (%${posInRange.toFixed(0)}). Alıcılar kontrolü elinde tutuyor.`);
+    } else if (posInRange > 60) {
+      suggestions.push(`📊 Fiyat gün içi bandının üst yarısında (%${posInRange.toFixed(0)}). Olumlu bir görünüm sergileniyor.`);
+    } else if (posInRange < 15) {
+      suggestions.push(`⚡ Fiyat günün dip bölgesinde (%${posInRange.toFixed(0)}). Potansiyel dip seviyeleri test ediliyor.`);
+    } else if (posInRange < 40) {
+      suggestions.push(`📊 Fiyat gün içi bandının alt yarısında (%${posInRange.toFixed(0)}). Baskı devam edebilir.`);
+    } else {
+      suggestions.push(`📊 Fiyat gün içi bandının ortasında seyrediyor. Taraflar dengede.`);
+    }
+    
+    if (range > 0) {
+      const rangePercent = (range / low) * 100;
+      if (rangePercent > 5) {
+        suggestions.push(`📐 Bugünkü gün içi hareket aralığı %${rangePercent.toFixed(2)} — oldukça volatil bir gün.`);
+      } else if (rangePercent < 1) {
+        suggestions.push(`📐 Bugünkü gün içi hareket aralığı %${rangePercent.toFixed(2)} — sıkışık bir görünüm.`);
+      }
+    }
+  }
+  
+  // AOF analizi
+  if (price > 0 && aof > 0) {
+    const aofDiff = ((price - aof) / aof) * 100;
+    if (aofDiff > 1) {
+      suggestions.push(`💰 Fiyat, ağırlıklı ortalama fiyatın (AOF: ₺${item.aof}) <b style="color:var(--up)">%${aofDiff.toFixed(2)}</b> üzerinde — kısa vadede kâr realizasyonu gelebilir.`);
+    } else if (aofDiff < -1) {
+      suggestions.push(`💰 Fiyat, ağırlıklı ortalama fiyatın (AOF: ₺${item.aof}) <b style="color:var(--down)">%${Math.abs(aofDiff).toFixed(2)}</b> altında — AOF'a doğru toparlanma potansiyeli var.`);
+    } else {
+      suggestions.push(`💰 Fiyat, ağırlıklı ortalama fiyata (AOF: ₺${item.aof}) yakın seyrediyor — denge bölgesinde.`);
+    }
+  }
+  
+  // Son güncelleme
+  if (item.time) {
+    suggestions.push(`🕐 Son veri güncellemesi: <b>${item.time}</b>`);
+  }
+  
+  el.innerHTML = `
+    <div style="margin-bottom:14px; padding:12px; background:rgba(0,0,0,0.15); border-radius:10px; border-left:4px solid ${signalColor};">
+      <span style="font-weight:800; color:${signalColor}; font-size:16px;">${signalEmoji} ${overallSignal}</span>
+      <div style="font-size:11px; color:var(--text-secondary); margin-top:6px;">${fullName}</div>
+    </div>
+    <ul style="margin:0; padding:0; list-style:none;">
+      ${suggestions.map(s => `<li style="margin-bottom:8px; display:flex; align-items:baseline; gap:8px; padding:8px; background:rgba(255,255,255,0.02); border-radius:6px;"><span style="color:var(--text-primary); font-size:12px;">${s}</span></li>`).join('')}
+    </ul>`;
+}
 
 window.closeBorsaDetail = function() {
   const listSection = document.getElementById('borsaSection');
   const detailSection = document.getElementById('borsaDetailSection');
+  
+  // TradingView widget temizle
+  const chartContainer = document.getElementById('bdTradingViewChart');
+  if (chartContainer) chartContainer.innerHTML = '';
   
   if (detailSection) detailSection.style.display = 'none';
   if (listSection) listSection.style.display = 'block';

@@ -363,9 +363,12 @@ function renderPivotCommentary(klines, latestPrice, ctx = {}) {
     { label: 'S4', value: pv.s4, type: 'S' },
   ];
 
-  // Fiyatın hemen üstündeki ve altındaki seviyeyi bul
-  const above = allLevels.find(l => l.value > latestPrice); // En yakın direnç
-  const below = [...allLevels].reverse().find(l => l.value <= latestPrice); // En yakın destek/pivot
+  // Fiyatın hemen üstündeki (en yakın direnç) ve altındaki (en yakın destek) seviyeyi bul
+  // allLevels yüksekten düşüğe sıralı, bu yüzden:
+  // above = fiyatın hemen üstündeki en yakın seviye (sondan bulunan > latestPrice)
+  // below = fiyatın hemen altındaki en yakın seviye (ilk bulunan <= latestPrice, ters yönde)
+  const above = [...allLevels].reverse().find(l => l.value > latestPrice); // En yakın direnç
+  const below = allLevels.find(l => l.value <= latestPrice); // En yakın destek/pivot
 
   if (!above && !below) return null;
 
