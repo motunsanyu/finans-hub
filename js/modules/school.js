@@ -217,7 +217,26 @@ const SchoolModule = (() => {
     let html = '';
     let needsSave = false;
 
-    schoolPlans.forEach((plan, idx) => {
+    const plansWithStats = schoolPlans.map((plan, idx) => {
+      let paidCount = 0;
+      const installmentCount = plan.installmentCount;
+      const firstDate = new Date(plan.firstDate);
+      for (let i = 0; i < installmentCount; i++) {
+        const dueDate = new Date(firstDate);
+        dueDate.setMonth(firstDate.getMonth() + i);
+        const status = getInstallmentStatus(dueDate, plan.cardId);
+        if (status === 'Ödendi') paidCount++;
+      }
+      return { plan, idx, remainingCount: installmentCount - paidCount };
+    });
+
+    plansWithStats.sort((a, b) => {
+      if (a.remainingCount === 0 && b.remainingCount > 0) return 1;
+      if (b.remainingCount === 0 && a.remainingCount > 0) return -1;
+      return b.remainingCount - a.remainingCount;
+    });
+
+    plansWithStats.forEach(({ plan, idx }) => {
       const totalDebt = plan.totalDebt;
       const installmentCount = plan.installmentCount;
       const unevenData = plan.unevenData; // { indices: [], amount: 0 }

@@ -652,7 +652,8 @@ const SuperligModule = (() => {
   function getCurrentSuperLigSeasonStartYear() {
     const now = new Date();
     const month = now.getMonth() + 1;
-    return month >= 7 ? now.getFullYear() : now.getFullYear() - 1;
+    // ESPN API'de yeni sezon maçları genellikle Ağustos'ta belli olur
+    return month >= 8 ? now.getFullYear() : now.getFullYear() - 1;
   }
 
   let currentLigWeek = 1;
