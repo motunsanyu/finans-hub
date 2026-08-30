@@ -135,7 +135,7 @@ const SuperligModule = (() => {
       const rankColor = rank <= 2 ? "var(--up)" : rank <= 4 ? "var(--brand)" : rank > totalTeams - 4 ? "var(--down)" : "var(--text-secondary)";
       const logo = row.logo || "";
 
-      return `<div class="lig-row" style="${zStyle}" onclick='openTeamDetail(${JSON.stringify(row)})'>
+      return `<div class="lig-row" style="${zStyle}" onclick='openTeamDetail(${JSON.stringify(row).replace(/\x27/g, "&#39;")})'>
           <div class="lig-col-rank"><span class="lig-rank-num" style="color:${rankColor}">${rank}</span></div>
           <div class="lig-col-team">
             <img src="${logo}" class="lig-logo" loading="lazy" onerror="this.style.display='none'" />
