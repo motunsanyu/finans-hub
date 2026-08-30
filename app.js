@@ -1,4 +1,4 @@
-let state = {
+﻿let state = {
   financeSnapshot: readStorage(STORAGE_KEYS.financeSnapshot, {}),
   debts: readStorage(STORAGE_KEYS.debts, { usd: 0, eur: 0, gold: 0, btc: 0, try: 0 }),
 
@@ -962,7 +962,6 @@ window.switchMarketTab = function (tab) {
   const sections = {
     'market': { id: 'piyasaSection', btn: 'btnMarketPiyasa' },
     'coins': { id: 'coinlerSection', btn: 'btnMarketCoinler' },
-    'borsa': { id: 'borsaSection', btn: 'btnMarketBorsa' },
     'news': { id: 'newsSection', btn: 'btnMarketNews' }
   };
 
@@ -974,9 +973,7 @@ window.switchMarketTab = function (tab) {
     if (btnEl) btnEl.classList.remove('active');
   });
 
-  // borsaDetailSection açıksa onu da gizle
-  const borsaDetailSec = document.getElementById('borsaDetailSection');
-  if (borsaDetailSec) borsaDetailSec.style.display = 'none';
+  
 
   // Seçili olanı göster
   const target = sections[tab];
@@ -997,8 +994,7 @@ window.switchMarketTab = function (tab) {
 
     // 'trade' and 'portfolio' tabs removed; no-op for those modules here
     if (tab === 'news' && typeof NewsModule !== 'undefined') NewsModule.fetchNews();
-    if (tab === 'borsa' && typeof fetchBorsaData === 'function') fetchBorsaData();
-    
+        
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 };

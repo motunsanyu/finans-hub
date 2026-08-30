@@ -1,6 +1,13 @@
 // js/modules/superlig.js — Süper Lig Modülü (ESPN API)
 
 const SuperligModule = (() => {
+      function getCustomLogo(name, espnLogo) {
+      if (!name) return espnLogo || "";
+      const nm = name.toLowerCase();
+      if (nm.includes("amed")) return "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%232E8B57' /><path d='M50 5 A45 45 0 0 1 50 95 Z' fill='%23DC143C' /><text x='50' y='65' font-family='Arial' font-size='40' font-weight='bold' fill='white' text-anchor='middle'>A</text></svg>";
+      if (nm.includes("orum") || nm.includes("corum") || nm.includes("�orum")) return "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23000000' /><path d='M50 5 A45 45 0 0 1 50 95 Z' fill='%23DC143C' /><text x='50' y='65' font-family='Arial' font-size='40' font-weight='bold' fill='white' text-anchor='middle'>�</text></svg>";
+      return espnLogo || "";
+    }
   window._currentLeagueId = 'tur.1';
   window._currentLeagueLabel = 'Türkiye Süper Ligi';
 
@@ -210,7 +217,7 @@ const SuperligModule = (() => {
 
   function renderFullMatchCards(events) {
     const sorted = [...events].sort((a, b) => new Date(a.date) - new Date(b.date));
-    const logoUrl = (id) => id ? `https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/${id}.png&w=64&h=64` : "";
+    const espnLogoUrl64 = (id) => id ? `https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/${id}.png&w=64&h=64` : "";
 
     return sorted.map((ev, idx) => {
       const comp = ev.competitions?.[0];
@@ -222,8 +229,8 @@ const SuperligModule = (() => {
       const isHalftime = isHalftimeStatus(ev);
       const isActive = isLive || isHalftime;
       const clock = ev.status?.displayClock || "";
-      const homeLogo = logoUrl(home?.team?.id);
-      const awayLogo = logoUrl(away?.team?.id);
+      const homeLogo = getCustomLogo(home?.team?.displayName || "", espnLogoUrl64(home?.team?.id));
+      const awayLogo = getCustomLogo(away?.team?.displayName || "", espnLogoUrl64(away?.team?.id));
       const homeId = String(home?.team?.id || home?.id || "");
       const awayId = String(away?.team?.id || away?.id || "");
 
@@ -553,7 +560,7 @@ const SuperligModule = (() => {
       dateFull = d.toLocaleDateString("tr-TR", { day: "2-digit", month: "2-digit" }) + " " + d.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" });
     } catch (e) { }
     const state = ev.status?.type?.state;
-    const logoUrl = (id) => id ? `https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/${id}.png&w=40&h=40` : "";
+    const espnLogoUrl40 = (id) => id ? `https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/${id}.png&w=40&h=40` : "";
     const details = comps?.details || [];
     const goalsList = details
       .filter(d => d.type?.text === "Goal" || d.scoringPlay)
@@ -584,10 +591,10 @@ const SuperligModule = (() => {
       id: ev.id,
       home: home?.team?.displayName || "?",
       homeId: String(home?.team?.id || home?.id || ""),
-      homeLogo: logoUrl(home?.team?.id || home?.id),
+      homeLogo: getCustomLogo(home?.team?.displayName || "", espnLogoUrl40(home?.team?.id || home?.id)),
       away: away?.team?.displayName || "?",
       awayId: String(away?.team?.id || away?.id || ""),
-      awayLogo: logoUrl(away?.team?.id || away?.id),
+      awayLogo: getCustomLogo(away?.team?.displayName || "", espnLogoUrl40(away?.team?.id || away?.id)),
       hScore: (home?.score !== undefined && state !== "pre") ? parseInt(home.score) : null,
       aScore: (away?.score !== undefined && state !== "pre") ? parseInt(away.score) : null,
       date: dateStr,
@@ -880,7 +887,7 @@ const SuperligModule = (() => {
           id: e.team?.id,
           rank: Math.round(stats.rank ?? stats.standing ?? 0),
           name: e.team?.displayName || e.team?.name || "?",
-          logo: e.team?.logos?.[0]?.href,
+          logo: getCustomLogo(e.team?.displayName || e.team?.name || "", e.team?.logos?.[0]?.href),
           form: (e.stats || []).find(s => s.name === "form")?.displayValue || "",
           gp: Math.round(stats.gamesPlayed ?? stats.played ?? 0),
           wins: Math.round(stats.wins ?? 0),
@@ -1401,7 +1408,7 @@ const SuperligModule = (() => {
     return { primary: '#003366', secondary: '#fbca03', logo: '' };
   }
 
-  function resolveTeamLogo(name, espnLogo) {
+  function resolveTeamLogo(name, espnLogo) { return getCustomLogo(name, espnLogo);
     if (espnLogo) return espnLogo;
     const colors = getTeamColorsAndLogo(name);
     return colors.logo || "";
@@ -1782,3 +1789,4 @@ const SuperligModule = (() => {
 
   return { init };
 })();
+
