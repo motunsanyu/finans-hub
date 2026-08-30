@@ -1,4 +1,5 @@
 import os
+import threading
 from flask import Flask, jsonify
 from github_market_cron import main as run_bot
 
@@ -11,8 +12,9 @@ def index():
 @app.route("/cron")
 def cron():
     try:
-        run_bot()
-        return jsonify({"status": "success", "message": "Veriler basariyla cekildi ve Supabase'e yazildi."}), 200
+        thread = threading.Thread(target=run_bot, daemon=True)
+        thread.start()
+        return jsonify({"status": "success", "message": "Bot arka planda tetiklendi."}), 200
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 

@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="tr">
 
 <head>
@@ -2646,7 +2646,7 @@
           menu.style.display = 'block';
 
           // Lig sekmesini ve tüm üst container'ları z-index kısıtlamasından kurtar
-          var ligPage = document.getElementById('lig');
+          var ligPage = document.getElementById('superlig');
           if (ligPage) {
             ligPage.setAttribute('data-old-zi', ligPage.style.zIndex || '');
             ligPage.style.zIndex = '100000';
@@ -2655,7 +2655,7 @@
         } else {
           menu.style.display = 'none';
           // Eski z-index'i geri yükle
-          var ligPage = document.getElementById('lig');
+          var ligPage = document.getElementById('superlig');
           if (ligPage) {
             ligPage.style.zIndex = ligPage.getAttribute('data-old-zi') || '';
           }
@@ -2677,7 +2677,7 @@
         if (menu) menu.style.display = 'none';
         _dropOpen = false;
         
-        var ligPage2 = document.getElementById('lig');
+        var ligPage2 = document.getElementById('superlig');
         if (ligPage2) ligPage2.style.zIndex = ligPage2.getAttribute('data-old-zi') || '';
         
         var arrow = document.getElementById('leagueDropdownArrow');
@@ -2721,7 +2721,7 @@
           var arrow = document.getElementById('leagueDropdownArrow');
           if (arrow) arrow.style.transform = 'rotate(0deg)';
           // z-index geri yükle
-          var ligPage = document.getElementById('lig');
+          var ligPage = document.getElementById('superlig');
           if (ligPage) ligPage.style.zIndex = ligPage.getAttribute('data-old-zi') || '';
         }
       });
@@ -2743,7 +2743,7 @@
             var menu = document.getElementById('leagueDropdownFixed');
             if (menu) menu.style.display = 'none';
             _dropOpen = false;
-            var ligPage2 = document.getElementById('lig');
+            var ligPage2 = document.getElementById('superlig');
             if (ligPage2) ligPage2.style.zIndex = ligPage2.getAttribute('data-old-zi') || '';
             var arrow = document.getElementById('leagueDropdownArrow');
             if (arrow) arrow.style.transform = 'rotate(0deg)';
