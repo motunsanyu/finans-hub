@@ -2583,7 +2583,7 @@
     border:1px solid rgba(165,214,167,0.25);
     border-radius:12px;
     padding:6px;
-    z-index:100001;
+    z-index:2147483647 !important;
     min-width:220px;
     box-shadow:0 20px 60px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.05);
     backdrop-filter:blur(12px);
@@ -2618,6 +2618,10 @@
         _dropOpen = !_dropOpen;
 
         if (_dropOpen) {
+          // Masaüstü tarayıcılarda stacking context/overflow çakışmasını önle.
+          // Menü her zaman body'nin en üst katmanında kalmalı.
+          if (menu.parentNode !== document.body) document.body.appendChild(menu);
+          menu.style.zIndex = '2147483647';
           // Pozisyonu hesapla
           var rect = btn.getBoundingClientRect();
           var top  = rect.bottom + 6;
