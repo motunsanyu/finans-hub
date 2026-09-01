@@ -6,11 +6,19 @@ const SuperligModule = (() => {
   async function fetchEspnJson(url) {
     const proxyUrls = [
       `/api/proxy?url=${encodeURIComponent(url)}`,
+      `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
       `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
       `https://corsproxy.io/?${encodeURIComponent(url)}`
     ];
 
-    for (const requestUrl of [url, ...proxyUrls]) {
+    // ESPN'in web alan adÄ± mobil operatÃ¶rlerde daha eriÅŸilebilir olabildiÄŸi
+    // iÃ§in ana endpoint'in alternatif host'unu da dene.
+    const alternateUrl = url.replace(
+      "https://site.api.espn.com",
+      "https://site.web.api.espn.com"
+    );
+
+    for (const requestUrl of [url, alternateUrl, ...proxyUrls]) {
       try {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 10000);
@@ -904,14 +912,25 @@ const SuperligModule = (() => {
   async function fetchSuperLigData() {
     setText("ligMeta", "Yükleniyor...");
     try {
-      const selectedSeason = getSelectedSeasonStartYear();
-      const seasonLabel = formatSeasonLabel(selectedSeason);
+      let selectedSeason = getSelectedSeasonStartYear();
+      let entries = [];
 
-      const sRes = await fetchEspnJson(`https://site.api.espn.com/apis/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/standings?season=${selectedSeason}`);
-      if (!sRes.ok) throw new Error("standings_http_" + sRes.status);
-      const sData = await sRes.json();
-      const entries = sData?.children?.[0]?.standings?.entries || sData?.standings?.entries || [];
+      // Yeni sezon ESPN'de henüz açılmadıysa son tamamlanan sezonu kullan.
+      for (const season of [selectedSeason, selectedSeason - 1]) {
+        try {
+          const sRes = await fetchEspnJson(`https://site.api.espn.com/apis/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/standings?season=${season}`);
+          const sData = await sRes.json();
+          entries = sData?.children?.[0]?.standings?.entries || sData?.standings?.entries || [];
+          if (entries.length > 0) {
+            selectedSeason = season;
+            break;
+          }
+        } catch (_) {
+          // Sonraki sezon/endpoint ile devam et.
+        }
+      }
       if (entries.length === 0) throw new Error("empty_standings");
+      const seasonLabel = formatSeasonLabel(selectedSeason);
 
       const rows = entries.map(e => {
         const stats = {};
