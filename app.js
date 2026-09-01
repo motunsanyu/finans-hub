@@ -523,7 +523,6 @@ async function refreshFinanceData() {
       if (data.silver_try) {
         nextSnapshot.silverTry = { price: data.silver_try, change: parseFloat((data.silver_try_change || '0').replace('%', '').replace(',', '.')) || 0 };
       }
-      nextSnapshot.bist = { price: data.bist100, change: parseFloat((data.bist100_change || '0').replace('%', '').replace(',', '.')) || 0 };
       nextSnapshot.brent = { price: data.brent, change: parseFloat((data.brent_change || '0').replace('%', '').replace(',', '.')) || 0 };
       
       // fetched_at verisini güncelleme zamanı olarak ayarla
@@ -558,7 +557,6 @@ async function refreshFinanceData() {
 
   // Brent ve BIST
   updateExtraRow("brent", nextSnapshot.brent, "$");
-  updateExtraRow("bist", nextSnapshot.bist, "");
 
   calcTotalDebt();
   const dateObj = new Date(nextSnapshot.updatedAt);

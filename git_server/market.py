@@ -63,10 +63,6 @@ def fetch_market_snapshot() -> dict[str, Any]:
             snapshot["gram_gold_try"] = val
             snapshot["gram_gold_change"] = change_text
             snapshot["gold_status"] = status
-        elif "BIST 100" in name:
-            snapshot["bist100"] = val
-            snapshot["bist100_change"] = change_text
-            snapshot["bist_status"] = status
         elif "GÜMÜŞ" in name or "GÜMÜ" in name:
             snapshot["silver_try"] = val
             snapshot["silver_try_change"] = change_text

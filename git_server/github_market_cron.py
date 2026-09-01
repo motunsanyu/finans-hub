@@ -6,7 +6,6 @@ from typing import Any
 import requests
 
 from market import fetch_market_snapshot
-from news import fetch_top_news
 from altinkaynak import fetch_altinkaynak_gold
 from fuel import fetch_fuel_prices
 
@@ -29,7 +28,7 @@ def _clean_supabase_url(raw: str) -> str:
     return raw.rstrip("/")
 
 
-def _build_payload(snapshot: dict[str, Any], news_data: list[dict[str, str]], altin_data: list[dict[str, str]]) -> dict[str, Any]:
+def _build_payload(snapshot: dict[str, Any], altin_data: list[dict[str, str]]) -> dict[str, Any]:
     # Türkiye Saati (UTC+3) için zaman dilimi ayarı
     tr_tz = dt.timezone(dt.timedelta(hours=3))
     return {
@@ -44,16 +43,12 @@ def _build_payload(snapshot: dict[str, Any], news_data: list[dict[str, str]], al
         "gram_gold_try": snapshot.get("gram_gold_try"),
         "gram_gold_change": snapshot.get("gram_gold_change"),
         "gold_status": snapshot.get("gold_status"),
-        "bist100": snapshot.get("bist100"),
-        "bist100_change": snapshot.get("bist100_change"),
-        "bist_status": snapshot.get("bist_status"),
         "silver_try": snapshot.get("silver_try"),
         "silver_try_change": snapshot.get("silver_try_change"),
         "silver_status": snapshot.get("silver_status"),
         "brent": snapshot.get("brent"),
         "brent_change": snapshot.get("brent_change"),
         "brent_status": snapshot.get("brent_status"),
-        "news": news_data,
         "altin_prices": altin_data,
     }
 
@@ -165,12 +160,11 @@ def _upsert_fuel_prices(fuel_data: list[dict]) -> None:
 
 def main() -> int:
     snapshot = fetch_market_snapshot()
-    news_data = fetch_top_news(limit=5)
     altin_data = fetch_altinkaynak_gold()
     fuel_data = fetch_fuel_prices()
 
     # market_snapshots tablosunu güncelle
-    payload = _build_payload(snapshot, news_data, altin_data)
+    payload = _build_payload(snapshot, altin_data)
     _insert_supabase_row(payload)
 
     # fuel_prices tablosunu güncelle (max 2 kayıt)
@@ -184,7 +178,6 @@ def main() -> int:
             "usd_try": payload["usd_try"],
             "eur_try": payload["eur_try"],
             "gram_gold_try": payload["gram_gold_try"],
-            "bist100": payload["bist100"],
             "fuel_brands": len(fuel_data),
         },
     )
