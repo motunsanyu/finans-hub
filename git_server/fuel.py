@@ -56,7 +56,19 @@ def _scrape_city(il: str, ilce: str) -> list[dict]:
         return []
 
     soup = BeautifulSoup(resp.text, "html.parser")
-    rows = soup.select("table tbody tr")
+    fuel_table = next(
+        (
+            table for table in soup.select("table")
+            if {header.get_text(" ", strip=True).lower() for header in table.select("thead th")}
+            >= {"dağıtıcı", "benzin", "motorin", "lpg"}
+        ),
+        None,
+    )
+    if fuel_table is None:
+        print(f"[fuel] Yakıt tablosu bulunamadı: {url}")
+        return []
+
+    rows = fuel_table.select("tbody tr")
 
     results = []
     for row in rows:
@@ -67,7 +79,7 @@ def _scrape_city(il: str, ilce: str) -> list[dict]:
         benzin  = _parse_price(cols[1].get_text(strip=True) if len(cols) > 1 else "")
         motorin = _parse_price(cols[2].get_text(strip=True) if len(cols) > 2 else "")
         lpg     = _parse_price(cols[3].get_text(strip=True) if len(cols) > 3 else "")
-        if marka:
+        if marka and any(price is not None for price in (benzin, motorin, lpg)):
             results.append({"marka": marka, "benzin": benzin, "motorin": motorin, "lpg": lpg})
 
     return results

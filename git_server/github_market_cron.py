@@ -131,9 +131,8 @@ def _upsert_fuel_prices(fuel_data: list[dict]) -> None:
     fuel_prices tablosuna yakıt verilerini yazar.
     Tabloda sadece son MAX_FUEL_ROWS (2) kayıt kalır.
     """
-    if not fuel_data:
-        print("[fuel] Veri yok, atlanıyor.")
-        return
+    if not fuel_data or not any(fuel_data.values()):
+        raise RuntimeError("Yakıt kaynağından geçerli veri alınamadı; eski kayıt korunuyor.")
 
     supabase_url = _clean_supabase_url(_env("SUPABASE_URL"))
     supabase_key = _env("SUPABASE_KEY")
