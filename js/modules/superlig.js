@@ -46,7 +46,6 @@ const SuperligModule = (() => {
       if (!name) return espnLogo || "";
       const nm = name.toLowerCase();
       if (nm.includes("amed")) return "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%232E8B57' /><path d='M50 5 A45 45 0 0 1 50 95 Z' fill='%23DC143C' /><text x='50' y='65' font-family='Arial' font-size='40' font-weight='bold' fill='white' text-anchor='middle'>A</text></svg>";
-      if (nm.includes("orum") || nm.includes("corum") || nm.includes("�orum")) return "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23000000' /><path d='M50 5 A45 45 0 0 1 50 95 Z' fill='%23DC143C' /><text x='50' y='65' font-family='Arial' font-size='40' font-weight='bold' fill='white' text-anchor='middle'>�</text></svg>";
       return espnLogo || "";
     }
   window._currentLeagueId = 'tur.1';
