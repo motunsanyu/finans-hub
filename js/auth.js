@@ -277,8 +277,8 @@
   async function checkAuthState() {
     const authScreen = document.getElementById('authScreen');
     const appShell = document.getElementById('appShell');
-
-
+    const isInitialAuthCheck = !window._authStateChecked;
+    window._authStateChecked = true;
 
     // Önce oturum var mı diye bakalım
     const { data: { session } } = await sb.auth.getSession();
@@ -297,8 +297,9 @@
         }
       }
 
-      // Eğer giriş ekranı görünüyorsa (ilk açılış veya yeni login), animasyonu oynat
-      if (authScreen && authScreen.style.display !== 'none') {
+      // Kayıtlı oturumda giriş ekranını göstermeden animasyona geç.
+      const shouldPlayIntro = isInitialAuthCheck || (authScreen && authScreen.style.display !== 'none');
+      if (shouldPlayIntro) {
         if (window.runIntroAnimation) {
           window.runIntroAnimation(() => {
             authScreen.style.display = 'none';
