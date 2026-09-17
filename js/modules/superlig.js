@@ -872,29 +872,32 @@ const SuperligModule = (() => {
     return date.toISOString().slice(0, 10).replace(/-/g, "");
   }
 
-  function buildSeasonMonthRanges(startYear) {
-    const ranges = [];
+  function buildSeasonDates(startYear) {
+    const dates = [];
     const { start, end } = getSeasonDateRange(startYear);
     const cursor = new Date(start);
     while (cursor <= end) {
-      const monthStart = new Date(cursor);
-      const monthEnd = new Date(Date.UTC(cursor.getUTCFullYear(), cursor.getUTCMonth() + 1, 0));
-      if (monthEnd > end) monthEnd.setTime(end.getTime());
-      ranges.push(`${toScoreboardDate(monthStart)}-${toScoreboardDate(monthEnd)}`);
-      cursor.setUTCMonth(cursor.getUTCMonth() + 1, 1);
+      dates.push(toScoreboardDate(cursor));
+      cursor.setUTCDate(cursor.getUTCDate() + 1);
     }
-    return ranges;
+    return dates;
   }
 
   async function fetchSeasonScoreboardEvents(startYear) {
-    const ranges = buildSeasonMonthRanges(startYear);
-    const payloads = await Promise.all(
-      ranges.map(range =>
-        fetchEspnJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard?dates=${range}&limit=100`)
-          .then(res => res.ok ? res.json() : null)
-          .catch(() => null)
-      )
-    );
+    const dates = buildSeasonDates(startYear);
+    const payloads = [];
+    const batchSize = 14;
+    for (let i = 0; i < dates.length; i += batchSize) {
+      const batch = dates.slice(i, i + batchSize);
+      const batchPayloads = await Promise.all(
+        batch.map(date =>
+          fetchEspnJson(`https://site.web.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard?dates=${date}&limit=100`)
+            .then(res => res.ok ? res.json() : null)
+            .catch(() => null)
+        )
+      );
+      payloads.push(...batchPayloads);
+    }
     const events = payloads.flatMap(data => data?.events || []);
     return Array.from(new Map(events.map(ev => [String(ev.id || ev.uid || ev.date || Math.random()), ev])).values());
   }
