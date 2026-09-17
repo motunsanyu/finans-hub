@@ -4,21 +4,19 @@ const SuperligModule = (() => {
   // Mobil PWA tarayÄ±cÄ±larÄ±nda ESPN isteÄŸi CORS/aÄŸ politikasÄ± nedeniyle
   // reddedilebiliyor. DoÄŸrudan istek baÅŸarÄ±sÄ±z olursa proxy Ã¼zerinden dene.
   async function fetchEspnJson(url) {
-    const proxyUrls = [
-      `/api/proxy?url=${encodeURIComponent(url)}`,
-      `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
-      `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-      `https://corsproxy.io/?${encodeURIComponent(url)}`
-    ];
-
-    // ESPN'in web alan adÄ± mobil operatÃ¶rlerde daha eriÅŸilebilir olabildiÄŸi
-    // iÃ§in ana endpoint'in alternatif host'unu da dene.
     const alternateUrl = url.replace(
       "https://site.api.espn.com",
       "https://site.web.api.espn.com"
     );
+    const proxyUrls = [
+      `/api/proxy?url=${encodeURIComponent(alternateUrl)}`,
+      `/api/proxy?url=${encodeURIComponent(url)}`,
+      `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(alternateUrl)}`,
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(alternateUrl)}`,
+      `https://corsproxy.io/?${encodeURIComponent(alternateUrl)}`
+    ];
 
-    for (const requestUrl of [url, alternateUrl, ...proxyUrls]) {
+    for (const requestUrl of [alternateUrl, url, ...proxyUrls]) {
       try {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 10000);
