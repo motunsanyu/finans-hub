@@ -721,15 +721,8 @@ const SuperligModule = (() => {
     weekList.innerHTML = `<div style="text-align:center; padding:32px; color:var(--text-secondary);">📡<br>Fikstür yükleniyor...</div>`;
     try {
       const startYear = getCurrentSuperLigSeasonStartYear();
-      const startDate = new Date(startYear, 7, 1);
-      const endDate = new Date(startYear + 1, 4, 31);
-      const ds = startDate.toISOString().split('T')[0].replace(/-/g, '');
-      const de = endDate.toISOString().split('T')[0].replace(/-/g, '');
-      const apiUrl = `https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard?dates=${ds}-${de}&limit=500`;
-      const res = await fetchEspnJson(apiUrl);
-      if (!res.ok) throw new Error("API Hatası");
-      const data = await res.json();
-      const allEvents = data?.events || [];
+      const allEvents = await fetchSeasonScoreboardEvents(startYear);
+      if (allEvents.length === 0) throw new Error("API Hatası");
       const weekMap = {};
       allEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
       let manualWeek = 1;
