@@ -9,35 +9,50 @@ const SuperligModule = (() => {
       "https://site.web.api.espn.com"
     );
     const proxyUrls = [
-      `/api/proxy?url=${encodeURIComponent(alternateUrl)}`,
       `/api/proxy?url=${encodeURIComponent(url)}`,
-      `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(alternateUrl)}`,
+      `/api/proxy?url=${encodeURIComponent(alternateUrl)}`,
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
       `https://api.allorigins.win/raw?url=${encodeURIComponent(alternateUrl)}`,
+      `https://api.codetabs.com/v1/proxy?url=${encodeURIComponent(url)}`,
+      `https://api.codetabs.com/v1/proxy?url=${encodeURIComponent(alternateUrl)}`,
+      `https://corsproxy.io/?${encodeURIComponent(url)}`,
       `https://corsproxy.io/?${encodeURIComponent(alternateUrl)}`
     ];
 
-    for (const requestUrl of [alternateUrl, url, ...proxyUrls]) {
+    const candidates = [alternateUrl, url, ...proxyUrls];
+    for (const requestUrl of candidates) {
       try {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 10000);
         const response = await fetch(requestUrl, {
           cache: "no-store",
-          signal: controller.signal
+          signal: controller.signal,
+          headers: {
+            "Accept": "application/json, text/plain, */*",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+          }
         });
-        const text = await response.text();
         clearTimeout(timeout);
-        if (!response.ok || !text) continue;
 
-        const data = JSON.parse(text);
-        if (data && typeof data === "object") {
-          return { ok: true, json: async () => data };
+        if (!response || !response.ok) continue;
+
+        const text = await response.text();
+        if (!text || text.trim() === "") continue;
+
+        try {
+          const data = JSON.parse(text);
+          if (data && typeof data === "object") {
+            return { ok: true, json: async () => data };
+          }
+        } catch (_) {
+          // JSON değilse sonraki alternatife bak.
         }
       } catch (_) {
         // Bir sonraki kaynakla devam et.
       }
     }
 
-    throw new Error("ESPN verisine eriÅŸilemedi");
+    throw new Error("ESPN verisine erişilemedi");
   }
 
       function getCustomLogo(name, espnLogo) {

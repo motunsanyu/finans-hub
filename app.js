@@ -13,15 +13,22 @@ async function fetchWithProxy(targetUrl) {
   const proxies = [
     `/api/proxy?url=${encoded}`,
     `https://api.allorigins.win/raw?url=${encoded}`,
+    `https://api.codetabs.com/v1/proxy?url=${encoded}`,
     `https://corsproxy.io/?${encoded}`,
   ];
 
   for (const proxyUrl of proxies) {
     try {
-      const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(8000) });
+      const res = await fetch(proxyUrl, {
+        signal: AbortSignal.timeout(8000),
+        headers: {
+          "Accept": "application/json, text/plain, */*",
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+        }
+      });
       if (res.ok) {
         const text = await res.text();
-        if (text && text.length > 200) return text; // Boş/hata sayfası değilse döndür
+        if (text && text.trim().length > 0) return text;
       }
     } catch (_) {
       // Bu proxy başarısız, sıradakini dene
