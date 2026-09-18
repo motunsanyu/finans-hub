@@ -877,44 +877,26 @@ const SuperligModule = (() => {
       .join("");
   }
 
-  function getSeasonDateRange(startYear) {
-    const start = new Date(Date.UTC(startYear, 6, 1));
-    const end = new Date(Date.UTC(startYear + 1, 5, 30));
-    return { start, end };
-  }
-
-  function toScoreboardDate(date) {
-    return date.toISOString().slice(0, 10).replace(/-/g, "");
-  }
-
-  function buildSeasonDates(startYear) {
-    const dates = [];
-    const { start, end } = getSeasonDateRange(startYear);
-    const cursor = new Date(start);
-    while (cursor <= end) {
-      dates.push(toScoreboardDate(cursor));
-      cursor.setUTCDate(cursor.getUTCDate() + 1);
-    }
-    return dates;
-  }
+  let _cachedSeasonEvents = null;
+  let _cachedSeasonYear = null;
 
   async function fetchSeasonScoreboardEvents(startYear) {
-    const dates = buildSeasonDates(startYear);
-    const payloads = [];
-    const batchSize = 14;
-    for (let i = 0; i < dates.length; i += batchSize) {
-      const batch = dates.slice(i, i + batchSize);
-      const batchPayloads = await Promise.all(
-        batch.map(date =>
-          fetchEspnJson(`https://site.web.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard?dates=${date}&limit=100`)
-            .then(res => res.ok ? res.json() : null)
-            .catch(() => null)
-        )
-      );
-      payloads.push(...batchPayloads);
+    if (_cachedSeasonEvents && _cachedSeasonYear === startYear) {
+      return _cachedSeasonEvents;
     }
-    const events = payloads.flatMap(data => data?.events || []);
-    return Array.from(new Map(events.map(ev => [String(ev.id || ev.uid || ev.date || Math.random()), ev])).values());
+    try {
+      const res = await fetchEspnJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard?dates=${startYear}&limit=1000`);
+      if (res.ok) {
+        const data = await res.json();
+        const events = data?.events || [];
+        _cachedSeasonEvents = Array.from(new Map(events.map(ev => [String(ev.id || ev.uid || ev.date || Math.random()), ev])).values());
+        _cachedSeasonYear = startYear;
+        return _cachedSeasonEvents;
+      }
+    } catch (e) {
+      console.error("fetchSeasonScoreboardEvents error:", e);
+    }
+    return [];
   }
 
   async function fetchSuperLigData() {
@@ -1066,15 +1048,9 @@ const SuperligModule = (() => {
       const teamName = document.getElementById("teamDetailName").textContent;
       const clean = (s) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ı/g, 'i').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c');
       const sName = clean(teamName);
-      const nowD = new Date();
-      const start = new Date(); start.setDate(nowD.getDate() - 30);
-      const end = new Date(); end.setDate(nowD.getDate() + 2);
-      const ds = start.toISOString().split('T')[0].replace(/-/g, '');
-      const de = end.toISOString().split('T')[0].replace(/-/g, '');
-      const res = await fetchEspnJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard?dates=${ds}-${de}&limit=100`);
-      if (!res.ok) throw new Error();
-      const data = await res.json();
-      const teamEvents = (data?.events || []).filter(ev => {
+      const year = getCurrentSuperLigSeasonStartYear();
+      const allEvents = await fetchSeasonScoreboardEvents(year);
+      const teamEvents = allEvents.filter(ev => {
         const comps = ev.competitions?.[0];
         const hasId = comps?.competitors?.some(c => String(c.team?.id || c.id) === String(teamId));
         const hasName = clean(ev.name).includes(sName);
@@ -1092,7 +1068,7 @@ const SuperligModule = (() => {
       let teamRoster = null;
       for (const ev of candidateEvents) {
         try {
-      const summaryRes = await fetchEspnJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/summary?event=${ev.id}`);
+          const summaryRes = await fetchEspnJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/summary?event=${ev.id}`);
           if (!summaryRes.ok) continue;
           const summaryData = await summaryRes.json();
           const rosters = summaryData.rosters || [];
@@ -1468,7 +1444,9 @@ const SuperligModule = (() => {
     return { primary: '#003366', secondary: '#fbca03', logo: '' };
   }
 
-  function resolveTeamLogo(name, espnLogo) { return getCustomLogo(name, espnLogo);
+  function resolveTeamLogo(name, espnLogo) {
+    const custom = getCustomLogo(name, espnLogo);
+    if (custom) return custom;
     if (espnLogo) return espnLogo;
     const colors = getTeamColorsAndLogo(name);
     return colors.logo || "";
@@ -1476,17 +1454,9 @@ const SuperligModule = (() => {
 
   async function getLastMatchForTeam(teamId) {
     try {
-      const now = new Date();
-      const start = new Date(); start.setDate(now.getDate() - 45);
-      const end = new Date(); end.setDate(now.getDate() + 2);
-      const ds = start.toISOString().split('T')[0].replace(/-/g, '');
-      const de = end.toISOString().split('T')[0].replace(/-/g, '');
-      const url = `https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard?dates=${ds}-${de}&limit=50`;
-      const resp = await fetchEspnJson(url);
-      if (!resp.ok) throw new Error();
-      const data = await resp.json();
-      const events = data.events || [];
-      const teamMatches = events.filter(ev => {
+      const year = getCurrentSuperLigSeasonStartYear();
+      const allEvents = await fetchSeasonScoreboardEvents(year);
+      const teamMatches = allEvents.filter(ev => {
         const comps = ev.competitions?.[0];
         return comps?.competitors?.some(c => String(c.team?.id || c.id) === String(teamId));
       });
@@ -1537,20 +1507,12 @@ const SuperligModule = (() => {
 
   async function fetchLastMatch(teamId) {
     try {
-      const now = new Date();
-      const start = new Date(); start.setDate(now.getDate() - 45);
-      const end = new Date(); end.setDate(now.getDate() + 1);
-      const ds = start.toISOString().split('T')[0].replace(/-/g, '');
-      const de = end.toISOString().split('T')[0].replace(/-/g, '');
-      const url = `https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard?dates=${ds}-${de}&limit=50`;
-      const resp = await fetchEspnJson(url);
-      if (!resp.ok) throw new Error();
-      const data = await resp.json();
-      const events = data.events || [];
-      const teamMatches = events.filter(ev => {
+      const year = getCurrentSuperLigSeasonStartYear();
+      const allEvents = await fetchSeasonScoreboardEvents(year);
+      const teamMatches = allEvents.filter(ev => {
         const comps = ev.competitions?.[0];
         const competitors = comps?.competitors || [];
-        const hasTeam = competitors.some(c => String(c.id) === String(teamId));
+        const hasTeam = competitors.some(c => String(c.team?.id || c.id) === String(teamId));
         const isPost = ev.status?.type?.state === "post";
         return hasTeam && isPost;
       });
@@ -1562,7 +1524,7 @@ const SuperligModule = (() => {
       const away = comp.competitors.find(c => c.homeAway === "away");
       const homeScore = parseInt(home.score);
       const awayScore = parseInt(away.score);
-      const isHome = (String(home.team.id) === String(teamId));
+      const isHome = (String(home.team?.id || home.id) === String(teamId));
       let resultText = "";
       if (isHome) {
         if (homeScore > awayScore) resultText = "Galibiyet";
@@ -1606,20 +1568,14 @@ const SuperligModule = (() => {
     const teamName = document.getElementById("teamDetailName").textContent;
     list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-secondary);">Yükleniyor...</div>`;
     try {
-      const now = new Date();
-      const start = new Date(); start.setDate(now.getDate() - 30);
-      const end = new Date(); end.setDate(now.getDate() + 45);
-      const ds = start.toISOString().split('T')[0].replace(/-/g, '');
-      const de = end.toISOString().split('T')[0].replace(/-/g, '');
-      const res = await fetchEspnJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard?dates=${ds}-${de}&limit=100`);
-      if (!res.ok) throw new Error();
-      const data = await res.json();
+      const year = getCurrentSuperLigSeasonStartYear();
+      const allEvents = await fetchSeasonScoreboardEvents(year);
       const clean = (s) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ı/g, 'i').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c');
       const sName = clean(teamName);
-      const events = (data?.events || [])
+      const events = allEvents
         .filter(ev => {
           const comps = ev.competitions?.[0];
-          const hasId = comps?.competitors?.some(c => String(c.id) === String(teamId));
+          const hasId = comps?.competitors?.some(c => String(c.id) === String(teamId) || String(c.team?.id) === String(teamId));
           const hasName = clean(ev.name).includes(sName);
           return hasId || hasName;
         })
