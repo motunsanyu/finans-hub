@@ -651,6 +651,7 @@ const SuperligModule = (() => {
       aScore: (away?.score !== undefined && state !== "pre") ? parseInt(away.score) : null,
       date: dateStr,
       dateFull: dateFull,
+      rawDate: ev.date,
       isLive: state === "in",
       isFinal: state === "post",
       league: ev.season?.displayName || "Turkish Super Lig",
@@ -1573,12 +1574,14 @@ const SuperligModule = (() => {
       const sName = clean(teamName);
       const events = allEvents
         .filter(ev => {
+          if (ev.season?.year && ev.season.year !== year) return false;
           const comps = ev.competitions?.[0];
           const hasId = comps?.competitors?.some(c => String(c.id) === String(teamId) || String(c.team?.id) === String(teamId));
           const hasName = clean(ev.name).includes(sName);
           return hasId || hasName;
         })
-        .map(ev => normalizeMatch(ev));
+        .map(ev => normalizeMatch(ev))
+        .sort((a, b) => new Date(b.rawDate).getTime() - new Date(a.rawDate).getTime());
       if (events.length === 0) {
         list.innerHTML = `<div style="text-align:center; padding:32px; color:var(--text-secondary);">Maç programı bulunamadı.</div>`;
       } else {
