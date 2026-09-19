@@ -885,14 +885,32 @@ const SuperligModule = (() => {
       return _cachedSeasonEvents;
     }
     try {
-      const res = await fetchEspnJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard?dates=${startYear}&limit=1000`);
-      if (res.ok) {
-        const data = await res.json();
-        const events = data?.events || [];
-        _cachedSeasonEvents = Array.from(new Map(events.map(ev => [String(ev.id || ev.uid || ev.date || Math.random()), ev])).values());
-        _cachedSeasonYear = startYear;
-        return _cachedSeasonEvents;
+      const p1 = fetchEspnJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard?dates=${startYear}&limit=1000`);
+      const p2 = fetchEspnJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard?dates=${startYear + 1}&limit=1000`);
+      
+      const [res1, res2] = await Promise.all([
+          p1.catch(() => null),
+          p2.catch(() => null)
+      ]);
+      
+      let allEvents = [];
+      if (res1 && res1.ok) {
+          const d1 = await res1.json();
+          allEvents = allEvents.concat(d1?.events || []);
       }
+      if (res2 && res2.ok) {
+          const d2 = await res2.json();
+          allEvents = allEvents.concat(d2?.events || []);
+      }
+      
+      let seasonEvents = allEvents.filter(ev => ev.season?.year === startYear);
+      if (seasonEvents.length === 0) {
+          seasonEvents = allEvents; // Fallback
+      }
+      
+      _cachedSeasonEvents = Array.from(new Map(seasonEvents.map(ev => [String(ev.id || ev.uid || ev.date || Math.random()), ev])).values());
+      _cachedSeasonYear = startYear;
+      return _cachedSeasonEvents;
     } catch (e) {
       console.error("fetchSeasonScoreboardEvents error:", e);
     }
