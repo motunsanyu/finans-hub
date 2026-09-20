@@ -533,7 +533,7 @@ const SuperligModule = (() => {
             <animate attributeName="opacity" values="0.5; 0; 0.5" dur="2s" repeatCount="indefinite" />
           </circle>
         </svg>
-        <div style="font-size:16px; font-weight:800; color:var(--text-primary); margin-bottom:8px;">Türkiye Süper Ligi</div>
+        <div style="font-size:16px; font-weight:800; color:var(--text-primary); margin-bottom:8px;">${window._currentLeagueLabel || 'Türkiye Süper Ligi'}</div>
         <div style="font-size:13px; opacity:0.6;">Şu an aktif bir müsabaka bulunmamaktadır.</div>
         ${upcomingHTML}
       </div>`;
@@ -879,14 +879,16 @@ const SuperligModule = (() => {
 
   let _cachedSeasonEvents = null;
   let _cachedSeasonYear = null;
+  let _cachedLeagueId = null;
 
   async function fetchSeasonScoreboardEvents(startYear) {
-    if (_cachedSeasonEvents && _cachedSeasonYear === startYear) {
+    const currentLeague = window._currentLeagueId || 'tur.1';
+    if (_cachedSeasonEvents && _cachedSeasonYear === startYear && _cachedLeagueId === currentLeague) {
       return _cachedSeasonEvents;
     }
     try {
-      const p1 = fetchEspnJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard?dates=${startYear}&limit=1000`);
-      const p2 = fetchEspnJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard?dates=${startYear + 1}&limit=1000`);
+      const p1 = fetchEspnJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${currentLeague}/scoreboard?dates=${startYear}&limit=1000`);
+      const p2 = fetchEspnJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${currentLeague}/scoreboard?dates=${startYear + 1}&limit=1000`);
       
       const [res1, res2] = await Promise.all([
           p1.catch(() => null),
@@ -910,6 +912,7 @@ const SuperligModule = (() => {
       
       _cachedSeasonEvents = Array.from(new Map(seasonEvents.map(ev => [String(ev.id || ev.uid || ev.date || Math.random()), ev])).values());
       _cachedSeasonYear = startYear;
+      _cachedLeagueId = currentLeague;
       return _cachedSeasonEvents;
     } catch (e) {
       console.error("fetchSeasonScoreboardEvents error:", e);
