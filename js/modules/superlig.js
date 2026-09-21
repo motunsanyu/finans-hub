@@ -520,19 +520,50 @@ const SuperligModule = (() => {
         }
 
         list.innerHTML = `
+      <style>
+        @keyframes epicGoal {
+          0%, 5% { top: 53px; left: 93px; transform: scale(1) rotate(0deg); opacity: 0; }
+          10% { top: 53px; left: 93px; transform: scale(1) rotate(0deg); opacity: 1; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5)); animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+          25% { top: -10px; left: 130px; transform: scale(3.5) rotate(360deg); filter: drop-shadow(0 25px 15px rgba(0,0,0,0.5)); animation-timing-function: ease-in; }
+          40% { top: 48px; left: 168px; transform: scale(1) rotate(720deg); filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5)); animation-timing-function: ease-out; }
+          48% { top: 38px; left: 178px; transform: scale(1.5) rotate(900deg); filter: drop-shadow(0 10px 5px rgba(0,0,0,0.4)); animation-timing-function: ease-in; }
+          55% { top: 53px; left: 185px; transform: scale(1) rotate(1080deg); filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5)); animation-timing-function: linear; }
+          65% { top: 53px; left: 194px; transform: scale(1) rotate(1260deg); filter: drop-shadow(0 1px 1px rgba(0,0,0,0.5)); opacity: 1; }
+          85% { top: 53px; left: 194px; transform: scale(1) rotate(1260deg); opacity: 1; }
+          95%, 100% { top: 53px; left: 194px; transform: scale(1) rotate(1260deg); opacity: 0; }
+        }
+        .empty-ball {
+          position: absolute;
+          font-size: 14px;
+          line-height: 1;
+          width: 14px;
+          height: 14px;
+          z-index: 10;
+          will-change: transform, top, left, opacity;
+          animation: epicGoal 4s infinite;
+        }
+      </style>
       <div style="text-align:center; padding:40px 24px; color:var(--text-secondary);">
-        <svg width="200" height="120" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" style="border-radius:12px; box-shadow:0 15px 35px rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.05); background:#1e3b2f; margin-bottom:16px;">
-          <rect x="10" y="10" width="180" height="100" rx="4" fill="#2e5a3b" stroke="#3d7a4f" stroke-width="2" />
-          <line x1="100" y1="10" x2="100" y2="110" stroke="#3d7a4f" stroke-width="2" />
-          <circle cx="100" cy="60" r="20" fill="none" stroke="#3d7a4f" stroke-width="2" />
-          <rect x="10" y="30" width="24" height="60" fill="none" stroke="#3d7a4f" stroke-width="2" />
-          <rect x="166" y="30" width="24" height="60" fill="none" stroke="#3d7a4f" stroke-width="2" />
-          <circle cx="100" cy="60" r="4" fill="var(--brand)" />
-          <circle cx="100" cy="60" r="6" fill="var(--brand)" opacity="0.3">
-            <animate attributeName="r" values="6; 20; 6" dur="2s" repeatCount="indefinite" />
-            <animate attributeName="opacity" values="0.5; 0; 0.5" dur="2s" repeatCount="indefinite" />
-          </circle>
-        </svg>
+        <div style="position:relative; width:200px; height:120px; margin: 0 auto 16px;">
+          <svg width="200" height="120" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" style="border-radius:12px; box-shadow:0 15px 35px rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.05); background:#1e3b2f;">
+            <!-- Saha Dış Zemin -->
+            <rect x="10" y="10" width="180" height="100" rx="4" fill="#2e5a3b" stroke="#3d7a4f" stroke-width="2" />
+            <!-- Orta Çizgi -->
+            <line x1="100" y1="10" x2="100" y2="110" stroke="#3d7a4f" stroke-width="2" />
+            <!-- Orta Yuvarlak -->
+            <circle cx="100" cy="60" r="20" fill="none" stroke="#3d7a4f" stroke-width="2" />
+            <!-- Sol Ceza Sahası -->
+            <rect x="10" y="30" width="24" height="60" fill="none" stroke="#3d7a4f" stroke-width="2" />
+            <!-- Sağ Ceza Sahası -->
+            <rect x="166" y="30" width="24" height="60" fill="none" stroke="#3d7a4f" stroke-width="2" />
+            <!-- Orta Nokta -->
+            <circle cx="100" cy="60" r="2" fill="var(--brand)" />
+            <!-- Kaleler -->
+            <rect x="6" y="50" width="4" height="20" fill="none" stroke="#3d7a4f" stroke-width="1.5" />
+            <rect x="190" y="50" width="4" height="20" fill="none" stroke="#3d7a4f" stroke-width="1.5" />
+          </svg>
+          <div class="empty-ball">⚽</div>
+        </div>
         <div style="font-size:16px; font-weight:800; color:var(--text-primary); margin-bottom:8px;">${window._currentLeagueLabel || 'Türkiye Süper Ligi'}</div>
         <div style="font-size:13px; opacity:0.6;">Şu an aktif bir müsabaka bulunmamaktadır.</div>
         ${upcomingHTML}
