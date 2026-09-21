@@ -1019,7 +1019,15 @@ const SuperligModule = (() => {
        
        const sorted = events.sort((a,b) => new Date(a.date) - new Date(b.date));
        const past = sorted.filter(e => e.status?.type?.state === 'post').reverse().slice(0, 15);
-       const future = sorted.filter(e => e.status?.type?.state !== 'post');
+       const nowTime = now.getTime();
+       const future = sorted.filter(e => {
+           if (e.status?.type?.state === 'post') return false;
+           const matchTime = new Date(e.date).getTime();
+           if (matchTime < nowTime - 24 * 60 * 60 * 1000 && e.status?.type?.state !== 'in') {
+               return false;
+           }
+           return true;
+       });
        
        const container = document.getElementById("ligTableBody");
        container.innerHTML = `
