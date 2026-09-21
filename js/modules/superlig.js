@@ -1034,9 +1034,6 @@ const SuperligModule = (() => {
              
              <div style="font-size:14px; font-weight:800; color:var(--brand); margin-bottom:12px;">Gelecek Maçlar</div>
              ${renderFullMatchCards(future)}
-             
-             <div style="font-size:14px; font-weight:800; color:var(--brand); margin:24px 0 12px;">Geçmiş Maçlar</div>
-             ${renderFullMatchCards(past)}
           </div>
        `;
        
