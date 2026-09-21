@@ -67,19 +67,17 @@ const SuperligModule = (() => {
     window._currentLeagueId = leagueId;
     window._currentLeagueLabel = leagueName === 'SÜPER LİG' ? 'Türkiye Süper Ligi' : leagueName;
 
-    // Update button label
-    const nameEl = document.getElementById('currentLeagueName');
-    if (nameEl) nameEl.innerText = leagueName;
-
-    // Close dropdown
-    const menuEl = document.getElementById('leagueDropdownMenu');
-    if (menuEl) menuEl.classList.add('hidden');
-    const fixedMenu = document.getElementById('leagueDropdownMenuFixed');
-    if (fixedMenu) fixedMenu.classList.add('hidden');
-
-    // Update active state on items
-    document.querySelectorAll('.league-option').forEach(el => {
-      el.style.background = el.dataset.leagueId === leagueId ? 'rgba(165,214,167,0.15)' : 'transparent';
+    // Update active state on tabs
+    document.querySelectorAll('.league-tab-btn').forEach(btn => {
+      if (btn.dataset.leagueId === leagueId) {
+        btn.style.background = 'rgba(165,214,167,0.15)';
+        btn.style.border = '1px solid rgba(255,255,255,0.4)';
+        btn.style.color = 'white';
+      } else {
+        btn.style.background = 'rgba(0,0,0,0.2)';
+        btn.style.border = '1px solid rgba(255,255,255,0.1)';
+        btn.style.color = '#a5d6a7';
+      }
     });
 
     // Reload data
@@ -465,10 +463,25 @@ const SuperligModule = (() => {
     if (!list) return;
     list.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary);">Canlı maçlar taranıyor...</div>`;
     try {
-      const res = await fetchEspnJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/scoreboard`);
-      if (!res.ok) throw new Error();
-      const data = await res.json();
-      const allEvents = data?.events || [];
+      const endpoints = [
+        `https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard`,
+        `https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.champions/scoreboard`,
+        `https://site.api.espn.com/apis/site/v2/sports/soccer/all/teams/465/schedule`
+      ];
+      
+      const responses = await Promise.all(endpoints.map(url => fetchEspnJson(url).catch(() => null)));
+      
+      let allEvents = [];
+      for (const res of responses) {
+         if (res && res.ok) {
+            const data = await res.json();
+            if (data.events) allEvents = allEvents.concat(data.events);
+         }
+      }
+      
+      const uniqueEvents = Array.from(new Map(allEvents.map(ev => [ev.id, ev])).values());
+      allEvents = uniqueEvents;
+
       const liveEvents = allEvents.filter(ev => {
         const state = ev.status?.type?.state;
         const isHalftime = isHalftimeStatus(ev);
@@ -789,6 +802,12 @@ const SuperligModule = (() => {
   async function fetchWeeklyMatches() {
     const weekList = document.getElementById("ligWeekList");
     if (!weekList) return;
+    
+    if (window._currentLeagueId === '465') {
+       weekList.innerHTML = `<div style="text-align:center; padding:48px 16px; color:var(--text-secondary);">🇹🇷<br><br>Milli Takım haftalık lig fikstürü yoktur.<br>Tüm maçlar Puan Durumu sekmesinde listelenmiştir.</div>`;
+       return;
+    }
+    
     weeklyFixtureData.isLoading = true;
     weekList.innerHTML = `<div style="text-align:center; padding:32px; color:var(--text-secondary);">📡<br>Fikstür yükleniyor...</div>`;
     try {
@@ -979,8 +998,58 @@ const SuperligModule = (() => {
     return [];
   }
 
+  async function fetchNationalTeamData() {
+    try {
+       const res = await fetchEspnJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/all/teams/465/schedule`);
+       const data = await res.json();
+       const events = data.events || [];
+       const now = new Date();
+       
+       const sorted = events.sort((a,b) => new Date(a.date) - new Date(b.date));
+       const past = sorted.filter(e => e.status?.type?.state === 'post').reverse().slice(0, 15);
+       const future = sorted.filter(e => e.status?.type?.state !== 'post');
+       
+       const container = document.getElementById("ligTableBody");
+       container.innerHTML = `
+          <div style="padding:16px;">
+             <div style="display:flex; align-items:center; gap:12px; margin-bottom:24px;">
+               <img src="https://a.espncdn.com/i/teamlogos/countries/500/tur.png" style="width:48px; height:48px;">
+               <div>
+                 <div style="font-size:20px; font-weight:900; color:white;">Türkiye Milli Takımı</div>
+                 <div style="font-size:12px; color:var(--text-secondary);">Maç Fikstürü ve Sonuçlar</div>
+               </div>
+             </div>
+             
+             <div style="font-size:14px; font-weight:800; color:var(--brand); margin-bottom:12px;">Gelecek Maçlar</div>
+             ${renderFullMatchCards(future)}
+             
+             <div style="font-size:14px; font-weight:800; color:var(--brand); margin:24px 0 12px;">Geçmiş Maçlar</div>
+             ${renderFullMatchCards(past)}
+          </div>
+       `;
+       
+       setText("ligSezon", data.season?.year || "2026");
+       setText("ligLeader", "TÜRKİYE");
+       setText("ligMeta", "Milli Takım Fikstürü");
+       
+       const recentCont = document.getElementById("ligRecentMatches");
+       const upcomingCont = document.getElementById("ligUpcomingMatches");
+       if (recentCont) recentCont.innerHTML = "";
+       if (upcomingCont) upcomingCont.innerHTML = "";
+       
+       const nowStr = new Date().toLocaleString("tr-TR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+       setText("ligTimestamp", `Son Güncelleme: ${nowStr}`);
+       
+    } catch (e) {
+       showLigError();
+    }
+  }
+
   async function fetchSuperLigData() {
     setText("ligMeta", "Yükleniyor...");
+    if (window._currentLeagueId === '465') {
+       return fetchNationalTeamData();
+    }
     try {
       let selectedSeason = getSelectedSeasonStartYear();
       let entries = [];
@@ -1867,7 +1936,8 @@ const SuperligModule = (() => {
   // ─── MAÇ İSTATİSTİKLERİ (ESPN Summary API) ───────────────────
   async function fetchMatchStats(eventId) {
     try {
-      const res = await fetchEspnJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${window._currentLeagueId || 'tur.1'}/summary?event=${eventId}`);
+      const leaguePath = window._currentLeagueId === '465' ? 'all' : (window._currentLeagueId || 'tur.1');
+      const res = await fetchEspnJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${leaguePath}/summary?event=${eventId}`);
       if (!res.ok) return null;
       const data = await res.json();
       return data?.boxscore?.teams || [];

@@ -1369,12 +1369,12 @@
           
           <!-- Top Row: Title & Refresh -->
           <div style="display:flex; justify-content:space-between; align-items:center; position: relative; z-index: 1;">
-            <div style="display:flex; align-items:center; gap:8px;">
+            <div style="display:flex; align-items:center; gap:8px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; -ms-overflow-style: none;">
+              <style>.league-tab-btn::-webkit-scrollbar { display: none; }</style>
               <span style="font-size:18px;">⚽</span>
-              <button id="leagueSelectBtn" onclick="toggleLeagueDropdown(event)" style="background:transparent; border:none; color:#a5d6a7; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:1.5px; cursor:pointer; display:flex; align-items:center; gap:5px; padding:4px 6px; border-radius:6px; transition:background 0.2s; white-space:nowrap;">
-                <span id="currentLeagueName">SÜPER LİG</span>
-                <svg id="leagueDropdownArrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="transition:transform 0.2s; flex-shrink:0;"><path d="M6 9l6 6 6-6"/></svg>
-              </button>
+              <button class="league-tab-btn" onclick="window.switchLeague('tur.1', 'Süper Lig')" style="background:rgba(165,214,167,0.15); border:1px solid rgba(255,255,255,0.4); color:white; padding:6px 12px; border-radius:16px; font-size:11px; font-weight:800; cursor:pointer; transition:0.2s;" data-league-id="tur.1">Süper Lig</button>
+              <button class="league-tab-btn" onclick="window.switchLeague('uefa.champions', 'Şampiyonlar Ligi')" style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.1); color:#a5d6a7; padding:6px 12px; border-radius:16px; font-size:11px; font-weight:800; cursor:pointer; transition:0.2s;" data-league-id="uefa.champions">Şamp. Ligi</button>
+              <button class="league-tab-btn" onclick="window.switchLeague('465', 'Milli Takım')" style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.1); color:#a5d6a7; padding:6px 12px; border-radius:16px; font-size:11px; font-weight:800; cursor:pointer; transition:0.2s;" data-league-id="465">Milli Takım</button>
             </div>
             <button id="ligRefreshBtn" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.1); color:white; padding:5px 12px; border-radius:20px; font-size:10px; font-weight:800; display:flex; align-items:center; gap:4px; cursor:pointer; backdrop-filter:blur(4px); transition:all 0.2s;">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
