@@ -1411,28 +1411,30 @@
         <!-- TEAM DETAIL OVERLAY -->
         <div id="teamDetailOverlay" class="team-detail-overlay">
           <div class="team-detail-content">
-            <div class="team-detail-header">
-              <img id="teamDetailLogo" src="" class="lig-logo" style="width:32px; height:32px;" />
-              <div>
-                <h2 id="teamDetailName" style="font-size:18px;">Takım Detayı</h2>
-                <div id="teamDetailLive" class="live-badge" style="display:none;">● CANLI</div>
+            <div style="position: sticky; top: 0; background: #000; z-index: 100; margin: 0 -16px; padding: 0 16px; box-shadow: 0 12px 24px -8px rgba(0,0,0,0.9);">
+              <div class="team-detail-header">
+                <img id="teamDetailLogo" src="" class="lig-logo" style="width:32px; height:32px;" />
+                <div>
+                  <h2 id="teamDetailName" style="font-size:18px;">Takım Detayı</h2>
+                  <div id="teamDetailLive" class="live-badge" style="display:none;">● CANLI</div>
+                </div>
+                <button onclick="closeTeamDetail()" class="close-btn">&times;</button>
               </div>
-              <button onclick="closeTeamDetail()" class="close-btn">&times;</button>
-            </div>
 
-            <div class="team-stats-box">
-              <div class="stat-item"><span class="stat-label">Puan</span><span id="teamStatPts"
-                  class="stat-val">--</span></div>
-              <div class="stat-item"><span class="stat-label">Sıra</span><span id="teamStatRank"
-                  class="stat-val">--</span></div>
-              <div class="stat-item"><span class="stat-label">G/B/M</span><span id="teamStatGBM"
-                  class="stat-val">--</span></div>
-            </div>
+              <div class="team-stats-box">
+                <div class="stat-item"><span class="stat-label">Puan</span><span id="teamStatPts"
+                    class="stat-val">--</span></div>
+                <div class="stat-item"><span class="stat-label">Sıra</span><span id="teamStatRank"
+                    class="stat-val">--</span></div>
+                <div class="stat-item"><span class="stat-label">G/B/M</span><span id="teamStatGBM"
+                    class="stat-val">--</span></div>
+              </div>
 
-            <div class="detail-tabs">
-              <button class="detail-tab-btn active" onclick="switchDetailTab('schedule')">Maçlar</button>
-              <button class="detail-tab-btn" onclick="switchDetailTab('squad')">Kadro</button>
-              <button class="detail-tab-btn" onclick="switchDetailTab('lineup')">Takım</button>
+              <div class="detail-tabs">
+                <button class="detail-tab-btn active" onclick="switchDetailTab('schedule')">Maçlar</button>
+                <button class="detail-tab-btn" onclick="switchDetailTab('squad')">Kadro</button>
+                <button class="detail-tab-btn" onclick="switchDetailTab('lineup')">Takım</button>
+              </div>
             </div>
 
             <div id="detailTabSchedule" class="detail-tab-content active">

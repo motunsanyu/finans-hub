@@ -1724,8 +1724,53 @@ const SuperligModule = (() => {
 
   window.closeTeamDetail = function () {
     const o = document.getElementById("teamDetailOverlay");
-    if (o) o.classList.remove("open");
+    if (o) {
+      o.classList.remove("open");
+      o.style.transform = "";
+    }
   };
+
+  let touchStartY = 0;
+  let touchCurrentY = 0;
+
+  function initSwipeToClose() {
+    const overlay = document.getElementById("teamDetailOverlay");
+    if (!overlay) return;
+    const content = overlay.querySelector(".team-detail-content");
+    if (!content) return;
+
+    content.addEventListener("touchstart", (e) => {
+      if (content.scrollTop <= 0) {
+        touchStartY = e.touches[0].clientY;
+      } else {
+        touchStartY = 0;
+      }
+    }, { passive: true });
+
+    content.addEventListener("touchmove", (e) => {
+      if (!touchStartY) return;
+      touchCurrentY = e.touches[0].clientY;
+      const diff = touchCurrentY - touchStartY;
+      if (diff > 0 && content.scrollTop <= 0) {
+        content.style.transform = `translateY(${diff}px)`;
+        content.style.transition = 'none';
+      }
+    }, { passive: true });
+
+    content.addEventListener("touchend", (e) => {
+      if (!touchStartY) return;
+      const diff = touchCurrentY - touchStartY;
+      content.style.transition = 'transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1)';
+      if (diff > 100) {
+        window.closeTeamDetail();
+        setTimeout(() => content.style.transform = '', 300);
+      } else {
+        content.style.transform = '';
+      }
+      touchStartY = 0;
+      touchCurrentY = 0;
+    });
+  }
 
   function showLigError() {
     const container = document.getElementById("ligTableBody");
@@ -1752,6 +1797,7 @@ const SuperligModule = (() => {
     if (btn) { btn.addEventListener("click", fetchSuperLigData); }
     if (seasonSelect) { seasonSelect.addEventListener("change", fetchSuperLigData); }
     fetchSuperLigData();
+    initSwipeToClose();
   }
 
   function init() {
