@@ -1602,18 +1602,39 @@ const SuperligModule = (() => {
           return hasId || hasName;
         })
         .map(ev => normalizeMatch(ev))
-        .sort((a, b) => new Date(b.rawDate).getTime() - new Date(a.rawDate).getTime());
+        .sort((a, b) => new Date(a.rawDate).getTime() - new Date(b.rawDate).getTime());
+
+      let lastPlayedIndex = -1;
+      for (let i = events.length - 1; i >= 0; i--) {
+        if (events[i].isFinal) {
+          lastPlayedIndex = i;
+          break;
+        }
+      }
+
       if (events.length === 0) {
         list.innerHTML = `<div style="text-align:center; padding:32px; color:var(--text-secondary);">Maç programı bulunamadı.</div>`;
       } else {
-        list.innerHTML = events.map(ev => {
+        list.innerHTML = `
+          <style>
+            @keyframes border-pulse-orange {
+              0% { border-color: rgba(255, 152, 0, 1); box-shadow: 0 0 12px rgba(255, 152, 0, 0.6); }
+              50% { border-color: rgba(255, 152, 0, 0.2); box-shadow: 0 0 0px rgba(255, 152, 0, 0); }
+              100% { border-color: rgba(255, 152, 0, 1); box-shadow: 0 0 12px rgba(255, 152, 0, 0.6); }
+            }
+          </style>
+        ` + events.map((ev, idx) => {
           const isL = ev.isLive;
           const isF = ev.isFinal;
+          const isLastPlayed = (idx === lastPlayedIndex);
           const scoreStr = (ev.hScore !== null && ev.aScore !== null) ? `${ev.hScore} - ${ev.aScore}` : "vs";
           const metaStr = isL ? "LIVE!" : (isF ? "FT" : ev.dateFull.split(" ")[1]);
           const dateStr = ev.dateFull.split(" ")[0];
+          const rowId = isLastPlayed ? 'id="lastPlayedMatchRow"' : '';
+          const borderStyle = isLastPlayed ? "border: 2px solid #ff9800; animation: border-pulse-orange 1.5s infinite;" : "";
+          
           return `
-              <div class="schedule-row">
+              <div class="schedule-row" ${rowId} style="${borderStyle}">
                 <div class="schedule-info">
                   <div class="sch-team">
                     <img src="${ev.homeLogo}" class="sch-logo" onerror="this.src='icon.svg'">
@@ -1633,6 +1654,12 @@ const SuperligModule = (() => {
               </div>
             `;
         }).join("");
+        setTimeout(() => {
+          const lastRow = document.getElementById("lastPlayedMatchRow");
+          if (lastRow) {
+            lastRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 300);
       }
     } catch (e) { list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--down);">Hata oluştu.</div>`; }
   }
