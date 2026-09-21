@@ -475,6 +475,33 @@ const SuperligModule = (() => {
         return state === "in" || isHalftime;
       });
 
+      if (!window._knownLiveScores) window._knownLiveScores = {};
+      let goalDetected = false;
+      let goalText = "";
+      
+      liveEvents.forEach(ev => {
+        const id = ev.id;
+        const comp = ev.competitions?.[0];
+        const home = comp?.competitors?.find(c => c.homeAway === 'home');
+        const away = comp?.competitors?.find(c => c.homeAway === 'away');
+        const hScore = parseInt(home?.score || 0);
+        const aScore = parseInt(away?.score || 0);
+        
+        if (window._knownLiveScores[id]) {
+           const prev = window._knownLiveScores[id];
+           if (hScore > prev.h || aScore > prev.a) {
+              goalDetected = true;
+              const scorer = hScore > prev.h ? shortName(home?.team?.displayName) : shortName(away?.team?.displayName);
+              goalText = `${scorer} GOL ATTI!`;
+           }
+        }
+        window._knownLiveScores[id] = { h: hScore, a: aScore };
+      });
+      
+      if (goalDetected && window.showGoalCelebration) {
+         window.showGoalCelebration(goalText);
+      }
+
       if (liveEvents.length === 0) {
         const todayStr = new Date().toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
         const todayMatches = allEvents.filter(ev => {
@@ -522,30 +549,30 @@ const SuperligModule = (() => {
         list.innerHTML = `
       <style>
         @keyframes epicGoal {
-          0%, 5% { top: 53px; left: 93px; transform: scale(1) rotate(0deg); opacity: 0; }
-          10% { top: 53px; left: 93px; transform: scale(1) rotate(0deg); opacity: 1; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5)); animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-          25% { top: -10px; left: 130px; transform: scale(3.5) rotate(360deg); filter: drop-shadow(0 25px 15px rgba(0,0,0,0.5)); animation-timing-function: ease-in; }
-          40% { top: 48px; left: 168px; transform: scale(1) rotate(720deg); filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5)); animation-timing-function: ease-out; }
-          48% { top: 38px; left: 178px; transform: scale(1.5) rotate(900deg); filter: drop-shadow(0 10px 5px rgba(0,0,0,0.4)); animation-timing-function: ease-in; }
-          55% { top: 53px; left: 185px; transform: scale(1) rotate(1080deg); filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5)); animation-timing-function: linear; }
-          65% { top: 53px; left: 194px; transform: scale(1) rotate(1260deg); filter: drop-shadow(0 1px 1px rgba(0,0,0,0.5)); opacity: 1; }
-          85% { top: 53px; left: 194px; transform: scale(1) rotate(1260deg); opacity: 1; }
-          95%, 100% { top: 53px; left: 194px; transform: scale(1) rotate(1260deg); opacity: 0; }
+          0%, 5% { top: 63px; left: 111px; transform: scale(1) rotate(0deg); opacity: 0; }
+          10% { top: 63px; left: 111px; transform: scale(1) rotate(0deg); opacity: 1; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5)); animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+          25% { top: -12px; left: 156px; transform: scale(3.5) rotate(360deg); filter: drop-shadow(0 25px 15px rgba(0,0,0,0.5)); animation-timing-function: ease-in; }
+          40% { top: 57px; left: 201px; transform: scale(1) rotate(720deg); filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5)); animation-timing-function: ease-out; }
+          48% { top: 45px; left: 213px; transform: scale(1.5) rotate(900deg); filter: drop-shadow(0 10px 5px rgba(0,0,0,0.4)); animation-timing-function: ease-in; }
+          55% { top: 63px; left: 222px; transform: scale(1) rotate(1080deg); filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5)); animation-timing-function: linear; }
+          65% { top: 63px; left: 232px; transform: scale(1) rotate(1260deg); filter: drop-shadow(0 1px 1px rgba(0,0,0,0.5)); opacity: 1; }
+          85% { top: 63px; left: 232px; transform: scale(1) rotate(1260deg); opacity: 1; }
+          95%, 100% { top: 63px; left: 232px; transform: scale(1) rotate(1260deg); opacity: 0; }
         }
         .empty-ball {
           position: absolute;
-          font-size: 14px;
+          font-size: 16px;
           line-height: 1;
-          width: 14px;
-          height: 14px;
+          width: 16px;
+          height: 16px;
           z-index: 10;
           will-change: transform, top, left, opacity;
           animation: epicGoal 4s infinite;
         }
       </style>
       <div style="text-align:center; padding:40px 24px; color:var(--text-secondary);">
-        <div style="position:relative; width:200px; height:120px; margin: 0 auto 16px;">
-          <svg width="200" height="120" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" style="border-radius:12px; box-shadow:0 15px 35px rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.05); background:#1e3b2f;">
+        <div id="miniGameContainer" onclick="if(window.shootMiniGameBall) window.shootMiniGameBall(event)" style="position:relative; width:240px; height:144px; margin: 0 auto 16px; cursor:pointer;">
+          <svg width="240" height="144" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" style="border-radius:12px; box-shadow:0 15px 35px rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.05); background:#1e3b2f;">
             <!-- Saha Dış Zemin -->
             <rect x="10" y="10" width="180" height="100" rx="4" fill="#2e5a3b" stroke="#3d7a4f" stroke-width="2" />
             <!-- Orta Çizgi -->
@@ -562,7 +589,8 @@ const SuperligModule = (() => {
             <rect x="6" y="50" width="4" height="20" fill="none" stroke="#3d7a4f" stroke-width="1.5" />
             <rect x="190" y="50" width="4" height="20" fill="none" stroke="#3d7a4f" stroke-width="1.5" />
           </svg>
-          <div class="empty-ball">⚽</div>
+          <div class="empty-ball" id="miniGameBall">⚽</div>
+          <div id="miniGameMsg" style="position:absolute; top:40%; left:0; width:100%; text-align:center; font-weight:900; font-size:32px; color:#fcd535; opacity:0; transition:opacity 0.3s; pointer-events:none; text-shadow:0 4px 8px rgba(0,0,0,0.8); z-index:20;">GOL!</div>
         </div>
         <div style="font-size:16px; font-weight:800; color:var(--text-primary); margin-bottom:8px;">${window._currentLeagueLabel || 'Türkiye Süper Ligi'}</div>
         <div style="font-size:13px; opacity:0.6;">Şu an aktif bir müsabaka bulunmamaktadır.</div>
@@ -1928,6 +1956,89 @@ const SuperligModule = (() => {
 
     placeholder.innerHTML = renderStatsHTML(teams);
     placeholder.dataset.loaded = 'true';
+  };
+
+  window.shootMiniGameBall = function(e) {
+    const container = document.getElementById('miniGameContainer');
+    const ball = document.getElementById('miniGameBall');
+    const msg = document.getElementById('miniGameMsg');
+    if (!container || !ball) return;
+    
+    const rect = container.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const clickY = e.clientY - rect.top;
+    
+    ball.style.animation = 'none';
+    ball.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+    ball.style.transform = 'scale(2.5) rotate(720deg)';
+    ball.style.filter = 'drop-shadow(0 20px 10px rgba(0,0,0,0.4))';
+    ball.style.left = (clickX - 8) + 'px';
+    ball.style.top = (clickY - 8) + 'px';
+    
+    setTimeout(() => {
+       ball.style.transform = 'scale(1) rotate(1080deg)';
+       ball.style.filter = 'drop-shadow(0 2px 2px rgba(0,0,0,0.5))';
+       
+       if ((clickX < 20 || clickX > 220) && clickY > 50 && clickY < 94) {
+           msg.style.opacity = 1;
+           msg.textContent = "GOL!";
+           setTimeout(() => { msg.style.opacity = 0; }, 1500);
+       }
+    }, 600);
+    
+    clearTimeout(window._miniGameTimeout);
+    window._miniGameTimeout = setTimeout(() => {
+       ball.style.transition = '';
+       ball.style.animation = 'epicGoal 4s infinite';
+    }, 4000);
+  };
+
+  window.showGoalCelebration = function(detailText) {
+     let overlay = document.getElementById('globalGoalOverlay');
+     if (!overlay) {
+       overlay = document.createElement('div');
+       overlay.id = 'globalGoalOverlay';
+       overlay.style.cssText = 'position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:999999; display:flex; flex-direction:column; justify-content:center; align-items:center; opacity:0; pointer-events:none; transition:opacity 0.3s;';
+       overlay.innerHTML = `
+         <style>
+           @keyframes megaBounce {
+              0% { transform: scale(0) rotate(0deg); opacity: 0; }
+              40% { transform: scale(5) rotate(720deg); opacity: 1; filter: drop-shadow(0 30px 20px rgba(0,0,0,0.8)); }
+              60% { transform: scale(3) rotate(1080deg); filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
+              80% { transform: scale(4) rotate(1440deg); filter: drop-shadow(0 20px 15px rgba(0,0,0,0.6)); }
+              100% { transform: scale(3.5) rotate(1800deg); filter: drop-shadow(0 15px 12px rgba(0,0,0,0.5)); }
+           }
+           @keyframes goalTextPulse {
+              0% { transform: scale(0.8); opacity: 0; }
+              50% { transform: scale(1.1); opacity: 1; }
+              100% { transform: scale(1); opacity: 1; text-shadow: 0 0 20px rgba(252,213,53,0.8); }
+           }
+         </style>
+         <div id="goalOverlayBall" style="font-size:80px; margin-bottom:30px; line-height:1;">⚽</div>
+         <div id="goalOverlayText" style="font-size:48px; font-weight:900; color:var(--brand); font-style:italic; letter-spacing:4px; text-align:center;">GOOOOOLLLL!</div>
+         <div id="goalOverlayDetail" style="font-size:24px; color:#fff; margin-top:16px; font-weight:700; text-align:center;"></div>
+       `;
+       document.body.appendChild(overlay);
+     }
+     
+     const ball = document.getElementById('goalOverlayBall');
+     const text = document.getElementById('goalOverlayText');
+     const detail = document.getElementById('goalOverlayDetail');
+     
+     detail.textContent = detailText || "";
+     
+     overlay.style.opacity = '1';
+     ball.style.animation = 'none';
+     text.style.animation = 'none';
+     
+     void overlay.offsetWidth;
+     
+     ball.style.animation = 'megaBounce 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
+     text.style.animation = 'goalTextPulse 1s ease forwards';
+     
+     setTimeout(() => {
+        overlay.style.opacity = '0';
+     }, 4000);
   };
 
   return { init };
