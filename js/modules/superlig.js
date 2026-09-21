@@ -286,8 +286,8 @@ const SuperligModule = (() => {
 
       const d = new Date(ev.date);
       const startTime = d.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" });
-      const dateStr = d.toLocaleDateString("tr-TR", { day: "2-digit", month: "2-digit" });
-      const dayStr = d.toLocaleDateString("tr-TR", { weekday: "short" }).toUpperCase();
+      const dateStr = d.toLocaleDateString("tr-TR", { day: "2-digit", month: "2-digit", year: "2-digit" });
+      const dayStr = d.toLocaleDateString("tr-TR", { weekday: "long" });
 
       const hWin = isFinal && parseInt(home?.score) > parseInt(away?.score);
       const aWin = isFinal && parseInt(away?.score) > parseInt(home?.score);
@@ -428,12 +428,11 @@ const SuperligModule = (() => {
                   border-bottom:1px solid rgba(255,255,255,0.04);
                   background:${isActive ? "rgba(14,203,129,0.03)" : isFinal ? "rgba(246,70,93,0.03)" : "transparent"};
                   border-radius:0;">
-            <div ${clickAttr} style="display:grid;grid-template-columns:52px 1fr 68px 1fr${hasDetail ? " 14px" : ""};align-items:center;padding:10px 12px;gap:0;${cursorStyle}">
+            <div ${clickAttr} style="display:grid;grid-template-columns:64px 1fr 68px 1fr${hasDetail ? " 14px" : ""};align-items:center;padding:10px 12px;gap:0;${cursorStyle}">
 
-              <div style="font-size:10px;text-align:center;padding-right:8px;border-right:1px solid rgba(255,255,255,0.05);">
-                <div style="font-weight:800;color:var(--text-primary);font-size:11px;">${dateStr}</div>
-                <div style="color:var(--text-secondary);margin-top:2px;font-size:9px;">${dayStr}</div>
-                <div style="color:var(--text-secondary);font-size:9px;">${startTime}</div>
+              <div style="font-size:10px;text-align:center;padding-right:8px;border-right:1px solid rgba(255,255,255,0.05);min-width:64px;">
+                <div style="font-weight:800;color:var(--text-primary);font-size:11px;line-height:1.2;">${dateStr}<br>${dayStr}</div>
+                <div style="color:var(--text-secondary);margin-top:3px;font-size:10px;font-weight:700;">${startTime}</div>
               </div>
 
               <div style="display:flex;align-items:center;justify-content:flex-end;gap:6px;padding:0 8px;min-width:0;overflow:hidden;">
@@ -680,8 +679,8 @@ const SuperligModule = (() => {
     let dateFull = "";
     try {
       const d = new Date(ev.date);
-      dateStr = d.toLocaleDateString("tr-TR", { day: "2-digit", month: "2-digit" });
-      dateFull = d.toLocaleDateString("tr-TR", { day: "2-digit", month: "2-digit" }) + " " + d.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" });
+      dateStr = d.toLocaleDateString("tr-TR", { day: "2-digit", month: "2-digit", year: "2-digit" });
+      dateFull = d.toLocaleDateString("tr-TR", { day: "2-digit", month: "2-digit", year: "2-digit" }) + " " + d.toLocaleDateString("tr-TR", { weekday: "long" }) + " " + d.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" });
     } catch (e) { }
     const state = ev.status?.type?.state;
     const espnLogoUrl40 = (id) => id ? `https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/${id}.png&w=40&h=40` : "";
@@ -1002,7 +1001,20 @@ const SuperligModule = (() => {
     try {
        const res = await fetchEspnJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/all/teams/465/schedule`);
        const data = await res.json();
-       const events = data.events || [];
+       let events = data.events || [];
+       
+       const customMatches = [
+         { id: "cm-1", date: "2026-09-25T18:45:00Z", name: "Türkiye - Fransa", status: { type: { state: "pre" } }, competitions: [{ competitors: [{ homeAway: "home", team: { id: "465", displayName: "Türkiye" } }, { homeAway: "away", team: { id: "471", displayName: "Fransa" } }] }] },
+         { id: "cm-2", date: "2026-09-28T18:45:00Z", name: "Türkiye - İtalya", status: { type: { state: "pre" } }, competitions: [{ competitors: [{ homeAway: "home", team: { id: "465", displayName: "Türkiye" } }, { homeAway: "away", team: { id: "482", displayName: "İtalya" } }] }] },
+         { id: "cm-3", date: "2026-10-02T18:45:00Z", name: "Belçika - Türkiye", status: { type: { state: "pre" } }, competitions: [{ competitors: [{ homeAway: "home", team: { id: "459", displayName: "Belçika" } }, { homeAway: "away", team: { id: "465", displayName: "Türkiye" } }] }] },
+         { id: "cm-4", date: "2026-10-05T18:45:00Z", name: "İtalya - Türkiye", status: { type: { state: "pre" } }, competitions: [{ competitors: [{ homeAway: "home", team: { id: "482", displayName: "İtalya" } }, { homeAway: "away", team: { id: "465", displayName: "Türkiye" } }] }] },
+         { id: "cm-5", date: "2026-11-12T19:45:00Z", name: "Türkiye - Belçika", status: { type: { state: "pre" } }, competitions: [{ competitors: [{ homeAway: "home", team: { id: "465", displayName: "Türkiye" } }, { homeAway: "away", team: { id: "459", displayName: "Belçika" } }] }] },
+         { id: "cm-6", date: "2026-11-15T19:45:00Z", name: "Fransa - Türkiye", status: { type: { state: "pre" } }, competitions: [{ competitors: [{ homeAway: "home", team: { id: "471", displayName: "Fransa" } }, { homeAway: "away", team: { id: "465", displayName: "Türkiye" } }] }] }
+       ];
+       
+       const existingDates = new Set(events.map(e => e.date.substring(0, 10)));
+       const filteredCustomMatches = customMatches.filter(m => !existingDates.has(m.date.substring(0, 10)));
+       events = events.concat(filteredCustomMatches);
        const now = new Date();
        
        const sorted = events.sort((a,b) => new Date(a.date) - new Date(b.date));
