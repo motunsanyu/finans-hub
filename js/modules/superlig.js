@@ -54,10 +54,29 @@ const SuperligModule = (() => {
     throw new Error("ESPN verisine erişilemedi");
   }
 
-      function getCustomLogo(name, espnLogo) {
+    function getCustomLogo(name, espnLogo) {
       if (!name) return espnLogo || "";
-      const nm = name.toLowerCase();
+      const nm = name.toLowerCase().trim();
+      
+      const countryMap = {
+        "türkiye": "tur", "turkey": "tur",
+        "fransa": "fra", "france": "fra",
+        "italya": "ita", "italy": "ita",
+        "belçika": "bel", "belgium": "bel",
+        "wales": "wal", "galler": "wal",
+        "iceland": "isl", "izlanda": "isl",
+        "montenegro": "mne", "karadağ": "mne",
+        "netherlands": "ned", "hollanda": "ned",
+        "austria": "aut", "avusturya": "aut"
+      };
+      
+      if (countryMap[nm]) return `https://a.espncdn.com/i/teamlogos/countries/500/${countryMap[nm]}.png`;
+      for (const key in countryMap) {
+        if (nm.includes(key)) return `https://a.espncdn.com/i/teamlogos/countries/500/${countryMap[key]}.png`;
+      }
+
       if (nm.includes("amed")) return "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%232E8B57' /><path d='M50 5 A45 45 0 0 1 50 95 Z' fill='%23DC143C' /><text x='50' y='65' font-family='Arial' font-size='40' font-weight='bold' fill='white' text-anchor='middle'>A</text></svg>";
+      
       return espnLogo || "";
     }
   window._currentLeagueId = 'tur.1';
@@ -1020,7 +1039,7 @@ const SuperligModule = (() => {
        const sorted = events.sort((a,b) => new Date(a.date) - new Date(b.date));
        const past = sorted.filter(e => e.status?.type?.state === 'post').reverse().slice(0, 15);
        const nowTime = now.getTime();
-       const future = sorted.filter(e => {
+       let future = sorted.filter(e => {
            if (e.status?.type?.state === 'post') return false;
            const matchTime = new Date(e.date).getTime();
            if (matchTime < nowTime - 24 * 60 * 60 * 1000 && e.status?.type?.state !== 'in') {
@@ -1028,6 +1047,10 @@ const SuperligModule = (() => {
            }
            return true;
        });
+       
+       if (past.length > 0) {
+           future.unshift(past[0]);
+       }
        
        const container = document.getElementById("ligTableBody");
        container.innerHTML = `
@@ -1040,7 +1063,7 @@ const SuperligModule = (() => {
                </div>
              </div>
              
-             <div style="font-size:14px; font-weight:800; color:var(--brand); margin-bottom:12px;">Gelecek Maçlar</div>
+             <div style="font-size:14px; font-weight:800; color:var(--brand); margin-bottom:12px;">Güncel Fikstür</div>
              ${renderFullMatchCards(future)}
           </div>
        `;
