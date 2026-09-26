@@ -56,7 +56,8 @@ const SuperligModule = (() => {
 
     function getCustomLogo(name, espnLogo) {
       if (!name) return espnLogo || "";
-      const nm = name.toLowerCase().trim();
+      // Turkish İ -> i fix: use toLocaleLowerCase + normalize to handle combining dots
+      const nm = name.toLocaleLowerCase('tr-TR').normalize('NFC').trim();
       
       const countryMap = {
         "türkiye": "tur", "turkey": "tur",
@@ -67,7 +68,19 @@ const SuperligModule = (() => {
         "iceland": "isl", "izlanda": "isl",
         "montenegro": "mne", "karadağ": "mne",
         "netherlands": "ned", "hollanda": "ned",
-        "austria": "aut", "avusturya": "aut"
+        "austria": "aut", "avusturya": "aut",
+        "spain": "esp", "ispanya": "esp",
+        "georgia": "geo", "gürcistan": "geo",
+        "bulgaria": "bul", "bulgaristan": "bul",
+        "romania": "rou", "romanya": "rou",
+        "kosovo": "kos", "kosova": "kos",
+        "north macedonia": "mkd", "kuzey makedonya": "mkd",
+        "venezuela": "ven",
+        "australia": "aus", "avustralya": "aus",
+        "paraguay": "par",
+        "united states": "usa", "abd": "usa",
+        "mexico": "mex", "meksika": "mex",
+        "hungary": "hun", "macaristan": "hun"
       };
       
       if (countryMap[nm]) return `https://a.espncdn.com/i/teamlogos/countries/500/${countryMap[nm]}.png`;
@@ -293,7 +306,22 @@ const SuperligModule = (() => {
       const home = comp?.competitors?.find(c => c.homeAway === "home");
       const away = comp?.competitors?.find(c => c.homeAway === "away");
       const state = ev.status?.type?.state;
-      const isFinal = (state === "post");
+      
+      // ESPN schedule API'sinde score bir obje olabiliyor: {value: 0, displayValue: "0"}
+      const getScore = (competitor) => {
+        const s = competitor?.score;
+        if (s === null || s === undefined) return null;
+        if (typeof s === 'object') return s.displayValue !== undefined ? s.displayValue : s.value;
+        return s;
+      };
+      const homeScore = getScore(home);
+      const awayScore = getScore(away);
+      const hasScore = homeScore !== null && awayScore !== null;
+      
+      // status undefined olsa bile tarih geçmişse ve skor varsa tamamlanmış say
+      const matchTime = new Date(ev.date).getTime();
+      const nowMs = Date.now();
+      const isFinal = state === "post" || (state === undefined && matchTime < nowMs && hasScore);
       const isLive = (state === "in");
       const isHalftime = isHalftimeStatus(ev);
       const isActive = isLive || isHalftime;
@@ -308,8 +336,8 @@ const SuperligModule = (() => {
       const dateStr = d.toLocaleDateString("tr-TR", { day: "2-digit", month: "2-digit", year: "2-digit" });
       const dayStr = d.toLocaleDateString("tr-TR", { weekday: "long" });
 
-      const hWin = isFinal && parseInt(home?.score) > parseInt(away?.score);
-      const aWin = isFinal && parseInt(away?.score) > parseInt(home?.score);
+      const hWin = isFinal && parseInt(homeScore) > parseInt(awayScore);
+      const aWin = isFinal && parseInt(awayScore) > parseInt(homeScore);
 
       let borderColor = "transparent";
       let statusColor = "var(--text-secondary)";
@@ -432,7 +460,7 @@ const SuperligModule = (() => {
         : "";
 
       const scoreBox = (isFinal || isActive)
-        ? `<div style="font-size:15px;font-weight:900;font-family:'Space Grotesk',monospace;color:${statusColor};letter-spacing:1px;white-space:nowrap;">${home?.score ?? 0} – ${away?.score ?? 0}</div>
+        ? `<div style="font-size:15px;font-weight:900;font-family:'Space Grotesk',monospace;color:${statusColor};letter-spacing:1px;white-space:nowrap;">${homeScore ?? 0} – ${awayScore ?? 0}</div>
              ${isHalftime
           ? `<div style="font-size:8px;color:var(--brand);font-weight:900;margin-top:2px;">DEVRE ARASI</div>`
           : isLive
@@ -1037,22 +1065,57 @@ const SuperligModule = (() => {
        const now = new Date();
        
        const sorted = events.sort((a,b) => new Date(a.date) - new Date(b.date));
-       const past = sorted.filter(e => e.status?.type?.state === 'post').reverse().slice(0, 15);
        const nowTime = now.getTime();
-       let future = sorted.filter(e => {
-           if (e.status?.type?.state === 'post') return false;
-           const matchTime = new Date(e.date).getTime();
-           if (matchTime < nowTime - 24 * 60 * 60 * 1000 && e.status?.type?.state !== 'in') {
-               return false;
-           }
-           return true;
-       });
+       const twoMonthsAgo = nowTime - (60 * 24 * 60 * 60 * 1000);
        
-       if (past.length > 0) {
-           future.unshift(past[0]);
+       // ESPN schedule API'sinde status bazen undefined oluyor.
+       // Skor varsa ve tarih geçmişse -> tamamlanmış sayıyoruz.
+       function isMatchCompleted(e) {
+           const state = e.status?.type?.state;
+           if (state === 'post') return true;
+           // status yoksa: maç tarihi geçtiyse ve skor varsa tamamlanmış say
+           const matchTime = new Date(e.date).getTime();
+           if (matchTime < nowTime) {
+               const comp = e.competitions?.[0];
+               const home = comp?.competitors?.find(c => c.homeAway === 'home');
+               const away = comp?.competitors?.find(c => c.homeAway === 'away');
+               const hScore = home?.score?.displayValue ?? home?.score;
+               const aScore = away?.score?.displayValue ?? away?.score;
+               if (hScore !== undefined && aScore !== undefined) return true;
+           }
+           return false;
        }
        
+       function isMatchLive(e) {
+           return e.status?.type?.state === 'in';
+       }
+       
+       // Son 2 ay içindeki tamamlanmış maçlar (sonuçlarıyla)
+       const recentResults = sorted.filter(e => {
+           if (!isMatchCompleted(e)) return false;
+           const matchTime = new Date(e.date).getTime();
+           return matchTime >= twoMonthsAgo;
+       });
+       
+       // Gelecek maçlar (henüz oynanmamış veya şu an canlı)
+       const upcoming = sorted.filter(e => {
+           if (isMatchCompleted(e)) return false;
+           if (isMatchLive(e)) return true;
+           const matchTime = new Date(e.date).getTime();
+           return matchTime >= nowTime - 24 * 60 * 60 * 1000;
+       });
+       
        const container = document.getElementById("ligTableBody");
+       
+       let recentHtml = '';
+       if (recentResults.length > 0) {
+           recentHtml = `
+             <div style="font-size:14px; font-weight:800; color:var(--up); margin-bottom:12px;">Son Maç Sonuçları</div>
+             ${renderFullMatchCards(recentResults)}
+             <div style="height:1px; background:linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent); margin:20px 0;"></div>
+           `;
+       }
+       
        container.innerHTML = `
           <div style="padding:16px;">
              <div style="display:flex; align-items:center; gap:12px; margin-bottom:24px;">
@@ -1063,8 +1126,10 @@ const SuperligModule = (() => {
                </div>
              </div>
              
-             <div style="font-size:14px; font-weight:800; color:var(--brand); margin-bottom:12px;">Güncel Fikstür</div>
-             ${renderFullMatchCards(future)}
+             ${recentHtml}
+             
+             <div style="font-size:14px; font-weight:800; color:var(--brand); margin-bottom:12px;">Gelecek Maçlar</div>
+             ${renderFullMatchCards(upcoming)}
           </div>
        `;
        
