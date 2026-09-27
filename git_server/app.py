@@ -1,5 +1,6 @@
 import os
 import threading
+import datetime
 from flask import Flask, jsonify
 from github_market_cron import main as run_bot
 
@@ -8,6 +9,13 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     return "Finans Hub Bot API Aktif! /cron adresine istek atarak botu tetikleyebilirsiniz.", 200
+
+@app.route("/health")
+def health():
+    """Keep-alive endpoint — Render uyku moduna girmesin diye her 14 dk çağrılır."""
+    tr_tz = datetime.timezone(datetime.timedelta(hours=3))
+    now = datetime.datetime.now(tr_tz).strftime("%H:%M:%S")
+    return jsonify({"status": "awake", "time": now}), 200
 
 @app.route("/cron")
 def cron():

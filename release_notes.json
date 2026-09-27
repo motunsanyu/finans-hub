@@ -30,5 +30,14 @@
       "<strong style=\"color:#f59e0b;\">Güncelleme:</strong> Borsa ayrıntılarına ulaşma özelliği eklendi.",
       "<strong style=\"color:#3b82f6;\">Güncelleme:</strong> Hisse ayrıntıları."
     ]
+  },
+  {
+    "version": "Cron Healt",
+    "date": "27.09.2026 - 09:41",
+    "day": "Pazar",
+    "summary": "Cron Uyandırıcı",
+    "items": [
+      "<strong style=\"color:#10b981;\">Güncelleme:</strong> Cron-Job uyku modunu aşmak için 14 dakikalık bir uyandırma"
+    ]
   }
 ]
