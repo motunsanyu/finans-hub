@@ -1,4 +1,4 @@
-﻿let state = {
+let state = {
   financeSnapshot: readStorage(STORAGE_KEYS.financeSnapshot, {}),
   debts: readStorage(STORAGE_KEYS.debts, { usd: 0, eur: 0, gold: 0, btc: 0, try: 0 }),
 
@@ -531,6 +531,12 @@ async function refreshFinanceData() {
         nextSnapshot.silverTry = { price: data.silver_try, change: parseFloat((data.silver_try_change || '0').replace('%', '').replace(',', '.')) || 0 };
       }
       nextSnapshot.brent = { price: data.brent, change: parseFloat((data.brent_change || '0').replace('%', '').replace(',', '.')) || 0 };
+      if (data.bist100) {
+        nextSnapshot.bist100 = { price: data.bist100, change: parseFloat((data.bist100_change || '0').replace('%', '').replace(',', '.')) || 0 };
+      }
+      if (data.bitcoin) {
+        nextSnapshot.bitcoin = { price: data.bitcoin, change: parseFloat((data.bitcoin_change || '0').replace('%', '').replace(',', '.')) || 0 };
+      }
       
       // fetched_at verisini güncelleme zamanı olarak ayarla
       if (data.fetched_at) {
@@ -564,6 +570,8 @@ async function refreshFinanceData() {
 
   // Brent ve BIST
   updateExtraRow("brent", nextSnapshot.brent, "$");
+  updateExtraRow("bist100", nextSnapshot.bist100, "");
+  updateExtraRow("bitcoin", nextSnapshot.bitcoin, "$");
 
   calcTotalDebt();
   const dateObj = new Date(nextSnapshot.updatedAt);

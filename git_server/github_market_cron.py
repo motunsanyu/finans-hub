@@ -49,6 +49,12 @@ def _build_payload(snapshot: dict[str, Any], altin_data: list[dict[str, str]]) -
         "brent": snapshot.get("brent"),
         "brent_change": snapshot.get("brent_change"),
         "brent_status": snapshot.get("brent_status"),
+        "bist100": snapshot.get("bist100"),
+        "bist100_change": snapshot.get("bist100_change"),
+        "bist100_status": snapshot.get("bist100_status"),
+        "bitcoin": snapshot.get("bitcoin"),
+        "bitcoin_change": snapshot.get("bitcoin_change"),
+        "bitcoin_status": snapshot.get("bitcoin_status"),
         "altin_prices": altin_data,
     }
 
