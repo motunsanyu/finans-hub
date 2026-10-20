@@ -71,13 +71,5 @@ def fetch_market_snapshot() -> dict[str, Any]:
             snapshot["brent"] = val
             snapshot["brent_change"] = change_text
             snapshot["brent_status"] = status
-        elif "BIST" in name or "XU100" in name:
-            snapshot["bist100"] = val
-            snapshot["bist100_change"] = change_text
-            snapshot["bist_status"] = status
-        elif "BITCOIN" in name or "BTC" in name:
-            snapshot["bitcoin"] = val
-            snapshot["bitcoin_change"] = change_text
-            snapshot["btc_status"] = status
 
     return snapshot
