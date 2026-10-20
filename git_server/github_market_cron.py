@@ -51,10 +51,10 @@ def _build_payload(snapshot: dict[str, Any], altin_data: list[dict[str, str]]) -
         "brent_status": snapshot.get("brent_status"),
         "bist100": snapshot.get("bist100"),
         "bist100_change": snapshot.get("bist100_change"),
-        "bist100_status": snapshot.get("bist100_status"),
+        "bist_status": snapshot.get("bist_status"),
         "bitcoin": snapshot.get("bitcoin"),
         "bitcoin_change": snapshot.get("bitcoin_change"),
-        "bitcoin_status": snapshot.get("bitcoin_status"),
+        "btc_status": snapshot.get("btc_status"),
         "altin_prices": altin_data,
     }
 
@@ -70,22 +70,38 @@ def _get_headers(supabase_key: str) -> dict:
 
 def _insert_supabase_row(payload: dict[str, Any]) -> None:
     """market_snapshots tablosuna INSERT atar, max 10 kayıt tutar."""
+    import re
     supabase_url = _clean_supabase_url(_env("SUPABASE_URL"))
     supabase_key = _env("SUPABASE_KEY")
     table = _env("SUPABASE_TABLE", required=False, default=DEFAULT_TABLE)
     endpoint = f"{supabase_url}/rest/v1/{table}"
 
-    # INSERT
-    response = requests.post(
-        endpoint,
-        headers=_get_headers(supabase_key),
-        json=payload,
-        timeout=20,
-    )
-    if response.status_code not in {200, 201, 204}:
-        raise RuntimeError(
-            f"Supabase insert failed: HTTP {response.status_code} - {response.text}"
+    # INSERT (şema uyumsuzluğu durumunda bilinmeyen sütunları eleyerek tekrar dener)
+    data_to_send = dict(payload)
+    for _ in range(5):
+        response = requests.post(
+            endpoint,
+            headers=_get_headers(supabase_key),
+            json=data_to_send,
+            timeout=20,
         )
+        if response.status_code in {200, 201, 204}:
+            break
+        # PostgREST şemada bulunamayan kolon hatası verirse o kolonu çıkarıp tekrar dene
+        m = re.search(r"Could not find the '([^']+)' column", response.text)
+        if m and m.group(1) in data_to_send:
+            missing_col = m.group(1)
+            print(f"[warning] Supabase tablosunda '{missing_col}' kolonu bulunamadı, çıkarılarak tekrar deneniyor...")
+            data_to_send.pop(missing_col, None)
+        else:
+            raise RuntimeError(
+                f"Supabase insert failed: HTTP {response.status_code} - {response.text}"
+            )
+    else:
+        if response.status_code not in {200, 201, 204}:
+            raise RuntimeError(
+                f"Supabase insert failed: HTTP {response.status_code} - {response.text}"
+            )
 
     # Eski kayıtları temizle — sadece son MAX_ROWS kaydı tut
     _trim_old_rows(supabase_url, supabase_key, table, MAX_ROWS)

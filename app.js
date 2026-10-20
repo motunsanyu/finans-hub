@@ -536,6 +536,7 @@ async function refreshFinanceData() {
       }
       if (data.bitcoin) {
         nextSnapshot.bitcoin = { price: data.bitcoin, change: parseFloat((data.bitcoin_change || '0').replace('%', '').replace(',', '.')) || 0 };
+        nextSnapshot.btcUsd = nextSnapshot.bitcoin;
       }
       
       // fetched_at verisini güncelleme zamanı olarak ayarla
@@ -545,6 +546,42 @@ async function refreshFinanceData() {
     }
   } catch (e) { 
     console.warn("Supabase'den piyasa verileri çekilemedi:", e); 
+  }
+
+  // Supabase'de BIST 100 veya Bitcoin henüz yoksa doğrudan canlı API'den tamamla
+  if (!nextSnapshot.bist100 || !nextSnapshot.bist100.price) {
+    try {
+      const res = await fetch('https://scanner.tradingview.com/turkey/scan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ symbols: { tickers: ['BIST:XU100'] }, columns: ['close', 'change'] })
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.data && json.data.length > 0) {
+          const [close, change] = json.data[0].d;
+          nextSnapshot.bist100 = { price: close, change: Number(change) || 0 };
+        }
+      }
+    } catch (err) {
+      console.warn("TradingView BIST100 canlı verisi alınamadı:", err);
+    }
+  }
+
+  if (!nextSnapshot.bitcoin || !nextSnapshot.bitcoin.price) {
+    try {
+      const res = await fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT');
+      if (res.ok) {
+        const ticker = await res.json();
+        nextSnapshot.bitcoin = {
+          price: parseFloat(ticker.lastPrice) || 0,
+          change: parseFloat(ticker.priceChangePercent) || 0
+        };
+        nextSnapshot.btcUsd = nextSnapshot.bitcoin;
+      }
+    } catch (err) {
+      console.warn("Binance Bitcoin canlı verisi alınamadı:", err);
+    }
   }
 
   state.financeSnapshot = nextSnapshot;
@@ -585,10 +622,12 @@ function updateExtraRow(id, obj, prefix) {
   if (!obj) return;
   const pEl = document.getElementById(id + 'Price');
   const cEl = document.getElementById(id + 'Chg');
-  if (pEl) pEl.textContent = prefix + formatNumber(obj.price, 2);
+  const numPrice = typeof obj.price === 'number' ? obj.price : parseFlexibleNumber(obj.price);
+  if (pEl) pEl.textContent = prefix + (Number.isFinite(numPrice) ? formatNumber(numPrice, 2) : (obj.price || '--'));
   if (cEl) {
-    cEl.textContent = (obj.change > 0 ? "+" : "") + obj.change.toFixed(2) + "%";
-    cEl.className = `pill ${obj.change > 0 ? "up" : obj.change < 0 ? "down" : "neutral"}`;
+    const numChange = typeof obj.change === 'number' ? obj.change : parseFloat(String(obj.change || '0').replace('%', '').replace(',', '.')) || 0;
+    cEl.textContent = (numChange > 0 ? "+" : "") + numChange.toFixed(2) + "%";
+    cEl.className = `pill ${numChange > 0 ? "up" : numChange < 0 ? "down" : "neutral"}`;
   }
 }
 function parseFlexibleNumber(input) { if (!input) return Number.NaN; const raw = String(input).trim().replace(/\s/g, "").replace("%", ""); if (!raw) return Number.NaN; if (/^-?\d{1,3}(\.\d{3})*(,\d+)?$/.test(raw)) return Number(raw.replace(/\./g, "").replace(",", ".")); return Number(raw.replace(",", ".").replace(/[^0-9.-]/g, "")); }
