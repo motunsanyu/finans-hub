@@ -1,0 +1,8012 @@
+[
+  {
+    "id": 1,
+    "word": "ab",
+    "full": "ab",
+    "meaning": "-den itibaren, -den sonra, -den başlayarak",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 2,
+    "word": "Abend",
+    "full": "der Abend, die Abende",
+    "meaning": "akşam, akşamlar",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Abende",
+    "forms": ""
+  },
+  {
+    "id": 3,
+    "word": "aber",
+    "full": "aber",
+    "meaning": "ama, fakat, lakin",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 4,
+    "word": "abfahren",
+    "full": "abfahren, fährt ab, fuhr ab, ist abgefahren",
+    "meaning": "hareket etmek [araç için], kalkmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "fährt ab, fuhr ab, ist abgefahren"
+  },
+  {
+    "id": 5,
+    "word": "Abfahrt",
+    "full": "die Abfahrt, die Abfahrten",
+    "meaning": "kalkış, hareket [araç için]",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Abfahrten",
+    "forms": ""
+  },
+  {
+    "id": 6,
+    "word": "abfliegen",
+    "full": "abfliegen, fliegt ab, flog ab, ist abgeflogen",
+    "meaning": "havalanmak [uçak için], uçuşa geçmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "fliegt ab, flog ab, ist abgeflogen"
+  },
+  {
+    "id": 7,
+    "word": "Abflug",
+    "full": "der Abflug, die Abflüge",
+    "meaning": "kalkış [uçak için], uçuş",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Abflüge",
+    "forms": ""
+  },
+  {
+    "id": 8,
+    "word": "abgeben",
+    "full": "abgeben, gibt ab, gab ab, hat abgegeben",
+    "meaning": "teslim etmek, vermek; [oy] kullanmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "gibt ab, gab ab, hat abgegeben"
+  },
+  {
+    "id": 9,
+    "word": "abholen",
+    "full": "abholen, holt ab, holte ab, hat abgeholt",
+    "meaning": "(gidip) almak, karşılamak [birini/bir şeyi]",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "holt ab, holte ab, hat abgeholt"
+  },
+  {
+    "id": 10,
+    "word": "Absender",
+    "full": "der Absender, die Absender",
+    "meaning": "gönderen",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Absender",
+    "forms": ""
+  },
+  {
+    "id": 11,
+    "word": "acht",
+    "full": "acht",
+    "meaning": "sekiz",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 12,
+    "word": "Achtung",
+    "full": "die Achtung",
+    "meaning": "dikkat; saygı",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 13,
+    "word": "achtzehn",
+    "full": "achtzehn",
+    "meaning": "on sekiz",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 14,
+    "word": "achtzig",
+    "full": "achtzig",
+    "meaning": "seksen",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 15,
+    "word": "Adresse",
+    "full": "die Adresse, die Adressen",
+    "meaning": "adres",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Adressen",
+    "forms": ""
+  },
+  {
+    "id": 16,
+    "word": "all-",
+    "full": "all-",
+    "meaning": "tüm, bütün, hepsi",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 17,
+    "word": "alle",
+    "full": "alle",
+    "meaning": "herkes, hepsi",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 18,
+    "word": "allein",
+    "full": "allein",
+    "meaning": "yalnız, tek başına",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 19,
+    "word": "alleine",
+    "full": "alleine",
+    "meaning": "tek başına, yalnız",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 20,
+    "word": "alles",
+    "full": "alles",
+    "meaning": "her şey",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 21,
+    "word": "also",
+    "full": "also",
+    "meaning": "o halde, yani, demek ki, öyleyse",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 22,
+    "word": "alt",
+    "full": "alt, älter, am ältesten",
+    "meaning": "eski; yaşlı",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": "älter, am ältesten"
+  },
+  {
+    "id": 23,
+    "word": "Alter",
+    "full": "das Alter, die Alter",
+    "meaning": "yaş",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Alter",
+    "forms": ""
+  },
+  {
+    "id": 24,
+    "word": "am",
+    "full": "am",
+    "meaning": "-de/-da [belirli günlerde, günün bölümlerinde, tarihlerde]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 25,
+    "word": "an",
+    "full": "an",
+    "meaning": "yanında, -e/-a; -de/-da; ilgili, hakkında",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 26,
+    "word": "anbieten",
+    "full": "anbieten, bietet an, bot an, hat angeboten",
+    "meaning": "teklif etmek, sunmak, ikram etmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "bietet an, bot an, hat angeboten"
+  },
+  {
+    "id": 27,
+    "word": "ander-",
+    "full": "ander-",
+    "meaning": "diğer, başka",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 28,
+    "word": "Anfang",
+    "full": "der Anfang, die Anfänge",
+    "meaning": "başlangıç",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Anfänge",
+    "forms": ""
+  },
+  {
+    "id": 29,
+    "word": "anfangen",
+    "full": "anfangen, fängt an, fing an, hat angefangen",
+    "meaning": "başlamak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "fängt an, fing an, hat angefangen"
+  },
+  {
+    "id": 30,
+    "word": "Angebot",
+    "full": "das Angebot, die Angebote",
+    "meaning": "teklif, sunum; indirim, kampanya",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Angebote",
+    "forms": ""
+  },
+  {
+    "id": 31,
+    "word": "anklicken",
+    "full": "anklicken, klickt an, klickte an, hat angeklickt",
+    "meaning": "tıklamak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "klickt an, klickte an, hat angeklickt"
+  },
+  {
+    "id": 32,
+    "word": "ankommen",
+    "full": "ankommen, kommt an, kam an, ist angekommen",
+    "meaning": "varmak, ulaşmak; bağlı olmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "kommt an, kam an, ist angekommen"
+  },
+  {
+    "id": 33,
+    "word": "ankreuzen",
+    "full": "ankreuzen, kreuzt an, kreuzte an, hat angekreuzt",
+    "meaning": "çarpı [X] ile işaretlemek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "kreuzt an, kreuzte an, hat angekreuzt"
+  },
+  {
+    "id": 34,
+    "word": "Ankunft",
+    "full": "die Ankunft, die Ankünfte",
+    "meaning": "varış, geliş",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Ankünfte",
+    "forms": ""
+  },
+  {
+    "id": 35,
+    "word": "anmachen",
+    "full": "anmachen, macht an, machte an, hat angemacht",
+    "meaning": "açmak [ışık, cihaz vb.]; hazırlamak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "macht an, machte an, hat angemacht"
+  },
+  {
+    "id": 36,
+    "word": "",
+    "full": "",
+    "meaning": "sich) anmelden, meldet an, meldete an, hat angemeldet (kaydolmak, kayıt yaptırmak; başvurmak",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 37,
+    "word": "Anmeldung",
+    "full": "die Anmeldung, die Anmeldungen",
+    "meaning": "kayıt, başvuru",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Anmeldungen",
+    "forms": ""
+  },
+  {
+    "id": 38,
+    "word": "Anrede",
+    "full": "die Anrede, die Anreden",
+    "meaning": "hitap",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Anreden",
+    "forms": ""
+  },
+  {
+    "id": 39,
+    "word": "Anruf",
+    "full": "der Anruf, die Anrufe",
+    "meaning": "(telefon) arama(sı)",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Anrufe",
+    "forms": ""
+  },
+  {
+    "id": 40,
+    "word": "Anrufbeantworter",
+    "full": "der Anrufbeantworter, die Anrufbeantworter",
+    "meaning": "telesekreter",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Anrufbeantworter",
+    "forms": ""
+  },
+  {
+    "id": 41,
+    "word": "anrufen",
+    "full": "anrufen, ruft an, rief an, hat angerufen",
+    "meaning": "(telefonla) aramak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "ruft an, rief an, hat angerufen"
+  },
+  {
+    "id": 42,
+    "word": "Ansage",
+    "full": "die Ansage, die Ansagen",
+    "meaning": "anons, duyuru",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Ansagen",
+    "forms": ""
+  },
+  {
+    "id": 43,
+    "word": "Anschluss",
+    "full": "der Anschluss, die Anschlüsse",
+    "meaning": "bağlantı; aktarma; telefon hattı",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Anschlüsse",
+    "forms": ""
+  },
+  {
+    "id": 44,
+    "word": "Antwort",
+    "full": "die Antwort, die Antworten",
+    "meaning": "cevap, yanıt",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Antworten",
+    "forms": ""
+  },
+  {
+    "id": 45,
+    "word": "antworten",
+    "full": "antworten, antwortet, antwortete, hat geantwortet",
+    "meaning": "cevaplamak, yanıtlamak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "antwortet, antwortete, hat geantwortet"
+  },
+  {
+    "id": 46,
+    "word": "Anzeige",
+    "full": "die Anzeige, die Anzeigen",
+    "meaning": "ilan, reklam; şikayet, ihbar",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Anzeigen",
+    "forms": ""
+  },
+  {
+    "id": 47,
+    "word": "",
+    "full": "",
+    "meaning": "sich) anziehen, zieht an, zog an, hat angezogen (giymek; giyinmek; çekmek, cezbetmek",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 48,
+    "word": "Apartment",
+    "full": "das Apartment, die Apartments",
+    "meaning": "daire, apartman dairesi",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Apartments",
+    "forms": ""
+  },
+  {
+    "id": 49,
+    "word": "Apfel",
+    "full": "der Apfel, die Äpfel",
+    "meaning": "elma",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Äpfel",
+    "forms": ""
+  },
+  {
+    "id": 50,
+    "word": "Appetit",
+    "full": "der Appetit",
+    "meaning": "iştah",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 51,
+    "word": "April",
+    "full": "der April, die Aprile",
+    "meaning": "Nisan",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Aprile",
+    "forms": ""
+  },
+  {
+    "id": 52,
+    "word": "Arbeit",
+    "full": "die Arbeit, die Arbeiten",
+    "meaning": "iş, çalışma; ödev, eser",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Arbeiten",
+    "forms": ""
+  },
+  {
+    "id": 53,
+    "word": "arbeiten",
+    "full": "arbeiten, arbeitet, arbeitete, hat gearbeitet",
+    "meaning": "çalışmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "arbeitet, arbeitete, hat gearbeitet"
+  },
+  {
+    "id": 54,
+    "word": "arbeitslos",
+    "full": "arbeitslos",
+    "meaning": "işsiz",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 55,
+    "word": "Arbeitsplatz",
+    "full": "der Arbeitsplatz, die Arbeitsplätze",
+    "meaning": "iş yeri, çalışma yeri; iş kadrosu",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Arbeitsplätze",
+    "forms": ""
+  },
+  {
+    "id": 56,
+    "word": "Arm",
+    "full": "der Arm, die Arme",
+    "meaning": "kol; sıfat olunca küçük yazılır ve fakir anlamına gelir",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Arme",
+    "forms": ""
+  },
+  {
+    "id": 57,
+    "word": "Arzt",
+    "full": "der Arzt, die Ärzte / die Ärztin, die Ärztinnen",
+    "meaning": "doktor",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Ärzte / die Ärztin, die Ärztinnen",
+    "forms": ""
+  },
+  {
+    "id": 58,
+    "word": "auch",
+    "full": "auch",
+    "meaning": "-de, -da; ayrıca; hem de; bile",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 59,
+    "word": "auf",
+    "full": "auf",
+    "meaning": "üzerinde, üstünde; -e/-a; açık",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 60,
+    "word": "auf sein",
+    "full": "auf sein, ist auf, war auf, ist auf gewesen",
+    "meaning": "açık olmak; ayakta olmak, uyanık olmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "ist auf, war auf, ist auf gewesen"
+  },
+  {
+    "id": 61,
+    "word": "Aufgabe",
+    "full": "die Aufgabe, die Aufgaben",
+    "meaning": "görev, ödev; sorun; gönderme",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Aufgaben",
+    "forms": ""
+  },
+  {
+    "id": 62,
+    "word": "aufhören",
+    "full": "aufhören, hört auf, hörte auf, hat aufgehört",
+    "meaning": "kesmek, bırakmak, sona erdirmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "hört auf, hörte auf, hat aufgehört"
+  },
+  {
+    "id": 63,
+    "word": "aufstehen",
+    "full": "aufstehen, steht auf, stand auf, ist aufgestanden",
+    "meaning": "kalkmak; direnmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "steht auf, stand auf, ist aufgestanden"
+  },
+  {
+    "id": 64,
+    "word": "Aufzug",
+    "full": "der Aufzug, die Aufzüge",
+    "meaning": "asansör; perde",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Aufzüge",
+    "forms": ""
+  },
+  {
+    "id": 65,
+    "word": "Auge",
+    "full": "das Auge, die Augen",
+    "meaning": "göz",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Augen",
+    "forms": ""
+  },
+  {
+    "id": 66,
+    "word": "August",
+    "full": "der August, die Auguste",
+    "meaning": "Ağustos",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Auguste",
+    "forms": ""
+  },
+  {
+    "id": 67,
+    "word": "aus",
+    "full": "aus",
+    "meaning": "-den/-dan",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 68,
+    "word": "aus sein",
+    "full": "aus sein, ist aus, war aus, ist aus gewesen",
+    "meaning": "kapalı olmak; bitmiş olmak; dışarıda olmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "ist aus, war aus, ist aus gewesen"
+  },
+  {
+    "id": 69,
+    "word": "Ausflug",
+    "full": "der Ausflug, die Ausflüge",
+    "meaning": "(kısa) gezi, piknik",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Ausflüge",
+    "forms": ""
+  },
+  {
+    "id": 70,
+    "word": "ausfüllen",
+    "full": "ausfüllen, füllt aus, füllte aus, hat ausgefüllt",
+    "meaning": "doldurmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "füllt aus, füllte aus, hat ausgefüllt"
+  },
+  {
+    "id": 71,
+    "word": "Ausgang",
+    "full": "der Ausgang, die Ausgänge",
+    "meaning": "çıkış; sonuç",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Ausgänge",
+    "forms": ""
+  },
+  {
+    "id": 72,
+    "word": "Auskunft",
+    "full": "die Auskunft, die Auskünfte",
+    "meaning": "bilgi, danışma",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Auskünfte",
+    "forms": ""
+  },
+  {
+    "id": 73,
+    "word": "Ausland",
+    "full": "das Ausland",
+    "meaning": "yurt dışı",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 74,
+    "word": "Ausländer",
+    "full": "der Ausländer, die Ausländer / die Ausländerin, die Ausländerinnen",
+    "meaning": "yabancı",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Ausländer / die Ausländerin, die Ausländerinnen",
+    "forms": ""
+  },
+  {
+    "id": 75,
+    "word": "ausländisch",
+    "full": "ausländisch",
+    "meaning": "yabancı",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 76,
+    "word": "ausmachen",
+    "full": "ausmachen, macht aus, machte aus, hat ausgemacht",
+    "meaning": "kapatmak; kararlaştırmak; tutmak; fark etmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "macht aus, machte aus, hat ausgemacht"
+  },
+  {
+    "id": 77,
+    "word": "Aussage",
+    "full": "die Aussage, die Aussagen",
+    "meaning": "ifade, beyan, demeç; önerme",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Aussagen",
+    "forms": ""
+  },
+  {
+    "id": 78,
+    "word": "aussehen",
+    "full": "aussehen, sieht aus, sah aus, hat ausgesehen",
+    "meaning": "görünmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "sieht aus, sah aus, hat ausgesehen"
+  },
+  {
+    "id": 79,
+    "word": "aussteigen",
+    "full": "aussteigen, steigt aus, stieg aus, ist ausgestiegen",
+    "meaning": "inmek; ayrılmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "steigt aus, stieg aus, ist ausgestiegen"
+  },
+  {
+    "id": 80,
+    "word": "Ausweis",
+    "full": "der Ausweis, die Ausweise",
+    "meaning": "kimlik kartı, belge",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Ausweise",
+    "forms": ""
+  },
+  {
+    "id": 81,
+    "word": "",
+    "full": "",
+    "meaning": "sich) ausziehen, zieht aus, zog aus, hat ausgezogen (soyunmak, çıkarmak; taşınmak",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 82,
+    "word": "Auto",
+    "full": "das Auto, die Autos",
+    "meaning": "araba, otomobil",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Autos",
+    "forms": ""
+  },
+  {
+    "id": 83,
+    "word": "Autobahn",
+    "full": "die Autobahn, die Autobahnen",
+    "meaning": "otoyol",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Autobahnen",
+    "forms": ""
+  },
+  {
+    "id": 84,
+    "word": "Automat",
+    "full": "der Automat, die Automaten",
+    "meaning": "otomat, makine",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Automaten",
+    "forms": ""
+  },
+  {
+    "id": 85,
+    "word": "automatisch",
+    "full": "automatisch",
+    "meaning": "otomatik, kendiliğinden",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 86,
+    "word": "Baby",
+    "full": "das Baby, die Babys",
+    "meaning": "bebek",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Babys",
+    "forms": ""
+  },
+  {
+    "id": 87,
+    "word": "Bad",
+    "full": "das Bad, die Bäder",
+    "meaning": "banyo",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Bäder",
+    "forms": ""
+  },
+  {
+    "id": 88,
+    "word": "baden",
+    "full": "baden, badet, badete, hat gebadet",
+    "meaning": "yıkanmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "badet, badete, hat gebadet"
+  },
+  {
+    "id": 89,
+    "word": "Bahn",
+    "full": "die Bahn, die Bahnen",
+    "meaning": "tren, demiryolu",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Bahnen",
+    "forms": ""
+  },
+  {
+    "id": 90,
+    "word": "Bahnhof",
+    "full": "der Bahnhof, die Bahnhöfe",
+    "meaning": "istasyon, gar",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Bahnhöfe",
+    "forms": ""
+  },
+  {
+    "id": 91,
+    "word": "Bahnsteig",
+    "full": "der Bahnsteig, die Bahnsteige",
+    "meaning": "peron, platform",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Bahnsteige",
+    "forms": ""
+  },
+  {
+    "id": 92,
+    "word": "bald",
+    "full": "bald",
+    "meaning": "yakında",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 93,
+    "word": "Balkon",
+    "full": "der Balkon, die Balkone",
+    "meaning": "balkon",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Balkone",
+    "forms": ""
+  },
+  {
+    "id": 94,
+    "word": "Banane",
+    "full": "die Banane, die Bananen",
+    "meaning": "muz",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Bananen",
+    "forms": ""
+  },
+  {
+    "id": 95,
+    "word": "Bank",
+    "full": "die Bank, die Bänke",
+    "meaning": "bank, oturak",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Bänke",
+    "forms": ""
+  },
+  {
+    "id": 96,
+    "word": "Bank",
+    "full": "die Bank, die Banken",
+    "meaning": "banka",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Banken",
+    "forms": ""
+  },
+  {
+    "id": 97,
+    "word": "bar",
+    "full": "bar",
+    "meaning": "nakit",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 98,
+    "word": "Bauch",
+    "full": "der Bauch, die Bäuche",
+    "meaning": "karın",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Bäuche",
+    "forms": ""
+  },
+  {
+    "id": 99,
+    "word": "Baum",
+    "full": "der Baum, die Bäume",
+    "meaning": "ağaç",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Bäume",
+    "forms": ""
+  },
+  {
+    "id": 100,
+    "word": "Beamte",
+    "full": "der Beamte, die Beamten / die Beamtin, die Beamtinnen",
+    "meaning": "memur/kamu görevlisi",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Beamten / die Beamtin, die Beamtinnen",
+    "forms": ""
+  },
+  {
+    "id": 101,
+    "word": "bedeuten",
+    "full": "bedeuten, bedeutet, bedeutete, hat bedeutet",
+    "meaning": "anlamına gelmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "bedeutet, bedeutete, hat bedeutet"
+  },
+  {
+    "id": 102,
+    "word": "beginnen",
+    "full": "beginnen, beginnt, begann, hat begonnen",
+    "meaning": "başlamak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "beginnt, begann, hat begonnen"
+  },
+  {
+    "id": 103,
+    "word": "bei",
+    "full": "bei",
+    "meaning": "yanında, -de/-da",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 104,
+    "word": "beide",
+    "full": "beide",
+    "meaning": "her ikisi",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 105,
+    "word": "Bein",
+    "full": "das Bein, die Beine",
+    "meaning": "bacak",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Beine",
+    "forms": ""
+  },
+  {
+    "id": 106,
+    "word": "Beispiel",
+    "full": "das Beispiel, die Beispiele",
+    "meaning": "örnek",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Beispiele",
+    "forms": ""
+  },
+  {
+    "id": 107,
+    "word": "bekannt",
+    "full": "bekannt",
+    "meaning": "tanınmış, bilinen",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 108,
+    "word": "Bekannte",
+    "full": "der/die Bekannte, die Bekannten",
+    "meaning": "tanıdık",
+    "type": "Nomen",
+    "article": "der/die",
+    "plural": "die Bekannten",
+    "forms": ""
+  },
+  {
+    "id": 109,
+    "word": "bekommen",
+    "full": "bekommen, bekommt, bekam, hat bekommen",
+    "meaning": "-birinden-almak; başka biri size veriyor",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "bekommt, bekam, hat bekommen"
+  },
+  {
+    "id": 110,
+    "word": "benutzen",
+    "full": "benutzen, benutzt, benutzte, hat benutzt",
+    "meaning": "kullanmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "benutzt, benutzte, hat benutzt"
+  },
+  {
+    "id": 111,
+    "word": "Beruf",
+    "full": "der Beruf, die Berufe",
+    "meaning": "meslek",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Berufe",
+    "forms": ""
+  },
+  {
+    "id": 112,
+    "word": "besetzt",
+    "full": "besetzt",
+    "meaning": "dolu, meşgul",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 113,
+    "word": "besichtigen",
+    "full": "besichtigen, besichtigt, besichtigte, hat besichtigt",
+    "meaning": "gezmek, ziyaret etmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "besichtigt, besichtigte, hat besichtigt"
+  },
+  {
+    "id": 114,
+    "word": "besser",
+    "full": "besser",
+    "meaning": "gut, besser, am besten) (daha iyi",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 115,
+    "word": "best-",
+    "full": "best-",
+    "meaning": "gut, besser, am besten) (en iyi",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 116,
+    "word": "bestellen",
+    "full": "bestellen, bestellt, bestellte, hat bestellt",
+    "meaning": "sipariş etmek / sipariş vermek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "bestellt, bestellte, hat bestellt"
+  },
+  {
+    "id": 117,
+    "word": "besuchen",
+    "full": "besuchen, besucht, besuchte, hat besucht",
+    "meaning": "ziyaret etmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "besucht, besuchte, hat besucht"
+  },
+  {
+    "id": 118,
+    "word": "Bett",
+    "full": "das Bett, die Betten",
+    "meaning": "yatak",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Betten",
+    "forms": ""
+  },
+  {
+    "id": 119,
+    "word": "bezahlen",
+    "full": "bezahlen, bezahlt, bezahlte, hat bezahlt",
+    "meaning": "ödemek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "bezahlt, bezahlte, hat bezahlt"
+  },
+  {
+    "id": 120,
+    "word": "Bier",
+    "full": "das Bier, die Biere",
+    "meaning": "bira",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Biere",
+    "forms": ""
+  },
+  {
+    "id": 121,
+    "word": "Bild",
+    "full": "das Bild, die Bilder",
+    "meaning": "resim, fotoğraf",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Bilder",
+    "forms": ""
+  },
+  {
+    "id": 122,
+    "word": "billig",
+    "full": "billig, billiger, am billigsten",
+    "meaning": "ucuz",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": "billiger, am billigsten"
+  },
+  {
+    "id": 123,
+    "word": "Birne",
+    "full": "die Birne, die Birnen",
+    "meaning": "armut",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Birnen",
+    "forms": ""
+  },
+  {
+    "id": 124,
+    "word": "bis",
+    "full": "bis",
+    "meaning": "-e kadar",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 125,
+    "word": "bisschen",
+    "full": "bisschen",
+    "meaning": "biraz",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 126,
+    "word": "Bitte",
+    "full": "die Bitte, die Bitten",
+    "meaning": "rica, istek",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Bitten",
+    "forms": ""
+  },
+  {
+    "id": 127,
+    "word": "bitte",
+    "full": "bitte",
+    "meaning": "lütfen",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 128,
+    "word": "bitten",
+    "full": "bitten, bittet, bat, hat gebeten",
+    "meaning": "rica etmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "bittet, bat, hat gebeten"
+  },
+  {
+    "id": 129,
+    "word": "bitter",
+    "full": "bitter",
+    "meaning": "acı",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 130,
+    "word": "blau",
+    "full": "blau",
+    "meaning": "mavi",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 131,
+    "word": "bleiben",
+    "full": "bleiben, bleibt, blieb, ist geblieben",
+    "meaning": "kalmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "bleibt, blieb, ist geblieben"
+  },
+  {
+    "id": 132,
+    "word": "Bleistift",
+    "full": "der Bleistift, die Bleistifte",
+    "meaning": "kurşun kalem",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Bleistifte",
+    "forms": ""
+  },
+  {
+    "id": 133,
+    "word": "Blick",
+    "full": "der Blick, die Blicke",
+    "meaning": "bakış, manzara",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Blicke",
+    "forms": ""
+  },
+  {
+    "id": 134,
+    "word": "Blume",
+    "full": "die Blume, die Blumen",
+    "meaning": "çiçek",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Blumen",
+    "forms": ""
+  },
+  {
+    "id": 135,
+    "word": "Bogen",
+    "full": "der Bogen, die Bögen",
+    "meaning": "kağıt, form; yay",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Bögen",
+    "forms": ""
+  },
+  {
+    "id": 136,
+    "word": "brauchen",
+    "full": "brauchen, braucht, brauchte, hat gebraucht",
+    "meaning": "ihtiyaç duymak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "braucht, brauchte, hat gebraucht"
+  },
+  {
+    "id": 137,
+    "word": "braun",
+    "full": "braun",
+    "meaning": "kahverengi",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 138,
+    "word": "breit",
+    "full": "breit",
+    "meaning": "geniş",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 139,
+    "word": "Brief",
+    "full": "der Brief, die Briefe",
+    "meaning": "mektup",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Briefe",
+    "forms": ""
+  },
+  {
+    "id": 140,
+    "word": "Briefmarke",
+    "full": "die Briefmarke, die Briefmarken",
+    "meaning": "posta pulu",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Briefmarken",
+    "forms": ""
+  },
+  {
+    "id": 141,
+    "word": "bringen",
+    "full": "bringen, bringt, brachte, hat gebracht",
+    "meaning": "getirmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "bringt, brachte, hat gebracht"
+  },
+  {
+    "id": 142,
+    "word": "Brot",
+    "full": "das Brot, die Brote",
+    "meaning": "ekmek",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Brote",
+    "forms": ""
+  },
+  {
+    "id": 143,
+    "word": "Bruder",
+    "full": "der Bruder, die Brüder",
+    "meaning": "erkek kardeş",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Brüder",
+    "forms": ""
+  },
+  {
+    "id": 144,
+    "word": "Brötchen",
+    "full": "das Brötchen, die Brötchen",
+    "meaning": "küçük ekmek",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Brötchen",
+    "forms": ""
+  },
+  {
+    "id": 145,
+    "word": "Buch",
+    "full": "das Buch, die Bücher",
+    "meaning": "kitap",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Bücher",
+    "forms": ""
+  },
+  {
+    "id": 146,
+    "word": "Buchstabe",
+    "full": "der Buchstabe, die Buchstaben",
+    "meaning": "harf",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Buchstaben",
+    "forms": ""
+  },
+  {
+    "id": 147,
+    "word": "buchstabieren",
+    "full": "buchstabieren, buchstabiert, buchstabierte, hat buchstabiert",
+    "meaning": "hecelemek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "buchstabiert, buchstabierte, hat buchstabiert"
+  },
+  {
+    "id": 148,
+    "word": "Bus",
+    "full": "der Bus, die Busse",
+    "meaning": "otobüs",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Busse",
+    "forms": ""
+  },
+  {
+    "id": 149,
+    "word": "Butter",
+    "full": "die Butter",
+    "meaning": "tereyağı",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 150,
+    "word": "Bäckerei",
+    "full": "die Bäckerei, die Bäckereien",
+    "meaning": "fırın",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Bäckereien",
+    "forms": ""
+  },
+  {
+    "id": 151,
+    "word": "bös",
+    "full": "bös",
+    "meaning": "kötü",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 152,
+    "word": "böse",
+    "full": "böse",
+    "meaning": "kızgın, öfkeli",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 153,
+    "word": "Café",
+    "full": "das Café, die Cafés",
+    "meaning": "kafe",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Cafés",
+    "forms": ""
+  },
+  {
+    "id": 154,
+    "word": "CD",
+    "full": "die CD, die CDs",
+    "meaning": "CD",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die CDs",
+    "forms": ""
+  },
+  {
+    "id": 155,
+    "word": "Cent",
+    "full": "der Cent, die Cents",
+    "meaning": "sent",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Cents",
+    "forms": ""
+  },
+  {
+    "id": 156,
+    "word": "Chef",
+    "full": "der Chef, die Chefs",
+    "meaning": "şef, patron (erkek)",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Chefs",
+    "forms": ""
+  },
+  {
+    "id": 157,
+    "word": "Chefin",
+    "full": "die Chefin, die Chefinnen",
+    "meaning": "şef, patron (kadın)",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Chefinnen",
+    "forms": ""
+  },
+  {
+    "id": 158,
+    "word": "circa/ca.",
+    "full": "circa/ca.",
+    "meaning": "yaklaşık",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 159,
+    "word": "Computer",
+    "full": "der Computer, die Computer",
+    "meaning": "bilgisayar",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Computer",
+    "forms": ""
+  },
+  {
+    "id": 160,
+    "word": "da",
+    "full": "da",
+    "meaning": "orada, burada; o anda, o sırada",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 161,
+    "word": "da",
+    "full": "da",
+    "meaning": "çünkü, -dığı için",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 162,
+    "word": "daneben",
+    "full": "daneben",
+    "meaning": "yanında, onun yanında",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 163,
+    "word": "Dank",
+    "full": "der Dank",
+    "meaning": "teşekkür",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 164,
+    "word": "danke",
+    "full": "danke",
+    "meaning": "teşekkür ederim, sağ ol",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 165,
+    "word": "danken",
+    "full": "danken, dankt, dankte, hat gedankt",
+    "meaning": "teşekkür etmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "dankt, dankte, hat gedankt"
+  },
+  {
+    "id": 166,
+    "word": "dann",
+    "full": "dann",
+    "meaning": "o zaman, sonra, ardından",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 167,
+    "word": "das",
+    "full": "das",
+    "meaning": "şu, bu, o [artikeli ‘das’ olan nesneler için]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 168,
+    "word": "Datum",
+    "full": "das Datum, die Daten",
+    "meaning": "tarih",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Daten",
+    "forms": ""
+  },
+  {
+    "id": 169,
+    "word": "dauern",
+    "full": "dauern, dauert, dauerte, hat gedauert",
+    "meaning": "sürmek [zaman olarak]",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "dauert, dauerte, hat gedauert"
+  },
+  {
+    "id": 170,
+    "word": "dein",
+    "full": "dein, deine",
+    "meaning": "senin",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "deine"
+  },
+  {
+    "id": 171,
+    "word": "denn",
+    "full": "denn",
+    "meaning": "çünkü, o halde, peki",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 172,
+    "word": "der",
+    "full": "der",
+    "meaning": "şu, bu, o [artikeli ‘der’ olan nesneler için]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 173,
+    "word": "deutsch",
+    "full": "deutsch",
+    "meaning": "Alman, Almanca",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 174,
+    "word": "Deutsche",
+    "full": "der/die Deutsche, die Deutschen",
+    "meaning": "Alman",
+    "type": "Nomen",
+    "article": "der/die",
+    "plural": "die Deutschen",
+    "forms": ""
+  },
+  {
+    "id": 175,
+    "word": "Deutschland",
+    "full": "Deutschland",
+    "meaning": "Almanya",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 176,
+    "word": "Dezember",
+    "full": "der Dezember, die Dezember",
+    "meaning": "Aralık",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Dezember",
+    "forms": ""
+  },
+  {
+    "id": 177,
+    "word": "dich",
+    "full": "dich",
+    "meaning": "seni, sana",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 178,
+    "word": "die",
+    "full": "die",
+    "meaning": "şu, bu, o [artikeli ‘die’ olan nesneler veya çoğullar için]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 179,
+    "word": "Dienstag",
+    "full": "der Dienstag, die Dienstage",
+    "meaning": "Salı",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Dienstage",
+    "forms": ""
+  },
+  {
+    "id": 180,
+    "word": "dir",
+    "full": "dir",
+    "meaning": "sana",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 181,
+    "word": "Doktor",
+    "full": "der Doktor, die Doktoren",
+    "meaning": "doktor",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Doktoren",
+    "forms": ""
+  },
+  {
+    "id": 182,
+    "word": "Donnerstag",
+    "full": "der Donnerstag, die Donnerstage",
+    "meaning": "Perşembe",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Donnerstage",
+    "forms": ""
+  },
+  {
+    "id": 183,
+    "word": "Doppelzimmer",
+    "full": "das Doppelzimmer, die Doppelzimmer",
+    "meaning": "çift kişilik oda",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Doppelzimmer",
+    "forms": ""
+  },
+  {
+    "id": 184,
+    "word": "Dorf",
+    "full": "das Dorf, die Dörfer",
+    "meaning": "köy",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Dörfer",
+    "forms": ""
+  },
+  {
+    "id": 185,
+    "word": "dort",
+    "full": "dort",
+    "meaning": "orada",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 186,
+    "word": "draußen",
+    "full": "draußen",
+    "meaning": "dışarıda",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 187,
+    "word": "drei",
+    "full": "drei",
+    "meaning": "üç",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 188,
+    "word": "dreizehn",
+    "full": "dreizehn",
+    "meaning": "on üç",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 189,
+    "word": "dreißig",
+    "full": "dreißig",
+    "meaning": "otuz",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 190,
+    "word": "dritte",
+    "full": "dritte",
+    "meaning": "üçüncü",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 191,
+    "word": "drucken",
+    "full": "drucken, druckt, druckte, hat gedruckt",
+    "meaning": "yazdırmak, basmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "druckt, druckte, hat gedruckt"
+  },
+  {
+    "id": 192,
+    "word": "Drucker",
+    "full": "der Drucker, die Drucker",
+    "meaning": "yazıcı",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Drucker",
+    "forms": ""
+  },
+  {
+    "id": 193,
+    "word": "drücken",
+    "full": "drücken, drückt, drückte, hat gedrückt",
+    "meaning": "basmak, sıkmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "drückt, drückte, hat gedrückt"
+  },
+  {
+    "id": 194,
+    "word": "durch",
+    "full": "durch",
+    "meaning": "içinden, arasından; -den dolayı",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 195,
+    "word": "Durchsage",
+    "full": "die Durchsage, die Durchsagen",
+    "meaning": "anons, duyuru",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Durchsagen",
+    "forms": ""
+  },
+  {
+    "id": 196,
+    "word": "Durst",
+    "full": "der Durst",
+    "meaning": "susuzluk",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 197,
+    "word": "Dusche",
+    "full": "die Dusche, die Duschen",
+    "meaning": "duş",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Duschen",
+    "forms": ""
+  },
+  {
+    "id": 198,
+    "word": "",
+    "full": "",
+    "meaning": "sich) duschen, duscht, duschte, hat geduscht (duş almak",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 199,
+    "word": "dürfen",
+    "full": "dürfen, darf, durfte, hat gedurft",
+    "meaning": "izinli olmak, -ebilmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "darf, durfte, hat gedurft"
+  },
+  {
+    "id": 200,
+    "word": "E-Mail",
+    "full": "die E-Mail, die E-Mails",
+    "meaning": "e-posta",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die E-Mails",
+    "forms": ""
+  },
+  {
+    "id": 201,
+    "word": "Ecke",
+    "full": "die Ecke, die Ecken",
+    "meaning": "köşe",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Ecken",
+    "forms": ""
+  },
+  {
+    "id": 202,
+    "word": "Ehefrau",
+    "full": "die Ehefrau, die Ehefrauen",
+    "meaning": "eş, karı",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Ehefrauen",
+    "forms": ""
+  },
+  {
+    "id": 203,
+    "word": "Ehemann",
+    "full": "der Ehemann, die Ehemänner",
+    "meaning": "eş, koca",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Ehemänner",
+    "forms": ""
+  },
+  {
+    "id": 204,
+    "word": "Ei",
+    "full": "das Ei, die Eier",
+    "meaning": "yumurta",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Eier",
+    "forms": ""
+  },
+  {
+    "id": 205,
+    "word": "eilig",
+    "full": "eilig",
+    "meaning": "acele",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 206,
+    "word": "ein",
+    "full": "ein",
+    "meaning": "bir [der/das artikelli isimler için belirsiz artikel]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 207,
+    "word": "eine",
+    "full": "eine",
+    "meaning": "bir [die artikelli isimler için belirsiz artikel]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 208,
+    "word": "einfach",
+    "full": "einfach",
+    "meaning": "basit, kolay",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 209,
+    "word": "einfach",
+    "full": "einfach",
+    "meaning": "sadece, yalnızca",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 210,
+    "word": "Eingang",
+    "full": "der Eingang, die Eingänge",
+    "meaning": "giriş",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Eingänge",
+    "forms": ""
+  },
+  {
+    "id": 211,
+    "word": "einhundert",
+    "full": "einhundert",
+    "meaning": "yüz",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 212,
+    "word": "einkaufen",
+    "full": "einkaufen, kauft ein, kaufte ein, hat eingekauft",
+    "meaning": "alışveriş yapmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "kauft ein, kaufte ein, hat eingekauft"
+  },
+  {
+    "id": 213,
+    "word": "einladen",
+    "full": "einladen, lädt ein, lud ein, hat eingeladen",
+    "meaning": "davet etmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "lädt ein, lud ein, hat eingeladen"
+  },
+  {
+    "id": 214,
+    "word": "Einladung",
+    "full": "die Einladung, die Einladungen",
+    "meaning": "davet, davetiye",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Einladungen",
+    "forms": ""
+  },
+  {
+    "id": 215,
+    "word": "eins",
+    "full": "eins",
+    "meaning": "bir [sayı olarak]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 216,
+    "word": "einsteigen",
+    "full": "einsteigen, steigt ein, stieg ein, ist eingestiegen",
+    "meaning": "binmek [araca]",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "steigt ein, stieg ein, ist eingestiegen"
+  },
+  {
+    "id": 217,
+    "word": "eintausend",
+    "full": "eintausend",
+    "meaning": "bin",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 218,
+    "word": "Eintritt",
+    "full": "der Eintritt, die Eintritte",
+    "meaning": "giriş; giriş ücreti",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Eintritte",
+    "forms": ""
+  },
+  {
+    "id": 219,
+    "word": "Einzelzimmer",
+    "full": "das Einzelzimmer, die Einzelzimmer",
+    "meaning": "tek kişilik oda",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Einzelzimmer",
+    "forms": ""
+  },
+  {
+    "id": 220,
+    "word": "elf",
+    "full": "elf",
+    "meaning": "on bir",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 221,
+    "word": "Eltern",
+    "full": "die Eltern",
+    "meaning": "çoğul) (ebeveynler, anne-baba",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 222,
+    "word": "empfehlen",
+    "full": "empfehlen, empfiehlt, empfahl, hat empfohlen",
+    "meaning": "tavsiye etmek, önermek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "empfiehlt, empfahl, hat empfohlen"
+  },
+  {
+    "id": 223,
+    "word": "Empfänger",
+    "full": "der Empfänger, die Empfänger",
+    "meaning": "alıcı",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Empfänger",
+    "forms": ""
+  },
+  {
+    "id": 224,
+    "word": "Ende",
+    "full": "das Ende, die Enden",
+    "meaning": "son",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Enden",
+    "forms": ""
+  },
+  {
+    "id": 225,
+    "word": "enden",
+    "full": "enden, endet, endete, hat geendet",
+    "meaning": "bitmek, sonlanmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "endet, endete, hat geendet"
+  },
+  {
+    "id": 226,
+    "word": "entschuldigen",
+    "full": "entschuldigen, entschuldigt, entschuldigte, hat entschuldigt",
+    "meaning": "özür dilemek, affetmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "entschuldigt, entschuldigte, hat entschuldigt"
+  },
+  {
+    "id": 227,
+    "word": "Entschuldigung",
+    "full": "die Entschuldigung, die Entschuldigungen",
+    "meaning": "özür, mazeret",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Entschuldigungen",
+    "forms": ""
+  },
+  {
+    "id": 228,
+    "word": "er",
+    "full": "er",
+    "meaning": "o [erkek]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 229,
+    "word": "Ergebnis",
+    "full": "das Ergebnis, die Ergebnisse",
+    "meaning": "sonuç, netice",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Ergebnisse",
+    "forms": ""
+  },
+  {
+    "id": 230,
+    "word": "erklären",
+    "full": "erklären, erklärt, erklärte, hat erklärt",
+    "meaning": "açıklamak, izah etmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "erklärt, erklärte, hat erklärt"
+  },
+  {
+    "id": 231,
+    "word": "erlauben",
+    "full": "erlauben, erlaubt, erlaubte, hat erlaubt",
+    "meaning": "izin vermek, müsaade etmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "erlaubt, erlaubte, hat erlaubt"
+  },
+  {
+    "id": 232,
+    "word": "erste",
+    "full": "erste",
+    "meaning": "birinci, ilk",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 233,
+    "word": "Erwachsene",
+    "full": "der/die Erwachsene, die Erwachsenen",
+    "meaning": "yetişkin",
+    "type": "Nomen",
+    "article": "der/die",
+    "plural": "die Erwachsenen",
+    "forms": ""
+  },
+  {
+    "id": 234,
+    "word": "erzählen",
+    "full": "erzählen, erzählt, erzählte, hat erzählt",
+    "meaning": "anlatmak, hikaye etmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "erzählt, erzählte, hat erzählt"
+  },
+  {
+    "id": 235,
+    "word": "es",
+    "full": "es",
+    "meaning": "o [nötr]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 236,
+    "word": "Essen",
+    "full": "das Essen, die Essen",
+    "meaning": "yemek",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Essen",
+    "forms": ""
+  },
+  {
+    "id": 237,
+    "word": "essen",
+    "full": "essen, isst, aß, hat gegessen",
+    "meaning": "yemek yemek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "isst, aß, hat gegessen"
+  },
+  {
+    "id": 238,
+    "word": "euer",
+    "full": "euer, eure",
+    "meaning": "sizin",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "eure"
+  },
+  {
+    "id": 239,
+    "word": "Euro",
+    "full": "der Euro, die Euros",
+    "meaning": "avro",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Euros",
+    "forms": ""
+  },
+  {
+    "id": 240,
+    "word": "Europa",
+    "full": "Europa",
+    "meaning": "Avrupa",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 241,
+    "word": "Europäer",
+    "full": "der Europäer, die Europäer / die Europäerin, die Europäerinnen",
+    "meaning": "Avrupalı",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Europäer / die Europäerin, die Europäerinnen",
+    "forms": ""
+  },
+  {
+    "id": 242,
+    "word": "europäisch",
+    "full": "europäisch",
+    "meaning": "Avrupa’ya ait, Avrupalı",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 243,
+    "word": "fahren",
+    "full": "fahren, fährt, fuhr, ist gefahren",
+    "meaning": "gitmek [araçla], sürmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "fährt, fuhr, ist gefahren"
+  },
+  {
+    "id": 244,
+    "word": "Fahrer",
+    "full": "der Fahrer, die Fahrer",
+    "meaning": "sürücü, şoför",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Fahrer",
+    "forms": ""
+  },
+  {
+    "id": 245,
+    "word": "Fahrkarte",
+    "full": "die Fahrkarte, die Fahrkarten",
+    "meaning": "bilet",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Fahrkarten",
+    "forms": ""
+  },
+  {
+    "id": 246,
+    "word": "Fahrrad",
+    "full": "das Fahrrad, die Fahrräder",
+    "meaning": "bisiklet",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Fahrräder",
+    "forms": ""
+  },
+  {
+    "id": 247,
+    "word": "falsch",
+    "full": "falsch",
+    "meaning": "yanlış, hatalı",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 248,
+    "word": "Familie",
+    "full": "die Familie, die Familien",
+    "meaning": "aile",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Familien",
+    "forms": ""
+  },
+  {
+    "id": 249,
+    "word": "Familienname",
+    "full": "der Familienname, die Familiennamen",
+    "meaning": "soyadı",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Familiennamen",
+    "forms": ""
+  },
+  {
+    "id": 250,
+    "word": "Familienstand",
+    "full": "der Familienstand",
+    "meaning": "medeni hal",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 251,
+    "word": "Farbe",
+    "full": "die Farbe, die Farben",
+    "meaning": "renk",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Farben",
+    "forms": ""
+  },
+  {
+    "id": 252,
+    "word": "Fax",
+    "full": "das Fax, die Faxe",
+    "meaning": "faks",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Faxe",
+    "forms": ""
+  },
+  {
+    "id": 253,
+    "word": "Februar",
+    "full": "der Februar",
+    "meaning": "",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 254,
+    "word": "fehlen",
+    "full": "fehlen, fehlt, fehlte, hat gefehlt",
+    "meaning": "eksik olmak, olmamak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "fehlt, fehlte, hat gefehlt"
+  },
+  {
+    "id": 255,
+    "word": "Fehler",
+    "full": "der Fehler, die Fehler",
+    "meaning": "hata, yanlış",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Fehler",
+    "forms": ""
+  },
+  {
+    "id": 256,
+    "word": "Feierabend",
+    "full": "der Feierabend, die Feierabende",
+    "meaning": "iş çıkışı",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Feierabende",
+    "forms": ""
+  },
+  {
+    "id": 257,
+    "word": "feiern",
+    "full": "feiern, feiert, feierte, hat gefeiert",
+    "meaning": "kutlamak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "feiert, feierte, hat gefeiert"
+  },
+  {
+    "id": 258,
+    "word": "Feiertag",
+    "full": "der Feiertag, die Feiertage",
+    "meaning": "resmi tatil günü",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Feiertage",
+    "forms": ""
+  },
+  {
+    "id": 259,
+    "word": "fernsehen",
+    "full": "fernsehen, sieht fern, sah fern, hat ferngesehen",
+    "meaning": "televizyon izlemek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "sieht fern, sah fern, hat ferngesehen"
+  },
+  {
+    "id": 260,
+    "word": "fertig",
+    "full": "fertig",
+    "meaning": "bitmiş, hazır",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 261,
+    "word": "Feuer",
+    "full": "das Feuer, die Feuer",
+    "meaning": "ateş",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Feuer",
+    "forms": ""
+  },
+  {
+    "id": 262,
+    "word": "Fieber",
+    "full": "das Fieber",
+    "meaning": "ateş, yüksek sıcaklık",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 263,
+    "word": "Film",
+    "full": "der Film, die Filme",
+    "meaning": "film",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Filme",
+    "forms": ""
+  },
+  {
+    "id": 264,
+    "word": "finden",
+    "full": "finden, findet, fand, hat gefunden",
+    "meaning": "bulmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "findet, fand, hat gefunden"
+  },
+  {
+    "id": 265,
+    "word": "Firma",
+    "full": "die Firma, die Firmen",
+    "meaning": "şirket, firma",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Firmen",
+    "forms": ""
+  },
+  {
+    "id": 266,
+    "word": "Fisch",
+    "full": "der Fisch, die Fische",
+    "meaning": "balık",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Fische",
+    "forms": ""
+  },
+  {
+    "id": 267,
+    "word": "Flasche",
+    "full": "die Flasche, die Flaschen",
+    "meaning": "şişe",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Flaschen",
+    "forms": ""
+  },
+  {
+    "id": 268,
+    "word": "Fleisch",
+    "full": "das Fleisch",
+    "meaning": "et",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 269,
+    "word": "fliegen",
+    "full": "fliegen, fliegt, flog, ist geflogen",
+    "meaning": "uçmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "fliegt, flog, ist geflogen"
+  },
+  {
+    "id": 270,
+    "word": "Flughafen",
+    "full": "der Flughafen, die Flughäfen",
+    "meaning": "havaalanı",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Flughäfen",
+    "forms": ""
+  },
+  {
+    "id": 271,
+    "word": "Flugzeug",
+    "full": "das Flugzeug, die Flugzeuge",
+    "meaning": "uçak",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Flugzeuge",
+    "forms": ""
+  },
+  {
+    "id": 272,
+    "word": "Formular",
+    "full": "das Formular, die Formulare",
+    "meaning": "form",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Formulare",
+    "forms": ""
+  },
+  {
+    "id": 273,
+    "word": "Foto",
+    "full": "das Foto, die Fotos",
+    "meaning": "fotoğraf",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Fotos",
+    "forms": ""
+  },
+  {
+    "id": 274,
+    "word": "Frage",
+    "full": "die Frage, die Fragen",
+    "meaning": "soru",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Fragen",
+    "forms": ""
+  },
+  {
+    "id": 275,
+    "word": "fragen",
+    "full": "fragen, fragt, fragte, hat gefragt",
+    "meaning": "sormak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "fragt, fragte, hat gefragt"
+  },
+  {
+    "id": 276,
+    "word": "Frau",
+    "full": "die Frau, die Frauen",
+    "meaning": "kadın; eş; bayan",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Frauen",
+    "forms": ""
+  },
+  {
+    "id": 277,
+    "word": "frei",
+    "full": "frei",
+    "meaning": "boş; ücretsiz; serbest",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 278,
+    "word": "Freitag",
+    "full": "der Freitag, die Freitage",
+    "meaning": "Cuma",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Freitage",
+    "forms": ""
+  },
+  {
+    "id": 279,
+    "word": "Freizeit",
+    "full": "die Freizeit",
+    "meaning": "boş zaman",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 280,
+    "word": "fremd",
+    "full": "fremd",
+    "meaning": "yabancı, bilinmeyen",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 281,
+    "word": "",
+    "full": "",
+    "meaning": "sich) freuen, freut, freute, hat gefreut (sevinmek",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 282,
+    "word": "Freund",
+    "full": "der Freund, die Freunde / die Freundin, die Freundinnen",
+    "meaning": "arkadaş",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Freunde / die Freundin, die Freundinnen",
+    "forms": ""
+  },
+  {
+    "id": 283,
+    "word": "früher",
+    "full": "früher",
+    "meaning": "eskiden, daha önce",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 284,
+    "word": "Frühjahr",
+    "full": "das Frühjahr",
+    "meaning": "ilkbahar",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 285,
+    "word": "Frühling",
+    "full": "der Frühling, die Frühlinge",
+    "meaning": "ilkbahar",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Frühlinge",
+    "forms": ""
+  },
+  {
+    "id": 286,
+    "word": "Frühstück",
+    "full": "das Frühstück, die Frühstücke",
+    "meaning": "kahvaltı",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Frühstücke",
+    "forms": ""
+  },
+  {
+    "id": 287,
+    "word": "frühstücken",
+    "full": "frühstücken, frühstückt, frühstückte, hat gefrühstückt",
+    "meaning": "kahvaltı yapmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "frühstückt, frühstückte, hat gefrühstückt"
+  },
+  {
+    "id": 288,
+    "word": "Fuß",
+    "full": "der Fuß, die Füße",
+    "meaning": "ayak",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Füße",
+    "forms": ""
+  },
+  {
+    "id": 289,
+    "word": "Fußball",
+    "full": "der Fußball, die Fußbälle",
+    "meaning": "futbol",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Fußbälle",
+    "forms": ""
+  },
+  {
+    "id": 290,
+    "word": "Führung",
+    "full": "die Führung, die Führungen",
+    "meaning": "rehberli tur, rehberlik",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Führungen",
+    "forms": ""
+  },
+  {
+    "id": 291,
+    "word": "fünf",
+    "full": "fünf",
+    "meaning": "beş",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 292,
+    "word": "fünfzehn",
+    "full": "fünfzehn",
+    "meaning": "on beş",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 293,
+    "word": "fünfzig",
+    "full": "fünfzig",
+    "meaning": "elli",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 294,
+    "word": "für",
+    "full": "für",
+    "meaning": "için",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 295,
+    "word": "Garten",
+    "full": "der Garten, die Gärten",
+    "meaning": "bahçe",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Gärten",
+    "forms": ""
+  },
+  {
+    "id": 296,
+    "word": "Gast",
+    "full": "der Gast, die Gäste",
+    "meaning": "misafir, konuk",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Gäste",
+    "forms": ""
+  },
+  {
+    "id": 297,
+    "word": "geben",
+    "full": "geben, gibt, gab, hat gegeben",
+    "meaning": "vermek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "gibt, gab, hat gegeben"
+  },
+  {
+    "id": 298,
+    "word": "geboren",
+    "full": "geboren",
+    "meaning": "doğmuş",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 299,
+    "word": "Geburtsjahr",
+    "full": "das Geburtsjahr, die Geburtsjahre",
+    "meaning": "doğum yılı",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Geburtsjahre",
+    "forms": ""
+  },
+  {
+    "id": 300,
+    "word": "Geburtsort",
+    "full": "der Geburtsort, die Geburtsorte",
+    "meaning": "doğum yeri",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Geburtsorte",
+    "forms": ""
+  },
+  {
+    "id": 301,
+    "word": "Geburtstag",
+    "full": "der Geburtstag, die Geburtstage",
+    "meaning": "doğum günü",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Geburtstage",
+    "forms": ""
+  },
+  {
+    "id": 302,
+    "word": "gefallen",
+    "full": "gefallen, gefällt, gefiel, hat gefallen",
+    "meaning": "hoşuna gitmek, beğenmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "gefällt, gefiel, hat gefallen"
+  },
+  {
+    "id": 303,
+    "word": "gegen",
+    "full": "gegen",
+    "meaning": "karşı; civarında, sularında",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 304,
+    "word": "gehen",
+    "full": "gehen, geht, ging, ist gegangen",
+    "meaning": "gitmek; olmak, mümkün olmak; nasılsın?",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "geht, ging, ist gegangen"
+  },
+  {
+    "id": 305,
+    "word": "gehören",
+    "full": "gehören, gehört, gehörte, hat gehört",
+    "meaning": "ait olmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "gehört, gehörte, hat gehört"
+  },
+  {
+    "id": 306,
+    "word": "gelb",
+    "full": "gelb",
+    "meaning": "sarı",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 307,
+    "word": "Geld",
+    "full": "das Geld",
+    "meaning": "para",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 308,
+    "word": "Gemüse",
+    "full": "das Gemüse, die Gemüse",
+    "meaning": "sebze",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Gemüse",
+    "forms": ""
+  },
+  {
+    "id": 309,
+    "word": "Gepäck",
+    "full": "das Gepäck",
+    "meaning": "bagaj, valiz",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 310,
+    "word": "gerade",
+    "full": "gerade",
+    "meaning": "şu anda, tam o sırada; düz",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 311,
+    "word": "geradeaus",
+    "full": "geradeaus",
+    "meaning": "dümdüz, dosdoğru",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 312,
+    "word": "gern/gerne",
+    "full": "gern/gerne",
+    "meaning": "severek, memnuniyetle",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 313,
+    "word": "Geschenk",
+    "full": "das Geschenk, die Geschenke",
+    "meaning": "hediye, armağan",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Geschenke",
+    "forms": ""
+  },
+  {
+    "id": 314,
+    "word": "geschlossen",
+    "full": "geschlossen",
+    "meaning": "kapalı",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 315,
+    "word": "Geschwister",
+    "full": "die Geschwister",
+    "meaning": "çoğul) (kardeşler",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 316,
+    "word": "Geschäft",
+    "full": "das Geschäft, die Geschäfte",
+    "meaning": "mağaza, dükkan; iş",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Geschäfte",
+    "forms": ""
+  },
+  {
+    "id": 317,
+    "word": "Gespräch",
+    "full": "das Gespräch, die Gespräche",
+    "meaning": "konuşma, sohbet",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Gespräche",
+    "forms": ""
+  },
+  {
+    "id": 318,
+    "word": "gestern",
+    "full": "gestern",
+    "meaning": "dün",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 319,
+    "word": "Getränk",
+    "full": "das Getränk, die Getränke",
+    "meaning": "içecek",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Getränke",
+    "forms": ""
+  },
+  {
+    "id": 320,
+    "word": "Gewicht",
+    "full": "das Gewicht, die Gewichte",
+    "meaning": "ağırlık",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Gewichte",
+    "forms": ""
+  },
+  {
+    "id": 321,
+    "word": "gewinnen",
+    "full": "gewinnen, gewinnt, gewann, hat gewonnen",
+    "meaning": "kazanmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "gewinnt, gewann, hat gewonnen"
+  },
+  {
+    "id": 322,
+    "word": "Glas",
+    "full": "das Glas, die Gläser",
+    "meaning": "bardak; cam",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Gläser",
+    "forms": ""
+  },
+  {
+    "id": 323,
+    "word": "glauben",
+    "full": "glauben, glaubt, glaubte, hat geglaubt",
+    "meaning": "inanmak; sanmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "glaubt, glaubte, hat geglaubt"
+  },
+  {
+    "id": 324,
+    "word": "gleich",
+    "full": "gleich",
+    "meaning": "hemen, şimdi; aynı; eşit",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 325,
+    "word": "Gleis",
+    "full": "das Gleis, die Gleise",
+    "meaning": "ray; peron hattı",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Gleise",
+    "forms": ""
+  },
+  {
+    "id": 326,
+    "word": "Glück",
+    "full": "das Glück",
+    "meaning": "şans, mutluluk",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 327,
+    "word": "glücklich",
+    "full": "glücklich",
+    "meaning": "mutlu",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 328,
+    "word": "Glückwunsch",
+    "full": "der Glückwunsch, die Glückwünsche",
+    "meaning": "tebrik",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Glückwünsche",
+    "forms": ""
+  },
+  {
+    "id": 329,
+    "word": "Grad",
+    "full": "der Grad, die Grade",
+    "meaning": "derece",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Grade",
+    "forms": ""
+  },
+  {
+    "id": 330,
+    "word": "Gramm",
+    "full": "das Gramm",
+    "meaning": "gram",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 331,
+    "word": "gratulieren",
+    "full": "gratulieren, gratuliert, gratulierte, hat gratuliert",
+    "meaning": "tebrik etmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "gratuliert, gratulierte, hat gratuliert"
+  },
+  {
+    "id": 332,
+    "word": "grau",
+    "full": "grau",
+    "meaning": "gri",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 333,
+    "word": "grillen",
+    "full": "grillen, grillt, grillte, hat gegrillt",
+    "meaning": "ızgara yapmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "grillt, grillte, hat gegrillt"
+  },
+  {
+    "id": 334,
+    "word": "groß",
+    "full": "groß, größer, am größten",
+    "meaning": "büyük, uzun boylu",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": "größer, am größten"
+  },
+  {
+    "id": 335,
+    "word": "Großeltern",
+    "full": "die Großeltern",
+    "meaning": "çoğul) (büyükanne ve büyükbaba",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 336,
+    "word": "Großmutter",
+    "full": "die Großmutter, die Großmütter",
+    "meaning": "büyükanne, nine",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Großmütter",
+    "forms": ""
+  },
+  {
+    "id": 337,
+    "word": "Großvater",
+    "full": "der Großvater, die Großväter",
+    "meaning": "büyükbaba, dede",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Großväter",
+    "forms": ""
+  },
+  {
+    "id": 338,
+    "word": "Gruppe",
+    "full": "die Gruppe, die Gruppen",
+    "meaning": "grup",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Gruppen",
+    "forms": ""
+  },
+  {
+    "id": 339,
+    "word": "Gruß",
+    "full": "der Gruß, die Grüße",
+    "meaning": "selam",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Grüße",
+    "forms": ""
+  },
+  {
+    "id": 340,
+    "word": "Größe",
+    "full": "die Größe, die Größen",
+    "meaning": "boyut, büyüklük; beden numarası",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Größen",
+    "forms": ""
+  },
+  {
+    "id": 341,
+    "word": "grün",
+    "full": "grün",
+    "meaning": "yeşil",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 342,
+    "word": "gut",
+    "full": "gut, besser, am besten",
+    "meaning": "iyi",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": "besser, am besten"
+  },
+  {
+    "id": 343,
+    "word": "gültig",
+    "full": "gültig",
+    "meaning": "geçerli",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 344,
+    "word": "günstig",
+    "full": "günstig",
+    "meaning": "uygun fiyatlı, ekonomik",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 345,
+    "word": "Haar",
+    "full": "das Haar, die Haare",
+    "meaning": "saç, kıl",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Haare",
+    "forms": ""
+  },
+  {
+    "id": 346,
+    "word": "haben",
+    "full": "haben, hat, hatte, hat gehabt",
+    "meaning": "sahip olmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "hat, hatte, hat gehabt"
+  },
+  {
+    "id": 347,
+    "word": "halb",
+    "full": "halb",
+    "meaning": "yarım, buçuk",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 348,
+    "word": "Halbpension",
+    "full": "die Halbpension",
+    "meaning": "yarım pansiyon",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 349,
+    "word": "Halle",
+    "full": "die Halle, die Hallen",
+    "meaning": "salon, büyük salon",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Hallen",
+    "forms": ""
+  },
+  {
+    "id": 350,
+    "word": "hallo",
+    "full": "hallo",
+    "meaning": "merhaba, alo",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 351,
+    "word": "halten",
+    "full": "halten, hält, hielt, hat gehalten",
+    "meaning": "durmak; tutmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "hält, hielt, hat gehalten"
+  },
+  {
+    "id": 352,
+    "word": "Haltestelle",
+    "full": "die Haltestelle, die Haltestellen",
+    "meaning": "durak",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Haltestellen",
+    "forms": ""
+  },
+  {
+    "id": 353,
+    "word": "Hand",
+    "full": "die Hand, die Hände",
+    "meaning": "el",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Hände",
+    "forms": ""
+  },
+  {
+    "id": 354,
+    "word": "Handy",
+    "full": "das Handy, die Handys",
+    "meaning": "cep telefonu",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Handys",
+    "forms": ""
+  },
+  {
+    "id": 355,
+    "word": "Haus",
+    "full": "das Haus, die Häuser",
+    "meaning": "ev",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Häuser",
+    "forms": ""
+  },
+  {
+    "id": 356,
+    "word": "Hausaufgabe",
+    "full": "die Hausaufgabe, die Hausaufgaben",
+    "meaning": "ev ödevi",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Hausaufgaben",
+    "forms": ""
+  },
+  {
+    "id": 357,
+    "word": "Hausfrau",
+    "full": "die Hausfrau, die Hausfrauen",
+    "meaning": "ev hanımı",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Hausfrauen",
+    "forms": ""
+  },
+  {
+    "id": 358,
+    "word": "Hausmann",
+    "full": "der Hausmann, die Hausmänner",
+    "meaning": "ev erkeği",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Hausmänner",
+    "forms": ""
+  },
+  {
+    "id": 359,
+    "word": "Heimat",
+    "full": "die Heimat",
+    "meaning": "memleket, anavatan",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 360,
+    "word": "heiraten",
+    "full": "heiraten, heiratet, heiratete, hat geheiratet",
+    "meaning": "evlenmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "heiratet, heiratete, hat geheiratet"
+  },
+  {
+    "id": 361,
+    "word": "heißen",
+    "full": "heißen, heißt, hieß, hat geheißen",
+    "meaning": "adı olmak, … denmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "heißt, hieß, hat geheißen"
+  },
+  {
+    "id": 362,
+    "word": "helfen",
+    "full": "helfen, hilft, half, hat geholfen",
+    "meaning": "yardım etmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "hilft, half, hat geholfen"
+  },
+  {
+    "id": 363,
+    "word": "hell",
+    "full": "hell",
+    "meaning": "aydınlık, parlak; açık [renk]",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 364,
+    "word": "Herbst",
+    "full": "der Herbst",
+    "meaning": "sonbahar",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 365,
+    "word": "Herd",
+    "full": "der Herd, die Herde",
+    "meaning": "ocak, fırın",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Herde",
+    "forms": ""
+  },
+  {
+    "id": 366,
+    "word": "Herr",
+    "full": "der Herr, die Herren",
+    "meaning": "bay, beyefendi",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Herren",
+    "forms": ""
+  },
+  {
+    "id": 367,
+    "word": "herzlich",
+    "full": "herzlich",
+    "meaning": "içten, samimi, kalpten",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 368,
+    "word": "heut’",
+    "full": "heut’",
+    "meaning": "bugün [konuşma dilinde bazen: heut kısaltması kullanılır]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 369,
+    "word": "heute",
+    "full": "heute",
+    "meaning": "bugün",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 370,
+    "word": "hier",
+    "full": "hier",
+    "meaning": "burada, burası",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 371,
+    "word": "Hilfe",
+    "full": "die Hilfe, die Hilfen",
+    "meaning": "yardım, imdat",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Hilfen",
+    "forms": ""
+  },
+  {
+    "id": 372,
+    "word": "hinten",
+    "full": "hinten",
+    "meaning": "arkada, geride",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 373,
+    "word": "Hobby",
+    "full": "das Hobby, die Hobbys",
+    "meaning": "hobi",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Hobbys",
+    "forms": ""
+  },
+  {
+    "id": 374,
+    "word": "hoch",
+    "full": "hoch, höher, am höchsten",
+    "meaning": "yüksek",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": "höher, am höchsten"
+  },
+  {
+    "id": 375,
+    "word": "Hochzeit",
+    "full": "die Hochzeit, die Hochzeiten",
+    "meaning": "düğün",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Hochzeiten",
+    "forms": ""
+  },
+  {
+    "id": 376,
+    "word": "holen",
+    "full": "holen, holt, holte, hat geholt",
+    "meaning": "almak, getirmek, gidip almak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "holt, holte, hat geholt"
+  },
+  {
+    "id": 377,
+    "word": "Hotel",
+    "full": "das Hotel, die Hotels",
+    "meaning": "otel",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Hotels",
+    "forms": ""
+  },
+  {
+    "id": 378,
+    "word": "Hund",
+    "full": "der Hund, die Hunde",
+    "meaning": "köpek",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Hunde",
+    "forms": ""
+  },
+  {
+    "id": 379,
+    "word": "hundert",
+    "full": "hundert",
+    "meaning": "yüz",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 380,
+    "word": "Hunger",
+    "full": "der Hunger",
+    "meaning": "açlık",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 381,
+    "word": "Hähnchen",
+    "full": "das Hähnchen, die Hähnchen",
+    "meaning": "tavuk [yemek]",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Hähnchen",
+    "forms": ""
+  },
+  {
+    "id": 382,
+    "word": "hören",
+    "full": "hören, hört, hörte, hat gehört",
+    "meaning": "duymak, dinlemek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "hört, hörte, hat gehört"
+  },
+  {
+    "id": 383,
+    "word": "ich",
+    "full": "ich",
+    "meaning": "ben",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 384,
+    "word": "ihm",
+    "full": "ihm",
+    "meaning": "",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 385,
+    "word": "ihn",
+    "full": "ihn",
+    "meaning": "onu [eril akkusativ]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 386,
+    "word": "ihr",
+    "full": "ihr",
+    "meaning": "",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 387,
+    "word": "Ihr",
+    "full": "Ihr, Ihre / ihr, ihre",
+    "meaning": "",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "Ihre / ihr, ihre"
+  },
+  {
+    "id": 388,
+    "word": "immer",
+    "full": "immer",
+    "meaning": "her zaman, daima",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 389,
+    "word": "in",
+    "full": "in",
+    "meaning": "içinde, -de/-da; -e/-a [yönelme]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 390,
+    "word": "Information",
+    "full": "die Information, die Informationen",
+    "meaning": "bilgi, enformasyon",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Informationen",
+    "forms": ""
+  },
+  {
+    "id": 391,
+    "word": "international",
+    "full": "international",
+    "meaning": "uluslararası",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 392,
+    "word": "Internet",
+    "full": "das Internet",
+    "meaning": "internet",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 393,
+    "word": "ja",
+    "full": "ja",
+    "meaning": "evet",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 394,
+    "word": "Jacke",
+    "full": "die Jacke, die Jacken",
+    "meaning": "ceket",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Jacken",
+    "forms": ""
+  },
+  {
+    "id": 395,
+    "word": "Jahr",
+    "full": "das Jahr, die Jahre",
+    "meaning": "yıl, sene",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Jahre",
+    "forms": ""
+  },
+  {
+    "id": 396,
+    "word": "Januar",
+    "full": "der Januar",
+    "meaning": "Ocak",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 397,
+    "word": "jede",
+    "full": "jede",
+    "meaning": "her, her bir [dişil]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 398,
+    "word": "jeder",
+    "full": "jeder",
+    "meaning": "her, her bir [eril]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 399,
+    "word": "jedes",
+    "full": "jedes",
+    "meaning": "her, her bir [nötr]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 400,
+    "word": "jetzt",
+    "full": "jetzt",
+    "meaning": "şimdi, şu anda",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 401,
+    "word": "Job",
+    "full": "der Job, die Jobs",
+    "meaning": "iş, meslek",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Jobs",
+    "forms": ""
+  },
+  {
+    "id": 402,
+    "word": "Jugendliche",
+    "full": "der/die Jugendliche, die Jugendlichen",
+    "meaning": "genç",
+    "type": "Nomen",
+    "article": "der/die",
+    "plural": "die Jugendlichen",
+    "forms": ""
+  },
+  {
+    "id": 403,
+    "word": "Juli",
+    "full": "der Juli",
+    "meaning": "Temmuz",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 404,
+    "word": "jung",
+    "full": "jung, jünger, am jüngsten",
+    "meaning": "genç",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": "jünger, am jüngsten"
+  },
+  {
+    "id": 405,
+    "word": "Junge",
+    "full": "der Junge, die Jungen",
+    "meaning": "erkek çocuk",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Jungen",
+    "forms": ""
+  },
+  {
+    "id": 406,
+    "word": "Juni",
+    "full": "der Juni",
+    "meaning": "Haziran",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 407,
+    "word": "Kaffee",
+    "full": "der Kaffee, die Kaffees",
+    "meaning": "kahve",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Kaffees",
+    "forms": ""
+  },
+  {
+    "id": 408,
+    "word": "kaputt",
+    "full": "kaputt",
+    "meaning": "bozuk, kırık",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 409,
+    "word": "Karte",
+    "full": "die Karte, die Karten",
+    "meaning": "kart; bilet; menü; harita",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Karten",
+    "forms": ""
+  },
+  {
+    "id": 410,
+    "word": "Kartoffel",
+    "full": "die Kartoffel, die Kartoffeln",
+    "meaning": "patates",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Kartoffeln",
+    "forms": ""
+  },
+  {
+    "id": 411,
+    "word": "Kasse",
+    "full": "die Kasse, die Kassen",
+    "meaning": "kasa",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Kassen",
+    "forms": ""
+  },
+  {
+    "id": 412,
+    "word": "kaufen",
+    "full": "kaufen, kauft, kaufte, hat gekauft",
+    "meaning": "satın almak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "kauft, kaufte, hat gekauft"
+  },
+  {
+    "id": 413,
+    "word": "kein",
+    "full": "kein, keine",
+    "meaning": "hiçbir; değil [isimleri olumsuzlamak için]",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "keine"
+  },
+  {
+    "id": 414,
+    "word": "kennen",
+    "full": "kennen, kennt, kannte, hat gekannt",
+    "meaning": "tanımak, bilmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "kennt, kannte, hat gekannt"
+  },
+  {
+    "id": 415,
+    "word": "kennenlernen",
+    "full": "kennenlernen, lernt kennen, lernte kennen, hat kennengelernt",
+    "meaning": "tanışmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "lernt kennen, lernte kennen, hat kennengelernt"
+  },
+  {
+    "id": 416,
+    "word": "Kilo",
+    "full": "das Kilo",
+    "meaning": "kilo",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 417,
+    "word": "Kilogramm",
+    "full": "das Kilogramm",
+    "meaning": "kilogram",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 418,
+    "word": "Kilometer",
+    "full": "der Kilometer, die Kilometer",
+    "meaning": "kilometre",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Kilometer",
+    "forms": ""
+  },
+  {
+    "id": 419,
+    "word": "Kind",
+    "full": "das Kind, die Kinder",
+    "meaning": "çocuk",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Kinder",
+    "forms": ""
+  },
+  {
+    "id": 420,
+    "word": "Kindergarten",
+    "full": "der Kindergarten, die Kindergärten",
+    "meaning": "anaokulu",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Kindergärten",
+    "forms": ""
+  },
+  {
+    "id": 421,
+    "word": "Kino",
+    "full": "das Kino, die Kinos",
+    "meaning": "sinema",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Kinos",
+    "forms": ""
+  },
+  {
+    "id": 422,
+    "word": "Kiosk",
+    "full": "der Kiosk, die Kioske",
+    "meaning": "büfe, kiosk",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Kioske",
+    "forms": ""
+  },
+  {
+    "id": 423,
+    "word": "klar",
+    "full": "klar",
+    "meaning": "açık, net; elbette",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 424,
+    "word": "Klasse",
+    "full": "die Klasse, die Klassen",
+    "meaning": "sınıf",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Klassen",
+    "forms": ""
+  },
+  {
+    "id": 425,
+    "word": "Kleidung",
+    "full": "die Kleidung",
+    "meaning": "giysi, kıyafet",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 426,
+    "word": "klein",
+    "full": "klein, kleiner, am kleinsten",
+    "meaning": "küçük",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": "kleiner, am kleinsten"
+  },
+  {
+    "id": 427,
+    "word": "kochen",
+    "full": "kochen, kocht, kochte, hat gekocht",
+    "meaning": "yemek pişirmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "kocht, kochte, hat gekocht"
+  },
+  {
+    "id": 428,
+    "word": "Koffer",
+    "full": "der Koffer, die Koffer",
+    "meaning": "bavul, valiz",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Koffer",
+    "forms": ""
+  },
+  {
+    "id": 429,
+    "word": "Kollege",
+    "full": "der Kollege, die Kollegen / die Kollegin, die Kolleginnen",
+    "meaning": "meslektaş, iş arkadaşı",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Kollegen / die Kollegin, die Kolleginnen",
+    "forms": ""
+  },
+  {
+    "id": 430,
+    "word": "kommen",
+    "full": "kommen, kommt, kam, ist gekommen",
+    "meaning": "gelmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "kommt, kam, ist gekommen"
+  },
+  {
+    "id": 431,
+    "word": "Konto",
+    "full": "das Konto, die Konten",
+    "meaning": "hesap [banka]",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Konten",
+    "forms": ""
+  },
+  {
+    "id": 432,
+    "word": "Kopf",
+    "full": "der Kopf, die Köpfe",
+    "meaning": "baş, kafa",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Köpfe",
+    "forms": ""
+  },
+  {
+    "id": 433,
+    "word": "kosten",
+    "full": "kosten, kostet, kostete, hat gekostet",
+    "meaning": "fiyatı olmak, mal olmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "kostet, kostete, hat gekostet"
+  },
+  {
+    "id": 434,
+    "word": "krank",
+    "full": "krank",
+    "meaning": "hasta",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 435,
+    "word": "Kreditkarte",
+    "full": "die Kreditkarte, die Kreditkarten",
+    "meaning": "kredi kartı",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Kreditkarten",
+    "forms": ""
+  },
+  {
+    "id": 436,
+    "word": "kriegen",
+    "full": "kriegen, kriegt, kriegte, hat gekriegt",
+    "meaning": "almak, elde etmek [konuşma dili]",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "kriegt, kriegte, hat gekriegt"
+  },
+  {
+    "id": 437,
+    "word": "Kuchen",
+    "full": "der Kuchen, die Kuchen",
+    "meaning": "kek, pasta",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Kuchen",
+    "forms": ""
+  },
+  {
+    "id": 438,
+    "word": "Kugelschreiber",
+    "full": "der Kugelschreiber, die Kugelschreiber",
+    "meaning": "tükenmez kalem",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Kugelschreiber",
+    "forms": ""
+  },
+  {
+    "id": 439,
+    "word": "kulturell",
+    "full": "kulturell",
+    "meaning": "kültürel",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 440,
+    "word": "Kunde",
+    "full": "der Kunde, die Kunden",
+    "meaning": "müşteri [erkek]",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Kunden",
+    "forms": ""
+  },
+  {
+    "id": 441,
+    "word": "Kundin",
+    "full": "die Kundin, die Kundinnen",
+    "meaning": "müşteri [kadın]",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Kundinnen",
+    "forms": ""
+  },
+  {
+    "id": 442,
+    "word": "Kurs",
+    "full": "der Kurs, die Kurse",
+    "meaning": "kurs",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Kurse",
+    "forms": ""
+  },
+  {
+    "id": 443,
+    "word": "kurz",
+    "full": "kurz, kürzer, am kürzesten",
+    "meaning": "kısa",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": "kürzer, am kürzesten"
+  },
+  {
+    "id": 444,
+    "word": "können",
+    "full": "können, kann, konnte, hat gekonnt",
+    "meaning": "yapabilmek, -ebilmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "kann, konnte, hat gekonnt"
+  },
+  {
+    "id": 445,
+    "word": "Küche",
+    "full": "die Küche, die Küchen",
+    "meaning": "mutfak",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Küchen",
+    "forms": ""
+  },
+  {
+    "id": 446,
+    "word": "Kühlschrank",
+    "full": "der Kühlschrank, die Kühlschränke",
+    "meaning": "buzdolabı",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Kühlschränke",
+    "forms": ""
+  },
+  {
+    "id": 447,
+    "word": "",
+    "full": "",
+    "meaning": "sich) kümmern (um), kümmert, kümmerte, hat gekümmert ilgilenmek, birine/bir şeye bakmak",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 448,
+    "word": "lachen",
+    "full": "lachen, lacht, lachte, hat gelacht",
+    "meaning": "gülmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "lacht, lachte, hat gelacht"
+  },
+  {
+    "id": 449,
+    "word": "Laden",
+    "full": "der Laden, die Läden",
+    "meaning": "dükkan, mağaza",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Läden",
+    "forms": ""
+  },
+  {
+    "id": 450,
+    "word": "Land",
+    "full": "das Land, die Länder",
+    "meaning": "ülke; kırsal alan",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Länder",
+    "forms": ""
+  },
+  {
+    "id": 451,
+    "word": "lang",
+    "full": "lang, länger, am längsten",
+    "meaning": "uzun",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": "länger, am längsten"
+  },
+  {
+    "id": 452,
+    "word": "lange",
+    "full": "lange",
+    "meaning": "uzun süre",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 453,
+    "word": "langsam",
+    "full": "langsam",
+    "meaning": "yavaş",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 454,
+    "word": "laufen",
+    "full": "laufen, läuft, lief, ist gelaufen",
+    "meaning": "koşmak, yürümek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "läuft, lief, ist gelaufen"
+  },
+  {
+    "id": 455,
+    "word": "laut",
+    "full": "laut",
+    "meaning": "yüksek sesli, gürültülü",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 456,
+    "word": "leben",
+    "full": "leben, lebt, lebte, hat gelebt",
+    "meaning": "yaşamak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "lebt, lebte, hat gelebt"
+  },
+  {
+    "id": 457,
+    "word": "Leben",
+    "full": "das Leben",
+    "meaning": "hayat, yaşam",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 458,
+    "word": "Lebensmittel",
+    "full": "das Lebensmittel, die Lebensmittel",
+    "meaning": "gıda, besin maddesi",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Lebensmittel",
+    "forms": ""
+  },
+  {
+    "id": 459,
+    "word": "ledig",
+    "full": "ledig",
+    "meaning": "bekar",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 460,
+    "word": "legen",
+    "full": "legen, legt, legte, hat gelegt",
+    "meaning": "koymak, yerleştirmek [yatay]",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "legt, legte, hat gelegt"
+  },
+  {
+    "id": 461,
+    "word": "Lehrer",
+    "full": "der Lehrer, die Lehrer / die Lehrerin, die Lehrerinnen",
+    "meaning": "öğretmen",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Lehrer / die Lehrerin, die Lehrerinnen",
+    "forms": ""
+  },
+  {
+    "id": 462,
+    "word": "leicht",
+    "full": "leicht",
+    "meaning": "kolay; hafif",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 463,
+    "word": "leider",
+    "full": "leider",
+    "meaning": "maalesef, ne yazık ki",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 464,
+    "word": "leise",
+    "full": "leise",
+    "meaning": "alçak sesli, sessiz",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 465,
+    "word": "lernen",
+    "full": "lernen, lernt, lernte, hat gelernt",
+    "meaning": "öğrenmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "lernt, lernte, hat gelernt"
+  },
+  {
+    "id": 466,
+    "word": "lesen",
+    "full": "lesen, liest, las, hat gelesen",
+    "meaning": "okumak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "liest, las, hat gelesen"
+  },
+  {
+    "id": 467,
+    "word": "letzt-",
+    "full": "letzt-",
+    "meaning": "son, geçen",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 468,
+    "word": "Leute",
+    "full": "die Leute",
+    "meaning": "çoğul) (insanlar, halk",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 469,
+    "word": "Licht",
+    "full": "das Licht, die Lichter",
+    "meaning": "ışık",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Lichter",
+    "forms": ""
+  },
+  {
+    "id": 470,
+    "word": "lieb",
+    "full": "lieb",
+    "meaning": "",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 471,
+    "word": "lieben",
+    "full": "lieben, liebt, liebte, hat geliebt",
+    "meaning": "sevmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "liebt, liebte, hat geliebt"
+  },
+  {
+    "id": 472,
+    "word": "lieber",
+    "full": "lieber",
+    "meaning": "daha çok, tercihen",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 473,
+    "word": "Lied",
+    "full": "das Lied, die Lieder",
+    "meaning": "şarkı",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Lieder",
+    "forms": ""
+  },
+  {
+    "id": 474,
+    "word": "liegen",
+    "full": "liegen, liegt, lag, hat gelegen",
+    "meaning": "yatmak, uzanmak; bulunmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "liegt, lag, hat gelegen"
+  },
+  {
+    "id": 475,
+    "word": "links",
+    "full": "links",
+    "meaning": "sol, solda",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 476,
+    "word": "Liter",
+    "full": "der Liter",
+    "meaning": "litre",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 477,
+    "word": "Lkw",
+    "full": "der Lkw, die Lkws (kamyon) [Lastkraftwagen’ın kısaltması]",
+    "meaning": "",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Lkws (kamyon) [Lastkraftwagen’ın kısaltması]",
+    "forms": ""
+  },
+  {
+    "id": 478,
+    "word": "Lokal",
+    "full": "das Lokal, die Lokale",
+    "meaning": "mekan, lokal, restoran",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Lokale",
+    "forms": ""
+  },
+  {
+    "id": 479,
+    "word": "lustig",
+    "full": "lustig",
+    "meaning": "eğlenceli, komik",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 480,
+    "word": "Lösung",
+    "full": "die Lösung, die Lösungen",
+    "meaning": "çözüm",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Lösungen",
+    "forms": ""
+  },
+  {
+    "id": 481,
+    "word": "machen",
+    "full": "machen, macht, machte, hat gemacht",
+    "meaning": "yapmak, etmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "macht, machte, hat gemacht"
+  },
+  {
+    "id": 482,
+    "word": "Mai",
+    "full": "der Mai",
+    "meaning": "Mayıs",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 483,
+    "word": "man",
+    "full": "man",
+    "meaning": "insan, biri [genel özne]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 484,
+    "word": "Mann",
+    "full": "der Mann, die Männer",
+    "meaning": "adam, erkek; koca",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Männer",
+    "forms": ""
+  },
+  {
+    "id": 485,
+    "word": "Maschine",
+    "full": "die Maschine, die Maschinen",
+    "meaning": "makine",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Maschinen",
+    "forms": ""
+  },
+  {
+    "id": 486,
+    "word": "Meer",
+    "full": "das Meer, die Meere",
+    "meaning": "deniz",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Meere",
+    "forms": ""
+  },
+  {
+    "id": 487,
+    "word": "mehr",
+    "full": "mehr",
+    "meaning": "daha fazla",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 488,
+    "word": "mein",
+    "full": "mein, meine",
+    "meaning": "benim",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "meine"
+  },
+  {
+    "id": 489,
+    "word": "meist-",
+    "full": "meist-",
+    "meaning": "çoğunlukla, genellikle",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 490,
+    "word": "Mensch",
+    "full": "der Mensch, die Menschen",
+    "meaning": "insan",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Menschen",
+    "forms": ""
+  },
+  {
+    "id": 491,
+    "word": "Meter",
+    "full": "der Meter",
+    "meaning": "metre",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 492,
+    "word": "Miete",
+    "full": "die Miete, die Mieten",
+    "meaning": "kira",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Mieten",
+    "forms": ""
+  },
+  {
+    "id": 493,
+    "word": "mieten",
+    "full": "mieten, mietet, mietete, hat gemietet",
+    "meaning": "kiralamak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "mietet, mietete, hat gemietet"
+  },
+  {
+    "id": 494,
+    "word": "Milch",
+    "full": "die Milch",
+    "meaning": "süt",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 495,
+    "word": "Milliarde",
+    "full": "die Milliarde, die Milliarden",
+    "meaning": "milyar",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Milliarden",
+    "forms": ""
+  },
+  {
+    "id": 496,
+    "word": "Million",
+    "full": "die Million, die Millionen",
+    "meaning": "milyon",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Millionen",
+    "forms": ""
+  },
+  {
+    "id": 497,
+    "word": "Minute",
+    "full": "die Minute, die Minuten",
+    "meaning": "dakika",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Minuten",
+    "forms": ""
+  },
+  {
+    "id": 498,
+    "word": "mit",
+    "full": "mit",
+    "meaning": "ile, birlikte",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 499,
+    "word": "mitbringen",
+    "full": "mitbringen, bringt mit, brachte mit, hat mitgebracht",
+    "meaning": "yanında getirmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "bringt mit, brachte mit, hat mitgebracht"
+  },
+  {
+    "id": 500,
+    "word": "mitkommen",
+    "full": "mitkommen, kommt mit, kam mit, ist mitgekommen",
+    "meaning": "birlikte gelmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "kommt mit, kam mit, ist mitgekommen"
+  },
+  {
+    "id": 501,
+    "word": "mitmachen",
+    "full": "mitmachen, macht mit, machte mit, hat mitgemacht",
+    "meaning": "katılmak, birlikte yapmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "macht mit, machte mit, hat mitgemacht"
+  },
+  {
+    "id": 502,
+    "word": "mitnehmen",
+    "full": "mitnehmen, nimmt mit, nahm mit, hat mitgenommen",
+    "meaning": "yanına almak, birlikte götürmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "nimmt mit, nahm mit, hat mitgenommen"
+  },
+  {
+    "id": 503,
+    "word": "Mittag",
+    "full": "der Mittag",
+    "meaning": "öğle",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 504,
+    "word": "Mitte",
+    "full": "die Mitte, die Mitten",
+    "meaning": "orta, merkez",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Mitten",
+    "forms": ""
+  },
+  {
+    "id": 505,
+    "word": "Mittwoch",
+    "full": "der Mittwoch",
+    "meaning": "Çarşamba",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 506,
+    "word": "Moment",
+    "full": "der Moment, die Momente",
+    "meaning": "an, saniye, bir an",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Momente",
+    "forms": ""
+  },
+  {
+    "id": 507,
+    "word": "Montag",
+    "full": "der Montag",
+    "meaning": "Pazartesi",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 508,
+    "word": "morgen",
+    "full": "morgen",
+    "meaning": "yarın",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 509,
+    "word": "Morgen",
+    "full": "der Morgen",
+    "meaning": "sabah",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 510,
+    "word": "Mund",
+    "full": "der Mund, die Münder",
+    "meaning": "ağız",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Münder",
+    "forms": ""
+  },
+  {
+    "id": 511,
+    "word": "Mutter",
+    "full": "die Mutter, die Mütter",
+    "meaning": "anne",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Mütter",
+    "forms": ""
+  },
+  {
+    "id": 512,
+    "word": "Mädchen",
+    "full": "das Mädchen, die Mädchen",
+    "meaning": "kız çocuğu",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Mädchen",
+    "forms": ""
+  },
+  {
+    "id": 513,
+    "word": "männlich",
+    "full": "männlich",
+    "meaning": "eril, erkek",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 514,
+    "word": "März",
+    "full": "der März",
+    "meaning": "Mart",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 515,
+    "word": "Möbel",
+    "full": "die Möbel",
+    "meaning": "mobilyalar",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 516,
+    "word": "mögen",
+    "full": "mögen, mag, mochte, hat gemocht",
+    "meaning": "sevmek, hoşlanmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "mag, mochte, hat gemocht"
+  },
+  {
+    "id": 517,
+    "word": "möglich",
+    "full": "möglich",
+    "meaning": "mümkün, olanaklı",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 518,
+    "word": "müde",
+    "full": "müde",
+    "meaning": "yorgun, uykulu",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 519,
+    "word": "müssen",
+    "full": "müssen, muss, musste, hat gemusst",
+    "meaning": "zorunda olmak, -meli/-malı",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "muss, musste, hat gemusst"
+  },
+  {
+    "id": 520,
+    "word": "nach",
+    "full": "nach",
+    "meaning": "-e/-a [yönelme]; sonra; göre",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 521,
+    "word": "Nachmittag",
+    "full": "der Nachmittag, die Nachmittage",
+    "meaning": "öğleden sonra",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Nachmittage",
+    "forms": ""
+  },
+  {
+    "id": 522,
+    "word": "Name",
+    "full": "der Name, die Namen",
+    "meaning": "isim, ad",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Namen",
+    "forms": ""
+  },
+  {
+    "id": 523,
+    "word": "nehmen",
+    "full": "nehmen, nimmt, nahm, hat genommen",
+    "meaning": "almak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "nimmt, nahm, hat genommen"
+  },
+  {
+    "id": 524,
+    "word": "nein",
+    "full": "nein",
+    "meaning": "hayır",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 525,
+    "word": "neu",
+    "full": "neu, neuer, am neuesten",
+    "meaning": "yeni",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": "neuer, am neuesten"
+  },
+  {
+    "id": 526,
+    "word": "neun",
+    "full": "neun",
+    "meaning": "dokuz",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 527,
+    "word": "neunzehn",
+    "full": "neunzehn",
+    "meaning": "on dokuz",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 528,
+    "word": "neunzig",
+    "full": "neunzig",
+    "meaning": "doksan",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 529,
+    "word": "nicht",
+    "full": "nicht",
+    "meaning": "değil [fiilleri, sıfatları vb. olumsuz yapar]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 530,
+    "word": "nichts",
+    "full": "nichts",
+    "meaning": "hiçbir şey",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 531,
+    "word": "nie",
+    "full": "nie",
+    "meaning": "asla, hiçbir zaman",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 532,
+    "word": "noch",
+    "full": "noch",
+    "meaning": "daha, hala",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 533,
+    "word": "Norden",
+    "full": "der Norden",
+    "meaning": "kuzey",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 534,
+    "word": "normal",
+    "full": "normal",
+    "meaning": "normal, olağan",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 535,
+    "word": "November",
+    "full": "der November",
+    "meaning": "Kasım",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 536,
+    "word": "Nummer",
+    "full": "die Nummer, die Nummern",
+    "meaning": "numara, sayı",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Nummern",
+    "forms": ""
+  },
+  {
+    "id": 537,
+    "word": "nur",
+    "full": "nur",
+    "meaning": "sadece, yalnızca",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 538,
+    "word": "nächst-",
+    "full": "nächst-",
+    "meaning": "gelecek, bir sonraki, en yakın",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 539,
+    "word": "oben",
+    "full": "oben",
+    "meaning": "yukarıda, üstte",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 540,
+    "word": "Obst",
+    "full": "das Obst",
+    "meaning": "meyve",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 541,
+    "word": "oder",
+    "full": "oder",
+    "meaning": "veya, ya da",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 542,
+    "word": "oft",
+    "full": "oft",
+    "meaning": "sık sık, çoğunlukla",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 543,
+    "word": "ohne",
+    "full": "ohne",
+    "meaning": "-sız, -siz",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 544,
+    "word": "Oktober",
+    "full": "der Oktober",
+    "meaning": "Ekim",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 545,
+    "word": "Oma",
+    "full": "die Oma, die Omas",
+    "meaning": "büyükanne, nine",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Omas",
+    "forms": ""
+  },
+  {
+    "id": 546,
+    "word": "Opa",
+    "full": "der Opa, die Opas",
+    "meaning": "büyükbaba, dede",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Opas",
+    "forms": ""
+  },
+  {
+    "id": 547,
+    "word": "Ordnung",
+    "full": "die Ordnung",
+    "meaning": "düzen, tertip",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 548,
+    "word": "Ort",
+    "full": "der Ort, die Orte",
+    "meaning": "yer, mekan, bölge",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Orte",
+    "forms": ""
+  },
+  {
+    "id": 549,
+    "word": "Osten",
+    "full": "der Osten",
+    "meaning": "doğu",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 550,
+    "word": "Papier",
+    "full": "das Papier, die Papiere",
+    "meaning": "kağıt",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Papiere",
+    "forms": ""
+  },
+  {
+    "id": 551,
+    "word": "Partner",
+    "full": "der Partner, die Partner",
+    "meaning": "partner, ortak [erkek]",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Partner",
+    "forms": ""
+  },
+  {
+    "id": 552,
+    "word": "Partnerin",
+    "full": "die Partnerin, die Partnerinnen",
+    "meaning": "partner, ortak [kadın]",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Partnerinnen",
+    "forms": ""
+  },
+  {
+    "id": 553,
+    "word": "Party",
+    "full": "die Party, die Partys",
+    "meaning": "parti",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Partys",
+    "forms": ""
+  },
+  {
+    "id": 554,
+    "word": "Pass",
+    "full": "der Pass, die Pässe",
+    "meaning": "pasaport",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Pässe",
+    "forms": ""
+  },
+  {
+    "id": 555,
+    "word": "Pause",
+    "full": "die Pause, die Pausen",
+    "meaning": "mola, ara",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Pausen",
+    "forms": ""
+  },
+  {
+    "id": 556,
+    "word": "Pfund",
+    "full": "das Pfund",
+    "meaning": "yarım kilo",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 557,
+    "word": "Plan",
+    "full": "der Plan, die Pläne",
+    "meaning": "plan",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Pläne",
+    "forms": ""
+  },
+  {
+    "id": 558,
+    "word": "Platz",
+    "full": "der Platz, die Plätze",
+    "meaning": "yer; meydan",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Plätze",
+    "forms": ""
+  },
+  {
+    "id": 559,
+    "word": "Polizei",
+    "full": "die Polizei",
+    "meaning": "polis",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 560,
+    "word": "Pommes frites",
+    "full": "die Pommes frites",
+    "meaning": "çoğul) (patates kızartması",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 561,
+    "word": "Post",
+    "full": "die Post",
+    "meaning": "posta, postane",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 562,
+    "word": "Postleitzahl",
+    "full": "die Postleitzahl, die Postleitzahlen",
+    "meaning": "posta kodu",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Postleitzahlen",
+    "forms": ""
+  },
+  {
+    "id": 563,
+    "word": "Praktikum",
+    "full": "das Praktikum, die Praktika",
+    "meaning": "staj",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Praktika",
+    "forms": ""
+  },
+  {
+    "id": 564,
+    "word": "Praxis",
+    "full": "die Praxis, die Praxen",
+    "meaning": "muayenehane; pratik, uygulama",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Praxen",
+    "forms": ""
+  },
+  {
+    "id": 565,
+    "word": "Preis",
+    "full": "der Preis, die Preise",
+    "meaning": "fiyat; ödül",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Preise",
+    "forms": ""
+  },
+  {
+    "id": 566,
+    "word": "Problem",
+    "full": "das Problem, die Probleme",
+    "meaning": "sorun, problem",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Probleme",
+    "forms": ""
+  },
+  {
+    "id": 567,
+    "word": "Prospekt",
+    "full": "der Prospekt, die Prospekte",
+    "meaning": "broşür",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Prospekte",
+    "forms": ""
+  },
+  {
+    "id": 568,
+    "word": "Prozent",
+    "full": "das Prozent",
+    "meaning": "yüzde",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 569,
+    "word": "Prüfung",
+    "full": "die Prüfung, die Prüfungen",
+    "meaning": "sınav, imtihan",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Prüfungen",
+    "forms": ""
+  },
+  {
+    "id": 570,
+    "word": "pünktlich",
+    "full": "pünktlich",
+    "meaning": "dakik, zamanında",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 571,
+    "word": "Rad fahren",
+    "full": "Rad fahren, fährt Rad, fuhr Rad, ist Rad gefahren",
+    "meaning": "bisiklet sürmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "fährt Rad, fuhr Rad, ist Rad gefahren"
+  },
+  {
+    "id": 572,
+    "word": "rauchen",
+    "full": "rauchen, raucht, rauchte, hat geraucht",
+    "meaning": "sigara içmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "raucht, rauchte, hat geraucht"
+  },
+  {
+    "id": 573,
+    "word": "Raum",
+    "full": "der Raum, die Räume",
+    "meaning": "oda, mekan, alan",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Räume",
+    "forms": ""
+  },
+  {
+    "id": 574,
+    "word": "Rechnung",
+    "full": "die Rechnung, die Rechnungen",
+    "meaning": "hesap, fatura",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Rechnungen",
+    "forms": ""
+  },
+  {
+    "id": 575,
+    "word": "rechts",
+    "full": "rechts",
+    "meaning": "sağ, sağda",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 576,
+    "word": "Regen",
+    "full": "der Regen",
+    "meaning": "yağmur",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 577,
+    "word": "regnen",
+    "full": "regnen, es regnet, es regnete, es hat geregnet",
+    "meaning": "yağmur yağmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "es regnet, es regnete, es hat geregnet"
+  },
+  {
+    "id": 578,
+    "word": "Reis",
+    "full": "der Reis",
+    "meaning": "pirinç, pilav",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 579,
+    "word": "Reise",
+    "full": "die Reise, die Reisen",
+    "meaning": "seyahat, yolculuk",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Reisen",
+    "forms": ""
+  },
+  {
+    "id": 580,
+    "word": "Reisebüro",
+    "full": "das Reisebüro, die Reisebüros",
+    "meaning": "seyahat acentesi",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Reisebüros",
+    "forms": ""
+  },
+  {
+    "id": 581,
+    "word": "Reiseführer",
+    "full": "der Reiseführer, die Reiseführer",
+    "meaning": "seyahat rehberi [kitap veya kişi]",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Reiseführer",
+    "forms": ""
+  },
+  {
+    "id": 582,
+    "word": "reisen",
+    "full": "reisen, reist, reiste, ist gereist",
+    "meaning": "seyahat etmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "reist, reiste, ist gereist"
+  },
+  {
+    "id": 583,
+    "word": "Reparatur",
+    "full": "die Reparatur, die Reparaturen",
+    "meaning": "tamir, onarım",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Reparaturen",
+    "forms": ""
+  },
+  {
+    "id": 584,
+    "word": "reparieren",
+    "full": "reparieren, repariert, reparierte, hat repariert",
+    "meaning": "tamir etmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "repariert, reparierte, hat repariert"
+  },
+  {
+    "id": 585,
+    "word": "Restaurant",
+    "full": "das Restaurant, die Restaurants",
+    "meaning": "restoran, lokanta",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Restaurants",
+    "forms": ""
+  },
+  {
+    "id": 586,
+    "word": "Rezeption",
+    "full": "die Rezeption, die Rezeptionen",
+    "meaning": "resepsiyon",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Rezeptionen",
+    "forms": ""
+  },
+  {
+    "id": 587,
+    "word": "richtig",
+    "full": "richtig",
+    "meaning": "doğru",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 588,
+    "word": "riechen",
+    "full": "riechen, riecht, roch, hat gerochen",
+    "meaning": "kokmak, koklamak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "riecht, roch, hat gerochen"
+  },
+  {
+    "id": 589,
+    "word": "rot",
+    "full": "rot",
+    "meaning": "kırmızı",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 590,
+    "word": "ruhig",
+    "full": "ruhig",
+    "meaning": "sakin, sessiz",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 591,
+    "word": "S-Bahn",
+    "full": "die S-Bahn, die S-Bahnen",
+    "meaning": "banliyö treni",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die S-Bahnen",
+    "forms": ""
+  },
+  {
+    "id": 592,
+    "word": "Saft",
+    "full": "der Saft, die Säfte",
+    "meaning": "meyve suyu",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Säfte",
+    "forms": ""
+  },
+  {
+    "id": 593,
+    "word": "sagen",
+    "full": "sagen, sagt, sagte, hat gesagt",
+    "meaning": "söylemek, demek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "sagt, sagte, hat gesagt"
+  },
+  {
+    "id": 594,
+    "word": "Salat",
+    "full": "der Salat, die Salate",
+    "meaning": "salata",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Salate",
+    "forms": ""
+  },
+  {
+    "id": 595,
+    "word": "Salz",
+    "full": "das Salz",
+    "meaning": "tuz",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 596,
+    "word": "Samstag",
+    "full": "der Samstag, die Samstage",
+    "meaning": "Cumartesi",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Samstage",
+    "forms": ""
+  },
+  {
+    "id": 597,
+    "word": "Satz",
+    "full": "der Satz, die Sätze",
+    "meaning": "cümle",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Sätze",
+    "forms": ""
+  },
+  {
+    "id": 598,
+    "word": "scheinen",
+    "full": "scheinen, scheint, schien, hat geschienen",
+    "meaning": "görünmek, parlamak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "scheint, schien, hat geschienen"
+  },
+  {
+    "id": 599,
+    "word": "schicken",
+    "full": "schicken, schickt, schickte, hat geschickt",
+    "meaning": "göndermek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "schickt, schickte, hat geschickt"
+  },
+  {
+    "id": 600,
+    "word": "Schild",
+    "full": "das Schild, die Schilder",
+    "meaning": "tabela, levha",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Schilder",
+    "forms": ""
+  },
+  {
+    "id": 601,
+    "word": "Schinken",
+    "full": "der Schinken, die Schinken",
+    "meaning": "jambon",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Schinken",
+    "forms": ""
+  },
+  {
+    "id": 602,
+    "word": "schlafen",
+    "full": "schlafen, schläft, schlief, hat geschlafen",
+    "meaning": "uyumak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "schläft, schlief, hat geschlafen"
+  },
+  {
+    "id": 603,
+    "word": "schlecht",
+    "full": "schlecht, schlechter, am schlechtesten",
+    "meaning": "kötü",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": "schlechter, am schlechtesten"
+  },
+  {
+    "id": 604,
+    "word": "schließen",
+    "full": "schließen, schließt, schloss, hat geschlossen",
+    "meaning": "kapatmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "schließt, schloss, hat geschlossen"
+  },
+  {
+    "id": 605,
+    "word": "Schluss",
+    "full": "der Schluss, die Schlüsse",
+    "meaning": "son, bitiş",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Schlüsse",
+    "forms": ""
+  },
+  {
+    "id": 606,
+    "word": "Schlüssel",
+    "full": "der Schlüssel, die Schlüssel",
+    "meaning": "anahtar",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Schlüssel",
+    "forms": ""
+  },
+  {
+    "id": 607,
+    "word": "schmecken",
+    "full": "schmecken, schmeckt, schmeckte, hat geschmeckt",
+    "meaning": "tadı … olmak, lezzeti … olmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "schmeckt, schmeckte, hat geschmeckt"
+  },
+  {
+    "id": 608,
+    "word": "schnell",
+    "full": "schnell, schneller, am schnellsten",
+    "meaning": "hızlı, çabuk",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": "schneller, am schnellsten"
+  },
+  {
+    "id": 609,
+    "word": "schon",
+    "full": "schon",
+    "meaning": "zaten, çoktan, bile",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 610,
+    "word": "Schrank",
+    "full": "der Schrank, die Schränke",
+    "meaning": "dolap",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Schränke",
+    "forms": ""
+  },
+  {
+    "id": 611,
+    "word": "schreiben",
+    "full": "schreiben, schreibt, schrieb, hat geschrieben",
+    "meaning": "yazmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "schreibt, schrieb, hat geschrieben"
+  },
+  {
+    "id": 612,
+    "word": "Schuh",
+    "full": "der Schuh, die Schuhe",
+    "meaning": "ayakkabı",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Schuhe",
+    "forms": ""
+  },
+  {
+    "id": 613,
+    "word": "Schule",
+    "full": "die Schule, die Schulen",
+    "meaning": "okul",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Schulen",
+    "forms": ""
+  },
+  {
+    "id": 614,
+    "word": "schwarz",
+    "full": "schwarz",
+    "meaning": "siyah",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 615,
+    "word": "schwer",
+    "full": "schwer",
+    "meaning": "ağır; zor",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 616,
+    "word": "Schwester",
+    "full": "die Schwester, die Schwestern",
+    "meaning": "kız kardeş, hemşire",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Schwestern",
+    "forms": ""
+  },
+  {
+    "id": 617,
+    "word": "Schwimmbad",
+    "full": "das Schwimmbad, die Schwimmbäder",
+    "meaning": "yüzme havuzu",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Schwimmbäder",
+    "forms": ""
+  },
+  {
+    "id": 618,
+    "word": "schwimmen",
+    "full": "schwimmen, schwimmt, schwamm, ist geschwommen",
+    "meaning": "yüzmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "schwimmt, schwamm, ist geschwommen"
+  },
+  {
+    "id": 619,
+    "word": "schön",
+    "full": "schön, schöner, am schönsten",
+    "meaning": "güzel",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": "schöner, am schönsten"
+  },
+  {
+    "id": 620,
+    "word": "Schüler",
+    "full": "der Schüler, die Schüler / die Schülerin, die Schülerinnen",
+    "meaning": "öğrenci",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Schüler / die Schülerin, die Schülerinnen",
+    "forms": ""
+  },
+  {
+    "id": 621,
+    "word": "sechs",
+    "full": "sechs",
+    "meaning": "altı",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 622,
+    "word": "sechzehn",
+    "full": "sechzehn",
+    "meaning": "on altı",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 623,
+    "word": "sechzig",
+    "full": "sechzig",
+    "meaning": "altmış",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 624,
+    "word": "See",
+    "full": "der See, die Seen",
+    "meaning": "göl, Not: Artikeli ‘die’ olursa deniz anlamına gelir",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Seen",
+    "forms": ""
+  },
+  {
+    "id": 625,
+    "word": "sehen",
+    "full": "sehen, sieht, sah, hat gesehen",
+    "meaning": "görmek, izlemek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "sieht, sah, hat gesehen"
+  },
+  {
+    "id": 626,
+    "word": "Sehenswürdigkeit",
+    "full": "die Sehenswürdigkeit, die Sehenswürdigkeiten",
+    "meaning": "görülecek yer, turistik mekan",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Sehenswürdigkeiten",
+    "forms": ""
+  },
+  {
+    "id": 627,
+    "word": "sehr",
+    "full": "sehr",
+    "meaning": "çok, pek",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 628,
+    "word": "sein",
+    "full": "sein, ist, war, ist gewesen",
+    "meaning": "olmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "ist, war, ist gewesen"
+  },
+  {
+    "id": 629,
+    "word": "sein",
+    "full": "sein, seine",
+    "meaning": "onun [eril/nötr]",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "seine"
+  },
+  {
+    "id": 630,
+    "word": "seit",
+    "full": "seit",
+    "meaning": "-den beri",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 631,
+    "word": "Sekunde",
+    "full": "die Sekunde, die Sekunden",
+    "meaning": "saniye",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Sekunden",
+    "forms": ""
+  },
+  {
+    "id": 632,
+    "word": "selbstständig",
+    "full": "selbstständig",
+    "meaning": "bağımsız, serbest meslek sahibi",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 633,
+    "word": "September",
+    "full": "der September",
+    "meaning": "Eylül",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 634,
+    "word": "sich",
+    "full": "sich",
+    "meaning": "kendini, kendine",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 635,
+    "word": "Sie",
+    "full": "Sie",
+    "meaning": "siz [resmi]; onlar",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 636,
+    "word": "sie",
+    "full": "sie",
+    "meaning": "o [dişil]; onlar",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 637,
+    "word": "sieben",
+    "full": "sieben",
+    "meaning": "yedi",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 638,
+    "word": "siebzig",
+    "full": "siebzig",
+    "meaning": "yetmiş",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 639,
+    "word": "siebzehn",
+    "full": "siebzehn",
+    "meaning": "on yedi",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 640,
+    "word": "sitzen",
+    "full": "sitzen, sitzt, saß, hat gesessen",
+    "meaning": "oturmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "sitzt, saß, hat gesessen"
+  },
+  {
+    "id": 641,
+    "word": "so",
+    "full": "so",
+    "meaning": "böyle, öyle, o kadar",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 642,
+    "word": "Sofa",
+    "full": "das Sofa, die Sofas",
+    "meaning": "kanepe, koltuk",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Sofas",
+    "forms": ""
+  },
+  {
+    "id": 643,
+    "word": "sofort",
+    "full": "sofort",
+    "meaning": "hemen, derhal",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 644,
+    "word": "Sohn",
+    "full": "der Sohn, die Söhne",
+    "meaning": "oğul, erkek evlat",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Söhne",
+    "forms": ""
+  },
+  {
+    "id": 645,
+    "word": "sollen",
+    "full": "sollen, soll, sollte, hat gesollt",
+    "meaning": "-meli, -malı [gereklilik, tavsiye]",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "soll, sollte, hat gesollt"
+  },
+  {
+    "id": 646,
+    "word": "Sommer",
+    "full": "der Sommer",
+    "meaning": "yaz",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 647,
+    "word": "Sonnabend",
+    "full": "der Sonnabend, die Sonnabende",
+    "meaning": "Cumartesi",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Sonnabende",
+    "forms": ""
+  },
+  {
+    "id": 648,
+    "word": "Sonne",
+    "full": "die Sonne",
+    "meaning": "güneş",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 649,
+    "word": "Sonntag",
+    "full": "der Sonntag",
+    "meaning": "Pazar",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 650,
+    "word": "Speisekarte",
+    "full": "die Speisekarte, die Speisekarten",
+    "meaning": "menü",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Speisekarten",
+    "forms": ""
+  },
+  {
+    "id": 651,
+    "word": "spielen",
+    "full": "spielen, spielt, spielte, hat gespielt",
+    "meaning": "oynamak; çalmak [enstrüman]",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "spielt, spielte, hat gespielt"
+  },
+  {
+    "id": 652,
+    "word": "Sport",
+    "full": "der Sport",
+    "meaning": "spor",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 653,
+    "word": "Sprache",
+    "full": "die Sprache, die Sprachen",
+    "meaning": "dil, lisan",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Sprachen",
+    "forms": ""
+  },
+  {
+    "id": 654,
+    "word": "sprechen",
+    "full": "sprechen, spricht, sprach, hat gesprochen",
+    "meaning": "konuşmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "spricht, sprach, hat gesprochen"
+  },
+  {
+    "id": 655,
+    "word": "spät",
+    "full": "spät, später, am spätesten",
+    "meaning": "geç",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": "später, am spätesten"
+  },
+  {
+    "id": 656,
+    "word": "später",
+    "full": "später",
+    "meaning": "daha sonra",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 657,
+    "word": "Stadt",
+    "full": "die Stadt, die Städte",
+    "meaning": "şehir, kent",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Städte",
+    "forms": ""
+  },
+  {
+    "id": 658,
+    "word": "stehen",
+    "full": "stehen, steht, stand, hat gestanden",
+    "meaning": "durmak, ayakta durmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "steht, stand, hat gestanden"
+  },
+  {
+    "id": 659,
+    "word": "Stelle",
+    "full": "die Stelle, die Stellen",
+    "meaning": "yer; pozisyon, iş",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Stellen",
+    "forms": ""
+  },
+  {
+    "id": 660,
+    "word": "stellen",
+    "full": "stellen, stellt, stellte, hat gestellt",
+    "meaning": "koymak, yerleştirmek [dikey]",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "stellt, stellte, hat gestellt"
+  },
+  {
+    "id": 661,
+    "word": "Stock",
+    "full": "der Stock, die Stöcke",
+    "meaning": "kat [bina]",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Stöcke",
+    "forms": ""
+  },
+  {
+    "id": 662,
+    "word": "Straße",
+    "full": "die Straße, die Straßen",
+    "meaning": "cadde, sokak",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Straßen",
+    "forms": ""
+  },
+  {
+    "id": 663,
+    "word": "Straßenbahn",
+    "full": "die Straßenbahn, die Straßenbahnen",
+    "meaning": "tramvay",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Straßenbahnen",
+    "forms": ""
+  },
+  {
+    "id": 664,
+    "word": "Student",
+    "full": "der Student, die Studenten / die Studentin, die Studentinnen",
+    "meaning": "üniversite öğrencisi",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Studenten / die Studentin, die Studentinnen",
+    "forms": ""
+  },
+  {
+    "id": 665,
+    "word": "studieren",
+    "full": "studieren, studiert, studierte, hat studiert",
+    "meaning": "üniversitede okumak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "studiert, studierte, hat studiert"
+  },
+  {
+    "id": 666,
+    "word": "Studium",
+    "full": "das Studium, die Studien",
+    "meaning": "üniversite eğitimi",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Studien",
+    "forms": ""
+  },
+  {
+    "id": 667,
+    "word": "Stunde",
+    "full": "die Stunde, die Stunden",
+    "meaning": "saat [süre olarak]",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Stunden",
+    "forms": ""
+  },
+  {
+    "id": 668,
+    "word": "suchen",
+    "full": "suchen, sucht, suchte, hat gesucht",
+    "meaning": "aramak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "sucht, suchte, hat gesucht"
+  },
+  {
+    "id": 669,
+    "word": "Süden",
+    "full": "der Süden",
+    "meaning": "güney",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 670,
+    "word": "Tag",
+    "full": "der Tag, die Tage",
+    "meaning": "gün",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Tage",
+    "forms": ""
+  },
+  {
+    "id": 671,
+    "word": "tanzen",
+    "full": "tanzen, tanzt, tanzte, hat getanzt",
+    "meaning": "dans etmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "tanzt, tanzte, hat getanzt"
+  },
+  {
+    "id": 672,
+    "word": "Tasche",
+    "full": "die Tasche, die Taschen",
+    "meaning": "çanta; cep",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Taschen",
+    "forms": ""
+  },
+  {
+    "id": 673,
+    "word": "tausend",
+    "full": "tausend",
+    "meaning": "bin",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 674,
+    "word": "Taxi",
+    "full": "das Taxi, die Taxis",
+    "meaning": "taksi",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Taxis",
+    "forms": ""
+  },
+  {
+    "id": 675,
+    "word": "Tee",
+    "full": "der Tee, die Tees",
+    "meaning": "çay",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Tees",
+    "forms": ""
+  },
+  {
+    "id": 676,
+    "word": "Teil",
+    "full": "der Teil, die Teile",
+    "meaning": "bölüm, kısım",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Teile",
+    "forms": ""
+  },
+  {
+    "id": 677,
+    "word": "Telefon",
+    "full": "das Telefon, die Telefone",
+    "meaning": "telefon",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Telefone",
+    "forms": ""
+  },
+  {
+    "id": 678,
+    "word": "telefonieren",
+    "full": "telefonieren, telefoniert, telefonierte, hat telefoniert",
+    "meaning": "telefon etmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "telefoniert, telefonierte, hat telefoniert"
+  },
+  {
+    "id": 679,
+    "word": "Termin",
+    "full": "der Termin, die Termine",
+    "meaning": "randevu",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Termine",
+    "forms": ""
+  },
+  {
+    "id": 680,
+    "word": "Test",
+    "full": "der Test, die Tests",
+    "meaning": "test, sınav",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Tests",
+    "forms": ""
+  },
+  {
+    "id": 681,
+    "word": "teuer",
+    "full": "teuer, teurer, am teuersten",
+    "meaning": "pahalı",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": "teurer, am teuersten"
+  },
+  {
+    "id": 682,
+    "word": "Text",
+    "full": "der Text, die Texte",
+    "meaning": "metin, yazı",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Texte",
+    "forms": ""
+  },
+  {
+    "id": 683,
+    "word": "Thema",
+    "full": "das Thema, die Themen",
+    "meaning": "konu, tema",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Themen",
+    "forms": ""
+  },
+  {
+    "id": 684,
+    "word": "Ticket",
+    "full": "das Ticket, die Tickets",
+    "meaning": "bilet",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Tickets",
+    "forms": ""
+  },
+  {
+    "id": 685,
+    "word": "Tisch",
+    "full": "der Tisch, die Tische",
+    "meaning": "masa",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Tische",
+    "forms": ""
+  },
+  {
+    "id": 686,
+    "word": "Tochter",
+    "full": "die Tochter, die Töchter",
+    "meaning": "kız evlat",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Töchter",
+    "forms": ""
+  },
+  {
+    "id": 687,
+    "word": "Toilette",
+    "full": "die Toilette, die Toiletten",
+    "meaning": "tuvalet",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Toiletten",
+    "forms": ""
+  },
+  {
+    "id": 688,
+    "word": "Tomate",
+    "full": "die Tomate, die Tomaten",
+    "meaning": "domates",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Tomaten",
+    "forms": ""
+  },
+  {
+    "id": 689,
+    "word": "tot",
+    "full": "tot",
+    "meaning": "ölü",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 690,
+    "word": "(sich) treffen",
+    "full": "(sich) treffen, trifft, traf, hat getroffen",
+    "meaning": "",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "trifft, traf, hat getroffen"
+  },
+  {
+    "id": 691,
+    "word": "Treppe",
+    "full": "die Treppe, die Treppen",
+    "meaning": "merdiven",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Treppen",
+    "forms": ""
+  },
+  {
+    "id": 692,
+    "word": "trinken",
+    "full": "trinken, trinkt, trank, hat getrunken",
+    "meaning": "içmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "trinkt, trank, hat getrunken"
+  },
+  {
+    "id": 693,
+    "word": "tun",
+    "full": "tun, tut, tat, hat getan",
+    "meaning": "yapmak, etmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "tut, tat, hat getan"
+  },
+  {
+    "id": 694,
+    "word": "Uhr",
+    "full": "die Uhr, die Uhren",
+    "meaning": "saat [noktasal zaman]; saat [nesne]",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Uhren",
+    "forms": ""
+  },
+  {
+    "id": 695,
+    "word": "um",
+    "full": "um",
+    "meaning": "-de, -da [saatler için]; etrafında",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 696,
+    "word": "umziehen",
+    "full": "umziehen, zieht um, zog um, ist umgezogen",
+    "meaning": "",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "zieht um, zog um, ist umgezogen"
+  },
+  {
+    "id": 697,
+    "word": "und",
+    "full": "und",
+    "meaning": "ve",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 698,
+    "word": "unser",
+    "full": "unser, unsere",
+    "meaning": "bizim",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": "unsere"
+  },
+  {
+    "id": 699,
+    "word": "unten",
+    "full": "unten",
+    "meaning": "aşağıda, altta",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 700,
+    "word": "unter",
+    "full": "unter",
+    "meaning": "altında",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 701,
+    "word": "Unterricht",
+    "full": "der Unterricht",
+    "meaning": "ders, öğretim",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 702,
+    "word": "unterschreiben",
+    "full": "unterschreiben, unterschreibt, unterschrieb, hat unterschrieben",
+    "meaning": "imzalamak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "unterschreibt, unterschrieb, hat unterschrieben"
+  },
+  {
+    "id": 703,
+    "word": "Unterschrift",
+    "full": "die Unterschrift, die Unterschriften",
+    "meaning": "imza",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Unterschriften",
+    "forms": ""
+  },
+  {
+    "id": 704,
+    "word": "Urlaub",
+    "full": "der Urlaub, die Urlaube",
+    "meaning": "tatil, izin",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Urlaube",
+    "forms": ""
+  },
+  {
+    "id": 705,
+    "word": "Vater",
+    "full": "der Vater, die Väter",
+    "meaning": "baba",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Väter",
+    "forms": ""
+  },
+  {
+    "id": 706,
+    "word": "verboten",
+    "full": "verboten",
+    "meaning": "yasak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 707,
+    "word": "verdienen",
+    "full": "verdienen, verdient, verdiente, hat verdient",
+    "meaning": "para kazanmak, hak etmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "verdient, verdiente, hat verdient"
+  },
+  {
+    "id": 708,
+    "word": "Verein",
+    "full": "der Verein, die Vereine",
+    "meaning": "dernek, kulüp",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Vereine",
+    "forms": ""
+  },
+  {
+    "id": 709,
+    "word": "verkaufen",
+    "full": "verkaufen, verkauft, verkaufte, hat verkauft",
+    "meaning": "satmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "verkauft, verkaufte, hat verkauft"
+  },
+  {
+    "id": 710,
+    "word": "Verkäufer",
+    "full": "der Verkäufer, die Verkäufer / die Verkäuferin, die Verkäuferinnen",
+    "meaning": "satıcı, tezgahtar",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Verkäufer / die Verkäuferin, die Verkäuferinnen",
+    "forms": ""
+  },
+  {
+    "id": 711,
+    "word": "vermieten",
+    "full": "vermieten, vermietet, vermietete, hat vermietet",
+    "meaning": "kiraya vermek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "vermietet, vermietete, hat vermietet"
+  },
+  {
+    "id": 712,
+    "word": "Vermieter",
+    "full": "der Vermieter, die Vermieter / die Vermieterin, die Vermieterinnen",
+    "meaning": "ev sahibi, kiraya veren",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Vermieter / die Vermieterin, die Vermieterinnen",
+    "forms": ""
+  },
+  {
+    "id": 713,
+    "word": "verstehen",
+    "full": "verstehen, versteht, verstand, hat verstanden",
+    "meaning": "anlamak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "versteht, verstand, hat verstanden"
+  },
+  {
+    "id": 714,
+    "word": "Verwandte",
+    "full": "der/die Verwandte, die Verwandten",
+    "meaning": "akraba",
+    "type": "Nomen",
+    "article": "der/die",
+    "plural": "die Verwandten",
+    "forms": ""
+  },
+  {
+    "id": 715,
+    "word": "viel",
+    "full": "viel, mehr, am meisten",
+    "meaning": "çok [sayılamayanlar için]",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": "mehr, am meisten"
+  },
+  {
+    "id": 716,
+    "word": "vielleicht",
+    "full": "vielleicht",
+    "meaning": "belki, galiba",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 717,
+    "word": "vier",
+    "full": "vier",
+    "meaning": "dört",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 718,
+    "word": "vierte",
+    "full": "vierte",
+    "meaning": "dördüncü",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 719,
+    "word": "Viertel",
+    "full": "das Viertel, die Viertel",
+    "meaning": "çeyrek; semt, mahalle",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Viertel",
+    "forms": ""
+  },
+  {
+    "id": 720,
+    "word": "vierzehn",
+    "full": "vierzehn",
+    "meaning": "on dört",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 721,
+    "word": "vierzig",
+    "full": "vierzig",
+    "meaning": "kırk",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 722,
+    "word": "von",
+    "full": "von",
+    "meaning": "-den, -dan; -nın, -nin",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 723,
+    "word": "vor",
+    "full": "vor",
+    "meaning": "önünde; -den önce; kala [saatler için]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 724,
+    "word": "Vormittag",
+    "full": "der Vormittag",
+    "meaning": "öğleden önce",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 725,
+    "word": "Vorname",
+    "full": "der Vorname, die Vornamen",
+    "meaning": "isim, ad",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Vornamen",
+    "forms": ""
+  },
+  {
+    "id": 726,
+    "word": "Vorsicht",
+    "full": "die Vorsicht",
+    "meaning": "dikkat, tedbir",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 727,
+    "word": "",
+    "full": "",
+    "meaning": "sich) vorstellen, stellt vor, stellte vor, hat vorgestellt (tanıtmak; kendini tanıtmak",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 728,
+    "word": "Vorwahl",
+    "full": "die Vorwahl, die Vorwahlen",
+    "meaning": "alan kodu",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Vorwahlen",
+    "forms": ""
+  },
+  {
+    "id": 729,
+    "word": "Wagen",
+    "full": "der Wagen, die Wagen",
+    "meaning": "araba; vagon",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Wagen",
+    "forms": ""
+  },
+  {
+    "id": 730,
+    "word": "wandern",
+    "full": "wandern, wandert, wanderte, ist gewandert",
+    "meaning": "doğa yürüyüşü yapmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "wandert, wanderte, ist gewandert"
+  },
+  {
+    "id": 731,
+    "word": "wann",
+    "full": "wann",
+    "meaning": "ne zaman",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 732,
+    "word": "warten",
+    "full": "warten, wartet, wartete, hat gewartet",
+    "meaning": "beklemek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "wartet, wartete, hat gewartet"
+  },
+  {
+    "id": 733,
+    "word": "warum",
+    "full": "warum",
+    "meaning": "neden, niçin",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 734,
+    "word": "was",
+    "full": "was",
+    "meaning": "ne?",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 735,
+    "word": "",
+    "full": "",
+    "meaning": "sich) waschen, wäscht, wusch, hat gewaschen (yıkamak; yıkanmak",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 736,
+    "word": "Wasser",
+    "full": "das Wasser",
+    "meaning": "su",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 737,
+    "word": "weg sein",
+    "full": "weg sein, ist weg, war weg, ist weg gewesen",
+    "meaning": "gitmiş olmak, kaybolmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "ist weg, war weg, ist weg gewesen"
+  },
+  {
+    "id": 738,
+    "word": "wehtun",
+    "full": "wehtun, tut weh, tat weh, hat wehgetan",
+    "meaning": "ağrımak, acımak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "tut weh, tat weh, hat wehgetan"
+  },
+  {
+    "id": 739,
+    "word": "weiblich",
+    "full": "weiblich",
+    "meaning": "dişi, kadın",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 740,
+    "word": "Wein",
+    "full": "der Wein, die Weine",
+    "meaning": "şarap",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Weine",
+    "forms": ""
+  },
+  {
+    "id": 741,
+    "word": "weit",
+    "full": "weit",
+    "meaning": "uzak; geniş",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 742,
+    "word": "weiter",
+    "full": "weiter",
+    "meaning": "devam; daha ileri",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 743,
+    "word": "weiß",
+    "full": "weiß",
+    "meaning": "beyaz",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 744,
+    "word": "welche",
+    "full": "welche",
+    "meaning": "hangi [dişil/çoğul]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 745,
+    "word": "welcher",
+    "full": "welcher",
+    "meaning": "hangi [eril]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 746,
+    "word": "welches",
+    "full": "welches",
+    "meaning": "hangi [nötr]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 747,
+    "word": "Welt",
+    "full": "die Welt, die Welten",
+    "meaning": "dünya",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Welten",
+    "forms": ""
+  },
+  {
+    "id": 748,
+    "word": "wenig",
+    "full": "wenig",
+    "meaning": "az",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 749,
+    "word": "wer",
+    "full": "wer",
+    "meaning": "kim?",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 750,
+    "word": "werden",
+    "full": "werden, wird, wurde, ist geworden",
+    "meaning": "olmak; haline gelmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "wird, wurde, ist geworden"
+  },
+  {
+    "id": 751,
+    "word": "Westen",
+    "full": "der Westen",
+    "meaning": "batı",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 752,
+    "word": "Wetter",
+    "full": "das Wetter",
+    "meaning": "hava durumu",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 753,
+    "word": "wichtig",
+    "full": "wichtig",
+    "meaning": "önemli",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 754,
+    "word": "wie",
+    "full": "wie",
+    "meaning": "nasıl; gibi",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 755,
+    "word": "wie viel",
+    "full": "wie viel",
+    "meaning": "ne kadar [sayılamayanlar için]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 756,
+    "word": "wiederholen",
+    "full": "wiederholen, wiederholt, wiederholte, hat wiederholt",
+    "meaning": "tekrarlamak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "wiederholt, wiederholte, hat wiederholt"
+  },
+  {
+    "id": 757,
+    "word": "Wiederhören",
+    "full": "das Wiederhören",
+    "meaning": "tekrar görüşmek [telefonda]",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 758,
+    "word": "Wiedersehen",
+    "full": "das Wiedersehen",
+    "meaning": "tekrar görüşmek [yüz yüze]",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 759,
+    "word": "willkommen",
+    "full": "willkommen",
+    "meaning": "hoş geldiniz",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 760,
+    "word": "Wind",
+    "full": "der Wind, die Winde",
+    "meaning": "rüzgar",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Winde",
+    "forms": ""
+  },
+  {
+    "id": 761,
+    "word": "Winter",
+    "full": "der Winter, die Winter",
+    "meaning": "kış",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Winter",
+    "forms": ""
+  },
+  {
+    "id": 762,
+    "word": "wir",
+    "full": "wir",
+    "meaning": "biz",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 763,
+    "word": "wissen",
+    "full": "wissen, weiß, wusste, hat gewusst",
+    "meaning": "bilmek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "weiß, wusste, hat gewusst"
+  },
+  {
+    "id": 764,
+    "word": "wo",
+    "full": "wo",
+    "meaning": "nerede",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 765,
+    "word": "Woche",
+    "full": "die Woche, die Wochen",
+    "meaning": "hafta",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Wochen",
+    "forms": ""
+  },
+  {
+    "id": 766,
+    "word": "Wochenende",
+    "full": "das Wochenende, die Wochenenden",
+    "meaning": "hafta sonu",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Wochenenden",
+    "forms": ""
+  },
+  {
+    "id": 767,
+    "word": "Wochentag",
+    "full": "der Wochentag, die Wochentage",
+    "meaning": "hafta içi günü",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Wochentage",
+    "forms": ""
+  },
+  {
+    "id": 768,
+    "word": "woher",
+    "full": "woher",
+    "meaning": "nereden",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 769,
+    "word": "wohin",
+    "full": "wohin",
+    "meaning": "nereye",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 770,
+    "word": "wohnen",
+    "full": "wohnen, wohnt, wohnte, hat gewohnt",
+    "meaning": "ikamet etmek, oturmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "wohnt, wohnte, hat gewohnt"
+  },
+  {
+    "id": 771,
+    "word": "Wohnung",
+    "full": "die Wohnung, die Wohnungen",
+    "meaning": "daire, ev",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Wohnungen",
+    "forms": ""
+  },
+  {
+    "id": 772,
+    "word": "wollen",
+    "full": "wollen, will, wollte, hat gewollt",
+    "meaning": "istemek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "will, wollte, hat gewollt"
+  },
+  {
+    "id": 773,
+    "word": "wunderbar",
+    "full": "wunderbar",
+    "meaning": "harika, muhteşem",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 774,
+    "word": "zahlen",
+    "full": "zahlen, zahlt, zahlte, hat gezahlt",
+    "meaning": "ödemek",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "zahlt, zahlte, hat gezahlt"
+  },
+  {
+    "id": 775,
+    "word": "zehn",
+    "full": "zehn",
+    "meaning": "on",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 776,
+    "word": "Zeit",
+    "full": "die Zeit, die Zeiten",
+    "meaning": "zaman, vakit",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Zeiten",
+    "forms": ""
+  },
+  {
+    "id": 777,
+    "word": "Zeitung",
+    "full": "die Zeitung, die Zeitungen",
+    "meaning": "gazete",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Zeitungen",
+    "forms": ""
+  },
+  {
+    "id": 778,
+    "word": "Zentimeter",
+    "full": "der Zentimeter",
+    "meaning": "santimetre",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 779,
+    "word": "Zigarette",
+    "full": "die Zigarette, die Zigaretten",
+    "meaning": "sigara",
+    "type": "Nomen",
+    "article": "die",
+    "plural": "die Zigaretten",
+    "forms": ""
+  },
+  {
+    "id": 780,
+    "word": "Zimmer",
+    "full": "das Zimmer, die Zimmer",
+    "meaning": "oda",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Zimmer",
+    "forms": ""
+  },
+  {
+    "id": 781,
+    "word": "zirka/circa",
+    "full": "zirka/circa",
+    "meaning": "yaklaşık, takriben",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 782,
+    "word": "Zoll",
+    "full": "der Zoll, die Zölle",
+    "meaning": "gümrük idaresi/kurumu",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Zölle",
+    "forms": ""
+  },
+  {
+    "id": 783,
+    "word": "zu",
+    "full": "zu",
+    "meaning": "-e, -a [yönelme]; için",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 784,
+    "word": "zu",
+    "full": "zu",
+    "meaning": "çok, fazla [bir sıfatın önünde]",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 785,
+    "word": "zu sein",
+    "full": "zu sein, ist zu, war zu, ist zu gewesen",
+    "meaning": "kapalı olmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "ist zu, war zu, ist zu gewesen"
+  },
+  {
+    "id": 786,
+    "word": "zufrieden",
+    "full": "zufrieden",
+    "meaning": "memnun, hoşnut",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 787,
+    "word": "Zug",
+    "full": "der Zug, die Züge",
+    "meaning": "tren",
+    "type": "Nomen",
+    "article": "der",
+    "plural": "die Züge",
+    "forms": ""
+  },
+  {
+    "id": 788,
+    "word": "zurzeit",
+    "full": "zurzeit",
+    "meaning": "şu anda, bu sıralar",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 789,
+    "word": "zurück",
+    "full": "zurück",
+    "meaning": "geri",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 790,
+    "word": "zusammen",
+    "full": "zusammen",
+    "meaning": "birlikte",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 791,
+    "word": "zwanzig",
+    "full": "zwanzig",
+    "meaning": "yirmi",
+    "type": "Adjektiv",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 792,
+    "word": "zwei",
+    "full": "zwei",
+    "meaning": "iki",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 793,
+    "word": "zweihundert",
+    "full": "zweihundert",
+    "meaning": "iki yüz",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 794,
+    "word": "zweite",
+    "full": "zweite",
+    "meaning": "ikinci",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 795,
+    "word": "zwischen",
+    "full": "zwischen",
+    "meaning": "arasında",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 796,
+    "word": "zwölf",
+    "full": "zwölf",
+    "meaning": "on iki",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 797,
+    "word": "öffnen",
+    "full": "öffnen, öffnet, öffnete, hat geöffnet",
+    "meaning": "açmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "öffnet, öffnete, hat geöffnet"
+  },
+  {
+    "id": 798,
+    "word": "Öl",
+    "full": "das Öl, die Öle",
+    "meaning": "yağ [sıvı]",
+    "type": "Nomen",
+    "article": "das",
+    "plural": "die Öle",
+    "forms": ""
+  },
+  {
+    "id": 799,
+    "word": "über",
+    "full": "über",
+    "meaning": "üzerinde [temassız]; hakkında; aracılığıyla",
+    "type": "Diğer",
+    "article": "",
+    "plural": "",
+    "forms": ""
+  },
+  {
+    "id": 800,
+    "word": "übernachten",
+    "full": "übernachten, übernachtet, übernachtete, hat übernachtet",
+    "meaning": "gecelemek, konaklamak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "übernachtet, übernachtete, hat übernachtet"
+  },
+  {
+    "id": 801,
+    "word": "überweisen",
+    "full": "überweisen, überweist, überwies, hat überwiesen",
+    "meaning": "para transfer etmek, havale yapmak",
+    "type": "Verb",
+    "article": "",
+    "plural": "",
+    "forms": "überweist, überwies, hat überwiesen"
+  }
+]

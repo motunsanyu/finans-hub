@@ -1,0 +1,833 @@
+/* css/almanca_oyun.css - Almanca A1 Kelime Pratiği & Oyun Stilleri */
+
+.almanca-widget-wrap {
+  margin: 14px 16px 8px;
+  background: linear-gradient(145deg, #161b22 0%, #0d1117 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.almanca-widget-wrap::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #000 0%, #dd0000 50%, #ffce00 100%);
+}
+
+/* Header */
+.almanca-widget-header {
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.almanca-widget-title-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.almanca-flag-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #111 33.3%, #d00 33.3%, #d00 66.6%, #ffce00 66.6%);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.almanca-widget-titles {
+  display: flex;
+  flex-direction: column;
+}
+
+.almanca-widget-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #f0f6fc;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.almanca-level-tag {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: rgba(255, 206, 0, 0.15);
+  color: #ffce00;
+  border: 1px solid rgba(255, 206, 0, 0.3);
+  letter-spacing: 0.5px;
+}
+
+.almanca-widget-sub {
+  font-size: 11px;
+  color: #8b949e;
+  margin-top: 2px;
+}
+
+.almanca-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.almanca-toggle-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #c9d1d9;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.almanca-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+/* Quick Bar (Always visible or compact) */
+.almanca-quick-bar {
+  padding: 10px 16px 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: rgba(0,0,0,0.15);
+}
+
+.almanca-stats-chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.almanca-stat-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #c9d1d9;
+}
+
+.almanca-stat-chip.goal {
+  color: #58a6ff;
+  border-color: rgba(88, 166, 255, 0.25);
+  background: rgba(88, 166, 255, 0.08);
+}
+
+.almanca-stat-chip.streak {
+  color: #f0883e;
+  border-color: rgba(240, 136, 62, 0.25);
+  background: rgba(240, 136, 62, 0.08);
+}
+
+.almanca-stat-chip.learned {
+  color: #3fb950;
+  border-color: rgba(63, 185, 80, 0.25);
+  background: rgba(63, 185, 80, 0.08);
+}
+
+/* Daily progress bar */
+.almanca-daily-progress-container {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.almanca-daily-prog-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.almanca-daily-prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3fb950, #2ea043);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+/* Expanded Arena */
+.almanca-expanded-arena {
+  display: block;
+  padding: 14px 16px 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  max-height: 540px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  animation: almancaFadeIn 0.25s ease-out;
+}
+
+.almanca-expanded-arena::-webkit-scrollbar {
+  width: 6px;
+}
+.almanca-expanded-arena::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+@keyframes almancaFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mode Navigation Tabs */
+.almanca-mode-tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+  scrollbar-width: none;
+}
+.almanca-mode-tabs::-webkit-scrollbar { display: none; }
+
+.almanca-mode-tab {
+  flex: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 7px 13px;
+  color: #8b949e;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.almanca-mode-tab:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: #e6edf3;
+}
+
+.almanca-mode-tab.active {
+  background: #238636;
+  border-color: #2ea043;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(46, 160, 67, 0.35);
+}
+
+/* Sub filter pills */
+.almanca-filter-row {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+  scrollbar-width: none;
+}
+.almanca-filter-row::-webkit-scrollbar { display: none; }
+
+.almanca-filter-pill {
+  flex: none;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #8b949e;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.almanca-filter-pill:hover {
+  color: #f0f6fc;
+}
+
+.almanca-filter-pill.active {
+  background: rgba(56, 139, 253, 0.18);
+  color: #58a6ff;
+  border-color: rgba(56, 139, 253, 0.4);
+}
+
+/* ═══════════ MODE 1: FLASHCARDS ═══════════ */
+.almanca-flashcard-stage {
+  perspective: 1200px;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.almanca-flashcard {
+  width: 100%;
+  min-height: 250px;
+  border-radius: 20px;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.almanca-flashcard.flipped {
+  transform: rotateY(180deg);
+}
+
+.almanca-card-side {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 22px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.almanca-card-front {
+  background: linear-gradient(135deg, #1c2128 0%, #161b22 100%);
+}
+
+.almanca-card-back {
+  background: linear-gradient(135deg, #1b2721 0%, #161e1b 100%);
+  transform: rotateY(180deg);
+  border-color: rgba(63, 185, 80, 0.3);
+}
+
+.almanca-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.almanca-article-badge {
+  font-size: 12px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 8px;
+  letter-spacing: 0.5px;
+  text-transform: lowercase;
+}
+
+.almanca-article-badge.der {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+}
+.almanca-article-badge.die {
+  background: rgba(236, 72, 153, 0.2);
+  color: #f472b6;
+  border: 1px solid rgba(236, 72, 153, 0.4);
+}
+.almanca-article-badge.das {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+.almanca-article-badge.verb {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+.almanca-article-badge.adj {
+  background: rgba(168, 85, 247, 0.2);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+}
+.almanca-article-badge.diger {
+  background: rgba(156, 163, 175, 0.2);
+  color: #d1d5db;
+  border: 1px solid rgba(156, 163, 175, 0.4);
+}
+
+.almanca-card-audio-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: #e6edf3;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.2s;
+}
+
+.almanca-card-audio-btn:hover {
+  background: #388bfd;
+  transform: scale(1.1);
+}
+
+.almanca-card-center {
+  text-align: center;
+  margin: 18px 0;
+}
+
+.almanca-card-word {
+  font-size: 26px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 6px;
+  line-height: 1.25;
+}
+
+.almanca-card-forms {
+  font-size: 13px;
+  color: #8b949e;
+  font-style: italic;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.almanca-card-meaning {
+  font-size: 20px;
+  font-weight: 700;
+  color: #3fb950;
+  line-height: 1.3;
+}
+
+.almanca-card-bot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: #6e7681;
+}
+
+.almanca-flip-hint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+}
+
+/* Card Control Buttons */
+.almanca-card-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  max-width: 440px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.almanca-ctrl-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #c9d1d9;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.almanca-ctrl-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.almanca-ctrl-btn.learned {
+  background: rgba(46, 160, 67, 0.2);
+  border-color: rgba(46, 160, 67, 0.4);
+  color: #3fb950;
+}
+.almanca-ctrl-btn.learned:hover {
+  background: #238636;
+  color: #fff;
+}
+
+.almanca-ctrl-btn.fav.active {
+  color: #e3b341;
+  border-color: rgba(227, 179, 65, 0.4);
+  background: rgba(227, 179, 65, 0.15);
+}
+
+.almanca-card-counter {
+  text-align: center;
+  font-size: 12px;
+  color: #8b949e;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+/* ═══════════ MODE 2: QUIZ / TEST ═══════════ */
+.almanca-quiz-box {
+  max-width: 500px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  padding: 20px;
+}
+
+.almanca-quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: #8b949e;
+}
+
+.almanca-quiz-score-badge {
+  color: #ffce00;
+  font-weight: 700;
+}
+
+.almanca-quiz-question-card {
+  text-align: center;
+  padding: 24px 16px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  margin-bottom: 18px;
+}
+
+.almanca-quiz-q-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.almanca-quiz-q-word {
+  font-size: 24px;
+  font-weight: 800;
+  color: #f0f6fc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.almanca-quiz-q-sub {
+  font-size: 12px;
+  color: #6e7681;
+  margin-top: 6px;
+}
+
+.almanca-quiz-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.almanca-quiz-opt {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  padding: 13px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #c9d1d9;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.almanca-quiz-opt:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.almanca-quiz-opt.correct {
+  background: rgba(46, 160, 67, 0.25) !important;
+  border-color: #2ea043 !important;
+  color: #3fb950 !important;
+}
+
+.almanca-quiz-opt.wrong {
+  background: rgba(248, 81, 73, 0.25) !important;
+  border-color: #f85149 !important;
+  color: #f85149 !important;
+}
+
+.almanca-quiz-next-row {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ═══════════ MODE 3: ARTIKEL AVCISI ═══════════ */
+.almanca-artikel-box {
+  max-width: 440px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.almanca-artikel-target {
+  padding: 30px 16px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.almanca-artikel-noun {
+  font-size: 28px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+
+.almanca-artikel-meaning {
+  font-size: 15px;
+  color: #8b949e;
+}
+
+.almanca-artikel-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.almanca-art-btn {
+  border: none;
+  border-radius: 16px;
+  padding: 16px 8px;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-transform: lowercase;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.almanca-art-btn.der {
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  color: #ffffff;
+}
+.almanca-art-btn.die {
+  background: linear-gradient(135deg, #be185d, #db2777);
+  color: #ffffff;
+}
+.almanca-art-btn.das {
+  background: linear-gradient(135deg, #047857, #059669);
+  color: #ffffff;
+}
+
+.almanca-art-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+.almanca-art-btn:active {
+  transform: translateY(1px);
+}
+
+.almanca-artikel-feedback {
+  margin-top: 16px;
+  font-size: 14px;
+  font-weight: 700;
+  min-height: 24px;
+}
+
+/* ═══════════ MODE 4: EŞLEŞTİRME ═══════════ */
+.almanca-match-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.almanca-match-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.almanca-match-tile {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 14px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #c9d1d9;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.almanca-match-tile:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.almanca-match-tile.selected {
+  background: rgba(56, 139, 253, 0.25);
+  border-color: #388bfd;
+  color: #58a6ff;
+  box-shadow: 0 0 12px rgba(56, 139, 253, 0.3);
+}
+
+.almanca-match-tile.matched {
+  background: rgba(46, 160, 67, 0.25);
+  border-color: #2ea043;
+  color: #3fb950;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* ═══════════ MODE 5: SÖZLÜK & HAVUZ ═══════════ */
+.almanca-vocab-list-wrap {
+  max-height: 380px;
+  overflow-y: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 4px;
+}
+
+.almanca-vocab-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+
+.almanca-vocab-row:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.almanca-vocab-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.almanca-vocab-texts {
+  min-width: 0;
+}
+
+.almanca-vocab-de {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f0f6fc;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.almanca-vocab-tr {
+  font-size: 12px;
+  color: #8b949e;
+  margin-top: 2px;
+}
+
+.almanca-vocab-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.almanca-icon-btn {
+  background: none;
+  border: none;
+  color: #8b949e;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.almanca-icon-btn:hover {
+  color: #f0f6fc;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.almanca-icon-btn.active {
+  color: #e3b341;
+}
+
+.almanca-check-btn.checked {
+  color: #3fb950;
+}
+
+/* Modal Mode (Fullscreen Option) */
+.almanca-fullscreen-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: rgba(11, 14, 17, 0.98);
+  overflow-y: auto;
+  display: none;
+  padding: 20px;
+}
+
+.almanca-fullscreen-inner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+@media (max-width: 480px) {
+  .almanca-widget-wrap {
+    margin: 10px 10px 6px;
+  }
+  .almanca-flashcard {
+    min-height: 230px;
+  }
+  .almanca-card-word {
+    font-size: 22px;
+  }
+  .almanca-card-meaning {
+    font-size: 18px;
+  }
+}
