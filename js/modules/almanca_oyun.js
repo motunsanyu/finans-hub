@@ -1,18 +1,25 @@
-// js/modules/almanca_oyun.js - Almanca A1 Kelime Pratiği & Oyun Motoru
+// js/modules/almanca_oyun.js - Almanca A1 Kelime Pratiği & Oyun Motoru (Gelişmiş Cümle & Örnek Modülü)
 
 (function () {
   'use strict';
 
   // ── DURUM & VERİ ──────────────────────────────────────────────
   let wordsData = [];
-  let currentMode = 'cards'; // 'cards' | 'quiz' | 'artikel' | 'match' | 'vocab'
-  let currentFilter = 'all'; // 'all' | 'verb' | 'nomen' | 'adj' | 'diger' | 'fav' | 'unlearned'
+  let currentMode = 'cards'; // 'cards' | 'sentence' | 'quiz' | 'artikel' | 'match' | 'vocab'
+  let currentFilter = 'all'; // 'all' | 'verb' | 'nomen' | 'adj' | 'adverb' | 'zeit' | 'frage' | 'fav' | 'unlearned'
   let isExpanded = true;
 
   // Kart modu
   let activeCardList = [];
   let currentCardIndex = 0;
   let isCardFlipped = false;
+
+  // Cümle Pratiği (Boşluk Doldurma) modu
+  let sentenceQuestions = [];
+  let sentenceCurrentIndex = 0;
+  let sentenceScore = 0;
+  let sentenceStreak = 0;
+  let sentenceAnswered = false;
 
   // Test / Quiz modu
   let quizQuestions = [];
@@ -111,13 +118,24 @@
     }
   }
 
+  function getDailySentence() {
+    const list = wordsData.filter(w => w.example_de && w.example_tr);
+    if (!list.length) return null;
+    const today = new Date().toISOString().slice(0, 10);
+    let hash = 0;
+    for (let i = 0; i < today.length; i++) {
+      hash = (hash * 31 + today.charCodeAt(i)) % list.length;
+    }
+    return list[hash] || list[0];
+  }
+
   // ── SES EFEKTLERİ & TELAFFUZ ──────────────────────────────────
   function speakGerman(text) {
-    if (!window.speechSynthesis) return;
+    if (!window.speechSynthesis || !text) return;
     try {
       window.speechSynthesis.cancel();
-      // Artikelsiz veya parantezsiz temizle
-      const cleanText = text.replace(/^(der|die|das)\s+/i, '').replace(/\(.*?\)/g, '').split(',')[0].trim();
+      // Temizleme
+      const cleanText = text.replace(/^(der|die|das)\s+/i, '').replace(/\(.*?\)/g, '').split(';')[0].trim();
       const utterance = new SpeechSynthesisUtterance(cleanText || text);
       utterance.lang = 'de-DE';
       utterance.rate = 0.85;
@@ -192,7 +210,7 @@
     } else if (item.type === 'Adjektiv') {
       return `<span class="almanca-article-badge adj">sıfat</span>`;
     } else {
-      return `<span class="almanca-article-badge diger">diğer</span>`;
+      return `<span class="almanca-article-badge diger">${item.category ? item.category.split('&')[0].trim().toLowerCase() : 'diğer'}</span>`;
     }
   }
 
@@ -201,10 +219,13 @@
     const learned = getLearnedSet();
     const favs = getFavoritesSet();
 
-    if (filter === 'verb') return list.filter(w => w.type === 'Verb');
-    if (filter === 'nomen') return list.filter(w => w.type === 'Nomen');
-    if (filter === 'adj') return list.filter(w => w.type === 'Adjektiv');
-    if (filter === 'diger') return list.filter(w => w.type === 'Diğer');
+    if (filter === 'verb') return list.filter(w => w.type === 'Verb' || w.category === 'Fiiller');
+    if (filter === 'nomen') return list.filter(w => w.type === 'Nomen' || w.category === 'İsimler');
+    if (filter === 'adj') return list.filter(w => w.type === 'Adjektiv' || w.category === 'Sıfatlar');
+    if (filter === 'adverb') return list.filter(w => w.category === 'Zarflar & Konum');
+    if (filter === 'zeit') return list.filter(w => w.category === 'Zaman & Günlük Yaşam');
+    if (filter === 'frage') return list.filter(w => w.category === 'Soru & Bağlaç');
+    if (filter === 'examples') return list.filter(w => !!w.example_de);
     if (filter === 'fav') return list.filter(w => favs.has(w.id));
     if (filter === 'unlearned') return list.filter(w => !learned.has(w.id));
     return list;
@@ -229,6 +250,8 @@
       isExpanded = storedExp === 'true';
     }
 
+    const todaySentence = getDailySentence();
+
     container.innerHTML = `
       <div class="almanca-widget-wrap">
         <div class="almanca-widget-header" id="almancaToggleHeader" title="Aç / Kapat">
@@ -237,9 +260,9 @@
             <div class="almanca-widget-titles">
               <div class="almanca-widget-title">
                 Almanca Çalış & Oyna
-                <span class="almanca-level-tag">A1</span>
+                <span class="almanca-level-tag">A1 Cümleli</span>
               </div>
-              <div class="almanca-widget-sub">Goethe & Telc A1 Temel 801 Kelime ve Fiil Listesi</div>
+              <div class="almanca-widget-sub">Düzenli Kelime & Örnek Cümle Listesi (${wordsData.length} Kelime)</div>
             </div>
           </div>
           <div class="almanca-header-actions">
@@ -262,7 +285,7 @@
               🔥 <strong id="almancaStreakDays">1</strong> Günlük Seri
             </div>
             <div class="almanca-stat-chip learned" id="almancaLearnedChip">
-              🧠 <strong id="almancaLearnedCount">0/801</strong> Öğrenildi
+              🧠 <strong id="almancaLearnedCount">0/${wordsData.length || 900}</strong> Öğrenildi
             </div>
           </div>
           <div class="almanca-daily-progress-container">
@@ -272,12 +295,27 @@
           </div>
         </div>
 
+        <!-- GÜNÜN CÜMLESİ BANNERI -->
+        ${todaySentence ? `
+          <div class="almanca-daily-sentence-card">
+            <div class="almanca-daily-sentence-badge">💡 GÜNÜN CÜMLESİ (${todaySentence.category || 'A1 Pratik'})</div>
+            <div class="almanca-daily-sentence-de">
+              <span>💬 ${todaySentence.example_de}</span>
+              <button class="almanca-mini-audio-btn" id="almancaDailySentAudio" title="Cümleyi Dinle">🔊</button>
+            </div>
+            <div class="almanca-daily-sentence-tr">${todaySentence.example_tr}</div>
+          </div>
+        ` : ''}
+
         <!-- EXPANDABLE GAME ARENA -->
         <div class="almanca-expanded-arena" id="almancaArena" style="display: ${isExpanded ? 'block' : 'none'};">
           <!-- Mod Sekmeleri -->
           <div class="almanca-mode-tabs">
             <button class="almanca-mode-tab ${currentMode === 'cards' ? 'active' : ''}" data-mode="cards">
               🃏 Kelime Kartları
+            </button>
+            <button class="almanca-mode-tab ${currentMode === 'sentence' ? 'active' : ''}" data-mode="sentence">
+              ✍️ Cümle Pratiği
             </button>
             <button class="almanca-mode-tab ${currentMode === 'quiz' ? 'active' : ''}" data-mode="quiz">
               ❓ 4 Şıklı Test
@@ -289,7 +327,7 @@
               ⚡ Eşleştirme
             </button>
             <button class="almanca-mode-tab ${currentMode === 'vocab' ? 'active' : ''}" data-mode="vocab">
-              📖 Kelime Havuzu
+              📖 Kelime & Cümle Havuzu
             </button>
           </div>
 
@@ -302,6 +340,14 @@
     // Event Dinleyicileri
     const headerToggle = document.getElementById('almancaToggleHeader');
     headerToggle.addEventListener('click', toggleWidgetExpanded);
+
+    const dailyAudio = document.getElementById('almancaDailySentAudio');
+    if (dailyAudio && todaySentence) {
+      dailyAudio.addEventListener('click', (e) => {
+        e.stopPropagation();
+        speakGerman(todaySentence.example_de);
+      });
+    }
 
     document.querySelectorAll('.almanca-mode-tab').forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -337,7 +383,7 @@
   function updateWidgetStats() {
     const learned = getLearnedSet();
     const daily = getDailyState();
-    const total = wordsData.length || 801;
+    const total = wordsData.length || 900;
 
     const learnedCountEl = document.getElementById('almancaLearnedCount');
     if (learnedCountEl) learnedCountEl.textContent = `${learned.size}/${total}`;
@@ -361,6 +407,7 @@
     if (!content) return;
 
     if (currentMode === 'cards') renderCardsMode(content);
+    else if (currentMode === 'sentence') renderSentenceMode(content);
     else if (currentMode === 'quiz') renderQuizMode(content);
     else if (currentMode === 'artikel') renderArtikelMode(content);
     else if (currentMode === 'match') renderMatchMode(content);
@@ -390,7 +437,10 @@
         <button class="almanca-filter-pill ${currentFilter === 'verb' ? 'active' : ''}" data-filter="verb">Fiiller</button>
         <button class="almanca-filter-pill ${currentFilter === 'nomen' ? 'active' : ''}" data-filter="nomen">İsimler</button>
         <button class="almanca-filter-pill ${currentFilter === 'adj' ? 'active' : ''}" data-filter="adj">Sıfatlar</button>
-        <button class="almanca-filter-pill ${currentFilter === 'diger' ? 'active' : ''}" data-filter="diger">Diğer</button>
+        <button class="almanca-filter-pill ${currentFilter === 'adverb' ? 'active' : ''}" data-filter="adverb">Zarflar & Yer</button>
+        <button class="almanca-filter-pill ${currentFilter === 'zeit' ? 'active' : ''}" data-filter="zeit">Zaman</button>
+        <button class="almanca-filter-pill ${currentFilter === 'frage' ? 'active' : ''}" data-filter="frage">Soru & Bağlaç</button>
+        <button class="almanca-filter-pill ${currentFilter === 'examples' ? 'active' : ''}" data-filter="examples">💬 Cümleliler</button>
         <button class="almanca-filter-pill ${currentFilter === 'unlearned' ? 'active' : ''}" data-filter="unlearned">Öğrenilecekler</button>
         <button class="almanca-filter-pill ${currentFilter === 'fav' ? 'active' : ''}" data-filter="fav">⭐ Favoriler</button>
       </div>
@@ -402,7 +452,7 @@
           <div class="almanca-card-side almanca-card-front">
             <div class="almanca-card-top">
               ${getBadgeHtml(item)}
-              <button class="almanca-card-audio-btn" id="almancaCardAudioBtn" title="Telaffuzu Dinle">
+              <button class="almanca-card-audio-btn" id="almancaCardAudioBtn" title="Kelime Telaffuzunu Dinle">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
                   <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
@@ -413,6 +463,16 @@
               <div class="almanca-card-word">${item.word || item.full}</div>
               ${item.plural ? `<div class="almanca-card-forms">Çoğul: ${item.plural}</div>` : ''}
               ${item.forms ? `<div class="almanca-card-forms">${item.forms}</div>` : ''}
+
+              ${item.example_de ? `
+                <div class="almanca-card-example-box">
+                  <div class="almanca-card-example-de">
+                    <span>💬 ${item.example_de}</span>
+                    <button class="almanca-mini-audio-btn almanca-speak-sentence" data-sentence="${item.example_de.replace(/"/g, '&quot;')}" title="Cümleyi Dinle">🔊</button>
+                  </div>
+                  <div class="almanca-card-example-tr">${item.example_tr}</div>
+                </div>
+              ` : ''}
             </div>
             <div class="almanca-card-bot">
               <span>Almanca</span>
@@ -430,7 +490,7 @@
           <div class="almanca-card-side almanca-card-back">
             <div class="almanca-card-top">
               ${getBadgeHtml(item)}
-              <button class="almanca-card-audio-btn" id="almancaCardAudioBtnBack" title="Telaffuzu Dinle">
+              <button class="almanca-card-audio-btn" id="almancaCardAudioBtnBack" title="Kelime Telaffuzunu Dinle">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
                   <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
@@ -439,7 +499,17 @@
             </div>
             <div class="almanca-card-center">
               <div class="almanca-card-meaning">${item.meaning}</div>
-              <div class="almanca-card-forms" style="color:#a7f3d0; margin-top:10px;">${item.full}</div>
+              <div class="almanca-card-forms" style="color:#a7f3d0; margin-top:6px;">${item.full}</div>
+
+              ${item.example_de ? `
+                <div class="almanca-card-example-box">
+                  <div class="almanca-card-example-de">
+                    <span>💬 ${item.example_de}</span>
+                    <button class="almanca-mini-audio-btn almanca-speak-sentence" data-sentence="${item.example_de.replace(/"/g, '&quot;')}" title="Cümleyi Dinle">🔊</button>
+                  </div>
+                  <div class="almanca-card-example-tr">${item.example_tr}</div>
+                </div>
+              ` : ''}
             </div>
             <div class="almanca-card-bot">
               <span>Türkçe Karşılığı</span>
@@ -479,19 +549,27 @@
     // Kart çevirme
     const cardEl = document.getElementById('almancaCard');
     cardEl.addEventListener('click', (e) => {
-      if (e.target.closest('.almanca-card-audio-btn')) return;
+      if (e.target.closest('.almanca-card-audio-btn') || e.target.closest('.almanca-mini-audio-btn')) return;
       isCardFlipped = !isCardFlipped;
       cardEl.classList.toggle('flipped', isCardFlipped);
       playTone('flip');
     });
 
-    // Ses butonları
+    // Kelime ses butonları
     const handleSpeak = (e) => {
       e.stopPropagation();
       speakGerman(item.full || item.word);
     };
     document.getElementById('almancaCardAudioBtn').addEventListener('click', handleSpeak);
     document.getElementById('almancaCardAudioBtnBack').addEventListener('click', handleSpeak);
+
+    // Cümle ses butonları
+    container.querySelectorAll('.almanca-speak-sentence').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        speakGerman(btn.dataset.sentence);
+      });
+    });
 
     // Navigasyon
     document.getElementById('almancaCardPrev').addEventListener('click', () => {
@@ -540,7 +618,177 @@
   }
 
   // ══════════════════════════════════════════════════════════════
-  // MOD 2: ÇOKTAN SEÇMELİ TEST (QUIZ)
+  // MOD 2: YENİ! CÜMLE PRATİĞİ (BOŞLUK DOLDURMA / LÜCKENTEXT)
+  // ══════════════════════════════════════════════════════════════
+  function initSentenceMode() {
+    sentenceQuestions = [];
+    sentenceCurrentIndex = 0;
+    sentenceScore = 0;
+    sentenceStreak = 0;
+    sentenceAnswered = false;
+
+    // Sadece blank_sentence ve blank_answer olan cümleler
+    const pool = wordsData.filter(w => w.blank_sentence && w.blank_answer).sort(() => Math.random() - 0.5);
+    const selected = pool.slice(0, 10);
+
+    selected.forEach(correctItem => {
+      // 3 mantıklı çeldirici
+      const distractors = wordsData
+        .filter(w => w.id !== correctItem.id && w.blank_answer && w.blank_answer.toLowerCase() !== correctItem.blank_answer.toLowerCase() && w.category === correctItem.category)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 3);
+
+      if (distractors.length < 3) {
+        const others = wordsData
+          .filter(w => w.id !== correctItem.id && w.blank_answer && w.blank_answer.toLowerCase() !== correctItem.blank_answer.toLowerCase() && !distractors.some(d => d.id === w.id))
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 3 - distractors.length);
+        distractors.push(...others);
+      }
+
+      const options = [correctItem.blank_answer, ...distractors.map(d => d.blank_answer)].sort(() => Math.random() - 0.5);
+      sentenceQuestions.push({
+        item: correctItem,
+        correctAnswer: correctItem.blank_answer,
+        options: options
+      });
+    });
+  }
+
+  function renderSentenceMode(container) {
+    if (sentenceQuestions.length === 0 || sentenceCurrentIndex >= sentenceQuestions.length) {
+      initSentenceMode();
+    }
+
+    if (sentenceCurrentIndex >= sentenceQuestions.length) {
+      // Cümle Turu Sonu
+      container.innerHTML = `
+        <div class="almanca-sentence-box" style="text-align:center;">
+          <div style="font-size:48px; margin-bottom:12px;">🌟</div>
+          <h3 style="color:#f0f6fc; margin:0 0 8px;">Cümle Pratiği Tamamlandı!</h3>
+          <div style="font-size:20px; font-weight:800; color:#3fb950; margin-bottom:16px;">
+            Skorun: ${sentenceScore} / 1000
+          </div>
+          <p style="color:#8b949e; font-size:13px; margin-bottom:20px;">
+            ${sentenceScore >= 800 ? 'Muhteşem! Almanca cümle yapılarını ve kelimelerin bağlamdaki kullanımını kavradın!' : 'Tebrikler! Cümleleri dinleyerek ve tekrar pratik yaparak hızlanabilirsin.'}
+          </p>
+          <button class="almanca-ctrl-btn learned" id="almancaSentenceRestart" style="margin:0 auto; padding:12px 28px; font-size:15px;">
+            Yeni 10 Cümleye Başla 🔄
+          </button>
+        </div>
+      `;
+      document.getElementById('almancaSentenceRestart').addEventListener('click', () => {
+        initSentenceMode();
+        renderSentenceMode(container);
+      });
+      return;
+    }
+
+    const currentQ = sentenceQuestions[sentenceCurrentIndex];
+    const sentenceWithBlank = currentQ.item.blank_sentence.replace('_____', '<span class="almanca-blank-slot" id="almancaSentenceSlot">_____</span>');
+
+    container.innerHTML = `
+      <div class="almanca-sentence-box">
+        <div class="almanca-quiz-header">
+          <span>Cümle ${sentenceCurrentIndex + 1} / ${sentenceQuestions.length}</span>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="color:#f0883e; font-weight:700;">🔥 Seri: ${sentenceStreak}</span>
+            <span class="almanca-quiz-score-badge">Puan: ${sentenceScore}</span>
+          </div>
+        </div>
+
+        <div class="almanca-quiz-question-card">
+          <div class="almanca-quiz-q-label">Cümleyi Doğru Kelimeyle Tamamla</div>
+          <div style="font-size:20px; font-weight:800; color:#f0f6fc; margin:8px 0; line-height:1.4;">
+            ${sentenceWithBlank}
+            <button class="almanca-mini-audio-btn" id="almancaSentenceAudioBtn" style="margin-left:8px; vertical-align:middle;" title="Tüm Cümleyi Dinle">🔊</button>
+          </div>
+          <div style="font-size:13.5px; color:#58a6ff; font-weight:600; margin-top:8px;">
+            🇹🇷 "${currentQ.item.example_tr}"
+          </div>
+          <div style="font-size:11px; color:#8b949e; margin-top:4px;">
+            Hedef Kelime: <strong>${currentQ.item.word}</strong> (${currentQ.item.meaning})
+          </div>
+        </div>
+
+        <div class="almanca-quiz-options">
+          ${currentQ.options.map((opt, idx) => `
+            <button class="almanca-quiz-opt almanca-sentence-opt" data-opt="${opt.replace(/"/g, '&quot;')}">
+              <span>${opt}</span>
+              <span class="opt-indicator"></span>
+            </button>
+          `).join('')}
+        </div>
+
+        <div class="almanca-quiz-next-row" id="almancaSentenceNextRow" style="display:none;">
+          <button class="almanca-ctrl-btn learned" id="almancaSentenceNextBtn">Sonraki Cümle ▶</button>
+        </div>
+      </div>
+    `;
+
+    // Cümleyi dinleme butonu
+    const audioBtn = document.getElementById('almancaSentenceAudioBtn');
+    if (audioBtn) {
+      audioBtn.addEventListener('click', () => speakGerman(currentQ.item.example_de));
+    }
+
+    // Seçenek butonları
+    const optBtns = container.querySelectorAll('.almanca-sentence-opt');
+    const slotEl = document.getElementById('almancaSentenceSlot');
+
+    optBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (sentenceAnswered) return;
+        sentenceAnswered = true;
+
+        const picked = btn.dataset.opt;
+        const isCorrect = picked.toLowerCase() === currentQ.correctAnswer.toLowerCase();
+
+        if (isCorrect) {
+          btn.classList.add('correct');
+          btn.querySelector('.opt-indicator').textContent = '✓';
+          slotEl.textContent = currentQ.correctAnswer;
+          slotEl.classList.add('filled');
+
+          sentenceScore += 100 + (sentenceStreak * 15);
+          sentenceStreak++;
+          playTone('correct');
+          markDailyWord(currentQ.item.id);
+
+          // Tamamlanan cümleyi seslendir
+          speakGerman(currentQ.item.example_de);
+        } else {
+          btn.classList.add('wrong');
+          btn.querySelector('.opt-indicator').textContent = '✗';
+          slotEl.textContent = currentQ.correctAnswer;
+          slotEl.classList.add('filled');
+          sentenceStreak = 0;
+          playTone('wrong');
+
+          // Doğru şıkkı yeşille aydınlat
+          optBtns.forEach(b => {
+            if (b.dataset.opt.toLowerCase() === currentQ.correctAnswer.toLowerCase()) {
+              b.classList.add('correct');
+              b.querySelector('.opt-indicator').textContent = '✓';
+            }
+          });
+          speakGerman(currentQ.item.example_de);
+        }
+
+        optBtns.forEach(b => b.disabled = true);
+        document.getElementById('almancaSentenceNextRow').style.display = 'flex';
+      });
+    });
+
+    document.getElementById('almancaSentenceNextBtn').addEventListener('click', () => {
+      sentenceAnswered = false;
+      sentenceCurrentIndex++;
+      renderSentenceMode(container);
+    });
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  // MOD 3: ÇOKTAN SEÇMELİ TEST (QUIZ)
   // ══════════════════════════════════════════════════════════════
   function initQuiz() {
     quizQuestions = [];
@@ -560,7 +808,6 @@
         .sort(() => Math.random() - 0.5)
         .slice(0, 3);
 
-      // Yeterli aynı tip bulunamazsa genel havuzdan tamamla
       if (distractors.length < 3) {
         const others = wordsData
           .filter(w => w.id !== correctItem.id && !distractors.some(d => d.id === w.id))
@@ -592,7 +839,7 @@
             Skorun: ${quizScore} / 1000
           </div>
           <p style="color:#8b949e; font-size:13px; margin-bottom:20px;">
-            ${quizScore >= 800 ? 'Harika iş başardın! Almanca A1 kelimelerinde çok iyisin. 🌟' : 'Güzel deneme! Kelime kartlarıyla tekrar ederek skorunu yükseltebilirsin.'}
+            ${quizScore >= 800 ? 'Harika iş başardın! Almanca A1 kelimelerinde çok iyisin. 🌟' : 'Güzel deneme! Kelime kartlarıyla ve örnek cümlelerle tekrar ederek skorunu yükseltebilirsin.'}
           </p>
           <button class="almanca-ctrl-btn learned" id="almancaQuizRestart" style="margin:0 auto; padding:12px 28px; font-size:15px;">
             Yeniden Başla 🔄
@@ -648,6 +895,8 @@
           `).join('')}
         </div>
 
+        <div id="almancaQuizExampleBox"></div>
+
         <div class="almanca-quiz-next-row" id="almancaQuizNextRow" style="display:none;">
           <button class="almanca-ctrl-btn learned" id="almancaQuizNextBtn">Sonraki Soru ▶</button>
         </div>
@@ -658,7 +907,6 @@
     const audioBtn = document.getElementById('almancaQuizAudioBtn');
     if (audioBtn) {
       audioBtn.addEventListener('click', () => speakGerman(currentQ.correct.full || currentQ.correct.word));
-      // Otomatik oku
       speakGerman(currentQ.correct.full || currentQ.correct.word);
     }
 
@@ -692,7 +940,6 @@
           quizStreak = 0;
           playTone('wrong');
 
-          // Doğru şıkkı yeşille işaretle
           optBtns.forEach(b => {
             const optIdx = parseInt(b.dataset.idx, 10);
             if (currentQ.options[optIdx].id === currentQ.correct.id) {
@@ -700,6 +947,25 @@
               b.querySelector('.opt-indicator').textContent = '✓';
             }
           });
+        }
+
+        // Örnek cümle ipucu kutusu göster
+        if (currentQ.correct.example_de) {
+          const exBox = document.getElementById('almancaQuizExampleBox');
+          exBox.innerHTML = `
+            <div class="almanca-quiz-example-reveal">
+              <div style="font-size:10px; font-weight:800; color:#58a6ff; margin-bottom:3px; text-transform:uppercase;">💡 Örnek Cümle:</div>
+              <div style="font-size:13.5px; color:#f0f6fc; font-weight:700; display:flex; align-items:center; justify-content:space-between; gap:8px;">
+                <span>💬 ${currentQ.correct.example_de}</span>
+                <button class="almanca-mini-audio-btn" id="almancaQuizExAudio" title="Cümleyi Dinle">🔊</button>
+              </div>
+              <div style="font-size:12px; color:#8b949e; margin-top:2px; font-style:italic;">${currentQ.correct.example_tr}</div>
+            </div>
+          `;
+          const exAudio = document.getElementById('almancaQuizExAudio');
+          if (exAudio) {
+            exAudio.addEventListener('click', () => speakGerman(currentQ.correct.example_de));
+          }
         }
 
         optBtns.forEach(b => b.disabled = true);
@@ -718,7 +984,7 @@
   }
 
   // ══════════════════════════════════════════════════════════════
-  // MOD 3: ARTIKEL AVCISI (der / die / das)
+  // MOD 4: ARTIKEL AVCISI (der / die / das)
   // ══════════════════════════════════════════════════════════════
   function initArtikelMode() {
     artikelList = wordsData
@@ -779,18 +1045,40 @@
         const correctArt = currentNoun.article.toLowerCase();
         const isCorrect = picked === correctArt;
 
+        let exampleSnippet = '';
+        if (currentNoun.example_de) {
+          exampleSnippet = `
+            <div style="margin-top:8px; padding:8px 10px; background:rgba(0,0,0,0.25); border-radius:10px; text-align:left;">
+              <div style="font-size:12.5px; color:#f0f6fc; font-weight:700; display:flex; justify-content:space-between; align-items:center;">
+                <span>💬 ${currentNoun.example_de}</span>
+                <button class="almanca-mini-audio-btn" id="almancaArtSentAudio">🔊</button>
+              </div>
+              <div style="font-size:11.5px; color:#8b949e; font-style:italic;">${currentNoun.example_tr}</div>
+            </div>
+          `;
+        }
+
         if (isCorrect) {
           artikelStreak++;
           playTone('correct');
-          feedbackEl.innerHTML = `<span style="color:#3fb950;">✓ Harika! <strong>${currentNoun.full}</strong></span>`;
+          feedbackEl.innerHTML = `<span style="color:#3fb950;">✓ Harika! <strong>${currentNoun.full}</strong></span>` + exampleSnippet;
           markDailyWord(currentNoun.id);
         } else {
           artikelStreak = 0;
           playTone('wrong');
-          feedbackEl.innerHTML = `<span style="color:#f85149;">✗ Yanlış! Doğrusu: <strong>${currentNoun.full}</strong></span>`;
+          feedbackEl.innerHTML = `<span style="color:#f85149;">✗ Yanlış! Doğrusu: <strong>${currentNoun.full}</strong></span>` + exampleSnippet;
         }
 
         speakGerman(currentNoun.full);
+
+        const artSentBtn = document.getElementById('almancaArtSentAudio');
+        if (artSentBtn && currentNoun.example_de) {
+          artSentBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            speakGerman(currentNoun.example_de);
+          });
+        }
+
         container.querySelectorAll('.almanca-art-btn').forEach(b => b.disabled = true);
         nextRow.style.display = 'flex';
       });
@@ -804,7 +1092,7 @@
   }
 
   // ══════════════════════════════════════════════════════════════
-  // MOD 4: EŞLEŞTİRME OYUNU (MATCH GAME)
+  // MOD 5: EŞLEŞTİRME OYUNU (MATCH GAME)
   // ══════════════════════════════════════════════════════════════
   function initMatchPairs() {
     matchSelectedDe = null;
@@ -876,10 +1164,8 @@
           matchSelectedTr = { id, el: tile };
         }
 
-        // İkisi de seçildiyse kontrol et
         if (matchSelectedDe && matchSelectedTr) {
           if (matchSelectedDe.id === matchSelectedTr.id) {
-            // Eşleşti!
             playTone('correct');
             matchPairs.matchedIds.add(matchSelectedDe.id);
             markDailyWord(matchSelectedDe.id);
@@ -900,7 +1186,6 @@
               }, 600);
             }
           } else {
-            // Yanlış eşleşme
             playTone('wrong');
             const dEl = matchSelectedDe.el;
             const tEl = matchSelectedTr.el;
@@ -917,7 +1202,7 @@
   }
 
   // ══════════════════════════════════════════════════════════════
-  // MOD 5: SÖZLÜK & HAVUZ (VOCABULARY LIST)
+  // MOD 6: SÖZLÜK & CÜMLE HAVUZU (VOCABULARY & SENTENCE LIST)
   // ══════════════════════════════════════════════════════════════
   function renderVocabMode(container) {
     const learned = getLearnedSet();
@@ -928,23 +1213,29 @@
       const q = vocabSearchQuery.trim().toLowerCase();
       filtered = filtered.filter(w =>
         w.full.toLowerCase().includes(q) ||
-        w.meaning.toLowerCase().includes(q)
+        w.meaning.toLowerCase().includes(q) ||
+        (w.example_de && w.example_de.toLowerCase().includes(q)) ||
+        (w.example_tr && w.example_tr.toLowerCase().includes(q))
       );
     }
 
     container.innerHTML = `
       <div style="display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
         <div style="flex:1; min-width:200px; position:relative;">
-          <input type="text" id="almancaVocabSearch" placeholder="Almanca veya Türkçe ara..." value="${vocabSearchQuery}"
+          <input type="text" id="almancaVocabSearch" placeholder="Almanca, Türkçe veya örnek cümle ara..." value="${vocabSearchQuery}"
             style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:8px 12px; font-size:13px; color:#fff; box-sizing:border-box;">
         </div>
       </div>
 
       <div class="almanca-filter-row">
-        <button class="almanca-filter-pill ${currentFilter === 'all' ? 'active' : ''}" data-filter="all">Tümü</button>
+        <button class="almanca-filter-pill ${currentFilter === 'all' ? 'active' : ''}" data-filter="all">Tümü (${wordsData.length})</button>
+        <button class="almanca-filter-pill ${currentFilter === 'examples' ? 'active' : ''}" data-filter="examples">💬 Örnek Cümleliler</button>
         <button class="almanca-filter-pill ${currentFilter === 'verb' ? 'active' : ''}" data-filter="verb">Fiiller</button>
         <button class="almanca-filter-pill ${currentFilter === 'nomen' ? 'active' : ''}" data-filter="nomen">İsimler</button>
         <button class="almanca-filter-pill ${currentFilter === 'adj' ? 'active' : ''}" data-filter="adj">Sıfatlar</button>
+        <button class="almanca-filter-pill ${currentFilter === 'adverb' ? 'active' : ''}" data-filter="adverb">Zarflar & Konum</button>
+        <button class="almanca-filter-pill ${currentFilter === 'zeit' ? 'active' : ''}" data-filter="zeit">Zaman & Günlük</button>
+        <button class="almanca-filter-pill ${currentFilter === 'frage' ? 'active' : ''}" data-filter="frage">Soru & Bağlaç</button>
         <button class="almanca-filter-pill ${currentFilter === 'fav' ? 'active' : ''}" data-filter="fav">⭐ Favoriler (${favs.size})</button>
         <button class="almanca-filter-pill ${currentFilter === 'unlearned' ? 'active' : ''}" data-filter="unlearned">Öğrenilecekler</button>
       </div>
@@ -963,10 +1254,16 @@
                     <span>${item.full}</span>
                   </div>
                   <div class="almanca-vocab-tr">${item.meaning}</div>
+                  ${item.example_de ? `
+                    <div class="almanca-vocab-example">
+                      <span>💬 <em>${item.example_de}</em> — <span style="color:#8b949e;">${item.example_tr}</span></span>
+                      <button class="almanca-mini-audio-btn almanca-speak-vocab-sentence" data-sentence="${item.example_de.replace(/"/g, '&quot;')}" title="Cümleyi Dinle">🔊</button>
+                    </div>
+                  ` : ''}
                 </div>
               </div>
               <div class="almanca-vocab-actions">
-                <button class="almanca-icon-btn speak-btn" data-word="${item.full}" title="Dinle">🔊</button>
+                <button class="almanca-icon-btn speak-btn" data-word="${item.full}" title="Kelimeyi Dinle">🔊</button>
                 <button class="almanca-icon-btn fav-btn ${favs.has(item.id) ? 'active' : ''}" data-id="${item.id}" title="Favori">
                   ${favs.has(item.id) ? '⭐' : '☆'}
                 </button>
@@ -996,9 +1293,14 @@
       });
     });
 
-    // Ses butonları
+    // Kelime ses butonları
     container.querySelectorAll('.speak-btn').forEach(btn => {
       btn.addEventListener('click', () => speakGerman(btn.dataset.word));
+    });
+
+    // Cümle ses butonları
+    container.querySelectorAll('.almanca-speak-vocab-sentence').forEach(btn => {
+      btn.addEventListener('click', () => speakGerman(btn.dataset.sentence));
     });
 
     // Öğrenildi butonları
@@ -1036,7 +1338,6 @@
       wordsData = window.ALMANCA_A1_DATA;
       renderWidgetSkeleton();
     } else {
-      // JSON dosyasından yükle
       fetch('almanca/a1_kelimeler.json')
         .then(res => res.json())
         .then(data => {
