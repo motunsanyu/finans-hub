@@ -240,76 +240,110 @@
     isCardFlipped = false;
   }
 
-  // ── RENDER: WIDGET İSKELETİ ───────────────────────────────────
+  // ── RENDER: WIDGET İSKELETİ & AÇILIR PENCERE (MODAL) ─────────────
   function renderWidgetSkeleton() {
     const container = document.getElementById('germanStudyWidget');
     if (!container) return;
 
-    const storedExp = localStorage.getItem(STORAGE_KEYS.EXPANDED);
-    if (storedExp !== null) {
-      isExpanded = storedExp === 'true';
-    }
-
+    const daily = getDailyState();
     const todaySentence = getDailySentence();
 
+    // 1. Notlar alanının en üstündeki şık ve kompakt çubuk (Varsayılan olarak kapalı)
     container.innerHTML = `
-      <div class="almanca-widget-wrap">
-        <div class="almanca-widget-header" id="almancaToggleHeader" title="Aç / Kapat">
-          <div class="almanca-widget-title-area">
+      <div class="almanca-compact-card" id="almancaOpenBtn" role="button" tabindex="0" title="Almanca Çalışma Alanını Aç">
+        <div class="almanca-compact-left">
+          <div class="almanca-compact-flag">🇩🇪</div>
+          <div class="almanca-compact-texts">
+            <div class="almanca-compact-title">
+              Almanca Çalış & Oyna
+              <span class="almanca-level-tag">A1</span>
+            </div>
+            <div class="almanca-compact-sub">Kelime & Cümle Pratiği (${wordsData.length || 903} Kelime)</div>
+          </div>
+        </div>
+        <div class="almanca-compact-right">
+          <span class="almanca-compact-chip goal" id="almancaCompactDailyChip" title="Günlük Hedef">🎯 <strong id="almancaCompactDaily">${Math.min(daily.completedIds.length, 10)}/10</strong></span>
+          <span class="almanca-compact-chip streak" id="almancaCompactStreakChip" title="Günlük Seri">🔥 <strong id="almancaCompactStreak">${daily.streak || 1}</strong></span>
+          <button class="almanca-compact-action" id="almancaOpenActionBtn" type="button">
+            <span>Çalış</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    `;
+
+    // 2. Açılır Pencere (Modal Window) Oluştur veya Güncelle
+    let modalOverlay = document.getElementById('almancaModalOverlay');
+    if (!modalOverlay) {
+      modalOverlay = document.createElement('div');
+      modalOverlay.id = 'almancaModalOverlay';
+      modalOverlay.className = 'almanca-modal-overlay';
+      modalOverlay.style.display = 'none';
+      document.body.appendChild(modalOverlay);
+    }
+
+    modalOverlay.innerHTML = `
+      <div class="almanca-modal-backdrop" id="almancaModalBackdrop"></div>
+      <div class="almanca-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="almancaModalTitle">
+        <!-- MODAL HEADER -->
+        <div class="almanca-modal-header">
+          <div class="almanca-modal-header-left">
             <div class="almanca-flag-badge">🇩🇪</div>
-            <div class="almanca-widget-titles">
-              <div class="almanca-widget-title">
-                Almanca Çalış & Oyna
+            <div>
+              <div class="almanca-modal-title" id="almancaModalTitle">
+                Almanca Çalışma Alanı
                 <span class="almanca-level-tag">A1 Cümleli</span>
               </div>
-              <div class="almanca-widget-sub">Düzenli Kelime & Örnek Cümle Listesi (${wordsData.length} Kelime)</div>
+              <div class="almanca-modal-sub">Düzenli Kelime & Örnek Cümle Listesi (${wordsData.length || 903} Kelime)</div>
             </div>
           </div>
-          <div class="almanca-header-actions">
-            <button class="almanca-toggle-btn" id="almancaToggleBtn">
-              <span id="almancaToggleText">${isExpanded ? 'Gizle' : 'Çalış'}</span>
-              <svg id="almancaToggleIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transform:${isExpanded ? 'rotate(180deg)' : 'rotate(0)'}; transition: transform 0.2s;">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </button>
-          </div>
+          <button class="almanca-modal-close-btn" id="almancaModalCloseBtn" type="button" title="Pencereyi Kapat">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
         </div>
 
-        <!-- STATS & DAILY BAR -->
-        <div class="almanca-quick-bar">
-          <div class="almanca-stats-chips">
-            <div class="almanca-stat-chip goal" id="almancaDailyChip">
-              🎯 Günlük Hedef: <strong id="almancaDailyCount">0/10</strong>
+        <!-- MODAL SCROLL İÇERİĞİ -->
+        <div class="almanca-modal-scroll">
+          <!-- STATS & DAILY BAR -->
+          <div class="almanca-quick-bar">
+            <div class="almanca-stats-chips">
+              <div class="almanca-stat-chip goal" id="almancaDailyChip">
+                🎯 Günlük Hedef: <strong id="almancaDailyCount">0/10</strong>
+              </div>
+              <div class="almanca-stat-chip streak" id="almancaStreakChip">
+                🔥 <strong id="almancaStreakDays">1</strong> Günlük Seri
+              </div>
+              <div class="almanca-stat-chip learned" id="almancaLearnedChip">
+                🧠 <strong id="almancaLearnedCount">0/${wordsData.length || 903}</strong> Öğrenildi
+              </div>
             </div>
-            <div class="almanca-stat-chip streak" id="almancaStreakChip">
-              🔥 <strong id="almancaStreakDays">1</strong> Günlük Seri
-            </div>
-            <div class="almanca-stat-chip learned" id="almancaLearnedChip">
-              🧠 <strong id="almancaLearnedCount">0/${wordsData.length || 900}</strong> Öğrenildi
+            <div class="almanca-daily-progress-container">
+              <div class="almanca-daily-prog-bar">
+                <div class="almanca-daily-prog-fill" id="almancaDailyBarFill" style="width: 0%;"></div>
+              </div>
             </div>
           </div>
-          <div class="almanca-daily-progress-container">
-            <div class="almanca-daily-prog-bar">
-              <div class="almanca-daily-prog-fill" id="almancaDailyBarFill" style="width: 0%;"></div>
-            </div>
-          </div>
-        </div>
 
-        <!-- GÜNÜN CÜMLESİ BANNERI -->
-        ${todaySentence ? `
-          <div class="almanca-daily-sentence-card">
-            <div class="almanca-daily-sentence-badge">💡 GÜNÜN CÜMLESİ (${todaySentence.category || 'A1 Pratik'})</div>
-            <div class="almanca-daily-sentence-de">
-              <span>💬 ${todaySentence.example_de}</span>
-              <button class="almanca-mini-audio-btn" id="almancaDailySentAudio" title="Cümleyi Dinle">🔊</button>
+          <!-- GÜNÜN CÜMLESİ BANNERI -->
+          ${todaySentence ? `
+            <div class="almanca-daily-sentence-card">
+              <div class="almanca-daily-sentence-badge">💡 GÜNÜN CÜMLESİ (${todaySentence.category || 'A1 Pratik'})</div>
+              <div class="almanca-daily-sentence-de">
+                <span>💬 ${todaySentence.example_de}</span>
+                <button class="almanca-mini-audio-btn" id="almancaDailySentAudio" title="Cümleyi Dinle">🔊</button>
+              </div>
+              <div class="almanca-daily-sentence-tr">${todaySentence.example_tr}</div>
             </div>
-            <div class="almanca-daily-sentence-tr">${todaySentence.example_tr}</div>
-          </div>
-        ` : ''}
+          ` : ''}
 
-        <!-- EXPANDABLE GAME ARENA -->
-        <div class="almanca-expanded-arena" id="almancaArena" style="display: ${isExpanded ? 'block' : 'none'};">
-          <!-- Mod Sekmeleri -->
+          <!-- MOD SEKMELERİ -->
           <div class="almanca-mode-tabs">
             <button class="almanca-mode-tab ${currentMode === 'cards' ? 'active' : ''}" data-mode="cards">
               🃏 Kelime Kartları
@@ -331,15 +365,29 @@
             </button>
           </div>
 
-          <!-- Mod İçeriği -->
+          <!-- MOD İÇERİĞİ -->
           <div id="almancaModeContent"></div>
         </div>
       </div>
     `;
 
-    // Event Dinleyicileri
-    const headerToggle = document.getElementById('almancaToggleHeader');
-    headerToggle.addEventListener('click', toggleWidgetExpanded);
+    // 3. Olay Dinleyicileri (Açma / Kapatma)
+    const openCard = document.getElementById('almancaOpenBtn');
+    if (openCard) {
+      openCard.addEventListener('click', openModal);
+      openCard.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openModal();
+        }
+      });
+    }
+
+    const closeBtn = document.getElementById('almancaModalCloseBtn');
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+    const backdrop = document.getElementById('almancaModalBackdrop');
+    if (backdrop) backdrop.addEventListener('click', closeModal);
 
     const dailyAudio = document.getElementById('almancaDailySentAudio');
     if (dailyAudio && todaySentence) {
@@ -349,7 +397,7 @@
       });
     }
 
-    document.querySelectorAll('.almanca-mode-tab').forEach(btn => {
+    modalOverlay.querySelectorAll('.almanca-mode-tab').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const mode = btn.dataset.mode;
@@ -361,30 +409,60 @@
     renderCurrentMode();
   }
 
-  function toggleWidgetExpanded() {
-    isExpanded = !isExpanded;
-    localStorage.setItem(STORAGE_KEYS.EXPANDED, String(isExpanded));
-    const arena = document.getElementById('almancaArena');
-    const toggleText = document.getElementById('almancaToggleText');
-    const toggleIcon = document.getElementById('almancaToggleIcon');
-    if (arena) arena.style.display = isExpanded ? 'block' : 'none';
-    if (toggleText) toggleText.textContent = isExpanded ? 'Gizle' : 'Çalış';
-    if (toggleIcon) toggleIcon.style.transform = isExpanded ? 'rotate(180deg)' : 'rotate(0)';
+  // ── MODAL AÇMA / KAPATMA ─────────────────────────────────────
+  function openModal() {
+    const modal = document.getElementById('almancaModalOverlay');
+    if (!modal) return;
+    modal.style.display = 'flex';
+    document.body.classList.add('almanca-modal-open');
+    updateWidgetStats();
+    renderCurrentMode();
   }
+
+  function closeModal() {
+    const modal = document.getElementById('almancaModalOverlay');
+    if (!modal) return;
+    modal.style.display = 'none';
+    document.body.classList.remove('almanca-modal-open');
+    if (window.speechSynthesis) {
+      try { window.speechSynthesis.cancel(); } catch (e) {}
+    }
+  }
+
+  // ESC tuşuyla kapatma
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const modal = document.getElementById('almancaModalOverlay');
+      if (modal && modal.style.display !== 'none') {
+        closeModal();
+      }
+    }
+  });
 
   function switchMode(mode) {
     currentMode = mode;
-    document.querySelectorAll('.almanca-mode-tab').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.mode === mode);
-    });
+    const modal = document.getElementById('almancaModalOverlay');
+    if (modal) {
+      modal.querySelectorAll('.almanca-mode-tab').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mode === mode);
+      });
+    }
     renderCurrentMode();
   }
 
   function updateWidgetStats() {
     const learned = getLearnedSet();
     const daily = getDailyState();
-    const total = wordsData.length || 900;
+    const total = wordsData.length || 903;
 
+    // Kompakt Kart Sayaçları
+    const compactDaily = document.getElementById('almancaCompactDaily');
+    if (compactDaily) compactDaily.textContent = `${Math.min(daily.completedIds.length, 10)}/10`;
+
+    const compactStreak = document.getElementById('almancaCompactStreak');
+    if (compactStreak) compactStreak.textContent = `${daily.streak || 1}`;
+
+    // Modal Sayaçları
     const learnedCountEl = document.getElementById('almancaLearnedCount');
     if (learnedCountEl) learnedCountEl.textContent = `${learned.size}/${total}`;
 
@@ -1357,6 +1435,7 @@
     const notesTabBtn = document.querySelector('.tab-btn[data-tab="notes"]');
     if (notesTabBtn) {
       notesTabBtn.addEventListener('click', () => {
+        closeModal(); // Notlar sekmesine her tıklandığında varsayılan olarak kapalı tut
         updateWidgetStats();
       });
     }
@@ -1373,7 +1452,8 @@
     init,
     updateStats: updateWidgetStats,
     speak: speakGerman,
-    toggleExpanded: toggleWidgetExpanded,
+    openModal,
+    closeModal,
     switchMode
   };
 
