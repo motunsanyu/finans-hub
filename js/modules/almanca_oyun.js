@@ -5,9 +5,12 @@
 
   // ── DURUM & VERİ ──────────────────────────────────────────────
   let wordsData = [];
-  let currentMode = 'cards'; // 'cards' | 'sentence' | 'quiz' | 'artikel' | 'match' | 'vocab'
-  let currentFilter = 'all'; // 'all' | 'verb' | 'nomen' | 'adj' | 'adverb' | 'zeit' | 'frage' | 'fav' | 'unlearned'
-  let isExpanded = true;
+  let currentMode = 'cards'; // 'cards' | 'sentence' | 'quiz' | 'artikel' | 'match' | 'learned' | 'vocab'
+  let currentFilter = 'all'; // 'all' | 'verb' | 'nomen' | 'adj' | 'adverb' | 'zeit' | 'frage' | 'examples' | 'fav'
+
+  // Öğrenilenler Modu Filtreleri
+  let learnedFilter = 'all';
+  let learnedSearchQuery = '';
 
   // Kart modu
   let activeCardList = [];
@@ -38,8 +41,7 @@
   // Eşleştirme modu
   let matchSelectedDe = null;
   let matchSelectedTr = null;
-  let matchPairs = [];
-  let matchCompletedCount = 0;
+  let matchPairs = { de: [], tr: [], matchedIds: new Set() };
 
   // Sözlük arama
   let vocabSearchQuery = '';
@@ -48,8 +50,7 @@
   const STORAGE_KEYS = {
     LEARNED: 'almanca_oyun_learned',
     FAVORITES: 'almanca_oyun_favorites',
-    DAILY: 'almanca_oyun_daily',
-    EXPANDED: 'almanca_oyun_expanded'
+    DAILY: 'almanca_oyun_daily'
   };
 
   function getLearnedSet() {
@@ -62,7 +63,9 @@
   }
 
   function saveLearnedSet(set) {
-    localStorage.setItem(STORAGE_KEYS.LEARNED, JSON.stringify(Array.from(set)));
+    try {
+      localStorage.setItem(STORAGE_KEYS.LEARNED, JSON.stringify(Array.from(set)));
+    } catch (e) {}
     updateWidgetStats();
   }
 
@@ -76,7 +79,9 @@
   }
 
   function saveFavoritesSet(set) {
-    localStorage.setItem(STORAGE_KEYS.FAVORITES, JSON.stringify(Array.from(set)));
+    try {
+      localStorage.setItem(STORAGE_KEYS.FAVORITES, JSON.stringify(Array.from(set)));
+    } catch (e) {}
   }
 
   function getDailyState() {
@@ -113,7 +118,9 @@
         daily.streak = (daily.streak || 0) + 1;
         triggerCelebration();
       }
-      localStorage.setItem(STORAGE_KEYS.DAILY, JSON.stringify(daily));
+      try {
+        localStorage.setItem(STORAGE_KEYS.DAILY, JSON.stringify(daily));
+      } catch (e) {}
       updateWidgetStats();
     }
   }
@@ -134,7 +141,6 @@
     if (!window.speechSynthesis || !text) return;
     try {
       window.speechSynthesis.cancel();
-      // Temizleme
       const cleanText = text.replace(/^(der|die|das)\s+/i, '').replace(/\(.*?\)/g, '').split(';')[0].trim();
       const utterance = new SpeechSynthesisUtterance(cleanText || text);
       utterance.lang = 'de-DE';
@@ -216,7 +222,6 @@
 
   // ── FİLTRELEME & KARTLARI HAZIRLAMA ─────────────────────────
   function filterWords(list, filter) {
-    const learned = getLearnedSet();
     const favs = getFavoritesSet();
 
     if (filter === 'verb') return list.filter(w => w.type === 'Verb' || w.category === 'Fiiller');
@@ -227,182 +232,144 @@
     if (filter === 'frage') return list.filter(w => w.category === 'Soru & Bağlaç');
     if (filter === 'examples') return list.filter(w => !!w.example_de);
     if (filter === 'fav') return list.filter(w => favs.has(w.id));
-    if (filter === 'unlearned') return list.filter(w => !learned.has(w.id));
     return list;
   }
 
+  // Öğrenilen kelimeler çalışma modlarında tekrar gösterilmez!
   function prepareCardList() {
-    activeCardList = filterWords(wordsData, currentFilter);
-    if (activeCardList.length === 0) {
-      activeCardList = wordsData;
+    const learned = getLearnedSet();
+    const baseList = filterWords(wordsData, currentFilter);
+    // Öğrenilmiş olanları aktif çalışma listesinden hariç tut
+    activeCardList = baseList.filter(w => !learned.has(w.id));
+    if (currentCardIndex >= activeCardList.length) {
+      currentCardIndex = Math.max(0, activeCardList.length - 1);
     }
-    currentCardIndex = 0;
     isCardFlipped = false;
   }
 
   // ── RENDER: WIDGET İSKELETİ & AÇILIR PENCERE (MODAL) ─────────────
   function renderWidgetSkeleton() {
-    const container = document.getElementById('germanStudyWidget');
-    if (!container) return;
+    // 1. Notlar sayfasının altındaki tetikleyici buton dinleyicisi
+    const bottomBtn = document.getElementById('almancaBottomOpenBtn');
+    if (bottomBtn) {
+      bottomBtn.onclick = openModal;
+    }
+
+    // 2. Modal içi içerik alanı (index.html içindeki statik modal konteyneri)
+    const innerContainer = document.getElementById('almancaModalInnerContent');
+    if (!innerContainer) return;
 
     const daily = getDailyState();
     const todaySentence = getDailySentence();
+    const learned = getLearnedSet();
+    const totalWords = wordsData.length || 903;
 
-    // 1. Notlar alanının en üstündeki şık ve kompakt çubuk (Varsayılan olarak kapalı)
-    container.innerHTML = `
-      <div class="almanca-compact-card" id="almancaOpenBtn" role="button" tabindex="0" title="Almanca Çalışma Alanını Aç">
-        <div class="almanca-compact-left">
-          <div class="almanca-compact-flag">🇩🇪</div>
-          <div class="almanca-compact-texts">
-            <div class="almanca-compact-title">
-              Almanca Çalış & Oyna
-              <span class="almanca-level-tag">A1</span>
+    innerContainer.innerHTML = `
+      <!-- MODAL HEADER -->
+      <div class="almanca-modal-header">
+        <div class="almanca-modal-header-left">
+          <div class="almanca-flag-badge">🇩🇪</div>
+          <div>
+            <div class="almanca-modal-title" id="almancaModalTitle">
+              Almanca Çalışma Alanı
+              <span class="almanca-level-tag">A1 Cümleli</span>
             </div>
-            <div class="almanca-compact-sub">Kelime & Cümle Pratiği (${wordsData.length || 903} Kelime)</div>
+            <div class="almanca-modal-sub">Düzenli Kelime & Örnek Cümle Listesi (${totalWords} Kelime)</div>
           </div>
         </div>
-        <div class="almanca-compact-right">
-          <span class="almanca-compact-chip goal" id="almancaCompactDailyChip" title="Günlük Hedef">🎯 <strong id="almancaCompactDaily">${Math.min(daily.completedIds.length, 10)}/10</strong></span>
-          <span class="almanca-compact-chip streak" id="almancaCompactStreakChip" title="Günlük Seri">🔥 <strong id="almancaCompactStreak">${daily.streak || 1}</strong></span>
-          <button class="almanca-compact-action" id="almancaOpenActionBtn" type="button">
-            <span>Çalış</span>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-              <polyline points="15 3 21 3 21 9"></polyline>
-              <line x1="10" y1="14" x2="21" y2="3"></line>
-            </svg>
+        <button class="almanca-modal-close-btn" id="almancaModalCloseBtn" type="button" title="Pencereyi Kapat">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- MODAL SCROLL İÇERİĞİ -->
+      <div class="almanca-modal-scroll">
+        <!-- STATS & DAILY BAR -->
+        <div class="almanca-quick-bar">
+          <div class="almanca-stats-chips">
+            <div class="almanca-stat-chip goal" id="almancaDailyChip" title="Bugünkü 10 kelimelik hedef">
+              🎯 Günlük Hedef: <strong id="almancaDailyCount">${Math.min(daily.completedIds.length, 10)}/10</strong>
+            </div>
+            <div class="almanca-stat-chip streak" id="almancaStreakChip" title="Düzenli çalışma serisi">
+              🔥 <strong id="almancaStreakDays">${daily.streak || 1}</strong> Günlük Seri
+            </div>
+            <div class="almanca-stat-chip learned" id="almancaLearnedChip" title="Öğrenilen toplam kelime">
+              🧠 <strong id="almancaLearnedCount">${learned.size}/${totalWords}</strong> Öğrenildi
+            </div>
+          </div>
+          <div class="almanca-daily-progress-container">
+            <div class="almanca-daily-prog-bar">
+              <div class="almanca-daily-prog-fill" id="almancaDailyBarFill" style="width: ${Math.min(100, Math.round((daily.completedIds.length / 10) * 100))}%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GÜNÜN CÜMLESİ BANNERI -->
+        ${todaySentence ? `
+          <div class="almanca-daily-sentence-card">
+            <div class="almanca-daily-sentence-badge">💡 GÜNÜN CÜMLESİ (${todaySentence.category || 'A1 Pratik'})</div>
+            <div class="almanca-daily-sentence-de">
+              <span>💬 ${todaySentence.example_de}</span>
+              <button class="almanca-mini-audio-btn" id="almancaDailySentAudio" title="Cümleyi Dinle">🔊</button>
+            </div>
+            <div class="almanca-daily-sentence-tr">${todaySentence.example_tr}</div>
+          </div>
+        ` : ''}
+
+        <!-- MOD SEKMELERİ -->
+        <div class="almanca-mode-tabs">
+          <button class="almanca-mode-tab ${currentMode === 'cards' ? 'active' : ''}" data-mode="cards">
+            🃏 Kelime Kartları
+          </button>
+          <button class="almanca-mode-tab ${currentMode === 'sentence' ? 'active' : ''}" data-mode="sentence">
+            ✍️ Cümle Pratiği
+          </button>
+          <button class="almanca-mode-tab ${currentMode === 'quiz' ? 'active' : ''}" data-mode="quiz">
+            ❓ 4 Şıklı Test
+          </button>
+          <button class="almanca-mode-tab ${currentMode === 'artikel' ? 'active' : ''}" data-mode="artikel">
+            🎯 der / die / das
+          </button>
+          <button class="almanca-mode-tab ${currentMode === 'match' ? 'active' : ''}" data-mode="match">
+            ⚡ Eşleştirme
+          </button>
+          <button class="almanca-mode-tab ${currentMode === 'learned' ? 'active' : ''}" data-mode="learned" style="border-color:rgba(63,185,80,0.4); color:#3fb950;">
+            🏆 Öğrendiklerim (<span id="almancaLearnedTabCount">${learned.size}</span>)
+          </button>
+          <button class="almanca-mode-tab ${currentMode === 'vocab' ? 'active' : ''}" data-mode="vocab">
+            📖 Kelime & Cümle Havuzu
           </button>
         </div>
+
+        <!-- MOD İÇERİĞİ -->
+        <div id="almancaModeContent"></div>
       </div>
     `;
 
-    // 2. Açılır Pencere (Modal Window) Oluştur veya Güncelle
-    let modalOverlay = document.getElementById('almancaModalOverlay');
-    if (!modalOverlay) {
-      modalOverlay = document.createElement('div');
-      modalOverlay.id = 'almancaModalOverlay';
-      modalOverlay.className = 'almanca-modal-overlay';
-      modalOverlay.style.display = 'none';
-      document.body.appendChild(modalOverlay);
-    }
-
-    modalOverlay.innerHTML = `
-      <div class="almanca-modal-backdrop" id="almancaModalBackdrop"></div>
-      <div class="almanca-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="almancaModalTitle">
-        <!-- MODAL HEADER -->
-        <div class="almanca-modal-header">
-          <div class="almanca-modal-header-left">
-            <div class="almanca-flag-badge">🇩🇪</div>
-            <div>
-              <div class="almanca-modal-title" id="almancaModalTitle">
-                Almanca Çalışma Alanı
-                <span class="almanca-level-tag">A1 Cümleli</span>
-              </div>
-              <div class="almanca-modal-sub">Düzenli Kelime & Örnek Cümle Listesi (${wordsData.length || 903} Kelime)</div>
-            </div>
-          </div>
-          <button class="almanca-modal-close-btn" id="almancaModalCloseBtn" type="button" title="Pencereyi Kapat">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
-        </div>
-
-        <!-- MODAL SCROLL İÇERİĞİ -->
-        <div class="almanca-modal-scroll">
-          <!-- STATS & DAILY BAR -->
-          <div class="almanca-quick-bar">
-            <div class="almanca-stats-chips">
-              <div class="almanca-stat-chip goal" id="almancaDailyChip">
-                🎯 Günlük Hedef: <strong id="almancaDailyCount">0/10</strong>
-              </div>
-              <div class="almanca-stat-chip streak" id="almancaStreakChip">
-                🔥 <strong id="almancaStreakDays">1</strong> Günlük Seri
-              </div>
-              <div class="almanca-stat-chip learned" id="almancaLearnedChip">
-                🧠 <strong id="almancaLearnedCount">0/${wordsData.length || 903}</strong> Öğrenildi
-              </div>
-            </div>
-            <div class="almanca-daily-progress-container">
-              <div class="almanca-daily-prog-bar">
-                <div class="almanca-daily-prog-fill" id="almancaDailyBarFill" style="width: 0%;"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- GÜNÜN CÜMLESİ BANNERI -->
-          ${todaySentence ? `
-            <div class="almanca-daily-sentence-card">
-              <div class="almanca-daily-sentence-badge">💡 GÜNÜN CÜMLESİ (${todaySentence.category || 'A1 Pratik'})</div>
-              <div class="almanca-daily-sentence-de">
-                <span>💬 ${todaySentence.example_de}</span>
-                <button class="almanca-mini-audio-btn" id="almancaDailySentAudio" title="Cümleyi Dinle">🔊</button>
-              </div>
-              <div class="almanca-daily-sentence-tr">${todaySentence.example_tr}</div>
-            </div>
-          ` : ''}
-
-          <!-- MOD SEKMELERİ -->
-          <div class="almanca-mode-tabs">
-            <button class="almanca-mode-tab ${currentMode === 'cards' ? 'active' : ''}" data-mode="cards">
-              🃏 Kelime Kartları
-            </button>
-            <button class="almanca-mode-tab ${currentMode === 'sentence' ? 'active' : ''}" data-mode="sentence">
-              ✍️ Cümle Pratiği
-            </button>
-            <button class="almanca-mode-tab ${currentMode === 'quiz' ? 'active' : ''}" data-mode="quiz">
-              ❓ 4 Şıklı Test
-            </button>
-            <button class="almanca-mode-tab ${currentMode === 'artikel' ? 'active' : ''}" data-mode="artikel">
-              🎯 der / die / das
-            </button>
-            <button class="almanca-mode-tab ${currentMode === 'match' ? 'active' : ''}" data-mode="match">
-              ⚡ Eşleştirme
-            </button>
-            <button class="almanca-mode-tab ${currentMode === 'vocab' ? 'active' : ''}" data-mode="vocab">
-              📖 Kelime & Cümle Havuzu
-            </button>
-          </div>
-
-          <!-- MOD İÇERİĞİ -->
-          <div id="almancaModeContent"></div>
-        </div>
-      </div>
-    `;
-
-    // 3. Olay Dinleyicileri (Açma / Kapatma)
-    const openCard = document.getElementById('almancaOpenBtn');
-    if (openCard) {
-      openCard.addEventListener('click', openModal);
-      openCard.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          openModal();
-        }
-      });
-    }
-
+    // 3. Olay Dinleyicileri
     const closeBtn = document.getElementById('almancaModalCloseBtn');
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (closeBtn) closeBtn.onclick = closeModal;
 
     const backdrop = document.getElementById('almancaModalBackdrop');
-    if (backdrop) backdrop.addEventListener('click', closeModal);
+    if (backdrop) backdrop.onclick = closeModal;
 
     const dailyAudio = document.getElementById('almancaDailySentAudio');
     if (dailyAudio && todaySentence) {
-      dailyAudio.addEventListener('click', (e) => {
+      dailyAudio.onclick = (e) => {
         e.stopPropagation();
         speakGerman(todaySentence.example_de);
-      });
+      };
     }
 
-    modalOverlay.querySelectorAll('.almanca-mode-tab').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+    innerContainer.querySelectorAll('.almanca-mode-tab').forEach(btn => {
+      btn.onclick = (e) => {
         e.stopPropagation();
         const mode = btn.dataset.mode;
         switchMode(mode);
-      });
+      };
     });
 
     updateWidgetStats();
@@ -416,6 +383,7 @@
     modal.style.display = 'flex';
     document.body.classList.add('almanca-modal-open');
     updateWidgetStats();
+    prepareCardList();
     renderCurrentMode();
   }
 
@@ -454,17 +422,26 @@
     const learned = getLearnedSet();
     const daily = getDailyState();
     const total = wordsData.length || 903;
+    const unlearnedCount = Math.max(0, total - learned.size);
 
-    // Kompakt Kart Sayaçları
+    // Alt Buton Sayaçları (Notlar sayfasının altındaki)
     const compactDaily = document.getElementById('almancaCompactDaily');
-    if (compactDaily) compactDaily.textContent = `${Math.min(daily.completedIds.length, 10)}/10`;
+    if (compactDaily) compactDaily.textContent = `🎯 ${Math.min(daily.completedIds.length, 10)}/10`;
 
     const compactStreak = document.getElementById('almancaCompactStreak');
-    if (compactStreak) compactStreak.textContent = `${daily.streak || 1}`;
+    if (compactStreak) compactStreak.textContent = `🔥 ${daily.streak || 1} Gün`;
 
-    // Modal Sayaçları
+    const btnSubText = document.getElementById('almancaBtnSubText');
+    if (btnSubText) {
+      btnSubText.textContent = `${unlearnedCount} Çalışılacak · ${learned.size} Öğrenildi`;
+    }
+
+    // Modal İçi Sayaçlar
     const learnedCountEl = document.getElementById('almancaLearnedCount');
     if (learnedCountEl) learnedCountEl.textContent = `${learned.size}/${total}`;
+
+    const learnedTabCount = document.getElementById('almancaLearnedTabCount');
+    if (learnedTabCount) learnedTabCount.textContent = `${learned.size}`;
 
     const dailyCountEl = document.getElementById('almancaDailyCount');
     if (dailyCountEl) dailyCountEl.textContent = `${Math.min(daily.completedIds.length, 10)}/10`;
@@ -489,29 +466,21 @@
     else if (currentMode === 'quiz') renderQuizMode(content);
     else if (currentMode === 'artikel') renderArtikelMode(content);
     else if (currentMode === 'match') renderMatchMode(content);
+    else if (currentMode === 'learned') renderLearnedMode(content);
     else if (currentMode === 'vocab') renderVocabMode(content);
   }
 
   // ══════════════════════════════════════════════════════════════
   // MOD 1: KELİME KARTLARI (FLASHCARDS)
+  // Öğrenilen kelimeler listeden çıkarılır!
   // ══════════════════════════════════════════════════════════════
   function renderCardsMode(container) {
     if (activeCardList.length === 0) prepareCardList();
-    const item = activeCardList[currentCardIndex] || wordsData[0];
-    if (!item) {
-      container.innerHTML = '<div style="text-align:center;padding:20px;color:#8b949e;">Kelime bulunamadı.</div>';
-      return;
-    }
 
-    const learned = getLearnedSet();
-    const favs = getFavoritesSet();
-    const isLearned = learned.has(item.id);
-    const isFav = favs.has(item.id);
-
-    container.innerHTML = `
-      <!-- Kategori Filtresi -->
+    // Filtre çubuğu HTML'i
+    const filterRowHtml = `
       <div class="almanca-filter-row">
-        <button class="almanca-filter-pill ${currentFilter === 'all' ? 'active' : ''}" data-filter="all">Tümü (${wordsData.length})</button>
+        <button class="almanca-filter-pill ${currentFilter === 'all' ? 'active' : ''}" data-filter="all">Tümü</button>
         <button class="almanca-filter-pill ${currentFilter === 'verb' ? 'active' : ''}" data-filter="verb">Fiiller</button>
         <button class="almanca-filter-pill ${currentFilter === 'nomen' ? 'active' : ''}" data-filter="nomen">İsimler</button>
         <button class="almanca-filter-pill ${currentFilter === 'adj' ? 'active' : ''}" data-filter="adj">Sıfatlar</button>
@@ -519,9 +488,59 @@
         <button class="almanca-filter-pill ${currentFilter === 'zeit' ? 'active' : ''}" data-filter="zeit">Zaman</button>
         <button class="almanca-filter-pill ${currentFilter === 'frage' ? 'active' : ''}" data-filter="frage">Soru & Bağlaç</button>
         <button class="almanca-filter-pill ${currentFilter === 'examples' ? 'active' : ''}" data-filter="examples">💬 Cümleliler</button>
-        <button class="almanca-filter-pill ${currentFilter === 'unlearned' ? 'active' : ''}" data-filter="unlearned">Öğrenilecekler</button>
         <button class="almanca-filter-pill ${currentFilter === 'fav' ? 'active' : ''}" data-filter="fav">⭐ Favoriler</button>
       </div>
+    `;
+
+    // Eğer bu filtredeki tüm kelimeler öğrenildiyse tebrik ekranı göster
+    if (activeCardList.length === 0) {
+      const learned = getLearnedSet();
+      container.innerHTML = `
+        ${filterRowHtml}
+        <div style="text-align:center; padding:45px 20px; background:rgba(255,255,255,0.02); border:1px dashed rgba(63,185,80,0.3); border-radius:18px; margin-top:14px;">
+          <div style="font-size:52px; margin-bottom:12px;">🎉</div>
+          <h3 style="color:#f0f6fc; margin:0 0 8px; font-size:18px;">Harika! Bu Gruptaki Tüm Kelimeleri Öğrendin!</h3>
+          <p style="color:#8b949e; font-size:13.5px; max-width:440px; margin:0 auto 20px; line-height:1.5;">
+            Öğrendiğin <strong>${learned.size}</strong> kelime <em>"🏆 Öğrendiklerim"</em> alanına aktarıldı. Dilediğin zaman oradan tekrar edebilir ya da tekrar çalışma havuzuna alabilirsin.
+          </p>
+          <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+            <button class="almanca-ctrl-btn learned" id="almancaGoToLearnedBtn" style="padding:10px 22px; font-size:13px;">
+              🏆 Öğrendiklerime Git
+            </button>
+            <button class="almanca-ctrl-btn" id="almancaResetCardFilterBtn" style="padding:10px 22px; font-size:13px;">
+              🔄 Başka Kategori Seç
+            </button>
+          </div>
+        </div>
+      `;
+
+      // Filtre butonları
+      container.querySelectorAll('.almanca-filter-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentFilter = btn.dataset.filter;
+          prepareCardList();
+          renderCardsMode(container);
+        });
+      });
+
+      const goBtn = document.getElementById('almancaGoToLearnedBtn');
+      if (goBtn) goBtn.addEventListener('click', () => switchMode('learned'));
+
+      const rstBtn = document.getElementById('almancaResetCardFilterBtn');
+      if (rstBtn) rstBtn.addEventListener('click', () => {
+        currentFilter = 'all';
+        prepareCardList();
+        renderCardsMode(container);
+      });
+      return;
+    }
+
+    const item = activeCardList[currentCardIndex] || activeCardList[0];
+    const favs = getFavoritesSet();
+    const isFav = favs.has(item.id);
+
+    container.innerHTML = `
+      ${filterRowHtml}
 
       <!-- 3D Kart Sahnesi -->
       <div class="almanca-flashcard-stage">
@@ -603,14 +622,14 @@
         <button class="almanca-ctrl-btn fav ${isFav ? 'active' : ''}" id="almancaCardFav">
           ${isFav ? '⭐ Favori' : '☆ Favoriye Ekle'}
         </button>
-        <button class="almanca-ctrl-btn learned ${isLearned ? 'learned-done' : ''}" id="almancaCardLearned">
-          ${isLearned ? '✅ Öğrenildi' : '✓ Öğrendim'}
+        <button class="almanca-ctrl-btn learned" id="almancaCardLearned" title="Bu kelimeyi öğrendiklerim alanına aktar ve listeden çıkar">
+          ✓ Öğrendim (Aktar)
         </button>
         <button class="almanca-ctrl-btn" id="almancaCardNext">Sonraki ▶</button>
       </div>
 
       <div class="almanca-card-counter">
-        <span>${currentCardIndex + 1} / ${activeCardList.length}</span>
+        <span>Kalan Çalışılacak: ${currentCardIndex + 1} / ${activeCardList.length}</span>
         <button id="almancaShuffleBtn" style="background:none;border:none;color:#58a6ff;font-size:12px;font-weight:600;cursor:pointer;margin-left:12px;">🔀 Karıştır</button>
       </div>
     `;
@@ -626,20 +645,25 @@
 
     // Kart çevirme
     const cardEl = document.getElementById('almancaCard');
-    cardEl.addEventListener('click', (e) => {
-      if (e.target.closest('.almanca-card-audio-btn') || e.target.closest('.almanca-mini-audio-btn')) return;
-      isCardFlipped = !isCardFlipped;
-      cardEl.classList.toggle('flipped', isCardFlipped);
-      playTone('flip');
-    });
+    if (cardEl) {
+      cardEl.addEventListener('click', (e) => {
+        if (e.target.closest('.almanca-card-audio-btn') || e.target.closest('.almanca-mini-audio-btn')) return;
+        isCardFlipped = !isCardFlipped;
+        cardEl.classList.toggle('flipped', isCardFlipped);
+        playTone('flip');
+      });
+    }
 
     // Kelime ses butonları
     const handleSpeak = (e) => {
       e.stopPropagation();
       speakGerman(item.full || item.word);
     };
-    document.getElementById('almancaCardAudioBtn').addEventListener('click', handleSpeak);
-    document.getElementById('almancaCardAudioBtnBack').addEventListener('click', handleSpeak);
+    const audioBtnFront = document.getElementById('almancaCardAudioBtn');
+    if (audioBtnFront) audioBtnFront.addEventListener('click', handleSpeak);
+
+    const audioBtnBack = document.getElementById('almancaCardAudioBtnBack');
+    if (audioBtnBack) audioBtnBack.addEventListener('click', handleSpeak);
 
     // Cümle ses butonları
     container.querySelectorAll('.almanca-speak-sentence').forEach(btn => {
@@ -650,53 +674,72 @@
     });
 
     // Navigasyon
-    document.getElementById('almancaCardPrev').addEventListener('click', () => {
-      if (currentCardIndex > 0) currentCardIndex--;
-      else currentCardIndex = activeCardList.length - 1;
-      isCardFlipped = false;
-      renderCardsMode(container);
-    });
+    const prevBtn = document.getElementById('almancaCardPrev');
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        if (currentCardIndex > 0) currentCardIndex--;
+        else currentCardIndex = activeCardList.length - 1;
+        isCardFlipped = false;
+        renderCardsMode(container);
+      });
+    }
 
-    document.getElementById('almancaCardNext').addEventListener('click', () => {
-      if (currentCardIndex < activeCardList.length - 1) currentCardIndex++;
-      else currentCardIndex = 0;
-      isCardFlipped = false;
-      renderCardsMode(container);
-    });
+    const nextBtn = document.getElementById('almancaCardNext');
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        if (currentCardIndex < activeCardList.length - 1) currentCardIndex++;
+        else currentCardIndex = 0;
+        isCardFlipped = false;
+        renderCardsMode(container);
+      });
+    }
 
-    document.getElementById('almancaShuffleBtn').addEventListener('click', () => {
-      activeCardList.sort(() => Math.random() - 0.5);
-      currentCardIndex = 0;
-      isCardFlipped = false;
-      renderCardsMode(container);
-    });
+    const shufBtn = document.getElementById('almancaShuffleBtn');
+    if (shufBtn) {
+      shufBtn.addEventListener('click', () => {
+        activeCardList.sort(() => Math.random() - 0.5);
+        currentCardIndex = 0;
+        isCardFlipped = false;
+        renderCardsMode(container);
+      });
+    }
 
-    // Öğrendim butonu
-    document.getElementById('almancaCardLearned').addEventListener('click', () => {
-      const set = getLearnedSet();
-      if (set.has(item.id)) {
-        set.delete(item.id);
-      } else {
+    // Öğrendim butonu: Kelimeyi öğrenilenlere aktar ve aktif çalışma listesinden ÇIKAR
+    const learnedBtn = document.getElementById('almancaCardLearned');
+    if (learnedBtn) {
+      learnedBtn.addEventListener('click', () => {
+        const set = getLearnedSet();
         set.add(item.id);
         markDailyWord(item.id);
         playTone('correct');
-      }
-      saveLearnedSet(set);
-      renderCardsMode(container);
-    });
+        saveLearnedSet(set);
+
+        // Aktif listeden çıkar
+        activeCardList.splice(currentCardIndex, 1);
+        if (currentCardIndex >= activeCardList.length) {
+          currentCardIndex = Math.max(0, activeCardList.length - 1);
+        }
+        isCardFlipped = false;
+        renderCardsMode(container);
+      });
+    }
 
     // Favori butonu
-    document.getElementById('almancaCardFav').addEventListener('click', () => {
-      const favs = getFavoritesSet();
-      if (favs.has(item.id)) favs.delete(item.id);
-      else favs.add(item.id);
-      saveFavoritesSet(favs);
-      renderCardsMode(container);
-    });
+    const favBtn = document.getElementById('almancaCardFav');
+    if (favBtn) {
+      favBtn.addEventListener('click', () => {
+        const favs = getFavoritesSet();
+        if (favs.has(item.id)) favs.delete(item.id);
+        else favs.add(item.id);
+        saveFavoritesSet(favs);
+        renderCardsMode(container);
+      });
+    }
   }
 
   // ══════════════════════════════════════════════════════════════
-  // MOD 2: YENİ! CÜMLE PRATİĞİ (BOŞLUK DOLDURMA / LÜCKENTEXT)
+  // MOD 2: CÜMLE PRATİĞİ (BOŞLUK DOLDURMA / LÜCKENTEXT)
+  // Sadece henüz öğrenilmemiş cümleler sorulur!
   // ══════════════════════════════════════════════════════════════
   function initSentenceMode() {
     sentenceQuestions = [];
@@ -705,12 +748,15 @@
     sentenceStreak = 0;
     sentenceAnswered = false;
 
-    // Sadece blank_sentence ve blank_answer olan cümleler
-    const pool = wordsData.filter(w => w.blank_sentence && w.blank_answer).sort(() => Math.random() - 0.5);
-    const selected = pool.slice(0, 10);
+    const learned = getLearnedSet();
+    // Henüz öğrenilmemiş, blank_sentence ve blank_answer olan cümleler
+    const pool = wordsData
+      .filter(w => w.blank_sentence && w.blank_answer && !learned.has(w.id))
+      .sort(() => Math.random() - 0.5);
 
+    const selected = pool.slice(0, 10);
     selected.forEach(correctItem => {
-      // 3 mantıklı çeldirici
+      // Çeldiriciler
       const distractors = wordsData
         .filter(w => w.id !== correctItem.id && w.blank_answer && w.blank_answer.toLowerCase() !== correctItem.blank_answer.toLowerCase() && w.category === correctItem.category)
         .sort(() => Math.random() - 0.5)
@@ -734,8 +780,27 @@
   }
 
   function renderSentenceMode(container) {
-    if (sentenceQuestions.length === 0 || sentenceCurrentIndex >= sentenceQuestions.length) {
+    if (sentenceQuestions.length === 0 && sentenceCurrentIndex === 0) {
       initSentenceMode();
+    }
+
+    // Hiç soru yoksa (tüm cümleler öğrenilmişse)
+    if (sentenceQuestions.length === 0) {
+      container.innerHTML = `
+        <div class="almanca-sentence-box" style="text-align:center; padding:40px 20px;">
+          <div style="font-size:48px; margin-bottom:12px;">🌟</div>
+          <h3 style="color:#f0f6fc; margin:0 0 8px;">Tüm Cümleleri Öğrendin!</h3>
+          <p style="color:#8b949e; font-size:13px; margin-bottom:20px;">
+            Cümle pratiğindeki tüm kelimeler öğrenildi alanına aktarıldı.
+          </p>
+          <button class="almanca-ctrl-btn learned" id="almancaSentGoLearned" style="margin:0 auto; padding:12px 28px;">
+            🏆 Öğrendiklerimi İncele
+          </button>
+        </div>
+      `;
+      const goBtn = document.getElementById('almancaSentGoLearned');
+      if (goBtn) goBtn.addEventListener('click', () => switchMode('learned'));
+      return;
     }
 
     if (sentenceCurrentIndex >= sentenceQuestions.length) {
@@ -745,13 +810,13 @@
           <div style="font-size:48px; margin-bottom:12px;">🌟</div>
           <h3 style="color:#f0f6fc; margin:0 0 8px;">Cümle Pratiği Tamamlandı!</h3>
           <div style="font-size:20px; font-weight:800; color:#3fb950; margin-bottom:16px;">
-            Skorun: ${sentenceScore} / 1000
+            Skorun: ${sentenceScore} / ${(sentenceQuestions.length * 100)}
           </div>
           <p style="color:#8b949e; font-size:13px; margin-bottom:20px;">
             ${sentenceScore >= 800 ? 'Muhteşem! Almanca cümle yapılarını ve kelimelerin bağlamdaki kullanımını kavradın!' : 'Tebrikler! Cümleleri dinleyerek ve tekrar pratik yaparak hızlanabilirsin.'}
           </p>
           <button class="almanca-ctrl-btn learned" id="almancaSentenceRestart" style="margin:0 auto; padding:12px 28px; font-size:15px;">
-            Yeni 10 Cümleye Başla 🔄
+            Yeni Cümlelere Başla 🔄
           </button>
         </div>
       `;
@@ -790,7 +855,7 @@
         </div>
 
         <div class="almanca-quiz-options">
-          ${currentQ.options.map((opt, idx) => `
+          ${currentQ.options.map((opt) => `
             <button class="almanca-quiz-opt almanca-sentence-opt" data-opt="${opt.replace(/"/g, '&quot;')}">
               <span>${opt}</span>
               <span class="opt-indicator"></span>
@@ -831,9 +896,13 @@
           sentenceScore += 100 + (sentenceStreak * 15);
           sentenceStreak++;
           playTone('correct');
+
+          // Doğru bilinen kelime öğrenilenlere aktarılır
+          const set = getLearnedSet();
+          set.add(currentQ.item.id);
+          saveLearnedSet(set);
           markDailyWord(currentQ.item.id);
 
-          // Tamamlanan cümleyi seslendir
           speakGerman(currentQ.item.example_de);
         } else {
           btn.classList.add('wrong');
@@ -843,7 +912,6 @@
           sentenceStreak = 0;
           playTone('wrong');
 
-          // Doğru şıkkı yeşille aydınlat
           optBtns.forEach(b => {
             if (b.dataset.opt.toLowerCase() === currentQ.correctAnswer.toLowerCase()) {
               b.classList.add('correct');
@@ -867,6 +935,7 @@
 
   // ══════════════════════════════════════════════════════════════
   // MOD 3: ÇOKTAN SEÇMELİ TEST (QUIZ)
+  // Sadece henüz öğrenilmemiş kelimeler test edilir!
   // ══════════════════════════════════════════════════════════════
   function initQuiz() {
     quizQuestions = [];
@@ -875,12 +944,11 @@
     quizStreak = 0;
     quizAnswered = false;
 
-    // 10 adet rastgele soru seç
-    const pool = [...wordsData].sort(() => Math.random() - 0.5);
+    const learned = getLearnedSet();
+    const pool = wordsData.filter(w => !learned.has(w.id)).sort(() => Math.random() - 0.5);
     const selected = pool.slice(0, 10);
 
     selected.forEach(correctItem => {
-      // 3 yanlış seçenek bul
       const distractors = wordsData
         .filter(w => w.id !== correctItem.id && w.type === correctItem.type)
         .sort(() => Math.random() - 0.5)
@@ -903,8 +971,26 @@
   }
 
   function renderQuizMode(container) {
-    if (quizQuestions.length === 0 || quizCurrentIndex >= quizQuestions.length) {
+    if (quizQuestions.length === 0 && quizCurrentIndex === 0) {
       initQuiz();
+    }
+
+    if (quizQuestions.length === 0) {
+      container.innerHTML = `
+        <div class="almanca-quiz-box" style="text-align:center; padding:40px 20px;">
+          <div style="font-size:48px; margin-bottom:12px;">🏆</div>
+          <h3 style="color:#f0f6fc; margin:0 0 8px;">Tüm Kelimeler Öğrenildi!</h3>
+          <p style="color:#8b949e; font-size:13px; margin-bottom:20px;">
+            Test havuzundaki tüm kelimeleri başarıyla öğrendin.
+          </p>
+          <button class="almanca-ctrl-btn learned" id="almancaQuizGoLearned" style="margin:0 auto; padding:12px 28px;">
+            🏆 Öğrendiklerimi Görüntüle
+          </button>
+        </div>
+      `;
+      const goBtn = document.getElementById('almancaQuizGoLearned');
+      if (goBtn) goBtn.addEventListener('click', () => switchMode('learned'));
+      return;
     }
 
     if (quizCurrentIndex >= quizQuestions.length) {
@@ -914,13 +1000,13 @@
           <div style="font-size:48px; margin-bottom:12px;">🏆</div>
           <h3 style="color:#f0f6fc; margin:0 0 8px;">Test Tamamlandı!</h3>
           <div style="font-size:20px; font-weight:800; color:#3fb950; margin-bottom:16px;">
-            Skorun: ${quizScore} / 1000
+            Skorun: ${quizScore} / ${(quizQuestions.length * 100)}
           </div>
           <p style="color:#8b949e; font-size:13px; margin-bottom:20px;">
             ${quizScore >= 800 ? 'Harika iş başardın! Almanca A1 kelimelerinde çok iyisin. 🌟' : 'Güzel deneme! Kelime kartlarıyla ve örnek cümlelerle tekrar ederek skorunu yükseltebilirsin.'}
           </p>
           <button class="almanca-ctrl-btn learned" id="almancaQuizRestart" style="margin:0 auto; padding:12px 28px; font-size:15px;">
-            Yeniden Başla 🔄
+            Yeni Teste Başla 🔄
           </button>
         </div>
       `;
@@ -1011,6 +1097,11 @@
           quizScore += 100 + (quizStreak * 10);
           quizStreak++;
           playTone('correct');
+
+          // Doğru bilinen kelimeyi öğrenilenlere ekle
+          const set = getLearnedSet();
+          set.add(currentQ.correct.id);
+          saveLearnedSet(set);
           markDailyWord(currentQ.correct.id);
         } else {
           btn.classList.add('wrong');
@@ -1063,10 +1154,12 @@
 
   // ══════════════════════════════════════════════════════════════
   // MOD 4: ARTIKEL AVCISI (der / die / das)
+  // Sadece öğrenilmemiş isimler sorulur!
   // ══════════════════════════════════════════════════════════════
   function initArtikelMode() {
+    const learned = getLearnedSet();
     artikelList = wordsData
-      .filter(w => w.type === 'Nomen' && (w.article === 'der' || w.article === 'die' || w.article === 'das'))
+      .filter(w => w.type === 'Nomen' && (w.article === 'der' || w.article === 'die' || w.article === 'das') && !learned.has(w.id))
       .sort(() => Math.random() - 0.5);
     artikelCurrentIndex = 0;
     artikelStreak = 0;
@@ -1074,7 +1167,29 @@
   }
 
   function renderArtikelMode(container) {
-    if (artikelList.length === 0 || artikelCurrentIndex >= artikelList.length) {
+    if (artikelList.length === 0 && artikelCurrentIndex === 0) {
+      initArtikelMode();
+    }
+
+    if (artikelList.length === 0) {
+      container.innerHTML = `
+        <div class="almanca-artikel-box" style="text-align:center; padding:40px 20px;">
+          <div style="font-size:48px; margin-bottom:12px;">🎯</div>
+          <h3 style="color:#f0f6fc; margin:0 0 8px;">Tüm İsimlerin Artikellerini Öğrendin!</h3>
+          <p style="color:#8b949e; font-size:13px; margin-bottom:20px;">
+            der / die / das modundaki tüm isimler öğrenilenlere aktarıldı.
+          </p>
+          <button class="almanca-ctrl-btn learned" id="almancaArtGoLearned" style="margin:0 auto; padding:12px 28px;">
+            🏆 Öğrendiklerimi Görüntüle
+          </button>
+        </div>
+      `;
+      const goBtn = document.getElementById('almancaArtGoLearned');
+      if (goBtn) goBtn.addEventListener('click', () => switchMode('learned'));
+      return;
+    }
+
+    if (artikelCurrentIndex >= artikelList.length) {
       initArtikelMode();
     }
 
@@ -1087,7 +1202,7 @@
     container.innerHTML = `
       <div class="almanca-artikel-box">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; font-size:13px; color:#8b949e;">
-          <span>Doğru artikeli seç</span>
+          <span>Kalan İsim: ${artikelCurrentIndex + 1} / ${artikelList.length}</span>
           <span style="color:#f0883e; font-weight:700;">🔥 Seri: ${artikelStreak}</span>
         </div>
 
@@ -1140,6 +1255,11 @@
           artikelStreak++;
           playTone('correct');
           feedbackEl.innerHTML = `<span style="color:#3fb950;">✓ Harika! <strong>${currentNoun.full}</strong></span>` + exampleSnippet;
+
+          // Doğru bilinen ismi öğrenilenlere aktar
+          const set = getLearnedSet();
+          set.add(currentNoun.id);
+          saveLearnedSet(set);
           markDailyWord(currentNoun.id);
         } else {
           artikelStreak = 0;
@@ -1171,13 +1291,20 @@
 
   // ══════════════════════════════════════════════════════════════
   // MOD 5: EŞLEŞTİRME OYUNU (MATCH GAME)
+  // Sadece öğrenilmemiş kelimeler eşleştirilir!
   // ══════════════════════════════════════════════════════════════
   function initMatchPairs() {
     matchSelectedDe = null;
     matchSelectedTr = null;
-    matchCompletedCount = 0;
 
-    const pool = [...wordsData].sort(() => Math.random() - 0.5).slice(0, 4);
+    const learned = getLearnedSet();
+    let pool = wordsData.filter(w => !learned.has(w.id)).sort(() => Math.random() - 0.5).slice(0, 4);
+
+    if (pool.length < 4) {
+      // Yeterli öğrenilmemiş kelime yoksa tüm listeden tamamla
+      pool = [...wordsData].sort(() => Math.random() - 0.5).slice(0, 4);
+    }
+
     const deCards = pool.map(w => ({ id: w.id, text: w.word || w.full, fullDe: w.full }));
     const trCards = pool.map(w => ({ id: w.id, text: w.meaning.split(';')[0].split(',')[0].trim() }));
 
@@ -1189,13 +1316,13 @@
   }
 
   function renderMatchMode(container) {
-    if (!matchPairs.de || matchPairs.matchedIds.size === 4) {
+    if (!matchPairs.de || matchPairs.de.length === 0 || matchPairs.matchedIds.size === 4) {
       initMatchPairs();
     }
 
     container.innerHTML = `
       <div style="text-align:center; margin-bottom:14px; font-size:13px; color:#8b949e;">
-        Almanca kelimeye dokun, ardından Türkçe karşılığını seç!
+        Almanca kelimeye dokun, ardından Türkçe karşılığını seç! Doğru eşleşenler <strong>Öğrendiklerim</strong> alanına aktarılır.
       </div>
       <div class="almanca-match-grid">
         <div class="almanca-match-col" id="almancaMatchDeCol">
@@ -1246,6 +1373,11 @@
           if (matchSelectedDe.id === matchSelectedTr.id) {
             playTone('correct');
             matchPairs.matchedIds.add(matchSelectedDe.id);
+
+            // Doğru eşleşen kelime öğrenilenlere aktarılır
+            const set = getLearnedSet();
+            set.add(matchSelectedDe.id);
+            saveLearnedSet(set);
             markDailyWord(matchSelectedDe.id);
 
             matchSelectedDe.el.classList.remove('selected');
@@ -1280,7 +1412,171 @@
   }
 
   // ══════════════════════════════════════════════════════════════
-  // MOD 6: SÖZLÜK & CÜMLE HAVUZU (VOCABULARY & SENTENCE LIST)
+  // MOD 6: YENİ! 🏆 ÖĞRENDİKLERİM HAVUZU (LEARNED WORDS & UNLEARN)
+  // Öğrenilen tüm kelimeler burada toplanır, istenirse geri alınabilir
+  // ══════════════════════════════════════════════════════════════
+  function renderLearnedMode(container) {
+    const learned = getLearnedSet();
+    const favs = getFavoritesSet();
+    const total = wordsData.length || 903;
+    const learnedList = wordsData.filter(w => learned.has(w.id));
+    const pct = total > 0 ? Math.round((learnedList.length / total) * 100) : 0;
+
+    let filtered = [...learnedList];
+    if (learnedFilter === 'verb') filtered = filtered.filter(w => w.type === 'Verb' || w.category === 'Fiiller');
+    else if (learnedFilter === 'nomen') filtered = filtered.filter(w => w.type === 'Nomen' || w.category === 'İsimler');
+    else if (learnedFilter === 'adj') filtered = filtered.filter(w => w.type === 'Adjektiv' || w.category === 'Sıfatlar');
+    else if (learnedFilter === 'fav') filtered = filtered.filter(w => favs.has(w.id));
+
+    if (learnedSearchQuery.trim()) {
+      const q = learnedSearchQuery.trim().toLowerCase();
+      filtered = filtered.filter(w =>
+        w.full.toLowerCase().includes(q) ||
+        w.meaning.toLowerCase().includes(q) ||
+        (w.example_de && w.example_de.toLowerCase().includes(q)) ||
+        (w.example_tr && w.example_tr.toLowerCase().includes(q))
+      );
+    }
+
+    container.innerHTML = `
+      <!-- Learned Header / Stats -->
+      <div class="almanca-learned-header">
+        <div class="almanca-learned-header-top">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:22px;">🏆</span>
+            <div>
+              <div style="color:#f0f6fc; font-weight:800; font-size:14.5px;">Öğrendiğim Kelimeler (${learnedList.length})</div>
+              <div style="color:#8b949e; font-size:12px;">Bu kelimeler çalışma modlarında tekrar çıkmaz. İstersen tekrar çalışmaya alabilirsin.</div>
+            </div>
+          </div>
+          ${learnedList.length > 0 ? `
+            <button class="almanca-learned-reset-btn" id="almancaLearnedResetAllBtn" title="Tüm öğrendiklerimi çalışma alanına geri aktar">
+              🗑️ Tümünü Sıfırla
+            </button>
+          ` : ''}
+        </div>
+
+        <div class="almanca-daily-progress-container" style="margin-top:12px;">
+          <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; font-weight:700;">
+            <span style="color:#3fb950;">A1 Başarı Oranı: %${pct}</span>
+            <span style="color:#8b949e;">${learnedList.length} / ${total} Kelime</span>
+          </div>
+          <div class="almanca-daily-prog-bar">
+            <div class="almanca-daily-prog-fill" style="width: ${pct}%; background:#3fb950;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Arama ve Filtreler -->
+      <div style="display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:200px; position:relative;">
+          <input type="text" id="almancaLearnedSearch" placeholder="Öğrendiklerin arasında ara..." value="${learnedSearchQuery}"
+            style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:8px 12px; font-size:13px; color:#fff; box-sizing:border-box;">
+        </div>
+      </div>
+
+      <div class="almanca-filter-row">
+        <button class="almanca-filter-pill ${learnedFilter === 'all' ? 'active' : ''}" data-lfilter="all">Tümü (${learnedList.length})</button>
+        <button class="almanca-filter-pill ${learnedFilter === 'verb' ? 'active' : ''}" data-lfilter="verb">Fiiller</button>
+        <button class="almanca-filter-pill ${learnedFilter === 'nomen' ? 'active' : ''}" data-lfilter="nomen">İsimler</button>
+        <button class="almanca-filter-pill ${learnedFilter === 'adj' ? 'active' : ''}" data-lfilter="adj">Sıfatlar</button>
+        <button class="almanca-filter-pill ${learnedFilter === 'fav' ? 'active' : ''}" data-lfilter="fav">⭐ Favoriler</button>
+      </div>
+
+      <!-- Liste -->
+      <div class="almanca-learned-list-wrap">
+        ${filtered.length === 0 ? `
+          <div style="text-align:center; padding:40px 16px; color:#8b949e;">
+            ${learnedList.length === 0 ?
+              'Henüz öğrenilen kelime bulunmuyor. Kelime kartlarında <strong>"✓ Öğrendim"</strong> butonuna basarak veya test ve oyunları çözerek kelimeleri buraya aktarabilirsin! 🚀' :
+              'Filtrenize veya aramanıza uygun öğrenilmiş kelime bulunamadı.'}
+          </div>
+        ` : filtered.map(item => `
+          <div class="almanca-learned-card" id="learned-card-${item.id}">
+            <div class="almanca-learned-card-top">
+              <div class="almanca-learned-word-title">
+                ${getBadgeHtml(item)}
+                <span style="margin-left:6px;">${item.full}</span>
+              </div>
+              <div class="almanca-learned-actions">
+                <button class="almanca-icon-btn speak-btn" data-word="${item.full}" title="Kelimeyi Dinle">🔊</button>
+                <button class="almanca-unlearn-btn" data-id="${item.id}" title="Bu kelimeyi tekrar aktif çalışma ve test modlarına ekle">
+                  ↺ Tekrar Çalışmaya Al
+                </button>
+              </div>
+            </div>
+            <div class="almanca-learned-meaning">${item.meaning}</div>
+            ${item.plural ? `<div style="font-size:11.5px; color:#8b949e; margin-top:2px;">Çoğul: ${item.plural}</div>` : ''}
+            ${item.forms ? `<div style="font-size:11.5px; color:#8b949e; margin-top:2px;">${item.forms}</div>` : ''}
+            ${item.example_de ? `
+              <div class="almanca-learned-example">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span style="color:#f0f6fc; font-weight:600;">💬 ${item.example_de}</span>
+                  <button class="almanca-mini-audio-btn almanca-speak-learned-sentence" data-sentence="${item.example_de.replace(/"/g, '&quot;')}" title="Cümleyi Dinle">🔊</button>
+                </div>
+                <div style="color:#8b949e; font-style:italic; margin-top:2px;">${item.example_tr}</div>
+              </div>
+            ` : ''}
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    // Arama dinleyicisi
+    const searchInput = document.getElementById('almancaLearnedSearch');
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        learnedSearchQuery = e.target.value;
+        renderLearnedMode(container);
+      });
+    }
+
+    // Filtre butonları
+    container.querySelectorAll('.almanca-filter-pill[data-lfilter]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        learnedFilter = btn.dataset.lfilter;
+        renderLearnedMode(container);
+      });
+    });
+
+    // Kelime ses butonları
+    container.querySelectorAll('.speak-btn').forEach(btn => {
+      btn.addEventListener('click', () => speakGerman(btn.dataset.word));
+    });
+
+    // Cümle ses butonları
+    container.querySelectorAll('.almanca-speak-learned-sentence').forEach(btn => {
+      btn.addEventListener('click', () => speakGerman(btn.dataset.sentence));
+    });
+
+    // Tekrar Çalışmaya Al (Unlearn) Butonu
+    container.querySelectorAll('.almanca-unlearn-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = parseInt(btn.dataset.id, 10);
+        const set = getLearnedSet();
+        set.delete(id);
+        saveLearnedSet(set);
+        prepareCardList();
+        renderLearnedMode(container);
+      });
+    });
+
+    // Tümünü Sıfırla Butonu
+    const resetAllBtn = document.getElementById('almancaLearnedResetAllBtn');
+    if (resetAllBtn) {
+      resetAllBtn.addEventListener('click', () => {
+        if (confirm('Tüm öğrenilen kelimeleri sıfırlayıp tekrar çalışma alanına aktarmak istediğine emin misin?')) {
+          saveLearnedSet(new Set());
+          prepareCardList();
+          renderLearnedMode(container);
+        }
+      });
+    }
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  // MOD 7: SÖZLÜK & CÜMLE HAVUZU (VOCABULARY & SENTENCE LIST)
   // ══════════════════════════════════════════════════════════════
   function renderVocabMode(container) {
     const learned = getLearnedSet();
@@ -1315,7 +1611,6 @@
         <button class="almanca-filter-pill ${currentFilter === 'zeit' ? 'active' : ''}" data-filter="zeit">Zaman & Günlük</button>
         <button class="almanca-filter-pill ${currentFilter === 'frage' ? 'active' : ''}" data-filter="frage">Soru & Bağlaç</button>
         <button class="almanca-filter-pill ${currentFilter === 'fav' ? 'active' : ''}" data-filter="fav">⭐ Favoriler (${favs.size})</button>
-        <button class="almanca-filter-pill ${currentFilter === 'unlearned' ? 'active' : ''}" data-filter="unlearned">Öğrenilecekler</button>
       </div>
 
       <div class="almanca-vocab-list-wrap">
@@ -1323,7 +1618,7 @@
           filtered.slice(0, 100).map(item => `
             <div class="almanca-vocab-row">
               <div class="almanca-vocab-left">
-                <button class="almanca-icon-btn almanca-check-btn ${learned.has(item.id) ? 'checked' : ''}" data-id="${item.id}" title="${learned.has(item.id) ? 'Öğrenildi' : 'Öğrendim olarak işaretle'}">
+                <button class="almanca-icon-btn almanca-check-btn ${learned.has(item.id) ? 'checked' : ''}" data-id="${item.id}" title="${learned.has(item.id) ? 'Öğrenildi (Öğrendiklerim alanında)' : 'Öğrendim olarak işaretle'}">
                   ${learned.has(item.id) ? '✅' : '⚪'}
                 </button>
                 <div class="almanca-vocab-texts">
@@ -1393,6 +1688,7 @@
           playTone('correct');
         }
         saveLearnedSet(set);
+        prepareCardList();
         renderVocabMode(container);
       });
     });

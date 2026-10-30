@@ -1328,8 +1328,6 @@
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
             </button>
           </div>
-          <!-- 🇩🇪 ALMANCA ÇALIŞ & OYUN BÖLÜMÜ (NOTLARIN EN ÜSTÜ) -->
-          <div id="germanStudyWidget"></div>
 
           <div class="notes-search-container">
             <div class="notes-search">
@@ -1339,6 +1337,24 @@
           </div>
           <div id="notesListContainer" class="notes-list-container">
             <div id="notesEmptyState" class="notes-empty-state">Henüz not yok.<br>Yeni bir not oluşturmak için yukarıdaki butona tıklayın.</div>
+          </div>
+
+          <!-- 🇩🇪 ALMANCA ÇALIŞMA ALANI BUTONU (NOTLARIN EN ALTINDA) -->
+          <div class="notes-bottom-german-wrap">
+            <button type="button" class="notes-bottom-german-btn" id="almancaBottomOpenBtn" onclick="if(window.AlmancaOyun) window.AlmancaOyun.openModal();" title="Almanca Çalışma Alanını Aç">
+              <div class="nbg-left">
+                <span class="nbg-flag">🇩🇪</span>
+                <div class="nbg-texts">
+                  <span class="nbg-title">Almanca Çalış & Oyna <span class="nbg-badge">A1</span></span>
+                  <span class="nbg-sub" id="almancaBtnSubText">Kelime Kartları • Cümleler • Testler</span>
+                </div>
+              </div>
+              <div class="nbg-right">
+                <span class="nbg-chip goal" id="almancaCompactDaily" title="Günlük Hedef">🎯 0/10</span>
+                <span class="nbg-chip streak" id="almancaCompactStreak" title="Günlük Seri">🔥 1 Gün</span>
+                <span class="nbg-action">Çalış ▶</span>
+              </div>
+            </button>
           </div>
         </div>
 
@@ -1702,6 +1718,14 @@
   </div><!-- /app-shell -->
 
   <!-- ═══════ MODALLAR (app-shell dışında, position:fixed çalışsın) ═══════ -->
+
+  <!-- 🇩🇪 ALMANCA ÇALIŞMA ALANI AÇILIR PENCERESİ (MODAL) -->
+  <div id="almancaModalOverlay" class="almanca-modal-overlay" style="display:none;">
+    <div class="almanca-modal-backdrop" id="almancaModalBackdrop" onclick="if(window.AlmancaOyun) window.AlmancaOyun.closeModal();"></div>
+    <div class="almanca-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="almancaModalTitle">
+      <div id="almancaModalInnerContent"></div>
+    </div>
+  </div>
 
   <!-- 🥇 Canlı Altın Borsası Modal (Research Integrated) -->
   <div id="altinModal" class="modal-overlay"
