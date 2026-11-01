@@ -727,8 +727,8 @@
             style="flex:none; padding:6px 12px; font-size:12px; font-weight:700;">Coinler</button>
           <button class="market-sub-btn" id="btnMarketNews" onclick="window.switchMarketTab('news')"
             style="flex:none; padding:6px 12px; font-size:12px; font-weight:700;">Haberler</button>
-          <button class="market-sub-btn" id="btnMarketGerman" onclick="if(window.GermanModule) window.GermanModule.openApp();"
-            style="display:none; flex:none; padding:6px 12px; font-size:12px; font-weight:700;">Almanca</button>
+          <button class="market-sub-btn" id="btnMarketGerman" onclick="window.switchMarketTab('german')"
+            style="flex:none; padding:6px 12px; font-size:12px; font-weight:700;">Almanca 🇩🇪</button>
         </div>
 
         <!-- PIYASA BOLUMU -->
@@ -845,6 +845,11 @@
           <div id="newsList" style="display:flex; flex-direction:column; gap:16px;">
             <div style="text-align:center; padding:40px; color:#848e9c;">Haberler yükleniyor...</div>
           </div>
+        </div>
+
+        <!-- ALMANCA BÖLÜMÜ (A1 PRATİK & OYUN MOTORU) -->
+        <div id="germanSection" class="trade-portfolio-panel" style="display:none; padding:12px 10px 40px;">
+          <div id="almancaHomeContent"></div>
         </div>
 
         <!-- HABER DETAY MODALI -->
@@ -1337,24 +1342,6 @@
           </div>
           <div id="notesListContainer" class="notes-list-container">
             <div id="notesEmptyState" class="notes-empty-state">Henüz not yok.<br>Yeni bir not oluşturmak için yukarıdaki butona tıklayın.</div>
-          </div>
-
-          <!-- 🇩🇪 ALMANCA ÇALIŞMA ALANI BUTONU (NOTLARIN EN ALTINDA) -->
-          <div class="notes-bottom-german-wrap">
-            <button type="button" class="notes-bottom-german-btn" id="almancaBottomOpenBtn" onclick="if(window.AlmancaOyun) window.AlmancaOyun.openModal();" title="Almanca Çalışma Alanını Aç">
-              <div class="nbg-left">
-                <span class="nbg-flag">🇩🇪</span>
-                <div class="nbg-texts">
-                  <span class="nbg-title">Almanca Çalış & Oyna <span class="nbg-badge">A1</span></span>
-                  <span class="nbg-sub" id="almancaBtnSubText">Kelime Kartları • Cümleler • Testler</span>
-                </div>
-              </div>
-              <div class="nbg-right">
-                <span class="nbg-chip goal" id="almancaCompactDaily" title="Günlük Hedef">🎯 0/10</span>
-                <span class="nbg-chip streak" id="almancaCompactStreak" title="Günlük Seri">🔥 1 Gün</span>
-                <span class="nbg-action">Çalış ▶</span>
-              </div>
-            </button>
           </div>
         </div>
 

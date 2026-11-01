@@ -1,23 +1,49 @@
 /* css/almanca_oyun.css - Almanca A1 Kelime Pratiği & Oyun Stilleri */
 
-/* ── NOTLAR SAYFASI KAYDIRMA (SCROLL) DÜZELTMESİ ── */
-#notes.tab-page.active {
-  overflow: hidden !important;
+/* ── ANA SAYFA İÇİ ALMANCA ÇALIŞMA ALANI & MODAL ENTEGRASYONU ── */
+.almanca-section-wrapper {
+  background: linear-gradient(165deg, rgba(22, 27, 34, 0.95) 0%, rgba(13, 17, 23, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 3px solid #ffce00;
+  border-radius: 20px;
+  padding: 14px 16px 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+  margin-bottom: 30px;
 }
 
-#notesListView.notes-view {
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-  height: 100% !important;
-  max-height: 100% !important;
+.almanca-home-scroll {
+  width: 100%;
+  box-sizing: border-box;
 }
 
-#notesListView .notes-list-container {
-  overflow-y: visible !important;
-  flex: none !important;
-  padding-bottom: 100px !important;
+.almanca-fullscreen-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #58a6ff;
+  border-radius: 10px;
+  padding: 5px 11px;
+  font-size: 11.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.almanca-fullscreen-btn:hover {
+  background: rgba(88, 166, 255, 0.15);
+  border-color: #58a6ff;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.market-sub-btn#btnMarketGerman.active {
+  background: linear-gradient(135deg, rgba(35, 134, 54, 0.35) 0%, rgba(46, 160, 67, 0.25) 100%) !important;
+  border: 1px solid #2ea043 !important;
+  color: #3fb950 !important;
+  box-shadow: 0 0 10px rgba(46, 160, 67, 0.25);
 }
 
 /* ── NOTLAR İÇİNDE GİZLİ / KOMPAKT ÇUBUK (DEFAULT KAPALI) ── */

@@ -967,7 +967,8 @@ window.switchMarketTab = function (tab) {
   const sections = {
     'market': { id: 'piyasaSection', btn: 'btnMarketPiyasa' },
     'coins': { id: 'coinlerSection', btn: 'btnMarketCoinler' },
-    'news': { id: 'newsSection', btn: 'btnMarketNews' }
+    'news': { id: 'newsSection', btn: 'btnMarketNews' },
+    'german': { id: 'germanSection', btn: 'btnMarketGerman' }
   };
 
   // Tüm butonları ve seksiyonları temizle
@@ -999,6 +1000,7 @@ window.switchMarketTab = function (tab) {
 
     // 'trade' and 'portfolio' tabs removed; no-op for those modules here
     if (tab === 'news' && typeof NewsModule !== 'undefined') NewsModule.fetchNews();
+    if (tab === 'german' && window.AlmancaOyun) window.AlmancaOyun.render();
         
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
