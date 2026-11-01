@@ -60,7 +60,7 @@
 
     const germanBtn = document.getElementById('btnMarketGerman');
     if (germanBtn) {
-      germanBtn.style.display = '';
+      germanBtn.style.display = prof?.is_admin ? '' : 'none';
     }
 
     
