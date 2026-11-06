@@ -456,8 +456,6 @@ window.GermanModule = (function () {
 
   // ── OPEN / CLOSE ─────────────────────────────────────────────────────────────
   function openApp() {
-    if (window.switchMarketTab) { window.switchMarketTab('german'); return; }
-    if (window.AlmancaOyun) { window.AlmancaOyun.openModal(); return; }
     document.getElementById('germanAppScreen').style.display = 'block';
     document.body.style.overflow = 'hidden';
     injectStyles();
