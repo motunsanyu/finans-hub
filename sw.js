@@ -1,31 +1,30 @@
-// sw.js — v4: Tüm cache'leri temizle, network-first stratejisi
-const CACHE_NAME = 'finans-hub-v4';
+// sw.js — v5: Tüm eski cache'leri temizle, network-first stratejisi
+const CACHE_NAME = 'finans-hub-v5';
 
-// Install: skipWaiting ile hemen aktif ol
+// Install: beklemeden hemen aktif ol
 self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-// Activate: TÜM eski cache'leri sil ve hemen kontrolü al
+// Activate: TÜM eski cache'leri derhal temizle ve anında tüm istemcileri devral
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cache) => {
-          console.log('Service Worker: Siliniyor:', cache);
-          return caches.delete(cache); // HEPSİNİ sil
+          console.log('Service Worker: Eski Cache Siliniyor:', cache);
+          return caches.delete(cache);
         })
       );
     }).then(() => self.clients.claim())
   );
 });
 
-// Fetch: Her zaman önce ağdan çek (cache kullanma)
+// Fetch: Her zaman öncelikle canlı ağdan getir
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     fetch(event.request).catch(() => {
-      // Ağ yoksa boş yanıt ver
-      return new Response('', { status: 503, statusText: 'Offline' });
+      return caches.match(event.request);
     })
   );
 });

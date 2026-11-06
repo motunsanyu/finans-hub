@@ -376,6 +376,11 @@
   }
 
   function renderWidgetSkeleton() {
+    // Notlar içinde kalıntı varsa kesin olarak temizle
+    document.querySelectorAll('#notes #germanStudyWidget, #notes .notes-bottom-german-wrap, #notes .almanca-section-wrapper, #germanStudyWidget, .notes-bottom-german-wrap').forEach(el => {
+      try { el.remove(); } catch (e) {}
+    });
+
     const todaySentence = getDailySentence();
 
     // 1. Ana Sayfa Konteyneri (#almancaHomeContent)

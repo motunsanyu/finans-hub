@@ -43,8 +43,8 @@ async function initializeSystem() {
   // Service Worker Kaydı (PWA için)
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('SW Kayıt Başarılı:', reg.scope))
+      navigator.serviceWorker.register('./sw.js?v=20261106_v5')
+        .then(reg => { console.log('SW Kayıt Başarılı:', reg.scope); reg.update(); })
         .catch(err => console.log('SW Kayıt Hatası:', err));
     });
   }
@@ -1000,7 +1000,13 @@ window.switchMarketTab = function (tab) {
 
     // 'trade' and 'portfolio' tabs removed; no-op for those modules here
     if (tab === 'news' && typeof NewsModule !== 'undefined') NewsModule.fetchNews();
-    if (tab === 'german' && window.AlmancaOyun) window.AlmancaOyun.render();
+    if (tab === 'german') {
+      if (window.AlmancaOyun && typeof window.AlmancaOyun.render === 'function') {
+        window.AlmancaOyun.render();
+      } else if (window.AlmancaOyun && typeof window.AlmancaOyun.init === 'function') {
+        window.AlmancaOyun.init();
+      }
+    }
         
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -1069,6 +1075,11 @@ async function loadNotes() {
 }
 
 function renderNotesList(notes) {
+  // Notlar sekmesinde asla Almanca kalıntı yer alamaz (Kesin temizlik)
+  document.querySelectorAll('#notes #germanStudyWidget, #notes .notes-bottom-german-wrap, #notes .almanca-section-wrapper').forEach(el => {
+    try { el.remove(); } catch (e) {}
+  });
+
   const container = document.getElementById('notesListContainer');
   const emptyState = document.getElementById('notesEmptyState');
   
