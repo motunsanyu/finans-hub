@@ -544,6 +544,17 @@ window.GermanModule = (function () {
               <button class="g-btn ghost" onclick="window.GermanModule.showTopicGuide()">Aç</button>
             </div>
 
+            <div class="g-home-card">
+              <div style="display:flex;align-items:center;gap:14px;">
+                <div class="g-home-icon">🃏</div>
+                <div>
+                  <div style="font-size:17px;font-weight:800;color:var(--g-text);">A1 Kelime Atölyesi</div>
+                  <div style="color:var(--g-text-muted);font-size:13px;">Kartlar, testler, eşleştirme ve öğrenilenler</div>
+                </div>
+              </div>
+              <button class="g-btn" onclick="window.GermanModule.openA1Practice()">Aç</button>
+            </div>
+
             <div class="g-progress-section">
               <h3 style="color:var(--g-text);margin:0 0 10px;font-size:15px;">
                 İlerlemen — <span style="color:var(--g-green);">${currentLevel}</span>
@@ -560,6 +571,36 @@ window.GermanModule = (function () {
           </div>
         </div>
       </div>`;
+  }
+
+  function openA1Practice() {
+    const appContent = document.getElementById('germanAppContent');
+    appContent.innerHTML = `
+      <div class="g-wrap">
+        <div class="g-header">
+          <div class="g-title">🇩🇪 A1 Kelime Atölyesi</div>
+          <button class="g-btn ghost" style="font-size:13px;padding:6px 14px;"
+                  onclick="window.GermanModule.renderHome()">← Almanca Ana Sayfa</button>
+        </div>
+        <div class="g-body">
+          <div class="g-content">
+            <div id="germanA1Practice"></div>
+          </div>
+        </div>
+      </div>`;
+
+    const practice = document.getElementById('germanA1Practice');
+      practice.textContent = 'A1 kelime verileri yükleniyor...';
+      if (!window.AlmancaOyun || typeof window.AlmancaOyun.renderInto !== 'function') {
+        practice.textContent = 'A1 kelime çalışma alanı yüklenemedi.';
+      console.error('Almanca A1 çalışma modülü yüklenemedi.');
+      return;
+    }
+
+    window.AlmancaOyun.renderInto(practice).catch(err => {
+      console.error('Almanca A1 çalışma alanı açılırken hata:', err);
+      practice.textContent = 'A1 kelime verileri yüklenemedi. Lütfen tekrar deneyin.';
+    });
   }
 
   function changeLevel(lvl) {
@@ -1307,7 +1348,7 @@ window.GermanModule = (function () {
 
   // ── PUBLIC API ────────────────────────────────────────────────────────────────
   return {
-    openApp, closeApp, renderHome, changeLevel,
+    openApp, closeApp, renderHome, changeLevel, openA1Practice,
     speak, startLesson, startGrammarLesson, startGrammarTables,
     renderGramTable, gramTableNav,
     showTopicGuide, closeTopicGuide,

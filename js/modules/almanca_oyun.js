@@ -5,6 +5,7 @@
 
   // ── DURUM & VERİ ──────────────────────────────────────────────
   let wordsData = [];
+  let wordsLoadPromise = null;
   let currentMode = 'cards'; // 'cards' | 'sentence' | 'quiz' | 'artikel' | 'match' | 'learned' | 'vocab'
   let currentFilter = 'all'; // 'all' | 'verb' | 'nomen' | 'adj' | 'adverb' | 'zeit' | 'frage' | 'examples' | 'fav'
 
@@ -246,7 +247,7 @@
   }
 
   // ── RENDER: İSKELET ŞABLONU (ANA SAYFA VEYA MODAL İÇİN) ─────────────
-  function generateSkeletonHtml(isModal = false) {
+  function generateSkeletonHtml(isModal = false, embedded = false) {
     const daily = getDailyState();
     const todaySentence = getDailySentence();
     const learned = getLearnedSet();
@@ -267,7 +268,7 @@
               <div class="almanca-modal-sub">Düzenli Kelime & Örnek Cümle Listesi (${totalWords} Kelime)</div>
             </div>
           </div>
-          ${isModal ? `
+          ${embedded ? '' : isModal ? `
             <button class="almanca-modal-close-btn" type="button" onclick="if(window.AlmancaOyun) window.AlmancaOyun.closeModal();" title="Pencereyi Kapat">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -376,13 +377,6 @@
   }
 
   function renderWidgetSkeleton() {
-    // Notlar içinde kalıntı varsa kesin olarak temizle
-    document.querySelectorAll('#notes #germanStudyWidget, #notes .notes-bottom-german-wrap, #notes .almanca-section-wrapper, #germanStudyWidget, .notes-bottom-german-wrap').forEach(el => {
-      try { el.remove(); } catch (e) {}
-    });
-
-    const todaySentence = getDailySentence();
-
     // 1. Ana Sayfa Konteyneri (#almancaHomeContent)
     const homeContainer = document.getElementById('almancaHomeContent');
     if (homeContainer) {
@@ -399,6 +393,45 @@
 
     updateWidgetStats();
     renderCurrentMode();
+  }
+
+  function loadWordsData() {
+    if (window.ALMANCA_A1_DATA && window.ALMANCA_A1_DATA.length > 0) {
+      wordsData = window.ALMANCA_A1_DATA;
+      return Promise.resolve(wordsData);
+    }
+
+    if (!wordsLoadPromise) {
+      wordsLoadPromise = fetch('almanca/a1_kelimeler.json')
+        .then(res => {
+          if (!res.ok) throw new Error(`Almanca A1 kelimeleri yüklenemedi: ${res.status}`);
+          return res.json();
+        })
+        .then(data => {
+          if (!Array.isArray(data)) throw new Error('Almanca A1 kelime verisi geçersiz.');
+          wordsData = data;
+          window.ALMANCA_A1_DATA = data;
+          return data;
+        })
+        .catch(err => {
+          wordsLoadPromise = null;
+          console.warn('Almanca A1 JSON yüklenemedi:', err);
+          throw err;
+        });
+    }
+
+    return wordsLoadPromise;
+  }
+
+  function renderInto(container) {
+    if (!container) return Promise.reject(new Error('Almanca A1 çalışma alanı bulunamadı.'));
+
+    return loadWordsData().then(() => {
+      container.innerHTML = generateSkeletonHtml(false, true);
+      bindSkeletonEvents(container);
+      updateWidgetStats();
+      renderCurrentMode(container);
+    });
   }
 
   // ── MODAL AÇMA / KAPATMA ─────────────────────────────────────
@@ -481,8 +514,10 @@
   }
 
   // ── MODLARI YÖNETME ──────────────────────────────────────────
-  function renderCurrentMode() {
-    const targets = document.querySelectorAll('.almanca-mode-content-target');
+  function renderCurrentMode(container = null) {
+    const targets = container
+      ? container.querySelectorAll('.almanca-mode-content-target')
+      : document.querySelectorAll('.almanca-mode-content-target');
     targets.forEach(content => {
       if (currentMode === 'cards') renderCardsMode(content);
       else if (currentMode === 'sentence') renderSentenceMode(content);
@@ -1709,27 +1744,9 @@
 
   // ── BAŞLATMA (INIT) ──────────────────────────────────────────
   function init() {
-    if (window.ALMANCA_A1_DATA && window.ALMANCA_A1_DATA.length > 0) {
-      wordsData = window.ALMANCA_A1_DATA;
+    return loadWordsData().then(() => {
       renderWidgetSkeleton();
-    } else {
-      fetch('almanca/a1_kelimeler.json')
-        .then(res => res.json())
-        .then(data => {
-          wordsData = data;
-          window.ALMANCA_A1_DATA = data;
-          renderWidgetSkeleton();
-        })
-        .catch(err => {
-          console.warn('Almanca A1 JSON yüklenemedi:', err);
-        });
-    }
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
+    });
   }
 
   // Global API
@@ -1737,6 +1754,7 @@
     init,
     render: renderWidgetSkeleton,
     renderSection: renderWidgetSkeleton,
+    renderInto,
     updateStats: updateWidgetStats,
     speak: speakGerman,
     openModal,
